@@ -177,6 +177,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - Daycare: east bank, north of WC/Reception, two floors over an extension of the garage foundation, fully code-compliant.
 - Lounge link: **yes, it stays.** It's the enclosed lounge over the river and the only way from reception/daycare to the main gym. It's now **wider**, with **decks extending outside over the river**. **Sliding glass walls** open fully on nice days, so people can relax in the open air above the water. The river runs under it, between the gym (west wing in Gym V2) and reception/daycare (east wing).
 - Cafe: it's the round counter in Gym V2's east wing (about 7.5 m across), replacing the sketch's kitchen. Think of an **airport-style circular island bar, but a cafe**: staff inside the ring, seating all around it.
+- Waterfall: **directly under the rustic footbridge**, north of the building (matching the reference image). The river flows from there south past the gym wing.
+- Gym V2's river and terrain are a rough placeholder. The ravine gets designed for real (see the site approach in README / next steps).
 
 ## Open questions
 
