@@ -1,0 +1,10 @@
+# Local-only capture archive (full transcripts; not for a public repo)
+.capture/
+.claude/settings.local.json
+
+# Blender autosave backups
+*.blend1
+*.blend2
+
+node_modules/
+__pycache__/
