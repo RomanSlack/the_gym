@@ -1,0 +1,44 @@
+{
+ "id": "20261010T235929Z_compare",
+ "stage": "compare",
+ "started": "20261010T235929Z",
+ "code": "9ece046+dirty",
+ "params": {
+  "sites_latlon": {
+   "elverum": [
+    60.957134978644476,
+    11.374034776801052
+   ],
+   "kongsberg": [
+    59.73026381543895,
+    9.819572022369893
+   ]
+  },
+  "half_m": 1000,
+  "res_m": 1.0
+ },
+ "outputs": {
+  "elverum_1m.npy": {
+   "shape": [
+    2000,
+    2000
+   ],
+   "utm33_center": [
+    303692,
+    6763446
+   ],
+   "sha256": "a4c9f4beeeb9737e"
+  },
+  "kongsberg_1m.npy": {
+   "shape": [
+    2000,
+    2000
+   ],
+   "utm33_center": [
+    208894,
+    6632750
+   ],
+   "sha256": "068c5951160c2b30"
+  }
+ }
+}
