@@ -10,10 +10,21 @@ Second goal: **record everything** so the weeks of iteration can become a YouTub
 
 - [x] Document the original hand-made blockout (`reference/gym_v2_original/`, see [ORIGINAL_GYM_V2.md](ORIGINAL_GYM_V2.md))
 - [x] Capture Roman's vision as ground truth ([VISION.md](VISION.md))
+- [x] Recording: Stop hook checkpoints every turn (`tools/capture/checkpoint.py`, transcripts archived locally in `.capture/`)
+- [x] Gym V2 extracted to data (`tools/extract_gymv2.py` → `reference/gym_v2_original/gymv2_extract.json`)
+- [x] Model v0 (`model/building.json`): datum, levels, water level, section lines
+- [x] Blueprint viewer v0 (`blueprint/`): site plan, floor plans, sections, Gym V2 as grey underlay
 - [ ] Agree on specs (program, floors, dimensions, site, style, materials), resolving the open questions in VISION.md
 - [ ] Research (references, real gym/wellness building standards)
 - [ ] Decide build approach (script-driven vs. MCP live editing, repo layout)
 - [ ] Build
+
+## How it fits together
+
+- `model/building.json` is the single source of truth for the new design. Everything else is generated from it.
+- `blueprint/` is the 2D drawing set. Run `cd blueprint && npm install && npm run dev`, then open http://localhost:5280. Sheets can be linked by hash, e.g. `#A-301`. Edits to the model show up live.
+- Gym V2 is drawn in grey as the "existing survey". The new design will be drawn in black on top of it.
+- Coordinates match Blender world (x east, y north, z up, metres). Elevations are relative to ±0.00 = Floor 1 (Blender z −3.47).
 
 ## Not to be confused with
 

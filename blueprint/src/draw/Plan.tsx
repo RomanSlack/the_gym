@@ -1,0 +1,147 @@
+// Floor / site plan for one level. Horizontal cut at level + plan_cut_height:
+// cut elements heavy with poché, things below the cut light, things above dashed.
+import { useMemo } from "react";
+import type { Level, Model, Underlay, UElement } from "../model";
+import { contourPath, waterPath } from "./terrain";
+import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
+
+export interface Layers {
+  underlay: boolean;
+  terrain: boolean;
+  people: boolean;
+  labels: boolean;
+}
+
+const poly = (e: UElement) => "M" + e.plan.map(([x, y]) => `${x} ${-y}`).join("L") + "Z";
+
+type Cat = "cut" | "below" | "above" | "void" | "floor" | null;
+
+function categorize(e: UElement, elev: number, cut: number, top: number): Cat {
+  const [z0, z1] = e.z;
+  switch (e.kind) {
+    case "slab":
+      return Math.abs(z1 - elev) < 0.4 ? "floor" : null;
+    case "void":
+      return z0 < elev && z1 > elev - 0.3 ? "void" : null;
+    case "beam":
+      if (z0 <= cut && z1 >= cut) return "cut";
+      return z0 > cut && z0 < top ? "above" : null;
+    case "column":
+    case "wall":
+    case "panel":
+    case "block":
+    case "round_block":
+      if (z0 <= cut && z1 >= cut) return "cut";
+      return z1 < cut && z1 > elev - 0.2 && z0 >= elev - 1 ? "below" : null;
+    default:
+      return null;
+  }
+}
+
+export function Plan({
+  model, underlay, level, layers, site,
+}: { model: Model; underlay: Underlay; level: Level; layers: Layers; site: boolean }) {
+  const elev = level.elevation;
+  const cut = elev + model.views.plan_cut_height;
+  const wing = level.wing.split("+");
+  const top = Math.min(
+    elev + 8,
+    ...model.levels
+      .filter((l) => l.elevation > elev + 0.5 && l.wing.split("+").some((w) => wing.includes(w)))
+      .map((l) => l.elevation),
+  );
+
+  const t = underlay.terrain;
+  const contours = useMemo(() => {
+    const out: { z: number; d: string; anchors: [number, number][] }[] = [];
+    for (let z = -30; z <= 10; z += 1) out.push({ z, ...contourPath(t, z) });
+    return out;
+  }, [t]);
+  const water = useMemo(() => waterPath(t, model.site.water_level), [t, model.site.water_level]);
+
+  const groups = useMemo(() => {
+    const g: Record<string, UElement[]> = { cut: [], below: [], above: [], void: [], floor: [] };
+    for (const e of underlay.elements) {
+      const c = categorize(e, elev, cut, top);
+      if (c) g[c].push(e);
+    }
+    return g;
+  }, [underlay, elev, cut, top]);
+
+  const near = (z: number | undefined, lo: number, hi: number) => z !== undefined && z >= elev + lo && z <= elev + hi;
+  const people = underlay.elements.filter((e) => e.kind === "person" && near(e.at?.[2], -0.7, 0.7));
+  const labels = underlay.elements.filter((e) => e.kind === "label" && near(e.at?.[2], -0.6, 2.6));
+  const el = (e: UElement, cls: string) => <path key={e.name} d={poly(e)} className={cls} data-n={`${e.name} · ${e.kind} · z ${e.z[0].toFixed(2)} to ${e.z[1].toFixed(2)}`} />;
+
+  return (
+    <g>
+      {layers.terrain && (
+        <g className={site ? "terrain site" : "terrain"}>
+          <path d={water} className="water" />
+          {contours.map((c) => (
+            <path key={c.z} d={c.d} className={c.z % 5 === 0 ? "contour index" : "contour"} />
+          ))}
+          {site &&
+            contours
+              .filter((c) => c.z % 5 === 0)
+              .flatMap((c) =>
+                c.anchors.map(([x, y], k) => (
+                  <text key={`${c.z}-${k}`} x={x} y={y} className="txt-s contour-label" textAnchor="middle">
+                    {c.z}
+                  </text>
+                )),
+              )}
+        </g>
+      )}
+
+      {layers.underlay && (
+        <g className="underlay">
+          {groups.floor.map((e) => el(e, "u-floor"))}
+          {groups.below.map((e) => el(e, "u-below"))}
+          {groups.void.map((e) => (
+            <g key={e.name} data-n={`${e.name} · floor opening · Ø ${(2 * e.radius!).toFixed(1)} m`}>
+              <circle cx={e.center![0]} cy={-e.center![1]} r={e.radius} className="u-void" />
+              <path
+                d={`M${e.center![0] - e.radius! * 0.7} ${-e.center![1] - e.radius! * 0.7}l${e.radius! * 1.4} ${e.radius! * 1.4}m0 ${-e.radius! * 1.4}l${-e.radius! * 1.4} ${e.radius! * 1.4}`}
+                className="u-void"
+              />
+            </g>
+          ))}
+          {groups.above.map((e) => el(e, "u-above"))}
+          {groups.cut.map((e) => el(e, "u-cut"))}
+        </g>
+      )}
+
+      {layers.people &&
+        people.map((p) => (
+          <g key={p.name} className="person-plan" data-n={`${p.name} · scale figure ${p.height?.toFixed(2)} m`}>
+            <circle cx={p.at![0]} cy={-p.at![1]} r={0.3} />
+          </g>
+        ))}
+
+      {layers.labels &&
+        labels.map((l) => (
+          <text key={l.name} x={l.at![0]} y={-l.at![1]} className="txt-m note" textAnchor="middle">
+            “{l.text}”
+          </text>
+        ))}
+
+      {model.grids.map((g) => (
+        <g key={g.id} className="grid">
+          <line x1={g.from[0]} y1={-g.from[1]} x2={g.to[0]} y2={-g.to[1]} className="ln-grid" />
+          {[g.from, g.to].map((p, k) => (
+            <g key={k} transform={`translate(${p[0]} ${-p[1]})`}>
+              <circle r={1.2} className="ln-thin fill-paper" />
+              <text y={0.45} className="txt-m" textAnchor="middle">{g.id}</text>
+            </g>
+          ))}
+        </g>
+      ))}
+
+      {!site && model.views.sections.map((s) => <SectionMark key={s.id} from={s.from} to={s.to} id={s.id} />)}
+
+      <NorthArrow x={site ? 70 : 45} y={site ? -70 : -38} />
+      <ScaleBar x={site ? -75 : -46} y={site ? 72 : 40} />
+    </g>
+  );
+}
