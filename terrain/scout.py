@@ -82,7 +82,7 @@ def candidates(name, cx, cy):
             - abs(relief[j, i] - 120) / 120
         )
         found.append({
-            "region": name, "x": cx - HALF + i * RES, "y": cy - HALF + j * RES,
+            "region": name, "x": int(cx - HALF + i * RES), "y": int(cy - HALF + j * RES),
             "depth": round(float(depth[j, i]), 1), "mellow_slope": round(float(mellow[j, i]), 1),
             "relief_2km": round(float(relief[j, i]), 0), "elev": round(float(filled[j, i]), 0),
             "gorge_len_m": int(m.sum() * RES), "score": round(float(score), 2),

@@ -1,0 +1,182 @@
+[
+ {
+  "region": "Elverum",
+  "x": 316922,
+  "y": 6745430,
+  "depth": 20.8,
+  "mellow_slope": 3.9,
+  "relief_2km": 70.0,
+  "elev": 168.0,
+  "gorge_len_m": 890,
+  "score": 0.53,
+  "lonlat": [
+   11.63495,
+   60.80201
+  ]
+ },
+ {
+  "region": "Meraker",
+  "x": 334754,
+  "y": 7029545,
+  "depth": 23.9,
+  "mellow_slope": 4.5,
+  "relief_2km": 171.0,
+  "elev": 295.0,
+  "gorge_len_m": 2550,
+  "score": 0.06,
+  "lonlat": [
+   11.69625,
+   63.35627
+  ]
+ },
+ {
+  "region": "Nordmarka",
+  "x": 256298,
+  "y": 6653620,
+  "depth": 19.4,
+  "mellow_slope": 6.4,
+  "relief_2km": 91.0,
+  "elev": 105.0,
+  "gorge_len_m": 770,
+  "score": 0.01,
+  "lonlat": [
+   10.63562,
+   59.94764
+  ]
+ },
+ {
+  "region": "Kongsberg",
+  "x": 208837,
+  "y": 6632750,
+  "depth": 20.1,
+  "mellow_slope": 6.1,
+  "relief_2km": 178.0,
+  "elev": 71.0,
+  "gorge_len_m": 710,
+  "score": -0.23,
+  "lonlat": [
+   9.81856,
+   59.73023
+  ]
+ },
+ {
+  "region": "Elverum",
+  "x": 303582,
+  "y": 6763540,
+  "depth": 26.6,
+  "mellow_slope": 5.8,
+  "relief_2km": 145.0,
+  "elev": 475.0,
+  "gorge_len_m": 1020,
+  "score": -0.32,
+  "lonlat": [
+   11.37192,
+   60.95792
+  ]
+ },
+ {
+  "region": "Hurdal",
+  "x": 282943,
+  "y": 6712348,
+  "depth": 20.6,
+  "mellow_slope": 6.6,
+  "relief_2km": 170.0,
+  "elev": 319.0,
+  "gorge_len_m": 690,
+  "score": -0.41,
+  "lonlat": [
+   11.04853,
+   60.48863
+  ]
+ },
+ {
+  "region": "Nordmarka",
+  "x": 261498,
+  "y": 6658410,
+  "depth": 18.0,
+  "mellow_slope": 6.2,
+  "relief_2km": 176.0,
+  "elev": 271.0,
+  "gorge_len_m": 710,
+  "score": -0.44,
+  "lonlat": [
+   10.7229,
+   59.99358
+  ]
+ },
+ {
+  "region": "Elverum",
+  "x": 320372,
+  "y": 6741940,
+  "depth": 16.0,
+  "mellow_slope": 3.4,
+  "relief_2km": 175.0,
+  "elev": 183.0,
+  "gorge_len_m": 450,
+  "score": -0.57,
+  "lonlat": [
+   11.70146,
+   60.7723
+  ]
+ },
+ {
+  "region": "Nordmarka",
+  "x": 271208,
+  "y": 6675240,
+  "depth": 19.3,
+  "mellow_slope": 6.0,
+  "relief_2km": 106.0,
+  "elev": 353.0,
+  "gorge_len_m": 420,
+  "score": -0.64,
+  "lonlat": [
+   10.8777,
+   60.14982
+  ]
+ },
+ {
+  "region": "Kongsberg",
+  "x": 195777,
+  "y": 6638460,
+  "depth": 14.9,
+  "mellow_slope": 5.5,
+  "relief_2km": 212.0,
+  "elev": 176.0,
+  "gorge_len_m": 820,
+  "score": -0.64,
+  "lonlat": [
+   9.57904,
+   59.77192
+  ]
+ },
+ {
+  "region": "Hurdal",
+  "x": 291483,
+  "y": 6696348,
+  "depth": 15.1,
+  "mellow_slope": 4.6,
+  "relief_2km": 161.0,
+  "elev": 169.0,
+  "gorge_len_m": 530,
+  "score": -0.66,
+  "lonlat": [
+   11.22028,
+   60.34979
+  ]
+ },
+ {
+  "region": "Hurdal",
+  "x": 292373,
+  "y": 6701218,
+  "depth": 18.6,
+  "mellow_slope": 4.4,
+  "relief_2km": 70.0,
+  "elev": 123.0,
+  "gorge_len_m": 380,
+  "score": -0.7,
+  "lonlat": [
+   11.23133,
+   60.39388
+  ]
+ }
+]

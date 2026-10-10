@@ -1,0 +1,51 @@
+{
+ "id": "20261010T235118Z_scout",
+ "stage": "scout",
+ "started": "20261010T235118Z",
+ "code": "b63fc9a+dirty",
+ "params": {
+  "res_m": 10,
+  "half_m": 12500,
+  "regions": {
+   "Nordmarka": [
+    259518,
+    6664840
+   ],
+   "Hurdal": [
+    279883,
+    6705988
+   ],
+   "Elverum": [
+    313302,
+    6754320
+   ],
+   "Trysil": [
+    353817,
+    6800373
+   ],
+   "Lillehammer": [
+    256052,
+    6784604
+   ],
+   "Kongsberg": [
+    198837,
+    6626810
+   ],
+   "Notodden": [
+    175295,
+    6616476
+   ],
+   "Meraker": [
+    330024,
+    7031325
+   ]
+  },
+  "criteria": "depth 12-35 m, mellow slope < 7 deg, 2 km relief 60-250 m, 60-650 masl"
+ },
+ "outputs": {
+  "candidates.json": {
+   "count": 12,
+   "sha256": "8b927c50ced550da"
+  }
+ }
+}
