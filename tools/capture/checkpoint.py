@@ -51,7 +51,9 @@ def main():
 
     if not git("status", "--porcelain").stdout.strip():
         return
-    first = next((l for l in prompt.splitlines() if l.strip()), "(no prompt)")
+    # skip wrapper tags (pasted content, system notes) and use the first real line of text
+    lines = [l.strip() for l in prompt.splitlines()]
+    first = next((l for l in lines if l and not l.startswith("<")), "(no prompt)")
     subject = "checkpoint: " + (first[:69] + "..." if len(first) > 72 else first)
     body = f"Session-Id: {session}\nPrompt-Time: {ts}"
     git("add", "-A")
