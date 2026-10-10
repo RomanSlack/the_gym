@@ -176,7 +176,11 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - Garage: yes. Small (a couple of cars), and it doubles as indoor bike parking.
 - Daycare: east bank, north of WC/Reception, two floors over an extension of the garage foundation, fully code-compliant.
 - Lounge link: **yes, it stays.** It's the enclosed lounge over the river and the only way from reception/daycare to the main gym. It's now **wider**, with **decks extending outside over the river**. **Sliding glass walls** open fully on nice days, so people can relax in the open air above the water. The river runs under it, between the gym (west wing in Gym V2) and reception/daycare (east wing).
+- Cafe: it's the round counter in Gym V2's east wing (about 7.5 m across), replacing the sketch's kitchen. Think of an **airport-style circular island bar, but a cafe**: staff inside the ring, seating all around it.
 
 ## Open questions
 
-1. The cafe is in the "middle area". My read is the round counter in Gym V2's east wing, which replaces the sketch's kitchen. Confirm when we lay out floor 1.
+1. **River depth vs floors** (from the Gym V2 survey):
+   - The river surface (-9.31) is only 0.46 m above F3. Waist height is about 1.0 m.
+   - The riverbed beside the west wing is about -21, which is 5.6 m below F4 (-15.39). Underwater windows at F4 would look at mid-depth water rather than the bed.
+   - Raise the water, lower F3, or reshape the channel?
