@@ -179,6 +179,11 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - Cafe: it's the round counter in Gym V2's east wing (about 7.5 m across), replacing the sketch's kitchen. Think of an **airport-style circular island bar, but a cafe**: staff inside the ring, seating all around it.
 - Waterfall: **directly under the rustic footbridge**, north of the building (matching the reference image). The river flows from there south past the gym wing.
 - Gym V2's river and terrain are a rough placeholder. The ravine gets designed for real (see the site approach in README / next steps).
+- River flows **north to south**. The falls drop south, under the rustic footbridge, with the water lip **at least 1 to 2 m below the bridge deck**. The bridge sits right over the falls or slightly upstream of them.
+- **Arrival road:** a narrow Nordic forest road (about 1.5 lanes), clean black asphalt, **no road lines, no clutter**, like the forest roads in Finland and Sweden. It arrives at reception (east bank) and the garage tunnel.
+- **Landscape scale:** much bigger than Gym V2's plot. It needs room for the 2-mile (about 3.2 km) trail loop on both banks and for aerial shots.
+- **Landscape terrain is generated procedurally outside Blender**, with real erosion, then imported into Blender.
+- **Gate:** we don't move on to the building interiors until the ravine, river, waterfall, road and foundations look right **in 3D** and Roman is happy with them. Landscape and foundations drive everything else. The building itself is mostly simple boxes.
 
 ## Open questions
 
