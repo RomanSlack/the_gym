@@ -1,0 +1,13 @@
+{
+  "prompt": "Turn this 3D massing render into a photoreal architectural photo. Keep the exact building shapes, positions, roof lines, the rock ravine, river and camera. Scandinavian mid-century modern, natural, set in a Norwegian pine and spruce forest. Warm vertical pine cladding, dark granite stone base and stair towers, thin flat roofs with deep timber soffits, slim black window frames. Late afternoon light.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1536x1024",
+  "quality": "medium",
+  "transparent": false,
+  "refs": [
+    "ref_aerial.png"
+  ],
+  "filename": "atimberstoneaerial_0.png",
+  "generated_at": "2026-10-10T23:42:42"
+}
