@@ -32,8 +32,8 @@ for cid, c in cores.items():
     for L in c["levels"]:
         spaces.append({"id": f"core-{cid}-{L}", "level": L, "kind": "core", "name": c["name"], "poly": c["poly"]})
 
-S = lambda id_, level, kind, name, poly, note=None: spaces.append(
-    {"id": id_, "level": level, "kind": kind, "name": name, "poly": poly, **({"note": note} if note else {})})
+S = lambda id_, level, kind, name, poly, note=None, open_=False: spaces.append(
+    {"id": id_, "level": level, "kind": kind, "name": name, "poly": poly, **({"note": note} if note else {}), **({"open": True} if open_ else {})})
 
 # cores W1/W2 now sit in the back wall (mostly outside), so the west strip is free on every floor
 STRETCH = [[-29.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -9.3], [-29.45, -9.3]]
@@ -112,10 +112,11 @@ S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
   "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one")
 S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
 # drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
-S("dc-kids", "E1", "daycare", "Kids' room · 3–12 · crafts, reading, homework", R(12.0, 21.2, 21.25, 33.3), "round stair down to active play")
-S("dc-hall", "E1", "daycare", "Daycare hall", R(21.25, 21.2, 30.5, 23.2), "from the wardrobe to every daycare room")
-S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 23.2, 27.0, 33.3), "soft floor, cots, separated from the older kids")
-S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(27.0, 23.2, 30.5, 33.3), "breastfeeding chairs, bottle prep, quiet")
+# Roman: open plan, no walls unless needed -> one open play space; baby/toddler is a gated zone inside it.
+S("dc-kids", "E1", "daycare", "Daycare play · open, kids 3–12", R(12.0, 21.2, 21.25, 33.3), "crafts, reading, homework; round stair down to active play", open_=True)
+S("daycare-up", "E1", "daycare", "Baby & toddler zone · 0–3", [[21.25, 21.2], [30.5, 21.2], [30.5, 29.3], [27.0, 29.3], [27.0, 33.3], [21.25, 33.3]],
+  "open zone, low gate + soft furniture, no walls", open_=True)
+S("dc-nursing", "E1", "daycare", "Nursing room", R(27.0, 29.3, 30.5, 33.3), "small, private: chair, bottle prep")
 
 # ---------------------------------------------------------------- east wing E2 −6.01
 S("garage", "E2", "garage", "Garage · cars on the glass", R(12.0, -3.5, 30.5, 6.8), "drive-through from the underground parking (east)")
@@ -126,7 +127,7 @@ S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", R(24.0,
 S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
 S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.2), "stacked under the upper one")
 S("dc-store", "E2", "service", "Storage · prams, outdoor gear", R(24.0, 16.18, 30.5, 21.2))
-S("daycare-low", "E2", "daycare", "Active play · climbing, soft play → sunken garden", R(12.0, 21.2, 30.5, 33.3), "walk-out to the garden; noisy play kept downstairs")
+S("daycare-low", "E2", "daycare", "Active play · climbing, soft play → sunken garden", R(12.0, 21.2, 30.5, 33.3), "walk-out to the garden; noisy play kept downstairs", open_=True)
 
 # ---------------------------------------------------------------- underground parking under the entry forecourt (E2)
 S("parking", "E2", "garage", "Parking · ~30 cars, under the forecourt", R(30.5, -9.5, 60.0, 24.0),

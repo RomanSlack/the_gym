@@ -29,16 +29,16 @@ ENCLOSED_KINDS = {"wet", "core", "service", "daycare"}
 # Roman: "as open floor plan as we can get it everywhere" -> walls only where needed (wet, cores, plant, thermal,
 # privacy); GLASS where separation is needed but not privacy; everything else stays open.
 ENCLOSED_IDS = {"posing", "pod-1", "pod-2", "pod-3", "altitude", "breathwork", "thermal", "game-room", "plant", "sauna-lobby"}
-GLASS_IDS = {"game-room", "dc-kids", "daycare-up", "dc-hall", "daycare-low", "dc-wardrobe"}  # see-through, still separated
+GLASS_IDS = {"game-room", "dc-wardrobe"}  # see-through, still separated
 OPEN_PAIRS = {frozenset(p) for p in [("pool-lobby", "pool-deck-w"), ("lobby", "reception")]}
 # explicit doors: room -> list of neighbours it opens to
 DOORS = {
     "women-wet": ["women-lockers"], "men-wet": ["men-lockers"],
     "women-lockers": ["gallery"], "men-lockers": ["gallery"],
     "sauna-lobby": ["women-lockers", "men-lockers"],
-    "dc-wc": ["dc-kids"], "dc-staff": ["dc-kids"], "dc-wardrobe": ["dc-hall"], "dc-hall": [],
+    "dc-wc": ["dc-kids"], "dc-staff": ["dc-kids"], "dc-wardrobe": ["daycare-up"],
     "dc-wc-low": ["daycare-low"], "dc-rest": ["daycare-low"], "dc-store": ["daycare-low"],
-    "dc-nursing": ["dc-hall"], "dc-kids": ["dc-hall"], "daycare-up": ["dc-hall"],
+    "dc-nursing": ["daycare-up"],
     "wcs": ["cafe"], "game-room": ["garage"],
     "thermal": ["pool-deck-n"],
 }
@@ -48,13 +48,13 @@ RANK = {"circulation": 0, "lounge": 1, "gym": 2, "daycare": 3, "garage": 4}
 PASSAGE = {  # (room, neighbour) -> opening type
     ("women-wet", "women-lockers"): "opening", ("men-wet", "men-lockers"): "opening",
     ("women-lockers", "gallery"): "baffle", ("men-lockers", "gallery"): "baffle",
-    ("dc-kids", "dc-hall"): "opening", ("daycare-up", "dc-hall"): "opening", ("dc-wardrobe", "dc-hall"): "opening",
+    ("dc-wardrobe", "daycare-up"): "opening",
 }
 WIDTH = {"door": 1.0, "opening": 1.8, "baffle": 1.6}
 DOOR_W = 1.0
 
 spaces = m["spaces"]
-enclosed = lambda sp: (sp["kind"] in ENCLOSED_KINDS or sp["id"] in ENCLOSED_IDS) and not sp["id"].startswith("pool-deck")
+enclosed = lambda sp: (sp["kind"] in ENCLOSED_KINDS or sp["id"] in ENCLOSED_IDS) and not sp["id"].startswith("pool-deck") and not sp.get("open")
 env_walls = [e for e in m["elements"] if e["type"] == "wall" and not e["id"].startswith("P-")]
 
 
