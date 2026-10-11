@@ -90,13 +90,14 @@ if __name__ == "__main__":
     (OUT / "thalweg.json").write_text(json.dumps(thalweg))
 
     origin_masl = float(core[1000, 1000])
-    m = json.loads((ROOT / "model" / "building.json").read_text())
+    import modelio
+    m = modelio.load()
     m["site"]["georef"] = {
         "name": "Elverum, Norway", "epsg": 25833, "origin_utm": list(ORIGIN), "rotation_deg": ROT,
         "transform": "utm = origin_utm + R(rotation_deg) · (x, y), CCW", "terrain_source": "Kartverket DTM 1 m (CC BY 4.0)",
         "real_terrain_at_origin_masl": round(origin_masl, 2),
     }
-    (ROOT / "model" / "building.json").write_text(json.dumps(m, indent=2, ensure_ascii=False) + "\n")
+    modelio.save(m)
 
     fig, axs = plt.subplots(1, 2, figsize=(18, 9))
     shade(axs[0], context, 4000, "Context 8 x 8 km (4 m), project frame, north up")

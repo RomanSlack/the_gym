@@ -1,0 +1,18 @@
+{
+ "id": "20261011T002105Z_scene",
+ "stage": "scene",
+ "started": "20261011T002105Z",
+ "code": "0629d8e+dirty",
+ "params": {
+  "script": "terrain/blender_scene.py",
+  "terrain": "out/ravine/eroded_1m.npy (erode run 20261011T001818Z)",
+  "views": [
+   "reference_upstream",
+   "aerial_se",
+   "horizon_drone",
+   "east_rim"
+  ],
+  "trees": "13405 near + 83600 far, placeholder low-poly"
+ },
+ "outputs": {}
+}

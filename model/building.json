@@ -4,112 +4,75 @@
     "name": "The Gym",
     "units": "m",
     "axes": "x east, y north, z up (same as Blender world)",
-    "datum": {
-      "label": "±0.00 = Floor 1 finished floor (west wing)",
-      "blender_z": -3.47
-    }
+    "datum": {"label": "±0.00 = Floor 1 finished floor (west wing)", "masl": 496.3, "blender_z_gymv2": -3.47, "note": "496.30 masl: just above the erased plateau at the building (496.1)."}
   },
   "site": {
     "underlay": "reference/gym_v2_original/gymv2_extract.json",
-    "water_level": -9.31,
-    "water_level_note": "Gym V2 Plane.002 at z -12.78. Sits 0.46 m above F3: the 'waist-height river' idea.",
+    "water_level": -8.77,
+    "water_level_note": "Plunge pool along the west wing: F3 + 1.0 (waist height). Set by the rock sill at station T1.",
     "georef": {
       "name": "Elverum, Norway",
       "epsg": 25833,
-      "origin_utm": [
-        303729.0,
-        6763432.0
-      ],
+      "origin_utm": [303729.0, 6763432.0],
       "rotation_deg": 59.0,
       "transform": "utm = origin_utm + R(rotation_deg) · (x, y), CCW",
       "terrain_source": "Kartverket DTM 1 m (CC BY 4.0)",
       "real_terrain_at_origin_masl": 470.64
-    }
+    },
+    "ravine": {
+      "note": "Parametric ravine, north to south. Between stations everything is interpolated along the centerline. bed/water in m relative to ±0.00; half_bed = half the riverbed width; wall_w/wall_e = wall angle (deg) on the west/east side; rock = hard rock reach (crisp rims, steep walls). Shape rules from terrain/principles/elverum_gorge.json.",
+      "joins_real_stream": {"north_y": 660, "south_y": -500},
+      "stations": [
+        {"id": "N0", "y": 660, "x": -82, "bed": 3.24, "water": 3.6, "half_bed": 2.5, "wall_w": 25, "wall_e": 25, "rock": false, "note": "real stream joins"},
+        {"id": "N1", "y": 500, "x": -35, "bed": 1.4, "water": 1.8, "half_bed": 3, "wall_w": 28, "wall_e": 28, "rock": false},
+        {"id": "N2", "y": 300, "x": -20, "bed": -0.2, "water": 0.2, "half_bed": 3.5, "wall_w": 30, "wall_e": 30, "rock": false},
+        {"id": "N3", "y": 120, "x": -8, "bed": -1.6, "water": -1.2, "half_bed": 4, "wall_w": 35, "wall_e": 35, "rock": false},
+        {"id": "N4", "y": 55, "x": -4, "bed": -2.4, "water": -1.95, "half_bed": 4.5, "wall_w": 60, "wall_e": 60, "rock": true, "note": "rock begins"},
+        {"id": "LIP", "y": 38, "x": -3, "bed": -2.7, "water": -2.27, "half_bed": 5, "wall_w": 80, "wall_e": 80, "rock": true, "note": "falls 1 lip, under the rustic bridge"},
+        {"id": "BASE", "y": 35.5, "x": -2.5, "bed": -15.0, "water": -8.77, "half_bed": 7, "wall_w": 84, "wall_e": 84, "rock": true, "note": "plunge pool"},
+        {"id": "B1", "y": 12, "x": 1.5, "bed": -16.2, "water": -8.77, "half_bed": 7.5, "wall_w": 86, "wall_e": 80, "rock": true, "note": "west wall = building"},
+        {"id": "B2", "y": -34, "x": 1.5, "bed": -16.0, "water": -8.77, "half_bed": 7.5, "wall_w": 86, "wall_e": 80, "rock": true},
+        {"id": "T1", "y": -62, "x": 3, "bed": -9.3, "water": -8.77, "half_bed": 7, "wall_w": 78, "wall_e": 78, "rock": true, "note": "rock sill: sets the pool level"},
+        {"id": "T2", "y": -72, "x": 3.5, "bed": -11.5, "water": -11.0, "half_bed": 6, "wall_w": 76, "wall_e": 76, "rock": true, "note": "cascade"},
+        {"id": "C1", "y": -130, "x": 8, "bed": -13.5, "water": -13.0, "half_bed": 6, "wall_w": 72, "wall_e": 72, "rock": true},
+        {"id": "F2L", "y": -150, "x": 10, "bed": -14.0, "water": -13.6, "half_bed": 5, "wall_w": 78, "wall_e": 78, "rock": true, "note": "falls 2 lip"},
+        {"id": "F2B", "y": -152.5, "x": 10, "bed": -24.0, "water": -21.6, "half_bed": 7, "wall_w": 80, "wall_e": 80, "rock": true, "note": "falls 2 pool"},
+        {"id": "C2", "y": -230, "x": -5, "bed": -25.5, "water": -25.1, "half_bed": 6, "wall_w": 50, "wall_e": 50, "rock": true},
+        {"id": "C3", "y": -330, "x": -25, "bed": -32.0, "water": -31.6, "half_bed": 6.5, "wall_w": 35, "wall_e": 35, "rock": false, "note": "opens into a V"},
+        {"id": "S0", "y": -400, "x": -6, "bed": -36.6, "water": -36.2, "half_bed": 6.5, "wall_w": 30, "wall_e": 30, "rock": false},
+        {"id": "S1", "y": -500, "x": 67, "bed": -40.7, "water": -40.3, "half_bed": 6.5, "wall_w": 30, "wall_e": 30, "rock": false, "note": "real valley continues"}
+      ]
+    },
+    "pads": [
+      {
+        "id": "west_wing",
+        "z": -16.0,
+        "poly": [[-29.5, -34.1], [-6.4, -34.1], [-6.4, 12.0], [-29.5, 12.0]],
+        "note": "excavation to F4 foundation"
+      },
+      {
+        "id": "east_wing",
+        "z": -6.6,
+        "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 33.3], [12.0, 33.3]],
+        "note": "excavation to E2 foundation"
+      }
+    ]
   },
   "levels": [
-    {
-      "id": "RF",
-      "name": "Roof (Gym V2 beam top)",
-      "elevation": 5.64,
-      "wing": "west+east"
-    },
-    {
-      "id": "F1",
-      "name": "Floor 1 · Entry, lockers, lounge, cafe",
-      "elevation": 0.0,
-      "wing": "west"
-    },
-    {
-      "id": "E1",
-      "name": "East Floor 1 · Reception, cafe, daycare",
-      "elevation": 0.12,
-      "wing": "east",
-      "note": "Gym V2 east slab is 0.12 above the west. Probably meant to be equal."
-    },
-    {
-      "id": "F2",
-      "name": "Floor 2 · Free weights, machines, cardio",
-      "elevation": -4.91,
-      "wing": "west"
-    },
-    {
-      "id": "E2",
-      "name": "East lower · Garage, game room, daycare 2",
-      "elevation": -6.01,
-      "wing": "east"
-    },
-    {
-      "id": "F3",
-      "name": "Floor 3 · River rim, functional, strongman",
-      "elevation": -9.77,
-      "wing": "west"
-    },
-    {
-      "id": "F4",
-      "name": "Floor 4 · Pool, recovery",
-      "elevation": -15.39,
-      "wing": "west"
-    }
+    {"id": "RF", "name": "Roof (Gym V2 beam top)", "elevation": 5.64, "wing": "west+east"},
+    {"id": "F1", "name": "Floor 1 · Entry, lockers, lounge, cafe", "elevation": 0.0, "wing": "west"},
+    {"id": "E1", "name": "East Floor 1 · Reception, cafe, daycare", "elevation": 0.12, "wing": "east", "note": "Gym V2 east slab is 0.12 above the west. Probably meant to be equal."},
+    {"id": "F2", "name": "Floor 2 · Free weights, machines, cardio", "elevation": -4.91, "wing": "west"},
+    {"id": "E2", "name": "East lower · Garage, game room, daycare 2", "elevation": -6.01, "wing": "east"},
+    {"id": "F3", "name": "Floor 3 · River rim, functional, strongman", "elevation": -9.77, "wing": "west"},
+    {"id": "F4", "name": "Floor 4 · Pool, recovery", "elevation": -15.39, "wing": "west"}
   ],
   "views": {
     "plan_cut_height": 1.2,
     "sections": [
-      {
-        "id": "A",
-        "name": "Section A-A · East-west across the ravine",
-        "from": [
-          -45,
-          -2
-        ],
-        "to": [
-          42,
-          -2
-        ]
-      },
-      {
-        "id": "B",
-        "name": "Section B-B · North-south through the west wing",
-        "from": [
-          -18,
-          40
-        ],
-        "to": [
-          -18,
-          -45
-        ]
-      },
-      {
-        "id": "C",
-        "name": "Section C-C · Along the river",
-        "from": [
-          -3,
-          70
-        ],
-        "to": [
-          -3,
-          -80
-        ]
-      }
+      {"id": "A", "name": "Section A-A · East-west across the ravine", "from": [-45, -2], "to": [42, -2]},
+      {"id": "B", "name": "Section B-B · North-south through the west wing", "from": [-18, 40], "to": [-18, -45]},
+      {"id": "C", "name": "Section C-C · Along the river", "from": [-3, 70], "to": [-3, -80]}
     ]
   },
   "grids": [],

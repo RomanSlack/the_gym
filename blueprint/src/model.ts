@@ -25,7 +25,7 @@ export interface Grid {
 }
 export interface Model {
   schema: string;
-  project: { name: string; datum: { label: string; blender_z: number } };
+  project: { name: string; datum: { label: string; blender_z_gymv2: number; masl: number } };
   site: { water_level: number };
   levels: Level[];
   views: { plan_cut_height: number; sections: SectionDef[] };
@@ -75,7 +75,7 @@ export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay
 }
 
 export const model = modelJson as unknown as Model;
-export const underlay = loadUnderlay(underlayJson, model.project.datum.blender_z);
+export const underlay = loadUnderlay(underlayJson, model.project.datum.blender_z_gymv2);
 
 /** Bilinear terrain height at a world point (NaN outside data). */
 export function terrainAt(t: Terrain, x: number, y: number): number {
