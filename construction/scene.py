@@ -111,6 +111,9 @@ if STAGE >= 4:  # keep natural rock blocks off the building, site works and grad
     busy = fm_ | (np.abs(H - natural)[c] > 0.5)
 for _ in range(5):  # keep natural rock blocks clear of the excavation and the new walls
     busy = busy | np.roll(busy, 1, 0) | np.roll(busy, -1, 0) | np.roll(busy, 1, 1) | np.roll(busy, -1, 1)
+if STAGE >= 4:  # no natural rock inside or right against the building (enclosed volumes + 3 m)
+    for (x0_, y0_, x1_, y1_), _zb, _zt in VOIDS:
+        busy[max(0, int(y0_ - 3 - DY0)):max(0, int(y1_ + 3 - DY0)), max(0, int(x0_ - 3 - DX0)):max(0, int(x1_ + 3 - DX0))] = True
 Hn_ = (H if STAGE >= 4 else natural)[c]
 bc.cliff_face(Hn_, rock[c], DX0, DY0, exclude=busy, coll=site0)       # jointed granite skin on the ravine walls
 bc.fallen_blocks(Hn_, rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)  # a few big angular blocks at the toes
@@ -150,7 +153,7 @@ MAT = {
     "glass_obscured": bc.material("glass_obscured", (0.55, 0.58, 0.6), 0.35, alpha=0.75),
     "acrylic": bc.material("acrylic", (0.05, 0.08, 0.09), 0.03, alpha=0.2),
     "sod": bc.material("sod", (0.07, 0.11, 0.035), 0.95),
-    "frame": bc.material("window_frame", (0.025, 0.025, 0.027), 0.4, metal=0.6),
+    "frame": bc.metal_material("window_frame", (0.03, 0.03, 0.032), rough=(0.3, 0.5), brushed=False),  # dark anodised aluminium
 }
 PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope", 5: "5 · interior shell"}
 if STAGE >= 4:  # Cycles: real architectural glass (daylight comes through)
@@ -175,6 +178,8 @@ for ph in range(1, STAGE + 1):
         z0, z1 = e["z"]
         if "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] in ("boards", "slabs", "poured"):
             bc.pattern_floor(e, mat, coll, prng)
+        elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "wave":
+            bc.pattern_wave_ceiling(e, mat, coll, ROOF_BEAMS_E)
         elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "slats":
             bc.pattern_ceiling(e, mat, coll, ROOF_BEAMS_E)
         elif e["type"] == "wall" and e.get("kind") == "lining":
@@ -201,13 +206,24 @@ for ph in range(1, STAGE + 1):
         elif e["type"] == "wall" and "mullions" in e:  # divided glazing: glass + dark frames, mullions, transoms
             (wx0, wy0), (wx1, wy1) = e["from"], e["to"]; WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
             P = lambda s_: (wx0 + ux * s_, wy0 + uy * s_)
-            bc.oriented_box(e["id"], e["from"], e["to"], 0.03, z0, z1, mat, coll)
+            ops_ = [o for o in e.get("openings", []) if o["type"] in ("door", "opening")]
+            cuts_ = sorted({0.0, WL, *[v for o in ops_ for v in o["s"]]})
             fw, fd = 0.07, max(0.12, e["size"][0])
+            for k, (sa, sb) in enumerate(zip(cuts_, cuts_[1:])):  # glass, minus door openings (glass continues above them)
+                o_ = next((o for o in ops_ if o["s"][0] <= (sa + sb) / 2 <= o["s"][1]), None)
+                za = z0 if o_ is None else o_["z"][1]
+                if z1 - za > 0.05:
+                    bc.oriented_box(f"{e['id']}_g{k}", P(sa), P(sb), 0.03, za, z1, mat, coll)
+                for zt in [z0, z1 - fw] + e.get("transoms", []):
+                    if o_ is None or zt >= o_["z"][1] - 0.01:
+                        bc.oriented_box(f"{e['id']}_t{k}_{zt:.2f}", P(sa), P(sb), fd, zt, zt + fw, MAT["frame"], coll)
+                if o_ is not None:  # door head
+                    bc.oriented_box(f"{e['id']}_head{k}", P(sa), P(sb), fd, o_["z"][1], o_["z"][1] + fw, MAT["frame"], coll)
             for k, s_ in enumerate([0.0] + e["mullions"] + [WL]):
                 a_, b_ = max(0.0, s_ - fw / 2), min(WL, s_ + fw / 2)
+                if any(o["s"][0] + 0.01 < s_ < o["s"][1] - 0.01 for o in ops_):
+                    continue
                 bc.oriented_box(f"{e['id']}_m{k}", P(a_), P(b_), fd, z0, z1, MAT["frame"], coll)
-            for k, zt in enumerate([z0, z1 - fw] + e.get("transoms", [])):
-                bc.oriented_box(f"{e['id']}_t{k}", e["from"], e["to"], fd, zt, zt + fw, MAT["frame"], coll)
         elif e["type"] == "wall" and e.get("kind") == "clad":  # black board-on-board: the wall + a top board every 0.3 m (real geometry, arrayed)
             ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
             (wx0, wy0), (wx1, wy1) = e["from"], e["to"]; WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
@@ -272,6 +288,11 @@ for ph in range(1, STAGE + 1):
                 cc.objects.unlink(o)
             coll.objects.link(o)
 
+# ---------------------------------------------------------------- furniture, fixtures, doors (stage 5: reception + cafe first)
+if STAGE >= 5 and model.get("furnishings"):
+    import furniture  # noqa: E402  (construction/furniture.py)
+    print("furnishings:", furniture.build_all(model, MAT, bc.collection("5b · furniture + fixtures")))
+
 # ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
 if STAGE >= 4:
     gcoll = bc.collection("6 · grass")
@@ -281,7 +302,11 @@ if STAGE >= 4:
     for o in [o for o in bpy.data.objects if o.name.startswith("EN-sod-") or o.name == "RF-W3-sod"]:
         md_ = o.modifiers.new("grass", "NODES"); md_.node_group = ng_roof
     # lawns + meadow + garden beds: a distribution surface from the terrain cells flagged lawn
-    lm = GM["lawn"]
+    lm = GM["lawn"].copy()
+    for f_ in model.get("furnishings", []):  # no grass through the porch floor
+        if f_["kind"] == "porch_floor":
+            (px_, py_), (sx_, sy_) = f_["at"], f_["size"]
+            lm[max(0, int(py_ - sy_ / 2 - 1 - DY0)):int(py_ + sy_ / 2 + 1 - DY0), max(0, int(px_ - sx_ / 2 - 1 - DX0)):int(px_ + sx_ / 2 + 1 - DX0)] = 0
     ii, jj = np.nonzero(lm[:-1, :-1] * lm[1:, :-1] * lm[:-1, 1:] * lm[1:, 1:] > 0)
     if len(ii):
         vv, ff = [], []
@@ -372,6 +397,12 @@ CAMS = {
     "rec_ceiling": ((29.0, 15.2, 1.62), (21.0, 2.0, 4.9), 16),
     "rec_desk_wall": ((28.6, 9.0, 1.62), (24.1, 12.5, 1.6), 24),
     "rec_detail": ((25.6, 13.4, 0.95), (24.1, 14.6, 0.35), 30),
+    "rec_desk": ((29.3, 7.6, 1.62), (25.4, 11.6, 1.1), 20),
+    "rec_vestibule": ((26.6, 11.3, 1.62), (30.5, 11.3, 1.6), 20),
+    "cafe_bar": ((28.6, 4.6, 1.62), (21.25, -1.35, 1.4), 18),
+    "cafe_bridge": ((12.6, 4.8, 1.62), (19.5, -4.0, 1.4), 18),
+    "cafe_window": ((25.2, -6.2, 1.4), (17.5, -8.9, 1.0), 20),
+    "rec_art": ((28.4, 11.3, 1.62), (24.2, 11.3, 2.6), 18),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -385,13 +416,13 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_entry", "rec_from_cafe", "rec_ceiling", "rec_desk_wall", "rec_detail"],
+             5: ["rec_art", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (2.8 if n.startswith("rec_") else 0.0)  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (2.8 if n.startswith(("rec_", "cafe_")) else 0.0)  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
 print("stage", STAGE, "done")

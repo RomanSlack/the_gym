@@ -19,15 +19,16 @@ sys.path.insert(0, str(ROOT / "terrain"))
 import modelio  # noqa: E402
 
 PALETTES = {  # Roman, 2026-10-11: light floors, light ceilings, light walls, oak slat walls; dark ONLY at the windows (frames, the facade band)
-    "L": {"name": "Light Nordic oak", "floor": "oak_boards_light", "entry": "stone_light", "ceiling": "oak_slats_light", "feature": "oak_slats_wall",
+    "L": {"name": "Light Nordic oak", "floor": "oak_boards_light", "entry": "stone_light", "ceiling": "ash_wave", "feature": "oak_slats_wall",
           "plain": "lime_plaster", "header": "black_lining",
-          "note": "white-oiled oak floor, pale oak acoustic slat ceiling between pale spruce glulam beams, oak slat feature walls, warm-white "
+          "note": "white-oiled oak floor, undulating pale ash baffle ceiling between pale spruce glulam beams, oak slat feature walls, warm-white "
                   "lime plaster elsewhere, light honed stone at the door; the only dark surfaces are the window frames and the facade band above them"},
 }
 FINISH = {  # pattern + material per finish kind
     "oak_boards_light": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "y", "material": "oak_floor", "t": 0.022},
     "stone_light": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.003, "dir": "y", "material": "stone_light", "t": 0.022},
     "oak_slats_light": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x", "drop": 0.08, "material": "oak_slat"},
+    "ash_wave": {"kind": "wave", "w": 0.03, "pitch": 0.11, "dmin": 0.06, "dmax": 0.32, "wave": 7.0, "drift": 5.0, "drop": 0.0, "d": 0.32, "material": "ash_fin"},
     "oak_slats_wall": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z", "depth": 0.065, "material": "oak_slat"},
     "lime_plaster": {"kind": "skin", "depth": 0.015, "material": "lime_plaster"},
     "black_lining": {"kind": "skin", "depth": 0.022, "material": "timber_clad"},
@@ -87,7 +88,13 @@ ceil = FINISH[P["ceiling"]]
 for nm, r in (("hall_n", [12.0, 6.8, 30.5, 16.18]), ("hall", [12.0, -9.5, 30.5, 6.8])):
     if nm == "hall_n":
         r = [24.0, 6.8, 30.5, 16.18]  # over the reception only (the WCs and core get their own ceilings later)
-    if ceil["kind"] == "slats":
+    if ceil["kind"] == "wave":
+        add({"id": f"IN-E1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": r, "z": [round(RF - ceil["dmax"], 3), RF], "holes": [],
+             "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.25,
+             "note": "undulating pale ash baffle ceiling: 30 mm fins @ 110 mm, depth waving 60-320 mm, black acoustic felt behind"})
+        add({"id": f"IN-E1-ceiling-{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": r, "z": [round(RF - 0.01, 3), round(RF - 0.002, 3)],
+             "holes": [], "note": "black acoustic felt on the CLT behind the fins"})
+    elif ceil["kind"] == "slats":
         z1 = round(RF - ceil["drop"], 3)
         add({"id": f"IN-E1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": r, "z": [round(z1 - ceil["d"], 3), z1], "holes": [],
              "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.25,

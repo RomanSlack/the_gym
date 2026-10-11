@@ -133,6 +133,62 @@
       "res": "2k",
       "license": "CC0",
       "used_for": "honed granite surface"
+    },
+    {
+      "source": "polyhaven",
+      "id": "brown_leather",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "cognac leather (seats, pulls)"
+    },
+    {
+      "source": "polyhaven",
+      "id": "wool_boucle",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "cream boucle upholstery"
+    },
+    {
+      "source": "polyhaven",
+      "id": "curly_teddy_natural",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "sheepskin throws"
+    },
+    {
+      "source": "polyhaven",
+      "id": "rough_linen",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "linen lamp diffusers"
+    },
+    {
+      "source": "polyhaven",
+      "id": "poly_wool_herringbone",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "wool rugs"
+    },
+    {
+      "source": "polyhaven",
+      "id": "caban",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "wool upholstery (plain, felted)"
+    },
+    {
+      "source": "polyhaven",
+      "id": "natural_walnut_veneer",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "walnut: loose furniture (contrast to the oak floor)"
+    },
+    {
+      "source": "polyhaven",
+      "id": "ash_veneer",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "pale ash: wave ceiling baffles"
     }
   ],
   "hdris": [

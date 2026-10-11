@@ -621,6 +621,7 @@ def interior_materials():
         "lime_plaster": material("lime_plaster", (0.80, 0.77, 0.71), 0.9),   # smooth warm-white lime plaster
         "stone_light": pbr_material("stone_light", "smooth_concrete_floor", 2.0, tint=(1.0, 0.98, 0.95), box=True, rough_mul=0.6, rough_add=0.15, piece_var=0.05, sat=0.2, val=2.0),
         "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
+        "ash_fin": pbr_material("ash_fin", "ash_veneer", 1.0, box=True, tint=(1.05, 1.02, 0.95), sat=0.45, val=1.75, piece_var=0.06),
         "impact_mat": material("impact_mat", (0.05, 0.05, 0.05), 0.9),
         "screed": material("screed", (0.4, 0.39, 0.37), 0.9),
         "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),
@@ -648,3 +649,71 @@ def arch_glass(name, tint=(0.92, 0.95, 0.94), rough=0.0, frosted=False):
         mf = N.new("ShaderNodeMixShader"); mf.inputs[0].default_value = 0.6; L.new(mx.outputs[0], mf.inputs[1]); L.new(dif.outputs[0], mf.inputs[2]); mx = mf
     L.new(mx.outputs[0], N["Material Output"].inputs["Surface"])
     return m
+
+
+def metal_material(name, rgb, rough=(0.22, 0.42), brushed=True, wear=0.0):
+    """Believable metal: roughness varies across the surface (noise), fine directional brushing (anisotropy + stretched noise
+    in the bump), a slight tone drift; optional edge wear (pointiness) for blackened steel. Real metals are never uniform."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Metallic"].default_value = 1.0
+    tc = N.new("ShaderNodeTexCoord")
+    big = N.new("ShaderNodeTexNoise"); big.inputs["Scale"].default_value = 3.0; big.inputs["Detail"].default_value = 4; L.new(tc.outputs["Object"], big.inputs["Vector"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = rough[0]; rr.inputs[4].default_value = rough[1]; L.new(big.outputs["Fac"], rr.inputs[0])
+    L.new(rr.outputs[0], b.inputs["Roughness"])
+    tone = N.new("ShaderNodeMapRange"); tone.inputs[3].default_value = 0.88; tone.inputs[4].default_value = 1.08; L.new(big.outputs["Fac"], tone.inputs[0])
+    col = N.new("ShaderNodeCombineColor"); col.inputs[0].default_value, col.inputs[1].default_value, col.inputs[2].default_value = rgb
+    cs = N.new("ShaderNodeVectorMath"); cs.operation = "SCALE"; L.new(col.outputs[0], cs.inputs[0]); L.new(tone.outputs[0], cs.inputs["Scale"])
+    base = cs.outputs[0]
+    if wear > 0:  # worn, slightly brighter edges
+        geo = N.new("ShaderNodeNewGeometry")
+        we = N.new("ShaderNodeMapRange"); we.inputs[1].default_value = 0.52; we.inputs[2].default_value = 0.6; L.new(geo.outputs["Pointiness"], we.inputs[0])
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.inputs["B"].default_value = (min(1, rgb[0] * 4 + 0.15), min(1, rgb[1] * 4 + 0.15), min(1, rgb[2] * 4 + 0.15), 1)
+        fm = N.new("ShaderNodeMath"); fm.operation = "MULTIPLY"; fm.inputs[1].default_value = wear; L.new(we.outputs[0], fm.inputs[0])
+        L.new(fm.outputs[0], mx.inputs["Factor"]); L.new(base, mx.inputs["A"]); base = mx.outputs["Result"]
+    L.new(base, b.inputs["Base Color"])
+    if brushed:
+        mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (400.0, 4.0, 400.0); L.new(tc.outputs["Object"], mp.inputs["Vector"])
+        sc = N.new("ShaderNodeTexNoise"); sc.inputs["Detail"].default_value = 2; L.new(mp.outputs[0], sc.inputs["Vector"])
+        bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.06; bp.inputs["Distance"].default_value = 0.0005; L.new(sc.outputs["Fac"], bp.inputs["Height"])
+        L.new(bp.outputs[0], b.inputs["Normal"])
+        for nm in ("Anisotropic", "Anisotropy"):
+            if nm in b.inputs:
+                b.inputs[nm].default_value = 0.5
+    return m
+
+
+def pattern_wave_ceiling(e, mat, coll, beam_lines):
+    """Undulating baffle ceiling: pale ash fins (30 mm wide) every 110 mm running across each bay (along x), each fin's depth
+    following a slow wave (60 -> 320 mm) whose phase drifts from fin to fin, so the ceiling reads as a gentle landscape of ridges."""
+    x0, y0, x1, y1 = e["rect"]; ztop = e["z"][1]; p = e["pattern"]
+    half = e.get("between_beams", 0.25) / 2 + 0.03
+    vs, fs, pr = [], [], []
+    rng_ = np.random.default_rng(7)
+    y = y0 + p["pitch"] / 2
+    nseg = max(8, int((x1 - x0) / 0.25))
+    while y < y1:
+        if all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
+            r = float(rng_.random())
+            ph = y / p.get("drift", 4.0) * 2 * math.pi
+            for k in range(nseg):
+                xa, xb = x0 + (x1 - x0) * k / nseg, x0 + (x1 - x0) * (k + 1) / nseg
+                da = p["dmin"] + (p["dmax"] - p["dmin"]) * (0.5 + 0.5 * math.sin(2 * math.pi * xa / p["wave"] + ph))
+                db = p["dmin"] + (p["dmax"] - p["dmin"]) * (0.5 + 0.5 * math.sin(2 * math.pi * xb / p["wave"] + ph))
+                ya, yb_ = y - p["w"] / 2, y + p["w"] / 2
+                b = len(vs)
+                vs += [(xa, ya, ztop - da), (xb, ya, ztop - db), (xb, yb_, ztop - db), (xa, yb_, ztop - da),
+                       (xa, ya, ztop), (xb, ya, ztop), (xb, yb_, ztop), (xa, yb_, ztop)]
+                fs += [(b, b + 3, b + 2, b + 1), (b, b + 1, b + 5, b + 4), (b + 2, b + 3, b + 7, b + 6)]
+                if k == 0:
+                    fs.append((b + 3, b, b + 4, b + 7))
+                if k == nseg - 1:
+                    fs.append((b + 1, b + 2, b + 6, b + 5))
+                pr += [r] * 8
+        y += p["pitch"]
+    ob = mesh_from(e["id"], vs, fs, {"prand": np.array(pr)}, smooth=False, coll=coll)
+    ob.data.materials.append(mat)
+    return ob

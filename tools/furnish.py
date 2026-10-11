@@ -1,0 +1,107 @@
+"""Stage 5b: furniture, fixtures and doors for the reception + the cafe south of it (Roman, 2026-10-11). Every piece is designed
+here (construction/furniture.py builds the geometry); nothing is downloaded but textures.
+
+Design: Nordic mid-century, regional, minimal. Light oak, cream boucle, cognac leather, sheepskin, light honed stone, dark
+bronze / blackened steel only for small hardware. Sizes are real (seat 0.45, bar 1.05, counter 0.90, tables 0.74, desk 1.05 / 0.76).
+Layout (E1 = 0.12):
+  - entrance: a glass vestibule (vindfang, needed for heat in a Norwegian winter): outer sliding doors in the east facade
+    between two mullions, inner sliding doors 2.5 m in, glass sides, an oak slat lid at 3.0 m; a boot bench inside it (shoes off)
+  - reception desk backed onto the slatted core wall, facing the doors: 4.6 m, slatted oak front, light stone ledge at 1.05,
+    accessible low end at 0.76, staff side 1.1 m deep; three opal pendants over it
+  - a two-chair waiting nook by the window, north of the vestibule
+  - core E: hidden slatted stair door (the slats run over it), bronze lift doors with a call plate
+  - public WCs: privacy baffle screens inside the open entries (VISION: airport-style, no door)
+  - daycare: framed glass secure door in the glass wall
+  - cafe: the round island bar (outer bar 1.05 with stools, staff ring, inner back counter 0.90 with espresso machine + grinder),
+    a big oak + linen ring pendant over it; tables for four by the east glass; a long communal table + benches and a
+    sofa corner on a wool rug by the lounge-bridge entrance; a window counter with stools along the south glass
+python3 tools/furnish.py
+"""
+import math
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "terrain"))
+import modelio  # noqa: E402
+
+m = modelio.load()
+lv = {l["id"]: l["elevation"] for l in m["levels"]}
+E1 = lv["E1"]
+F = []
+
+
+def put(kind, x, y, rot=0.0, zone="reception", **kw):
+    F.append({"id": f"{kind}-{len(F):03d}", "kind": kind, "level": "E1", "at": [round(x, 3), round(y, 3)], "z": E1, "rot_deg": rot, "zone": zone, **kw})
+
+
+# ---- entrance: facade opening + vestibule (front of every piece = +y in its own frame; rot turns it)
+by_id = {e["id"]: e for e in m["elements"]}
+fac = by_id["EN-G-E1-E-0"]  # facade glass x = 30.5 from y -9.5; mullions at s 19.566 / 22.011 frame the doors
+fac["openings"] = [{"s": [19.60, 21.976], "z": [E1, round(E1 + 2.6, 2)], "type": "door", "note": "main entrance: automatic sliding doors"}]
+put("sliding_doors", 30.5, -9.5 + (19.60 + 21.976) / 2, rot=90, zone="entrance", width=2.376, height=2.6, note="outer automatic sliding doors (vestibule)")
+# the vestibule (vindfang) stands OUTSIDE, under the 2.5 m eave: the facade doors are its inner doors (Roman: keep the hall free)
+VY0, VY1, VX0, VX1 = 9.3, 13.3, 30.5, 32.9
+put("porch_floor", (VX0 + VX1) / 2, (VY0 + VY1) / 2, zone="entrance", size=[VX1 - VX0 + 0.1, VY1 - VY0 + 0.1], note="honed stone porch floor on a concrete plinth")
+put("glass_screen", VX1, (VY0 + VY1) / 2, rot=90, zone="entrance", width=VY1 - VY0, height=3.0, door=2.2, note="outer glass screen with automatic sliding doors")
+put("glass_screen", (VX0 + VX1) / 2, VY0, rot=0, zone="entrance", width=VX1 - VX0, height=3.0, door=0.0, note="vestibule side glass")
+put("glass_screen", (VX0 + VX1) / 2, VY1, rot=0, zone="entrance", width=VX1 - VX0, height=3.0, door=0.0, note="vestibule side glass")
+put("vestibule_lid", (VX0 + VX1) / 2, (VY0 + VY1) / 2, zone="entrance", size=[VX1 - VX0, VY1 - VY0], height=3.0, note="oak slat lid at 3.0 m, under the eave")
+put("boot_bench", (VX0 + VX1) / 2, VY0 + 0.32, rot=0, zone="entrance", length=1.8, note="boot bench: shoes off, as at home in Norway")
+
+# ---- reception
+put("reception_desk", 25.7, 11.3, rot=-90, length=4.6, note="desk faces the doors (east); staff side to the slatted core wall")
+put("relief_art", 24.21, 11.3, rot=-90, width=6.0, height=2.9, note="'Glomma' relief: layered timber fells, preserved moss, spruce silhouettes; behind the desk")
+for y in (10.0, 11.3, 12.6):
+    put("pendant_opal", 25.7, y, hang=2.45, note="opal glass + oak pendant over the desk")
+put("lounge_chair", 28.7, 14.55, rot=-60, zone="reception")
+put("lounge_chair", 28.7, 15.65, rot=-120, zone="reception")
+put("side_table", 29.45, 15.1, zone="reception")
+put("door_slatted", 24.19, 7.55, rot=-90, width=1.0, height=2.3, note="hidden stair door: the oak slats run over the leaf")
+put("lift_doors", 24.19, 15.3, rot=-90, width=1.2, height=2.3, note="lift: dark bronze centre-opening doors, call plate")
+put("glass_door", 27.4, 16.2, rot=0, width=1.6, height=2.3, note="daycare secure door (glass, staff / parent release)")
+by_id["G-E1-daycare"]["mullions"] = [1.3, 2.6, 4.2, 5.35]  # mullions clear the door
+
+# ---- WC baffles (open entries, VISION: no doors on the public WCs)
+put("baffle_screen", 14.2, 7.9, rot=0, zone="cafe", width=2.6, height=2.4, note="women's WC privacy baffle")
+put("baffle_screen", 18.6, 7.9, rot=0, zone="cafe", width=2.6, height=2.4, note="men's WC privacy baffle")
+
+# ---- cafe: island bar + ring pendant
+cx, cy = 21.25, -1.35
+put("cafe_island", cx, cy, zone="cafe", r_out=3.5, gap_deg=225, note="round island bar: outer bar, staff ring, back counter")
+put("ring_pendant", cx, cy, zone="cafe", r=3.15, hang=3.35, note="oak + linen ring light over the bar")
+R = 3.5 + 0.38
+n = int(2 * math.pi * R / 0.66)
+for k in range(n):
+    a = 360 * k / n
+    if abs(((a - 225) + 180) % 360 - 180) < 14:
+        continue
+    ar = math.radians(a)
+    put("bar_stool", cx + R * math.cos(ar), cy + R * math.sin(ar), rot=a + 90, zone="cafe", height=0.76)  # seat faces the bar
+# tables for four by the east glass
+for x in (26.7, 29.0):
+    for y in (-7.2, -4.3, -1.4, 1.5):
+        put("cafe_table", x, y, zone="cafe")
+        for d in (0, 90, 180, 270):  # each chair faces the table: rot = d + 90
+            put("dining_chair", x + 0.62 * math.cos(math.radians(d)), y + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="cafe")
+# communal table + benches by the bridge entrance, sofa corner on a rug
+put("communal_table", 14.3, -5.6, rot=90, zone="cafe", length=4.0)
+put("bench", 13.62, -5.6, rot=90, zone="cafe", length=3.6)
+put("bench", 14.98, -5.6, rot=-90, zone="cafe", length=3.6)
+put("rug", 15.0, 0.6, zone="cafe", size=[2.6, 3.0])
+put("sofa", 13.4, 0.6, rot=-90, zone="cafe", length=2.2)
+put("lounge_chair", 16.55, 0.0, rot=60, zone="cafe")
+put("lounge_chair", 16.55, 1.25, rot=120, zone="cafe")
+put("coffee_table", 15.0, 0.6, zone="cafe")
+# window counter along the south glass
+put("window_counter", 21.25, -8.95, rot=0, zone="cafe", length=11.0)
+for k in range(15):
+    put("bar_stool", 16.15 + k * 0.73, -8.35, rot=180, zone="cafe", height=0.76)
+
+m["furnishings"] = F
+# the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
+for f in m.get("fixtures", []):
+    if f["id"] == "reception_desk":
+        f["rect"] = [25.3, 9.0, 26.1, 13.6]
+modelio.save(m)
+print("furnishings:", len(F), {k: sum(1 for f in F if f["kind"] == k) for k in sorted({f["kind"] for f in F})})
