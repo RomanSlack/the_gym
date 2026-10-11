@@ -1,0 +1,346 @@
+{
+ "id": "20261011T052753Z_ravine",
+ "stage": "ravine",
+ "started": "20261011T052753Z",
+ "code": "4025d32+dirty",
+ "params": {
+  "stations": [
+   {
+    "id": "N0",
+    "y": 660,
+    "x": -82,
+    "bed": 3.24,
+    "water": 3.6,
+    "half_bed": 2.5,
+    "wall_w": 25,
+    "wall_e": 25,
+    "rock": false,
+    "note": "real stream joins"
+   },
+   {
+    "id": "N1",
+    "y": 500,
+    "x": -35,
+    "bed": 1.4,
+    "water": 1.8,
+    "half_bed": 3,
+    "wall_w": 28,
+    "wall_e": 28,
+    "rock": false
+   },
+   {
+    "id": "N2",
+    "y": 300,
+    "x": -20,
+    "bed": -0.2,
+    "water": 0.2,
+    "half_bed": 3.5,
+    "wall_w": 30,
+    "wall_e": 30,
+    "rock": false
+   },
+   {
+    "id": "N3",
+    "y": 120,
+    "x": -8,
+    "bed": -1.6,
+    "water": -1.2,
+    "half_bed": 4,
+    "wall_w": 35,
+    "wall_e": 35,
+    "rock": false
+   },
+   {
+    "id": "SP0",
+    "y": 108,
+    "x": -7.5,
+    "bed": -1.8,
+    "water": -1.4,
+    "half_bed": 4,
+    "wall_w": 30,
+    "wall_e": 35,
+    "rock": false
+   },
+   {
+    "id": "SP",
+    "y": 95,
+    "x": -6.5,
+    "bed": -2.7,
+    "water": -1.42,
+    "half_bed": 8,
+    "wall_w": 28,
+    "wall_e": 40,
+    "rock": false,
+    "note": "sauna dipping pool, 1.3 m deep, calm"
+   },
+   {
+    "id": "SP2",
+    "y": 84,
+    "x": -5.5,
+    "bed": -1.85,
+    "water": -1.45,
+    "half_bed": 5,
+    "wall_w": 45,
+    "wall_e": 45,
+    "rock": true,
+    "note": "rock weir: holds the pool, keeps it calm above the falls"
+   },
+   {
+    "id": "N4",
+    "y": 55,
+    "x": -4,
+    "bed": -2.4,
+    "water": -1.95,
+    "half_bed": 4.5,
+    "wall_w": 60,
+    "wall_e": 60,
+    "rock": true,
+    "note": "rock begins"
+   },
+   {
+    "id": "LIP",
+    "y": 38,
+    "x": -3,
+    "bed": -2.7,
+    "water": -2.27,
+    "half_bed": 5,
+    "wall_w": 80,
+    "wall_e": 80,
+    "rock": true,
+    "note": "falls 1 lip, under the rustic bridge"
+   },
+   {
+    "id": "BASE",
+    "y": 35.5,
+    "x": -2.5,
+    "bed": -15.0,
+    "water": -8.77,
+    "half_bed": 7,
+    "wall_w": 84,
+    "wall_e": 84,
+    "rock": true,
+    "note": "plunge pool"
+   },
+   {
+    "id": "B1",
+    "y": 12,
+    "x": 1.5,
+    "bed": -16.2,
+    "water": -8.77,
+    "half_bed": 7.5,
+    "wall_w": 86,
+    "wall_e": 80,
+    "rock": true,
+    "note": "west wall = building"
+   },
+   {
+    "id": "B2",
+    "y": -34,
+    "x": 1.5,
+    "bed": -16.0,
+    "water": -8.77,
+    "half_bed": 7.5,
+    "wall_w": 86,
+    "wall_e": 80,
+    "rock": true
+   },
+   {
+    "id": "T1",
+    "y": -62,
+    "x": 3,
+    "bed": -9.3,
+    "water": -8.77,
+    "half_bed": 7,
+    "wall_w": 78,
+    "wall_e": 78,
+    "rock": true,
+    "note": "rock sill: sets the pool level"
+   },
+   {
+    "id": "T2",
+    "y": -72,
+    "x": 3.5,
+    "bed": -11.5,
+    "water": -11.0,
+    "half_bed": 6,
+    "wall_w": 76,
+    "wall_e": 76,
+    "rock": true,
+    "note": "cascade"
+   },
+   {
+    "id": "C1",
+    "y": -130,
+    "x": 8,
+    "bed": -13.5,
+    "water": -13.0,
+    "half_bed": 6,
+    "wall_w": 72,
+    "wall_e": 72,
+    "rock": true
+   },
+   {
+    "id": "F2L",
+    "y": -150,
+    "x": 10,
+    "bed": -14.0,
+    "water": -13.6,
+    "half_bed": 5,
+    "wall_w": 78,
+    "wall_e": 78,
+    "rock": true,
+    "note": "falls 2 lip"
+   },
+   {
+    "id": "F2B",
+    "y": -152.5,
+    "x": 10,
+    "bed": -24.0,
+    "water": -21.6,
+    "half_bed": 7,
+    "wall_w": 80,
+    "wall_e": 80,
+    "rock": true,
+    "note": "falls 2 pool"
+   },
+   {
+    "id": "C2",
+    "y": -230,
+    "x": -5,
+    "bed": -25.5,
+    "water": -25.1,
+    "half_bed": 6,
+    "wall_w": 50,
+    "wall_e": 50,
+    "rock": true
+   },
+   {
+    "id": "C3",
+    "y": -330,
+    "x": -25,
+    "bed": -32.0,
+    "water": -31.6,
+    "half_bed": 6.5,
+    "wall_w": 35,
+    "wall_e": 35,
+    "rock": false,
+    "note": "opens into a V"
+   },
+   {
+    "id": "S0",
+    "y": -400,
+    "x": -6,
+    "bed": -36.6,
+    "water": -36.2,
+    "half_bed": 6.5,
+    "wall_w": 30,
+    "wall_e": 30,
+    "rock": false
+   },
+   {
+    "id": "S1",
+    "y": -500,
+    "x": 67,
+    "bed": -40.7,
+    "water": -40.3,
+    "half_bed": 6.5,
+    "wall_w": 30,
+    "wall_e": 30,
+    "rock": false,
+    "note": "real valley continues"
+   }
+  ],
+  "pads": [
+   {
+    "id": "west_wing",
+    "z": -16.0,
+    "poly": [
+     [
+      -29.5,
+      -34.1
+     ],
+     [
+      -6.4,
+      -34.1
+     ],
+     [
+      -6.4,
+      12.0
+     ],
+     [
+      -29.5,
+      12.0
+     ]
+    ],
+    "note": "excavation to F4 foundation"
+   },
+   {
+    "id": "east_wing",
+    "z": -6.6,
+    "poly": [
+     [
+      12.0,
+      -9.5
+     ],
+     [
+      30.5,
+      -9.5
+     ],
+     [
+      30.5,
+      33.3
+     ],
+     [
+      12.0,
+      33.3
+     ]
+    ],
+    "note": "excavation to E2 foundation"
+   },
+   {
+    "id": "garage_ledge",
+    "z": -6.6,
+    "poly": [
+     [
+      10.2,
+      -9.5
+     ],
+     [
+      12.0,
+      -9.5
+     ],
+     [
+      12.0,
+      16.18
+     ],
+     [
+      10.2,
+      16.18
+     ]
+    ],
+    "note": "rock shelf cut down so the garage's west wall is exposed: floor-to-ceiling glass over the ravine (extended along the game room)"
+   }
+  ],
+  "datum_masl": 496.3,
+  "noise_seeds": [
+   1,
+   2,
+   3,
+   4
+  ]
+ },
+ "outputs": {
+  "terrain_1m.npy": {
+   "sha256": "0ea59f23d303bbde"
+  },
+  "water_1m.npy": {
+   "sha256": "c55f3511e38ef34b"
+  },
+  "rock_1m.npy": {
+   "sha256": "96c5c58e53cedffd"
+  },
+  "features_1m.npy": {
+   "sha256": "152cc093aa31438a"
+  }
+ }
+}

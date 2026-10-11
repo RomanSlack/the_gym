@@ -254,6 +254,7 @@ if __name__ == "__main__":
 
     terrain = fill_sinks(terrain, keep=near & (d < A["half_bed"][idx] + 30))
 
+    np.save(OUT / "natural_1m.npy", terrain)  # construction stage 0: the land before any site works or excavation
     terrain, fmask = apply_features(terrain, m["site"]["features"])
     curve = m["site"]["features"]["daycare_garden"].pop("_curve")
     m2 = modelio.load()
