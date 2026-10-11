@@ -1252,31 +1252,32 @@
       "level": "F1",
       "kind": "wet",
       "name": "Men's locker room",
-      "poly": [[-29.45, -3.3], [-18.2, -3.3], [-18.2, 9.6], [-20.5, 9.6], [-20.5, 12.1], [-29.45, 12.1]],
-      "note": "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+      "poly": [[-24.45, -11.0], [-14.45, -11.0], [-14.45, 1.5], [-29.45, 1.5], [-29.45, -3.3], [-24.45, -3.3]],
+      "note": "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
     },
     {
       "id": "women-lockers",
       "level": "F1",
       "kind": "wet",
       "name": "Women's locker room",
-      "poly": [[-17.7, -3.3], [-6.45, -3.3], [-6.45, 12.1], [-15.5, 12.1], [-15.5, 9.6], [-17.7, 9.6]],
-      "note": "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+      "poly": [[-29.45, 1.5], [-14.45, 1.5], [-14.45, 12.1], [-29.45, 12.1]],
+      "note": "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+    },
+    {
+      "id": "gallery",
+      "level": "F1",
+      "kind": "circulation",
+      "name": "Gallery · from the lounge bridge",
+      "poly": [[-14.45, -11.0], [-6.45, -11.0], [-6.45, 8.3], [-14.45, 8.3]],
+      "note": "the bridge lands here; locker doors right off it"
     },
     {
       "id": "sauna-lobby",
       "level": "F1",
       "kind": "wet",
       "name": "Sauna lobby",
-      "poly": [[-20.5, 9.6], [-15.5, 9.6], [-15.5, 12.1], [-20.5, 12.1]],
-      "note": "robes, towel warmer, sandals; key-card door to the sauna path"
-    },
-    {
-      "id": "gallery",
-      "level": "F1",
-      "kind": "circulation",
-      "name": "Gallery · entry from the lounge",
-      "poly": [[-24.45, -11.0], [-6.45, -11.0], [-6.45, -3.3], [-24.45, -3.3]]
+      "poly": [[-14.45, 8.3], [-6.45, 8.3], [-6.45, 12.1], [-14.45, 12.1]],
+      "note": "robes, towel warmer, sandals; key-card door north to the sauna path"
     },
     {
       "id": "stretching",

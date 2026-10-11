@@ -36,12 +36,14 @@ STRETCH = [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-
 SPIRAL_BAY = R(-21.45, -18.7, -14.45, -11.0)
 
 # ---------------------------------------------------------------- F1 (gym wing) ±0.00
-S("men-lockers", "F1", "wet", "Men's locker room", [[-29.45, -3.3], [-18.2, -3.3], [-18.2, 9.6], [-20.5, 9.6], [-20.5, 12.1], [-29.45, 12.1]],
-  "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
-S("women-lockers", "F1", "wet", "Women's locker room", [[-17.7, -3.3], [-6.45, -3.3], [-6.45, 12.1], [-15.5, 12.1], [-15.5, 9.6], [-17.7, 9.6]],
-  "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
-S("sauna-lobby", "F1", "wet", "Sauna lobby", R(-20.5, 9.6, -15.5, 12.1), "robes, towel warmer, sandals; key-card door to the sauna path")
-S("gallery", "F1", "circulation", "Gallery · entry from the lounge", R(-24.45, -11.0, -6.45, -3.3))
+# Roman (after review): lockers rotated 90° as in Gym V2: two east-west rooms stacked north/south,
+# entered straight from a north-south gallery where the lounge bridge lands (Gym V2 walls at x≈-13.6, y≈1.5)
+S("men-lockers", "F1", "wet", "Men's locker room", [[-24.45, -11.0], [-14.45, -11.0], [-14.45, 1.5], [-29.45, 1.5], [-29.45, -3.3], [-24.45, -3.3]],
+  "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
+S("women-lockers", "F1", "wet", "Women's locker room", R(-29.45, 1.5, -14.45, 12.1),
+  "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
+S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-14.45, -11.0, -6.45, 8.3), "the bridge lands here; locker doors right off it")
+S("sauna-lobby", "F1", "wet", "Sauna lobby", R(-14.45, 8.3, -6.45, 12.1), "robes, towel warmer, sandals; key-card door north to the sauna path")
 S("stretching", "F1", "gym", "Stretching & mobility", STRETCH)
 S("spiral-F1", "F1", "circulation", "Spiral stair", SPIRAL_BAY)
 S("calisthenics", "F1", "gym", "Calisthenics", R(-14.45, -18.7, -6.45, -11.0))
