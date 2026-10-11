@@ -164,10 +164,13 @@ add({"id": "FDN-river-toe", "type": "strip_footing", "material": "concrete", "fr
 
 # ---- the sunken garden's west retaining wall (trail side)
 gd = m["site"]["features"]["daycare_garden"]
+_fin = np.load(ROOT / "terrain" / "out" / "ravine" / "eroded_1m.npy")
+g_low = min(float(_fin[int(y + 1000), int(gd["west_wall_x"] + d + 1000)]) for y in np.arange(gd["building_edge_y"], 47.0, 0.5) for d in (0.6, 1.4, 2.2))  # incl. the next terrace down
+gw0 = round(min(-1.8, g_low - 0.6), 2)  # the foot goes below the lowest garden ground beside it (it dips near the building corner)
 add({"id": "FDN-garden-wall-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
-     "size": [0.35, 0], "z": [-1.8, 1.6], "note": "sunken-garden retaining wall on the trail side: concrete core, dry-laid granite face in stage 4; top steps with the ground (simplified)"}, 95)
+     "size": [0.35, 0], "z": [gw0, 1.6], "note": f"sunken-garden retaining wall on the trail side: concrete core, dry-laid granite face in stage 4; foot at {gw0} (garden ground beside it down to {g_low:.2f})"}, 95)
 add({"id": "FDN-strip-garden-wall-W", "type": "strip_footing", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
-     "size": [1.2, 0.4], "z": [-2.2, -1.8], "note": "strip footing under the garden wall"}, 50)
+     "size": [1.2, 0.4], "z": [round(gw0 - 0.4, 2), gw0], "note": "strip footing under the garden wall"}, 50)
 
 # ---- below-grade layers stop under the finished ground (no membrane / gravel / pipe in the open: towers, gorge faces, garden)
 FIN = np.load(ROOT / "terrain" / "out" / "ravine" / "eroded_1m.npy")

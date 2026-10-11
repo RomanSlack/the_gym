@@ -4406,8 +4406,8 @@
       "from": [15.8, 33.3],
       "to": [15.8, 47.0],
       "size": [0.35, 0],
-      "z": [-1.8, 1.6],
-      "note": "sunken-garden retaining wall on the trail side: concrete core, dry-laid granite face in stage 4; top steps with the ground (simplified)",
+      "z": [-4.24, 1.6],
+      "note": "sunken-garden retaining wall on the trail side: concrete core, dry-laid granite face in stage 4; foot at -4.24 (garden ground beside it down to -3.64)",
       "phase": 1,
       "seq": 95
     },
@@ -4418,7 +4418,7 @@
       "from": [15.8, 33.3],
       "to": [15.8, 47.0],
       "size": [1.2, 0.4],
-      "z": [-2.2, -1.8],
+      "z": [-4.64, -4.24],
       "note": "strip footing under the garden wall",
       "phase": 1,
       "seq": 50
@@ -6332,11 +6332,11 @@
       "material": "stone",
       "from": [16.105, 32.925],
       "to": [16.105, 47.375],
-      "size": [0.15, 3.4],
-      "z": [-1.8, 1.6],
+      "size": [0.15, 3.85],
+      "z": [-2.25, 1.6],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
       "phase": 4,
-      "seq": 182
+      "seq": 178
     },
     {
       "id": "EN-stone-A-annex-W",

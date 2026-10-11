@@ -118,7 +118,7 @@ if BUILT >= 4:
     for p in m["site"]["pads"]:
         if p["id"] in ("west_wing", "east_wing"):
             bpad |= MPath(p["poly"]).contains_points(np.stack([X.ravel(), Y.ravel()], 1)).reshape(fin.shape)
-    bpad = ndi.binary_dilation(bpad, iterations=2)  # the building's own footprint (+ its 1 m grid edge) is not "ground"
+    bpad = ndi.binary_dilation(bpad, iterations=1)  # the building's own footprint (+ its 1 m grid edge) is not "ground"
 
     def gnd(x, y):
         i, j = int(np.clip(y + 1000, 0, 1999)), int(np.clip(x + 1000, 0, 1999))
@@ -144,7 +144,7 @@ if BUILT >= 4:
         pts, L, (ax, ay, bx, by) = along(e)
         nx, ny = -(by - ay) / L, (bx - ax) / L; t = e["size"][0] / 2
         for x, y in pts[1:-1] or pts:
-            gs = [g for sg in (1, -1) for d in (0.6, 1.4) if (g := gnd(x + nx * sg * (t + d), y + ny * sg * (t + d))) is not None]
+            gs = [g for sg in (1, -1) for d in (0.6, 1.4, 2.0) if (g := gnd(x + nx * sg * (t + d), y + ny * sg * (t + d))) is not None]
             if not gs or min(gs) >= e["z"][0] - 0.1:
                 continue
             # covered if another wall / footing on (nearly) the same line reaches lower here
