@@ -34,7 +34,8 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
    - The **cafe takes the whole south half**, with the island bar centered and a back counter along the south wall.
    - A **central block** holds **core E** (stair + lift from the garage) and the **public WCs** (women's, men's, accessible), in Gym V2's WC-cell area.
    - The **reception desk is backed onto the core**, facing the east entrance from the arrival court.
-   - The **daycare main entrance + check-in** is the open 4 m strip west of the WCs (as in Gym V2). It opens off the cafe and leads north into the daycare wardrobe. The staff room moved east.
+   - **Public WCs run out to the west wall** of the area (Gym V2).
+   - The **daycare main entrance + exit (check-in + wardrobe) is directly north of reception** and connected to it (Gym V2). The staff room is at the north-west.
    - **Daycare upper floor**, laid out as a Norwegian barnehage:
      - an entry wardrobe with drying cabinets (secure door from reception)
      - children's WC + changing (child-height WCs and basins, about 1 WC per 10 children, changing table with hand shower, accessible WC)
