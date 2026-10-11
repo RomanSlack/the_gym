@@ -471,7 +471,7 @@ for e in model["elements"]:
         oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, MAT[e["material"]])
     elif e["type"] == "wall":
         plaster = bpy.data.materials.get("plaster") or material("plaster", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.72, 0.7, 0.66, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.85)))
-        mat = glass_e if e["kind"] == "glazed" else (stone_clad if e["kind"] in ("river_wall", "shaft") else plaster if e["kind"] == "partition" else concrete)
+        mat = glass_e if e.get("kind") == "glazed" else (stone_clad if e.get("kind") in ("river_wall", "shaft") else plaster if e.get("kind") == "partition" else concrete)
         ob = oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat)
         (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
         WL = math.hypot(wx1 - wx0, wy1 - wy0); ux_, uy_ = (wx1 - wx0) / WL, (wy1 - wy0) / WL
@@ -483,7 +483,7 @@ for e in model["elements"]:
             mod = ob.modifiers.new(f"open{k}", "BOOLEAN"); mod.operation = "DIFFERENCE"; mod.object = cutter
             if op.get("type") not in ("door", "opening", "baffle"):
                 pane = oriented_box(f"{e['id']}_glass{k}", a_, b2, 0.06, oz0, oz1, glass_e)  # glazing in the opening
-        if e["kind"] == "glazed":  # mullions every ~2.4 m
+        if e.get("kind") == "glazed":  # mullions every ~2.4 m
             (x0, y0), (x1, y1) = e["from"], e["to"]
             n = max(1, int(math.hypot(x1 - x0, y1 - y0) / 2.4))
             for i in range(n + 1):
