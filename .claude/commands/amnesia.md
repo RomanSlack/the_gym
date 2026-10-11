@@ -20,7 +20,8 @@ You've lost context on The Gym (a luxury Nordic gym in an Elverum ravine, design
 4. Check the replay/recording is intact:
    - every commit carries a `Prompt:` trailer (`tools/capture/`)
    - `.capture/sessions/` archives the transcripts
-   - the drawings replay (H in `blueprint/`) builds from `tools/replay/build_history.py`
+   - the drawings replay (H in `blueprint/`) builds from `tools/replay/build_history.py`; the 3D render replay is `.capture/renders/replay.html` (`tools/replay/render_history.py`)
+   - the rule: commit right after each change Roman asks for (also mid-turn messages), so every tweak is its own replay step
 5. Read `git log --oneline -20` for the latest work.
 
 Report back briefly: current stage, what was last done, what's next, and any open questions. Then wait for Roman.

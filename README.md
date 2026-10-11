@@ -67,9 +67,13 @@ Open the drawings and press **H** (or "Replay history"). Every version of the de
 - Any sheet and zoom works while scrubbing.
 - Data comes from `tools/replay/build_history.py` (git history + archived transcripts → `blueprint/public/history/`, git-ignored). It's rebuilt automatically after every turn.
 
+## Render replay (3D)
+
+`python3 tools/replay/render_history.py` (also run after every turn) pulls every version of every construction render out of git history into `.capture/renders/` and writes `.capture/renders/replay.html`: pick a camera, scrub or play through its versions, with the prompt (and any messages sent mid-turn) under each frame.
+
 ## Replay capture
 
-- Every commit carries `Prompt:`, `Prompt-Time:` and `Session-Id:` trailers. They're added by `tools/capture/prepare-commit-msg` (enabled with `git config core.hooksPath tools/capture`, once per clone).
+- Every commit carries `Prompt:`, `Prompt-Time:` and `Session-Id:` trailers, plus an `Also-Prompt:` line for every other message since the previous commit (including messages sent while Claude was mid-turn). They're added by `tools/capture/prepare-commit-msg` (enabled with `git config core.hooksPath tools/capture`, once per clone).
 - A Stop hook auto-commits anything left uncommitted after each turn.
 - Full transcripts are archived locally in `.capture/sessions/` (not pushed). Terrain runs are versioned in `terrain/runs/`, with animation frames in `.capture/terrain/`.
 - Older commits (before 2026-10-10 20:10) can be matched to prompts by timestamp from the archived transcript.

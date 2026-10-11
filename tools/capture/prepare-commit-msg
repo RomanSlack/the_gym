@@ -14,9 +14,8 @@ proj = sorted(glob.glob(os.path.expanduser("~/.claude/projects/-home-roman-the-g
 src = (proj or files)[-1:] 
 if not src:
     sys.exit(0)
-prompt, ts = checkpoint.last_prompt(Path(src[0]))
-line = checkpoint.first_line(prompt)
-if line:
+tr = checkpoint.trailers(Path(src[0]), Path(src[0]).stem)  # newest prompt + every earlier one since the last commit (incl. mid-turn)
+if tr:
     with open(sys.argv[1], "a") as f:
-        f.write(f"\nPrompt: {line[:200]}\nPrompt-Time: {ts}\nSession-Id: {Path(src[0]).stem}\n")
+        f.write("\n" + tr + "\n")
 PY
