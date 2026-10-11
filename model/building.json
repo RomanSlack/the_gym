@@ -1683,12 +1683,28 @@
       "poly": [[12.0, 16.2], [17.0, 16.2], [17.0, 21.2], [12.0, 21.2]]
     },
     {
+      "id": "dc-kids",
+      "level": "E1",
+      "kind": "daycare",
+      "name": "Kids' room · 3–12 · crafts, reading, homework",
+      "poly": [[12.0, 21.2], [21.25, 21.2], [21.25, 33.3], [12.0, 33.3]],
+      "note": "round stair down to active play"
+    },
+    {
+      "id": "dc-nursing",
+      "level": "E1",
+      "kind": "daycare",
+      "name": "Parent & nursing room",
+      "poly": [[21.25, 21.2], [30.5, 21.2], [30.5, 25.2], [21.25, 25.2]],
+      "note": "breastfeeding chairs, bottle prep, quiet"
+    },
+    {
       "id": "daycare-up",
       "level": "E1",
       "kind": "daycare",
-      "name": "Daycare · play rooms",
-      "poly": [[12.0, 21.2], [30.5, 21.2], [30.5, 33.3], [12.0, 33.3]],
-      "note": "round stair to the lower floor"
+      "name": "Baby & toddler room · 0–3",
+      "poly": [[21.25, 25.2], [30.5, 25.2], [30.5, 33.3], [21.25, 33.3]],
+      "note": "soft floor, cots, separated from the older kids"
     },
     {
       "id": "garage",
@@ -1738,8 +1754,9 @@
       "id": "daycare-low",
       "level": "E2",
       "kind": "daycare",
-      "name": "Daycare · play room → sunken garden",
-      "poly": [[12.0, 21.2], [30.5, 21.2], [30.5, 33.3], [12.0, 33.3]]
+      "name": "Active play · climbing, soft play → sunken garden",
+      "poly": [[12.0, 21.2], [30.5, 21.2], [30.5, 33.3], [12.0, 33.3]],
+      "note": "walk-out to the garden; noisy play kept downstairs"
     },
     {
       "id": "wc-annex-F2",

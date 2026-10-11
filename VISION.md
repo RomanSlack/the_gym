@@ -205,9 +205,10 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Trail is for running and walking** (not a winter ski lysløype). It stays about 1.5 m wide, as laid out (2.06 mi loop). A later polish pass can add drainage dips and culverts, plus dark-sky bollard lighting.
 - **As column-free as possible:** no interior columns on any floor. Floors and roofs span wall to wall (23.1 m in the gym, 18.5 m in the east wing) on post-tensioned concrete beams (floors) and glulam beams (roofs). The tall floor-to-floor heights absorb the deeper beams.
 - **Flood regulations are ignored for this build.**
+- **Daycare = drop-in childcare** while parents train (not a full-day barnehage), but luxury: it must handle anything (babies to 12-year-olds) and everyone must be comfortable. It has age zones: a baby & toddler room, a kids' room, a parent & nursing room, a rest/sleep room, and active play opening onto the sunken garden. The current garden size is fine for drop-in.
 
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)
 
-1. **Daycare garden size:** the sunken garden is about 12.5 × 15 m (~190 m²). How many children? If it's more than a small group, enlarge it north and east (Norwegian norms expect generous outdoor play space per child; verify the exact figure).
+(Resolved: daycare garden size. Drop-in childcare, so ~190 m² is fine.)

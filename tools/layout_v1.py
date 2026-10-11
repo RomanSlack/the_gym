@@ -107,7 +107,10 @@ S("dc-wardrobe", "E1", "daycare", "Daycare entry · wardrobe + drying cabinets",
 S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
   "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one")
 S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
-S("daycare-up", "E1", "daycare", "Daycare · play rooms", R(12.0, 21.2, 30.5, 33.3), "round stair to the lower floor")
+# drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
+S("dc-kids", "E1", "daycare", "Kids' room · 3–12 · crafts, reading, homework", R(12.0, 21.2, 21.25, 33.3), "round stair down to active play")
+S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(21.25, 21.2, 30.5, 25.2), "breastfeeding chairs, bottle prep, quiet")
+S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 25.2, 30.5, 33.3), "soft floor, cots, separated from the older kids")
 
 # ---------------------------------------------------------------- east wing E2 −6.01
 S("garage", "E2", "garage", "Garage · 3 cars on the glass, bike storage", R(12.0, -9.5, 30.5, 6.8), "tunnel entry on the east wall")
@@ -116,7 +119,7 @@ S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", [[24.0,
 S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
 S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.2), "stacked under the upper one")
 S("dc-store", "E2", "service", "Storage · prams, outdoor gear", R(24.0, 16.18, 30.5, 21.2))
-S("daycare-low", "E2", "daycare", "Daycare · play room → sunken garden", R(12.0, 21.2, 30.5, 33.3))
+S("daycare-low", "E2", "daycare", "Active play · climbing, soft play → sunken garden", R(12.0, 21.2, 30.5, 33.3), "walk-out to the garden; noisy play kept downstairs")
 
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
 for L in ("F2", "F3", "F4"):
