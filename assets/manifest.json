@@ -93,7 +93,15 @@
       "used_for": "riverbed under the water"
     }
   ],
-  "hdris": [],
+  "hdris": [
+    {
+      "source": "polyhaven",
+      "id": "kloofendal_48d_partly_cloudy_puresky",
+      "res": "4k",
+      "license": "CC0",
+      "used_for": "default sky: partly cloudy, sunny midday (sun in the HDRI, rotated to come from the south-west)"
+    }
+  ],
   "data": [
     {
       "source": "NIBIO SR16 (WMS skogressurs_sr16)",

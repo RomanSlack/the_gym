@@ -161,7 +161,46 @@ def cliff_rocks(H, rock, x0, y0, exclude, rng, coll=None):
     return ob
 
 
+HDRI_DEFAULT = "kloofendal_48d_partly_cloudy_puresky_4k.hdr"  # assets/manifest.json: partly cloudy, sunny midday (CC0)
+
+
+def hdri_world(scene, fname=HDRI_DEFAULT, sun_azimuth_deg=220.0, strength=1.0):
+    """World = the HDRI (its own sun lights the scene: no lamp). The sky is rotated so its sun comes from `sun_azimuth_deg`
+    (compass degrees, 220 = south-west, the design's light). Returns False if the HDRI isn't cached (run tools/assets.py)."""
+    from pathlib import Path
+    path = Path.home() / ".cache" / "the_gym" / "hdris" / "polyhaven" / fname
+    if not path.exists():
+        return False
+    img = bpy.data.images.load(str(path), check_existing=True)
+    w_, h_ = img.size
+    px = np.empty(w_ * h_ * 4, np.float32); img.pixels.foreach_get(px)
+    lum = px.reshape(h_, w_, 4)[..., :3].sum(-1)
+    vrow, ucol = np.unravel_index(int(np.argmax(lum)), lum.shape)
+    u, v = (ucol + 0.5) / w_, (vrow + 0.5) / h_
+    have = (0.5 - u) * 2 * math.pi  # Cycles equirect: u = 0.5 - atan2(dy, dx) / 2pi
+    az = math.radians(sun_azimuth_deg)
+    want = math.atan2(math.cos(az), math.sin(az))  # compass -> math angle (x east, y north)
+    w = bpy.data.worlds.new("hdri_sky"); scene.world = w; w.use_nodes = True
+    N, L = w.node_tree.nodes, w.node_tree.links
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Rotation"].default_value = (0, 0, have - want)
+    env = N.new("ShaderNodeTexEnvironment"); env.image = img
+    L.new(tc.outputs["Generated"], mp.inputs["Vector"]); L.new(mp.outputs[0], env.inputs["Vector"])
+    L.new(env.outputs["Color"], N["Background"].inputs["Color"]); N["Background"].inputs["Strength"].default_value = strength
+    scene["sun_elevation_deg"] = round(math.degrees((v - 0.5) * math.pi), 1)
+    return True
+
+
 def world_and_render(scene):
+    if hdri_world(scene):
+        for eng in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):
+            try:
+                scene.render.engine = eng; break
+            except TypeError:
+                continue
+        scene.render.resolution_x, scene.render.resolution_y = 1600, 900
+        scene.view_settings.view_transform = "AgX"; scene.view_settings.look = "AgX - Base Contrast"
+        scene.view_settings.exposure = 1.3  # real midday HDRI: a bright Nordic summer day
+        return
     sun = bpy.data.objects.new("sun", bpy.data.lights.new("sun", "SUN"))
     sun.data.energy = 4.0; sun.data.angle = math.radians(2); sun.rotation_euler = (math.radians(55), 0, math.radians(-140))
     scene.collection.objects.link(sun)

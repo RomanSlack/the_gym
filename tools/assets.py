@@ -3,6 +3,7 @@ Nothing downloaded is committed: the repo is public and every model is generated
 
 python3 tools/assets.py            fetch whatever is missing
 Textures land in ~/.cache/the_gym/textures/<source>/<id>/<map>.<ext>  (map = diff, nor_gl, rough, disp, ao, arm)
+HDRIs land in ~/.cache/the_gym/hdris/<source>/<id>_<res>.hdr
 """
 import json
 import sys
@@ -35,6 +36,15 @@ def polyhaven(tid, res):
     return got
 
 
+def polyhaven_hdri(hid, res):
+    dst = CACHE / "hdris" / "polyhaven" / f"{hid}_{res}.hdr"
+    if not dst.exists():
+        files = json.loads(get(f"https://api.polyhaven.com/files/{hid}"))
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(get(files["hdri"][res]["hdr"]["url"]))
+    return dst
+
+
 def texture_dir(tid, source="polyhaven"):
     return CACHE / "textures" / source / tid
 
@@ -44,4 +54,7 @@ if __name__ == "__main__":
     for t in man["textures"]:
         if t["source"] == "polyhaven":
             print(t["id"], polyhaven(t["id"], t["res"]))
+    for h in man.get("hdris", []):
+        if h["source"] == "polyhaven":
+            print(h["id"], polyhaven_hdri(h["id"], h["res"]))
     sys.exit(0)
