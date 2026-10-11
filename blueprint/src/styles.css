@@ -209,3 +209,6 @@ html[data-theme="dark"] .scale-figs-dim { stroke: #ff7a3d; }
 html[data-theme="dark"] .scale-figs-txt { fill: #ff7a3d; }
 html[data-theme="dark"] .figs-ctl button { color: var(--ink); }
 .theme-btn { margin: 0 6px 8px; font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); border-radius: 3px; cursor: pointer; width: calc(100% - 12px); text-align: left; }
+.w-terrace-band { fill: none; stroke: #c9d8bb; stroke-linejoin: round; vector-effect: none; opacity: 0.55; }
+html[data-theme="dark"] .w-terrace-band { stroke: #2e3d29; }
+.w-stone-wall { stroke: var(--ink); stroke-width: 2.5; }

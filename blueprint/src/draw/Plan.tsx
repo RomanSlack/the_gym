@@ -45,8 +45,11 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
   const line = (pts: number[][]) => "M" + pts.map((p) => `${p[0]} ${-p[1]}`).join("L");
   const rect = ([x0, y0, x1, y1]: number[]) => `M${x0} ${-y0}H${x1}V${-y1}H${x0}Z`;
   const rp = f.garage_ramp.points;
-  const [gx0, gy0, gx1, gy1] = f.daycare_garden.rect;
-  const tr = f.daycare_garden.terraces;
+  const gd = f.daycare_garden;
+  // organic garden floor, clipped by the building (south) and the stone wall (west)
+  const clip = (p: [number, number]) => [Math.max(p[0], gd.west_wall_x), Math.max(p[1], gd.building_edge_y)];
+  const gFloor = "M" + gd.curve.map((p) => clip(p)).map(([x, y]) => `${x} ${-y}`).join("L") + "Z";
+  const gc = gd.curve.reduce((a, p) => [a[0] + p[0] / gd.curve.length, a[1] + p[1] / gd.curve.length], [0, 0]);
   const [sx, sy] = f.sauna.center, [sw, sh] = f.sauna.size;
   return (
     <g className="works">
@@ -60,15 +63,25 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
         f.arrival_court.center[0] + f.arrival_court.size[0] / 2, f.arrival_court.center[1] + f.arrival_court.size[1] / 2])} className="w-court" />
       <path d={line(rp)} className="w-ramp" style={{ strokeWidth: f.garage_ramp.width }} />
       <path d={line(rp.filter((p) => p[0] <= f.garage_ramp.tunnel_from_x + 20))} className="w-tunnel" style={{ strokeWidth: f.garage_ramp.width }} />
-      <path d={rect(f.daycare_garden.rect)} className="w-garden" />
-      {Array.from({ length: tr.count }, (_, k) => (k + 1) * tr.run).map((d) => (
-        <path key={d} d={`M${gx0} ${-(gy1 + d)}H${gx1 + d}V${-gy0}`} className="w-terrace" />
-      ))}
+      <defs>
+        <clipPath id="garden-clip">
+          <rect x={gd.west_wall_x} y={-(gd.building_edge_y + 40)} width={60} height={40} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#garden-clip)">
+        {/* terrace rings: the floor outline offset outward (stroke trick) */}
+        {Array.from({ length: gd.terraces.count }, (_, k) => gd.terraces.count - k).map((k) => (
+          <path key={k} d={"M" + gd.curve.map(([x, y]) => `${x} ${-y}`).join("L") + "Z"} className="w-terrace-band"
+            style={{ strokeWidth: 2 * k * gd.terraces.run }} />
+        ))}
+        <path d={gFloor} className="w-garden" />
+      </g>
+      <line x1={gd.west_wall_x} y1={-gd.building_edge_y} x2={gd.west_wall_x} y2={-(gd.building_edge_y + 15)} className="w-stone-wall" />
       <path d={line(f.sauna_path.points)} className="w-path" style={{ strokeWidth: f.sauna_path.width }} />
       <path d={rect([sx - sw / 2, sy - sh / 2, sx + sw / 2, sy + sh / 2])} className="w-building" />
       <path d={rect(f.sauna.deck.rect)} className="w-deck" />
       <text x={sx} y={-sy} className="txt-s" textAnchor="middle">SAUNA</text>
-      <text x={(gx0 + gx1) / 2} y={-(gy0 + gy1) / 2} className="txt-s" textAnchor="middle">SUNKEN GARDEN</text>
+      <text x={gc[0]} y={-gc[1]} className="txt-s" textAnchor="middle">SUNKEN GARDEN</text>
       <text x={f.arrival_court.center[0]} y={-f.arrival_court.center[1]} className="txt-s" textAnchor="middle">ARRIVAL</text>
     </g>
   );

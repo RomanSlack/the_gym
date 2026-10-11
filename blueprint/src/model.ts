@@ -29,7 +29,7 @@ export interface SiteFeatures {
   road: { width: number; shoulder: number; points: [number, number, number][] };
   trail: { width: number; points: [number, number, number, number][]; bridges: { from: Pt; to: Pt; deck_z: number; span_m: number }[]; length_m: number };
   garage_ramp: { points: Pt[]; width: number; tunnel_from_x: number };
-  daycare_garden: { rect: [number, number, number, number]; terraces: { sides: string[]; count: number; run: number } };
+  daycare_garden: { curve: Pt[]; west_wall_x: number; building_edge_y: number; terraces: { count: number; run: number } };
   sauna: { center: Pt; size: Pt; deck: { rect: [number, number, number, number] } };
   sauna_path: { points: Pt[]; width: number };
 }

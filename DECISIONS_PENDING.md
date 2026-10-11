@@ -68,6 +68,12 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
 
     All are drawn in the plans and sections and cut into the 3D wall. The key render is `terrain/runs/*_scene/f3_river_window.png`: the river surface at waist height on the glass, rocks underwater, and the garage glass across the ravine.
 
+16. **Sunken daycare garden is organic now:**
+    - A free-form floor (a kidney shape, control points in `site.features.daycare_garden.outline`) grows out of the daycare glass.
+    - Three soft planted terrace rings climb to whatever height the surrounding forest floor is, so there are no cliffs.
+    - A low natural stone wall (about 2.5 m) stands only on the west (trail) side; the trail was re-routed around it.
+    - Rendering fix: the terrain material no longer paints false stripes at the edges of site works.
+
 ## Not done yet (next steps)
 
 - Interior partitions inside rooms (lockers, WCs, showers) and doors.

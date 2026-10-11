@@ -143,15 +143,27 @@ def apply_features(T, F):
     mask[in_ramp & ~open_cut] |= MASK["tunnel"]
 
     gd = F["daycare_garden"]
-    gx0, gy0, gx1, gy1 = gd["rect"]
     tr = gd["terraces"]
-    dN = np.where((X >= gx0) & (Y > gy1), Y - gy1, 0)
-    dE = np.where((Y >= gy0) & (X > gx1), X - gx1, 0)
-    dist = np.maximum(dN, dE)
-    zone = (X >= gx0) & (Y >= gy0) & (dist <= tr["count"] * tr["run"])
-    terr = gd["z"] + tr["rise"] * np.ceil(dist / tr["run"])
+    # organic garden: smooth closed spline through the outline control points
+    from scipy.interpolate import splprep, splev
+    cp = np.array(gd["outline"], float)
+    tck, _ = splprep([np.r_[cp[:, 0], cp[0, 0]], np.r_[cp[:, 1], cp[0, 1]]], s=0, per=True)
+    curve = np.stack(splev(np.linspace(0, 1, 400), tck), 1)
+    floor = MPath(curve).contains_points(np.stack([X.ravel(), Y.ravel()], 1)).reshape(X.shape)
+    floor &= (Y >= gd["building_edge_y"]) & (X >= gd["west_wall_x"])  # building wall south, stone wall west
+    dist = ndi.distance_transform_edt(~floor) * RES  # metres outside the garden floor
+    dist = ndi.gaussian_filter(dist, 1.6)  # smooth the distance field so 1 m grid steps don't show
+    zone = (dist <= tr["count"] * tr["run"]) & (Y >= gd["building_edge_y"]) & (X >= gd["west_wall_x"])  # stone wall on the trail side
+    # stepped terraces following the outline, each riser softened a little
+    step = np.ceil(np.maximum(dist, 1e-6) / tr["run"])
+    frac = np.clip((dist - (step - 1) * tr["run"]) / 1.3, 0, 1)
+    frac = frac * frac * (3 - 2 * frac)  # soft planted bank instead of a hard vertical riser
+    ground = ndi.gaussian_filter(T, 2.0)  # the forest floor the rings have to climb back up to
+    terr = gd["z"] + (ground - gd["z"]) * np.clip((step - 1 + frac) / tr["count"], 0, 1)
+    terr = np.where(floor, gd["z"], terr)
     T = np.where(zone, np.minimum(T, terr), T).astype(np.float32)
     mask[zone] |= MASK["garden"]
+    gd["_curve"] = curve.round(2).tolist()
 
     sa = F["sauna"]
     (sx, sy), (sw, sh) = sa["center"], sa["size"]
@@ -223,6 +235,10 @@ if __name__ == "__main__":
     terrain = fill_sinks(terrain, keep=near & (d < A["half_bed"][idx] + 30))
 
     terrain, fmask = apply_features(terrain, m["site"]["features"])
+    curve = m["site"]["features"]["daycare_garden"].pop("_curve")
+    m2 = modelio.load()
+    m2["site"]["features"]["daycare_garden"]["curve"] = curve[::4]  # derived: drawn by the blueprint
+    modelio.save(m2)
     sx, sy = m["site"]["features"]["sauna"]["center"]
     print("ground at sauna (before pad):", float(base[int(sy + HALF), int(sx + HALF)]))
 

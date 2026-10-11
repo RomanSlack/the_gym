@@ -69,7 +69,9 @@ rock = np.load(RV / "rock_1m.npy")
 DX0, DX1, DY0, DY1 = -320, 620, -320, 900  # 1 m detail area: building, ravine and the whole trail loop
 c = (slice(1000 + DY0, 1000 + DY1), slice(1000 + DX0, 1000 + DX1))
 FEAT = np.load(RV / "features_1m.npy")
-detail = grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "feat": FEAT[c].astype(np.float32)})
+BITS = (1, 2, 8, 16, 32, 256)  # asphalt, shoulder, ramp, garden, path, trail: one 0/1 attribute each (blends cleanly)
+detail = grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0,
+                   {"rock": rock[c], **{f"feat{b}": ((FEAT[c] & b) > 0).astype(np.float32) for b in BITS}})
 
 ctx = np.load(SITE / "context_4m.npy") - DATUM   # 2000 x 2000 at 4 m over [-4000, 4000)
 core4 = H.reshape(500, 4, 500, 4).mean((1, 3))
@@ -97,15 +99,11 @@ def terrain_mat(nt, bsdf):
     mix = N.new("ShaderNodeMix"); mix.data_type = "RGBA"
     mix.inputs["B"].default_value = (0.085, 0.085, 0.08, 1)      # granite / gneiss
     L.new(mx.outputs[0], mix.inputs["Factor"]); L.new(ramp.outputs["Color"], mix.inputs["A"])
-    feat = N.new("ShaderNodeAttribute"); feat.attribute_name = "feat"
     col = mix.outputs["Result"]
     # bit flags from terrain/ravine.py MASK: asphalt 1, shoulder 2, court 4, ramp 8, garden 16, path 32
     for bit, rgb in ((256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
-        div = N.new("ShaderNodeMath"); div.operation = "DIVIDE"; div.inputs[1].default_value = bit
-        L.new(feat.outputs["Fac"], div.inputs[0])
-        fl = N.new("ShaderNodeMath"); fl.operation = "FLOOR"; L.new(div.outputs[0], fl.inputs[0])
-        md = N.new("ShaderNodeMath"); md.operation = "MODULO"; md.inputs[1].default_value = 2; L.new(fl.outputs[0], md.inputs[0])
-        gt = N.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.5; L.new(md.outputs[0], gt.inputs[0])
+        fa = N.new("ShaderNodeAttribute"); fa.attribute_name = f"feat{bit}"
+        gt = N.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.5; L.new(fa.outputs["Fac"], gt.inputs[0])
         mx2 = N.new("ShaderNodeMix"); mx2.data_type = "RGBA"; mx2.inputs["B"].default_value = (*rgb, 1)
         L.new(gt.outputs[0], mx2.inputs["Factor"]); L.new(col, mx2.inputs["A"])
         col = mx2.outputs["Result"]
