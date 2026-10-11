@@ -91,6 +91,48 @@
       "res": "2k",
       "license": "CC0",
       "used_for": "riverbed under the water"
+    },
+    {
+      "source": "polyhaven",
+      "id": "oak_veneer_01",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "oak floor boards, slats, linings"
+    },
+    {
+      "source": "polyhaven",
+      "id": "coated_pine_02",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "spruce CLT / glulam faces"
+    },
+    {
+      "source": "polyhaven",
+      "id": "white_plaster_02",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "lime plaster walls"
+    },
+    {
+      "source": "polyhaven",
+      "id": "smooth_concrete_floor",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "poured / polished concrete floor"
+    },
+    {
+      "source": "polyhaven",
+      "id": "slate_floor_03",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "honed slate reference"
+    },
+    {
+      "source": "polyhaven",
+      "id": "granite_tile",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "honed granite surface"
     }
   ],
   "hdris": [

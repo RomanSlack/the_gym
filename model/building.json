@@ -1154,7 +1154,7 @@
       "type": "slab",
       "material": "concrete",
       "rect": [-29.45, -34.1, -6.45, 12.1],
-      "z": [-10.02, -9.77],
+      "z": [-10.12, -9.87],
       "holes": [
         {
           "rect": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
@@ -1167,14 +1167,14 @@
         }
       ],
       "phase": 3,
-      "seq": 100
+      "seq": 99
     },
     {
       "id": "S-F2-west",
       "type": "slab",
       "material": "concrete",
       "rect": [-29.45, -34.1, -6.45, 12.1],
-      "z": [-5.16, -4.91],
+      "z": [-5.26, -5.01],
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
@@ -1185,14 +1185,14 @@
         }
       ],
       "phase": 3,
-      "seq": 148
+      "seq": 147
     },
     {
       "id": "S-F1-west",
       "type": "slab",
       "material": "concrete",
       "rect": [-29.45, -34.1, -6.45, 12.1],
-      "z": [-0.25, 0.0],
+      "z": [-0.35, -0.1],
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
@@ -1203,7 +1203,7 @@
         }
       ],
       "phase": 3,
-      "seq": 198
+      "seq": 196
     },
     {"id": "S-E2-east", "type": "slab", "material": "concrete", "rect": [12.0, -9.5, 30.5, 33.3], "z": [-6.61, -6.01], "holes": [], "phase": 1, "seq": 70},
     {
@@ -1211,7 +1211,7 @@
       "type": "slab",
       "material": "concrete",
       "rect": [12.0, -9.5, 30.5, 33.3],
-      "z": [-0.13, 0.12],
+      "z": [-0.23, 0.02],
       "holes": [
         {"circle": [15.7, 24.2, 2.55]},
         {
@@ -1219,10 +1219,10 @@
         }
       ],
       "phase": 3,
-      "seq": 199
+      "seq": 198
     },
-    {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.5, 12.0, 11.3], "z": [-0.3, 0.0], "holes": [], "phase": 3, "seq": 197},
-    {"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": [], "phase": 3, "seq": 198},
+    {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.5, 12.0, 11.3], "z": [-0.4, -0.1], "holes": [], "phase": 3, "seq": 196},
+    {"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.35, -0.1], "holes": [], "phase": 3, "seq": 196},
     {
       "id": "S-RF-annex",
       "type": "slab",
@@ -1430,8 +1430,8 @@
     {"id": "SA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-28.85, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1], "phase": 1, "seq": 80},
     {"id": "SA-E", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-6.45, -40.1], "to": [-6.45, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1], "phase": 1, "seq": 80},
     {"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-1.5, -1.1], "holes": [], "phase": 3, "seq": 185},
-    {"id": "S-SA-F3", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-10.02, -9.77], "holes": [], "phase": 3, "seq": 100},
-    {"id": "S-SA-F2", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-5.16, -4.91], "holes": [], "phase": 3, "seq": 148},
+    {"id": "S-SA-F3", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-10.12, -9.87], "holes": [], "phase": 3, "seq": 99},
+    {"id": "S-SA-F2", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-5.26, -5.01], "holes": [], "phase": 3, "seq": 147},
     {"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-15.99, -15.39], "holes": [], "phase": 1, "seq": 70},
     {"id": "WA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -24.75], "to": [-33.45, -18.9], "size": [0.3, 15.74], "z": [-15.99, -0.25], "phase": 1, "seq": 80},
     {"id": "WA-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -18.9], "to": [-29.7, -18.9], "size": [0.3, 15.74], "z": [-15.99, -0.25], "phase": 1, "seq": 80},
@@ -1474,11 +1474,16 @@
       "material": "glass",
       "from": [24.0, 16.2],
       "to": [30.5, 16.2],
-      "size": [0.12, 3.0],
-      "z": [0.12, 3.12],
+      "size": [0.12, 5.52],
+      "z": [0.12, 5.64],
       "openings": [
         {"s": [2.6, 4.2], "z": [0.12, 2.42], "type": "door", "note": "secure glass door into the daycare (staff / parent release)"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "mullions": [1.3, 2.6, 3.9, 5.2],
+      "transoms": [3.0],
+      "note": "framed laminated glass: the reception desk sees into the daycare entrance"
     },
     {"id": "C-A1-F4", "type": "column", "material": "concrete", "at": [-29.45, 12.1], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A2-F4", "type": "column", "material": "concrete", "at": [-29.45, 4.4], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
@@ -1821,7 +1826,10 @@
       "between": ["cafe", "wc-women"],
       "openings": [
         {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Women's WC ↔ Cafe"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E1-5",
@@ -1836,9 +1844,27 @@
       "between": ["cafe", "wc-men"],
       "openings": [
         {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Men's WC ↔ Cafe"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
-    {"id": "P-E1-6", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [16.4, 6.8], "to": [16.4, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-women", "wc-men"], "openings": []},
+    {
+      "id": "P-E1-6",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [16.4, 6.8],
+      "to": [16.4, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["wc-women", "wc-men"],
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
     {
       "id": "P-E1-7",
       "type": "wall",
@@ -1850,10 +1876,43 @@
       "z": [0.12, 5.64],
       "level": "E1",
       "between": ["wc-women", "dc-staff"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
-    {"id": "P-E1-8", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-men", "dc-wc"], "openings": []},
-    {"id": "P-E1-9", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 16.2], "to": [16.4, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-men", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-8",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 16.2],
+      "to": [17.0, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["wc-men", "dc-wc"],
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-E1-9",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 16.2],
+      "to": [16.4, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["wc-men", "dc-staff"],
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
     {
       "id": "P-E1-10",
       "type": "wall",
@@ -1865,7 +1924,10 @@
       "z": [0.12, 5.64],
       "level": "E1",
       "between": ["dc-wardrobe", "dc-wc"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E1-11",
@@ -1880,9 +1942,29 @@
       "between": ["dc-wardrobe", "daycare-up"],
       "openings": [
         {"s": [2.35, 4.15], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Daycare main entrance ↔ Baby & toddler zone"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "mullions": [],
+      "transoms": [],
+      "note": "framed glass partition, laminated safety glass"
     },
-    {"id": "P-E1-12", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 21.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-12",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 21.2],
+      "to": [17.0, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-wc", "dc-staff"],
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
     {
       "id": "P-E1-13",
       "type": "wall",
@@ -1896,9 +1978,31 @@
       "between": ["dc-wc", "dc-kids"],
       "openings": [
         {"s": [1.23, 3.03], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Children's WC + changing ↔ Daycare play"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "mullions": [],
+      "transoms": [],
+      "note": "framed glass partition, laminated safety glass"
     },
-    {"id": "P-E1-14", "type": "wall", "kind": "glazed", "material": "glass", "from": [24.0, 21.2], "to": [21.25, 21.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "daycare-up"], "openings": []},
+    {
+      "id": "P-E1-14",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [24.0, 21.2],
+      "to": [21.25, 21.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-wc", "daycare-up"],
+      "openings": [],
+      "phase": 5,
+      "seq": 201,
+      "mullions": [],
+      "transoms": [],
+      "note": "framed glass partition, laminated safety glass"
+    },
     {
       "id": "P-E1-15",
       "type": "wall",
@@ -1912,7 +2016,10 @@
       "between": ["dc-staff", "dc-kids"],
       "openings": [
         {"s": [2.0, 3.0], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Staff room + staff WC ↔ Daycare play"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E1-16",
@@ -1927,7 +2034,10 @@
       "between": ["daycare-up", "dc-nursing"],
       "openings": [
         {"s": [2.16, 3.16], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Nursing room ↔ Baby & toddler zone"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 201,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-17",
@@ -2009,7 +2119,12 @@
       "between": ["garage", "game-room"],
       "openings": [
         {"s": [3.9, 4.9], "z": [-6.01, -3.91], "type": "door", "swing": -1, "note": "Game room ↔ Garage"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 140,
+      "mullions": [],
+      "transoms": [],
+      "note": "framed glass partition, laminated safety glass"
     },
     {
       "id": "P-E2-22",
@@ -2022,7 +2137,10 @@
       "z": [-6.01, -0.13],
       "level": "E2",
       "between": ["game-room", "dc-rest"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-23",
@@ -2035,7 +2153,10 @@
       "z": [-6.01, -0.13],
       "level": "E2",
       "between": ["game-room", "dc-wc-low"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-24",
@@ -2064,7 +2185,10 @@
       "z": [-6.01, -0.13],
       "level": "E2",
       "between": ["dc-rest", "dc-wc-low"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-26",
@@ -2079,7 +2203,10 @@
       "between": ["dc-rest", "daycare-low"],
       "openings": [
         {"s": [2.0, 3.0], "z": [-6.01, -3.91], "type": "door", "swing": 1, "note": "Rest / sleep room ↔ Active play"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-27",
@@ -2092,7 +2219,10 @@
       "z": [-6.01, -0.13],
       "level": "E2",
       "between": ["dc-wc-low", "dc-store"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-E2-28",
@@ -2107,7 +2237,12 @@
       "between": ["dc-wc-low", "daycare-low"],
       "openings": [
         {"s": [2.6, 4.4], "z": [-6.01, -3.61], "type": "opening", "swing": -1, "note": "Children's WC + changing ↔ Active play"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 140,
+      "mullions": [],
+      "transoms": [],
+      "note": "framed glass partition, laminated safety glass"
     },
     {
       "id": "P-E2-29",
@@ -2122,7 +2257,10 @@
       "between": ["dc-store", "daycare-low"],
       "openings": [
         {"s": [2.75, 3.75], "z": [-6.01, -3.91], "type": "door", "swing": 1, "note": "Storage ↔ Active play"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 140,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-30",
@@ -2208,7 +2346,10 @@
         {"s": [2.08, 3.88], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"},
         {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"},
         {"s": [13.97, 15.77], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-35",
@@ -2221,7 +2362,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["women-lockers", "men-lockers"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-36",
@@ -2236,7 +2380,10 @@
       "between": ["women-lockers", "gallery"],
       "openings": [
         {"s": [2.28, 3.88], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Women's changing ↔ Gallery"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-37",
@@ -2251,7 +2398,10 @@
       "between": ["women-lockers", "sauna-lobby"],
       "openings": [
         {"s": [1.0, 2.0], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Sauna lobby (annex) ↔ Women's changing"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-38",
@@ -2264,7 +2414,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["women-wet", "gallery"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-39",
@@ -2281,7 +2434,10 @@
         {"s": [2.08, 3.88], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"},
         {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"},
         {"s": [13.97, 15.77], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-40",
@@ -2296,7 +2452,10 @@
       "between": ["men-lockers", "gallery"],
       "openings": [
         {"s": [2.05, 3.65], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-41",
@@ -2311,7 +2470,10 @@
       "between": ["men-lockers", "sauna-lobby"],
       "openings": [
         {"s": [1.0, 2.0], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Sauna lobby (annex) ↔ Men's changing"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-42",
@@ -2324,7 +2486,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-wet", "gallery"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-43",
@@ -2337,7 +2502,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-wet", "stretching"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-44",
@@ -2350,7 +2518,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-wet", "spiral-F1"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F1-45",
@@ -2363,7 +2534,10 @@
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-wet", "calisthenics"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F2-46",
@@ -2376,7 +2550,10 @@
       "z": [-4.91, -0.25],
       "level": "F2",
       "between": ["posing", "pod-1"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 151,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F2-47",
@@ -2389,7 +2566,10 @@
       "z": [-4.91, -0.25],
       "level": "F2",
       "between": ["pod-1", "pod-2"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 151,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F2-48",
@@ -2402,7 +2582,10 @@
       "z": [-4.91, -0.25],
       "level": "F2",
       "between": ["pod-2", "pod-3"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 151,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-49",
@@ -2415,7 +2598,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["north-stair-F4", "thermal"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-50",
@@ -2428,7 +2614,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["thermal", "pool-deck-w"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-51",
@@ -2443,7 +2632,10 @@
       "between": ["thermal", "pool-deck-n"],
       "openings": [
         {"s": [4.5, 5.5], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Thermal ↔ Pool deck"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-52",
@@ -2456,7 +2648,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["thermal", "pool-lobby"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-53",
@@ -2469,7 +2664,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["pool", "plant"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-54",
@@ -2482,7 +2680,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["pool-deck-w", "plant"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-55",
@@ -2495,7 +2696,10 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["pool-deck-s", "plant"],
-      "openings": []
+      "openings": [],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
       "id": "P-F4-56",
@@ -2510,7 +2714,10 @@
       "between": ["plant", "recovery"],
       "openings": [
         {"s": [7.2, 8.2], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Plant room ↔ Recovery lounge"}
-      ]
+      ],
+      "phase": 5,
+      "seq": 46,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {"id": "FDN-raft-W1", "type": "slab", "material": "concrete", "rect": [-32.05, -18.55, -28.85, -9.55], "z": [-15.99, -15.39], "note": "0.6 m raft", "phase": 1, "seq": 70},
     {"id": "FDN-raft-W2", "type": "slab", "material": "concrete", "rect": [-32.05, -34.1, -28.85, -25.1], "z": [-15.99, -15.39], "note": "0.6 m raft", "phase": 1, "seq": 70},
@@ -4430,10 +4637,10 @@
       "from": [-6.45, -9.5],
       "to": [12.0, -9.5],
       "size": [0.45, 1.0],
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-girder-1",
@@ -4442,10 +4649,10 @@
       "from": [-6.45, -4.07],
       "to": [12.0, -4.07],
       "size": [0.45, 1.0],
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-girder-2",
@@ -4454,10 +4661,10 @@
       "from": [-6.45, 1.37],
       "to": [12.0, 1.37],
       "size": [0.45, 1.0],
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-girder-3",
@@ -4466,10 +4673,10 @@
       "from": [-6.45, 6.8],
       "to": [12.0, 6.8],
       "size": [0.45, 1.0],
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-ledge-E",
@@ -4478,10 +4685,10 @@
       "from": [12.0, -9.5],
       "to": [12.0, 7.62],
       "size": [0.5, 0.6],
-      "z": [-1.9, -1.3],
+      "z": [-2.0, -1.4],
       "note": "concrete bearing ledge between columns D13-D11 for the lounge girders",
       "phase": 3,
-      "seq": 181
+      "seq": 180
     },
     {
       "id": "ST3-link-outrigger-S0",
@@ -4491,10 +4698,10 @@
       "to": [-6.0, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N0",
@@ -4504,10 +4711,10 @@
       "to": [-6.0, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S1",
@@ -4517,10 +4724,10 @@
       "to": [-3.07, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N1",
@@ -4530,10 +4737,10 @@
       "to": [-3.07, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S2",
@@ -4543,10 +4750,10 @@
       "to": [-0.15, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N2",
@@ -4556,10 +4763,10 @@
       "to": [-0.15, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S3",
@@ -4569,10 +4776,10 @@
       "to": [2.78, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N3",
@@ -4582,10 +4789,10 @@
       "to": [2.78, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S4",
@@ -4595,10 +4802,10 @@
       "to": [5.7, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N4",
@@ -4608,10 +4815,10 @@
       "to": [5.7, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S5",
@@ -4621,10 +4828,10 @@
       "to": [8.63, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N5",
@@ -4634,10 +4841,10 @@
       "to": [8.63, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-S6",
@@ -4647,10 +4854,10 @@
       "to": [11.55, -12.5],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the S deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-outrigger-N6",
@@ -4660,10 +4867,10 @@
       "to": [11.55, 11.3],
       "size": [0.3, 1.0],
       "tip_depth": 0.3,
-      "z": [-1.3, -0.3],
+      "z": [-1.4, -0.4],
       "note": "tapered steel outrigger: the N deck cantilevers off the edge girder",
       "phase": 3,
-      "seq": 187
+      "seq": 186
     },
     {
       "id": "ST3-link-roofbeam-0",
@@ -4685,10 +4892,10 @@
       "material": "steel_dark",
       "at": [-6.15, -9.5],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-post-0N",
@@ -4696,10 +4903,10 @@
       "material": "steel_dark",
       "at": [-6.15, 6.8],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-roofbeam-1",
@@ -4721,10 +4928,10 @@
       "material": "steel_dark",
       "at": [-1.69, -9.5],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-post-1N",
@@ -4732,10 +4939,10 @@
       "material": "steel_dark",
       "at": [-1.69, 6.8],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-roofbeam-2",
@@ -4757,10 +4964,10 @@
       "material": "steel_dark",
       "at": [2.78, -9.5],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-post-2N",
@@ -4768,10 +4975,10 @@
       "material": "steel_dark",
       "at": [2.78, 6.8],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-roofbeam-3",
@@ -4793,10 +5000,10 @@
       "material": "steel_dark",
       "at": [7.24, -9.5],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-post-3N",
@@ -4804,10 +5011,10 @@
       "material": "steel_dark",
       "at": [7.24, 6.8],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-roofbeam-4",
@@ -4829,10 +5036,10 @@
       "material": "steel_dark",
       "at": [11.7, -9.5],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-link-post-4N",
@@ -4840,10 +5047,10 @@
       "material": "steel_dark",
       "at": [11.7, 6.8],
       "size": [0.15, 0.15],
-      "z": [0.0, 4.64],
+      "z": [-0.1, 4.64],
       "note": "slim steel post in the glass line; the sliding panels stack between posts",
       "phase": 3,
-      "seq": 200
+      "seq": 199
     },
     {
       "id": "ST3-core-W3-S-F1",
@@ -7102,7 +7309,7 @@
       "from": [-6.45, -12.53],
       "to": [12.0, -12.53],
       "size": [0.06, 0],
-      "z": [-0.35, 0.05],
+      "z": [-0.45, -0.05],
       "note": "dark steel edge plate over the deck slab edge",
       "phase": 4,
       "seq": 196
@@ -7115,7 +7322,7 @@
       "from": [-6.45, 11.33],
       "to": [12.0, 11.33],
       "size": [0.06, 0],
-      "z": [-0.35, 0.05],
+      "z": [-0.45, -0.05],
       "note": "dark steel edge plate over the deck slab edge",
       "phase": 4,
       "seq": 196
@@ -7128,7 +7335,7 @@
       "from": [12.03, -12.5],
       "to": [12.03, -9.5],
       "size": [0.06, 0],
-      "z": [-0.35, 0.05],
+      "z": [-0.45, -0.05],
       "note": "dark steel edge plate over the deck slab edge",
       "phase": 4,
       "seq": 196
@@ -7177,6 +7384,206 @@
       "note": "1.1 m laminated glass balustrade, oak handrail",
       "phase": 4,
       "seq": 200
+    },
+    {"id": "IN-E1-reception-impact", "type": "slab", "material": "impact_mat", "rect": [24.0, 6.8, 28.0, 16.2], "z": [0.02, 0.04], "holes": [], "note": "20 mm impact sound mat", "phase": 5, "seq": 200},
+    {"id": "IN-E1-reception-screed", "type": "slab", "material": "screed", "rect": [24.0, 6.8, 28.0, 16.2], "z": [0.04, 0.098], "holes": [], "note": "58 mm screed with underfloor heating pipes", "phase": 5, "seq": 200},
+    {
+      "id": "IN-E1-reception-floor",
+      "type": "slab",
+      "kind": "floor_finish",
+      "material": "oak_floor",
+      "rect": [24.0, 6.8, 28.0, 16.2],
+      "z": [0.098, 0.12],
+      "holes": [],
+      "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "y"},
+      "note": "floor finish: oak_boards_light",
+      "phase": 5,
+      "seq": 201
+    },
+    {"id": "IN-E1-entry-impact", "type": "slab", "material": "impact_mat", "rect": [28.0, 6.8, 30.5, 16.2], "z": [0.02, 0.04], "holes": [], "note": "20 mm impact sound mat", "phase": 5, "seq": 200},
+    {"id": "IN-E1-entry-screed", "type": "slab", "material": "screed", "rect": [28.0, 6.8, 30.5, 16.2], "z": [0.04, 0.098], "holes": [], "note": "58 mm screed with underfloor heating pipes", "phase": 5, "seq": 200},
+    {
+      "id": "IN-E1-entry-floor",
+      "type": "slab",
+      "kind": "floor_finish",
+      "material": "stone_light",
+      "rect": [28.0, 6.8, 30.5, 16.2],
+      "z": [0.098, 0.12],
+      "holes": [],
+      "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.003, "dir": "y"},
+      "note": "floor finish: stone_light",
+      "phase": 5,
+      "seq": 201
+    },
+    {"id": "IN-E1-cafe-impact", "type": "slab", "material": "impact_mat", "rect": [12.0, -9.5, 30.5, 6.8], "z": [0.02, 0.04], "holes": [], "note": "20 mm impact sound mat", "phase": 5, "seq": 200},
+    {"id": "IN-E1-cafe-screed", "type": "slab", "material": "screed", "rect": [12.0, -9.5, 30.5, 6.8], "z": [0.04, 0.098], "holes": [], "note": "58 mm screed with underfloor heating pipes", "phase": 5, "seq": 200},
+    {
+      "id": "IN-E1-cafe-floor",
+      "type": "slab",
+      "kind": "floor_finish",
+      "material": "oak_floor",
+      "rect": [12.0, -9.5, 30.5, 6.8],
+      "z": [0.098, 0.12],
+      "holes": [],
+      "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "y"},
+      "note": "floor finish: oak_boards_light",
+      "phase": 5,
+      "seq": 201
+    },
+    {
+      "id": "IN-E1-ceiling-hall_n",
+      "type": "slab",
+      "kind": "ceiling",
+      "material": "oak_slat",
+      "rect": [24.0, 6.8, 30.5, 16.18],
+      "z": [5.54, 5.56],
+      "holes": [],
+      "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x", "drop": 0.08},
+      "between_beams": 0.25,
+      "note": "acoustic oak slats 45 x 20 @ 65 mm on black acoustic felt + battens, between the glulam beams",
+      "phase": 5,
+      "seq": 255
+    },
+    {
+      "id": "IN-E1-ceiling-hall_n-felt",
+      "type": "slab",
+      "kind": "ceiling",
+      "material": "felt_black",
+      "rect": [24.0, 6.8, 30.5, 16.18],
+      "z": [5.62, 5.63],
+      "holes": [],
+      "note": "black acoustic felt on battens behind the slats",
+      "phase": 5,
+      "seq": 256
+    },
+    {
+      "id": "IN-E1-ceiling-hall",
+      "type": "slab",
+      "kind": "ceiling",
+      "material": "oak_slat",
+      "rect": [12.0, -9.5, 30.5, 6.8],
+      "z": [5.54, 5.56],
+      "holes": [],
+      "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x", "drop": 0.08},
+      "between_beams": 0.25,
+      "note": "acoustic oak slats 45 x 20 @ 65 mm on black acoustic felt + battens, between the glulam beams",
+      "phase": 5,
+      "seq": 255
+    },
+    {
+      "id": "IN-E1-ceiling-hall-felt",
+      "type": "slab",
+      "kind": "ceiling",
+      "material": "felt_black",
+      "rect": [12.0, -9.5, 30.5, 6.8],
+      "z": [5.62, 5.63],
+      "holes": [],
+      "note": "black acoustic felt on battens behind the slats",
+      "phase": 5,
+      "seq": 256
+    },
+    {
+      "id": "IN-lining-P-E1-2",
+      "type": "wall",
+      "kind": "lining",
+      "material": "oak_slat",
+      "from": [24.157, 6.8],
+      "to": [24.157, 16.2],
+      "size": [0.065, 5.52],
+      "z": [0.12, 5.64],
+      "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
+      "openings": [
+        {"s": [0.25, 1.25], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
+        {"s": [7.9, 9.1], "z": [0.12, 2.42], "type": "door", "note": "core E lift"}
+      ],
+      "face_normal": [1.0, -0.0],
+      "note": "interior lining: oak_slats_wall",
+      "phase": 5,
+      "seq": 201
+    },
+    {
+      "id": "IN-lining-P-E1-0",
+      "type": "wall",
+      "kind": "lining",
+      "material": "oak_slat",
+      "from": [20.8, 6.643],
+      "to": [24.0, 6.643],
+      "size": [0.065, 5.52],
+      "z": [0.12, 5.64],
+      "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
+      "openings": [],
+      "face_normal": [0.0, -1.0],
+      "note": "interior lining: oak_slats_wall",
+      "phase": 5,
+      "seq": 201
+    },
+    {
+      "id": "IN-lining-P-E1-4",
+      "type": "wall",
+      "kind": "lining",
+      "material": "lime_plaster",
+      "from": [16.4, 6.718],
+      "to": [12.0, 6.718],
+      "size": [0.015, 5.52],
+      "z": [0.12, 5.64],
+      "pattern": {"kind": "skin"},
+      "openings": [
+        {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Women's WC ↔ Cafe"}
+      ],
+      "face_normal": [-0.0, -1.0],
+      "note": "interior lining: lime_plaster",
+      "phase": 5,
+      "seq": 201
+    },
+    {
+      "id": "IN-lining-P-E1-5",
+      "type": "wall",
+      "kind": "lining",
+      "material": "lime_plaster",
+      "from": [20.8, 6.718],
+      "to": [16.4, 6.718],
+      "size": [0.015, 5.52],
+      "z": [0.12, 5.64],
+      "pattern": {"kind": "skin"},
+      "openings": [
+        {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Men's WC ↔ Cafe"}
+      ],
+      "face_normal": [-0.0, -1.0],
+      "note": "interior lining: lime_plaster",
+      "phase": 5,
+      "seq": 201
+    },
+    {
+      "id": "IN-lining-EN-header-G-E1-E",
+      "type": "wall",
+      "kind": "lining",
+      "material": "timber_clad",
+      "from": [30.289, -9.5],
+      "to": [30.289, 16.2],
+      "size": [0.022, 1.3],
+      "z": [4.34, 5.64],
+      "pattern": {"kind": "skin"},
+      "openings": [],
+      "face_normal": [-1.0, 0.0],
+      "note": "interior lining: black_lining",
+      "phase": 5,
+      "seq": 243
+    },
+    {
+      "id": "IN-lining-EN-header-G-E1-S",
+      "type": "wall",
+      "kind": "lining",
+      "material": "timber_clad",
+      "from": [12.0, -9.289],
+      "to": [30.5, -9.289],
+      "size": [0.022, 1.3],
+      "z": [4.34, 5.64],
+      "pattern": {"kind": "skin"},
+      "openings": [],
+      "face_normal": [-0.0, 1.0],
+      "note": "interior lining: black_lining",
+      "phase": 5,
+      "seq": 243
     }
   ],
   "structure": {
@@ -7991,5 +8398,14 @@
     {"id": "game_sofa", "kind": "seat", "level": "E2", "rect": [16.6, 14.2, 20.2, 15.1], "height": 0.45, "note": "lounge chairs / sofa"},
     {"id": "game_coffee", "kind": "table", "level": "E2", "rect": [17.6, 13.0, 19.2, 13.8], "height": 0.4, "note": "coffee table"},
     {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]}
-  ]
+  ],
+  "interior": {
+    "palette": "L",
+    "palettes": {
+      "L": {
+        "name": "Light Nordic oak",
+        "note": "white-oiled oak floor, pale oak acoustic slat ceiling between pale spruce glulam beams, oak slat feature walls, warm-white lime plaster elsewhere, light honed stone at the door; the only dark surfaces are the window frames and the facade band above them"
+      }
+    }
+  }
 }

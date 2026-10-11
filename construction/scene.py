@@ -32,7 +32,7 @@ scene = bpy.context.scene
 bc.world_and_render(scene)
 if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop stays responsive
     scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
-    scene.cycles.samples = 64; scene.cycles.use_denoising = True
+    scene.cycles.samples = 128 if STAGE >= 5 else 64; scene.cycles.use_denoising = True
     _pr = bpy.context.preferences.addons["cycles"].preferences
     for _dev in ("OPTIX", "CUDA"):
         try:
@@ -152,7 +152,16 @@ MAT = {
     "sod": bc.material("sod", (0.07, 0.11, 0.035), 0.95),
     "frame": bc.material("window_frame", (0.025, 0.025, 0.027), 0.4, metal=0.6),
 }
-PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope"}
+PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope", 5: "5 · interior shell"}
+if STAGE >= 4:  # Cycles: real architectural glass (daylight comes through)
+    MAT["glass"] = bc.arch_glass("arch_glass"); MAT["glass_obscured"] = bc.arch_glass("arch_glass_obscured", rough=0.25, frosted=True)
+    MAT["acrylic"] = bc.arch_glass("arch_acrylic", tint=(0.9, 0.95, 0.94))
+if STAGE >= 5:  # interiors are seen up close: scanned finishes, textured timber structure
+    MAT.update(bc.interior_materials()); MAT["glass_partition"] = MAT["glass"]
+    MAT["glulam"] = bc.pbr_material("glulam_spruce", "coated_pine_02", 1.05, box=True, piece_var=0.05, sat=0.45, val=1.45)  # pale spruce
+    MAT["clt"] = MAT["clt_natural"]
+    ROOF_BEAMS_E = sorted({e["from"][1] for e in model["elements"] if e["type"] == "beam" and e["id"].endswith("-RF-east")})
+    prng = np.random.default_rng(55)
 for ph in range(1, STAGE + 1):
     if ph not in PHASES:
         continue  # stage 2 (style) adds no elements
@@ -164,7 +173,13 @@ for ph in range(1, STAGE + 1):
         if STAGE >= 4 and e.get("finish") == "black_stain":
             mat = MAT["timber_clad"]
         z0, z1 = e["z"]
-        if e["type"] in ("slab", "footing", "blinding") and "rect" in e:
+        if "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] in ("boards", "slabs", "poured"):
+            bc.pattern_floor(e, mat, coll, prng)
+        elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "slats":
+            bc.pattern_ceiling(e, mat, coll, ROOF_BEAMS_E)
+        elif e["type"] == "wall" and e.get("kind") == "lining":
+            bc.pattern_lining(e, mat, coll, prng, backing_mat=MAT["felt_black"])
+        elif e["type"] in ("slab", "footing", "blinding") and "rect" in e:
             x0, y0, x1, y1 = e["rect"]
             W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))  # roofs: plate runs past the facade
             ob = bc.box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
@@ -174,7 +189,7 @@ for ph in range(1, STAGE + 1):
                     cu = bc.box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
                     cu.hide_render = True; cu.hide_viewport = True
                     md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
-        elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing") and "mullions" not in e and e.get("kind") != "clad":
+        elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing") and "mullions" not in e and e.get("kind") not in ("clad", "lining"):
             ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
             (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
             WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
@@ -351,6 +366,12 @@ CAMS = {
     "stair_f3_f4": ((-13.0, 1.5, -13.7), (-18.5, 10.5, -12.3), 18),
     "towers_west": ((-46, -14, 3), (-30, -14, 0.5), 30),
     "river_window_f3": ((-9.0, -32.5, -8.2), (-9.0, 8, -8.6), 16),
+    # reception (E1 floor = 0.12, eye 1.62)
+    "rec_entry": ((29.7, 13.6, 1.62), (24.0, 9.0, 2.2), 18),
+    "rec_from_cafe": ((27.5, -5.0, 1.62), (25.5, 14.0, 2.4), 18),
+    "rec_ceiling": ((29.0, 15.2, 1.62), (21.0, 2.0, 4.9), 16),
+    "rec_desk_wall": ((28.6, 9.0, 1.62), (24.1, 12.5, 1.6), 24),
+    "rec_detail": ((25.6, 13.4, 0.95), (24.1, 14.6, 0.35), 30),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -360,14 +381,17 @@ for o in bpy.data.objects:  # primitives + boolean results: flat shading for eve
     if o.type == "MESH" and not organic:
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
+EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
+             5: ["rec_entry", "rec_from_cafe", "rec_ceiling", "rec_desk_wall", "rec_detail"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
+        scene.view_settings.exposure = EXPO + (2.8 if n.startswith("rec_") else 0.0)  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
 print("stage", STAGE, "done")

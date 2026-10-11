@@ -456,3 +456,195 @@ def fallen_blocks(H, rock, x0, y0, exclude, rng, coll=None, n=140):
     ob = bpy.data.objects.new("fallen_blocks", me); (coll or bpy.context.scene.collection).objects.link(ob)
     ob.data.materials.append(rock_material())
     return ob
+
+
+# ------------------------------------------------------------------ interior finishes (stage 5): real pieces, real sizes
+def _pieces_mesh(name, boxes, mat, coll):
+    """boxes: list of (8 corner verts) ; every piece gets a random 'prand' (texture offset / tint per board, slat, slab)."""
+    vs, fs, pr = [], [], []
+    rng_ = np.random.default_rng(abs(hash(name)) % 2**32)
+    for corners in boxes:
+        b = len(vs); vs += corners; r = float(rng_.random())
+        fs += [(b, b + 3, b + 2, b + 1), (b + 4, b + 5, b + 6, b + 7), (b, b + 1, b + 5, b + 4), (b + 1, b + 2, b + 6, b + 5), (b + 2, b + 3, b + 7, b + 6), (b + 3, b, b + 4, b + 7)]
+        pr += [r] * 8
+    ob = mesh_from(name, vs, fs, {"prand": np.array(pr)}, smooth=False, coll=coll)
+    ob.data.materials.append(mat)
+    return ob
+
+
+def _box(x0, y0, z0, x1, y1, z1):
+    return [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0), (x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]
+
+
+def pattern_floor(e, mat, coll, rng):
+    x0, y0, x1, y1 = e["rect"]; z0, z1 = e["z"]; p = e["pattern"]
+    boxes = []
+    if p["kind"] in ("boards", "slabs"):
+        w, gap = p["w"], p["gap"]
+        along_y = p.get("dir", "y") == "y"
+        a0, a1, c0, c1 = (y0, y1, x0, x1) if along_y else (x0, x1, y0, y1)
+        c = c0; row = 0
+        while c < c1 - 1e-6:
+            cw = min(w, c1 - c)
+            a = a0 - (rng.uniform(0, max(p["L"])) if p["kind"] == "boards" else (p["L"][0] / 2 if row % 2 else 0))  # staggered / running bond
+            while a < a1 - 1e-6:
+                L = float(rng.choice(p["L"])) if p["kind"] == "boards" else p["L"][0]
+                s0, s1 = max(a, a0), min(a + L, a1)
+                if s1 - s0 > 0.05:
+                    q = (c + gap / 2, s0 + gap / 2, c + cw - gap / 2, s1 - gap / 2)
+                    boxes.append(_box(q[0], q[1], z0, q[2], q[3], z1) if along_y else _box(q[1], q[0], z0, q[3], q[2], z1))
+                a += L
+            c += w; row += 1
+    else:  # poured: panels between saw cuts
+        J = p["joint"]
+        nx_, ny_ = max(1, round((x1 - x0) / J)), max(1, round((y1 - y0) / J))
+        for i in range(nx_):
+            for j in range(ny_):
+                boxes.append(_box(x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, z0,
+                                  x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015, z1))
+    return _pieces_mesh(e["id"], boxes, mat, coll)
+
+
+def pattern_ceiling(e, mat, coll, beam_lines):
+    x0, y0, x1, y1 = e["rect"]; z0, z1 = e["z"]; p = e["pattern"]
+    half = e.get("between_beams", 0.25) / 2 + 0.02
+    boxes = []
+    y = y0 + p["pitch"] / 2
+    while y < y1:
+        if all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
+            boxes.append(_box(x0, y - p["w"] / 2, z0, x1, y + p["w"] / 2, z1))
+        y += p["pitch"]
+    return _pieces_mesh(e["id"], boxes, mat, coll)
+
+
+def pattern_lining(e, mat, coll, rng, backing_mat=None):
+    """Wall linings: vertical slats on black battens, stone courses, or a plain skin; openings left open."""
+    (ax, ay), (bx, by) = e["from"], e["to"]; z0, z1 = e["z"]; p = e["pattern"]
+    L = math.hypot(bx - ax, by - ay); ux, uy = (bx - ax) / L, (by - ay) / L
+    fnx, fny = e.get("face_normal", (-uy, ux)); d = e["size"][0]
+    ops = e.get("openings", [])
+    def blocked(s0, s1, za, zb):
+        return any(o["s"][0] < s1 and o["s"][1] > s0 and o["z"][0] < zb and o["z"][1] > za for o in ops)
+    def quad(s0, s1, za, zb, t0, t1):  # piece from s0..s1 along, za..zb up, t0..t1 out from the wall face (t measured along the face normal)
+        pts = []
+        for zz in (za, zb):
+            for (s, t) in ((s0, t0), (s1, t0), (s1, t1), (s0, t1)):
+                pts.append((ax + ux * s + fnx * t, ay + uy * s + fny * t, zz))
+        return [pts[0], pts[1], pts[2], pts[3], pts[4], pts[5], pts[6], pts[7]]
+    boxes, back = [], []
+    base_t = -d / 2  # e from/to sit at the lining centre; t is relative to that
+    if p["kind"] == "slats":
+        s = p["pitch"] / 2
+        while s < L - p["w"] / 2:
+            segs = [(z0, z1)]
+            for o in ops:
+                if o["s"][0] < s + p["w"] and o["s"][1] > s - p["w"]:
+                    segs = [q for sg in segs for q in ((sg[0], min(sg[1], o["z"][0])), (max(sg[0], o["z"][1]), sg[1])) if q[1] - q[0] > 0.05]
+            for za, zb in segs:
+                boxes.append(quad(s - p["w"] / 2, s + p["w"] / 2, za, zb, base_t + d - p["d"], base_t + d))
+            s += p["pitch"]
+        back.append((0.0, L))
+    elif p["kind"] == "courses":
+        z = z0
+        while z < z1 - 1e-6:
+            h = min(float(rng.choice(p["h"])), z1 - z); s = -rng.uniform(0, max(p["L"]))
+            while s < L:
+                ln = float(rng.choice(p["L"])); s0, s1 = max(s, 0), min(s + ln, L)
+                if s1 - s0 > 0.05 and not blocked(s0, s1, z, z + h):
+                    boxes.append(quad(s0 + p["gap"] / 2, s1 - p["gap"] / 2, z + p["gap"] / 2, z + h - p["gap"] / 2, base_t, base_t + d))
+                s += ln
+            z += h
+    else:  # plain skin, cut round openings
+        cuts = sorted({0.0, L, *[v for o in ops for v in o["s"]]})
+        for s0, s1 in zip(cuts, cuts[1:]):
+            mid = (s0 + s1) / 2; segs = [(z0, z1)]
+            for o in ops:
+                if o["s"][0] <= mid <= o["s"][1]:
+                    segs = [q for sg in segs for q in ((sg[0], min(sg[1], o["z"][0])), (max(sg[0], o["z"][1]), sg[1])) if q[1] - q[0] > 0.02]
+            boxes += [quad(s0, s1, za, zb, base_t, base_t + d) for za, zb in segs]
+    ob = _pieces_mesh(e["id"], boxes, mat, coll)
+    if back and backing_mat is not None:  # black battens / felt behind the slats
+        bk = []
+        for s0, s1 in back:
+            cuts = sorted({s0, s1, *[v for o in ops for v in o["s"] if s0 < v < s1]})
+            for a_, b_ in zip(cuts, cuts[1:]):
+                mid = (a_ + b_) / 2; segs = [(z0, z1)]
+                for o in ops:
+                    if o["s"][0] <= mid <= o["s"][1]:
+                        segs = [q for sg in segs for q in ((sg[0], min(sg[1], o["z"][0])), (max(sg[0], o["z"][1]), sg[1])) if q[1] - q[0] > 0.02]
+                bk += [quad(a_, b_, za, zb, base_t, base_t + d - p["d"]) for za, zb in segs]
+        _pieces_mesh(e["id"] + "_backing", bk, backing_mat, coll)
+    return ob
+
+
+def pbr_material(name, tid, size, tint=(1, 1, 1), rough_add=0.0, box=False, rotate=0.0, piece_var=0.12, rough_mul=1.0, sat=1.0, val=1.0):
+    """Scanned CC0 PBR at real scale (size = metres per texture tile). Per-piece 'prand' shifts the texture + varies the tone,
+    so no two boards / slats / slabs are the same."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]
+    tc = N.new("ShaderNodeTexCoord"); pr = N.new("ShaderNodeAttribute"); pr.attribute_name = "prand"
+    off = N.new("ShaderNodeCombineXYZ")
+    for i, k in enumerate((7.31, 3.17, 5.03)):
+        mm = N.new("ShaderNodeMath"); mm.operation = "MULTIPLY"; mm.inputs[1].default_value = k * size; L.new(pr.outputs["Fac"], mm.inputs[0]); L.new(mm.outputs[0], off.inputs[i])
+    add = N.new("ShaderNodeVectorMath"); add.operation = "ADD"; L.new(tc.outputs["Object"], add.inputs[0]); L.new(off.outputs[0], add.inputs[1])
+    mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1 / size,) * 3; mp.inputs["Rotation"].default_value = (0, 0, rotate)
+    L.new(add.outputs[0], mp.inputs["Vector"])
+    col = _tex(N, L, tid, "diff.jpg", mp.outputs[0], box=box).outputs["Color"]
+    tone = N.new("ShaderNodeMapRange"); tone.inputs[3].default_value = 1 - piece_var; tone.inputs[4].default_value = 1 + piece_var
+    L.new(pr.outputs["Fac"], tone.inputs[0])
+    tcol = N.new("ShaderNodeCombineColor"); tcol.inputs[0].default_value = tint[0]; tcol.inputs[1].default_value = tint[1]; tcol.inputs[2].default_value = tint[2]
+    tsc = N.new("ShaderNodeVectorMath"); tsc.operation = "SCALE"; L.new(tcol.outputs[0], tsc.inputs[0]); L.new(tone.outputs[0], tsc.inputs["Scale"])
+    mul = N.new("ShaderNodeMix"); mul.data_type = "RGBA"; mul.blend_type = "MULTIPLY"; mul.inputs["Factor"].default_value = 1.0
+    L.new(col, mul.inputs["A"]); L.new(tsc.outputs[0], mul.inputs["B"])
+    hsv = N.new("ShaderNodeHueSaturation"); hsv.inputs["Saturation"].default_value = sat; hsv.inputs["Value"].default_value = val  # e.g. white-oiled oak: paler, less orange
+    L.new(mul.outputs["Result"], hsv.inputs["Color"]); L.new(hsv.outputs["Color"], b.inputs["Base Color"])
+    rg = _tex(N, L, tid, "rough.jpg", mp.outputs[0], True, box=box).outputs["Color"]
+    rm = N.new("ShaderNodeMath"); rm.operation = "MULTIPLY_ADD"; rm.use_clamp = True; rm.inputs[1].default_value = rough_mul; rm.inputs[2].default_value = rough_add
+    L.new(rg, rm.inputs[0]); L.new(rm.outputs[0], b.inputs["Roughness"])
+    nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = 0.6
+    L.new(_tex(N, L, tid, "nor_gl.jpg", mp.outputs[0], True, box=box).outputs["Color"], nm.inputs["Color"]); L.new(nm.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def interior_materials():
+    return {
+        "oak_floor": pbr_material("oak_floor", "oak_veneer_01", 1.83, tint=(1.05, 1.0, 0.9), rough_mul=0.8, rough_add=0.1, piece_var=0.07, sat=0.6, val=1.75),   # white-oiled oak
+        "oak_slat": pbr_material("oak_slat", "oak_veneer_01", 1.83, box=True, rough_mul=0.9, rough_add=0.15, piece_var=0.07, tint=(1.05, 1.0, 0.9), sat=0.65, val=1.7),
+        "stone_honed": pbr_material("stone_honed", "dark_rock", 2.4, tint=(0.62, 0.64, 0.66), box=True, rough_mul=0.55, rough_add=0.2, piece_var=0.08),
+        "concrete_ground": pbr_material("concrete_ground", "smooth_concrete_floor", 2.0, tint=(0.95, 0.92, 0.86), rough_mul=0.7, rough_add=0.15, piece_var=0.04),
+        "clt_white": pbr_material("clt_white", "coated_pine_02", 1.05, tint=(1.25, 1.22, 1.15), box=True, piece_var=0.03),
+        "clt_natural": pbr_material("clt_natural", "coated_pine_02", 1.05, tint=(1.05, 0.98, 0.85), box=True, piece_var=0.03),
+        "lime_plaster": material("lime_plaster", (0.80, 0.77, 0.71), 0.9),   # smooth warm-white lime plaster
+        "stone_light": pbr_material("stone_light", "smooth_concrete_floor", 2.0, tint=(1.0, 0.98, 0.95), box=True, rough_mul=0.6, rough_add=0.15, piece_var=0.05, sat=0.2, val=2.0),
+        "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
+        "impact_mat": material("impact_mat", (0.05, 0.05, 0.05), 0.9),
+        "screed": material("screed", (0.4, 0.39, 0.37), 0.9),
+        "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),
+        "glass_partition": material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
+    }
+
+
+def arch_glass(name, tint=(0.92, 0.95, 0.94), rough=0.0, frosted=False):
+    """Architectural glass for Cycles: glass BSDF to the camera (reflection + see-through), fully transparent to shadow rays,
+    so daylight and sun actually come into the rooms (a thin box of real glass would block / caustic most of it)."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    N.remove(N["Principled BSDF"])
+    gl = N.new("ShaderNodeBsdfGlass"); gl.inputs["Color"].default_value = (*tint, 1); gl.inputs["Roughness"].default_value = rough; gl.inputs["IOR"].default_value = 1.5
+    tr = N.new("ShaderNodeBsdfTransparent"); tr.inputs["Color"].default_value = (*tint, 1)
+    lp = N.new("ShaderNodeLightPath")
+    mx = N.new("ShaderNodeMixShader")
+    fac = N.new("ShaderNodeMath"); fac.operation = "MAXIMUM"; L.new(lp.outputs["Is Shadow Ray"], fac.inputs[0]); L.new(lp.outputs["Is Diffuse Ray"], fac.inputs[1])
+    L.new(fac.outputs[0], mx.inputs[0]); L.new(gl.outputs[0], mx.inputs[1]); L.new(tr.outputs[0], mx.inputs[2])
+    if frosted:
+        dif = N.new("ShaderNodeBsdfTranslucent"); dif.inputs["Color"].default_value = (0.85, 0.87, 0.88, 1)
+        mf = N.new("ShaderNodeMixShader"); mf.inputs[0].default_value = 0.6; L.new(mx.outputs[0], mf.inputs[1]); L.new(dif.outputs[0], mf.inputs[2]); mx = mf
+    L.new(mx.outputs[0], N["Material Output"].inputs["Surface"])
+    return m
