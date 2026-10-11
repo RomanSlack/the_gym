@@ -295,6 +295,8 @@ wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timb
 GLASS_A1_NOTE = "west facade: sliding glass y -26.8..-19 opens onto the training deck"
 for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.5], "C1"), ([x1, 6.8], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
+    if n == "N":  # discreet flush door from the gallery's north end into exit stair W3
+        els[-1]["openings"] = [{"s": [18.6, 19.8], "z": [lv["F1"], 2.3], "type": "door", "swing": -1, "note": "discreet flush door: gallery -> core W3 (north exit stair)"}]
 x0, y0, x1, y1 = EAST
 zb, zt = lv["E2"] - 0.6, lv["E1"] - 0.25
 wall("W-east-S", [x0, y0], [x1, y0], 0.4, zb, zt, "retaining", "concrete")

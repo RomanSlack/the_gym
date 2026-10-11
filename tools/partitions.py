@@ -56,6 +56,7 @@ PASSAGE = {  # (room, neighbour) -> opening type
     ("dc-wc", "dc-kids"): "opening", ("dc-wc-low", "daycare-low"): "opening",
 }
 WIDTH = {"door": 1.0, "opening": 1.8, "baffle": 1.6}
+COUNT = {("women-wet", "women-lockers"): 3, ("men-wet", "men-lockers"): 3}  # Roman: several open ways in, no bottleneck
 DOOR_W = 1.0
 
 spaces = m["spaces"]
@@ -133,14 +134,17 @@ for L in sorted({sp["level"] for sp in spaces}):
             width = min(WIDTH[otype], Lw - 0.3)
             if width < 0.9:
                 continue
-            s0 = round(Lw / 2 - width / 2, 2)
+            n_open = COUNT.get((sp["id"], t), 1)
+            centres = [Lw * (2 * i + 1) / (2 * n_open) for i in range(n_open)]
             # swing into the enclosed room: which side of the wall is it on?
             (x0, y0), (x1, y1) = w["from"], w["to"]
             nx, ny = -(y1 - y0) / Lw, (x1 - x0) / Lw
             c = Polygon(sp["poly"]).representative_point()
             side = 1 if (c.x - x0) * nx + (c.y - y0) * ny > 0 else -1
-            w["openings"].append({"s": [s0, round(s0 + width, 2)], "z": [lv[L], round(lv[L] + (2.1 if otype == "door" else 2.4), 2)], "type": otype,
-                                  "swing": side, "note": f"{sp['name'].split(' · ')[0]} ↔ {next(s for s in S if s['id'] == t)['name'].split(' · ')[0]}"})
+            for cc in centres:
+                s0 = round(cc - width / 2, 2)
+                w["openings"].append({"s": [s0, round(s0 + width, 2)], "z": [lv[L], round(lv[L] + (2.1 if otype == "door" else 2.4), 2)], "type": otype,
+                                      "swing": side, "note": f"{sp['name'].split(' · ')[0]} ↔ {next(s for s in S if s['id'] == t)['name'].split(' · ')[0]}"})
             doors.append((L, sp["id"], t))
 
 m["elements"] = els + walls
