@@ -58,7 +58,7 @@ def main():
         return
     first = first_line(prompt) or "(no prompt)"
     subject = "checkpoint: " + (first[:69] + "..." if len(first) > 72 else first)
-    body = f"Session-Id: {session}\nPrompt-Time: {ts}"
+    body = f"Prompt: {first[:200]}\nPrompt-Time: {ts}\nSession-Id: {session}"
     git("add", "-A")
     git("commit", "-q", "-m", subject, "-m", body)
 

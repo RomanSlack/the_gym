@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Git hook: append the prompt that led to this commit (latest user prompt in the archived
+# Claude Code transcript) so every commit, manual or automatic, links back to the conversation.
+msg_file="$1"
+grep -q '^Prompt:' "$msg_file" && exit 0
+root="$(git rev-parse --show-toplevel)"
+python3 - "$msg_file" "$root" <<'PY'
+import sys, glob, os
+sys.path.insert(0, os.path.join(sys.argv[2], "tools", "capture"))
+from pathlib import Path
+import checkpoint
+files = sorted(glob.glob(os.path.join(sys.argv[2], ".capture", "sessions", "*.jsonl")), key=os.path.getmtime)
+proj = sorted(glob.glob(os.path.expanduser("~/.claude/projects/-home-roman-the-gym*/*.jsonl")), key=os.path.getmtime)
+src = (proj or files)[-1:] 
+if not src:
+    sys.exit(0)
+prompt, ts = checkpoint.last_prompt(Path(src[0]))
+line = checkpoint.first_line(prompt)
+if line:
+    with open(sys.argv[1], "a") as f:
+        f.write(f"\nPrompt: {line[:200]}\nPrompt-Time: {ts}\nSession-Id: {Path(src[0]).stem}\n")
+PY
