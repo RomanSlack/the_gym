@@ -1,10 +1,31 @@
-# The Gym (Blender)
+# The Gym
 
-An experiment: can Roman and Claude picture the same building and get it to really high quality, with everything matching Roman's vision, purely through vibe coding (Claude driving Blender via Python/MCP)?
+![Floor 1 · A-101](docs/img/banner_a101.jpg)
 
-We're starting over from real specs and research. The hand-built original is kept as the reference for intent. We won't patch it.
+**A luxury Nordic gym built into a forest ravine in Elverum, Norway, designed entirely by vibe coding.** Roman describes it; Claude builds it as data, drawings and 3D, then we iterate. The building is four floors stepping down a rock ravine to below the river surface. It has a waist-high river window, a pool with underwater windows, a lounge bridge over the water, a sod-roof sauna by the stream, a drop-in daycare with a sunken garden, and a 2-mile forest loop.
 
-Second goal: **record everything** so the weeks of iteration can become a YouTube replay and possibly an open-source tool. That means the building going up "brick by brick", plus the prompts and decisions behind each step, across both the 2D drawings and the 3D model.
+It's also an experiment: **can a person and an AI picture the same building and get it to real, buildable quality, purely through conversation?** Every step is recorded, so the weeks of iteration can be replayed with the prompt behind each decision.
+
+| | |
+|---|---|
+| ![Horizon drone](docs/img/horizon_drone.jpg) | ![In the ravine](docs/img/reference_upstream.jpg) |
+| *The site: real Kartverket terrain, parametric ravine, GPU erosion* | *In the gorge, looking upstream at the building and falls* |
+| ![River window](docs/img/f3_river_window.jpg) | ![Arrival](docs/img/arrival_eye.jpg) |
+| *Floor 3: the river at waist height on the glass* | *Arrival: an entry meadow with stepping stones, no parking lot in sight* |
+| ![Sunken garden](docs/img/garden_to_daycare.jpg) | ![Trailhead](docs/img/trailhead_sign.jpg) |
+| *The daycare's sunken play garden* | *The trailhead, with a map panel made by gpt-image-2* |
+
+**Drawings.** A real architectural drawing set generated from the model: plans, sections, site plan, dark mode, and scale figures.
+
+| | |
+|---|---|
+| ![Section B-B](docs/img/section_b.jpg) | ![Floor 4, dark](docs/img/plan_f4_dark.jpg) |
+
+**Replay.** Scrub through every version of the design. Each one shows the prompt that caused it.
+
+![Replay](docs/img/replay.jpg)
+
+*3D is placeholder geometry and materials. The focus so far is site, structure and layout.*
 
 ## Status
 
