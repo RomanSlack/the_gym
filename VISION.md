@@ -254,6 +254,7 @@ Read off the style-B references and built for real (`tools/envelope.py`):
 - **Glass where it's open, black timber where it's private.** Changing rooms, wet zones, WCs, staff and nursing rooms get solid black board-on-board walls with a high obscured clerestory band; everything else is divided glass.
 - Facade glulam posts are black-stained (dark posts in the references); the roof beams, their tails and the oak soffits stay warm.
 - Stone plinth on every concrete face that shows above ground, incl. the river wall from the riverbed up.
+- Sunken garden stays as designed: at the east end of the daycare's lower floor the terraced bank rises in front of the last glass bays (Roman: fine as is).
 
 ## Open questions
 
