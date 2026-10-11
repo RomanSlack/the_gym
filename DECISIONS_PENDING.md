@@ -28,8 +28,8 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
    - The **river edge strip** (waist-high river window + indoor stream) along the whole east wall.
 7. **F4:**
    - A **25 m lap pool along the river wall** (underwater windows).
-   - Thermal suite (hot/cold plunge, infrared, steam, cryo) at the north.
-   - Recovery lounge, treatment rooms, plant room on the west (no windows needed there).
+   - Thermal suite at the north: sauna, steam, hot/cold plunges. (Infrared and cryo were dropped in the "less spa" decision, see VISION.md.)
+   - Recovery lounge, pool lobby and plant room on the west (no windows needed there). No treatment or massage rooms.
 8. **East wing E1** (revised to follow Gym V2):
    - The **cafe takes the whole south half**, with the island bar centered and a back counter along the south wall.
    - A **central block** holds **core E** (stair + lift from the garage) and the **public WCs** (women's, men's, accessible), in Gym V2's WC-cell area.
@@ -54,7 +54,7 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
 11. Below-grade perimeter walls are reinforced concrete: 0.5 m retaining on the rock sides, 0.4 m on the river wall with windows. F1/E1 facades are glazed timber.
 12. F4 and E2 ground slabs are 0.6 m rafts (F4 rock-anchored); suspended floors are 0.25 m slabs on the post-tensioned beams.
 13. **Cafe ring** moved from Gym V2 (20, 0.2) to (16.6, −0.94), Ø 7.0, to sit inside the cafe space. *`model.fixtures`*
-14. **Roof eaves: 2.5 m overhang on all sides** (like the reference image). For now this exists only in the 3D scene (`terrain/blender_scene.py`); it will move into the model when we design the roof.
+14. **Roof eaves: 2.5 m overhang on all sides** (like the reference image). Now in the model (stage 3): each roof slab carries `eaves` [W, S, E, N], see STRUCTURE.md.
 
 ## What got built this session
 

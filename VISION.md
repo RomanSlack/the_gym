@@ -241,6 +241,13 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Reference images:** `docs/style/bdarksod_gorge.jpg`, `bdarksod_aerial.jpg`, `bdarksod_arrival.jpg` (+ the full sheet `docs/style/style_options_v1.jpg`).
 - Fits the sauna (already tarred timber + sod roof): the whole site reads as one family.
 
+## Structure decisions (2026-10-11, stage 3)
+
+Roman: "do whatever will look the best and sleekest for the design language", and keep the roof overhang.
+- **2.5 m roof overhang is part of the real structure now:** CLT roofs run past the facades on tapered glulam beam tails; the wings and the lounge share one thin roof plane.
+- **Lounge bridge floor = dark steel girders under the deck, not trusses**, so the sliding glass walls open fully with only slim posts in the glass lines.
+- **Spiral = open helix, no centre post** (steel stringers, oak treads).
+
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)

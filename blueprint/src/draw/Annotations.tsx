@@ -1,5 +1,6 @@
 // Plan annotations: dimension strings on the structural grids, and the roof plan.
 import type { Model } from "../model";
+import { roofOutline } from "../model";
 
 /** One dimension chain between successive positions, drawn along x (horizontal) or y (vertical). */
 function Chain({ pos, at, horizontal }: { pos: number[]; at: number; horizontal: boolean }) {
@@ -49,12 +50,12 @@ export function GridDims({ model }: { model: Model }) {
 /** Roof plan: roofs with their eaves, sod roofs, skylights, towers. */
 export function RoofPlan({ model }: { model: Model }) {
   const slabs = model.elements.filter((e) => e.type === "slab" && e.z[1] >= 2.5);
-  const R = (r: number[], grow = 0) => `M${r[0] - grow} ${-(r[1] - grow)}H${r[2] + grow}V${-(r[3] + grow)}H${r[0] - grow}Z`;
+  const R = (r: number[]) => `M${r[0]} ${-r[1]}H${r[2]}V${-r[3]}H${r[0]}Z`;
   return (
     <g className="roof">
       {slabs.filter((e) => e.material === "clt").map((e) => (
-        <g key={e.id} data-n={`${e.id} · CLT roof on glulam, 2.5 m eaves`}>
-          <path d={R(e.rect!, 2.5)} className="roof-eave" />
+        <g key={e.id} data-n={`${e.id} · CLT roof on glulam${e.eaves ? ` · eaves ${e.eaves.join(" / ")} m (W/S/E/N)` : ""}`}>
+          <path d={R(roofOutline(e))} className="roof-eave" />
           <path d={R(e.rect!)} className="roof-line" />
         </g>
       ))}

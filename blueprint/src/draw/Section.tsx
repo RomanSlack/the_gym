@@ -2,8 +2,8 @@
 // is on the drawing's left. Cut elements heavy with poché; elements beyond (up to
 // DEPTH m behind the cut) drawn light; earth hatched below the terrain profile.
 import { useMemo } from "react";
-import type { Model, SectionDef, Underlay, UElement } from "../model";
-import { footprint, terrainAt, waterAt } from "../model";
+import type { Model, Pt, SectionDef, Underlay, UElement } from "../model";
+import { footprint, roofOutline, terrainAt, waterAt } from "../model";
 import { Figure, LevelTag, ScaleBar } from "./symbols";
 import type { Layers } from "./Plan";
 
@@ -135,7 +135,8 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
 
       {/* new design elements crossed by the cut (slabs break around their openings) */}
       {model.elements.flatMap((e) => {
-        const corners = footprint(e);
+        const corners = e.type === "slab" && e.id.startsWith("S-RF-") && e.material === "clt"
+          ? ((r) => [[r[0], r[1]], [r[2], r[1]], [r[2], r[3]], [r[0], r[3]]] as Pt[])(roofOutline(e)) : footprint(e); // roofs cut through their eaves
         const dd = corners.map(([cx, cy]) => depth(cx, cy));
         if (Math.min(...dd) > 0 || Math.max(...dd) < 0) return [];
         const ss = corners.map(([cx, cy]) => along(cx, cy));

@@ -13,8 +13,14 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
   - below-grade retaining walls + the river wall with its formed window openings
   - waterproofing membranes, drainage gravel + perimeter drains
   - garage-ramp trench walls + cut-and-cover tunnel roof
-- ✅ **Stage 2 · Exterior style: LOCKED = B, dark tarred timber + sod roofs, divided glazing** (see VISION.md, `docs/style/`). Next: stage 3, structure.
-- Build: `python3 tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
+- ✅ **Stage 2 · Exterior style: LOCKED = B, dark tarred timber + sod roofs, divided glazing** (see VISION.md, `docs/style/`).
+- ✅ **Stage 3 · Structure** (awaiting Roman's review): `construction/out/stage_3.blend`, renders in `construction/renders/stage_3_*`. 214 phase-3 elements from `tools/structure_stage.py` (see STRUCTURE.md):
+  - PT concrete floors F1–F3 + E1, pilasters, glulam facade columns, parking columns + buried roof
+  - CLT 300 roofs with **2.5 m eaves in the model** (tapered glulam beam tails), one roof level across both wings and the lounge
+  - lounge bridge on four dark steel girders + tapered deck outriggers; glulam roof beams on slim posts, glass walls can still open fully
+  - concrete cores (incl. core E), precast dogleg stairs in every core, open steel + oak helix spiral, F3→F4 dogleg
+  - Next: stage 4, envelope.
+- Build: `terrain/.venv/bin/python tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
 
 ## Stages
 

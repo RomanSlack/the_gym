@@ -189,3 +189,57 @@ def camera(scene, name, loc, tgt, lens):
     c = bpy.data.objects.new(name, cd); scene.collection.objects.link(c)
     c.location = loc; c.rotation_euler = (Vector(tgt) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
     return c
+
+
+def extrude_profile(name, a, b, width, profile, mat, coll=None):
+    """Closed (s, z) profile in the vertical plane along a -> b (s = metres from a), extruded `width` across. Tapered beams, stair flights."""
+    (x0, y0), (x1, y1) = a, b
+    L = math.hypot(x1 - x0, y1 - y0); ux, uy = (x1 - x0) / L, (y1 - y0) / L; nx, ny = -uy * width / 2, ux * width / 2
+    profile = [p for i, p in enumerate(profile) if math.dist(p, profile[i - 1]) > 1e-6]  # drop repeated points (zero-length tails)
+    bm = bmesh.new()
+    side = lambda k: [bm.verts.new((x0 + ux * s + k * nx, y0 + uy * s + k * ny, z)) for s, z in profile]
+    va, vb = side(1), side(-1)
+    bm.faces.new(va); bm.faces.new(vb[::-1])
+    n = len(profile)
+    for i in range(n):
+        j = (i + 1) % n
+        bm.faces.new((va[j], va[i], vb[i], vb[j]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
+    me.polygons.foreach_set("use_smooth", np.zeros(len(me.polygons), bool))
+    ob = bpy.data.objects.new(name, me); (coll or bpy.context.scene.collection).objects.link(ob)
+    ob.data.materials.append(mat)
+    return ob
+
+
+def poly_slab(name, pts, z0, z1, mat, coll=None):
+    """Vertical prism over a 2D polygon (spiral treads)."""
+    bm = bmesh.new()
+    lo = [bm.verts.new((x, y, z0)) for x, y in pts]; hi = [bm.verts.new((x, y, z1)) for x, y in pts]
+    bm.faces.new(lo[::-1]); bm.faces.new(hi)
+    for i in range(len(pts)):
+        j = (i + 1) % len(pts)
+        bm.faces.new((lo[i], lo[j], hi[j], hi[i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
+    me.polygons.foreach_set("use_smooth", np.zeros(len(me.polygons), bool))
+    ob = bpy.data.objects.new(name, me); (coll or bpy.context.scene.collection).objects.link(ob)
+    ob.data.materials.append(mat)
+    return ob
+
+
+def helix_plate(name, c, r, thick, depth, a0, a1, z0, z1, mat, coll=None, n=96):
+    """Helical stringer plate: radius r, z of its top edge rising linearly from z0 (angle a0) to z1 (a1), degrees."""
+    vs, fs = [], []
+    for k in range(n + 1):
+        t = k / n; a = math.radians(a0 + (a1 - a0) * t); zt = z0 + (z1 - z0) * t
+        ca, sa = math.cos(a), math.sin(a)
+        for rr, zz in ((r - thick / 2, zt - depth), (r + thick / 2, zt - depth), (r + thick / 2, zt), (r - thick / 2, zt)):
+            vs.append((c[0] + rr * ca, c[1] + rr * sa, zz))
+        if k:
+            b0, b1 = 4 * (k - 1), 4 * k
+            fs += [(b0 + i, b0 + (i + 1) % 4, b1 + (i + 1) % 4, b1 + i) for i in range(4)]
+    fs += [(3, 2, 1, 0), (4 * n, 4 * n + 1, 4 * n + 2, 4 * n + 3)]
+    ob = mesh_from(name, vs, fs, smooth=False, coll=coll)
+    ob.data.materials.append(mat)
+    return ob

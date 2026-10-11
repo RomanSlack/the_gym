@@ -46,6 +46,7 @@ export interface DesignElement {
   from?: Pt; // beams, walls
   to?: Pt;
   rect?: [number, number, number, number]; // slabs
+  eaves?: [number, number, number, number]; // roofs: overhang past the facade per side [W, S, E, N], m (negative = meets the neighbouring eave)
   holes?: { circle?: [number, number, number]; rect?: Pt[] }[];
   openings?: { s: [number, number]; z: [number, number]; type: string; note?: string }[]; // walls: windows along the wall
   finishes?: { level: string; face: string; kind: string; s: [number, number]; z: [number, number]; note?: string }[];
@@ -88,14 +89,20 @@ export function footprint(e: DesignElement): Pt[] {
     const [x0, y0, x1, y1] = e.rect!;
     return [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
   }
-  if (e.type === "column") {
-    const [x, y] = e.at!, [w, d] = e.size;
+  if (e.at) { // columns (and pad footings)
+    const [x, y] = e.at, [w, d] = e.size;
     return [[x - w / 2, y - d / 2], [x + w / 2, y - d / 2], [x + w / 2, y + d / 2], [x - w / 2, y + d / 2]];
   }
-  const [x0, y0] = e.from!, [x1, y1] = e.to!;
-  const L = Math.hypot(x1 - x0, y1 - y0), hw = e.size[0] / 2; // beams and walls: width / thickness
+  if (!e.from || !e.to) return []; // anchor fields, spiral stairs: nothing to draw as a box
+  const [x0, y0] = e.from, [x1, y1] = e.to;
+  const L = Math.hypot(x1 - x0, y1 - y0), hw = (e.size?.[0] ?? 0) / 2; // beams and walls: width / thickness (drain pipes have none)
   const nx = (-(y1 - y0) / L) * hw, ny = ((x1 - x0) / L) * hw;
   return [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
+}
+/** Roof plate outline incl. eaves; older versions had no eaves field and a flat 2.5 m on every roof. */
+export function roofOutline(e: DesignElement): [number, number, number, number] {
+  const [x0, y0, x1, y1] = e.rect!, [w, s, ea, n] = e.eaves ?? [2.5, 2.5, 2.5, 2.5];
+  return [x0 - w, y0 - s, x1 + ea, y1 + n];
 }
 export interface Model {
   schema: string;

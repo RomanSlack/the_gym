@@ -21,6 +21,11 @@
   - one-click **PDF set export**: `node tools/export/export_pdf.js` → `docs/drawings/THE_GYM_drawing_set.pdf` (15 × A1)
 - Remaining for a construction-level set (later): wall-type details, reflected ceiling plans, window schedule, finish schedule, detail sheets.
 
+- ⚠️ **Stage 3 notes (2026-10-11):**
+  - W1/W2 core stairs only fit 1.0 m flights (2.2 m clear between the core wall and wall A). Check against TEK17 for the F4 occupancy. If wider is needed, the towers grow ~0.4 m outward.
+  - The F3→F4 north stair can't be one straight flight in 5 m (5.6 m rise), so it's a dogleg now. The plan symbol in the drawings still shows a straight arrow.
+  - Drawings: section sheets crashed on the stage-1 drain pipes (no `size`); fixed in `footprint()`.
+
 ## Building / code issues (original findings)
 
 1. **Egress, the big one.** Both exit stairs (W1, W2) are on the west wall in the south half, about 17 m apart. On F2–F4 the worst walking distance to an exit stair is about **48 m**, from the north-east corner. Typical code limits are around 30 m, and exits should be remote from each other. The spiral and the F3→F4 north stair are open stairs, so they don't count as exits. **Fix: a third enclosed exit stair in the north / north-east.** It could go on the north wall next to the women's express lift, set into the rock like the others.

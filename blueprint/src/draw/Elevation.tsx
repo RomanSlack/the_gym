@@ -3,7 +3,7 @@
 // slabs and roofs dark edges). The ground in front of the facade then hides whatever is below grade.
 import { useMemo } from "react";
 import type { DesignElement, Model, SectionDef, Underlay } from "../model";
-import { footprint, terrainAt } from "../model";
+import { footprint, roofOutline, terrainAt } from "../model";
 import { LevelTag, ScaleBar } from "./symbols";
 
 const DEPTH = 140;
@@ -21,10 +21,10 @@ export function Elevation({ model, underlay, sec }: { model: Model; underlay: Un
     for (const e of model.elements) {
       let pts = footprint(e);
       let z0 = e.z[0], z1 = e.z[1];
-      if (e.type === "slab" && e.id.startsWith("S-RF-") && e.material === "clt") {  // roofs carry 2.5 m eaves
-        const [a, b, c, d] = e.rect!;
-        pts = [[a - 2.5, b - 2.5], [c + 2.5, b - 2.5], [c + 2.5, d + 2.5], [a - 2.5, d + 2.5]];
-        z1 = z1 + 0.35;
+      if (e.type === "slab" && e.id.startsWith("S-RF-") && e.material === "clt") {  // roofs carry their eaves
+        const [a, b, c, d] = roofOutline(e);
+        pts = [[a, b], [c, b], [c, d], [a, d]];
+        if (!e.eaves) z1 = z1 + 0.35;  // older versions: eave thickness drawn on top of the 200 mm plate
       }
       const ds = pts.map(([x, y]) => depth(x, y));
       if (Math.max(...ds) < 0 || Math.min(...ds) > DEPTH) continue;

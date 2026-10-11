@@ -3,6 +3,7 @@
 blender -b --factory-startup --python construction/scene.py -- <stage> [render]
   stage 0: site, the land before any works (no trees, no building)
   stage 1: + foundations (construction pit, cofferdam, anchors, footings, rafts, retaining walls, waterproofing, drainage)
+  stage 3: + structure (PT concrete floors, glulam + CLT roofs with eaves, lounge girders, cores, stairs)
 Writes construction/out/stage_<n>.blend (+ renders), one collection per phase.
 """
 import json
@@ -86,14 +87,25 @@ MAT = {
     "membrane": bc.material("membrane", (0.04, 0.04, 0.045), 0.6),
     "gravel": bc.material("drain_gravel", (0.33, 0.31, 0.28), 1.0),
     "pipe": bc.material("drain_pipe", (0.6, 0.45, 0.1), 0.5),
+    "glulam": bc.material("glulam", (0.55, 0.36, 0.2), 0.6),
+    "clt": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
+    "timber": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
+    "steel_dark": bc.material("steel_dark", (0.03, 0.03, 0.032), 0.45, metal=0.7),
+    "precast": bc.material("precast", (0.56, 0.55, 0.52), 0.8),
+    "oak": bc.material("oak", (0.42, 0.28, 0.15), 0.5),
 }
+PHASES = {1: "1 · foundations", 3: "3 · structure"}
 for ph in range(1, STAGE + 1):
-    coll = bc.collection({1: "1 · foundations"}.get(ph, f"{ph}"))
+    if ph not in PHASES:
+        continue  # stage 2 (style) adds no elements
+    coll = bc.collection(PHASES[ph])
     for e in sorted((e for e in model["elements"] if e.get("phase") == ph), key=lambda e: e.get("seq", 0)):
         mat = MAT.get(e["material"], MAT["concrete"])
         z0, z1 = e["z"]
         if e["type"] in ("slab", "footing", "blinding") and "rect" in e:
-            x0, y0, x1, y1 = e["rect"]; ob = bc.box(e["id"], x0, y0, z0, x1, y1, z1, mat, coll)
+            x0, y0, x1, y1 = e["rect"]
+            W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))  # roofs: plate runs past the facade
+            ob = bc.box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
             for k, h in enumerate(e.get("holes", [])):
                 if "rect" in h:  # e.g. the pool basin through the F4 raft
                     xs_, ys_ = [p[0] for p in h["rect"]], [p[1] for p in h["rect"]]
@@ -109,6 +121,32 @@ for ph in range(1, STAGE + 1):
                                          e["size"][0] + 1.0, op["z"][0], op["z"][1], mat, coll)
                 cut_ob.hide_render = True; cut_ob.hide_viewport = True
                 md = ob.modifiers.new(f"op{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cut_ob
+        elif e["type"] == "column":
+            (x, y), (w, d) = e["at"], e["size"]; bc.box(e["id"], x - w / 2, y - d / 2, z0, x + w / 2, y + d / 2, z1, mat, coll)
+        elif e["type"] == "beam":
+            (bx0, by0), (bx1, by1) = e["from"], e["to"]; L = math.hypot(bx1 - bx0, by1 - by0); d = z1 - z0
+            c0, c1 = e.get("cantilever", (0, 0)); tip = e.get("tip_depth", d)
+            if "cantilever" in e:  # tapered tails past both supports, top stays flat
+                prof = [(-c0, z1), (L + c1, z1), (L + c1, z1 - (tip if c1 else d)), (L, z0), (0, z0), (-c0, z1 - (tip if c0 else d))]
+            else:  # tapers root -> tip (outriggers)
+                prof = [(0, z1), (L, z1), (L, z1 - tip), (0, z0)]
+            bc.extrude_profile(e["id"], e["from"], e["to"], e["size"][0], prof, mat, coll)
+        elif e["type"] == "stair_flight":
+            (fx0, fy0), (fx1, fy1) = e["from"], e["to"]; L = math.hypot(fx1 - fx0, fy1 - fy0)
+            n = e["risers"]; r = (z1 - z0) / n; g = L / (n - 1); wv = e["size"][1] * 1.3
+            prof = [(0, z0)]
+            for k in range(n):
+                prof += [(k * g, z0 + (k + 1) * r), ((k + 1) * g if k < n - 1 else L, z0 + (k + 1) * r)]
+            prof = prof[:-1] + [(L, z1 - wv), (0, z0 + r - wv)]
+            bc.extrude_profile(e["id"], e["from"], e["to"], e["size"][0], prof, mat, coll)
+        elif e["type"] == "spiral_stair":  # open helix: inner + outer steel stringers, oak treads, no centre post
+            (cx, cy), (ri, ro) = e["center"], e["r"]; n = e["risers"]; r = (z1 - z0) / n; da = e["step_deg"]; a0 = e["a0"]
+            for k, rr in (("in", ri), ("out", ro)):
+                bc.helix_plate(f"{e['id']}_stringer_{k}", (cx, cy), rr, 0.025, 0.36, a0, a0 + da * n, z0 + r - 0.06, z1 - 0.06, mat, coll)
+            for k in range(n):
+                aa, ab = math.radians(a0 + da * k - 1), math.radians(a0 + da * (k + 1) + 1)
+                pts = [(cx + rad * math.cos(t), cy + rad * math.sin(t)) for rad, t in ((ri, aa), (ro, aa), (ro, (aa + ab) / 2), (ro, ab), (ri, ab))]
+                bc.poly_slab(f"{e['id']}_t{k}", pts, z0 + r * (k + 1) - 0.06, z0 + r * (k + 1), MAT["oak"], coll)
         elif e["type"] == "pad_footing":
             (x, y), (w, d) = e["at"], e["size"]; bc.box(e["id"], x - w / 2, y - d / 2, z0, x + w / 2, y + d / 2, z1, mat, coll)
         elif e["type"] == "anchor_field":  # one instanced bar per grid point
@@ -139,6 +177,13 @@ CAMS = {
     "pit_east": ((80, 40, 30), (5, 5, -8), 26),
     "cofferdam": ((14, -50, 4), (-6, -10, -12), 22),
     "pit_floor": ((-26, 8, -3), (-12, -20, -16), 18),
+    "frame_overview": ((-85, -95, 42), (-2, -2, -4), 26),
+    "frame_east": ((75, 45, 22), (2, -4, -3), 24),
+    "frame_gorge": ((3, -62, -6), (1, -5, -2), 22),
+    "roof_eaves": ((-48, -52, 9), (-28, -32, 4), 24),
+    "lounge_deck": ((3, -24, 1.7), (3, 2, 3.2), 18),
+    "hall_f1": ((-9, -32, 1.7), (-24, 8, 3.8), 16),
+    "spiral": ((-12.5, -22, -8.0), (-17.95, -14.85, -4.5), 16),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -147,7 +192,9 @@ for o in bpy.data.objects:  # primitives + boolean results: flat shading for eve
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
-    for n in (["site_aerial", "ravine_upstream", "site_top"] if STAGE == 0 else ["pit_overview", "pit_east", "cofferdam", "pit_floor", "site_top"]):
+    shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "site_top"],
+             3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "site_top"]}
+    for n in shots[max(k for k in shots if k <= STAGE)]:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
