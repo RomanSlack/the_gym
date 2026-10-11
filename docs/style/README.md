@@ -11,3 +11,5 @@ gpt-image-2 renders built on clean renders of our real massing (`ref_*.png`), so
 | **C** | Light board-formed concrete, oak louvres + soffits, razor-thin roof edges, full-height glass |
 
 Roman picks (or mixes), then it's locked into VISION.md.
+
+**Decision (2026-10-11): B.** Dark tarred timber, sod roofs, divided (not giant single-pane) glazing.

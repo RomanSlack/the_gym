@@ -13,6 +13,7 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
   - below-grade retaining walls + the river wall with its formed window openings
   - waterproofing membranes, drainage gravel + perimeter drains
   - garage-ramp trench walls + cut-and-cover tunnel roof
+- ✅ **Stage 2 · Exterior style: LOCKED = B, dark tarred timber + sod roofs, divided glazing** (see VISION.md, `docs/style/`). Next: stage 3, structure.
 - Build: `python3 tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
 
 ## Stages

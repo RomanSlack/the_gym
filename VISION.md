@@ -231,6 +231,16 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Public WCs** (reception): open, airport-style baffled entry with no door, full-height stalls inside, and an accessible WC with its own door.
 - **Daycare toilets:** glass wall + open doorway, so staff have line of sight from the play space (safeguarding best practice rather than a strict code line); low stall screens for the kids.
 
+## Exterior style: LOCKED (2026-10-11, stage 2)
+
+**Direction B: dark tarred timber + sod roofs.** Roman picked it ("really clean").
+- **Walls:** black-stained / tarred timber cladding (vertical boards), with a stone plinth at the base.
+- **Roofs:** flat **sod / green roofs** on every roof (main wings, lounge bridge, annexes, bike shelter, W3 exit), thin dark roof edges, eaves kept.
+- **Windows:** **divided glazing, not giant single panes.** Big openings broken into a rhythm of narrower panes with dark mullions, deep-set in the timber. Roman likes this explicitly.
+- **Details:** weathered oak accents (soffits, doors, benches), dark metal.
+- **Reference images:** `docs/style/bdarksod_gorge.jpg`, `bdarksod_aerial.jpg`, `bdarksod_arrival.jpg` (+ the full sheet `docs/style/style_options_v1.jpg`).
+- Fits the sauna (already tarred timber + sod roof): the whole site reads as one family.
+
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)
