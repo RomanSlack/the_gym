@@ -18,7 +18,7 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 | cardio-F2 | 136 | 17 | 72 | 53% | roomy |
 | calisthenics | 75 | 3 | 56 | 74% | normal |
 | stretching | 248 | 4 | 202 | 81% | normal |
-| recovery | 116 | 18 | 76 | 66% | normal |
+| recovery | 148 | 19 | 102 | 69% | normal |
 | posing | 37 | 1 | 25 | 67% | normal |
 | pod-1 | 32 | 1 | 22 | 68% | normal |
 | pod-2 | 32 | 1 | 22 | 68% | normal |
@@ -52,7 +52,7 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 
 **stretching**: Mats / mobility area ×1; Foam rollers, bands, massage guns storage ×1; 3D body scanner ×1; Small group class studio (open) ×1
 
-**recovery**: Compression boots chairs ×8; Zero-gravity loungers ×8; Massage chairs ×2
+**recovery**: Compression boots chairs ×8; Zero-gravity loungers ×10; Stretch / foam-roll corner ×1
 
 **posing**: Posing stage + light rig + 3-way mirror ×1
 

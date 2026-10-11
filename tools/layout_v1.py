@@ -80,17 +80,15 @@ S("river-edge", "F3", "feature", "River edge · waist-high river window + indoor
 
 # ---------------------------------------------------------------- F4 −15.39 (pool, recovery)
 S("north-stair-F4", "F4", "circulation", "Stair from F3", R(-21.45, 7.1, -15.45, 12.1))
-S("thermal", "F4", "wet", "Thermal suite · Finnish sauna, steam, hot/cold plunge, infrared, cryo",
+S("thermal", "F4", "wet", "Thermal · sauna, steam, hot/cold plunge",
   [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]])
 S("pool", "F4", "pool", "Lap pool 25 × 10 m · underwater river windows", R(-16.45, -28.1, -6.45, -3.1))
 S("pool-deck-w", "F4", "wet", "Pool deck & lounge", R(-24.45, -18.7, -16.45, 4.4))
 S("pool-deck-n", "F4", "wet", "Pool deck", R(-16.45, -3.1, -6.45, 4.4))
 S("pool-deck-s", "F4", "wet", "Pool deck", R(-16.45, -34.1, -6.45, -28.1))
 S("plant", "F4", "service", "Plant room · pool + building", R(-24.45, -34.1, -16.45, -18.7))
-S("recovery", "F4", "gym", "Recovery lounge · compression, zero-gravity", R(-29.45, -34.1, -24.45, -11.0))
-S("treatment", "F4", "wet", "Treatment rooms (2)", R(-29.45, 7.9, -24.45, 12.1))
-S("treatment-s", "F4", "wet", "Treatment room", R(-29.45, -11.0, -24.45, -4.5))
-S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts from the locker rooms", R(-29.45, -4.5, -24.45, 7.9), "arrive from the locker rooms in robes, straight onto the pool deck")
+S("recovery", "F4", "gym", "Recovery lounge · compression, loungers", R(-29.45, -34.1, -24.45, -4.5), "no spa / massage (Roman)")
+S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts, towels + robes", R(-29.45, -4.5, -24.45, 12.1), "arrive from the locker rooms in robes, straight onto the pool deck; towel + robe station")
 
 # ---------------------------------------------------------------- lounge link (F1)
 S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.5, 12.0, 6.8), "sliding glass walls open fully onto the decks")

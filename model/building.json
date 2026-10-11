@@ -1826,7 +1826,7 @@
       "id": "thermal",
       "level": "F4",
       "kind": "wet",
-      "name": "Thermal suite · Finnish sauna, steam, hot/cold plunge, infrared, cryo",
+      "name": "Thermal · sauna, steam, hot/cold plunge",
       "poly": [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]]
     },
     {
@@ -1868,30 +1868,17 @@
       "id": "recovery",
       "level": "F4",
       "kind": "gym",
-      "name": "Recovery lounge · compression, zero-gravity",
-      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -11.0], [-29.45, -11.0]]
-    },
-    {
-      "id": "treatment",
-      "level": "F4",
-      "kind": "wet",
-      "name": "Treatment rooms (2)",
-      "poly": [[-29.45, 7.9], [-24.45, 7.9], [-24.45, 12.1], [-29.45, 12.1]]
-    },
-    {
-      "id": "treatment-s",
-      "level": "F4",
-      "kind": "wet",
-      "name": "Treatment room",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -4.5], [-29.45, -4.5]]
+      "name": "Recovery lounge · compression, loungers",
+      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -4.5], [-29.45, -4.5]],
+      "note": "no spa / massage (Roman)"
     },
     {
       "id": "pool-lobby",
       "level": "F4",
       "kind": "circulation",
-      "name": "Pool lobby · express lifts from the locker rooms",
-      "poly": [[-29.45, -4.5], [-24.45, -4.5], [-24.45, 7.9], [-29.45, 7.9]],
-      "note": "arrive from the locker rooms in robes, straight onto the pool deck"
+      "name": "Pool lobby · express lifts, towels + robes",
+      "poly": [[-29.45, -4.5], [-24.45, -4.5], [-24.45, 12.1], [-29.45, 12.1]],
+      "note": "arrive from the locker rooms in robes, straight onto the pool deck; towel + robe station"
     },
     {
       "id": "lounge",

@@ -59,7 +59,7 @@ PLAN = {
     "calisthenics": [("Bar station + rings", 1, 20.0), ("Parallettes / dip bars", 1, 6.0), ("Open floor", 1, 30.0)],
     "stretching": [("Mats / mobility area", 1, 120.0), ("Foam rollers, bands, massage guns storage", 1, 6.0),
                    ("3D body scanner", 1, 6.0), ("Small group class studio (open)", 1, 70.0)],
-    "recovery": [("Compression boots chairs", 8, 4.0), ("Zero-gravity loungers", 8, 4.5), ("Massage chairs", 2, 4.0)],
+    "recovery": [("Compression boots chairs", 8, 4.0), ("Zero-gravity loungers", 10, 4.5), ("Stretch / foam-roll corner", 1, 25.0)],
     "posing": [("Posing stage + light rig + 3-way mirror", 1, 25.0)],
     "pod-1": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)], "pod-2": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)],
     "pod-3": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)],
