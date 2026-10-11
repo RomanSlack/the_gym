@@ -33,6 +33,14 @@ export interface SiteFeatures {
   sauna: { center: Pt; size: Pt; deck: { rect: [number, number, number, number] } };
   sauna_path: { points: Pt[]; width: number };
 }
+export interface DesignElement {
+  id: string;
+  type: "column";
+  material: string;
+  at: Pt;
+  size: Pt;
+  z: [number, number];
+}
 export interface Model {
   schema: string;
   project: { name: string; datum: { label: string; blender_z_gymv2: number; masl: number } };
@@ -40,7 +48,7 @@ export interface Model {
   levels: Level[];
   views: { plan_cut_height: number; sections: SectionDef[] };
   grids: Grid[];
-  elements: unknown[];
+  elements: DesignElement[];
 }
 
 export interface UElement {

@@ -202,6 +202,7 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Garage looks out across the ravine** (as in the original sketch: "Garage (area for nice cars), Window"). The rock ledge between the east wing and the canyon is cut down along the garage stretch, so the garage's west wall stands on a rock shelf above the plunge pool. **Floor-to-ceiling glazing** looks straight across the water at the gym. The garage floor (E2) is about 2.8 m above the water.
 - **Daycare lower floor:** glazed toward the sunken garden (walk-out). It stays solid toward the ravine for safety.
 - **Trail:** a ~3.2 km (2-mile) loop around the upstream valley. It crosses the river at the rustic bridge and at a small timber footbridge far upstream, and passes the sauna. About 1.5 m wide, gentle, with low lights.
+- **Trail is for running and walking** (not a winter ski lysløype). It stays about 1.5 m wide, as laid out (2.06 mi loop). A later polish pass can add drainage dips and culverts, plus dark-sky bollard lighting.
 
 ## Open questions
 

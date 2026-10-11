@@ -101,6 +101,7 @@ export default function App() {
           ))}
         </div>
         <div className="legend">
+          <div><i className="sw new" /> new design (black)</div>
           <div><i className="sw cut" /> cut (existing / Gym V2)</div>
           <div><i className="sw below" /> below cut</div>
           <div><i className="sw above" /> above cut</div>
@@ -128,6 +129,9 @@ export default function App() {
           <defs>
             <pattern id="hatch-existing" patternUnits="userSpaceOnUse" width="0.35" height="0.35" patternTransform="rotate(45)">
               <line x1="0" y1="0" x2="0" y2="0.35" className="hatch-line" />
+            </pattern>
+            <pattern id="hatch-timber" patternUnits="userSpaceOnUse" width="0.12" height="0.12" patternTransform="rotate(-45)">
+              <line x1="0" y1="0" x2="0" y2="0.12" className="timber-line" />
             </pattern>
             <pattern id="hatch-earth" patternUnits="userSpaceOnUse" width="1.6" height="1.6" patternTransform="rotate(45)">
               <line x1="0" y1="0" x2="0" y2="1.6" className="earth-line" />

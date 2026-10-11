@@ -17,6 +17,8 @@ Second goal: **record everything** so the weeks of iteration can become a YouTub
 - [x] Site: real Elverum terrain (Kartverket), parametric ravine + falls + plunge pool, GPU erosion, road, garage ramp/tunnel, sunken daycare garden, sauna + pool + path (`terrain/`, every run versioned in `terrain/runs/`)
 - [x] First 3D site scene in Blender (`terrain/blender_scene.py`) with rock cliff walls, forest, Gym V2 massing
 - [x] Blueprint drawings on the new terrain, with site works (`model/site_terrain.json`)
+- [x] 2-mile trail loop (`terrain/route_trail.py`)
+- [ ] Structure proposal v1: grid + columns drawn ([STRUCTURE.md](STRUCTURE.md)), awaiting Roman's OK
 - [ ] Agree on specs (program, floors, dimensions, site, style, materials), resolving the open questions in VISION.md
 - [ ] Research (references, real gym/wellness building standards)
 - [ ] Decide build approach (script-driven vs. MCP live editing, repo layout)

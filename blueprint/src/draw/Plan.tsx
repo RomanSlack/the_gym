@@ -162,7 +162,21 @@ export function Plan({
           </text>
         ))}
 
-      <SiteWorks f={model.site.features} />
+      {(site || level.id === "F1") && <SiteWorks f={model.site.features} />}
+
+      {/* new design: columns cut by this plan (solid black), or below it (outline) */}
+      {!site &&
+        model.elements
+          .filter((e) => e.type === "column" && e.z[0] <= cut && e.z[1] >= elev - 0.2)
+          .map((e) => {
+            const isCut = e.z[1] >= cut;
+            const [w, d] = e.size;
+            return (
+              <rect key={e.id} x={e.at[0] - w / 2} y={-e.at[1] - d / 2} width={w} height={d}
+                className={isCut ? (e.material === "glulam" ? "n-col-timber" : "n-col") : "n-col-below"}
+                data-n={`${e.id} · ${e.material} column ${w} x ${d} · z ${e.z[0]} to ${e.z[1]}`} />
+            );
+          })}
 
       {model.grids.map((g) => (
         <g key={g.id} className="grid">
