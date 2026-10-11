@@ -1637,18 +1637,19 @@
       "note": "back counter along the south wall; opens west onto the lounge bridge"
     },
     {
-      "id": "hall-e",
+      "id": "dc-entrance",
       "level": "E1",
-      "kind": "circulation",
-      "name": "Hall · cafe ↔ daycare",
-      "poly": [[12.0, 6.8], [14.5, 6.8], [14.5, 16.2], [12.0, 16.2]]
+      "kind": "daycare",
+      "name": "Daycare main entrance · check-in",
+      "poly": [[12.0, 6.8], [16.0, 6.8], [16.0, 16.2], [12.0, 16.2]],
+      "note": "open off the cafe (as in Gym V2); drop the kids, grab a coffee; leads north into the daycare wardrobe"
     },
     {
       "id": "wcs",
       "level": "E1",
       "kind": "wet",
       "name": "Public WCs · women, men, accessible",
-      "poly": [[14.5, 6.8], [20.8, 6.8], [20.8, 16.2], [14.5, 16.2]],
+      "poly": [[16.0, 6.8], [20.8, 6.8], [20.8, 16.2], [16.0, 16.2]],
       "note": "Gym V2's WC cells; water station at the cafe side"
     },
     {
@@ -1663,9 +1664,9 @@
       "id": "dc-wardrobe",
       "level": "E1",
       "kind": "daycare",
-      "name": "Daycare entry · wardrobe + drying cabinets",
-      "poly": [[24.0, 16.2], [30.5, 16.2], [30.5, 21.2], [24.0, 21.2]],
-      "note": "secure door from reception; each child's cubby, boot racks, drying cabinets for wet outdoor clothes"
+      "name": "Daycare wardrobe · drying cabinets",
+      "poly": [[12.0, 16.2], [17.0, 16.2], [17.0, 21.2], [12.0, 21.2]],
+      "note": "secure door at the end of the daycare entrance; each child's cubby, boot racks, drying cabinets for wet outdoor clothes"
     },
     {
       "id": "dc-wc",
@@ -1680,7 +1681,7 @@
       "level": "E1",
       "kind": "service",
       "name": "Staff room + staff WC",
-      "poly": [[12.0, 16.2], [17.0, 16.2], [17.0, 21.2], [12.0, 21.2]]
+      "poly": [[24.0, 16.2], [30.5, 16.2], [30.5, 21.2], [24.0, 21.2]]
     },
     {
       "id": "dc-kids",

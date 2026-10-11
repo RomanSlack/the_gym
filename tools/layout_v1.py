@@ -98,15 +98,16 @@ S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 # Follows Gym V2: cafe island in the middle of the south half, a central block with the core and public WCs,
 # reception desk backed onto it facing the entry (east), daycare north.
 S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 30.5, 6.8), "back counter along the south wall; opens west onto the lounge bridge")
-S("hall-e", "E1", "circulation", "Hall · cafe ↔ daycare", R(12.0, 6.8, 14.5, 16.2))
-S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(14.5, 6.8, 20.8, 16.2), "Gym V2's WC cells; water station at the cafe side")
+S("dc-entrance", "E1", "daycare", "Daycare main entrance · check-in", R(12.0, 6.8, 16.0, 16.2),
+  "open off the cafe (as in Gym V2); drop the kids, grab a coffee; leads north into the daycare wardrobe")
+S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(16.0, 6.8, 20.8, 16.2), "Gym V2's WC cells; water station at the cafe side")
 S("reception", "E1", "circulation", "Reception · entry from the arrival court", [[24.0, 6.8], [30.5, 6.8], [30.5, 16.2], [20.8, 16.2], [20.8, 15.8], [24.0, 15.8]],
   "desk backed onto the core, facing the east entrance")
 # daycare (upper): Norwegian barnehage layout: entry wardrobe, children's WC + changing, staff, play
-S("dc-wardrobe", "E1", "daycare", "Daycare entry · wardrobe + drying cabinets", R(24.0, 16.2, 30.5, 21.2), "secure door from reception; each child's cubby, boot racks, drying cabinets for wet outdoor clothes")
+S("dc-wardrobe", "E1", "daycare", "Daycare wardrobe · drying cabinets", R(12.0, 16.2, 17.0, 21.2), "secure door at the end of the daycare entrance; each child's cubby, boot racks, drying cabinets for wet outdoor clothes")
 S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
   "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one")
-S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
+S("dc-staff", "E1", "service", "Staff room + staff WC", R(24.0, 16.2, 30.5, 21.2))
 # drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
 S("dc-kids", "E1", "daycare", "Kids' room · 3–12 · crafts, reading, homework", R(12.0, 21.2, 21.25, 33.3), "round stair down to active play")
 S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(21.25, 21.2, 30.5, 25.2), "breastfeeding chairs, bottle prep, quiet")
