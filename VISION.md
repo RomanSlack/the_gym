@@ -188,6 +188,13 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Surroundings are real, the ravine is ours.** The real terrain is kept for everything around the site. The real gorge is erased and replaced by a **parametric ravine** (centerline, depths, falls, pools) that we reshape artistically. Its shape rules (depth to width, wall angles, step-pool rhythm, meander) are **measured from the real Elverum gorge**, so it stays believable.
 - **Daycare lower floor = walk-out onto a sunken play garden** (option A). A sheltered courtyard is excavated on the north side of the east wing at E2 level (−6.0), with terraced planting stepping back up to the forest floor. It gives the lower daycare floor daylight, a direct exit and a safe enclosed outdoor play area. Roman: "amazing and magical".
 - **Garage at E2 is reached by the sub-terrain tunnel ramp** from the road (about 45–50 m of ramp for the 6 m drop), designed together with the road.
+- **Falls position confirmed:** lip just north of the rustic bridge, dropping south into the plunge pool along the gym.
+- **Sauna = Gym V2's free-standing cube** at about (−27, 24), west of the rustic bridge. Size it to Nordic club-sauna practice rather than keeping 5.6 m. Proposal (to confirm):
+  - **Main mixed sauna, swimwear on** (the Norwegian norm for shared saunas). About 12–14 people on 3 tiers, interior about 3.5 × 4.5 m.
+  - **Smaller second hot room** (4–6 people) for private, women-only or men-only sessions.
+  - Changing rooms with showers, and a covered terrace with a cold plunge.
+  - About 8 × 12 m footprint overall. Timber, built like a traditional badstue.
+  - Gendered steam rooms stay in the main locker rooms (feature list).
 
 ## Open questions
 
