@@ -214,6 +214,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
   - A **covered bike shelter** (~30 bikes, e-bike charging, timber with a sod roof) at the south edge of the entry meadow, with stepping stones to the door.
   - **Underground bike + motorcycle parking** along the south wall of the east-wing garage (~40 bikes on two-tier racks, 6 motorcycle bays, bike wash + repair stand), a short walk to the core E lift/stairs up to reception.
 - **Trailhead:** the 8-space gravel lot moved closer (x 99–120 along the road, ~50 m from the entrance). A **connector trail** runs north to the loop, and a **park-style trailhead sign** (log posts, small gable roof, illustrated map panel `terrain/assets/trail_map_v1.png`, made with gpt-image-2) stands at the trail start.
+- **Outdoor garden terrace on the west side** (from Roman's sketch): a lawn garden between the two stair towers with moss/boulder beds and a big pine. It has a **timber training deck** off stretching & mobility with an **outdoor calisthenics rig** (pull-up bars at 3 heights, parallel bars), and a **path north along the back of the building into the sauna path and the trail**.
+- **F2:** cardio halved (north half, river views); the south half is more machines (plate-loaded + cable).
 
 ## Open questions
 

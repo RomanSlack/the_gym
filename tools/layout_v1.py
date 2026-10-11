@@ -60,7 +60,8 @@ S("cardio-F1", "F1", "gym", "Cardio · river views", R(-17.7, -34.1, -6.45, -18.
 # ---------------------------------------------------------------- F2 −4.91
 S("free-weights", "F2", "gym", "Free weights · mirror wall", STRETCH)
 S("olympic", "F2", "gym", "Olympic platforms", R(-29.45, -9.3, -18.2, 12.1))
-S("cardio-F2", "F2", "gym", "Cardio · river views", R(-18.2, -11.0, -6.45, 12.1))
+S("cardio-F2", "F2", "gym", "Cardio · river views", R(-18.2, 0.55, -6.45, 12.1))
+S("machines-2", "F2", "gym", "Machines · plate-loaded + cable", R(-18.2, -11.0, -6.45, 0.55), "Roman: half the cardio became more machines")
 S("spiral-F2", "F2", "circulation", "Spiral stair", SPIRAL_BAY)
 S("machines", "F2", "gym", "Machines", [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]])
 
@@ -224,6 +225,7 @@ els.append({"id": "S-P-floor", "type": "slab", "material": "concrete", "rect": [
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")
+GLASS_A1_NOTE = "west facade: sliding glass y -26.8..-19 opens onto the training deck"
 for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.5], "C1"), ([x1, 6.8], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
 x0, y0, x1, y1 = EAST

@@ -69,7 +69,7 @@ rock = np.load(RV / "rock_1m.npy")
 DX0, DX1, DY0, DY1 = -320, 620, -320, 900  # 1 m detail area: building, ravine and the whole trail loop
 c = (slice(1000 + DY0, 1000 + DY1), slice(1000 + DX0, 1000 + DX1))
 FEAT = np.load(RV / "features_1m.npy")
-BITS = (1, 2, 8, 16, 32, 256, 512, 1024, 2048, 4096)  # asphalt, shoulder, ramp, garden, path, trail, planting, stone, gravel
+BITS = (1, 2, 8, 16, 32, 256, 512, 1024, 2048, 4096, 8192)  # asphalt, shoulder, ramp, garden, path, trail, planting, stone, gravel
 detail = grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0,
                    {"rock": rock[c], **{f"feat{b}": ((FEAT[c] & b) > 0).astype(np.float32) for b in BITS}})
 
@@ -101,7 +101,7 @@ def terrain_mat(nt, bsdf):
     L.new(mx.outputs[0], mix.inputs["Factor"]); L.new(ramp.outputs["Color"], mix.inputs["A"])
     col = mix.outputs["Result"]
     # bit flags from terrain/ravine.py MASK: asphalt 1, shoulder 2, court 4, ramp 8, garden 16, path 32
-    for bit, rgb in ((4096, (0.10, 0.16, 0.045)), (2048, (0.22, 0.20, 0.17)), (1024, (0.26, 0.25, 0.23)), (512, (0.06, 0.10, 0.035)), (256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
+    for bit, rgb in ((4096, (0.10, 0.16, 0.045)), (2048, (0.22, 0.20, 0.17)), (1024, (0.26, 0.25, 0.23)), (512, (0.06, 0.10, 0.035)), (256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02)), (8192, (0.20, 0.12, 0.07))):  # deck last: sits on top of the lawn
         fa = N.new("ShaderNodeAttribute"); fa.attribute_name = f"feat{bit}"
         gt = N.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.5; L.new(fa.outputs["Fac"], gt.inputs[0])
         mx2 = N.new("ShaderNodeMix"); mx2.data_type = "RGBA"; mx2.inputs["B"].default_value = (*rgb, 1)
@@ -558,6 +558,28 @@ if ts:
         bpy.ops.mesh.primitive_plane_add(size=1, location=(0, -0.075, 1.5), rotation=(math.radians(90), 0, 0))
         pl = part(bpy.context.object); pl.scale = (1.85, 1.3, 1); pl.data.materials.append(mm)
         bpy.ops.object.mode_set(mode="OBJECT")
+# outdoor calisthenics rig on the training deck
+rig = model["site"]["features"].get("outdoor_rig")
+if rig:
+    steel = material("galv_steel", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.55, 0.56, 0.57, 1)), b.inputs["Metallic"].__setattr__("default_value", 0.9), b.inputs["Roughness"].__setattr__("default_value", 0.35)))
+    x0, y0, x1, y1 = rig["rect"]; zr = rig["z"]
+    xm = (x0 + x1) / 2
+    ys_ = np.linspace(y0, y1, 4)
+    for yy in ys_:  # posts on two lines
+        for xx in (x0, xm):
+            bpy.ops.mesh.primitive_cylinder_add(radius=0.06, depth=2.6, location=(xx, yy, zr + 1.3), vertices=12)
+            bpy.context.object.data.materials.append(steel)
+    for k, (ya, yb) in enumerate(zip(ys_, ys_[1:])):  # pull-up bars at 2.1 / 2.3 / 2.5 m
+        h = zr + 2.1 + 0.2 * k
+        for xx in (x0, xm):
+            bpy.ops.mesh.primitive_cylinder_add(radius=0.02, depth=yb - ya, location=(xx, (ya + yb) / 2, h), rotation=(math.radians(90), 0, 0), vertices=10)
+            bpy.context.object.data.materials.append(steel)
+    for yy in (y0 + 1.0, y0 + 1.6):  # parallel bars
+        bpy.ops.mesh.primitive_cylinder_add(radius=0.025, depth=2.6, location=(x1 - 0.9, yy, zr + 1.2), rotation=(0, math.radians(90), 0), vertices=10)
+        bpy.context.object.data.materials.append(steel)
+        for xx in (x1 - 2.1, x1 + 0.3):
+            bpy.ops.mesh.primitive_cylinder_add(radius=0.04, depth=1.2, location=(xx, yy, zr + 0.6), vertices=10)
+            bpy.context.object.data.materials.append(steel)
 # stepping stones: flat granite slabs set flush in the grass
 Hd_ = H  # 1 m terrain, rows = y + 1000
 for line in model["site"]["features"].get("stepping_stones", []):
@@ -589,7 +611,7 @@ for sf in model["site"]["features"].get("surfaces", []):
         bo = bpy.data.objects.new(meb.name, meb); scene.collection.objects.link(bo)
         if granite_m:
             bo.data.materials.append(granite_m)
-    if sf["id"] == "loop_island":  # one big old pine
+    if sf["id"] in ("loop_island", "west_bed_1"):  # one big old pine
         big = protos[2].copy(); big.data = protos[2].data
         scene.collection.objects.link(big); big.parent = None
         big.location = (cx, cy, sf["z"]); big.scale = (1.5, 1.5, 1.5)

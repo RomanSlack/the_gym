@@ -98,7 +98,7 @@ def fill_sinks(H, keep, min_depth=0.3):
 
 
 MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128, "trail": 256,
-        "planting": 512, "stone": 1024, "gravel": 2048, "lawn": 4096}
+        "planting": 512, "stone": 1024, "gravel": 2048, "lawn": 4096, "deck": 8192}
 
 
 def corridor(T, pts_xyz, half_flat, slope_ratio, reach=25.0):

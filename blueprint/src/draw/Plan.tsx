@@ -94,6 +94,9 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
         </g>
       )}
       <text x={44} y={-9} className="txt-s" textAnchor="middle">ENTRY MEADOW</text>
+      <text x={-46} y={14} className="txt-s" textAnchor="middle">GARDEN TERRACE</text>
+      {f.outdoor_rig && <path d={rect(f.outdoor_rig.rect)} className="w-rig" />}
+      <text x={-36.5} y={23.3} className="txt-s" textAnchor="middle">TRAINING DECK · RIG</text>
       <text x={62} y={-19.5} className="txt-s" textAnchor="middle">DROP-OFF</text>
       <text x={160.5} y={-16} className="txt-s" textAnchor="middle">TRAILHEAD PARKING · 8</text>
     </g>
