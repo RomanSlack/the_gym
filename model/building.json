@@ -1878,13 +1878,13 @@
       "kind": "partition",
       "material": "timber_stud",
       "from": [-29.45, 7.65],
-      "to": [-13.6, 7.65],
+      "to": [-11.6, 7.65],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["women-lockers", "women-wet"],
       "openings": [
-        {"s": [7.02, 8.82], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"}
+        {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"}
       ]
     },
     {
@@ -1892,7 +1892,7 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, 1.5],
+      "from": [-11.6, 1.5],
       "to": [-29.45, 1.5],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
@@ -1905,8 +1905,8 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, 7.65],
-      "to": [-13.6, 1.5],
+      "from": [-11.6, 7.65],
+      "to": [-11.6, 1.5],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -1935,8 +1935,8 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, 7.65],
-      "to": [-13.6, 12.1],
+      "from": [-11.6, 7.65],
+      "to": [-11.6, 12.1],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -1948,14 +1948,14 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, -4.2],
+      "from": [-11.6, -4.2],
       "to": [-29.45, -4.2],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-lockers", "men-wet"],
       "openings": [
-        {"s": [7.02, 8.82], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"}
+        {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"}
       ]
     },
     {
@@ -1963,8 +1963,8 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, 1.5],
-      "to": [-13.6, -4.2],
+      "from": [-11.6, 1.5],
+      "to": [-11.6, -4.2],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -1993,8 +1993,8 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-13.6, -9.3],
-      "to": [-13.6, -4.2],
+      "from": [-11.6, -9.3],
+      "to": [-11.6, -4.2],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -2033,7 +2033,7 @@
       "kind": "partition",
       "material": "timber_stud",
       "from": [-14.45, -9.3],
-      "to": [-13.6, -9.3],
+      "to": [-11.6, -9.3],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -2418,7 +2418,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Women's changing · lockers",
-      "poly": [[-29.45, 7.65], [-13.6, 7.65], [-13.6, 1.5], [-29.45, 1.5], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]],
+      "poly": [[-29.45, 7.65], [-11.6, 7.65], [-11.6, 1.5], [-29.45, 1.5], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]],
       "number": "F1.03"
     },
     {
@@ -2426,7 +2426,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Women's wet zone · showers, WCs, grooming",
-      "poly": [[-29.45, 7.65], [-13.6, 7.65], [-13.6, 12.1], [-29.45, 12.1]],
+      "poly": [[-29.45, 7.65], [-11.6, 7.65], [-11.6, 12.1], [-29.45, 12.1]],
       "note": "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)",
       "number": "F1.01"
     },
@@ -2435,7 +2435,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Men's changing · lockers",
-      "poly": [[-29.45, 1.5], [-13.6, 1.5], [-13.6, -4.2], [-29.45, -4.2], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7]],
+      "poly": [[-29.45, 1.5], [-11.6, 1.5], [-11.6, -4.2], [-29.45, -4.2], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7]],
       "number": "F1.05"
     },
     {
@@ -2443,7 +2443,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Men's wet zone · showers, WCs, grooming",
-      "poly": [[-29.45, -9.3], [-13.6, -9.3], [-13.6, -4.2], [-29.45, -4.2]],
+      "poly": [[-29.45, -9.3], [-11.6, -9.3], [-11.6, -4.2], [-29.45, -4.2]],
       "note": "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)",
       "number": "F1.08"
     },
@@ -2452,7 +2452,7 @@
       "level": "F1",
       "kind": "circulation",
       "name": "Gallery · from the lounge bridge",
-      "poly": [[-13.6, -9.3], [-6.45, -9.3], [-6.45, 12.1], [-13.6, 12.1]],
+      "poly": [[-11.6, -9.3], [-6.45, -9.3], [-6.45, 12.1], [-11.6, 12.1]],
       "note": "the bridge lands here; both locker doors right off it",
       "number": "F1.06"
     },

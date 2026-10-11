@@ -46,13 +46,13 @@ for g, poly in LIFTS.items():
                        "poly": poly, "note": f"{g}'s locker room (F1) <-> pool lobby (F4), no stops between"})
 
 # ---------------------------------------------------------------- F1 (gym wing) ±0.00
-# Locker block follows Gym V2's walls exactly (x -29.45..-13.6, y -9.3..12.1), split at y 1.5:
+# Locker block follows Gym V2's walls exactly (x -29.45..-11.6 (pushed 2 m east into the gallery for luxury space; gallery 5 m), y -9.3..12.1), split at y 1.5:
 # per room = changing room (middle) + wet zone (outer strip), full width to the gallery (Roman: wider, extend east)
-S("women-lockers", "F1", "wet", "Women's changing · lockers", R(-29.45, 1.5, -13.6, 7.65))
-S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, grooming", R(-29.45, 7.65, -13.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
-S("men-lockers", "F1", "wet", "Men's changing · lockers", R(-29.45, -4.2, -13.6, 1.5))
-S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, grooming", R(-29.45, -9.3, -13.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
-S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-13.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
+S("women-lockers", "F1", "wet", "Women's changing · lockers", R(-29.45, 1.5, -11.6, 7.65))
+S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, grooming", R(-29.45, 7.65, -11.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
+S("men-lockers", "F1", "wet", "Men's changing · lockers", R(-29.45, -4.2, -11.6, 1.5))
+S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, grooming", R(-29.45, -9.3, -11.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
+S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-11.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
 S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5),
   "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path")
 S("stretching", "F1", "gym", "Stretching & mobility", STRETCH)
