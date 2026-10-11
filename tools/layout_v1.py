@@ -20,8 +20,11 @@ lv = {l["id"]: l["elevation"] for l in m["levels"]}
 
 # ---------------------------------------------------------------- cores (all levels they pass)
 cores = {
-    "W1": {"poly": R(-32.05, -18.7, -28.85, -9.7), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
-    "W2": {"poly": R(-32.05, -34.1, -28.85, -27.6), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
+    # three identical 3.2 x 9 m stone towers. West facade rhythm every 15.55 m: W2, W1, then the sauna annex
+    # flanked by the two express lifts (centre y 1.5). W3 stands fully outside on the north face (no floor area taken).
+    "W1": {"poly": R(-32.05, -18.55, -28.85, -9.55), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
+    "W2": {"poly": R(-32.05, -34.1, -28.85, -25.1), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
+    "W3": {"poly": R(-13.6, 12.35, -10.4, 21.35), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W3 · exit stair (north)"},
     "E": {"poly": R(20.8, 6.8, 24.0, 16.2), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
 }
 spaces = []
@@ -55,15 +58,15 @@ S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5
 S("stretching", "F1", "gym", "Stretching & mobility", STRETCH)
 S("spiral-F1", "F1", "circulation", "Spiral stair", R(-21.45, -18.7, -14.45, -9.3))
 S("calisthenics", "F1", "gym", "Calisthenics", R(-14.45, -18.7, -6.45, -9.3))
-S("cardio-F1", "F1", "gym", "Cardio · river views", R(-17.7, -34.1, -6.45, -18.7))
+S("cardio-F1", "F1", "gym", "Cardio · river views", R(-18.2, -34.1, -6.45, -18.7))
 
 # ---------------------------------------------------------------- F2 −4.91
 S("free-weights", "F2", "gym", "Free weights · mirror wall", STRETCH)
-S("olympic", "F2", "gym", "Olympic platforms", R(-29.45, -9.3, -18.2, 12.1))
+S("olympic", "F2", "gym", "Olympic platforms", [[-29.45, -9.3], [-21.45, -9.3], [-21.45, -11.0], [-18.2, -11.0], [-18.2, 12.1], [-29.45, 12.1]])
 S("cardio-F2", "F2", "gym", "Cardio · river views", R(-18.2, 0.55, -6.45, 12.1))
 S("machines-2", "F2", "gym", "Machines · plate-loaded + cable", R(-18.2, -11.0, -6.45, 0.55), "Roman: half the cardio became more machines")
 S("spiral-F2", "F2", "circulation", "Spiral stair", SPIRAL_BAY)
-S("machines", "F2", "gym", "Machines", [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]])
+S("machines", "F2", "gym", "Machines", [[-18.2, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-18.2, -18.7]])
 
 # ---------------------------------------------------------------- F3 −9.77 (river rim)
 # F3 = "the den" (Roman): dark, locked-in. Free weights along 3/4 of the west wall, floor-to-ceiling mirrors
@@ -138,7 +141,24 @@ S("breathwork", "F4", "gym", "Breathwork & mobility room", R(-28.85, SA[0], -17.
 
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
 for L in ("F2", "F3", "F4"):
-    S(f"wc-annex-{L}", L, "wet", "WCs · 3 single (1 accessible), water station", R(-33.45, -26.5, -29.45, -20.5), "annex in the rock outside the back wall, stacked")
+    S(f"wc-annex-{L}", L, "wet", "WCs · 3 single (1 accessible), water station", R(-33.45, -24.75, -29.45, -18.9), "annex in the rock outside the back wall between W2 and W1, stacked")
+
+# rooms are cut cleanly around every core / shaft that pokes into them (they sit 0.6 m inside the walls)
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
+for L in {sp["level"] for sp in spaces}:
+    solid = [Polygon(sp["poly"]) for sp in spaces if sp["level"] == L and sp["kind"] == "core"]
+    if not solid:
+        continue
+    cut = unary_union(solid)
+    for sp in spaces:
+        if sp["level"] != L or sp["kind"] == "core":
+            continue
+        pg = Polygon(sp["poly"])
+        if pg.intersection(cut).area > 0.05:
+            d = pg.difference(cut)
+            d = max(d.geoms, key=lambda g: g.area) if d.geom_type == "MultiPolygon" else d
+            sp["poly"] = [[round(x, 3), round(y, 3)] for x, y in list(d.exterior.coords)[:-1]]
 
 m["spaces"] = spaces
 
@@ -192,12 +212,13 @@ x0, y0, x1, y1 = WEST
 zb, zt = lv["F4"] - 0.6, lv["F1"] - 0.25
 wall("W-west-A", [x0, y0], [x0, y1], 0.5, zb, zt, "retaining", "concrete")
 els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": f"core {c_} door"}
-                       for L in ("F4", "F3", "F2") for c_, s_ in (("W2", [2.6, 4.0]), ("W1", [19.0, 21.0]), ("WC annex", [10.0, 11.4]))] + [
+                       for L in ("F4", "F3", "F2") for c_, s_ in (("W2", [3.0, 4.4]), ("W1", [19.3, 21.3]), ("WC annex", [11.0, 12.4]))] + [
                        {"s": [30.15, 32.25], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "men's express lift"},
                        {"s": [38.95, 41.05], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "women's express lift"}]
 els[-1]["finishes"] = [{"level": "F3", "face": "interior", "kind": "mirror", "s": [0.0, 34.65], "z": [lv["F3"], round(lv["F3"] + 3.6, 2)],
                          "note": "floor-to-ceiling mirror; the door openings on this stretch get flush mirror-clad doors"}]
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
+els[-1]["openings"] = [{"s": [17.3, 18.5], "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": "core W3 (north exit stair)"} for L in ("F4", "F3", "F2")]
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
 els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": n_} for L, s_, n_ in (
     ("F2", [2.5, 3.7], "posing room"), ("F2", [9.0, 10.2], "pod 1"), ("F2", [14.4, 15.6], "pod 2"), ("F2", [19.8, 21.0], "pod 3"),
@@ -224,6 +245,12 @@ for cid in ("W1", "W2"):
         wall(f"CS-{cid}-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, 6.4, "shaft", "concrete")
     els.append({"id": f"SKY-{cid}", "type": "slab", "material": "glass", "rect": [sx0, sy0, sx1, sy1], "z": [6.4, 6.5], "holes": [],
                 "note": "glass skylight: daylight down the stairwell to F4"})
+# W3 (north, fully outside): walls W/E/N, skylight, discharge door outside at F1, doors from F2-F4 through the north wall
+for n_, (a_, b_) in {"W": ([-13.6, 12.35], [-13.6, 21.35]), "E": ([-10.4, 12.35], [-10.4, 21.35]), "N": ([-13.6, 21.35], [-10.4, 21.35])}.items():
+    wall(f"CS-W3-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, 6.4, "shaft", "concrete")
+els.append({"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-13.6, 12.35, -10.4, 21.35], "z": [6.4, 6.5], "holes": [],
+            "note": "glass skylight: daylight down the stairwell to F4"})
+[e for e in els if e["id"] == "CS-W3-E"][0]["openings"] = [{"s": [6.5, 7.9], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}]
 # W2 exit door straight outside at F1 (west face of the shaft)
 [e for e in els if e["id"] == "CS-W2-W"][0]["openings"] = [{"s": [2.6, 4.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}]
 # south annex structure: retaining walls F4 -> F2 ceiling, roof slab buried under ~1 m of soil
@@ -233,9 +260,9 @@ els.append({"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [
 for L in ("F3", "F2"):
     els.append({"id": f"S-SA-{L}", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
 els.append({"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv["F4"] - 0.6, 2), lv["F4"]], "holes": []})
-for n_, (a_, b_) in {"W": ([-33.45, -26.5], [-33.45, -20.5]), "N": ([-33.45, -20.5], [-29.7, -20.5]), "S": ([-33.45, -26.5], [-29.7, -26.5])}.items():
+for n_, (a_, b_) in {"W": ([-33.45, -24.75], [-33.45, -18.9]), "N": ([-33.45, -18.9], [-29.7, -18.9]), "S": ([-33.45, -24.75], [-29.7, -24.75])}.items():
     wall(f"WA-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, -0.25, "retaining", "concrete")
-els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []})
+els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -24.75, -29.45, -18.9], "z": [-0.6, -0.25], "holes": []})
 # underground parking: retaining walls, columns on a 8.2 x 11 m grid, roof slab = the forecourt
 PZ0, PZ1 = lv["E2"] - 0.6, -1.1
 wall("WP-S", [30.5, -9.5], [60.0, -9.5], 0.4, PZ0, PZ1, "retaining", "concrete")

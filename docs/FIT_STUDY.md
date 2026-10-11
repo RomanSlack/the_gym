@@ -6,19 +6,19 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 
 | Zone | Area m² | Items | Allocated m² | Use | Verdict |
 |---|---|---|---|---|---|
-| machines | 235 | 29 | 161 | 69% | normal |
+| machines | 243 | 29 | 161 | 66% | normal |
 | machines-2 | 136 | 22 | 110 | 81% | normal |
-| free-weights | 248 | 22 | 167 | 67% | normal |
-| olympic | 241 | 15 | 160 | 66% | normal |
-| free-weights-F3 | 277 | 28 | 190 | 69% | normal |
+| free-weights | 238 | 22 | 167 | 70% | normal |
+| olympic | 243 | 15 | 160 | 66% | normal |
+| free-weights-F3 | 265 | 28 | 190 | 72% | normal |
 | functional | 240 | 19 | 172 | 72% | normal |
-| strongman | 92 | 4 | 62 | 67% | normal |
+| strongman | 91 | 4 | 62 | 68% | normal |
 | sled-track | 113 | 2 | 109 | 96% | crowded |
-| cardio-F1 | 173 | 23 | 99 | 57% | roomy |
+| cardio-F1 | 181 | 23 | 99 | 55% | roomy |
 | cardio-F2 | 136 | 17 | 72 | 53% | roomy |
 | calisthenics | 75 | 3 | 56 | 74% | normal |
-| stretching | 248 | 4 | 202 | 81% | normal |
-| recovery | 148 | 19 | 102 | 69% | normal |
+| stretching | 238 | 4 | 202 | 85% | normal |
+| recovery | 137 | 19 | 102 | 74% | normal |
 | posing | 37 | 1 | 25 | 67% | normal |
 | pod-1 | 32 | 1 | 22 | 68% | normal |
 | pod-2 | 32 | 1 | 22 | 68% | normal |

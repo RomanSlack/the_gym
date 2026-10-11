@@ -1158,10 +1158,10 @@
           "rect": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
         },
         {
-          "rect": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+          "rect": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
         },
         {
-          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
         }
       ]
     },
@@ -1174,10 +1174,10 @@
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
-          "rect": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+          "rect": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
         },
         {
-          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
         }
       ]
     },
@@ -1190,10 +1190,10 @@
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
-          "rect": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+          "rect": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
         },
         {
-          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+          "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
         }
       ]
     },
@@ -1227,15 +1227,15 @@
       "size": [0.5, 15.74],
       "z": [-15.99, -0.25],
       "openings": [
-        {"s": [2.6, 4.0], "z": [-15.39, -13.09], "type": "door", "note": "core W2 door"},
-        {"s": [19.0, 21.0], "z": [-15.39, -13.09], "type": "door", "note": "core W1 door"},
-        {"s": [10.0, 11.4], "z": [-15.39, -13.09], "type": "door", "note": "core WC annex door"},
-        {"s": [2.6, 4.0], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door"},
-        {"s": [19.0, 21.0], "z": [-9.77, -7.47], "type": "door", "note": "core W1 door"},
-        {"s": [10.0, 11.4], "z": [-9.77, -7.47], "type": "door", "note": "core WC annex door"},
-        {"s": [2.6, 4.0], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door"},
-        {"s": [19.0, 21.0], "z": [-4.91, -2.61], "type": "door", "note": "core W1 door"},
-        {"s": [10.0, 11.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
+        {"s": [3.0, 4.4], "z": [-15.39, -13.09], "type": "door", "note": "core W2 door"},
+        {"s": [19.3, 21.3], "z": [-15.39, -13.09], "type": "door", "note": "core W1 door"},
+        {"s": [11.0, 12.4], "z": [-15.39, -13.09], "type": "door", "note": "core WC annex door"},
+        {"s": [3.0, 4.4], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door"},
+        {"s": [19.3, 21.3], "z": [-9.77, -7.47], "type": "door", "note": "core W1 door"},
+        {"s": [11.0, 12.4], "z": [-9.77, -7.47], "type": "door", "note": "core WC annex door"},
+        {"s": [3.0, 4.4], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door"},
+        {"s": [19.3, 21.3], "z": [-4.91, -2.61], "type": "door", "note": "core W1 door"},
+        {"s": [11.0, 12.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
         {"s": [30.15, 32.25], "z": [-15.39, -13.09], "type": "door", "note": "men's express lift"},
         {"s": [38.95, 41.05], "z": [-15.39, -13.09], "type": "door", "note": "women's express lift"}
       ],
@@ -1243,7 +1243,21 @@
         {"level": "F3", "face": "interior", "kind": "mirror", "s": [0.0, 34.65], "z": [-9.77, -6.17], "note": "floor-to-ceiling mirror; the door openings on this stretch get flush mirror-clad doors"}
       ]
     },
-    {"id": "W-west-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {
+      "id": "W-west-N",
+      "type": "wall",
+      "kind": "retaining",
+      "material": "concrete",
+      "from": [-29.45, 12.1],
+      "to": [-6.45, 12.1],
+      "size": [0.5, 15.74],
+      "z": [-15.99, -0.25],
+      "openings": [
+        {"s": [17.3, 18.5], "z": [-15.39, -13.09], "type": "door", "note": "core W3 (north exit stair)"},
+        {"s": [17.3, 18.5], "z": [-9.77, -7.47], "type": "door", "note": "core W3 (north exit stair)"},
+        {"s": [17.3, 18.5], "z": [-4.91, -2.61], "type": "door", "note": "core W3 (north exit stair)"}
+      ]
+    },
     {
       "id": "W-west-S",
       "type": "wall",
@@ -1293,26 +1307,42 @@
     {"id": "LS-women-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-31.25, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
     {"id": "LS-women-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 7.1], "to": [-29.7, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
     {"id": "LS-women-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-29.7, 4.7], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
-    {"id": "CS-W1-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.7], "to": [-32.05, -9.7], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
-    {"id": "CS-W1-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -9.7], "to": [-29.7, -9.7], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
-    {"id": "CS-W1-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.7], "to": [-29.7, -18.7], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
-    {"id": "SKY-W1", "type": "slab", "material": "glass", "rect": [-32.05, -18.7, -28.85, -9.7], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "CS-W1-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.55], "to": [-32.05, -9.55], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "CS-W1-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -9.55], "to": [-29.7, -9.55], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "CS-W1-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.55], "to": [-29.7, -18.55], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "SKY-W1", "type": "slab", "material": "glass", "rect": [-32.05, -18.55, -28.85, -9.55], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
     {
       "id": "CS-W2-W",
       "type": "wall",
       "kind": "shaft",
       "material": "concrete",
       "from": [-32.05, -34.1],
-      "to": [-32.05, -27.6],
+      "to": [-32.05, -25.1],
       "size": [0.3, 22.39],
       "z": [-15.99, 6.4],
       "openings": [
         {"s": [2.6, 4.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}
       ]
     },
-    {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -27.6], "to": [-29.7, -27.6], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -25.1], "to": [-29.7, -25.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
-    {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -27.6], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -25.1], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "CS-W3-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-13.6, 12.35], "to": [-13.6, 21.35], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {
+      "id": "CS-W3-E",
+      "type": "wall",
+      "kind": "shaft",
+      "material": "concrete",
+      "from": [-10.4, 12.35],
+      "to": [-10.4, 21.35],
+      "size": [0.3, 22.39],
+      "z": [-15.99, 6.4],
+      "openings": [
+        {"s": [6.5, 7.9], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}
+      ]
+    },
+    {"id": "CS-W3-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-13.6, 21.35], "to": [-10.4, 21.35], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-13.6, 12.35, -10.4, 21.35], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
     {"id": "SA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-6.45, -40.1], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
     {"id": "SA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-28.85, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
     {"id": "SA-E", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-6.45, -40.1], "to": [-6.45, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
@@ -1320,10 +1350,10 @@
     {"id": "S-SA-F3", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-10.02, -9.77], "holes": []},
     {"id": "S-SA-F2", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-5.16, -4.91], "holes": []},
     {"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-15.99, -15.39], "holes": []},
-    {"id": "WA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-33.45, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
-    {"id": "WA-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -20.5], "to": [-29.7, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
-    {"id": "WA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-29.7, -26.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
-    {"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []},
+    {"id": "WA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -24.75], "to": [-33.45, -18.9], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "WA-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -18.9], "to": [-29.7, -18.9], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "WA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -24.75], "to": [-29.7, -24.75], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -24.75, -29.45, -18.9], "z": [-0.6, -0.25], "holes": []},
     {"id": "WP-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, -9.5], "to": [60.0, -9.5], "size": [0.4, 5.51], "z": [-6.61, -1.1]},
     {"id": "WP-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, 24.0], "to": [60.0, 24.0], "size": [0.4, 5.51], "z": [-6.61, -1.1]},
     {"id": "WP-E1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [60.0, -9.5], "to": [60.0, -4.0], "size": [0.4, 5.51], "z": [-6.61, -1.1]},
@@ -1518,56 +1548,84 @@
       "level": "F4",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+      "poly": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
     },
     {
       "id": "core-W1-F3",
       "level": "F3",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+      "poly": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
     },
     {
       "id": "core-W1-F2",
       "level": "F2",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+      "poly": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
     },
     {
       "id": "core-W1-F1",
       "level": "F1",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-32.05, -18.7], [-28.85, -18.7], [-28.85, -9.7], [-32.05, -9.7]]
+      "poly": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]]
     },
     {
       "id": "core-W2-F4",
       "level": "F4",
       "kind": "core",
       "name": "Core W2 · exit stair",
-      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
     },
     {
       "id": "core-W2-F3",
       "level": "F3",
       "kind": "core",
       "name": "Core W2 · exit stair",
-      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
     },
     {
       "id": "core-W2-F2",
       "level": "F2",
       "kind": "core",
       "name": "Core W2 · exit stair",
-      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
     },
     {
       "id": "core-W2-F1",
       "level": "F1",
       "kind": "core",
       "name": "Core W2 · exit stair",
-      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -27.6], [-32.05, -27.6]]
+      "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
+    },
+    {
+      "id": "core-W3-F4",
+      "level": "F4",
+      "kind": "core",
+      "name": "Core W3 · exit stair (north)",
+      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+    },
+    {
+      "id": "core-W3-F3",
+      "level": "F3",
+      "kind": "core",
+      "name": "Core W3 · exit stair (north)",
+      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+    },
+    {
+      "id": "core-W3-F2",
+      "level": "F2",
+      "kind": "core",
+      "name": "Core W3 · exit stair (north)",
+      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+    },
+    {
+      "id": "core-W3-F1",
+      "level": "F1",
+      "kind": "core",
+      "name": "Core W3 · exit stair (north)",
+      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
     },
     {
       "id": "core-E-E2",
@@ -1652,7 +1710,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Women's changing · lockers",
-      "poly": [[-29.45, 1.5], [-13.6, 1.5], [-13.6, 7.65], [-29.45, 7.65]]
+      "poly": [[-29.45, 7.65], [-13.6, 7.65], [-13.6, 1.5], [-29.45, 1.5], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]]
     },
     {
       "id": "women-wet",
@@ -1667,7 +1725,7 @@
       "level": "F1",
       "kind": "wet",
       "name": "Men's changing · lockers",
-      "poly": [[-29.45, -4.2], [-13.6, -4.2], [-13.6, 1.5], [-29.45, 1.5]]
+      "poly": [[-29.45, 1.5], [-13.6, 1.5], [-13.6, -4.2], [-29.45, -4.2], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7]]
     },
     {
       "id": "men-wet",
@@ -1698,7 +1756,7 @@
       "level": "F1",
       "kind": "gym",
       "name": "Stretching & mobility",
-      "poly": [[-29.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -9.3], [-29.45, -9.3]]
+      "poly": [[-29.45, -9.3], [-21.45, -9.3], [-21.45, -18.7], [-18.2, -18.7], [-18.2, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-29.45, -25.1], [-29.45, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-29.45, -9.55]]
     },
     {
       "id": "spiral-F1",
@@ -1719,21 +1777,21 @@
       "level": "F1",
       "kind": "gym",
       "name": "Cardio · river views",
-      "poly": [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -18.7], [-17.7, -18.7]]
+      "poly": [[-18.2, -34.1], [-6.45, -34.1], [-6.45, -18.7], [-18.2, -18.7]]
     },
     {
       "id": "free-weights",
       "level": "F2",
       "kind": "gym",
       "name": "Free weights · mirror wall",
-      "poly": [[-29.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -9.3], [-29.45, -9.3]]
+      "poly": [[-29.45, -9.3], [-21.45, -9.3], [-21.45, -18.7], [-18.2, -18.7], [-18.2, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-29.45, -25.1], [-29.45, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-29.45, -9.55]]
     },
     {
       "id": "olympic",
       "level": "F2",
       "kind": "gym",
       "name": "Olympic platforms",
-      "poly": [[-29.45, -9.3], [-18.2, -9.3], [-18.2, 12.1], [-29.45, 12.1]]
+      "poly": [[-29.45, 12.1], [-18.2, 12.1], [-18.2, -11.0], [-21.45, -11.0], [-21.45, -9.3], [-29.45, -9.3], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]]
     },
     {
       "id": "cardio-F2",
@@ -1762,14 +1820,29 @@
       "level": "F2",
       "kind": "gym",
       "name": "Machines",
-      "poly": [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]]
+      "poly": [[-18.2, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-18.2, -18.7]]
     },
     {
       "id": "free-weights-F3",
       "level": "F3",
       "kind": "gym",
       "name": "Free weights · mirror wall · the den",
-      "poly": [[-29.45, -34.1], [-21.45, -34.1], [-21.45, 0.55], [-29.45, 0.55]],
+      "poly": [
+        [-29.45, 0.55],
+        [-21.45, 0.55],
+        [-21.45, -34.1],
+        [-28.85, -34.1],
+        [-28.85, -25.1],
+        [-29.45, -25.1],
+        [-29.45, -18.55],
+        [-28.85, -18.55],
+        [-28.85, -9.55],
+        [-29.45, -9.55],
+        [-29.45, -4.1],
+        [-28.85, -4.1],
+        [-28.85, -1.7],
+        [-29.45, -1.7]
+      ],
       "note": "34.65 m of floor-to-ceiling mirror on the west wall (mirror-clad flush doors); benches flat/incline/decline facing it; dumbbells 2.5-75 kg"
     },
     {
@@ -1777,7 +1850,7 @@
       "level": "F3",
       "kind": "gym",
       "name": "Strongman · yoke, atlas stones",
-      "poly": [[-29.45, 0.55], [-21.45, 0.55], [-21.45, 12.1], [-29.45, 12.1]]
+      "poly": [[-29.45, 12.1], [-21.45, 12.1], [-21.45, 0.55], [-29.45, 0.55], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]]
     },
     {
       "id": "spiral-F3",
@@ -1869,7 +1942,7 @@
       "level": "F4",
       "kind": "gym",
       "name": "Recovery lounge · compression, loungers",
-      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -4.5], [-29.45, -4.5]],
+      "poly": [[-29.45, -4.5], [-24.45, -4.5], [-24.45, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-29.45, -25.1], [-29.45, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-29.45, -9.55]],
       "note": "no spa / massage (Roman)"
     },
     {
@@ -1877,7 +1950,7 @@
       "level": "F4",
       "kind": "circulation",
       "name": "Pool lobby · express lifts, towels + robes",
-      "poly": [[-29.45, -4.5], [-24.45, -4.5], [-24.45, 12.1], [-29.45, 12.1]],
+      "poly": [[-29.45, 12.1], [-24.45, 12.1], [-24.45, -4.5], [-29.45, -4.5], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]],
       "note": "arrive from the locker rooms in robes, straight onto the pool deck; towel + robe station"
     },
     {
@@ -2015,7 +2088,7 @@
       "level": "E2",
       "kind": "wet",
       "name": "Children's WC + changing",
-      "poly": [[17.0, 16.18], [24.0, 16.18], [24.0, 21.2], [17.0, 21.2]],
+      "poly": [[17.0, 16.18], [17.0, 21.2], [24.0, 21.2], [24.0, 16.2], [20.8, 16.2], [20.8, 16.18]],
       "note": "stacked under the upper one"
     },
     {
@@ -2094,24 +2167,24 @@
       "level": "F2",
       "kind": "wet",
       "name": "WCs · 3 single (1 accessible), water station",
-      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
-      "note": "annex in the rock outside the back wall, stacked"
+      "poly": [[-33.45, -24.75], [-29.45, -24.75], [-29.45, -18.9], [-33.45, -18.9]],
+      "note": "annex in the rock outside the back wall between W2 and W1, stacked"
     },
     {
       "id": "wc-annex-F3",
       "level": "F3",
       "kind": "wet",
       "name": "WCs · 3 single (1 accessible), water station",
-      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
-      "note": "annex in the rock outside the back wall, stacked"
+      "poly": [[-33.45, -24.75], [-29.45, -24.75], [-29.45, -18.9], [-33.45, -18.9]],
+      "note": "annex in the rock outside the back wall between W2 and W1, stacked"
     },
     {
       "id": "wc-annex-F4",
       "level": "F4",
       "kind": "wet",
       "name": "WCs · 3 single (1 accessible), water station",
-      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
-      "note": "annex in the rock outside the back wall, stacked"
+      "poly": [[-33.45, -24.75], [-29.45, -24.75], [-29.45, -18.9], [-33.45, -18.9]],
+      "note": "annex in the rock outside the back wall between W2 and W1, stacked"
     }
   ],
   "stairs": [
