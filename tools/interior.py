@@ -106,7 +106,8 @@ for nm, r in (("hall_n", [12.0, 6.8, 30.5, 16.18]), ("hall", [12.0, -9.5, 30.5, 
              "note": "exposed CLT soffit: " + ("white-oiled spruce" if ceil["material"] == "clt_white" else "natural oiled spruce")})
 
 # ---- walls round the zone: feature on core E, plain on the WC partitions facing the cafe
-def lining(wid, finish, side_sign, s_range=None, tag=""):
+def lining(wid, finish, side_sign, s_range=None, tag="", ext=(0.0, 0.0)):
+    """ext = how far the lining runs past each end of its range (external corners: wall half-thickness + the other lining's depth)."""
     w = by_id[wid]
     (ax, ay), (bx, by) = w["from"], w["to"]
     import math
@@ -115,6 +116,7 @@ def lining(wid, finish, side_sign, s_range=None, tag=""):
     f = FINISH[finish]; d = f.get("depth", 0.015)
     off = w["size"][0] / 2 + d / 2
     s0, s1 = s_range or (0.0, L)
+    s0, s1 = s0 - ext[0], s1 + ext[1]
     pa = [round(ax + ux * s0 + nx * off, 3), round(ay + uy * s0 + ny * off, 3)]
     pb = [round(ax + ux * s1 + nx * off, 3), round(ay + uy * s1 + ny * off, 3)]
     ops = [{**o, "s": [round(o["s"][0] - s0, 2), round(o["s"][1] - s0, 2)]} for o in w.get("openings", []) if o["s"][1] > s0 and o["s"][0] < s1]
@@ -123,7 +125,7 @@ def lining(wid, finish, side_sign, s_range=None, tag=""):
          "note": f"interior lining: {finish}"})
 
 
-lining("P-E1-2", P["feature"], -1)   # core E east face -> reception (the wall behind the desk)
+lining("P-E1-2", P["feature"], -1, ext=(0.065, 0.0))   # core E east face -> reception; wraps the SE corner over the cafe-side slats
 lining("P-E1-0", P["feature"], -1)   # core E south face -> cafe
 lining("P-E1-4", P["plain"], 1)      # WC partitions facing the cafe
 lining("P-E1-5", P["plain"], 1)

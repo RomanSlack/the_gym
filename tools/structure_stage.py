@@ -64,6 +64,25 @@ for e in els:
         e.update(material="concrete", kind="core", size=[0.25, e["size"][1]], phase=3, seq=seq_of(e["z"][0]),
                  note="250 mm concrete core wall: fire-rated shaft, braces the floors")
 
+# core walls are drawn centre line to centre line: where two meet, the outer corner square was missing. Run each core wall
+# on by half its thickness at every end that meets another core wall, so corners close (inside and out).
+import math as _m
+cores_ = [e for e in els if e["type"] == "wall" and e.get("kind") in ("core", "shaft")]
+for e in cores_:
+    (ax, ay), (bx, by) = e["from"], e["to"]; L_ = _m.hypot(bx - ax, by - ay)
+    if L_ < 0.1 or e.get("_ext"):
+        continue
+    ux, uy = (bx - ax) / L_, (by - ay) / L_; t2 = e["size"][0] / 2
+    meets = lambda p: any(o is not e and min(_m.dist(p, o["from"]), _m.dist(p, o["to"])) < 0.06 for o in cores_)
+    if meets((ax, ay)):
+        e["from"] = [round(ax - ux * t2, 3), round(ay - uy * t2, 3)]
+    if meets((bx, by)):
+        e["to"] = [round(bx + ux * t2, 3), round(by + uy * t2, 3)]
+    e["_ext"] = True
+    if e.get("openings") and meets((ax, ay)):  # openings are measured from 'from': keep them where they were
+        for o in e["openings"]:
+            o["s"] = [round(o["s"][0] + t2, 3), round(o["s"][1] + t2, 3)]
+
 # ---- roofs: CLT 300 with 2.5 m eaves
 LINK = [-6.45, -9.5, 12.0, 6.8]  # lounge glass lines
 TOWERS = [[-32.05, -18.55, -28.85, -9.55], [-32.05, -34.1, -28.85, -25.1], [-31.25, -4.1, -28.85, -1.7], [-31.25, 4.7, -28.85, 7.1]]

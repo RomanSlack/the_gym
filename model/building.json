@@ -1379,36 +1379,37 @@
       "phase": 1,
       "seq": 80
     },
-    {"id": "LS-men-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.1], "to": [-31.25, -1.7], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "LS-men-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -1.7], "to": [-29.7, -1.7], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "LS-men-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.1], "to": [-29.7, -4.1], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "LS-women-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-31.25, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "LS-women-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 7.1], "to": [-29.7, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "LS-women-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-29.7, 4.7], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "CS-W1-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.55], "to": [-32.05, -9.55], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "CS-W1-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -9.55], "to": [-29.7, -9.55], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "CS-W1-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.55], "to": [-29.7, -18.55], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
+    {"id": "LS-men-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.225], "to": [-31.25, -1.575], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "LS-men-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -1.7], "to": [-29.7, -1.7], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "LS-men-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.1], "to": [-29.7, -4.1], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "LS-women-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.575], "to": [-31.25, 7.225], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "LS-women-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 7.1], "to": [-29.7, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "LS-women-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-29.7, 4.7], "size": [0.25, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "CS-W1-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.7], "to": [-32.05, -9.4], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "CS-W1-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -9.55], "to": [-29.7, -9.55], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "CS-W1-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -18.55], "to": [-29.7, -18.55], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
     {"id": "SKY-W1", "type": "slab", "material": "glass", "rect": [-32.05, -18.55, -28.85, -9.55], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4", "phase": 4, "seq": 264},
     {
       "id": "CS-W2-W",
       "type": "wall",
       "kind": "shaft",
       "material": "concrete",
-      "from": [-32.05, -34.1],
-      "to": [-32.05, -25.1],
+      "from": [-32.05, -34.25],
+      "to": [-32.05, -24.95],
       "size": [0.3, 22.39],
       "z": [-15.99, 6.4],
       "openings": [
         {"s": [7.55, 8.75], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}
       ],
       "phase": 1,
-      "seq": 80
+      "seq": 80,
+      "_ext": true
     },
-    {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -25.1], "to": [-29.7, -25.1], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
-    {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80},
+    {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -25.1], "to": [-29.7, -25.1], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4], "phase": 1, "seq": 80, "_ext": true},
     {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -25.1], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4", "phase": 4, "seq": 264},
-    {"id": "CS-W3-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-17.2, 12.35], "to": [-17.2, 15.55], "size": [0.3, 18.59], "z": [-15.99, 2.6], "phase": 1, "seq": 80},
-    {"id": "CS-W3-E", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-8.2, 12.35], "to": [-8.2, 15.55], "size": [0.3, 18.59], "z": [-15.99, 2.6], "phase": 1, "seq": 80},
+    {"id": "CS-W3-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-17.2, 12.35], "to": [-17.2, 15.7], "size": [0.3, 18.59], "z": [-15.99, 2.6], "phase": 1, "seq": 80, "_ext": true},
+    {"id": "CS-W3-E", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-8.2, 12.35], "to": [-8.2, 15.7], "size": [0.3, 18.59], "z": [-15.99, 2.6], "phase": 1, "seq": 80, "_ext": true},
     {
       "id": "CS-W3-N",
       "type": "wall",
@@ -1422,7 +1423,8 @@
         {"s": [7.55, 8.75], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}
       ],
       "phase": 1,
-      "seq": 80
+      "seq": 80,
+      "_ext": true
     },
     {"id": "RF-W3-sod", "type": "slab", "material": "sod", "rect": [-17.4, 12.35, -8.0, 15.75], "z": [2.6, 2.95], "holes": [], "note": "sod roof over the north exit", "phase": 4, "seq": 226},
     {"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-16.6, 13.4, -8.8, 14.4], "z": [2.95, 3.0], "holes": [], "note": "thin rooflight strip: daylight down the stairwell", "phase": 4, "seq": 230},
@@ -1751,8 +1753,8 @@
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [20.8, 6.8],
-      "to": [24.0, 6.8],
+      "from": [20.675, 6.8],
+      "to": [24.125, 6.8],
       "size": [0.25, 5.52],
       "z": [0.12, 5.64],
       "level": "E1",
@@ -1760,15 +1762,16 @@
       "openings": [],
       "phase": 3,
       "seq": 201,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E1-1",
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [20.8, 16.2],
-      "to": [20.8, 6.8],
+      "from": [20.8, 16.325],
+      "to": [20.8, 6.675],
       "size": [0.25, 5.52],
       "z": [0.12, 5.64],
       "level": "E1",
@@ -1776,15 +1779,16 @@
       "openings": [],
       "phase": 3,
       "seq": 201,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E1-2",
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [24.0, 6.8],
-      "to": [24.0, 16.2],
+      "from": [24.0, 6.675],
+      "to": [24.0, 16.325],
       "size": [0.25, 5.52],
       "z": [0.12, 5.64],
       "level": "E1",
@@ -1795,15 +1799,16 @@
       ],
       "phase": 3,
       "seq": 201,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E1-3",
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [24.0, 16.2],
-      "to": [20.8, 16.2],
+      "from": [24.125, 16.2],
+      "to": [20.675, 16.2],
       "size": [0.25, 5.52],
       "z": [0.12, 5.64],
       "level": "E1",
@@ -1811,7 +1816,8 @@
       "openings": [],
       "phase": 3,
       "seq": 201,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E1-4",
@@ -2044,8 +2050,8 @@
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [20.8, 6.8],
-      "to": [24.0, 6.8],
+      "from": [20.675, 6.8],
+      "to": [24.125, 6.8],
       "size": [0.25, 5.88],
       "z": [-6.01, -0.13],
       "level": "E2",
@@ -2053,14 +2059,15 @@
       "openings": [],
       "phase": 3,
       "seq": 140,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E2-18",
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [20.8, 16.18],
+      "from": [20.8, 16.305],
       "to": [20.8, 6.8],
       "size": [0.25, 5.88],
       "z": [-6.01, -0.13],
@@ -2069,7 +2076,8 @@
       "openings": [],
       "phase": 3,
       "seq": 140,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E2-19",
@@ -2077,7 +2085,7 @@
       "kind": "core",
       "material": "concrete",
       "from": [24.0, 6.8],
-      "to": [24.0, 16.18],
+      "to": [24.0, 16.305],
       "size": [0.25, 5.88],
       "z": [-6.01, -0.13],
       "level": "E2",
@@ -2088,14 +2096,15 @@
       ],
       "phase": 3,
       "seq": 140,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E2-20",
       "type": "wall",
       "kind": "core",
       "material": "concrete",
-      "from": [24.0, 16.2],
+      "from": [24.125, 16.201],
       "to": [20.8, 16.18],
       "size": [0.25, 5.88],
       "z": [-6.01, -0.13],
@@ -2104,7 +2113,8 @@
       "openings": [],
       "phase": 3,
       "seq": 140,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E2-21",
@@ -2172,7 +2182,8 @@
       "openings": [],
       "phase": 3,
       "seq": 140,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-E2-25",
@@ -2279,7 +2290,8 @@
       ],
       "phase": 3,
       "seq": 200,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-F1-31",
@@ -2297,7 +2309,8 @@
       ],
       "phase": 3,
       "seq": 200,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-F1-32",
@@ -2313,7 +2326,8 @@
       "openings": [],
       "phase": 3,
       "seq": 200,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-F1-33",
@@ -2329,7 +2343,8 @@
       "openings": [],
       "phase": 3,
       "seq": 200,
-      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors"
+      "note": "250 mm concrete core wall: fire-rated shaft, braces the floors",
+      "_ext": true
     },
     {
       "id": "P-F1-34",
@@ -5052,6 +5067,10 @@
       "phase": 3,
       "seq": 199
     },
+    {"id": "ST3-core-E-W", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 6.8], "to": [20.8, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
+    {"id": "ST3-core-E-E", "type": "wall", "kind": "core", "material": "concrete", "from": [24.0, 6.8], "to": [24.0, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
+    {"id": "ST3-core-E-S", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 6.8], "to": [24.0, 6.8], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
+    {"id": "ST3-core-E-N", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 16.2], "to": [24.0, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
     {
       "id": "ST3-core-W3-S-F1",
       "type": "wall",
@@ -6196,8 +6215,8 @@
       "type": "wall",
       "kind": "stone",
       "material": "stone",
-      "from": [-31.505, -4.425],
-      "to": [-31.505, -1.375],
+      "from": [-31.505, -4.55],
+      "to": [-31.505, -1.25],
       "size": [0.15, 7.33],
       "z": [-0.93, 6.4],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -6235,8 +6254,8 @@
       "type": "wall",
       "kind": "stone",
       "material": "stone",
-      "from": [-31.505, 4.375],
-      "to": [-31.505, 7.425],
+      "from": [-31.505, 4.25],
+      "to": [-31.505, 7.55],
       "size": [0.15, 7.2],
       "z": [-0.8, 6.4],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -6274,8 +6293,8 @@
       "type": "wall",
       "kind": "stone",
       "material": "stone",
-      "from": [-32.33, -18.9],
-      "to": [-32.33, -9.2],
+      "from": [-32.33, -19.05],
+      "to": [-32.33, -9.05],
       "size": [0.15, 7.2],
       "z": [-0.8, 6.4],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -6313,8 +6332,8 @@
       "type": "wall",
       "kind": "stone",
       "material": "stone",
-      "from": [-32.33, -34.45],
-      "to": [-32.33, -24.75],
+      "from": [-32.33, -34.6],
+      "to": [-32.33, -24.6],
       "size": [0.15, 10.05],
       "z": [-3.65, 6.4],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -6356,7 +6375,7 @@
       "kind": "stone",
       "material": "stone",
       "from": [-17.48, 12.0],
-      "to": [-17.48, 15.9],
+      "to": [-17.48, 16.05],
       "size": [0.15, 3.5],
       "z": [-0.9, 2.6],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -6369,7 +6388,7 @@
       "kind": "stone",
       "material": "stone",
       "from": [-7.92, 12.0],
-      "to": [-7.92, 15.9],
+      "to": [-7.92, 16.05],
       "size": [0.15, 3.27],
       "z": [-0.67, 2.6],
       "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete",
@@ -7490,14 +7509,14 @@
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
-      "from": [24.157, 6.8],
-      "to": [24.157, 16.2],
+      "from": [24.157, 6.61],
+      "to": [24.157, 16.325],
       "size": [0.065, 5.52],
       "z": [0.12, 5.64],
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
-        {"s": [0.25, 1.25], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [7.9, 9.1], "z": [0.12, 2.42], "type": "door", "note": "core E lift"}
+        {"s": [0.32, 1.31], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
+        {"s": [7.97, 9.16], "z": [0.12, 2.42], "type": "door", "note": "core E lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: oak_slats_wall",
@@ -7509,8 +7528,8 @@
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
-      "from": [20.8, 6.643],
-      "to": [24.0, 6.643],
+      "from": [20.675, 6.643],
+      "to": [24.125, 6.643],
       "size": [0.065, 5.52],
       "z": [0.12, 5.64],
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
