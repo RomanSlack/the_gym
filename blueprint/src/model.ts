@@ -69,8 +69,9 @@ export interface Fixture {
   id: string;
   kind: string;
   level: string;
-  center: Pt;
-  diameter: number;
+  center?: Pt; // round fixtures
+  diameter?: number;
+  rect?: [number, number, number, number]; // counters
 }
 
 /** Plan footprint (4 corners) of a design element. */

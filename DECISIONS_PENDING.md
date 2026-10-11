@@ -30,17 +30,20 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
    - A **25 m lap pool along the river wall** (underwater windows).
    - Thermal suite (hot/cold plunge, infrared, steam, cryo) at the north.
    - Recovery lounge, treatment rooms, plant room on the west (no windows needed there).
-8. **East wing E1:**
-   - Entry from the arrival court into a lobby.
-   - Reception.
-   - Cafe (the round island bar) toward the lounge bridge.
-   - WCs.
-   - Core E (stair + elevator to the garage).
-   - **Daycare** in the north two bays, with its own door to the court and Gym V2's round stair (Ø 5.1 m) linking its two floors.
+8. **East wing E1** (revised to follow Gym V2):
+   - The **cafe takes the whole south half**, with the island bar centered and a back counter along the south wall.
+   - A **central block** holds **core E** (stair + lift from the garage) and the **public WCs** (women's, men's, accessible), in Gym V2's WC-cell area.
+   - The **reception desk is backed onto the core**, facing the east entrance from the arrival court. A hall on the west side links the cafe to the daycare.
+   - **Daycare upper floor**, laid out as a Norwegian barnehage:
+     - an entry wardrobe with drying cabinets (secure door from reception)
+     - children's WC + changing (child-height WCs and basins, about 1 WC per 10 children, changing table with hand shower, accessible WC)
+     - staff room + staff WC
+     - play rooms
 9. **East wing E2:**
-   - Garage in the south two bays (cars along the glass, indoor bike storage, tunnel entry east).
-   - Game room in the middle.
-   - Daycare lower floor in the north, walking out to the sunken garden.
+   - Garage in the south half.
+   - Game room and a lift lobby on either side of core E.
+   - Daycare lower floor: rest/sleep room, a children's WC + changing stacked under the upper one, storage for prams and outdoor gear, and a play room walking out to the sunken garden.
+   - **Gym WC annexes on F2, F3 and F4:** 3 single WCs (1 accessible) plus a water station each, dug into the rock outside the west wall between W2 and W1, stacked so the plumbing lines up.
 10. **Lounge link:** lounge between the wings at F1, outdoor decks cantilevered 3 m north (over the falls view) and south.
 
 ## Structure decisions

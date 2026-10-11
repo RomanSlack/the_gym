@@ -533,6 +533,10 @@ for st in model.get("stairs", []):
         for k in range(n):
             box(f"{st['id']}_t{k}", x0 + 0.3, y0 + run * k, zlo + rise * (k + 1) - 0.06, x1 - 0.3, y0 + run * (k + 1), zlo + rise * (k + 1), glulam)
 for f in model.get("fixtures", []):
+    if "rect" in f:  # counters: 1.05 m high timber
+        x0, y0, x1, y1 = f["rect"]
+        box(f["id"], x0, y0, LV[f["level"]], x1, y1, LV[f["level"]] + 1.05, glulam)
+        continue
     (cx, cy), R_ = f["center"], f["diameter"] / 2
     bpy.ops.mesh.primitive_cylinder_add(radius=R_, depth=1.1, location=(cx, cy, LV[f["level"]] + 0.55), vertices=64)
     ring = bpy.context.object; ring.data.materials.append(glulam)

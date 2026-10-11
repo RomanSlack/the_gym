@@ -992,7 +992,7 @@
       "holes": [
         {"circle": [15.7, 24.2, 2.55]},
         {
-          "rect": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+          "rect": [[20.8, 6.8], [24.0, 6.8], [24.0, 15.8], [20.8, 15.8]]
         }
       ]
     },
@@ -1014,10 +1014,13 @@
       "openings": [
         {"s": [2.6, 4.0], "z": [-15.39, -13.09], "type": "door", "note": "core W2 door"},
         {"s": [19.0, 21.0], "z": [-15.39, -13.09], "type": "door", "note": "core W1 door"},
+        {"s": [10.0, 11.4], "z": [-15.39, -13.09], "type": "door", "note": "core WC annex door"},
         {"s": [2.6, 4.0], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door"},
         {"s": [19.0, 21.0], "z": [-9.77, -7.47], "type": "door", "note": "core W1 door"},
+        {"s": [10.0, 11.4], "z": [-9.77, -7.47], "type": "door", "note": "core WC annex door"},
         {"s": [2.6, 4.0], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door"},
         {"s": [19.0, 21.0], "z": [-4.91, -2.61], "type": "door", "note": "core W1 door"},
+        {"s": [10.0, 11.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
         {"s": [30.15, 32.25], "z": [-15.39, -13.09], "type": "door", "note": "men's express lift"},
         {"s": [38.95, 41.05], "z": [-15.39, -13.09], "type": "door", "note": "women's express lift"}
       ]
@@ -1072,6 +1075,10 @@
     {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -27.6], "to": [-29.7, -27.6], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -27.6], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "WA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-33.45, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "WA-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -20.5], "to": [-29.7, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "WA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-29.7, -26.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
+    {"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []},
     {"id": "A-annex-W", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-35.45, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
     {"id": "A-annex-N", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, 4.5], "to": [-32.0, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
     {"id": "A-annex-S", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-29.45, -1.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
@@ -1289,14 +1296,14 @@
       "level": "E2",
       "kind": "core",
       "name": "Core E · stair + elevator (garage ↔ reception)",
-      "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+      "poly": [[20.8, 6.8], [24.0, 6.8], [24.0, 15.8], [20.8, 15.8]]
     },
     {
       "id": "core-E-E1",
       "level": "E1",
       "kind": "core",
       "name": "Core E · stair + elevator (garage ↔ reception)",
-      "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+      "poly": [[20.8, 6.8], [24.0, 6.8], [24.0, 15.8], [20.8, 15.8]]
     },
     {
       "id": "lift-men-F4",
@@ -1626,43 +1633,69 @@
       "level": "E1",
       "kind": "lounge",
       "name": "Cafe · round island bar",
-      "poly": [[12.0, -9.5], [21.25, -9.5], [21.25, 7.62], [12.0, 7.62]]
+      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 6.8], [12.0, 6.8]],
+      "note": "back counter along the south wall; opens west onto the lounge bridge"
     },
     {
-      "id": "reception",
+      "id": "hall-e",
       "level": "E1",
       "kind": "circulation",
-      "name": "Reception",
-      "poly": [[21.25, -0.94], [30.5, -0.94], [30.5, 7.62], [21.25, 7.62]]
+      "name": "Hall · cafe ↔ daycare",
+      "poly": [[12.0, 6.8], [14.5, 6.8], [14.5, 16.2], [12.0, 16.2]]
     },
     {
       "id": "wcs",
       "level": "E1",
       "kind": "wet",
-      "name": "WCs · water station",
-      "poly": [[21.25, -9.5], [30.5, -9.5], [30.5, -0.94], [21.25, -0.94]]
+      "name": "Public WCs · women, men, accessible",
+      "poly": [[14.5, 6.8], [20.8, 6.8], [20.8, 16.2], [14.5, 16.2]],
+      "note": "Gym V2's WC cells; water station at the cafe side"
     },
     {
-      "id": "lobby",
+      "id": "reception",
       "level": "E1",
       "kind": "circulation",
-      "name": "Entry lobby · from the arrival court",
-      "poly": [[17.0, 7.62], [30.5, 7.62], [30.5, 16.18], [17.0, 16.18]]
+      "name": "Reception · entry from the arrival court",
+      "poly": [[24.0, 6.8], [30.5, 6.8], [30.5, 16.2], [20.8, 16.2], [20.8, 15.8], [24.0, 15.8]],
+      "note": "desk backed onto the core, facing the east entrance"
+    },
+    {
+      "id": "dc-wardrobe",
+      "level": "E1",
+      "kind": "daycare",
+      "name": "Daycare entry · wardrobe + drying cabinets",
+      "poly": [[24.0, 16.2], [30.5, 16.2], [30.5, 21.2], [24.0, 21.2]],
+      "note": "secure door from reception; each child's cubby, boot racks, drying cabinets for wet outdoor clothes"
+    },
+    {
+      "id": "dc-wc",
+      "level": "E1",
+      "kind": "wet",
+      "name": "Children's WC + changing",
+      "poly": [[17.0, 16.2], [24.0, 16.2], [24.0, 21.2], [17.0, 21.2]],
+      "note": "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one"
+    },
+    {
+      "id": "dc-staff",
+      "level": "E1",
+      "kind": "service",
+      "name": "Staff room + staff WC",
+      "poly": [[12.0, 16.2], [17.0, 16.2], [17.0, 21.2], [12.0, 21.2]]
     },
     {
       "id": "daycare-up",
       "level": "E1",
       "kind": "daycare",
-      "name": "Daycare · upper floor",
-      "poly": [[12.0, 16.18], [30.5, 16.18], [30.5, 33.3], [12.0, 33.3]],
-      "note": "own door to the court; round stair to the lower floor"
+      "name": "Daycare · play rooms",
+      "poly": [[12.0, 21.2], [30.5, 21.2], [30.5, 33.3], [12.0, 33.3]],
+      "note": "round stair to the lower floor"
     },
     {
       "id": "garage",
       "level": "E2",
       "kind": "garage",
       "name": "Garage · 3 cars on the glass, bike storage",
-      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 7.62], [12.0, 7.62]],
+      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 6.8], [12.0, 6.8]],
       "note": "tunnel entry on the east wall"
     },
     {
@@ -1670,14 +1703,67 @@
       "level": "E2",
       "kind": "lounge",
       "name": "Game room",
-      "poly": [[17.0, 7.62], [30.5, 7.62], [30.5, 16.18], [17.0, 16.18]]
+      "poly": [[12.0, 6.8], [20.8, 6.8], [20.8, 16.18], [12.0, 16.18]]
+    },
+    {
+      "id": "lift-lobby-e2",
+      "level": "E2",
+      "kind": "circulation",
+      "name": "Lift lobby · from the garage",
+      "poly": [[24.0, 6.8], [30.5, 6.8], [30.5, 16.18], [20.8, 16.18], [20.8, 15.8], [24.0, 15.8]]
+    },
+    {
+      "id": "dc-rest",
+      "level": "E2",
+      "kind": "daycare",
+      "name": "Rest / sleep room",
+      "poly": [[12.0, 16.18], [17.0, 16.18], [17.0, 21.2], [12.0, 21.2]]
+    },
+    {
+      "id": "dc-wc-low",
+      "level": "E2",
+      "kind": "wet",
+      "name": "Children's WC + changing",
+      "poly": [[17.0, 16.18], [24.0, 16.18], [24.0, 21.2], [17.0, 21.2]],
+      "note": "stacked under the upper one"
+    },
+    {
+      "id": "dc-store",
+      "level": "E2",
+      "kind": "service",
+      "name": "Storage · prams, outdoor gear",
+      "poly": [[24.0, 16.18], [30.5, 16.18], [30.5, 21.2], [24.0, 21.2]]
     },
     {
       "id": "daycare-low",
       "level": "E2",
       "kind": "daycare",
-      "name": "Daycare · lower floor → sunken garden",
-      "poly": [[12.0, 16.18], [30.5, 16.18], [30.5, 33.3], [12.0, 33.3]]
+      "name": "Daycare · play room → sunken garden",
+      "poly": [[12.0, 21.2], [30.5, 21.2], [30.5, 33.3], [12.0, 33.3]]
+    },
+    {
+      "id": "wc-annex-F2",
+      "level": "F2",
+      "kind": "wet",
+      "name": "WCs · 3 single (1 accessible), water station",
+      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
+      "note": "annex in the rock outside the back wall, stacked"
+    },
+    {
+      "id": "wc-annex-F3",
+      "level": "F3",
+      "kind": "wet",
+      "name": "WCs · 3 single (1 accessible), water station",
+      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
+      "note": "annex in the rock outside the back wall, stacked"
+    },
+    {
+      "id": "wc-annex-F4",
+      "level": "F4",
+      "kind": "wet",
+      "name": "WCs · 3 single (1 accessible), water station",
+      "poly": [[-33.45, -26.5], [-29.45, -26.5], [-29.45, -20.5], [-33.45, -20.5]],
+      "note": "annex in the rock outside the back wall, stacked"
     }
   ],
   "stairs": [
@@ -1686,6 +1772,8 @@
     {"id": "daycare_round", "kind": "spiral", "center": [15.7, 24.2], "diameter": 5.1, "from": "E2", "to": "E1", "note": "Gym V2's round stair"}
   ],
   "fixtures": [
-    {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [16.6, -0.94], "diameter": 7.0, "note": "moved from Gym V2 (20,0.2) to sit inside the cafe"}
+    {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [21.25, -1.35], "diameter": 7.0, "note": "centered in the cafe (Gym V2 had it at (20, 0.2))"},
+    {"id": "reception_desk", "kind": "counter", "level": "E1", "rect": [24.4, 8.0, 25.4, 14.6], "note": "backed onto core E, facing the east entrance"},
+    {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]}
   ]
 }

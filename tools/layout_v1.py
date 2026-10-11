@@ -22,7 +22,7 @@ lv = {l["id"]: l["elevation"] for l in m["levels"]}
 cores = {
     "W1": {"poly": R(-32.05, -18.7, -28.85, -9.7), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
     "W2": {"poly": R(-32.05, -34.1, -28.85, -27.6), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
-    "E": {"poly": R(12.0, 7.62, 17.0, 16.18), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
+    "E": {"poly": R(20.8, 6.8, 24.0, 15.8), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
 }
 spaces = []
 for cid, c in cores.items():
@@ -95,16 +95,32 @@ S("deck-n", "F1", "outdoor", "Deck · falls view", R(-6.45, 8.3, 12.0, 11.3))
 S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 
 # ---------------------------------------------------------------- east wing E1 +0.12
-S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 21.25, 7.62))
-S("reception", "E1", "circulation", "Reception", R(21.25, -0.94, 30.5, 7.62))
-S("wcs", "E1", "wet", "WCs · water station", R(21.25, -9.5, 30.5, -0.94))
-S("lobby", "E1", "circulation", "Entry lobby · from the arrival court", R(17.0, 7.62, 30.5, 16.18))
-S("daycare-up", "E1", "daycare", "Daycare · upper floor", R(12.0, 16.18, 30.5, 33.3), "own door to the court; round stair to the lower floor")
+# Follows Gym V2: cafe island in the middle of the south half, a central block with the core and public WCs,
+# reception desk backed onto it facing the entry (east), daycare north.
+S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 30.5, 6.8), "back counter along the south wall; opens west onto the lounge bridge")
+S("hall-e", "E1", "circulation", "Hall · cafe ↔ daycare", R(12.0, 6.8, 14.5, 16.2))
+S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(14.5, 6.8, 20.8, 16.2), "Gym V2's WC cells; water station at the cafe side")
+S("reception", "E1", "circulation", "Reception · entry from the arrival court", [[24.0, 6.8], [30.5, 6.8], [30.5, 16.2], [20.8, 16.2], [20.8, 15.8], [24.0, 15.8]],
+  "desk backed onto the core, facing the east entrance")
+# daycare (upper): Norwegian barnehage layout: entry wardrobe, children's WC + changing, staff, play
+S("dc-wardrobe", "E1", "daycare", "Daycare entry · wardrobe + drying cabinets", R(24.0, 16.2, 30.5, 21.2), "secure door from reception; each child's cubby, boot racks, drying cabinets for wet outdoor clothes")
+S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
+  "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one")
+S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
+S("daycare-up", "E1", "daycare", "Daycare · play rooms", R(12.0, 21.2, 30.5, 33.3), "round stair to the lower floor")
 
 # ---------------------------------------------------------------- east wing E2 −6.01
-S("garage", "E2", "garage", "Garage · 3 cars on the glass, bike storage", R(12.0, -9.5, 30.5, 7.62), "tunnel entry on the east wall")
-S("game-room", "E2", "lounge", "Game room", R(17.0, 7.62, 30.5, 16.18))
-S("daycare-low", "E2", "daycare", "Daycare · lower floor → sunken garden", R(12.0, 16.18, 30.5, 33.3))
+S("garage", "E2", "garage", "Garage · 3 cars on the glass, bike storage", R(12.0, -9.5, 30.5, 6.8), "tunnel entry on the east wall")
+S("game-room", "E2", "lounge", "Game room", R(12.0, 6.8, 20.8, 16.18))
+S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", [[24.0, 6.8], [30.5, 6.8], [30.5, 16.18], [20.8, 16.18], [20.8, 15.8], [24.0, 15.8]])
+S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
+S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.2), "stacked under the upper one")
+S("dc-store", "E2", "service", "Storage · prams, outdoor gear", R(24.0, 16.18, 30.5, 21.2))
+S("daycare-low", "E2", "daycare", "Daycare · play room → sunken garden", R(12.0, 21.2, 30.5, 33.3))
+
+# ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
+for L in ("F2", "F3", "F4"):
+    S(f"wc-annex-{L}", L, "wet", "WCs · 3 single (1 accessible), water station", R(-33.45, -26.5, -29.45, -20.5), "annex in the rock outside the back wall, stacked")
 
 m["spaces"] = spaces
 
@@ -116,7 +132,9 @@ m["stairs"] = [
     {"id": "daycare_round", "kind": "spiral", "center": [15.7, 24.2], "diameter": 5.1, "from": "E2", "to": "E1", "note": "Gym V2's round stair"},
 ]
 m["fixtures"] = [
-    {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [16.6, -0.94], "diameter": 7.0, "note": "moved from Gym V2 (20,0.2) to sit inside the cafe"},
+    {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [21.25, -1.35], "diameter": 7.0, "note": "centered in the cafe (Gym V2 had it at (20, 0.2))"},
+    {"id": "reception_desk", "kind": "counter", "level": "E1", "rect": [24.4, 8.0, 25.4, 14.6], "note": "backed onto core E, facing the east entrance"},
+    {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]},
 ]
 
 # ---------------------------------------------------------------- slabs + walls (frame envelope)
@@ -152,7 +170,7 @@ x0, y0, x1, y1 = WEST
 zb, zt = lv["F4"] - 0.6, lv["F1"] - 0.25
 wall("W-west-A", [x0, y0], [x0, y1], 0.5, zb, zt, "retaining", "concrete")
 els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": f"core {c_} door"}
-                       for L in ("F4", "F3", "F2") for c_, s_ in (("W2", [2.6, 4.0]), ("W1", [19.0, 21.0]))] + [
+                       for L in ("F4", "F3", "F2") for c_, s_ in (("W2", [2.6, 4.0]), ("W1", [19.0, 21.0]), ("WC annex", [10.0, 11.4]))] + [
                        {"s": [30.15, 32.25], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "men's express lift"},
                        {"s": [38.95, 41.05], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "women's express lift"}]
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
@@ -179,6 +197,9 @@ for cid in ("W1", "W2"):
                 "note": "glass skylight: daylight down the stairwell to F4"})
 # W2 exit door straight outside at F1 (west face of the shaft)
 [e for e in els if e["id"] == "CS-W2-W"][0]["openings"] = [{"s": [2.6, 4.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}]
+for n_, (a_, b_) in {"W": ([-33.45, -26.5], [-33.45, -20.5]), "N": ([-33.45, -20.5], [-29.7, -20.5]), "S": ([-33.45, -26.5], [-29.7, -26.5])}.items():
+    wall(f"WA-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, -0.25, "retaining", "concrete")
+els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []})
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")

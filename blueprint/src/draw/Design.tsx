@@ -55,8 +55,14 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
       )}
       {model.fixtures.filter((f) => show.includes(f.level)).map((f) => (
         <g key={f.id} className="n-fixture" data-n={`${f.id} · ${f.kind}`}>
-          <circle cx={f.center[0]} cy={-f.center[1]} r={f.diameter / 2} />
-          <circle cx={f.center[0]} cy={-f.center[1]} r={f.diameter / 2 - 1.1} />
+          {f.rect ? (
+            <rect x={f.rect[0]} y={-f.rect[3]} width={f.rect[2] - f.rect[0]} height={f.rect[3] - f.rect[1]} />
+          ) : (
+            <>
+              <circle cx={f.center![0]} cy={-f.center![1]} r={f.diameter! / 2} />
+              <circle cx={f.center![0]} cy={-f.center![1]} r={f.diameter! / 2 - 1.1} />
+            </>
+          )}
         </g>
       ))}
       {walls.flatMap((w) => {

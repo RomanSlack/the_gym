@@ -134,7 +134,7 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .n-stair line { stroke: #444; stroke-width: 0.5; }
 .n-stair-edge { fill: #fbfaf6; stroke: var(--ink); stroke-width: 1; }
 .n-stair-arrow { fill: none; stroke: var(--ink); stroke-width: 0.8; marker-end: none; }
-.n-fixture circle { fill: #e9d3b5; stroke: #6b4a2b; stroke-width: 0.8; }
+.n-fixture circle, .n-fixture rect { fill: #e9d3b5; stroke: #6b4a2b; stroke-width: 0.8; }
 .n-glass-sec { fill: #eaf3f7; stroke: #2a5d78; stroke-width: 0.6; }
 .n-stair-sec { fill: none; stroke: var(--ink); stroke-width: 1.4; }
 
@@ -201,7 +201,7 @@ html[data-theme="dark"] .n-glass path, html[data-theme="dark"] .n-glass-sec { fi
 html[data-theme="dark"] .n-glass line { stroke: #6fb4d6; }
 html[data-theme="dark"] .n-stair line { stroke: #a5a198; }
 html[data-theme="dark"] .n-stair-edge { fill: var(--paper); }
-html[data-theme="dark"] .n-fixture circle { fill: #4a3a26; stroke: #c9a274; }
+html[data-theme="dark"] .n-fixture circle, html[data-theme="dark"] .n-fixture rect { fill: #4a3a26; stroke: #c9a274; }
 html[data-theme="dark"] .person-plan circle { stroke: #e08a5a; }
 html[data-theme="dark"] .figure { fill: #e08a5a; }
 html[data-theme="dark"] .scale-figs circle, html[data-theme="dark"] .scale-figs rect:not(.scale-figs-hit) { fill: #ff7a3d; stroke: var(--paper); }
