@@ -18,6 +18,7 @@ VIEWS = {
     "falls_from_pool": ((3, 18, -7.6), (-3, 37, -4.5), 16),
     "bridge_oblique_ne": ((45, 90, 38), (-3, 30, -4), 24),
     "east_wing_from_east": ((85, -25, 34), (15, 12, -5), 24),
+    "sauna_from_stream": ((-5, 113, 1.4), (-21, 95, 1.2), 20),
 }
 for name, (loc, tgt, lens) in VIEWS.items():
     if want and name not in want:

@@ -97,6 +97,79 @@ def fill_sinks(H, keep, min_depth=0.3):
     return out
 
 
+MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128}
+
+
+def corridor(T, pts_xyz, half_flat, slope_ratio, reach=25.0):
+    """Grade a strip along a 3D polyline: flat within half_flat, then cut/fill side
+    slopes (rise/run = slope_ratio) back to the existing ground. Returns (T, d)."""
+    p = np.asarray(pts_xyz, float)
+    seg = np.r_[0, np.cumsum(np.linalg.norm(np.diff(p[:, :2], axis=0), axis=1))]
+    s = np.arange(0, seg[-1], 0.5)
+    dense = np.column_stack([np.interp(s, seg, p[:, 0]), np.interp(s, seg, p[:, 1]), np.interp(s, seg, p[:, 2])])
+    d, k = cKDTree(dense[:, :2]).query(np.stack([X.ravel(), Y.ravel()], 1), distance_upper_bound=half_flat + reach)
+    d = d.reshape(X.shape); k = np.where(np.isfinite(d.ravel()), k, 0).reshape(X.shape)
+    zl = dense[k, 2]
+    band = np.maximum(d - half_flat, 0) * slope_ratio
+    graded = np.clip(T, zl - band, zl + band)
+    return np.where(np.isfinite(d), graded, T).astype(np.float32), d
+
+
+def apply_features(T, F):
+    mask = np.zeros(T.shape, np.uint8)
+    rd = F["road"]
+    half = rd["width"] / 2 + rd["shoulder"]
+    T, d = corridor(T, rd["points"], half, 0.5)
+    mask[d <= rd["width"] / 2] |= MASK["asphalt"]
+    mask[(d > rd["width"] / 2) & (d <= half)] |= MASK["shoulder"]
+
+    ac = F["arrival_court"]
+    (cx, cy), (w, h) = ac["center"], ac["size"]
+    court = (np.abs(X - cx) <= w / 2) & (np.abs(Y - cy) <= h / 2)
+    dc = ndi.distance_transform_edt(~court) * RES
+    T = np.where(dc < 20, np.clip(T, ac["z"] - dc * 0.5, ac["z"] + dc * 0.5), T).astype(np.float32)
+    mask[court] |= MASK["asphalt"] | MASK["court"]
+
+    rp = F["garage_ramp"]
+    rpts = np.array(rp["points"], float)
+    z0 = float(ndi.map_coordinates(T, [[rpts[0, 1] + HALF - 0.5], [rpts[0, 0] + HALF - 0.5]], order=1)[0])
+    rl = np.r_[0, np.cumsum(np.linalg.norm(np.diff(rpts, axis=0), axis=1))]
+    rz = z0 + (rp["z_end"] - z0) * rl / rl[-1]
+    cut, d = corridor(T, np.column_stack([rpts, rz]), rp["width"] / 2, 50.0, reach=0.5)  # near-vertical retaining walls
+    in_ramp = d <= rp["width"] / 2
+    open_cut = in_ramp & (X > rp["tunnel_from_x"])
+    T = np.where(open_cut, cut, T).astype(np.float32)
+    mask[open_cut] |= MASK["ramp"]
+    mask[in_ramp & ~open_cut] |= MASK["tunnel"]
+
+    gd = F["daycare_garden"]
+    gx0, gy0, gx1, gy1 = gd["rect"]
+    tr = gd["terraces"]
+    dN = np.where((X >= gx0) & (Y > gy1), Y - gy1, 0)
+    dE = np.where((Y >= gy0) & (X > gx1), X - gx1, 0)
+    dist = np.maximum(dN, dE)
+    zone = (X >= gx0) & (Y >= gy0) & (dist <= tr["count"] * tr["run"])
+    terr = gd["z"] + tr["rise"] * np.ceil(dist / tr["run"])
+    T = np.where(zone, np.minimum(T, terr), T).astype(np.float32)
+    mask[zone] |= MASK["garden"]
+
+    sa = F["sauna"]
+    (sx, sy), (sw, sh) = sa["center"], sa["size"]
+    foot = (np.abs(X - sx) <= sw / 2) & (np.abs(Y - sy) <= sh / 2)
+    T = np.where(foot, sa["floor"] - 0.4, T).astype(np.float32)
+    berm_dx = (sx - sw / 2) - X  # distance west of the west wall
+    berm = (berm_dx > 0) & (berm_dx < 6) & (np.abs(Y - sy) <= sh / 2 + 2)
+    T = np.where(berm, np.maximum(T, sa["floor"] + 2.2 - berm_dx / 1.5), T).astype(np.float32)
+    mask[foot] |= MASK["sauna"]
+
+    sp = F["sauna_path"]
+    pts = np.array(sp["points"], float)
+    zp = ndi.map_coordinates(ndi.gaussian_filter(T, 4), [pts[:, 1] + HALF - 0.5, pts[:, 0] + HALF - 0.5], order=1)
+    T, d = corridor(T, np.column_stack([pts, zp]), sp["width"] / 2, 0.66, reach=6)
+    mask[d <= sp["width"] / 2] |= MASK["path"]
+    return T, mask
+
+
 def smin(a, b, k):
     h = np.clip(0.5 + 0.5 * (b - a) / k, 0, 1)
     return b * (1 - h) + a * h - k * h * (1 - h)
@@ -139,6 +212,10 @@ if __name__ == "__main__":
 
     terrain = fill_sinks(terrain, keep=near & (d < A["half_bed"][idx] + 30))
 
+    terrain, fmask = apply_features(terrain, m["site"]["features"])
+    sx, sy = m["site"]["features"]["sauna"]["center"]
+    print("ground at sauna (before pad):", float(base[int(sy + HALF), int(sx + HALF)]))
+
     pad_mask = np.zeros(X.shape, bool)
     for pad in m["site"]["pads"]:
         inside = MPath(pad["poly"]).contains_points(pts).reshape(X.shape)
@@ -158,8 +235,9 @@ if __name__ == "__main__":
     np.save(OUT / "terrain_1m.npy", terrain)
     np.save(OUT / "water_1m.npy", water)
     np.save(OUT / "rock_1m.npy", rockmask.astype(np.float32))
+    np.save(OUT / "features_1m.npy", fmask)
     np.save(OUT / "centerline.npy", np.column_stack([P, A["bed"], A["water"]]))
-    for name in ("terrain_1m", "water_1m", "rock_1m"):
+    for name in ("terrain_1m", "water_1m", "rock_1m", "features_1m"):
         run.output(f"{name}.npy", np.load(OUT / f"{name}.npy").tobytes())
 
     # ---- previews ----
@@ -175,6 +253,8 @@ if __name__ == "__main__":
     for pad in m["site"]["pads"]:
         pp = np.array(pad["poly"] + [pad["poly"][0]])
         ax.plot(pp[:, 0], pp[:, 1], "r-", lw=1)
+    fm = fmask[sl, sl]
+    ax.imshow(np.where(fm > 0, fm, np.nan), origin="lower", extent=[-cw, cw, -cw, cw], cmap="autumn", alpha=0.5)
     for s in rv["stations"]:
         if abs(s["y"]) < cw and abs(s["x"]) < cw:
             ax.annotate(s["id"], (s["x"], s["y"]), fontsize=7, color="navy")

@@ -12,7 +12,7 @@ function buildSheets(): Sheet[] {
   const byId = Object.fromEntries(model.levels.map((l) => [l.id, l]));
   const plans = ["F1", "F2", "E2", "F3", "F4"].filter((id) => byId[id]);
   const sheets: Sheet[] = [
-    { no: "A-100", title: "Site plan · Gym V2 survey", kind: "plan", level: byId.F1, site: true, fit: [-82, -84, 164, 168] },
+    { no: "A-100", title: "Site plan · Elverum site, ravine, road", kind: "plan", level: byId.F1, site: true, fit: [-240, -240, 480, 480] },
     ...plans.map((id, i): Sheet => ({
       no: `A-10${i + 1}`,
       title: `${byId[id].name} · ${fmtElev(byId[id].elevation)}`,

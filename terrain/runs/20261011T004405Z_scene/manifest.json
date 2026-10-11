@@ -1,0 +1,19 @@
+{
+ "id": "20261011T004405Z_scene",
+ "stage": "scene",
+ "started": "20261011T004405Z",
+ "code": "8fe0065+dirty",
+ "params": {
+  "script": "terrain/blender_scene.py",
+  "added": "rock blocks on cliff walls (4348), boulders, sod-roof sauna + deck, road/court/ramp/garden/path surfaces, tree clearances",
+  "views": [
+   "reference_upstream",
+   "horizon_drone",
+   "sauna_from_stream",
+   "arrival_drone",
+   "garden_drone",
+   "aerial_se"
+  ]
+ },
+ "outputs": {}
+}

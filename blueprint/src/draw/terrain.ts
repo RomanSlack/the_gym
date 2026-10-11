@@ -2,7 +2,7 @@
 // cells with missing data (so the edge of the survey doesn't draw fake contours).
 // Water uses d3-contour to get a filled region where terrain sits below the water level.
 import { contours } from "d3-contour";
-import { isExcavation, type Terrain } from "../model";
+import type { Terrain } from "../model";
 
 /** Path data (plan coords, y flipped) for the contour line at height `level`,
  *  plus a few spread-out points along it for elevation labels. */
@@ -44,13 +44,10 @@ export function contourPath(t: Terrain, level: number): { d: string; anchors: [n
   return { d: out.join(""), anchors };
 }
 
-/** Filled path (plan coords) of the river: terrain below `waterLevel`, outside building excavations. */
-export function waterPath(t: Terrain, waterLevel: number): string {
-  const vals = Array.from(t.h, (v, k) => {
-    const x = t.origin[0] + (k % t.nx) * t.step, y = t.origin[1] + Math.floor(k / t.nx) * t.step;
-    return Number.isNaN(v) || isExcavation(x, y) ? -999 : -v;
-  });
-  const [mp] = contours().size([t.nx, t.ny]).thresholds([-waterLevel])(vals);
+/** Filled path (plan coords) of the river and pools: every cell with a water surface. */
+export function waterPath(t: Terrain): string {
+  const vals = Array.from(t.water, (v) => (Number.isNaN(v) ? 0 : 1));
+  const [mp] = contours().size([t.nx, t.ny]).thresholds([0.5])(vals);
   // d3-contour puts grid samples at half-integer coordinates
   const P = ([gx, gy]: number[]) =>
     `${(t.origin[0] + (gx - 0.5) * t.step).toFixed(2)} ${(-(t.origin[1] + (gy - 0.5) * t.step)).toFixed(2)}`;

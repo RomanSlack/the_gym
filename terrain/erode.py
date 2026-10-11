@@ -53,7 +53,7 @@ if __name__ == "__main__":
     run = Run("erode", P | {"input": "out/ravine/terrain_1m.npy"})
 
     # protected = designed water bodies + pads (+ a margin), softly feathered
-    protect = ~np.isnan(water_design)
+    protect = ~np.isnan(water_design) | (np.load(RV / "features_1m.npy") > 0)  # river + site works
     from matplotlib.path import Path as MPath
     g = np.arange(-1000, 1000) + 0.5
     X, Y = np.meshgrid(g, g)

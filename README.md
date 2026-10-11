@@ -14,6 +14,9 @@ Second goal: **record everything** so the weeks of iteration can become a YouTub
 - [x] Gym V2 extracted to data (`tools/extract_gymv2.py` → `reference/gym_v2_original/gymv2_extract.json`)
 - [x] Model v0 (`model/building.json`): datum, levels, water level, section lines
 - [x] Blueprint viewer v0 (`blueprint/`): site plan, floor plans, sections, Gym V2 as grey underlay
+- [x] Site: real Elverum terrain (Kartverket), parametric ravine + falls + plunge pool, GPU erosion, road, garage ramp/tunnel, sunken daycare garden, sauna + pool + path (`terrain/`, every run versioned in `terrain/runs/`)
+- [x] First 3D site scene in Blender (`terrain/blender_scene.py`) with rock cliff walls, forest, Gym V2 massing
+- [x] Blueprint drawings on the new terrain, with site works (`model/site_terrain.json`)
 - [ ] Agree on specs (program, floors, dimensions, site, style, materials), resolving the open questions in VISION.md
 - [ ] Research (references, real gym/wellness building standards)
 - [ ] Decide build approach (script-driven vs. MCP live editing, repo layout)

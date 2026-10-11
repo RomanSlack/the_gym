@@ -1,7 +1,7 @@
 // Floor / site plan for one level. Horizontal cut at level + plan_cut_height:
 // cut elements heavy with poché, things below the cut light, things above dashed.
 import { useMemo } from "react";
-import type { Level, Model, Underlay, UElement } from "../model";
+import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
 
@@ -38,6 +38,36 @@ function categorize(e: UElement, elev: number, cut: number, top: number): Cat {
   }
 }
 
+/** New site works (black ink): road, court, garage ramp/tunnel, sunken garden, sauna, path. */
+function SiteWorks({ f }: { f: SiteFeatures }) {
+  const line = (pts: number[][]) => "M" + pts.map((p) => `${p[0]} ${-p[1]}`).join("L");
+  const rect = ([x0, y0, x1, y1]: number[]) => `M${x0} ${-y0}H${x1}V${-y1}H${x0}Z`;
+  const rp = f.garage_ramp.points;
+  const [gx0, gy0, gx1, gy1] = f.daycare_garden.rect;
+  const tr = f.daycare_garden.terraces;
+  const [sx, sy] = f.sauna.center, [sw, sh] = f.sauna.size;
+  return (
+    <g className="works">
+      <path d={line(f.road.points)} className="w-road-edge" style={{ strokeWidth: f.road.width + 2 * f.road.shoulder }} />
+      <path d={line(f.road.points)} className="w-road" style={{ strokeWidth: f.road.width }} />
+      <path d={rect([f.arrival_court.center[0] - f.arrival_court.size[0] / 2, f.arrival_court.center[1] - f.arrival_court.size[1] / 2,
+        f.arrival_court.center[0] + f.arrival_court.size[0] / 2, f.arrival_court.center[1] + f.arrival_court.size[1] / 2])} className="w-court" />
+      <path d={line(rp)} className="w-ramp" style={{ strokeWidth: f.garage_ramp.width }} />
+      <path d={line(rp.filter((p) => p[0] <= f.garage_ramp.tunnel_from_x + 20))} className="w-tunnel" style={{ strokeWidth: f.garage_ramp.width }} />
+      <path d={rect(f.daycare_garden.rect)} className="w-garden" />
+      {Array.from({ length: tr.count }, (_, k) => (k + 1) * tr.run).map((d) => (
+        <path key={d} d={`M${gx0} ${-(gy1 + d)}H${gx1 + d}V${-gy0}`} className="w-terrace" />
+      ))}
+      <path d={line(f.sauna_path.points)} className="w-path" style={{ strokeWidth: f.sauna_path.width }} />
+      <path d={rect([sx - sw / 2, sy - sh / 2, sx + sw / 2, sy + sh / 2])} className="w-building" />
+      <path d={rect(f.sauna.deck.rect)} className="w-deck" />
+      <text x={sx} y={-sy} className="txt-s" textAnchor="middle">SAUNA</text>
+      <text x={(gx0 + gx1) / 2} y={-(gy0 + gy1) / 2} className="txt-s" textAnchor="middle">SUNKEN GARDEN</text>
+      <text x={f.arrival_court.center[0]} y={-f.arrival_court.center[1]} className="txt-s" textAnchor="middle">ARRIVAL</text>
+    </g>
+  );
+}
+
 export function Plan({
   model, underlay, level, layers, site,
 }: { model: Model; underlay: Underlay; level: Level; layers: Layers; site: boolean }) {
@@ -54,10 +84,10 @@ export function Plan({
   const t = underlay.terrain;
   const contours = useMemo(() => {
     const out: { z: number; d: string; anchors: [number, number][] }[] = [];
-    for (let z = -30; z <= 10; z += 1) out.push({ z, ...contourPath(t, z) });
+    for (let z = -60; z <= 40; z += 1) out.push({ z, ...contourPath(t, z) });
     return out;
   }, [t]);
-  const water = useMemo(() => waterPath(t, model.site.water_level), [t, model.site.water_level]);
+  const water = useMemo(() => waterPath(t), [t]);
 
   const groups = useMemo(() => {
     const g: Record<string, UElement[]> = { cut: [], below: [], above: [], void: [], floor: [] };
@@ -126,6 +156,8 @@ export function Plan({
           </text>
         ))}
 
+      <SiteWorks f={model.site.features} />
+
       {model.grids.map((g) => (
         <g key={g.id} className="grid">
           <line x1={g.from[0]} y1={-g.from[1]} x2={g.to[0]} y2={-g.to[1]} className="ln-grid" />
@@ -140,8 +172,8 @@ export function Plan({
 
       {!site && model.views.sections.map((s) => <SectionMark key={s.id} from={s.from} to={s.to} id={s.id} />)}
 
-      <NorthArrow x={site ? 70 : 45} y={site ? -70 : -38} />
-      <ScaleBar x={site ? -75 : -46} y={site ? 72 : 40} />
+      <NorthArrow x={site ? 215 : 45} y={site ? -215 : -38} />
+      <ScaleBar x={site ? -225 : -46} y={site ? 225 : 40} />
     </g>
   );
 }

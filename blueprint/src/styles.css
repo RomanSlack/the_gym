@@ -89,3 +89,15 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .person-plan circle { fill: none; stroke: #a0522d; stroke-width: 1; }
 .figure { fill: #a0522d; opacity: 0.8; }
 .note { fill: #9b2c2c; font-style: italic; }
+
+/* new site works: black ink (world-unit widths, scale with the drawing) */
+.w-road-edge { fill: none; stroke: #c4bcae; stroke-linejoin: round; vector-effect: none; }
+.w-road { fill: none; stroke: #7a7a78; stroke-linejoin: round; vector-effect: none; }
+.w-court { fill: #8a8a87; stroke: var(--ink); stroke-width: 1; }
+.w-ramp { fill: none; stroke: #555; vector-effect: none; }
+.w-tunnel { fill: none; stroke: var(--paper); vector-effect: none; opacity: 0.6; }
+.w-garden { fill: #dbe6cf; stroke: var(--ink); stroke-width: 1.4; }
+.w-terrace { fill: none; stroke: #5d7a45; stroke-width: 0.8; }
+.w-path { fill: none; stroke: #b5aa96; stroke-linecap: round; vector-effect: none; }
+.w-building { fill: #555; stroke: var(--ink); stroke-width: 1.4; }
+.w-deck { fill: #c9b9a0; stroke: var(--ink); stroke-width: 0.8; }

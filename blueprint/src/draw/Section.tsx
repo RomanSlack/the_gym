@@ -3,7 +3,7 @@
 // DEPTH m behind the cut) drawn light; earth hatched below the terrain profile.
 import { useMemo } from "react";
 import type { Model, SectionDef, Underlay, UElement } from "../model";
-import { isExcavation, terrainAt } from "../model";
+import { terrainAt, waterAt } from "../model";
 import { Figure, LevelTag, ScaleBar } from "./symbols";
 import type { Layers } from "./Plan";
 
@@ -60,13 +60,13 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
     return { cut, beyond, people };
   }, [underlay, sec]);
 
-  const { earth, profile, water } = useMemo(() => {
+  const { earth, profile, water, lines } = useMemo(() => {
     const step = 0.5;
     const pts: [number, number][] = [];
-    const dry: boolean[] = [];
+    const wl: number[] = [];
     for (let s = 0; s <= L; s += step) {
       pts.push([s, terrainAt(underlay.terrain, x0 + ux * s, y0 + uy * s)]);
-      dry.push(isExcavation(x0 + ux * s, y0 + uy * s));
+      wl.push(waterAt(underlay.terrain, x0 + ux * s, y0 + uy * s));
     }
     // split into runs with data
     const runs: [number, number][][] = [];
@@ -79,24 +79,30 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
       .map((r) => `M${r[0][0]} ${-BOTTOM}` + r.map(([s, z]) => `L${s} ${-z}`).join("") + `L${r[r.length - 1][0]} ${-BOTTOM}Z`)
       .join("");
     const profile = runs.map((r) => "M" + r.map(([s, z]) => `${s} ${-z}`).join("L")).join("");
-    const wl = model.site.water_level;
+    // water: wherever the site has a water surface above the ground along the cut
     const water: string[] = [];
-    for (const r of runs) {
-      let w: [number, number][] = [];
-      const flush = () => {
-        if (w.length > 1) water.push(`M${w[0][0]} ${-wl}` + w.map(([s, z]) => `L${s} ${-z}`).join("") + `L${w[w.length - 1][0]} ${-wl}Z`);
-        w = [];
-      };
-      for (const p of r) (p[1] < wl && !dry[Math.round(p[0] / step)] ? w.push(p) : flush());
-      flush();
-    }
-    return { earth, profile, water: water.join("") };
-  }, [underlay, sec, model.site.water_level]);
+    const lines: { s0: number; s1: number; z: number }[] = [];
+    let w: [number, number, number][] = [];
+    const flush = () => {
+      if (w.length > 1) {
+        const z = w[0][2];
+        water.push(`M${w[0][0]} ${-z}` + w.map(([s, g]) => `L${s} ${-g}`).join("") + `L${w[w.length - 1][0]} ${-z}Z`);
+        lines.push({ s0: w[0][0], s1: w[w.length - 1][0], z });
+      }
+      w = [];
+    };
+    pts.forEach(([s, g], k) => {
+      const wet = !Number.isNaN(wl[k]) && g < wl[k];
+      if (w.length && (!wet || Math.abs(wl[k] - w[0][2]) > 0.25)) flush(); // new reach: falls, sill, cascade
+      if (wet) w.push([s, g, wl[k]]);
+    });
+    flush();
+    return { earth, profile, water: water.join(""), lines };
+  }, [underlay, sec]);
 
   const rect = (s0: number, s1: number, e: UElement) => `M${s0} ${-e.z[1]}H${s1}V${-e.z[0]}H${s0}Z`;
   const tip = (e: UElement) => `${e.name} · ${e.kind} · z ${e.z[0].toFixed(2)} to ${e.z[1].toFixed(2)}`;
   const levels = model.levels;
-  const wl = model.site.water_level;
 
   return (
     <g>
@@ -110,11 +116,15 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
           <path d={earth} className="earth" />
           <path d={water} className="water" />
           <path d={profile} className="ground-line" />
-          <line x1={0} x2={L} y1={-wl} y2={-wl} className="ln-water" />
-          <g transform={`translate(${L * 0.12} ${-wl})`}>
-            <path d="M-0.6 -1.1 L0.6 -1.1 L0 -0.1 Z" className="water-mark" />
-            <text x={0.9} y={-0.3} className="txt-s mono">river {wl.toFixed(2)}</text>
-          </g>
+          {lines.map((l, k) => (
+            <g key={k}>
+              <line x1={l.s0} x2={l.s1} y1={-l.z} y2={-l.z} className="ln-water" />
+              <g transform={`translate(${(l.s0 + l.s1) / 2} ${-l.z})`}>
+                <path d="M-0.6 -1.1 L0.6 -1.1 L0 -0.1 Z" className="water-mark" />
+                <text x={0.9} y={-0.3} className="txt-s mono">water {l.z.toFixed(2)}</text>
+              </g>
+            </g>
+          ))}
         </g>
       )}
 

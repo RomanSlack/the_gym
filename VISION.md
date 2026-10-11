@@ -189,12 +189,16 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Daycare lower floor = walk-out onto a sunken play garden** (option A). A sheltered courtyard is excavated on the north side of the east wing at E2 level (−6.0), with terraced planting stepping back up to the forest floor. It gives the lower daycare floor daylight, a direct exit and a safe enclosed outdoor play area. Roman: "amazing and magical".
 - **Garage at E2 is reached by the sub-terrain tunnel ramp** from the road (about 45–50 m of ramp for the 6 m drop), designed together with the road.
 - **Falls position confirmed:** lip just north of the rustic bridge, dropping south into the plunge pool along the gym.
-- **Sauna = Gym V2's free-standing cube** at about (−27, 24), west of the rustic bridge. Size it to Nordic club-sauna practice rather than keeping 5.6 m. Proposal (to confirm):
-  - **Main mixed sauna, swimwear on** (the Norwegian norm for shared saunas). About 12–14 people on 3 tiers, interior about 3.5 × 4.5 m.
-  - **Smaller second hot room** (4–6 people) for private, women-only or men-only sessions.
-  - Changing rooms with showers, and a covered terrace with a cold plunge.
-  - About 8 × 12 m footprint overall. Timber, built like a traditional badstue.
-  - Gendered steam rooms stay in the main locker rooms (feature list).
+- **Sauna (outdoor badstue):** replaces Gym V2's cube.
+  - **Location:** moved **upstream to y ≈ 95 on the west bank**, by a new **calm, widened dipping pool** in the stream. It's about 55 m above the falls lip, with a rock weir between them. The walk from the gym's north side is about 85 m, roughly a minute.
+  - **Small and integrated with nature:** under 15 people.
+    - One hot room for 10–12, a small changing room and an outdoor shower. About 5 × 8 m.
+    - **Sod roof (torvtak)** and dark tarred timber.
+    - Set partly into the bank: a low mound from the trail, opening to the stream with a window and a small deck over the pool.
+  - **Mixed, swimwear on** (the Norwegian norm).
+- **Locker room back door:** a shared **sauna lobby** between the men's and women's locker rooms (F1, north side of the west wing), with robe hooks, a towel warmer, sandal racks and a key-card door.
+- **Sauna path:** a lit stone path, about 2 m wide, with low bollards. The first stretch has **snow-melt heating**, so robes and sandals work in winter.
+- **Indoor saunas too:** a men's and a women's sauna inside the locker rooms (plus the steam rooms). That's the quick everyday sauna; the badstue is the social, ritual one.
 
 ## Open questions
 

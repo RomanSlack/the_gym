@@ -68,7 +68,8 @@ H = np.load(RV / "eroded_1m.npy")          # 2000 x 2000, x,y in [-1000, 1000)
 rock = np.load(RV / "rock_1m.npy")
 D = 320                                     # detail half-size at 1 m
 c = slice(1000 - D, 1000 + D)
-detail = grid_mesh("terrain_detail", H[c, c], -D + 0.5, -D + 0.5, 1.0, {"rock": rock[c, c]})
+FEAT = np.load(RV / "features_1m.npy")
+detail = grid_mesh("terrain_detail", H[c, c], -D + 0.5, -D + 0.5, 1.0, {"rock": rock[c, c], "feat": FEAT[c, c].astype(np.float32)})
 
 ctx = np.load(SITE / "context_4m.npy") - DATUM   # 2000 x 2000 at 4 m over [-4000, 4000)
 core4 = H.reshape(500, 4, 500, 4).mean((1, 3))
@@ -95,7 +96,19 @@ def terrain_mat(nt, bsdf):
     mix = N.new("ShaderNodeMix"); mix.data_type = "RGBA"
     mix.inputs["B"].default_value = (0.085, 0.085, 0.08, 1)      # granite / gneiss
     L.new(mx.outputs[0], mix.inputs["Factor"]); L.new(ramp.outputs["Color"], mix.inputs["A"])
-    L.new(mix.outputs["Result"], bsdf.inputs["Base Color"])
+    feat = N.new("ShaderNodeAttribute"); feat.attribute_name = "feat"
+    col = mix.outputs["Result"]
+    # bit flags from terrain/ravine.py MASK: asphalt 1, shoulder 2, court 4, ramp 8, garden 16, path 32
+    for bit, rgb in ((16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
+        div = N.new("ShaderNodeMath"); div.operation = "DIVIDE"; div.inputs[1].default_value = bit
+        L.new(feat.outputs["Fac"], div.inputs[0])
+        fl = N.new("ShaderNodeMath"); fl.operation = "FLOOR"; L.new(div.outputs[0], fl.inputs[0])
+        md = N.new("ShaderNodeMath"); md.operation = "MODULO"; md.inputs[1].default_value = 2; L.new(fl.outputs[0], md.inputs[0])
+        gt = N.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.5; L.new(md.outputs[0], gt.inputs[0])
+        mx2 = N.new("ShaderNodeMix"); mx2.data_type = "RGBA"; mx2.inputs["B"].default_value = (*rgb, 1)
+        L.new(gt.outputs[0], mx2.inputs["Factor"]); L.new(col, mx2.inputs["A"])
+        col = mx2.outputs["Result"]
+    L.new(col, bsdf.inputs["Base Color"])
     bsdf.inputs["Roughness"].default_value = 0.95
 
 
@@ -166,7 +179,7 @@ clay = material("clay", lambda nt, b: (b.inputs["Base Color"].__setattr__("defau
                                         b.inputs["Roughness"].__setattr__("default_value", 0.8)))
 mv, mf = [], []
 for e in ext["elements"]:
-    if e["kind"] not in ("slab", "column", "wall", "beam", "panel", "block") or e["hidden"]:
+    if e["kind"] not in ("slab", "column", "wall", "beam", "panel", "block") or e["hidden"] or e["name"] == "Cube.033":  # Cube.033 = old sauna cube
         continue
     z0, z1 = e["z"][0] + dz, e["z"][1] + dz
     base = len(mv)
@@ -222,7 +235,10 @@ for p in pads:
     poly = np.array(p["poly"])
     lo, hi = poly.min(0) - 12, poly.max(0) + 12
     clear |= (X > lo[0]) & (X < hi[0]) & (Y > lo[1]) & (Y < hi[1])
-ok = (slope < 32) & np.isnan(np.load(RV / "water_1m.npy")[c, c]) & ~clear & (rock[c, c] < 0.3)
+works = FEAT[c, c] > 0
+for _ in range(9):  # keep trees ~9 m off roads, paths, garden, sauna (crowns are ~4 m wide)
+    works = works | np.roll(works, 1, 0) | np.roll(works, -1, 0) | np.roll(works, 1, 1) | np.roll(works, -1, 1)
+ok = (slope < 32) & np.isnan(np.load(RV / "water_1m.npy")[c, c]) & ~clear & (rock[c, c] < 0.3) & ~works
 cand = np.argwhere(ok)
 pick = cand[rng.random(len(cand)) < 1 / 28]
 pick = pick + rng.random(pick.shape) - 0.5
@@ -235,8 +251,11 @@ for k, proto in enumerate(protos):
     proto.parent = holder
     proto.location = (0, 0, 0)
     holder.instance_type = "VERTS"
-ring = np.argwhere(np.ones((300, 300), bool)).astype(float) * 8 - 1200 + rng.random((90000, 2)) * 8
+ring = rng.random((95000, 2)) * 2400 - 1200
 ring = ring[(np.abs(ring).max(1) > D)]
+road_xy = np.array([p[:2] for p in model["site"]["features"]["road"]["points"]])
+dmin = np.min(np.hypot(ring[:, None, 1] - road_xy[None, :, 0], ring[:, None, 0] - road_xy[None, :, 1]), axis=1)
+ring = ring[dmin > 12]  # keep the road corridor open beyond the detail area
 cz = ctx[((ring[:, 0] + 4000) / 4).astype(int), ((ring[:, 1] + 4000) / 4).astype(int)]
 ring_v = np.stack([ring[:, 1], ring[:, 0], cz - 0.6], 1)
 for k, proto in enumerate(protos):
@@ -246,6 +265,117 @@ for k, proto in enumerate(protos):
     inst.parent = holder; inst.location = (0, 0, 0)
     holder.instance_type = "VERTS"
 print("trees", len(pick), "far", len(ring_v))
+
+# ---------------- rock: blocks on cliff walls + boulders ----------------
+def rock_variant(seed):
+    r = np.random.default_rng(seed)
+    v = np.array([(x, y, z) for x in (-1, 0, 1) for y in (-1, 0, 1) for z in (-1, 0, 1)], float)
+    v = v[np.abs(v).sum(1) > 0] * (1 + r.normal(0, 0.18, (26, 1)))
+    v[:, 2] *= r.uniform(0.45, 0.75)  # granite breaks in slabs
+    # convex hull of jittered box corners/edges -> faceted chunk
+    import bmesh
+    bm = bmesh.new()
+    for p in v:
+        bm.verts.new(p)
+    bmesh.ops.convex_hull(bm, input=bm.verts)
+    bm.verts.ensure_lookup_table()
+    bm.verts.index_update()
+    return bm
+
+
+import bmesh  # noqa: E402
+variants = [rock_variant(k) for k in range(6)]
+rock_bm = bmesh.new()
+Hfull = H[c, c]
+gyd, gxd = np.gradient(Hfull)
+steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c, c] > 0.25) & ~(FEAT[c, c] > 0)
+pad_box = np.zeros(steep.shape, bool)
+for p in model["site"]["pads"]:
+    poly = np.array(p["poly"]); lo, hi = poly.min(0) - 1.5, poly.max(0) + 1.5
+    pad_box |= (X > lo[0]) & (X < hi[0]) & (Y > lo[1]) & (Y < hi[1])
+steep &= ~pad_box
+cells = np.argwhere(steep)
+cells = cells[rng.random(len(cells)) < 0.45]
+nb_max = np.maximum.reduce([np.roll(np.roll(Hfull, a, 0), b, 1) for a in (-1, 0, 1) for b in (-1, 0, 1)])
+nb_min = np.minimum.reduce([np.roll(np.roll(Hfull, a, 0), b, 1) for a in (-1, 0, 1) for b in (-1, 0, 1)])
+blocks = 0
+for (j, i) in cells:
+    z0, z1 = nb_min[j, i], nb_max[j, i]
+    nx_, ny_ = -gxd[j, i], -gyd[j, i]
+    nl = math.hypot(nx_, ny_) + 1e-6
+    out = (nx_ / nl, ny_ / nl)
+    for zc in np.arange(z0 + 0.8, z1 + 0.4, rng.uniform(1.6, 2.6)):
+        bm_src = variants[rng.integers(6)]
+        sc = rng.uniform(1.0, 2.2)
+        ang = math.atan2(out[1], out[0]) + rng.normal(0, 0.3)
+        ca, sa = math.cos(ang), math.sin(ang)
+        px = i - D + 0.5 - out[0] * 0.6 * sc + rng.normal(0, 0.3)
+        py = j - D + 0.5 - out[1] * 0.6 * sc + rng.normal(0, 0.3)
+        base_i = len(rock_bm.verts)
+        new = []
+        for v in bm_src.verts:
+            x, y, z = v.co.x * sc * 1.3, v.co.y * sc, v.co.z * sc
+            new.append(rock_bm.verts.new((px + ca * x - sa * y, py + sa * x + ca * y, zc + z)))
+        for f in bm_src.faces:
+            rock_bm.faces.new([new[v.index] for v in f.verts])
+        blocks += 1
+# boulders at wall feet and along the water's edge
+wet = ~np.isnan(np.load(RV / "water_1m.npy")[c, c])
+edge = wet & ~(np.roll(wet, 1, 0) & np.roll(wet, -1, 0) & np.roll(wet, 1, 1) & np.roll(wet, -1, 1))
+for (j, i) in np.argwhere(edge)[rng.random(int(edge.sum())) < 0.12]:
+    bm_src = variants[rng.integers(6)]
+    sc = rng.uniform(0.4, 1.4)
+    new = [rock_bm.verts.new((i - D + 0.5 + v.co.x * sc, j - D + 0.5 + v.co.y * sc, Hfull[j, i] + v.co.z * sc * 0.6)) for v in bm_src.verts]
+    for f in bm_src.faces:
+        rock_bm.faces.new([new[v.index] for v in f.verts])
+rock_me = bpy.data.meshes.new("rocks")
+rock_bm.to_mesh(rock_me)
+rocks = bpy.data.objects.new("rocks_cliffs", rock_me)
+scene.collection.objects.link(rocks)
+
+
+def rock_mat(nt, bsdf):
+    N = nt.nodes; L = nt.links
+    noise = N.new("ShaderNodeTexNoise"); noise.inputs["Scale"].default_value = 0.6
+    ramp = N.new("ShaderNodeValToRGB")
+    ramp.color_ramp.elements[0].color = (0.05, 0.05, 0.048, 1)
+    ramp.color_ramp.elements[1].color = (0.13, 0.13, 0.12, 1)
+    lic = ramp.color_ramp.elements.new(0.72); lic.color = (0.10, 0.11, 0.07, 1)  # lichen
+    L.new(noise.outputs["Fac"], ramp.inputs[0]); L.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+    bsdf.inputs["Roughness"].default_value = 0.85
+
+
+rocks.data.materials.append(material("granite", rock_mat))
+print("rock blocks", blocks)
+
+# ---------------- sauna (sod-roof badstue) ----------------
+sa_ = model["site"]["features"]["sauna"]
+(scx, scy), (sw_, sh_) = sa_["center"], sa_["size"]
+fl = sa_["floor"]
+tar = material("tarred_timber", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.022, 0.018, 0.014, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.75)))
+sod = material("sod_roof", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.06, 0.09, 0.03, 1)), b.inputs["Roughness"].__setattr__("default_value", 1.0)))
+deck_m = material("deck", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.12, 0.08, 0.05, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.8)))
+glass = material("glass", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.4, 0.3, 0.15, 1)), b.inputs["Emission Color"].__setattr__("default_value", (1.0, 0.55, 0.2, 1)), b.inputs["Emission Strength"].__setattr__("default_value", 3.0)))
+eave, ridge = fl + 2.3, fl + 3.9
+x0_, x1_, y0_, y1_ = scx - sw_ / 2, scx + sw_ / 2, scy - sh_ / 2, scy + sh_ / 2
+walls = mesh_from("sauna_walls", [(x0_, y0_, fl - 0.4), (x1_, y0_, fl - 0.4), (x1_, y1_, fl - 0.4), (x0_, y1_, fl - 0.4),
+                                  (x0_, y0_, eave), (x1_, y0_, eave), (x1_, y1_, eave), (x0_, y1_, eave), (scx, y0_, ridge), (scx, y1_, ridge)],
+                  [(0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7), (4, 5, 8, 8), (7, 6, 9, 9)], smooth=False)
+walls.data.materials.append(tar)
+ov = 0.5
+roof = mesh_from("sauna_sod_roof", [(x0_ - ov, y0_ - ov, eave - 0.25), (scx, y0_ - ov, ridge + 0.25), (scx, y1_ + ov, ridge + 0.25), (x0_ - ov, y1_ + ov, eave - 0.25),
+                                    (x1_ + ov, y0_ - ov, eave - 0.25), (x1_ + ov, y1_ + ov, eave - 0.25)], [(0, 1, 2, 3), (1, 4, 5, 2)], smooth=False)
+roof.modifiers.new("thick", "SOLIDIFY").thickness = 0.35
+roof.data.materials.append(sod)
+win = mesh_from("sauna_window", [(x1_ + 0.02, scy - 2.2, fl + 0.5), (x1_ + 0.02, scy + 2.2, fl + 0.5), (x1_ + 0.02, scy + 2.2, fl + 2.0), (x1_ + 0.02, scy - 2.2, fl + 2.0)], [(0, 1, 2, 3)], smooth=False)
+win.data.materials.append(glass)
+dx0, dy0, dx1, dy1 = sa_["deck"]["rect"]
+dz_ = sa_["deck"]["z"]
+deck = mesh_from("sauna_deck", [(dx0, dy0, dz_), (dx1, dy0, dz_), (dx1, dy1, dz_), (dx0, dy1, dz_)], [(0, 1, 2, 3)], smooth=False)
+deck.modifiers.new("thick", "SOLIDIFY").thickness = 0.12
+deck.data.materials.append(deck_m)
+step = mesh_from("sauna_steps", [(x1_, scy - 0.8, fl), (dx0 + 1.6, scy - 0.8, dz_), (dx0 + 1.6, scy + 0.8, dz_), (x1_, scy + 0.8, fl)], [(0, 1, 2, 3)], smooth=False)
+step.data.materials.append(deck_m)
 
 # ---------------- light, world, cameras ----------------
 sun = bpy.data.objects.new("sun", bpy.data.lights.new("sun", "SUN"))
@@ -292,6 +422,9 @@ VIEWS = {
     "aerial_se": ((160, -170, 95), (0, 0, -6), 30),
     "horizon_drone": ((-60, -420, 140), (0, 150, -10), 24),
     "east_rim": ((45, 10, 1.7), (-15, 20, -6), 18),
+    "sauna_from_stream": ((-1, 120, 2.5), (-21, 95, 0.5), 22),
+    "arrival_drone": ((170, 70, 60), (40, 8, -2), 26),
+    "garden_drone": ((62, 100, 48), (24, 40, -5), 26),
 }
 for name, (loc, tgt, lens) in VIEWS.items():
     vc = bpy.data.objects.new(f"cam_{name}", cam_data.copy()); scene.collection.objects.link(vc)

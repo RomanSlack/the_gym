@@ -2,6 +2,7 @@
 // project coordinates (z relative to the ±0.00 datum).
 import modelJson from "../../model/building.json";
 import underlayJson from "../../reference/gym_v2_original/gymv2_extract.json";
+import siteJson from "../../model/site_terrain.json";
 
 export type Pt = [number, number];
 
@@ -23,10 +24,18 @@ export interface Grid {
   from: Pt;
   to: Pt;
 }
+export interface SiteFeatures {
+  arrival_court: { center: Pt; size: Pt; z: number };
+  road: { width: number; shoulder: number; points: [number, number, number][] };
+  garage_ramp: { points: Pt[]; width: number; tunnel_from_x: number };
+  daycare_garden: { rect: [number, number, number, number]; terraces: { sides: string[]; count: number; run: number } };
+  sauna: { center: Pt; size: Pt; deck: { rect: [number, number, number, number] } };
+  sauna_path: { points: Pt[]; width: number };
+}
 export interface Model {
   schema: string;
   project: { name: string; datum: { label: string; blender_z_gymv2: number; masl: number } };
-  site: { water_level: number };
+  site: { water_level: number; features: SiteFeatures };
   levels: Level[];
   views: { plan_cut_height: number; sections: SectionDef[] };
   grids: Grid[];
@@ -52,6 +61,7 @@ export interface Terrain {
   nx: number;
   ny: number;
   h: Float64Array; // metres relative to datum, NaN = no data
+  water: Float64Array; // water surface, NaN = dry
 }
 
 export interface Underlay {
@@ -59,7 +69,14 @@ export interface Underlay {
   terrain: Terrain;
 }
 
-/** Shift the raw Blender-z underlay onto the project datum. */
+/** Site terrain + water exported by terrain/export_blueprint.py (already relative to ±0.00). */
+function loadSite(raw: typeof siteJson): Terrain {
+  const h = Float64Array.from(raw.heights, (v) => v / 100);
+  const water = Float64Array.from(raw.water, (v) => (v === null ? NaN : v / 100));
+  return { origin: raw.origin as Pt, step: raw.step, nx: raw.nx, ny: raw.ny, h, water };
+}
+
+/** Shift the raw Blender-z Gym V2 underlay onto the project datum; terrain = the new site. */
 export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay {
   const elements = (raw.elements as unknown as UElement[])
     .filter((e) => !(e.kind === "slab" && e.hidden)) // hidden duplicate slab
@@ -68,10 +85,7 @@ export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay
       z: [e.z[0] - datumZ, e.z[1] - datumZ] as [number, number],
       at: e.at ? [e.at[0], e.at[1], e.at[2] - datumZ] : undefined,
     }));
-  const t = raw.terrain;
-  const h = new Float64Array(t.heights.length);
-  t.heights.forEach((v, i) => (h[i] = v === null ? NaN : v / 100 - datumZ));
-  return { elements, terrain: { origin: t.origin as Pt, step: t.step, nx: t.nx, ny: t.ny, h } };
+  return { elements, terrain: loadSite(siteJson) };
 }
 
 export const model = modelJson as unknown as Model;
@@ -91,19 +105,12 @@ export function terrainAt(t: Terrain, x: number, y: number): number {
   );
 }
 
-const inPoly = (x: number, y: number, poly: Pt[]) => {
-  let inside = false;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i], [xj, yj] = poly[j];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
-  }
-  return inside;
-};
-
-/** Ground under floors that sit below grade is building excavation, not river.
- *  (Gym V2's terrain is carved into pits for both wings.) */
-const basementSlabs = underlay.elements.filter((e) => e.kind === "slab" && e.z[1] < -1);
-export const isExcavation = (x: number, y: number) => basementSlabs.some((e) => inPoly(x, y, e.plan));
+/** Water surface at a world point (nearest cell; NaN where dry). */
+export function waterAt(t: Terrain, x: number, y: number): number {
+  const i = Math.round((x - t.origin[0]) / t.step), j = Math.round((y - t.origin[1]) / t.step);
+  if (i < 0 || j < 0 || i >= t.nx || j >= t.ny) return NaN;
+  return t.water[j * t.nx + i];
+}
 
 export const fmtElev = (z: number) =>
   Math.abs(z) < 0.005 ? "±0.00" : (z > 0 ? "+" : "−") + Math.abs(z).toFixed(2);
