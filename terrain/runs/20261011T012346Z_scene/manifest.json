@@ -1,0 +1,21 @@
+{
+ "id": "20261011T012346Z_scene",
+ "stage": "scene",
+ "started": "20261011T012346Z",
+ "code": "3437fe0+dirty",
+ "params": {
+  "focus": "new building from the model replaces Gym V2 massing",
+  "elements": "52 columns, 40 beams, 10 slabs (boolean openings), 23 walls, 3 stairs, cafe ring, pool water",
+  "views": [
+   "horizon_drone",
+   "aerial_se",
+   "f1_hall_inside",
+   "f4_pool_deck",
+   "f3_river_edge",
+   "garage_across_ravine",
+   "reference_upstream",
+   "top_down"
+  ]
+ },
+ "outputs": {}
+}

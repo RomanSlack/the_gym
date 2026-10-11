@@ -75,7 +75,7 @@ ctx = np.load(SITE / "context_4m.npy") - DATUM   # 2000 x 2000 at 4 m over [-400
 core4 = H.reshape(500, 4, 500, 4).mean((1, 3))
 ctx[750:1250, 750:1250] = core4
 g4 = lambda w: (w + 4000) // 4  # world metre -> context row/col
-ctx[g4(DY0) + 1:g4(DY1) - 1, g4(DX0) + 1:g4(DX1) - 1] -= 0.6  # tuck under the detail mesh
+ctx[g4(DY0) + 2:g4(DY1) - 2, g4(DX0) + 2:g4(DX1) - 2] -= 60  # drop well under the detail mesh (coarse averaging would poke into the excavations)
 far = grid_mesh("terrain_context", ctx[::2, ::2], -4000 + 2, -4000 + 2, 8.0,
                 {"rock": np.zeros(ctx[::2, ::2].shape)})
 
@@ -412,10 +412,9 @@ for k_, br in enumerate(model["site"]["features"]["trail"]["bridges"]):
     for (ax_, ay_) in ((fx, fy), (tx, ty)):  # dry-stone abutments
         quad(ax_ - ux * 1.5, ay_ - uy * 1.5, ax_ + ux * 1.5, ay_ + uy * 1.5, 1.4, dz_ - 4, dz_ - 0.35, f"footbridge_{k_}_abutment", stone)
 
-# ---------------- east wing lower level: placeholder envelope, glazing, cars ----------------
-env = model["site"]["envelope_placeholders"]["east_wing_E2"]
-ex0, ey0, ex1, ey1 = env["rect"]
-ez0, ez1 = env["floor"], env["top"]
+# ---------------- materials, then the building ----------------
+ex0, ey0, ex1, ey1 = 12.0, -9.5, 30.5, 33.3  # east wing (for the garage light)
+ez1 = 0.12
 concrete = material("concrete", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.42, 0.41, 0.39, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.85)))
 mullion = material("mullion", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.02, 0.022, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.4)))
 
@@ -443,37 +442,104 @@ def box(name, x0, y0, z0, x1, y1, z1, mat):
     return ob
 
 
-T = 0.35  # wall thickness
-sides = {"W": ("y", ex0, ey0, ey1), "E": ("y", ex1, ey0, ey1), "S": ("x", ey0, ex0, ex1), "N": ("x", ey1, ex0, ex1)}
-for side, (run, fixed, a0, a1) in sides.items():
-    cuts = sorted([(g["from"], g["to"], "glass") for g in env["glazed"] if g["side"] == side] +
-                  [(o["from"], o["to"], "open") for o in env["openings"] if o["side"] == side])
-    spans, cur = [], a0
-    for f0, f1, kind in cuts:
-        if f0 > cur:
-            spans.append((cur, f0, "wall"))
-        spans.append((f0, f1, kind)); cur = f1
-    if cur < a1:
-        spans.append((cur, a1, "wall"))
-    for k, (s0, s1, kind) in enumerate(spans):
-        if kind == "open":
-            continue
-        if run == "y":
-            bx = (fixed - T / 2, s0, fixed + T / 2, s1)
-        else:
-            bx = (s0, fixed - T / 2, s1, fixed + T / 2)
-        if kind == "wall":
-            box(f"e2_wall_{side}{k}", bx[0], bx[1], ez0 - 0.6, bx[2], bx[3], ez1 - 0.3, concrete)
-        else:
-            box(f"e2_glass_{side}{k}", bx[0] + 0.1 * (run == "y"), bx[1] + 0.1 * (run == "x"), ez0, bx[2] - 0.1 * (run == "y"), bx[3] - 0.1 * (run == "x"), ez1 - 0.35, glass_e)
-            n = max(1, int((s1 - s0) / 2.4))
-            for i in range(n + 1):  # slim vertical mullions every ~2.4 m
-                t_ = s0 + (s1 - s0) * i / n
-                if run == "y":
-                    box(f"e2_mull_{side}{k}_{i}", fixed - 0.08, t_ - 0.04, ez0, fixed + 0.08, t_ + 0.04, ez1 - 0.35, mullion)
-                else:
-                    box(f"e2_mull_{side}{k}_{i}", t_ - 0.04, fixed - 0.08, ez0, t_ + 0.04, fixed + 0.08, ez1 - 0.35, mullion)
-box("e2_floor", ex0, ey0, ez0 - 0.3, ex1, ey1, ez0, concrete)
+# ---------------- the new building, generated from model/building.json ----------------
+mass.hide_render = True  # Gym V2 massing stays in the file for reference, hidden
+mass.hide_viewport = True
+glulam = material("glulam", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.42, 0.27, 0.15, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.6)))
+clt = material("clt", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.5, 0.36, 0.22, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.7)))
+stone_clad = material("stone_cladding", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.13, 0.13, 0.125, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.9)))
+MAT = {"concrete": concrete, "glulam": glulam, "clt": clt, "glass": glass_e}
+
+
+def oriented_box(name, a, b_, width, z0, z1, mat):
+    (x0, y0), (x1, y1) = a, b_
+    L = math.hypot(x1 - x0, y1 - y0); nx_, ny_ = -(y1 - y0) / L * width / 2, (x1 - x0) / L * width / 2
+    v = [(x0 + nx_, y0 + ny_, z0), (x1 + nx_, y1 + ny_, z0), (x1 - nx_, y1 - ny_, z0), (x0 - nx_, y0 - ny_, z0)]
+    v += [(x, y, z1) for x, y, _ in v]
+    ob = mesh_from(name, v, [(0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)], smooth=False)
+    ob.data.materials.append(mat)
+    return ob
+
+
+for e in model["elements"]:
+    z0, z1 = e["z"]
+    if e["type"] == "column":
+        (x, y), (w, d) = e["at"], e["size"]
+        box(e["id"], x - w / 2, y - d / 2, z0, x + w / 2, y + d / 2, z1, MAT[e["material"]])
+    elif e["type"] == "beam":
+        oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, MAT[e["material"]])
+    elif e["type"] == "wall":
+        mat = glass_e if e["kind"] == "glazed" else (stone_clad if e["kind"] == "river_wall" else concrete)
+        ob = oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat)
+        if e["kind"] == "glazed":  # mullions every ~2.4 m
+            (x0, y0), (x1, y1) = e["from"], e["to"]
+            n = max(1, int(math.hypot(x1 - x0, y1 - y0) / 2.4))
+            for i in range(n + 1):
+                t_ = i / n
+                px, py = x0 + (x1 - x0) * t_, y0 + (y1 - y0) * t_
+                box(f"{e['id']}_m{i}", px - 0.06, py - 0.06, z0, px + 0.06, py + 0.06, z1, mullion)
+    elif e["type"] == "slab":
+        x0, y0, x1, y1 = e["rect"]
+        ob = box(e["id"], x0, y0, z0, x1, y1, z1, MAT.get(e["material"], concrete))
+        for k, h in enumerate(e.get("holes", [])):  # real openings: boolean cutters (evaluated at render)
+            if "circle" in h:
+                hx, hy, r = h["circle"]
+                bpy.ops.mesh.primitive_cylinder_add(radius=r, depth=(z1 - z0) + 1, location=(hx, hy, (z0 + z1) / 2), vertices=48)
+            else:
+                xs_, ys_ = [p[0] for p in h["rect"]], [p[1] for p in h["rect"]]
+                bpy.ops.mesh.primitive_cube_add(location=((min(xs_) + max(xs_)) / 2, (min(ys_) + max(ys_)) / 2, (z0 + z1) / 2))
+                cutter = bpy.context.object
+                cutter.scale = ((max(xs_) - min(xs_)) / 2, (max(ys_) - min(ys_)) / 2, (z1 - z0) / 2 + 0.5)
+            cutter = bpy.context.object
+            cutter.hide_render = True; cutter.hide_viewport = True; cutter.name = f"{e['id']}_hole{k}"
+            mod = ob.modifiers.new(f"hole{k}", "BOOLEAN"); mod.operation = "DIFFERENCE"; mod.object = cutter
+
+# roof overhang: deep timber eaves like the reference image (2.5 m on every side)
+for e in model["elements"]:
+    if e["type"] == "slab" and e["id"].startswith("S-RF"):
+        x0, y0, x1, y1 = e["rect"]
+        box(e["id"] + "_eaves", x0 - 2.5, y0 - 2.5, e["z"][1], x1 + 2.5, y1 + 2.5, e["z"][1] + 0.35, clt)
+
+LV = {l["id"]: l["elevation"] for l in model["levels"]}
+for st in model.get("stairs", []):
+    zlo, zhi = LV[st["from"]], LV[st["to"]]
+    n = int(round((zhi - zlo) / 0.18))
+    rise = (zhi - zlo) / n
+    if st["kind"] == "spiral":
+        (cx, cy), R_ = st["center"], st["diameter"] / 2
+        bpy.ops.mesh.primitive_cylinder_add(radius=0.22, depth=zhi - zlo, location=(cx, cy, (zlo + zhi) / 2), vertices=16)
+        bpy.context.object.data.materials.append(glulam)
+        for k in range(n):
+            a0 = math.radians(15 * k)
+            tread = oriented_box(f"{st['id']}_t{k}", (cx + 0.25 * math.cos(a0), cy + 0.25 * math.sin(a0)),
+                                 (cx + (R_ - 0.2) * math.cos(a0), cy + (R_ - 0.2) * math.sin(a0)), 0.55 * R_ / 3.5 + 0.35,
+                                 zlo + rise * (k + 1) - 0.06, zlo + rise * (k + 1), glulam)
+    else:
+        x0, y0, x1, y1 = st["rect"]
+        run = (y1 - y0) / n
+        for k in range(n):
+            box(f"{st['id']}_t{k}", x0 + 0.3, y0 + run * k, zlo + rise * (k + 1) - 0.06, x1 - 0.3, y0 + run * (k + 1), zlo + rise * (k + 1), glulam)
+for f in model.get("fixtures", []):
+    (cx, cy), R_ = f["center"], f["diameter"] / 2
+    bpy.ops.mesh.primitive_cylinder_add(radius=R_, depth=1.1, location=(cx, cy, LV[f["level"]] + 0.55), vertices=64)
+    ring = bpy.context.object; ring.data.materials.append(glulam)
+    bpy.ops.mesh.primitive_cylinder_add(radius=R_ - 1.0, depth=1.4, location=(cx, cy, LV[f["level"]] + 0.55), vertices=64)
+    inner = bpy.context.object; inner.hide_render = True; inner.hide_viewport = True
+    m_ = ring.modifiers.new("ring", "BOOLEAN"); m_.operation = "DIFFERENCE"; m_.object = inner
+pool_water = material("pool_water", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.05, 0.25, 0.3, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.05)))
+for sp in model.get("spaces", []):
+    if sp["kind"] == "pool":
+        xs_, ys_ = [p[0] for p in sp["poly"]], [p[1] for p in sp["poly"]]
+        box("pool_water", min(xs_), min(ys_), LV[sp["level"]] - 2.0, max(xs_), max(ys_), LV[sp["level"]] - 0.15, pool_water)
+ez0 = LV["E2"]
+# interior lighting: warm ceiling light on every gym level (the lower floors have no daylight)
+for L, top_ in (("F1", 4.2), ("F2", -1.3), ("F3", -6.2), ("F4", -11.1), ("E2", -0.5), ("E1", 4.0)):
+    xc, yc, sx, sy = ((-17.95, -11.0, 22, 44) if L.startswith("F") else (21.25, 11.9, 17, 41))
+    lt = bpy.data.objects.new(f"light_{L}", bpy.data.lights.new(f"light_{L}", "AREA"))
+    lt.data.shape = "RECTANGLE"; lt.data.size = sx; lt.data.size_y = sy
+    lt.data.energy = 9000 if L != "F1" else 4000; lt.data.color = (1.0, 0.87, 0.72)
+    lt.location = (xc, yc, top_)
+    scene.collection.objects.link(lt)
 
 car_paint = [material("car_silver", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.5, 0.52, 0.55, 1)), b.inputs["Metallic"].__setattr__("default_value", 0.9), b.inputs["Roughness"].__setattr__("default_value", 0.25))),
              material("car_green", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.08, 0.05, 1)), b.inputs["Metallic"].__setattr__("default_value", 0.8), b.inputs["Roughness"].__setattr__("default_value", 0.3)))]
@@ -534,6 +600,9 @@ VIEWS = {
     "sauna_from_stream": ((-1, 120, 2.5), (-21, 95, 0.5), 22),
     "arrival_drone": ((170, 70, 60), (40, 8, -2), 26),
     "garden_drone": ((62, 100, 48), (24, 40, -5), 26),
+    "f1_hall_inside": ((-17.95, -32.5, 1.6), (-17.95, 5, 2.4), 16),
+    "f4_pool": ((-23.5, -32.5, -13.7), (-9, -8, -15.0), 16),
+    "f3_river_edge": ((-9.0, -32.5, -8.2), (-9.0, 8, -8.6), 16),
 }
 for name, (loc, tgt, lens) in VIEWS.items():
     vc = bpy.data.objects.new(f"cam_{name}", cam_data.copy()); scene.collection.objects.link(vc)

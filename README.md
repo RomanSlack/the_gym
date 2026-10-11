@@ -19,6 +19,7 @@ Second goal: **record everything** so the weeks of iteration can become a YouTub
 - [x] Blueprint drawings on the new terrain, with site works (`model/site_terrain.json`)
 - [x] 2-mile trail loop (`terrain/route_trail.py`)
 - [x] Structure v2: no interior columns, wall-to-wall spans, grid + columns + beams drawn ([STRUCTURE.md](STRUCTURE.md))
+- [x] Layout v1: schematic plans for every level, cores, spiral, slabs, walls; new 3D building from the model (see [DECISIONS_PENDING.md](DECISIONS_PENDING.md))
 - [ ] Agree on specs (program, floors, dimensions, site, style, materials), resolving the open questions in VISION.md
 - [ ] Research (references, real gym/wellness building standards)
 - [ ] Decide build approach (script-driven vs. MCP live editing, repo layout)

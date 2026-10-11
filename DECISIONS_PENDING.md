@@ -46,3 +46,18 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
 
 11. Below-grade perimeter walls are reinforced concrete: 0.5 m retaining on the rock sides, 0.4 m on the river wall with windows. F1/E1 facades are glazed timber.
 12. F4 and E2 ground slabs are 0.6 m rafts (F4 rock-anchored); suspended floors are 0.25 m slabs on the post-tensioned beams.
+13. **Cafe ring** moved from Gym V2 (20, 0.2) to (16.6, −0.94), Ø 7.0, to sit inside the cafe space. *`model.fixtures`*
+14. **Roof eaves: 2.5 m overhang on all sides** (like the reference image). For now this exists only in the 3D scene (`terrain/blender_scene.py`); it will move into the model when we design the roof.
+
+## What got built this session
+
+- **Drawings** (http://localhost:5280): every floor plan has rooms with names and areas, concrete walls, glazing, stairs and the cafe ring. Sections show slabs breaking around the spiral, core and stair openings, the spiral helix, and the F3→F4 stair. The Gym V2 underlay is off by default (one checkbox to turn it on).
+- **3D** (`terrain/out/scene/site.blend`): the new building is generated from the model and Gym V2 is hidden. It has the column-free F1 hall with glulam roof beams, the post-tensioned floor beams, the spiral stair with timber treads, the pool (with a basin opening in the F4 slab), the garage glass and the daycare garden glass. Renders are in `terrain/runs/*_scene/sheet5.png`.
+
+## Not done yet (next steps)
+
+- Windows in the river wall (the F2 views, the F3 waist-high river window, the F4 underwater windows) are not modeled. The wall is solid stone-clad concrete for now.
+- Interior partitions inside rooms (lockers, WCs, showers) and doors.
+- Roof design (slope/flat, sod or timber, skylights).
+- The rustic bridge (still Gym V2's slab), and reframing the north footbridge views.
+

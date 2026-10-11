@@ -111,6 +111,7 @@ m["fixtures"] = [
 els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall")]
 WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.1, 12.0, 11.3)
 holes = {  # openings through each slab
+    "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}],  # pool basin
     "F1": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F2": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F3": [{"rect": R(-21.45, 7.1, -15.45, 12.1)}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
