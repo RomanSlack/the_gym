@@ -130,6 +130,14 @@ S("daycare-low", "E2", "daycare", "Active play · climbing, soft play → sunken
 S("parking", "E2", "garage", "Parking · ~30 cars, under the forecourt", R(30.5, -9.5, 60.0, 24.0),
   "drive-through to the east wing garage; ramp tunnel enters on the east wall; the forecourt landscape is its roof")
 
+# ---------------------------------------------------------------- south rock annex (Roman: extra rooms dug into the rock, F2-F4)
+SA = (-40.1, -34.1)  # y range: 6 m into the rock south of the gym wing
+S("posing", "F2", "gym", "Posing room · stage lighting, mirrors", R(-28.85, SA[0], -22.6, SA[1]), "top-light + side-light rig, 3-way mirrors, warm/cool switchable")
+for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
+    S(f"pod-{k + 1}", "F2", "gym", f"Private training pod {k + 1}", R(a_, SA[0], b_, SA[1]), "mirrored walls, adjustable lighting, integrated AV, rack + bench")
+S("altitude", "F3", "gym", "Altitude training room · hypoxic", R(-28.85, SA[0], -14.45, SA[1]), "adjustable O2 (sealed room), bikes, rowers, treadmill")
+S("breathwork", "F4", "gym", "Breathwork & mobility room", R(-28.85, SA[0], -17.5, SA[1]), "ambient lighting, soft floor, quiet")
+
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
 for L in ("F2", "F3", "F4"):
     S(f"wc-annex-{L}", L, "wet", "WCs · 3 single (1 accessible), water station", R(-33.45, -26.5, -29.45, -20.5), "annex in the rock outside the back wall, stacked")
@@ -193,6 +201,11 @@ els[-1]["finishes"] = [{"level": "F3", "face": "interior", "kind": "mirror", "s"
                          "note": "floor-to-ceiling mirror; the door openings on this stretch get flush mirror-clad doors"}]
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
+els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": n_} for L, s_, n_ in (
+    ("F2", [2.5, 3.7], "posing room"), ("F2", [9.0, 10.2], "pod 1"), ("F2", [14.4, 15.6], "pod 2"), ("F2", [19.8, 21.0], "pod 3"),
+    ("F3", [6.0, 8.0], "altitude room (airlock door)"), ("F4", [4.0, 5.6], "breathwork room"))]
+els[-1]["finishes"] = [{"level": "F3", "face": "interior", "kind": "hangboard", "s": [0.6, 5.6], "z": [lv["F3"], round(lv["F3"] + 3.0, 2)],
+                        "note": "grip & finger training wall: hangboards, pinch blocks, rings, campus rungs, wrist roller (no bouldering)"}]
 wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # windows at F2/F3, underwater at F4
 # openings along the river wall: s = metres from its south end (y -34.1), z absolute
 F2, F3, F4 = lv["F2"], lv["F3"], lv["F4"]
@@ -215,6 +228,13 @@ for cid in ("W1", "W2"):
                 "note": "glass skylight: daylight down the stairwell to F4"})
 # W2 exit door straight outside at F1 (west face of the shaft)
 [e for e in els if e["id"] == "CS-W2-W"][0]["openings"] = [{"s": [2.6, 4.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}]
+# south annex structure: retaining walls F4 -> F2 ceiling, roof slab buried under ~1 m of soil
+for n_, (a_, b_) in {"S": ([-28.85, -40.1], [-6.45, -40.1]), "W": ([-28.85, -40.1], [-28.85, -34.35]), "E": ([-6.45, -40.1], [-6.45, -34.35])}.items():
+    wall(f"SA-{n_}", a_, b_, 0.4, lv["F4"] - 0.6, -1.1, "retaining", "concrete")
+els.append({"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-1.5, -1.1], "holes": []})
+for L in ("F3", "F2"):
+    els.append({"id": f"S-SA-{L}", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
+els.append({"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv["F4"] - 0.6, 2), lv["F4"]], "holes": []})
 for n_, (a_, b_) in {"W": ([-33.45, -26.5], [-33.45, -20.5]), "N": ([-33.45, -20.5], [-29.7, -20.5]), "S": ([-33.45, -26.5], [-29.7, -26.5])}.items():
     wall(f"WA-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, -0.25, "retaining", "concrete")
 els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []})

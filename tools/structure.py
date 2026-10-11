@@ -19,11 +19,11 @@ grids, elements = [], [e for e in m.get("elements", []) if e.get("type") not in 
 
 for wing in S["wings"]:
     xs, ys = wing["x_lines"], wing["y_lines"]
-    ext = 4.0  # grid lines run a little past the building, with bubbles at the ends
+    ext_y, ext_x = 9.0, 4.0  # column lines clear the 6 m rock annexes; row lines stay short (wings face each other), with bubbles at the ends
     for name, x in zip(wing["x_names"], xs):
-        grids.append({"id": name, "from": [x, ys[-1] - ext], "to": [x, ys[0] + ext]})
+        grids.append({"id": name, "from": [x, ys[-1] - ext_y], "to": [x, ys[0] + ext_y]})
     for name, y in zip(wing["y_names"], ys):
-        grids.append({"id": name, "from": [xs[0] - ext, y], "to": [xs[-1] + ext, y]})
+        grids.append({"id": name, "from": [xs[0] - ext_x, y], "to": [xs[-1] + ext_x, y]})
     for tier in wing["column_tiers"]:
         z0, z1 = lv[tier["from"]], lv[tier["to"]] if tier["to"] in lv else tier["to"]
         for xn, x in zip(wing["x_names"], xs):

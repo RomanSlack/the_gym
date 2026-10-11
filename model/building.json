@@ -1116,8 +1116,8 @@
     ]
   },
   "grids": [
-    {"id": "A", "from": [-29.45, -38.1], "to": [-29.45, 16.1]},
-    {"id": "C", "from": [-6.45, -38.1], "to": [-6.45, 16.1]},
+    {"id": "A", "from": [-29.45, -43.1], "to": [-29.45, 21.1]},
+    {"id": "C", "from": [-6.45, -43.1], "to": [-6.45, 21.1]},
     {"id": "1", "from": [-33.45, 12.1], "to": [-2.45, 12.1]},
     {"id": "2", "from": [-33.45, 4.4], "to": [-2.45, 4.4]},
     {"id": "3", "from": [-33.45, -3.3], "to": [-2.45, -3.3]},
@@ -1125,8 +1125,8 @@
     {"id": "5", "from": [-33.45, -18.7], "to": [-2.45, -18.7]},
     {"id": "6", "from": [-33.45, -26.4], "to": [-2.45, -26.4]},
     {"id": "7", "from": [-33.45, -34.1], "to": [-2.45, -34.1]},
-    {"id": "D", "from": [12.0, -13.5], "to": [12.0, 37.3]},
-    {"id": "F", "from": [30.5, -13.5], "to": [30.5, 37.3]},
+    {"id": "D", "from": [12.0, -18.5], "to": [12.0, 42.3]},
+    {"id": "F", "from": [30.5, -18.5], "to": [30.5, 42.3]},
     {"id": "8", "from": [8.0, 33.3], "to": [34.5, 33.3]},
     {"id": "9", "from": [8.0, 24.74], "to": [34.5, 24.74]},
     {"id": "10", "from": [8.0, 16.18], "to": [34.5, 16.18]},
@@ -1244,7 +1244,27 @@
       ]
     },
     {"id": "W-west-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
-    {"id": "W-west-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {
+      "id": "W-west-S",
+      "type": "wall",
+      "kind": "retaining",
+      "material": "concrete",
+      "from": [-29.45, -34.1],
+      "to": [-6.45, -34.1],
+      "size": [0.5, 15.74],
+      "z": [-15.99, -0.25],
+      "openings": [
+        {"s": [2.5, 3.7], "z": [-4.91, -2.61], "type": "door", "note": "posing room"},
+        {"s": [9.0, 10.2], "z": [-4.91, -2.61], "type": "door", "note": "pod 1"},
+        {"s": [14.4, 15.6], "z": [-4.91, -2.61], "type": "door", "note": "pod 2"},
+        {"s": [19.8, 21.0], "z": [-4.91, -2.61], "type": "door", "note": "pod 3"},
+        {"s": [6.0, 8.0], "z": [-9.77, -7.47], "type": "door", "note": "altitude room (airlock door)"},
+        {"s": [4.0, 5.6], "z": [-15.39, -13.09], "type": "door", "note": "breathwork room"}
+      ],
+      "finishes": [
+        {"level": "F3", "face": "interior", "kind": "hangboard", "s": [0.6, 5.6], "z": [-9.77, -6.77], "note": "grip & finger training wall: hangboards, pinch blocks, rings, campus rungs, wrist roller (no bouldering)"}
+      ]
+    },
     {
       "id": "W-west-C",
       "type": "wall",
@@ -1293,6 +1313,13 @@
     {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -27.6], "to": [-29.7, -27.6], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -27.6], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "SA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-6.45, -40.1], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
+    {"id": "SA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-28.85, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
+    {"id": "SA-E", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-6.45, -40.1], "to": [-6.45, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
+    {"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-1.5, -1.1], "holes": []},
+    {"id": "S-SA-F3", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-10.02, -9.77], "holes": []},
+    {"id": "S-SA-F2", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-5.16, -4.91], "holes": []},
+    {"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [-15.99, -15.39], "holes": []},
     {"id": "WA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-33.45, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
     {"id": "WA-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -20.5], "to": [-29.7, -20.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
     {"id": "WA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-33.45, -26.5], "to": [-29.7, -26.5], "size": [0.3, 15.74], "z": [-15.99, -0.25]},
@@ -2026,6 +2053,54 @@
       "name": "Parking · ~30 cars, under the forecourt",
       "poly": [[30.5, -9.5], [60.0, -9.5], [60.0, 24.0], [30.5, 24.0]],
       "note": "drive-through to the east wing garage; ramp tunnel enters on the east wall; the forecourt landscape is its roof"
+    },
+    {
+      "id": "posing",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Posing room · stage lighting, mirrors",
+      "poly": [[-28.85, -40.1], [-22.6, -40.1], [-22.6, -34.1], [-28.85, -34.1]],
+      "note": "top-light + side-light rig, 3-way mirrors, warm/cool switchable"
+    },
+    {
+      "id": "pod-1",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Private training pod 1",
+      "poly": [[-22.6, -40.1], [-17.2, -40.1], [-17.2, -34.1], [-22.6, -34.1]],
+      "note": "mirrored walls, adjustable lighting, integrated AV, rack + bench"
+    },
+    {
+      "id": "pod-2",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Private training pod 2",
+      "poly": [[-17.2, -40.1], [-11.8, -40.1], [-11.8, -34.1], [-17.2, -34.1]],
+      "note": "mirrored walls, adjustable lighting, integrated AV, rack + bench"
+    },
+    {
+      "id": "pod-3",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Private training pod 3",
+      "poly": [[-11.8, -40.1], [-6.45, -40.1], [-6.45, -34.1], [-11.8, -34.1]],
+      "note": "mirrored walls, adjustable lighting, integrated AV, rack + bench"
+    },
+    {
+      "id": "altitude",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Altitude training room · hypoxic",
+      "poly": [[-28.85, -40.1], [-14.45, -40.1], [-14.45, -34.1], [-28.85, -34.1]],
+      "note": "adjustable O2 (sealed room), bikes, rowers, treadmill"
+    },
+    {
+      "id": "breathwork",
+      "level": "F4",
+      "kind": "gym",
+      "name": "Breathwork & mobility room",
+      "poly": [[-28.85, -40.1], [-17.5, -40.1], [-17.5, -34.1], [-28.85, -34.1]],
+      "note": "ambient lighting, soft floor, quiet"
     },
     {
       "id": "wc-annex-F2",

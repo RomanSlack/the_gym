@@ -243,3 +243,4 @@ html[data-theme="dark"] .replay-subject, html[data-theme="dark"] .replay-meta { 
 .n-fixture-bench rect { fill: #3a3a3a; stroke: none; }
 .n-fixture-rack rect { fill: #8c8c88; stroke: #3a3a3a; stroke-width: 0.5; }
 html[data-theme="dark"] .n-fixture-bench rect { fill: #9a968c; }
+.n-finish-hangboard { stroke: #b07a4a; stroke-width: 3; stroke-dasharray: 2 1; }

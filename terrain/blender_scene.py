@@ -528,14 +528,25 @@ if bs:
 mirror_m = material("mirror", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.9, 0.9, 0.9, 1)), b.inputs["Metallic"].__setattr__("default_value", 1.0), b.inputs["Roughness"].__setattr__("default_value", 0.02)))
 for e in model["elements"]:
     for fin in e.get("finishes", []):
-        if fin["kind"] != "mirror":
+        if fin["kind"] not in ("mirror", "hangboard"):
             continue
         (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
         WL = math.hypot(wx1 - wx0, wy1 - wy0); ux_, uy_ = (wx1 - wx0) / WL, (wy1 - wy0) / WL
         off = e["size"][0] / 2 + 0.03
-        a_ = (wx0 + ux_ * fin["s"][0] + uy_ * off, wy0 + uy_ * fin["s"][0] - ux_ * off)
-        b_ = (wx0 + ux_ * fin["s"][1] + uy_ * off, wy0 + uy_ * fin["s"][1] - ux_ * off)
-        oriented_box(f"{e['id']}_mirror", a_, b_, 0.02, fin["z"][0], fin["z"][1], mirror_m)
+        nx_, ny_ = -uy_ * off, ux_ * off  # flip to face the wing's centre
+        if (-17.95 - wx0) * nx_ + (-11.0 - wy0) * ny_ < 0:
+            nx_, ny_ = -nx_, -ny_
+        a_ = (wx0 + ux_ * fin["s"][0] + nx_, wy0 + uy_ * fin["s"][0] + ny_)
+        b_ = (wx0 + ux_ * fin["s"][1] + nx_, wy0 + uy_ * fin["s"][1] + ny_)
+        if fin["kind"] == "mirror":
+            oriented_box(f"{e['id']}_mirror", a_, b_, 0.02, fin["z"][0], fin["z"][1], mirror_m)
+        else:  # timber training wall with hangboards
+            oriented_box(f"{e['id']}_gripwall", a_, b_, 0.04, fin["z"][0] + 1.4, fin["z"][1], glulam)
+            L_ = math.hypot(b_[0] - a_[0], b_[1] - a_[1])
+            for k in range(int(L_ / 1.2)):
+                t_ = (k + 0.5) * 1.2 / L_
+                cx_, cy_ = a_[0] + (b_[0] - a_[0]) * t_, a_[1] + (b_[1] - a_[1]) * t_
+                box(f"{e['id']}_hb{k}", cx_ - 0.3, cy_ - 0.05, fin["z"][0] + 2.15, cx_ + 0.3, cy_ + 0.05, fin["z"][0] + 2.3, mullion)
 # F3 den: black rubber floor, dark ceiling, low warm light instead of the bright wash
 rubber = material("rubber_floor", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.015, 0.015, 0.016, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.9)))
 box("f3_rubber_floor", -29.2, -33.85, LV["F3"], -6.7, 11.85, LV["F3"] + 0.015, rubber)

@@ -6,11 +6,11 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 
 | Zone | Area m² | Items | Allocated m² | Use | Verdict |
 |---|---|---|---|---|---|
-| machines | 235 | 14 | 74 | 31% | sparse |
-| machines-2 | 136 | 16 | 80 | 59% | roomy |
-| free-weights | 248 | 15 | 96 | 38% | sparse |
-| olympic | 241 | 10 | 98 | 40% | sparse |
-| free-weights-F3 | 277 | 21 | 104 | 38% | sparse |
+| machines | 235 | 29 | 161 | 69% | normal |
+| machines-2 | 136 | 22 | 110 | 81% | normal |
+| free-weights | 248 | 22 | 167 | 67% | normal |
+| olympic | 241 | 15 | 160 | 66% | normal |
+| free-weights-F3 | 277 | 28 | 190 | 69% | normal |
 | functional | 240 | 19 | 172 | 72% | normal |
 | strongman | 92 | 4 | 62 | 67% | normal |
 | sled-track | 113 | 2 | 109 | 96% | crowded |
@@ -18,19 +18,25 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 | cardio-F2 | 136 | 17 | 72 | 53% | roomy |
 | calisthenics | 75 | 3 | 56 | 74% | normal |
 | stretching | 248 | 4 | 202 | 81% | normal |
-| recovery | 116 | 14 | 59 | 51% | roomy |
+| recovery | 116 | 18 | 76 | 66% | normal |
+| posing | 37 | 1 | 25 | 67% | normal |
+| pod-1 | 32 | 1 | 22 | 68% | normal |
+| pod-2 | 32 | 1 | 22 | 68% | normal |
+| pod-3 | 32 | 1 | 22 | 69% | normal |
+| altitude | 86 | 9 | 52 | 60% | roomy |
+| breathwork | 68 | 1 | 45 | 66% | normal |
 
 ## Item lists
 
-**machines**: Leg press 45° ×2; Hack squat ×1; Leg extension ×2; Seated leg curl ×1; Lying leg curl ×1; Standing calf raise ×1; Seated calf raise ×1; Hip abduction ×1; Hip adduction ×1; Glute drive / hip thrust ×1; Belt squat ×1; Smith machine ×1
+**machines**: Leg press 45° ×3; Hack squat ×2; Pendulum squat ×1; V-squat ×1; Leg extension ×3; Seated leg curl ×2; Lying leg curl ×2; Standing calf raise ×2; Seated calf raise ×1; Hip abduction ×2; Hip adduction ×2; Glute drive / hip thrust ×2; Belt squat ×2; Smith machine ×2; Reverse hyper ×1; ISLAND: dumbbell rack + lunge/RDL floor ×1
 
-**machines-2**: Lat pulldown ×2; Seated row (low row) ×1; Chest press (flat + incline) ×2; Pec deck / rear delt ×1; Shoulder press ×1; Bicep curl ×1; Tricep pushdown / extension ×1; Assisted pull-up / dip ×1; Cable crossover (dual pulley) ×1; Functional trainer ×1; Plate-loaded iso-lateral (chest/back/row) ×4
+**machines-2**: Lat pulldown ×3; Seated row (low row) ×2; Chest press (flat + incline) ×3; Pec deck / rear delt ×2; Shoulder press ×2; Bicep curl ×1; Tricep pushdown / extension ×1; Assisted pull-up / dip ×1; Cable crossover (dual pulley) ×1; Functional trainer ×2; Plate-loaded iso-lateral (chest/back/row) ×4
 
-**free-weights**: Power rack + bench ×4; Half rack / squat stand ×2; Flat bench press station ×2; Incline bench press station ×2; Plate trees + bar storage ×3; Fixed barbell / EZ rack ×2
+**free-weights**: Power rack + bench ×6; Half rack / squat stand ×2; Flat bench press station ×3; Incline bench press station ×3; Decline bench station ×1; Plate trees + bar storage ×4; Fixed barbell / EZ rack ×2; ISLAND: dumbbell rack 2.5-50 kg + 4 benches round it ×1
 
-**olympic**: Weightlifting platform (2.4 x 3 m) ×6; Bumper plate storage + chalk ×3; Specialty bar rack (trap, SSB, cambered, swiss) ×1
+**olympic**: Weightlifting platform (2.4 x 3 m) ×8; Bumper plate storage + chalk ×3; Specialty bar rack (trap, SSB, cambered, swiss) ×1; GHD / back extension ×2; Warm-up / mobility floor ×1
 
-**free-weights-F3**: Adjustable bench (flat/incline/decline) station ×14; Dumbbell rack 2.5-75 kg (run) ×3; Kettlebell rack ×1; Landmine stations ×2; Multi-grip pull-up bars ×1
+**free-weights-F3**: Adjustable bench (flat/incline/decline) station ×18; Dumbbell rack 2.5-75 kg (run) ×3; Kettlebell rack ×1; Landmine stations ×2; Multi-grip pull-up bars ×1; ISLAND: 4-stack cable tower ×1; ISLAND: dumbbell rack + benches ×1; Grip & hangboard wall ×1
 
 **functional**: Rig (pull-up / squat / dip bays) ×1; Wall-ball targets ×1; Plyo boxes, slam/med balls, ropes, rings storage ×1; Rowers (Concept2) ×4; SkiErg ×3; Air bike ×4; GHD ×2; Pegboard + climbing rope ×1; Battle ropes anchor ×1; Open floor for classes ×1
 
@@ -46,5 +52,17 @@ Allocations include use + walking clearance (planning rules of thumb, not manufa
 
 **stretching**: Mats / mobility area ×1; Foam rollers, bands, massage guns storage ×1; 3D body scanner ×1; Small group class studio (open) ×1
 
-**recovery**: Compression boots chairs ×6; Zero-gravity loungers ×6; Massage chairs ×2
+**recovery**: Compression boots chairs ×8; Zero-gravity loungers ×8; Massage chairs ×2
+
+**posing**: Posing stage + light rig + 3-way mirror ×1
+
+**pod-1**: Pod: rack, bench, dumbbells, AV ×1
+
+**pod-2**: Pod: rack, bench, dumbbells, AV ×1
+
+**pod-3**: Pod: rack, bench, dumbbells, AV ×1
+
+**altitude**: Bike ×4; Rower ×2; Treadmill ×2; Open floor ×1
+
+**breathwork**: Mats / mobility floor ×1
 

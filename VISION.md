@@ -220,6 +220,12 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
   - **Free weights take 3/4 of the west wall** (34.65 m), which is **floor-to-ceiling mirror**. The doors on that stretch are flush mirror-clad.
   - Rows of flat/incline/decline benches face the mirror, with dumbbell racks along it.
   - Strongman takes the north quarter; the sled lane moved east next to the river edge.
+- **Extra rooms dug into the rock along the gym's south face** (6 m deep, below grade):
+  - **F2:** posing room + 3 private training pods
+  - **F3:** altitude training room
+  - **F4:** breathwork & mobility room
+- **Grip & hangboard wall** (hangboards, pinch blocks, rings, campus rungs; no bouldering) on the den's south wall.
+- **Equipment: double up popular machines and plan islands** (freestanding dumbbell/cable racks with stations around them). Target normal gym density (~65–85 %), per `docs/FIT_STUDY.md`. That's 220 items, with every strength zone between 66 and 81 %.
 
 ## Open questions
 

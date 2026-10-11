@@ -24,25 +24,30 @@ def area(p):
 A = {s["id"]: area(s["poly"]) for s in m["spaces"]}
 
 # zone -> [(item, count, m² each incl. clearance)]
+# Roman: double up popular machines + plan "islands" (freestanding racks with stations all round)
+# so each strength floor lands at normal gym density (~65-85 %).
 PLAN = {
-    "machines": [  # F2 selectorized + plate-loaded legs/back
-        ("Leg press 45°", 2, 7.0), ("Hack squat", 1, 6.5), ("Leg extension", 2, 4.5), ("Seated leg curl", 1, 4.5),
-        ("Lying leg curl", 1, 4.5), ("Standing calf raise", 1, 4.0), ("Seated calf raise", 1, 3.5),
-        ("Hip abduction", 1, 4.0), ("Hip adduction", 1, 4.0), ("Glute drive / hip thrust", 1, 5.5),
-        ("Belt squat", 1, 6.0), ("Smith machine", 1, 8.0)],
+    "machines": [  # F2 legs
+        ("Leg press 45°", 3, 7.0), ("Hack squat", 2, 6.5), ("Pendulum squat", 1, 6.5), ("V-squat", 1, 6.5), ("Leg extension", 3, 4.5),
+        ("Seated leg curl", 2, 4.5), ("Lying leg curl", 2, 4.5), ("Standing calf raise", 2, 4.0), ("Seated calf raise", 1, 3.5),
+        ("Hip abduction", 2, 4.0), ("Hip adduction", 2, 4.0), ("Glute drive / hip thrust", 2, 5.5), ("Belt squat", 2, 6.0),
+        ("Smith machine", 2, 8.0), ("Reverse hyper", 1, 4.0), ("ISLAND: dumbbell rack + lunge/RDL floor", 1, 12.0)],
     "machines-2": [  # F2 upper body + cable
-        ("Lat pulldown", 2, 4.5), ("Seated row (low row)", 1, 4.5), ("Chest press (flat + incline)", 2, 4.5),
-        ("Pec deck / rear delt", 1, 4.5), ("Shoulder press", 1, 4.5), ("Bicep curl", 1, 3.5),
-        ("Tricep pushdown / extension", 1, 3.5), ("Assisted pull-up / dip", 1, 4.0), ("Cable crossover (dual pulley)", 1, 9.0),
-        ("Functional trainer", 1, 7.0), ("Plate-loaded iso-lateral (chest/back/row)", 4, 5.5)],
+        ("Lat pulldown", 3, 4.5), ("Seated row (low row)", 2, 4.5), ("Chest press (flat + incline)", 3, 4.5),
+        ("Pec deck / rear delt", 2, 4.5), ("Shoulder press", 2, 4.5), ("Bicep curl", 1, 3.5), ("Tricep pushdown / extension", 1, 3.5),
+        ("Assisted pull-up / dip", 1, 4.0), ("Cable crossover (dual pulley)", 1, 9.0), ("Functional trainer", 2, 7.0),
+        ("Plate-loaded iso-lateral (chest/back/row)", 4, 5.5)],
     "free-weights": [  # F2 mirror wall
-        ("Power rack + bench", 4, 11.0), ("Half rack / squat stand", 2, 9.0), ("Flat bench press station", 2, 6.0),
-        ("Incline bench press station", 2, 6.0), ("Plate trees + bar storage", 3, 1.5), ("Fixed barbell / EZ rack", 2, 2.5)],
+        ("Power rack + bench", 6, 11.0), ("Half rack / squat stand", 2, 9.0), ("Flat bench press station", 3, 6.0),
+        ("Incline bench press station", 3, 6.0), ("Decline bench station", 1, 6.0), ("Plate trees + bar storage", 4, 1.5),
+        ("Fixed barbell / EZ rack", 2, 2.5), ("ISLAND: dumbbell rack 2.5-50 kg + 4 benches round it", 1, 30.0)],
     "olympic": [
-        ("Weightlifting platform (2.4 x 3 m)", 6, 15.0), ("Bumper plate storage + chalk", 3, 1.5), ("Specialty bar rack (trap, SSB, cambered, swiss)", 1, 3.0)],
+        ("Weightlifting platform (2.4 x 3 m)", 8, 15.0), ("Bumper plate storage + chalk", 3, 1.5),
+        ("Specialty bar rack (trap, SSB, cambered, swiss)", 1, 3.0), ("GHD / back extension", 2, 3.5), ("Warm-up / mobility floor", 1, 25.0)],
     "free-weights-F3": [  # the den
-        ("Adjustable bench (flat/incline/decline) station", 14, 5.0), ("Dumbbell rack 2.5-75 kg (run)", 3, 6.0),
-        ("Kettlebell rack", 1, 3.0), ("Landmine stations", 2, 4.5), ("Multi-grip pull-up bars", 1, 4.0)],
+        ("Adjustable bench (flat/incline/decline) station", 18, 5.0), ("Dumbbell rack 2.5-75 kg (run)", 3, 6.0),
+        ("Kettlebell rack", 1, 3.0), ("Landmine stations", 2, 4.5), ("Multi-grip pull-up bars", 1, 4.0),
+        ("ISLAND: 4-stack cable tower", 1, 24.0), ("ISLAND: dumbbell rack + benches", 1, 30.0), ("Grip & hangboard wall", 1, 12.0)],
     "functional": [
         ("Rig (pull-up / squat / dip bays)", 1, 60.0), ("Wall-ball targets", 1, 8.0), ("Plyo boxes, slam/med balls, ropes, rings storage", 1, 10.0),
         ("Rowers (Concept2)", 4, 4.0), ("SkiErg", 3, 2.5), ("Air bike", 4, 3.0), ("GHD", 2, 3.5), ("Pegboard + climbing rope", 1, 6.0),
@@ -54,7 +59,12 @@ PLAN = {
     "calisthenics": [("Bar station + rings", 1, 20.0), ("Parallettes / dip bars", 1, 6.0), ("Open floor", 1, 30.0)],
     "stretching": [("Mats / mobility area", 1, 120.0), ("Foam rollers, bands, massage guns storage", 1, 6.0),
                    ("3D body scanner", 1, 6.0), ("Small group class studio (open)", 1, 70.0)],
-    "recovery": [("Compression boots chairs", 6, 4.0), ("Zero-gravity loungers", 6, 4.5), ("Massage chairs", 2, 4.0)],
+    "recovery": [("Compression boots chairs", 8, 4.0), ("Zero-gravity loungers", 8, 4.5), ("Massage chairs", 2, 4.0)],
+    "posing": [("Posing stage + light rig + 3-way mirror", 1, 25.0)],
+    "pod-1": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)], "pod-2": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)],
+    "pod-3": [("Pod: rack, bench, dumbbells, AV", 1, 22.0)],
+    "altitude": [("Bike", 4, 3.5), ("Rower", 2, 4.0), ("Treadmill", 2, 5.0), ("Open floor", 1, 20.0)],
+    "breathwork": [("Mats / mobility floor", 1, 45.0)],
 }
 
 rows, out = [], ["# Equipment fit study", "", "Generated by `tools/fit_study.py` from the model's zone areas.",
