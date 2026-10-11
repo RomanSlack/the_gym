@@ -244,3 +244,9 @@ html[data-theme="dark"] .replay-subject, html[data-theme="dark"] .replay-meta { 
 .n-fixture-rack rect { fill: #8c8c88; stroke: #3a3a3a; stroke-width: 0.5; }
 html[data-theme="dark"] .n-fixture-bench rect { fill: #9a968c; }
 .n-finish-hangboard { stroke: #b07a4a; stroke-width: 3; stroke-dasharray: 2 1; }
+.n-partition { fill: #6a6a68; stroke: var(--ink); stroke-width: 0.4; }
+.n-door line { stroke: var(--ink); stroke-width: 0.9; }
+.n-door-arc { fill: none; stroke: var(--ink); stroke-width: 0.5; stroke-dasharray: 2 1.5; }
+html[data-theme="dark"] .n-partition { fill: #9a968c; }
+.n-opening line { stroke: var(--ink); stroke-width: 0.9; }
+.n-opening .n-baffle { stroke-width: 2.2; }

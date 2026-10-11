@@ -6,6 +6,12 @@
 - ✅ **Rooms cut around cores**, and slivers closed: 0 m² gaps and 0 m² overlaps on every floor.
 - ✅ **West facade rhythm:** W1 and W2 are identical 3.2 × 9 m towers. The masses repeat every 15.55 m (W2, W1, then the sauna annex between the two lifts).
 
+- ✅ **Interior walls + doors** generated from the room layout (`tools/partitions.py`), following Roman's principles: **as open as possible**, **no door unless needed**.
+  - Walls only around wet areas, cores, plant, thermal and privacy rooms; glass where separation but not privacy is needed.
+  - Open doorways or privacy-baffled entries elsewhere: changing ↔ gallery, changing ↔ wet zones, daycare play rooms ↔ hall.
+  - Real doors only for privacy, fire, heat, security, cars and sleeping kids.
+  - W3 made discreet: it lies along the north wall, and above grade it's a low 2.6 m sod-roofed exit.
+
 ## Building / code issues (original findings)
 
 1. **Egress, the big one.** Both exit stairs (W1, W2) are on the west wall in the south half, about 17 m apart. On F2–F4 the worst walking distance to an exit stair is about **48 m**, from the north-east corner. Typical code limits are around 30 m, and exits should be remote from each other. The spiral and the F3→F4 north stair are open stairs, so they don't count as exits. **Fix: a third enclosed exit stair in the north / north-east.** It could go on the north wall next to the women's express lift, set into the rock like the others.

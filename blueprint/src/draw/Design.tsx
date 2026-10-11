@@ -68,26 +68,55 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
       {walls.flatMap((w) => {
         const [wx0, wy0] = w.from!, [wx1, wy1] = w.to!;
         const WL = Math.hypot(wx1 - wx0, wy1 - wy0);
+        const ux = (wx1 - wx0) / WL, uy = (wy1 - wy0) / WL;
         // split the wall along its length where an opening is cut by this plan
-        const cuts = (w.openings ?? []).filter((o) => o.z[0] <= cut && o.z[1] >= cut).map((o) => o.s).sort((a, b) => a[0] - b[0]);
-        const pieces: { a: number; b: number; glass: boolean }[] = [];
+        const cuts = (w.openings ?? []).filter((o) => o.z[0] <= cut && o.z[1] >= cut).sort((a, b) => a.s[0] - b.s[0]);
+        const base = w.kind === "glazed" ? "glass" : "solid";
+        const pieces: { a: number; b: number; t: string; swing?: number }[] = [];
         let cur = 0;
-        for (const [a, b] of cuts) { if (a > cur) pieces.push({ a: cur, b: a, glass: w.kind === "glazed" }); pieces.push({ a, b, glass: true }); cur = b; }
-        if (cur < WL) pieces.push({ a: cur, b: WL, glass: w.kind === "glazed" });
-        return pieces.map(({ a, b, glass }, k) => {
-        const x0 = wx0 + ((wx1 - wx0) * a) / WL, y0 = wy0 + ((wy1 - wy0) * a) / WL;
-        const x1 = wx0 + ((wx1 - wx0) * b) / WL, y1 = wy0 + ((wy1 - wy0) * b) / WL;
-        const L = Math.hypot(x1 - x0, y1 - y0), t = w.size[0] / 2;
-        const nx = (-(y1 - y0) / L) * t, ny = ((x1 - x0) / L) * t;
-        const pts: Pt[] = [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
-        return glass ? (
-          <g key={`${w.id}-${k}`} className="n-glass" data-n={`${w.id} · glazing`}>
-            <path d={P(pts)} />
-            <line x1={x0} y1={-y0} x2={x1} y2={-y1} />
-          </g>
-        ) : (
-          <path key={`${w.id}-${k}`} d={P(pts)} className="n-wall" data-n={`${w.id} · ${w.kind} ${w.material} ${w.size[0]} m`} />
-        );
+        for (const o of cuts) {
+          if (o.s[0] > cur) pieces.push({ a: cur, b: o.s[0], t: base });
+          pieces.push({ a: o.s[0], b: o.s[1], t: ["door", "opening", "baffle"].includes(o.type) ? o.type : "glass", swing: (o as { swing?: number }).swing ?? 1 });
+          cur = o.s[1];
+        }
+        if (cur < WL) pieces.push({ a: cur, b: WL, t: base });
+        return pieces.map(({ a, b, t, swing }, k) => {
+          const x0 = wx0 + ux * a, y0 = wy0 + uy * a, x1 = wx0 + ux * b, y1 = wy0 + uy * b;
+          const th = w.size[0] / 2, nx = -uy * th, ny = ux * th;
+          const pts: Pt[] = [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
+          const key = `${w.id}-${k}`;
+          if (t === "door") {
+            // gap + leaf (90° open, hinged at the start) + swing arc, into the side given by `swing`
+            const r = b - a, sx = -uy * (swing ?? 1), sy = ux * (swing ?? 1);
+            const hx = x0, hy = y0, lx = hx + sx * r, ly = hy + sy * r;
+            const sweep = (swing ?? 1) > 0 ? 1 : 0;
+            return (
+              <g key={key} className="n-door" data-n={`door · ${(w.openings ?? []).find((o) => o.s[0] === a)?.note ?? ""}`}>
+                <line x1={hx} y1={-hy} x2={lx} y2={-ly} />
+                <path d={`M${lx} ${-ly}A${r} ${r} 0 0 ${sweep} ${x1} ${-y1}`} className="n-door-arc" />
+              </g>
+            );
+          }
+          if (t === "opening" || t === "baffle") {
+            // open doorway: jamb ticks only; baffle adds a privacy screen 1.2 m inside the room
+            const sx = -uy * (swing ?? 1), sy = ux * (swing ?? 1), j = th + 0.12;
+            return (
+              <g key={key} className="n-opening" data-n={`open doorway · ${(w.openings ?? []).find((o) => o.s[0] === a)?.note ?? ""}`}>
+                <line x1={x0 - uy * j} y1={-(y0 + ux * j)} x2={x0 + uy * j} y2={-(y0 - ux * j)} />
+                <line x1={x1 - uy * j} y1={-(y1 + ux * j)} x2={x1 + uy * j} y2={-(y1 - ux * j)} />
+                {t === "baffle" && (
+                  <line x1={x0 - ux * 0.4 + sx * 1.2} y1={-(y0 - uy * 0.4 + sy * 1.2)} x2={x1 + ux * 0.4 + sx * 1.2} y2={-(y1 + uy * 0.4 + sy * 1.2)} className="n-baffle" />
+                )}
+              </g>
+            );
+          }
+          if (t === "glass") return (
+            <g key={key} className="n-glass" data-n={`${w.id} · glazing`}>
+              <path d={P(pts)} />
+              <line x1={x0} y1={-y0} x2={x1} y2={-y1} />
+            </g>
+          );
+          return <path key={key} d={P(pts)} className={w.kind === "partition" ? "n-partition" : "n-wall"} data-n={`${w.id} · ${w.kind} ${w.material} ${w.size[0]} m`} />;
         });
       })}
       {/* wall finishes on this level (e.g. the F3 mirror wall): a bright line on the interior face */}

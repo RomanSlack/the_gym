@@ -24,7 +24,7 @@ cores = {
     # flanked by the two express lifts (centre y 1.5). W3 stands fully outside on the north face (no floor area taken).
     "W1": {"poly": R(-32.05, -18.55, -28.85, -9.55), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
     "W2": {"poly": R(-32.05, -34.1, -28.85, -25.1), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
-    "W3": {"poly": R(-13.6, 12.35, -10.4, 21.35), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W3 · exit stair (north)"},
+    "W3": {"poly": R(-17.2, 12.35, -8.2, 15.55), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W3 · exit stair (north)"},
     "E": {"poly": R(20.8, 6.8, 24.0, 16.2), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
 }
 spaces = []
@@ -113,8 +113,9 @@ S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
 S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
 # drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
 S("dc-kids", "E1", "daycare", "Kids' room · 3–12 · crafts, reading, homework", R(12.0, 21.2, 21.25, 33.3), "round stair down to active play")
-S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(21.25, 21.2, 30.5, 25.2), "breastfeeding chairs, bottle prep, quiet")
-S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 25.2, 30.5, 33.3), "soft floor, cots, separated from the older kids")
+S("dc-hall", "E1", "daycare", "Daycare hall", R(21.25, 21.2, 30.5, 23.2), "from the wardrobe to every daycare room")
+S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 23.2, 27.0, 33.3), "soft floor, cots, separated from the older kids")
+S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(27.0, 23.2, 30.5, 33.3), "breastfeeding chairs, bottle prep, quiet")
 
 # ---------------------------------------------------------------- east wing E2 −6.01
 S("garage", "E2", "garage", "Garage · cars on the glass", R(12.0, -3.5, 30.5, 6.8), "drive-through from the underground parking (east)")
@@ -245,12 +246,15 @@ for cid in ("W1", "W2"):
         wall(f"CS-{cid}-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, 6.4, "shaft", "concrete")
     els.append({"id": f"SKY-{cid}", "type": "slab", "material": "glass", "rect": [sx0, sy0, sx1, sy1], "z": [6.4, 6.5], "holes": [],
                 "note": "glass skylight: daylight down the stairwell to F4"})
-# W3 (north, fully outside): walls W/E/N, skylight, discharge door outside at F1, doors from F2-F4 through the north wall
-for n_, (a_, b_) in {"W": ([-13.6, 12.35], [-13.6, 21.35]), "E": ([-10.4, 12.35], [-10.4, 21.35]), "N": ([-13.6, 21.35], [-10.4, 21.35])}.items():
-    wall(f"CS-W3-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, 6.4, "shaft", "concrete")
-els.append({"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-13.6, 12.35, -10.4, 21.35], "z": [6.4, 6.5], "holes": [],
-            "note": "glass skylight: daylight down the stairwell to F4"})
-[e for e in els if e["id"] == "CS-W3-E"][0]["openings"] = [{"s": [6.5, 7.9], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}]
+# W3 (north): lies ALONG the north wall (3.2 m deep), fully outside the floor plate, mostly underground.
+# Above grade it is only a low 2.6 m stone exit with a sod roof and a thin rooflight: discreet, part of the landscape.
+for n_, (a_, b_) in {"W": ([-17.2, 12.35], [-17.2, 15.55]), "E": ([-8.2, 12.35], [-8.2, 15.55]), "N": ([-17.2, 15.55], [-8.2, 15.55])}.items():
+    wall(f"CS-W3-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, 2.6, "shaft", "concrete")
+els.append({"id": "RF-W3-sod", "type": "slab", "material": "sod", "rect": [-17.4, 12.35, -8.0, 15.75], "z": [2.6, 2.95], "holes": [],
+            "note": "sod roof over the north exit"})
+els.append({"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-16.6, 13.4, -8.8, 14.4], "z": [2.95, 3.0], "holes": [],
+            "note": "thin rooflight strip: daylight down the stairwell"})
+[e for e in els if e["id"] == "CS-W3-N"][0]["openings"] = [{"s": [3.6, 5.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}]
 # W2 exit door straight outside at F1 (west face of the shaft)
 [e for e in els if e["id"] == "CS-W2-W"][0]["openings"] = [{"s": [2.6, 4.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside"}]
 # south annex structure: retaining walls F4 -> F2 ceiling, roof slab buried under ~1 m of soil

@@ -153,7 +153,7 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
         }
         const cls = e.type === "wall" && e.kind === "glazed" ? "n-glass-sec" : e.material === "glulam" || e.material === "clt" ? "n-col-timber" : "n-col";
         // wall openings crossed by the cut: split the wall's height into solid / glass bands
-        let bands: [number, number, boolean][] = [[e.z[0], e.z[1], false]];
+        let bands: [number, number, boolean | null][] = [[e.z[0], e.z[1], false]]; // null = door (open gap)
         if (e.type === "wall" && e.openings?.length) {
           const [wx0, wy0] = e.from!, [wx1, wy1] = e.to!;
           const WL = Math.hypot(wx1 - wx0, wy1 - wy0);
@@ -161,16 +161,16 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
           const d0 = depth(wx0, wy0), d1 = depth(wx1, wy1);
           if (d0 !== d1) {
             const sw = (d0 / (d0 - d1)) * WL;
-            const hits = e.openings.filter((o) => sw >= o.s[0] && sw <= o.s[1]).map((o) => o.z).sort((p, q) => p[0] - q[0]);
-            const out: [number, number, boolean][] = [];
+            const hits = e.openings.filter((o) => sw >= o.s[0] && sw <= o.s[1]).sort((p, q) => p.z[0] - q.z[0]);
+            const out: [number, number, boolean | null][] = [];
             let cz = e.z[0];
-            for (const [z0, z1] of hits) { if (z0 > cz) out.push([cz, z0, false]); out.push([z0, z1, true]); cz = z1; }
+            for (const o of hits) { const [z0, z1] = o.z; if (z0 > cz) out.push([cz, z0, false]); out.push([z0, z1, ["door", "opening", "baffle"].includes(o.type) ? null : true]); cz = z1; }
             if (cz < e.z[1]) out.push([cz, e.z[1], false]);
             bands = out;
           }
         }
-        return spans.flatMap(([a, b], k) => bands.map(([z0, z1, glass], j) => (
-          <rect key={`${e.id}-${k}-${j}`} x={a} y={-z1} width={b - a} height={z1 - z0} className={glass ? "n-glass-sec" : cls} data-n={`${e.id} · ${e.type} ${e.material}${glass ? " · window" : ""}`} />
+        return spans.flatMap(([a, b], k) => bands.filter(([, , g]) => g !== null).map(([z0, z1, glass], j) => (
+          <rect key={`${e.id}-${k}-${j}`} x={a} y={-z1} width={b - a} height={z1 - z0} className={glass ? "n-glass-sec" : e.kind === "partition" ? "n-partition" : cls} data-n={`${e.id} · ${e.type} ${e.material}${glass ? " · window" : ""}`} />
         )));
       })}
 

@@ -1327,22 +1327,23 @@
     {"id": "CS-W2-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -25.1], "to": [-29.7, -25.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "CS-W2-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-32.05, -34.1], "to": [-29.7, -34.1], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
     {"id": "SKY-W2", "type": "slab", "material": "glass", "rect": [-32.05, -34.1, -28.85, -25.1], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
-    {"id": "CS-W3-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-13.6, 12.35], "to": [-13.6, 21.35], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
+    {"id": "CS-W3-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-17.2, 12.35], "to": [-17.2, 15.55], "size": [0.3, 18.59], "z": [-15.99, 2.6]},
+    {"id": "CS-W3-E", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-8.2, 12.35], "to": [-8.2, 15.55], "size": [0.3, 18.59], "z": [-15.99, 2.6]},
     {
-      "id": "CS-W3-E",
+      "id": "CS-W3-N",
       "type": "wall",
       "kind": "shaft",
       "material": "concrete",
-      "from": [-10.4, 12.35],
-      "to": [-10.4, 21.35],
-      "size": [0.3, 22.39],
-      "z": [-15.99, 6.4],
+      "from": [-17.2, 15.55],
+      "to": [-8.2, 15.55],
+      "size": [0.3, 18.59],
+      "z": [-15.99, 2.6],
       "openings": [
-        {"s": [6.5, 7.9], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}
+        {"s": [3.6, 5.0], "z": [0.0, 2.3], "type": "door", "note": "exit to outside (north, by the sauna path)"}
       ]
     },
-    {"id": "CS-W3-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-13.6, 21.35], "to": [-10.4, 21.35], "size": [0.3, 22.39], "z": [-15.99, 6.4]},
-    {"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-13.6, 12.35, -10.4, 21.35], "z": [6.4, 6.5], "holes": [], "note": "glass skylight: daylight down the stairwell to F4"},
+    {"id": "RF-W3-sod", "type": "slab", "material": "sod", "rect": [-17.4, 12.35, -8.0, 15.75], "z": [2.6, 2.95], "holes": [], "note": "sod roof over the north exit"},
+    {"id": "SKY-W3", "type": "slab", "material": "glass", "rect": [-16.6, 13.4, -8.8, 14.4], "z": [2.95, 3.0], "holes": [], "note": "thin rooflight strip: daylight down the stairwell"},
     {"id": "SA-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-6.45, -40.1], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
     {"id": "SA-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-28.85, -40.1], "to": [-28.85, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
     {"id": "SA-E", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-6.45, -40.1], "to": [-6.45, -34.35], "size": [0.4, 14.89], "z": [-15.99, -1.1]},
@@ -1500,7 +1501,708 @@
     {"id": "B-10-RF-east", "type": "beam", "material": "glulam", "from": [12.0, 16.18], "to": [30.5, 16.18], "size": [0.25, 1.0], "z": [4.64, 5.64]},
     {"id": "B-11-RF-east", "type": "beam", "material": "glulam", "from": [12.0, 7.62], "to": [30.5, 7.62], "size": [0.25, 1.0], "z": [4.64, 5.64]},
     {"id": "B-12-RF-east", "type": "beam", "material": "glulam", "from": [12.0, -0.94], "to": [30.5, -0.94], "size": [0.25, 1.0], "z": [4.64, 5.64]},
-    {"id": "B-13-RF-east", "type": "beam", "material": "glulam", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.25, 1.0], "z": [4.64, 5.64]}
+    {"id": "B-13-RF-east", "type": "beam", "material": "glulam", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.25, 1.0], "z": [4.64, 5.64]},
+    {"id": "P-E1-0", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 6.8], "to": [24.0, 6.8], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "cafe"], "openings": []},
+    {"id": "P-E1-1", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [20.8, 6.8], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "wcs"], "openings": []},
+    {
+      "id": "P-E1-2",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [24.0, 6.8],
+      "to": [24.0, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["core-E-E1", "reception"],
+      "openings": [
+        {"s": [4.2, 5.2], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Core E ↔ Reception"}
+      ]
+    },
+    {"id": "P-E1-3", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [24.0, 16.2], "to": [20.8, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "dc-wc"], "openings": []},
+    {
+      "id": "P-E1-4",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 6.8],
+      "to": [12.0, 6.8],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["cafe", "wcs"],
+      "openings": [
+        {"s": [3.9, 4.9], "z": [0.12, 2.22], "type": "door", "swing": -1, "note": "Public WCs ↔ Cafe"}
+      ]
+    },
+    {"id": "P-E1-5", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wcs", "dc-wc"], "openings": []},
+    {"id": "P-E1-6", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 16.2], "to": [12.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wcs", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-7",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [24.0, 21.2],
+      "to": [24.0, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-wardrobe", "dc-wc"],
+      "openings": []
+    },
+    {
+      "id": "P-E1-8",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [30.5, 21.2],
+      "to": [24.0, 21.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-wardrobe", "dc-hall"],
+      "openings": [
+        {"s": [2.35, 4.15], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Daycare main entrance ↔ Daycare hall"}
+      ]
+    },
+    {"id": "P-E1-9", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 21.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-10",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [21.25, 21.2],
+      "to": [17.0, 21.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-wc", "dc-kids"],
+      "openings": [
+        {"s": [1.62, 2.62], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Children's WC + changing ↔ Kids' room"}
+      ]
+    },
+    {"id": "P-E1-11", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [24.0, 21.2], "to": [21.25, 21.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "dc-hall"], "openings": []},
+    {
+      "id": "P-E1-12",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 21.2],
+      "to": [12.0, 21.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-staff", "dc-kids"],
+      "openings": [
+        {"s": [2.0, 3.0], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Staff room + staff WC ↔ Kids' room"}
+      ]
+    },
+    {
+      "id": "P-E1-13",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [21.25, 21.2],
+      "to": [21.25, 23.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-kids", "dc-hall"],
+      "openings": [
+        {"s": [0.15, 1.85], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Kids' room ↔ Daycare hall"}
+      ]
+    },
+    {"id": "P-E1-14", "type": "wall", "kind": "glazed", "material": "glass", "from": [21.25, 23.2], "to": [21.25, 33.3], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-kids", "daycare-up"], "openings": []},
+    {
+      "id": "P-E1-15",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [27.0, 23.2],
+      "to": [21.25, 23.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-hall", "daycare-up"],
+      "openings": [
+        {"s": [1.98, 3.78], "z": [0.12, 2.52], "type": "opening", "swing": -1, "note": "Baby & toddler room ↔ Daycare hall"}
+      ]
+    },
+    {
+      "id": "P-E1-16",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [30.5, 23.2],
+      "to": [27.0, 23.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["dc-hall", "dc-nursing"],
+      "openings": [
+        {"s": [1.25, 2.25], "z": [0.12, 2.22], "type": "door", "swing": -1, "note": "Parent & nursing room ↔ Daycare hall"}
+      ]
+    },
+    {
+      "id": "P-E1-17",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [27.0, 23.2],
+      "to": [27.0, 33.3],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["daycare-up", "dc-nursing"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-18",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 6.8],
+      "to": [24.0, 6.8],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["core-E-E2", "garage"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-19",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 16.18],
+      "to": [20.8, 6.8],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["core-E-E2", "game-room"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-20",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [24.0, 6.8],
+      "to": [24.0, 16.18],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["core-E-E2", "lift-lobby-e2"],
+      "openings": [
+        {"s": [4.19, 5.19], "z": [-6.01, -3.91], "type": "door", "swing": 1, "note": "Core E ↔ Lift lobby"}
+      ]
+    },
+    {
+      "id": "P-E2-21",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [24.0, 16.2],
+      "to": [20.8, 16.18],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["core-E-E2", "dc-wc-low"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-22",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [20.8, 6.8],
+      "to": [12.0, 6.8],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["garage", "game-room"],
+      "openings": [
+        {"s": [3.9, 4.9], "z": [-6.01, -3.91], "type": "door", "swing": -1, "note": "Game room ↔ Garage"}
+      ]
+    },
+    {
+      "id": "P-E2-23",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 16.18],
+      "to": [12.0, 16.18],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["game-room", "dc-rest"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-24",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 16.18],
+      "to": [17.0, 16.18],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["game-room", "dc-wc-low"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-25",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [30.5, 16.18],
+      "to": [24.0, 16.18],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["lift-lobby-e2", "dc-store"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-26",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 16.18],
+      "to": [17.0, 21.2],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["dc-rest", "dc-wc-low"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-27",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 21.2],
+      "to": [12.0, 21.2],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["dc-rest", "daycare-low"],
+      "openings": [
+        {"s": [2.0, 3.0], "z": [-6.01, -3.91], "type": "door", "swing": 1, "note": "Rest / sleep room ↔ Active play"},
+        {"s": [2.0, 3.0], "z": [-6.01, -3.91], "type": "door", "swing": -1, "note": "Active play ↔ Rest / sleep room"}
+      ]
+    },
+    {
+      "id": "P-E2-28",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [24.0, 21.2],
+      "to": [24.0, 16.2],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["dc-wc-low", "dc-store"],
+      "openings": []
+    },
+    {
+      "id": "P-E2-29",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [17.0, 21.2],
+      "to": [24.0, 21.2],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["dc-wc-low", "daycare-low"],
+      "openings": [
+        {"s": [3.0, 4.0], "z": [-6.01, -3.91], "type": "door", "swing": -1, "note": "Children's WC + changing ↔ Active play"}
+      ]
+    },
+    {
+      "id": "P-E2-30",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [30.5, 21.2],
+      "to": [24.0, 21.2],
+      "size": [0.15, 5.88],
+      "z": [-6.01, -0.13],
+      "level": "E2",
+      "between": ["dc-store", "daycare-low"],
+      "openings": [
+        {"s": [2.75, 3.75], "z": [-6.01, -3.91], "type": "door", "swing": 1, "note": "Storage ↔ Active play"}
+      ]
+    },
+    {
+      "id": "P-F1-31",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, -18.55],
+      "to": [-29.45, -9.55],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["core-W1-F1", "stretching"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-32",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-28.85, -34.1],
+      "to": [-29.45, -25.1],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["core-W2-F1", "stretching"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-33",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, -4.1],
+      "to": [-29.45, -1.7],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["lift-men-F1", "men-lockers"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-34",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, 4.7],
+      "to": [-29.45, 7.1],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["lift-women-F1", "women-lockers"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-35",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, 7.65],
+      "to": [-13.6, 7.65],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-lockers", "women-wet"],
+      "openings": [
+        {"s": [7.02, 8.82], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"}
+      ]
+    },
+    {
+      "id": "P-F1-36",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, 1.5],
+      "to": [-29.45, 1.5],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-lockers", "men-lockers"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-37",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, 7.65],
+      "to": [-13.6, 1.5],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-lockers", "gallery"],
+      "openings": [
+        {"s": [2.28, 3.88], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Women's changing ↔ Gallery"}
+      ]
+    },
+    {
+      "id": "P-F1-38",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, 1.5],
+      "to": [-29.45, 4.5],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-lockers", "sauna-lobby"],
+      "openings": [
+        {"s": [1.0, 2.0], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Sauna lobby (annex) ↔ Women's changing"}
+      ]
+    },
+    {
+      "id": "P-F1-39",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, 7.65],
+      "to": [-13.6, 12.1],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-wet", "gallery"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-40",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, -4.2],
+      "to": [-29.45, -4.2],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-lockers", "men-wet"],
+      "openings": [
+        {"s": [7.02, 8.82], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"}
+      ]
+    },
+    {
+      "id": "P-F1-41",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, 1.5],
+      "to": [-13.6, -4.2],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-lockers", "gallery"],
+      "openings": [
+        {"s": [2.05, 3.65], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"}
+      ]
+    },
+    {
+      "id": "P-F1-42",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, -1.5],
+      "to": [-29.45, 1.5],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-lockers", "sauna-lobby"],
+      "openings": [
+        {"s": [1.0, 2.0], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Sauna lobby (annex) ↔ Men's changing"}
+      ]
+    },
+    {
+      "id": "P-F1-43",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-13.6, -9.3],
+      "to": [-13.6, -4.2],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wet", "gallery"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-44",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-29.45, -9.3],
+      "to": [-21.45, -9.3],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wet", "stretching"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-45",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-21.45, -9.3],
+      "to": [-14.45, -9.3],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wet", "spiral-F1"],
+      "openings": []
+    },
+    {
+      "id": "P-F1-46",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-14.45, -9.3],
+      "to": [-13.6, -9.3],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wet", "calisthenics"],
+      "openings": []
+    },
+    {
+      "id": "P-F2-47",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-22.6, -40.1],
+      "to": [-22.6, -34.1],
+      "size": [0.15, 4.66],
+      "z": [-4.91, -0.25],
+      "level": "F2",
+      "between": ["posing", "pod-1"],
+      "openings": []
+    },
+    {
+      "id": "P-F2-48",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-17.2, -40.1],
+      "to": [-17.2, -34.1],
+      "size": [0.15, 4.66],
+      "z": [-4.91, -0.25],
+      "level": "F2",
+      "between": ["pod-1", "pod-2"],
+      "openings": []
+    },
+    {
+      "id": "P-F2-49",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-11.8, -40.1],
+      "to": [-11.8, -34.1],
+      "size": [0.15, 4.66],
+      "z": [-4.91, -0.25],
+      "level": "F2",
+      "between": ["pod-2", "pod-3"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-50",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-21.45, 12.1],
+      "to": [-15.45, 12.1],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["north-stair-F4", "thermal"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-51",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-24.45, 4.4],
+      "to": [-16.45, 4.4],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["thermal", "pool-deck-w"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-52",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-16.45, 4.4],
+      "to": [-6.45, 4.4],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["thermal", "pool-deck-n"],
+      "openings": [
+        {"s": [4.5, 5.5], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Thermal ↔ Pool deck"}
+      ]
+    },
+    {
+      "id": "P-F4-53",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-24.45, 12.1],
+      "to": [-24.45, 4.4],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["thermal", "pool-lobby"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-54",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-16.45, -18.7],
+      "to": [-16.45, -28.1],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["pool", "plant"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-55",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-24.45, -18.7],
+      "to": [-16.45, -18.7],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["pool-deck-w", "plant"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-56",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-16.45, -28.1],
+      "to": [-16.45, -34.1],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["pool-deck-s", "plant"],
+      "openings": []
+    },
+    {
+      "id": "P-F4-57",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-24.45, -18.7],
+      "to": [-24.45, -34.1],
+      "size": [0.15, 5.37],
+      "z": [-15.39, -10.02],
+      "level": "F4",
+      "between": ["plant", "recovery"],
+      "openings": [
+        {"s": [7.2, 8.2], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Plant room ↔ Recovery lounge"}
+      ]
+    }
   ],
   "structure": {
     "status": "PROPOSAL v2: no interior columns on any floor (Roman: as column-free as possible, none on the top floor)",
@@ -1604,28 +2306,28 @@
       "level": "F4",
       "kind": "core",
       "name": "Core W3 · exit stair (north)",
-      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+      "poly": [[-17.2, 12.35], [-8.2, 12.35], [-8.2, 15.55], [-17.2, 15.55]]
     },
     {
       "id": "core-W3-F3",
       "level": "F3",
       "kind": "core",
       "name": "Core W3 · exit stair (north)",
-      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+      "poly": [[-17.2, 12.35], [-8.2, 12.35], [-8.2, 15.55], [-17.2, 15.55]]
     },
     {
       "id": "core-W3-F2",
       "level": "F2",
       "kind": "core",
       "name": "Core W3 · exit stair (north)",
-      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+      "poly": [[-17.2, 12.35], [-8.2, 12.35], [-8.2, 15.55], [-17.2, 15.55]]
     },
     {
       "id": "core-W3-F1",
       "level": "F1",
       "kind": "core",
       "name": "Core W3 · exit stair (north)",
-      "poly": [[-13.6, 12.35], [-10.4, 12.35], [-10.4, 21.35], [-13.6, 21.35]]
+      "poly": [[-17.2, 12.35], [-8.2, 12.35], [-8.2, 15.55], [-17.2, 15.55]]
     },
     {
       "id": "core-E-E2",
@@ -2031,20 +2733,28 @@
       "note": "round stair down to active play"
     },
     {
-      "id": "dc-nursing",
+      "id": "dc-hall",
       "level": "E1",
       "kind": "daycare",
-      "name": "Parent & nursing room",
-      "poly": [[21.25, 21.2], [30.5, 21.2], [30.5, 25.2], [21.25, 25.2]],
-      "note": "breastfeeding chairs, bottle prep, quiet"
+      "name": "Daycare hall",
+      "poly": [[21.25, 21.2], [30.5, 21.2], [30.5, 23.2], [21.25, 23.2]],
+      "note": "from the wardrobe to every daycare room"
     },
     {
       "id": "daycare-up",
       "level": "E1",
       "kind": "daycare",
       "name": "Baby & toddler room · 0–3",
-      "poly": [[21.25, 25.2], [30.5, 25.2], [30.5, 33.3], [21.25, 33.3]],
+      "poly": [[21.25, 23.2], [27.0, 23.2], [27.0, 33.3], [21.25, 33.3]],
       "note": "soft floor, cots, separated from the older kids"
+    },
+    {
+      "id": "dc-nursing",
+      "level": "E1",
+      "kind": "daycare",
+      "name": "Parent & nursing room",
+      "poly": [[27.0, 23.2], [30.5, 23.2], [30.5, 33.3], [27.0, 33.3]],
+      "note": "breastfeeding chairs, bottle prep, quiet"
     },
     {
       "id": "garage",
