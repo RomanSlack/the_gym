@@ -40,7 +40,7 @@ DOORS = {
     "dc-wc": ["dc-kids"], "dc-staff": ["dc-kids"], "dc-wardrobe": ["daycare-up"],
     "dc-wc-low": ["daycare-low"], "dc-rest": ["daycare-low"], "dc-store": ["daycare-low"],
     "dc-nursing": ["daycare-up"],
-    "wcs": ["cafe"], "game-room": ["garage"],
+    "wc-women": ["cafe"], "wc-men": ["cafe"], "game-room": ["garage"],
     "thermal": ["pool-deck-n"],
 }
 RANK = {"circulation": 0, "lounge": 1, "gym": 2, "daycare": 3, "garage": 4}
@@ -51,7 +51,7 @@ PASSAGE = {  # (room, neighbour) -> opening type
     ("women-lockers", "gallery"): "baffle", ("men-lockers", "gallery"): "baffle",
     ("dc-wardrobe", "daycare-up"): "opening",
     # public WCs: airport-style baffled entry, full-height stalls with their own doors inside (accessible WC has a door)
-    ("wcs", "cafe"): "baffle",
+    ("wc-women", "cafe"): "baffle", ("wc-men", "cafe"): "baffle",
     # daycare toilets: no door, glass wall -> staff line of sight from the play space (safeguarding practice)
     ("dc-wc", "dc-kids"): "opening", ("dc-wc-low", "daycare-low"): "opening",
 }
@@ -103,7 +103,7 @@ for L in sorted({sp["level"] for sp in spaces}):
             if on_envelope(seg, L):
                 continue
             (x0, y0), (x1, y1) = seg.coords[0], seg.coords[-1]
-            glass = frozenset((ia, ib)) in GLASS_PAIRS or (ia in GLASS_IDS or ib in GLASS_IDS) and not ({ia, ib} & {"dc-wc", "dc-wc-low", "dc-staff", "dc-rest", "dc-store", "dc-nursing", "wcs"}) \
+            glass = frozenset((ia, ib)) in GLASS_PAIRS or (ia in GLASS_IDS or ib in GLASS_IDS) and not ({ia, ib} & {"dc-wc", "dc-wc-low", "dc-staff", "dc-rest", "dc-store", "dc-nursing", "wc-women", "wc-men"}) \
                 and A["kind"] != "core" and B["kind"] != "core"
             walls.append({"id": f"P-{L}-{k}", "type": "wall", "kind": "glazed" if glass else "partition", "material": "glass" if glass else "timber_stud",
                           "from": [round(x0, 3), round(y0, 3)], "to": [round(x1, 3), round(y1, 3)], "size": [0.15, round(CEIL[L] - lv[L], 2)],

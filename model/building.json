@@ -1503,7 +1503,7 @@
     {"id": "B-12-RF-east", "type": "beam", "material": "glulam", "from": [12.0, -0.94], "to": [30.5, -0.94], "size": [0.25, 1.0], "z": [4.64, 5.64]},
     {"id": "B-13-RF-east", "type": "beam", "material": "glulam", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.25, 1.0], "z": [4.64, 5.64]},
     {"id": "P-E1-0", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 6.8], "to": [24.0, 6.8], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "cafe"], "openings": []},
-    {"id": "P-E1-1", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [20.8, 6.8], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "wcs"], "openings": []},
+    {"id": "P-E1-1", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [20.8, 6.8], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["core-E-E1", "wc-men"], "openings": []},
     {
       "id": "P-E1-2",
       "type": "wall",
@@ -1525,20 +1525,49 @@
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [20.8, 6.8],
+      "from": [16.4, 6.8],
       "to": [12.0, 6.8],
       "size": [0.15, 5.52],
       "z": [0.12, 5.64],
       "level": "E1",
-      "between": ["cafe", "wcs"],
+      "between": ["cafe", "wc-women"],
       "openings": [
-        {"s": [3.6, 5.2], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Public WCs ↔ Cafe"}
+        {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Women's WC ↔ Cafe"}
       ]
     },
-    {"id": "P-E1-5", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wcs", "dc-wc"], "openings": []},
-    {"id": "P-E1-6", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 16.2], "to": [12.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wcs", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-5",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [20.8, 6.8],
+      "to": [16.4, 6.8],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["cafe", "wc-men"],
+      "openings": [
+        {"s": [1.4, 3.0], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Men's WC ↔ Cafe"}
+      ]
+    },
+    {"id": "P-E1-6", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [16.4, 6.8], "to": [16.4, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-women", "wc-men"], "openings": []},
     {
       "id": "P-E1-7",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [16.4, 16.2],
+      "to": [12.0, 16.2],
+      "size": [0.15, 5.52],
+      "z": [0.12, 5.64],
+      "level": "E1",
+      "between": ["wc-women", "dc-staff"],
+      "openings": []
+    },
+    {"id": "P-E1-8", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-men", "dc-wc"], "openings": []},
+    {"id": "P-E1-9", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 16.2], "to": [16.4, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wc-men", "dc-staff"], "openings": []},
+    {
+      "id": "P-E1-10",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1551,7 +1580,7 @@
       "openings": []
     },
     {
-      "id": "P-E1-8",
+      "id": "P-E1-11",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -1565,9 +1594,9 @@
         {"s": [2.35, 4.15], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Daycare main entrance ↔ Baby & toddler zone"}
       ]
     },
-    {"id": "P-E1-9", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 21.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "dc-staff"], "openings": []},
+    {"id": "P-E1-12", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [17.0, 21.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "dc-staff"], "openings": []},
     {
-      "id": "P-E1-10",
+      "id": "P-E1-13",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -1581,9 +1610,9 @@
         {"s": [1.23, 3.03], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Children's WC + changing ↔ Daycare play"}
       ]
     },
-    {"id": "P-E1-11", "type": "wall", "kind": "glazed", "material": "glass", "from": [24.0, 21.2], "to": [21.25, 21.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "daycare-up"], "openings": []},
+    {"id": "P-E1-14", "type": "wall", "kind": "glazed", "material": "glass", "from": [24.0, 21.2], "to": [21.25, 21.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "daycare-up"], "openings": []},
     {
-      "id": "P-E1-12",
+      "id": "P-E1-15",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1598,7 +1627,7 @@
       ]
     },
     {
-      "id": "P-E1-13",
+      "id": "P-E1-16",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1613,7 +1642,7 @@
       ]
     },
     {
-      "id": "P-E2-14",
+      "id": "P-E2-17",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1626,7 +1655,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-15",
+      "id": "P-E2-18",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1639,7 +1668,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-16",
+      "id": "P-E2-19",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1654,7 +1683,7 @@
       ]
     },
     {
-      "id": "P-E2-17",
+      "id": "P-E2-20",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1667,7 +1696,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-18",
+      "id": "P-E2-21",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -1682,7 +1711,7 @@
       ]
     },
     {
-      "id": "P-E2-19",
+      "id": "P-E2-22",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1695,7 +1724,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-20",
+      "id": "P-E2-23",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1708,7 +1737,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-21",
+      "id": "P-E2-24",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1721,7 +1750,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-22",
+      "id": "P-E2-25",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1734,7 +1763,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-23",
+      "id": "P-E2-26",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1749,7 +1778,7 @@
       ]
     },
     {
-      "id": "P-E2-24",
+      "id": "P-E2-27",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1762,7 +1791,7 @@
       "openings": []
     },
     {
-      "id": "P-E2-25",
+      "id": "P-E2-28",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -1777,7 +1806,7 @@
       ]
     },
     {
-      "id": "P-E2-26",
+      "id": "P-E2-29",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1792,7 +1821,7 @@
       ]
     },
     {
-      "id": "P-F1-27",
+      "id": "P-F1-30",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1805,7 +1834,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-28",
+      "id": "P-F1-31",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1818,7 +1847,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-29",
+      "id": "P-F1-32",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1831,7 +1860,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-30",
+      "id": "P-F1-33",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1844,7 +1873,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-31",
+      "id": "P-F1-34",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1859,7 +1888,7 @@
       ]
     },
     {
-      "id": "P-F1-32",
+      "id": "P-F1-35",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1872,7 +1901,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-33",
+      "id": "P-F1-36",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1887,7 +1916,7 @@
       ]
     },
     {
-      "id": "P-F1-34",
+      "id": "P-F1-37",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1902,7 +1931,7 @@
       ]
     },
     {
-      "id": "P-F1-35",
+      "id": "P-F1-38",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1915,7 +1944,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-36",
+      "id": "P-F1-39",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1930,7 +1959,7 @@
       ]
     },
     {
-      "id": "P-F1-37",
+      "id": "P-F1-40",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1945,7 +1974,7 @@
       ]
     },
     {
-      "id": "P-F1-38",
+      "id": "P-F1-41",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1960,7 +1989,7 @@
       ]
     },
     {
-      "id": "P-F1-39",
+      "id": "P-F1-42",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1973,7 +2002,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-40",
+      "id": "P-F1-43",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1986,7 +2015,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-41",
+      "id": "P-F1-44",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -1999,7 +2028,7 @@
       "openings": []
     },
     {
-      "id": "P-F1-42",
+      "id": "P-F1-45",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2012,7 +2041,7 @@
       "openings": []
     },
     {
-      "id": "P-F2-43",
+      "id": "P-F2-46",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2025,7 +2054,7 @@
       "openings": []
     },
     {
-      "id": "P-F2-44",
+      "id": "P-F2-47",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2038,7 +2067,7 @@
       "openings": []
     },
     {
-      "id": "P-F2-45",
+      "id": "P-F2-48",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2051,7 +2080,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-46",
+      "id": "P-F4-49",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2064,7 +2093,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-47",
+      "id": "P-F4-50",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2077,7 +2106,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-48",
+      "id": "P-F4-51",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2092,7 +2121,7 @@
       ]
     },
     {
-      "id": "P-F4-49",
+      "id": "P-F4-52",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2105,7 +2134,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-50",
+      "id": "P-F4-53",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2118,7 +2147,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-51",
+      "id": "P-F4-54",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2131,7 +2160,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-52",
+      "id": "P-F4-55",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2144,7 +2173,7 @@
       "openings": []
     },
     {
-      "id": "P-F4-53",
+      "id": "P-F4-56",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2310,7 +2339,7 @@
       "kind": "core",
       "name": "Core E · stair + elevator (garage ↔ reception)",
       "poly": [[20.8, 6.8], [24.0, 6.8], [24.0, 16.2], [20.8, 16.2]],
-      "number": "E1.10"
+      "number": "E1.11"
     },
     {
       "id": "lift-men-F4",
@@ -2696,16 +2725,25 @@
       "name": "Cafe · round island bar",
       "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 6.8], [12.0, 6.8]],
       "note": "back counter along the south wall; opens west onto the lounge bridge",
-      "number": "E1.09"
+      "number": "E1.10"
     },
     {
-      "id": "wcs",
+      "id": "wc-women",
       "level": "E1",
       "kind": "wet",
-      "name": "Public WCs · women, men, accessible",
-      "poly": [[12.0, 6.8], [20.8, 6.8], [20.8, 16.2], [12.0, 16.2]],
-      "note": "Gym V2's WC cells: open baffled entry (no door), full-height stalls with doors inside, accessible WC with its own door; water station at the cafe side",
+      "name": "Women's WC",
+      "poly": [[12.0, 6.8], [16.4, 6.8], [16.4, 16.2], [12.0, 16.2]],
+      "note": "own baffled entrance off the cafe; sinks along the entry wall, full-height stalls, one accessible stall",
       "number": "E1.07"
+    },
+    {
+      "id": "wc-men",
+      "level": "E1",
+      "kind": "wet",
+      "name": "Men's WC",
+      "poly": [[16.4, 6.8], [20.8, 6.8], [20.8, 16.2], [16.4, 16.2]],
+      "note": "own baffled entrance off the cafe; sinks along the entry wall, urinals + full-height stalls, one accessible stall",
+      "number": "E1.08"
     },
     {
       "id": "reception",
@@ -2714,7 +2752,7 @@
       "name": "Reception · gym + daycare",
       "poly": [[24.0, 6.8], [30.5, 6.8], [30.5, 16.2], [24.0, 16.2]],
       "note": "shared desk backed onto the core, facing the east entrance; glass wall + secure door north into the daycare (sightline from the desk)",
-      "number": "E1.08"
+      "number": "E1.09"
     },
     {
       "id": "dc-wardrobe",

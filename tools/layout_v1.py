@@ -102,8 +102,11 @@ S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 # Follows Gym V2: cafe island in the middle of the south half, a central block with the core and public WCs,
 # reception desk backed onto it facing the entry (east), daycare north.
 S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 30.5, 6.8), "back counter along the south wall; opens west onto the lounge bridge")
-S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(12.0, 6.8, 20.8, 16.2),
-  "Gym V2's WC cells: open baffled entry (no door), full-height stalls with doors inside, accessible WC with its own door; water station at the cafe side")
+# Public WCs as in Gym V2: split down the middle (Gym V2 wall x≈17.3), each with its own entrance off the cafe
+S("wc-women", "E1", "wet", "Women's WC", R(12.0, 6.8, 16.4, 16.2),
+  "own baffled entrance off the cafe; sinks along the entry wall, full-height stalls, one accessible stall")
+S("wc-men", "E1", "wet", "Men's WC", R(16.4, 6.8, 20.8, 16.2),
+  "own baffled entrance off the cafe; sinks along the entry wall, urinals + full-height stalls, one accessible stall")
 S("reception", "E1", "circulation", "Reception · gym + daycare", R(24.0, 6.8, 30.5, 16.2),
   "shared desk backed onto the core, facing the east entrance; glass wall + secure door north into the daycare (sightline from the desk)")
 # daycare (upper): Norwegian barnehage layout: entry wardrobe, children's WC + changing, staff, play
