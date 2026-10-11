@@ -7,7 +7,7 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
 ## Layout decisions
 
 1. **Spiral stair moved to the wing's centerline, mid-bay:** center (−17.95, −14.85), Ø 7.0 m (Gym V2: (−19.5, −13.6), Ø 7.9). It now fits between beam lines 4 and 5 instead of being cut by a beam, and sits symmetric between the two halves of the gym. It runs F1 → F3. *`model.stairs` → `spiral_west`*
-2. **Two enclosed stair cores in the gym wing** (real fire exits, since the open spiral can't be one):
+2. **Two enclosed stair cores in the gym wing**, revised: shrunk to the minimum (W1 stair + elevator 3.2 × 9 m, W2 exit stair 3.2 × 6.5 m) and **set into the back (west) wall** like the express lifts: 0.6 m inside, the rest outside as stone towers. Each has a **glass skylight** (daylight down the stairwell to F4), W2 has its own exit door on F1, and the west-side rooms reclaimed the space. Original version: (real fire exits, since the open spiral can't be one):
    - **W1** (stair + elevator) on the west wall, mid-length, F4 → F1, exits to the garden terrace.
    - **W2** (stair) in the south-west corner.
    *`model.spaces` kind `core`*
