@@ -184,6 +184,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Landscape scale:** much bigger than Gym V2's plot. It needs room for the 2-mile (about 3.2 km) trail loop on both banks and for aerial shots.
 - **Landscape terrain is generated procedurally outside Blender**, with real erosion, then imported into Blender.
 - **Gate:** we don't move on to the building interiors until the ravine, river, waterfall, road and foundations look right **in 3D** and Roman is happy with them. Landscape and foundations drive everything else. The building itself is mostly simple boxes.
+- **Site: Elverum, Norway** (around 60.957 N, 11.374 E). Kartverket 1 m terrain, CC BY 4.0. It's a forested plateau, not mega-hilly, so the horizon reads as forest rather than being walled in by hills.
+- **Surroundings are real, the ravine is ours.** The real terrain is kept for everything around the site. The real gorge is erased and replaced by a **parametric ravine** (centerline, depths, falls, pools) that we reshape artistically. Its shape rules (depth to width, wall angles, step-pool rhythm, meander) are **measured from the real Elverum gorge**, so it stays believable.
 
 ## Open questions
 

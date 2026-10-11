@@ -1,0 +1,61 @@
+{
+ "source": "Elverum, Kartverket DTM 1 m, traced in project frame",
+ "traced_length_m": 2128,
+ "sinuosity": 1.426,
+ "meander_wavelength_m_median": 1953.9,
+ "meander_amplitude_m": 174.4,
+ "depth_m": {
+  "median": 18.4,
+  "p90": 28.2,
+  "max": 33.5
+ },
+ "width_rim_m_median": 92.0,
+ "width_half_depth_m_median": 45.0,
+ "bed_width_m_median": 12.0,
+ "rim_width_to_depth": 5.35,
+ "wall_slope_deg": {
+  "median": 21.8,
+  "p90_of_max": 70.2
+ },
+ "bed_gradient_pct": 3.61,
+ "steps_gt_1_5m": [
+  {
+   "at_m": 0,
+   "drop_m": 1.5
+  },
+  {
+   "at_m": 200,
+   "drop_m": 6.5
+  },
+  {
+   "at_m": 240,
+   "drop_m": 2.2
+  },
+  {
+   "at_m": 1120,
+   "drop_m": 3.9
+  },
+  {
+   "at_m": 1150,
+   "drop_m": 4.6
+  },
+  {
+   "at_m": 1160,
+   "drop_m": 2.3
+  },
+  {
+   "at_m": 1180,
+   "drop_m": 2.8
+  },
+  {
+   "at_m": 1190,
+   "drop_m": 3.2
+  },
+  {
+   "at_m": 2070,
+   "drop_m": 9.5
+  }
+ ],
+ "step_spacing_m_median": 35.0,
+ "note": "1 m lidar smooths vertical rock; real walls are steeper than wall_slope_deg suggests."
+}

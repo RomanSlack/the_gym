@@ -12,23 +12,104 @@
   "site": {
     "underlay": "reference/gym_v2_original/gymv2_extract.json",
     "water_level": -9.31,
-    "water_level_note": "Gym V2 Plane.002 at z -12.78. Sits 0.46 m above F3: the 'waist-height river' idea."
+    "water_level_note": "Gym V2 Plane.002 at z -12.78. Sits 0.46 m above F3: the 'waist-height river' idea.",
+    "georef": {
+      "name": "Elverum, Norway",
+      "epsg": 25833,
+      "origin_utm": [
+        303729.0,
+        6763432.0
+      ],
+      "rotation_deg": 59.0,
+      "transform": "utm = origin_utm + R(rotation_deg) · (x, y), CCW",
+      "terrain_source": "Kartverket DTM 1 m (CC BY 4.0)",
+      "real_terrain_at_origin_masl": 470.64
+    }
   },
   "levels": [
-    { "id": "RF", "name": "Roof (Gym V2 beam top)", "elevation": 5.64, "wing": "west+east" },
-    { "id": "F1", "name": "Floor 1 · Entry, lockers, lounge, cafe", "elevation": 0.0, "wing": "west" },
-    { "id": "E1", "name": "East Floor 1 · Reception, cafe, daycare", "elevation": 0.12, "wing": "east", "note": "Gym V2 east slab is 0.12 above the west. Probably meant to be equal." },
-    { "id": "F2", "name": "Floor 2 · Free weights, machines, cardio", "elevation": -4.91, "wing": "west" },
-    { "id": "E2", "name": "East lower · Garage, game room, daycare 2", "elevation": -6.01, "wing": "east" },
-    { "id": "F3", "name": "Floor 3 · River rim, functional, strongman", "elevation": -9.77, "wing": "west" },
-    { "id": "F4", "name": "Floor 4 · Pool, recovery", "elevation": -15.39, "wing": "west" }
+    {
+      "id": "RF",
+      "name": "Roof (Gym V2 beam top)",
+      "elevation": 5.64,
+      "wing": "west+east"
+    },
+    {
+      "id": "F1",
+      "name": "Floor 1 · Entry, lockers, lounge, cafe",
+      "elevation": 0.0,
+      "wing": "west"
+    },
+    {
+      "id": "E1",
+      "name": "East Floor 1 · Reception, cafe, daycare",
+      "elevation": 0.12,
+      "wing": "east",
+      "note": "Gym V2 east slab is 0.12 above the west. Probably meant to be equal."
+    },
+    {
+      "id": "F2",
+      "name": "Floor 2 · Free weights, machines, cardio",
+      "elevation": -4.91,
+      "wing": "west"
+    },
+    {
+      "id": "E2",
+      "name": "East lower · Garage, game room, daycare 2",
+      "elevation": -6.01,
+      "wing": "east"
+    },
+    {
+      "id": "F3",
+      "name": "Floor 3 · River rim, functional, strongman",
+      "elevation": -9.77,
+      "wing": "west"
+    },
+    {
+      "id": "F4",
+      "name": "Floor 4 · Pool, recovery",
+      "elevation": -15.39,
+      "wing": "west"
+    }
   ],
   "views": {
     "plan_cut_height": 1.2,
     "sections": [
-      { "id": "A", "name": "Section A-A · East-west across the ravine", "from": [-45, -2], "to": [42, -2] },
-      { "id": "B", "name": "Section B-B · North-south through the west wing", "from": [-18, 40], "to": [-18, -45] },
-      { "id": "C", "name": "Section C-C · Along the river", "from": [-3, 70], "to": [-3, -80] }
+      {
+        "id": "A",
+        "name": "Section A-A · East-west across the ravine",
+        "from": [
+          -45,
+          -2
+        ],
+        "to": [
+          42,
+          -2
+        ]
+      },
+      {
+        "id": "B",
+        "name": "Section B-B · North-south through the west wing",
+        "from": [
+          -18,
+          40
+        ],
+        "to": [
+          -18,
+          -45
+        ]
+      },
+      {
+        "id": "C",
+        "name": "Section C-C · Along the river",
+        "from": [
+          -3,
+          70
+        ],
+        "to": [
+          -3,
+          -80
+        ]
+      }
     ]
   },
   "grids": [],

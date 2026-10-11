@@ -1,0 +1,39 @@
+{
+ "id": "20261011T000314Z_site",
+ "stage": "site",
+ "started": "20261011T000314Z",
+ "code": "194d666+dirty",
+ "params": {
+  "site": "Elverum",
+  "epsg": 25833,
+  "origin_utm": [
+   303729.0,
+   6763432.0
+  ],
+  "rotation_deg": 59.0,
+  "core": {
+   "half_m": 1000,
+   "res_m": 1
+  },
+  "context": {
+   "half_m": 4000,
+   "res_m": 4
+  }
+ },
+ "outputs": {
+  "core_1m.npy": {
+   "shape": [
+    2000,
+    2000
+   ],
+   "sha256": "6c38d51dd66b474f"
+  },
+  "context_4m.npy": {
+   "shape": [
+    2000,
+    2000
+   ],
+   "sha256": "5791286f25334dac"
+  }
+ }
+}

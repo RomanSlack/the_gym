@@ -1,0 +1,20 @@
+{
+ "id": "20261011T000613Z_principles",
+ "stage": "principles",
+ "started": "20261011T000613Z",
+ "code": "194d666+dirty",
+ "params": {
+  "source": "core_1m.npy (site run 20261011T000314Z)",
+  "trace_step_m": 5,
+  "section_every_m": 10
+ },
+ "outputs": {
+  "elverum_gorge.json": {
+   "sha256": "832cdae3c08c0db2"
+  },
+  "base_1m.npy": {
+   "note": "core with the real gorge erased",
+   "sha256": "93498a07ad4043f4"
+  }
+ }
+}
