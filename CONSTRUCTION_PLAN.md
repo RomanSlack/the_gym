@@ -1,0 +1,25 @@
+# Construction plan
+
+We build the gym the way a real construction crew would, in stages. Each stage sits on the one before it, and **Roman reviews before we move on**. This doubles as the replay: every element carries a `phase` and is built in order, so Blender can play the actual construction as a timelapse alongside the design-history replay.
+
+Source of truth stays `model/building.json`. Each stage adds real elements to it, with real thicknesses, layers and build order. Blender scenes are generated from it, one collection per phase.
+
+## Stages
+
+| # | Stage | What gets modelled | Review gate |
+|---|---|---|---|
+| 0 | **Site** | The exact landscape before any work: Elverum terrain + our ravine, river, falls, the 8 km context. No trees, no building. | Roman OK on the land |
+| 1 | **Foundations** | Construction pit (excavation with rock-cut faces); temporary cofferdam in the river; rock anchors under F4; blinding; strip + pad footings; raft slabs; below-grade retaining walls + river wall; waterproofing; drainage; garage-ramp trench + tunnel; parking + annex foundations. | **STOP: Roman reviews** |
+| 2 | **Exterior style** | gpt-image-2 explorations, using clean renders of the stage-1 massing from 4–6 fixed cameras as geometry references: timber, stone, roof edge, glazing rhythm, towers, bridge. Roman picks one; it's locked into VISION.md. | Roman picks a style |
+| 3 | **Structure** | Concrete frame of F2–F4 (post-tensioned beams, slabs), glulam columns + beams on F1/E1, CLT roofs, lounge-bridge trusses, stairs, cores. | Review |
+| 4 | **Envelope** | Wall build-ups, cladding (per the chosen style), glazing systems, river windows, roof build-ups (sod, eaves), skylights. | Review |
+| 5 | **Interior** | Finishes, the equipment layout from `docs/FIT_STUDY.md`, lighting, locker fit-out, the den, pool + thermal, daycare, cafe. | Review |
+| 6 | **Landscape + finish** | Planting + forest, paths, water and falls, exterior lighting, final renders, then the replay video. | Final |
+
+## Rules for every stage
+
+- Real dimensions and real layer build-ups. Structure follows rules of thumb (no engineering calcs); assumptions are noted on the element.
+- Open plan, column-free, no door unless needed (see VISION.md).
+- Every element has `phase` (stage number) and `seq` (order within the stage) for the construction timelapse.
+- Heavy things stay instanced (trees, anchors); one Blender collection per phase.
+- The PDF drawing set is only re-exported when Roman asks.

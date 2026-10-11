@@ -29,6 +29,9 @@ It's also an experiment: **can a person and an AI picture the same building and 
 
 ## Status
 
+Current phase: **building it like a construction crew**, stage by stage. See [CONSTRUCTION_PLAN.md](CONSTRUCTION_PLAN.md).
+
+
 - [x] Document the original hand-made blockout (`reference/gym_v2_original/`, see [ORIGINAL_GYM_V2.md](ORIGINAL_GYM_V2.md))
 - [x] Capture Roman's vision as ground truth ([VISION.md](VISION.md))
 - [x] Recording: Stop hook checkpoints every turn (`tools/capture/checkpoint.py`, transcripts archived locally in `.capture/`)
