@@ -90,8 +90,8 @@ S("treatment-s", "F4", "wet", "Treatment room", R(-29.45, -11.0, -24.45, -4.5))
 S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts from the locker rooms", R(-29.45, -4.5, -24.45, 7.9), "arrive from the locker rooms in robes, straight onto the pool deck")
 
 # ---------------------------------------------------------------- lounge link (F1)
-S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.5, 12.0, 8.3), "sliding glass walls open fully onto the decks")
-S("deck-n", "F1", "outdoor", "Deck · falls view", R(-6.45, 8.3, 12.0, 11.3))
+S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.5, 12.0, 6.8), "sliding glass walls open fully onto the decks")
+S("deck-n", "F1", "outdoor", "Deck · falls view", R(-6.45, 6.8, 12.0, 11.3))
 S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 
 # ---------------------------------------------------------------- east wing E1 +0.12
@@ -158,7 +158,7 @@ for L, rect, thick in (("F4", WEST, 0.6), ("F3", WEST, 0.25), ("F2", WEST, 0.25)
                 "holes": holes.get(L, []) if rect is not LINK else []})
 els.append({"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": []})
 els.append({"id": "S-RF-annex", "type": "slab", "material": "clt", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [3.0, 3.2], "holes": []})
-for name, rect in (("west", WEST), ("east", EAST), ("link", (-6.45, -9.5, 12.0, 8.3))):
+for name, rect in (("west", WEST), ("east", EAST), ("link", (-6.45, -9.5, 12.0, 6.8))):
     els.append({"id": f"S-RF-{name}", "type": "slab", "material": "clt", "rect": list(rect), "z": [5.64, 5.84], "holes": []})
 
 
@@ -206,7 +206,7 @@ els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")
-for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.5], "C1"), ([x1, 8.3], [x1, y1], "C2")):
+for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.5], "C1"), ([x1, 6.8], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
 x0, y0, x1, y1 = EAST
 zb, zt = lv["E2"] - 0.6, lv["E1"] - 0.25
@@ -217,11 +217,11 @@ wall("G-E2-W", [x0, y0], [x0, 12.0], 0.15, lv["E2"], zt, "glazed", "glass")    #
 wall("W-east-W", [x0, 12.0], [x0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("W-east-N1", [x0, y1], [18.0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("G-E2-N", [18.0, y1], [x1, y1], 0.15, lv["E2"], zt, "glazed", "glass")     # daycare onto the sunken garden
-for (a, b, n) in (([x0, y0], [x0, -9.5], "W1"), ([x0, 8.3], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):
+for (a, b, n) in (([x0, y0], [x0, -9.5], "W1"), ([x0, 6.8], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):
     wall(f"G-E1-{n}", a, b, 0.15, lv["E1"], 4.34, "glazed", "glass")
 wall("G-E1-daycare", [24.0, 16.2], [30.5, 16.2], 0.12, lv["E1"], round(lv["E1"] + 3.0, 2), "glazed", "glass")
 els[-1]["openings"] = [{"s": [2.6, 4.2], "z": [lv["E1"], round(lv["E1"] + 2.3, 2)], "type": "door", "note": "secure glass door into the daycare (staff / parent release)"}]
-for (a, b, n) in (([-6.45, -9.5], [12.0, -9.5], "S"), ([-6.45, 8.3], [12.0, 8.3], "N")):
+for (a, b, n) in (([-6.45, -9.5], [12.0, -9.5], "S"), ([-6.45, 6.8], [12.0, 6.8], "N")):
     wall(f"G-link-{n}", a, b, 0.12, 0.0, 4.0, "glazed", "glass")  # sliding glass walls
 
 m["elements"] = els
