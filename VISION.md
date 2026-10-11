@@ -186,6 +186,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Gate:** we don't move on to the building interiors until the ravine, river, waterfall, road and foundations look right **in 3D** and Roman is happy with them. Landscape and foundations drive everything else. The building itself is mostly simple boxes.
 - **Site: Elverum, Norway** (around 60.957 N, 11.374 E). Kartverket 1 m terrain, CC BY 4.0. It's a forested plateau, not mega-hilly, so the horizon reads as forest rather than being walled in by hills.
 - **Surroundings are real, the ravine is ours.** The real terrain is kept for everything around the site. The real gorge is erased and replaced by a **parametric ravine** (centerline, depths, falls, pools) that we reshape artistically. Its shape rules (depth to width, wall angles, step-pool rhythm, meander) are **measured from the real Elverum gorge**, so it stays believable.
+- **Daycare lower floor = walk-out onto a sunken play garden** (option A). A sheltered courtyard is excavated on the north side of the east wing at E2 level (−6.0), with terraced planting stepping back up to the forest floor. It gives the lower daycare floor daylight, a direct exit and a safe enclosed outdoor play area. Roman: "amazing and magical".
+- **Garage at E2 is reached by the sub-terrain tunnel ramp** from the road (about 45–50 m of ramp for the 6 m drop), designed together with the road.
 
 ## Open questions
 
