@@ -919,6 +919,98 @@
     {"id": "13", "from": [8.0, -9.5], "to": [34.5, -9.5]}
   ],
   "elements": [
+    {"id": "S-F4-west", "type": "slab", "material": "concrete", "rect": [-29.45, -34.1, -6.45, 12.1], "z": [-15.99, -15.39], "holes": []},
+    {
+      "id": "S-F3-west",
+      "type": "slab",
+      "material": "concrete",
+      "rect": [-29.45, -34.1, -6.45, 12.1],
+      "z": [-10.02, -9.77],
+      "holes": [
+        {
+          "rect": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
+        },
+        {
+          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+        },
+        {
+          "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+        }
+      ]
+    },
+    {
+      "id": "S-F2-west",
+      "type": "slab",
+      "material": "concrete",
+      "rect": [-29.45, -34.1, -6.45, 12.1],
+      "z": [-5.16, -4.91],
+      "holes": [
+        {"circle": [-17.95, -14.85, 3.5]},
+        {
+          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+        },
+        {
+          "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+        }
+      ]
+    },
+    {
+      "id": "S-F1-west",
+      "type": "slab",
+      "material": "concrete",
+      "rect": [-29.45, -34.1, -6.45, 12.1],
+      "z": [-0.25, 0.0],
+      "holes": [
+        {"circle": [-17.95, -14.85, 3.5]},
+        {
+          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+        },
+        {
+          "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+        }
+      ]
+    },
+    {"id": "S-E2-east", "type": "slab", "material": "concrete", "rect": [12.0, -9.5, 30.5, 33.3], "z": [-6.61, -6.01], "holes": []},
+    {
+      "id": "S-E1-east",
+      "type": "slab",
+      "material": "concrete",
+      "rect": [12.0, -9.5, 30.5, 33.3],
+      "z": [-0.13, 0.12],
+      "holes": [
+        {"circle": [15.7, 24.2, 2.55]},
+        {
+          "rect": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+        }
+      ]
+    },
+    {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.1, 12.0, 11.3], "z": [-0.3, 0.0], "holes": []},
+    {"id": "S-RF-west", "type": "slab", "material": "clt", "rect": [-29.45, -34.1, -6.45, 12.1], "z": [5.64, 5.84], "holes": []},
+    {"id": "S-RF-east", "type": "slab", "material": "clt", "rect": [12.0, -9.5, 30.5, 33.3], "z": [5.64, 5.84], "holes": []},
+    {"id": "S-RF-link", "type": "slab", "material": "clt", "rect": [-6.45, -9.1, 12.0, 8.3], "z": [5.64, 5.84], "holes": []},
+    {"id": "W-west-A", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, -34.1], "to": [-29.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {"id": "W-west-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {"id": "W-west-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {"id": "W-west-C", "type": "wall", "kind": "river_wall", "material": "concrete", "from": [-6.45, -34.1], "to": [-6.45, 12.1], "size": [0.4, 15.74], "z": [-15.99, -0.25]},
+    {"id": "G-F1-A", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-29.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-C1", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -34.1], "to": [-6.45, -9.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-C2", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, 8.3], "to": [-6.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "W-east-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "W-east-E1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, -9.5], "to": [30.5, -6.0], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "W-east-E2", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, 0.0], "to": [30.5, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "G-E2-W", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [12.0, 12.0], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
+    {"id": "W-east-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 12.0], "to": [12.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "W-east-N1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 33.3], "to": [18.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "G-E2-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [18.0, 33.3], "to": [30.5, 33.3], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
+    {"id": "G-E1-W1", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [12.0, -9.1], "size": [0.15, 4.22], "z": [0.12, 4.34]},
+    {"id": "G-E1-W2", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, 8.3], "to": [12.0, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
+    {"id": "G-E1-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, 33.3], "to": [30.5, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
+    {"id": "G-E1-E", "type": "wall", "kind": "glazed", "material": "glass", "from": [30.5, -9.5], "to": [30.5, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
+    {"id": "G-E1-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.15, 4.22], "z": [0.12, 4.34]},
+    {"id": "G-link-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -9.1], "to": [12.0, -9.1], "size": [0.12, 4.0], "z": [0.0, 4.0]},
+    {"id": "G-link-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, 8.3], "to": [12.0, 8.3], "size": [0.12, 4.0], "z": [0.0, 4.0]},
     {"id": "C-A1-F4", "type": "column", "material": "concrete", "at": [-29.45, 12.1], "size": [0.5, 0.6], "z": [-15.39, -1.1]},
     {"id": "C-A2-F4", "type": "column", "material": "concrete", "at": [-29.45, 4.4], "size": [0.5, 0.6], "z": [-15.39, -1.1]},
     {"id": "C-A3-F4", "type": "column", "material": "concrete", "at": [-29.45, -3.3], "size": [0.5, 0.6], "z": [-15.39, -1.1]},
@@ -1051,5 +1143,372 @@
     ],
     "link": {"note": "Lounge bridge spans the river ~18.5 m between grid C (west) and D (east): two deep glulam or steel trusses; outdoor decks cantilever ~3 m north and south."},
     "flood": {"note": "Flood regulations deliberately ignored for this build (Roman, 2026-10-10)."}
-  }
+  },
+  "spaces": [
+    {
+      "id": "core-W1-F4",
+      "level": "F4",
+      "kind": "core",
+      "name": "Core W1 · stair + elevator",
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+    },
+    {
+      "id": "core-W1-F3",
+      "level": "F3",
+      "kind": "core",
+      "name": "Core W1 · stair + elevator",
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+    },
+    {
+      "id": "core-W1-F2",
+      "level": "F2",
+      "kind": "core",
+      "name": "Core W1 · stair + elevator",
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+    },
+    {
+      "id": "core-W1-F1",
+      "level": "F1",
+      "kind": "core",
+      "name": "Core W1 · stair + elevator",
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+    },
+    {
+      "id": "core-W2-F4",
+      "level": "F4",
+      "kind": "core",
+      "name": "Core W2 · exit stair",
+      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+    },
+    {
+      "id": "core-W2-F3",
+      "level": "F3",
+      "kind": "core",
+      "name": "Core W2 · exit stair",
+      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+    },
+    {
+      "id": "core-W2-F2",
+      "level": "F2",
+      "kind": "core",
+      "name": "Core W2 · exit stair",
+      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+    },
+    {
+      "id": "core-W2-F1",
+      "level": "F1",
+      "kind": "core",
+      "name": "Core W2 · exit stair",
+      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
+    },
+    {
+      "id": "core-E-E2",
+      "level": "E2",
+      "kind": "core",
+      "name": "Core E · stair + elevator (garage ↔ reception)",
+      "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+    },
+    {
+      "id": "core-E-E1",
+      "level": "E1",
+      "kind": "core",
+      "name": "Core E · stair + elevator (garage ↔ reception)",
+      "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
+    },
+    {
+      "id": "men-lockers",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Men's locker room",
+      "poly": [[-29.45, -3.3], [-18.2, -3.3], [-18.2, 9.6], [-20.5, 9.6], [-20.5, 12.1], [-29.45, 12.1]],
+      "note": "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+    },
+    {
+      "id": "women-lockers",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Women's locker room",
+      "poly": [[-17.7, -3.3], [-6.45, -3.3], [-6.45, 12.1], [-15.5, 12.1], [-15.5, 9.6], [-17.7, 9.6]],
+      "note": "lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+    },
+    {
+      "id": "sauna-lobby",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Sauna lobby",
+      "poly": [[-20.5, 9.6], [-15.5, 9.6], [-15.5, 12.1], [-20.5, 12.1]],
+      "note": "robes, towel warmer, sandals; key-card door to the sauna path"
+    },
+    {
+      "id": "gallery",
+      "level": "F1",
+      "kind": "circulation",
+      "name": "Gallery · entry from the lounge",
+      "poly": [[-24.45, -11.0], [-6.45, -11.0], [-6.45, -3.3], [-24.45, -3.3]]
+    },
+    {
+      "id": "stretching",
+      "level": "F1",
+      "kind": "gym",
+      "name": "Stretching & mobility",
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-29.45, -11.0]]
+    },
+    {
+      "id": "spiral-F1",
+      "level": "F1",
+      "kind": "circulation",
+      "name": "Spiral stair",
+      "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -11.0], [-21.45, -11.0]]
+    },
+    {
+      "id": "calisthenics",
+      "level": "F1",
+      "kind": "gym",
+      "name": "Calisthenics",
+      "poly": [[-14.45, -18.7], [-6.45, -18.7], [-6.45, -11.0], [-14.45, -11.0]]
+    },
+    {
+      "id": "cardio-F1",
+      "level": "F1",
+      "kind": "gym",
+      "name": "Cardio · river views",
+      "poly": [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -18.7], [-17.7, -18.7]]
+    },
+    {
+      "id": "free-weights",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Free weights · mirror wall",
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-29.45, -11.0]]
+    },
+    {
+      "id": "olympic",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Olympic platforms",
+      "poly": [[-29.45, -3.3], [-18.2, -3.3], [-18.2, 12.1], [-29.45, 12.1]]
+    },
+    {
+      "id": "cardio-F2",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Cardio · river views",
+      "poly": [[-24.45, -11.0], [-6.45, -11.0], [-6.45, 12.1], [-17.7, 12.1], [-17.7, -3.3], [-24.45, -3.3]]
+    },
+    {
+      "id": "spiral-F2",
+      "level": "F2",
+      "kind": "circulation",
+      "name": "Spiral stair",
+      "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -11.0], [-21.45, -11.0]]
+    },
+    {
+      "id": "machines",
+      "level": "F2",
+      "kind": "gym",
+      "name": "Machines",
+      "poly": [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]]
+    },
+    {
+      "id": "sled-track",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Turf sprint / sled lane · 46 m",
+      "poly": [[-24.45, -34.1], [-21.45, -34.1], [-21.45, 12.1], [-24.45, 12.1]]
+    },
+    {
+      "id": "strongman",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Strongman · yoke, sleds",
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -11.0], [-29.45, -11.0]]
+    },
+    {
+      "id": "strongman-n",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Strongman · atlas stones",
+      "poly": [[-29.45, -3.3], [-24.45, -3.3], [-24.45, 12.1], [-29.45, 12.1]]
+    },
+    {
+      "id": "spiral-F3",
+      "level": "F3",
+      "kind": "circulation",
+      "name": "Spiral stair (arrival)",
+      "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -11.0], [-21.45, -11.0]]
+    },
+    {
+      "id": "north-stair-F3",
+      "level": "F3",
+      "kind": "circulation",
+      "name": "Stair to F4",
+      "poly": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
+    },
+    {
+      "id": "functional",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Functional / CrossFit rig",
+      "poly": [[-21.45, -34.1], [-12.0, -34.1], [-12.0, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-21.45, -18.7]]
+    },
+    {
+      "id": "river-edge",
+      "level": "F3",
+      "kind": "feature",
+      "name": "River edge · waist-high river window + indoor stream",
+      "poly": [[-12.0, -34.1], [-6.45, -34.1], [-6.45, 12.1], [-12.0, 12.1]],
+      "note": "river water at -8.77 against the glass (about waist height); indoor stream fed by a gated intake above the falls"
+    },
+    {
+      "id": "north-stair-F4",
+      "level": "F4",
+      "kind": "circulation",
+      "name": "Stair from F3",
+      "poly": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
+    },
+    {
+      "id": "thermal",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Thermal suite · hot/cold plunge, infrared, steam, cryo",
+      "poly": [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]]
+    },
+    {
+      "id": "pool",
+      "level": "F4",
+      "kind": "pool",
+      "name": "Lap pool 25 × 10 m · underwater river windows",
+      "poly": [[-16.45, -28.1], [-6.45, -28.1], [-6.45, -3.1], [-16.45, -3.1]]
+    },
+    {
+      "id": "pool-deck-w",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Pool deck & lounge",
+      "poly": [[-24.45, -18.7], [-16.45, -18.7], [-16.45, 4.4], [-24.45, 4.4]]
+    },
+    {
+      "id": "pool-deck-n",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Pool deck",
+      "poly": [[-16.45, -3.1], [-6.45, -3.1], [-6.45, 4.4], [-16.45, 4.4]]
+    },
+    {
+      "id": "pool-deck-s",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Pool deck",
+      "poly": [[-16.45, -34.1], [-6.45, -34.1], [-6.45, -28.1], [-16.45, -28.1]]
+    },
+    {
+      "id": "plant",
+      "level": "F4",
+      "kind": "service",
+      "name": "Plant room · pool + building",
+      "poly": [[-24.45, -34.1], [-16.45, -34.1], [-16.45, -18.7], [-24.45, -18.7]]
+    },
+    {
+      "id": "recovery",
+      "level": "F4",
+      "kind": "gym",
+      "name": "Recovery lounge · compression, zero-gravity",
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -11.0], [-29.45, -11.0]]
+    },
+    {
+      "id": "treatment",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Treatment rooms (3)",
+      "poly": [[-29.45, -3.3], [-24.45, -3.3], [-24.45, 12.1], [-29.45, 12.1]]
+    },
+    {
+      "id": "lounge",
+      "level": "F1",
+      "kind": "lounge",
+      "name": "Lounge bridge",
+      "poly": [[-6.45, -9.1], [12.0, -9.1], [12.0, 8.3], [-6.45, 8.3]],
+      "note": "sliding glass walls open fully onto the decks"
+    },
+    {
+      "id": "deck-n",
+      "level": "F1",
+      "kind": "outdoor",
+      "name": "Deck · falls view",
+      "poly": [[-6.45, 8.3], [12.0, 8.3], [12.0, 11.3], [-6.45, 11.3]]
+    },
+    {
+      "id": "deck-s",
+      "level": "F1",
+      "kind": "outdoor",
+      "name": "Deck",
+      "poly": [[-6.45, -12.1], [12.0, -12.1], [12.0, -9.1], [-6.45, -9.1]]
+    },
+    {
+      "id": "cafe",
+      "level": "E1",
+      "kind": "lounge",
+      "name": "Cafe · round island bar",
+      "poly": [[12.0, -9.5], [21.25, -9.5], [21.25, 7.62], [12.0, 7.62]]
+    },
+    {
+      "id": "reception",
+      "level": "E1",
+      "kind": "circulation",
+      "name": "Reception",
+      "poly": [[21.25, -0.94], [30.5, -0.94], [30.5, 7.62], [21.25, 7.62]]
+    },
+    {
+      "id": "wcs",
+      "level": "E1",
+      "kind": "wet",
+      "name": "WCs · water station",
+      "poly": [[21.25, -9.5], [30.5, -9.5], [30.5, -0.94], [21.25, -0.94]]
+    },
+    {
+      "id": "lobby",
+      "level": "E1",
+      "kind": "circulation",
+      "name": "Entry lobby · from the arrival court",
+      "poly": [[17.0, 7.62], [30.5, 7.62], [30.5, 16.18], [17.0, 16.18]]
+    },
+    {
+      "id": "daycare-up",
+      "level": "E1",
+      "kind": "daycare",
+      "name": "Daycare · upper floor",
+      "poly": [[12.0, 16.18], [30.5, 16.18], [30.5, 33.3], [12.0, 33.3]],
+      "note": "own door to the court; round stair to the lower floor"
+    },
+    {
+      "id": "garage",
+      "level": "E2",
+      "kind": "garage",
+      "name": "Garage · 3 cars on the glass, bike storage",
+      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 7.62], [12.0, 7.62]],
+      "note": "tunnel entry on the east wall"
+    },
+    {
+      "id": "game-room",
+      "level": "E2",
+      "kind": "lounge",
+      "name": "Game room",
+      "poly": [[17.0, 7.62], [30.5, 7.62], [30.5, 16.18], [17.0, 16.18]]
+    },
+    {
+      "id": "daycare-low",
+      "level": "E2",
+      "kind": "daycare",
+      "name": "Daycare · lower floor → sunken garden",
+      "poly": [[12.0, 16.18], [30.5, 16.18], [30.5, 33.3], [12.0, 33.3]]
+    }
+  ],
+  "stairs": [
+    {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1", "note": "open, sculptural; moved from Gym V2 (-19.5,-13.6) Ø7.9 to fit between beam lines 4 and 5"},
+    {"id": "north_f3_f4", "kind": "straight", "rect": [-21.45, 7.1, -15.45, 12.1], "from": "F4", "to": "F3", "run": "north"},
+    {"id": "daycare_round", "kind": "spiral", "center": [15.7, 24.2], "diameter": 5.1, "from": "E2", "to": "E1", "note": "Gym V2's round stair"}
+  ],
+  "fixtures": [
+    {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [16.6, -0.94], "diameter": 7.0, "note": "moved from Gym V2 (20,0.2) to sit inside the cafe"}
+  ]
 }
