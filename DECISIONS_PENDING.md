@@ -36,6 +36,7 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
    - The **reception desk is backed onto the core**, facing the east entrance from the arrival court.
    - **Public WCs run out to the west wall** of the area (Gym V2).
    - The **daycare main entrance + exit (check-in + wardrobe) is directly north of reception** and connected to it (Gym V2). The staff room is at the north-west.
+   - **Reception is shared by the gym and the daycare.** A **glass wall with a secure door** on reception's north side gives the desk a sightline into the daycare entrance. Core E runs flush up to that wall.
    - **Daycare upper floor**, laid out as a Norwegian barnehage:
      - an entry wardrobe with drying cabinets (secure door from reception)
      - children's WC + changing (child-height WCs and basins, about 1 WC per 10 children, changing table with hand shower, accessible WC)

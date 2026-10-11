@@ -22,7 +22,7 @@ lv = {l["id"]: l["elevation"] for l in m["levels"]}
 cores = {
     "W1": {"poly": R(-32.05, -18.7, -28.85, -9.7), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
     "W2": {"poly": R(-32.05, -34.1, -28.85, -27.6), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
-    "E": {"poly": R(20.8, 6.8, 24.0, 15.8), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
+    "E": {"poly": R(20.8, 6.8, 24.0, 16.2), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
 }
 spaces = []
 for cid, c in cores.items():
@@ -99,8 +99,8 @@ S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 # reception desk backed onto it facing the entry (east), daycare north.
 S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 30.5, 6.8), "back counter along the south wall; opens west onto the lounge bridge")
 S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(12.0, 6.8, 20.8, 16.2), "Gym V2's WC block, out to the west wall; water station at the cafe side")
-S("reception", "E1", "circulation", "Reception · entry from the arrival court", [[24.0, 6.8], [30.5, 6.8], [30.5, 16.2], [20.8, 16.2], [20.8, 15.8], [24.0, 15.8]],
-  "desk backed onto the core, facing the east entrance")
+S("reception", "E1", "circulation", "Reception · gym + daycare", R(24.0, 6.8, 30.5, 16.2),
+  "shared desk backed onto the core, facing the east entrance; glass wall + secure door north into the daycare (sightline from the desk)")
 # daycare (upper): Norwegian barnehage layout: entry wardrobe, children's WC + changing, staff, play
 S("dc-wardrobe", "E1", "daycare", "Daycare main entrance · check-in + wardrobe", R(24.0, 16.2, 30.5, 21.2),
   "entrance and exit straight off reception, north of the desk (as in Gym V2); each child's cubby, boot racks, drying cabinets")
@@ -115,7 +115,7 @@ S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 25.2, 
 # ---------------------------------------------------------------- east wing E2 −6.01
 S("garage", "E2", "garage", "Garage · 3 cars on the glass, bike storage", R(12.0, -9.5, 30.5, 6.8), "tunnel entry on the east wall")
 S("game-room", "E2", "lounge", "Game room", R(12.0, 6.8, 20.8, 16.18))
-S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", [[24.0, 6.8], [30.5, 6.8], [30.5, 16.18], [20.8, 16.18], [20.8, 15.8], [24.0, 15.8]])
+S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", R(24.0, 6.8, 30.5, 16.18))
 S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
 S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.2), "stacked under the upper one")
 S("dc-store", "E2", "service", "Storage · prams, outdoor gear", R(24.0, 16.18, 30.5, 21.2))
@@ -219,6 +219,8 @@ wall("W-east-N1", [x0, y1], [18.0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("G-E2-N", [18.0, y1], [x1, y1], 0.15, lv["E2"], zt, "glazed", "glass")     # daycare onto the sunken garden
 for (a, b, n) in (([x0, y0], [x0, -9.5], "W1"), ([x0, 8.3], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):
     wall(f"G-E1-{n}", a, b, 0.15, lv["E1"], 4.34, "glazed", "glass")
+wall("G-E1-daycare", [24.0, 16.2], [30.5, 16.2], 0.12, lv["E1"], round(lv["E1"] + 3.0, 2), "glazed", "glass")
+els[-1]["openings"] = [{"s": [2.6, 4.2], "z": [lv["E1"], round(lv["E1"] + 2.3, 2)], "type": "door", "note": "secure glass door into the daycare (staff / parent release)"}]
 for (a, b, n) in (([-6.45, -9.5], [12.0, -9.5], "S"), ([-6.45, 8.3], [12.0, 8.3], "N")):
     wall(f"G-link-{n}", a, b, 0.12, 0.0, 4.0, "glazed", "glass")  # sliding glass walls
 
