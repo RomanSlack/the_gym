@@ -299,7 +299,7 @@ for _ in range(4):  # no natural rock on or right next to built works (terraces,
 steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c] > 0.25) & ~built
 pad_box = np.zeros(steep.shape, bool)
 for p in model["site"]["pads"]:
-    poly = np.array(p["poly"]); lo, hi = poly.min(0) - 1.5, poly.max(0) + 1.5
+    poly = np.array(p["poly"]); lo, hi = poly.min(0) - 3.5, poly.max(0) + 3.5  # rock blocks are up to ~3 m across
     pad_box |= (X > lo[0]) & (X < hi[0]) & (Y > lo[1]) & (Y < hi[1])
 steep &= ~pad_box
 cells = np.argwhere(steep)
@@ -525,6 +525,9 @@ if bs:
     box("bs_sod", x0 - 0.5, y0 - 0.5, rz + 0.25, x1 + 0.5, y1 + 0.5, rz + 0.45, bpy.data.materials.get("sod_roof") or moss)
     for px in np.arange(x0 + 0.6, x1 - 0.3, 0.7):  # bike stands
         box(f"bs_rack_{px:.1f}", px - 0.03, y0 + 1.2, fz, px + 0.03, y1 - 1.2, fz + 0.8, mullion)
+# game room: warm light
+gl = bpy.data.objects.new("game_light", bpy.data.lights.new("game_light", "AREA")); gl.data.size = 6; gl.data.energy = 1500; gl.data.color = (1.0, 0.85, 0.65)
+gl.location = (16.4, 11.5, LV["E2"] + 4.4); scene.collection.objects.link(gl)
 # wall finishes: floor-to-ceiling mirrors (F3 den)
 mirror_m = material("mirror", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.9, 0.9, 0.9, 1)), b.inputs["Metallic"].__setattr__("default_value", 1.0), b.inputs["Roughness"].__setattr__("default_value", 0.02)))
 for e in model["elements"]:
@@ -671,7 +674,22 @@ for st in model.get("stairs", []):
 for f in model.get("fixtures", []):
     if "rect" in f:  # counters (timber), benches + racks (black steel)
         x0, y0, x1, y1 = f["rect"]
-        box(f["id"], x0, y0, LV[f["level"]], x1, y1, LV[f["level"]] + f.get("height", 1.05), glulam if f["kind"] == "counter" else mullion)
+        if f["id"] == "tt_table":  # table tennis: blue top, net, legs
+            tt_blue = material("tt_blue", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.08, 0.25, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.4)))
+            z_ = LV[f["level"]]
+            box(f["id"], x0, y0, z_ + 0.72, x1, y1, z_ + 0.76, tt_blue)
+            box(f["id"] + "_net", x0 - 0.15, (y0 + y1) / 2 - 0.01, z_ + 0.76, x1 + 0.15, (y0 + y1) / 2 + 0.01, z_ + 0.915, mullion)
+            for lx in (x0 + 0.2, x1 - 0.2):
+                for ly in (y0 + 0.3, y1 - 0.3):
+                    box(f"{f['id']}_leg{lx:.1f}{ly:.1f}", lx - 0.03, ly - 0.03, z_, lx + 0.03, ly + 0.03, z_ + 0.72, mullion)
+            continue
+        if f["id"] == "pool_table":
+            felt = material("felt", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.18, 0.08, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.95)))
+            z_ = LV[f["level"]]
+            box(f["id"] + "_base", x0, y0, z_, x1, y1, z_ + 0.7, glulam)
+            box(f["id"], x0 + 0.1, y0 + 0.1, z_ + 0.7, x1 - 0.1, y1 - 0.1, z_ + 0.8, felt)
+            continue
+        box(f["id"], x0, y0, LV[f["level"]], x1, y1, LV[f["level"]] + f.get("height", 1.05), glulam if f["kind"] in ("counter", "table", "seat") else mullion)
         continue
     (cx, cy), R_ = f["center"], f["diameter"] / 2
     bpy.ops.mesh.primitive_cylinder_add(radius=R_, depth=1.1, location=(cx, cy, LV[f["level"]] + 0.55), vertices=64)

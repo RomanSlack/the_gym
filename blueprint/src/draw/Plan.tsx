@@ -6,6 +6,7 @@ import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
 import { DesignPlan } from "./Design";
+import { GridDims, RoofPlan } from "./Annotations";
 
 export interface Layers {
   underlay: boolean;
@@ -204,7 +205,9 @@ export function Plan({
         <Safe><SiteWorks f={model.site.features} /></Safe>
       )}
 
-      {!site && <Safe><DesignPlan model={model} levelId={level.id} cut={cut} elev={elev} /></Safe>}
+      {!site && level.id !== "RF" && <Safe><DesignPlan model={model} levelId={level.id} cut={cut} elev={elev} /></Safe>}
+      {level.id === "RF" && <Safe><RoofPlan model={model} /></Safe>}
+      {!site && model.grids.length > 0 && <Safe><GridDims model={model} /></Safe>}
 
       {/* new design: beams overhead (dashed, as drawn above the cut) */}
       {!site &&

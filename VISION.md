@@ -227,6 +227,9 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Grip & hangboard wall** (hangboards, pinch blocks, rings, campus rungs; no bouldering) on the den's south wall.
 - **Equipment: double up popular machines and plan islands** (freestanding dumbbell/cable racks with stations around them). Target normal gym density (~65–85 %), per `docs/FIT_STUDY.md`. That's 220 items, with every strength zone between 66 and 81 %.
 - **Less spa (Roman: went overboard on the wishlist):** no massage or treatment rooms, no spa services, no cryo or infrared. What stays is the classic training recovery: a simple thermal setup on F4 (sauna, steam, hot/cold plunge), a recovery lounge (compression boots, loungers), and the outdoor sauna by the stream. Some of that could later move back into the locker rooms.
+- **Game room (E2)** opens onto the ravine glass. It has **table tennis parallel to the river right on the glass** (the 'floating over the river' shot for clips), a classic 9-ft pool table, and a lounge corner with chairs and a coffee table. Only one table-tennis table fits comfortably, so there's one.
+- **Public WCs** (reception): open, airport-style baffled entry with no door, full-height stalls inside, and an accessible WC with its own door.
+- **Daycare toilets:** glass wall + open doorway, so staff have line of sight from the play space (safeguarding best practice rather than a strict code line); low stall screens for the kids.
 
 ## Open questions
 

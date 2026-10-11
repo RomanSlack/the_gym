@@ -54,6 +54,7 @@ export interface DesignElement {
 }
 export interface Space {
   id: string;
+  number?: string;
   level: string;
   kind: string;
   name: string;

@@ -102,14 +102,15 @@ S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 # Follows Gym V2: cafe island in the middle of the south half, a central block with the core and public WCs,
 # reception desk backed onto it facing the entry (east), daycare north.
 S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 30.5, 6.8), "back counter along the south wall; opens west onto the lounge bridge")
-S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(12.0, 6.8, 20.8, 16.2), "Gym V2's WC block, out to the west wall; water station at the cafe side")
+S("wcs", "E1", "wet", "Public WCs · women, men, accessible", R(12.0, 6.8, 20.8, 16.2),
+  "Gym V2's WC cells: open baffled entry (no door), full-height stalls with doors inside, accessible WC with its own door; water station at the cafe side")
 S("reception", "E1", "circulation", "Reception · gym + daycare", R(24.0, 6.8, 30.5, 16.2),
   "shared desk backed onto the core, facing the east entrance; glass wall + secure door north into the daycare (sightline from the desk)")
 # daycare (upper): Norwegian barnehage layout: entry wardrobe, children's WC + changing, staff, play
 S("dc-wardrobe", "E1", "daycare", "Daycare main entrance · check-in + wardrobe", R(24.0, 16.2, 30.5, 21.2),
   "entrance and exit straight off reception, north of the desk (as in Gym V2); each child's cubby, boot racks, drying cabinets")
 S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
-  "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one")
+  "glass wall + open doorway: staff line of sight from play; low stall screens; child-height WCs and basins, changing table with hand shower, accessible WC; stacked over the lower one")
 S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
 # drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
 # Roman: open plan, no walls unless needed -> one open play space; baby/toddler is a gated zone inside it.
@@ -122,7 +123,8 @@ S("dc-nursing", "E1", "daycare", "Nursing room", R(27.0, 29.3, 30.5, 33.3), "sma
 S("garage", "E2", "garage", "Garage · cars on the glass", R(12.0, -3.5, 30.5, 6.8), "drive-through from the underground parking (east)")
 S("bike-moto", "E2", "garage", "Bike + motorcycle parking", R(12.0, -9.5, 30.5, -3.5),
   "along the south wall: ~40 bikes on two-tier racks with e-bike charging, 6 motorcycle bays, bike wash + repair stand; walkway north to the core E lift/stairs up to reception")
-S("game-room", "E2", "lounge", "Game room", R(12.0, 6.8, 20.8, 16.18))
+S("game-room", "E2", "lounge", "Game room · table tennis on the ravine glass, pool", R(12.0, 6.8, 20.8, 16.18),
+  "table tennis parallel to the river right on the glass (the 'floating over the river' shot), classic 9-ft pool table, lounge corner")
 S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", R(24.0, 6.8, 30.5, 16.18))
 S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
 S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.2), "stacked under the upper one")
@@ -178,6 +180,10 @@ m["fixtures"] = [
        "note": ["flat", "incline", "decline"][k % 3] + " bench facing the mirror"} for k, y_ in enumerate([-32.2 + 2.25 * i for i in range(14)])],
     *[{"id": f"f3_dumbbells_{k}", "kind": "rack", "level": "F3", "rect": [-29.1, a_, -28.4, b_], "height": 0.95, "note": "dumbbell rack"}
       for k, (a_, b_) in enumerate([(-29.8, -25.0), (-22.0, -15.8), (-12.6, -1.0)])],
+    {"id": "tt_table", "kind": "table", "level": "E2", "rect": [13.48, 10.12, 15.0, 12.86], "height": 0.76, "note": "table tennis, long axis parallel to the river, on the glass"},
+    {"id": "pool_table", "kind": "table", "level": "E2", "rect": [17.9, 9.0, 19.17, 11.54], "height": 0.8, "note": "classic 9-ft pool table"},
+    {"id": "game_sofa", "kind": "seat", "level": "E2", "rect": [16.6, 14.2, 20.2, 15.1], "height": 0.45, "note": "lounge chairs / sofa"},
+    {"id": "game_coffee", "kind": "table", "level": "E2", "rect": [17.6, 13.0, 19.2, 13.8], "height": 0.4, "note": "coffee table"},
     {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]},
 ]
 
@@ -291,8 +297,8 @@ zb, zt = lv["E2"] - 0.6, lv["E1"] - 0.25
 wall("W-east-S", [x0, y0], [x1, y0], 0.4, zb, zt, "retaining", "concrete")
 wall("W-east-E1", [x1, y0], [x1, -6.0], 0.4, zb, zt, "retaining", "concrete")
 wall("W-east-E2", [x1, 0.0], [x1, y1], 0.4, zb, zt, "retaining", "concrete")  # gap = garage tunnel
-wall("G-E2-W", [x0, y0], [x0, 12.0], 0.15, lv["E2"], zt, "glazed", "glass")    # garage glass over the ravine
-wall("W-east-W", [x0, 12.0], [x0, y1], 0.4, zb, zt, "retaining", "concrete")
+wall("G-E2-W", [x0, y0], [x0, 16.18], 0.15, lv["E2"], zt, "glazed", "glass")    # garage + game room glass over the ravine
+wall("W-east-W", [x0, 16.18], [x0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("W-east-N1", [x0, y1], [18.0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("G-E2-N", [18.0, y1], [x1, y1], 0.15, lv["E2"], zt, "glazed", "glass")     # daycare onto the sunken garden
 for (a, b, n) in (([x0, y0], [x0, -9.5], "W1"), ([x0, 6.8], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):

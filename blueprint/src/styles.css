@@ -250,3 +250,51 @@ html[data-theme="dark"] .n-fixture-bench rect { fill: #9a968c; }
 html[data-theme="dark"] .n-partition { fill: #9a968c; }
 .n-opening line { stroke: var(--ink); stroke-width: 0.9; }
 .n-opening .n-baffle { stroke-width: 2.2; }
+
+/* dimensions, room tags, roof plan, elevations */
+.dim line { stroke: var(--ink); stroke-width: 0.6; }
+.dim .dim-tick { stroke-width: 1.2; }
+.dim-txt { font-family: "IBM Plex Mono", monospace; font-size: 0.75px; }
+.room-tag { fill: var(--paper); stroke: var(--ink); stroke-width: 0.5; }
+.room-no { font-size: 0.62px; }
+.roof-eave { fill: #ece6da; stroke: var(--ink); stroke-width: 1.2; }
+.roof-line { fill: none; stroke: var(--ink); stroke-width: 0.5; stroke-dasharray: 4 3; }
+.roof-sod { fill: #c9d8b4; stroke: var(--ink); stroke-width: 1; }
+.roof-sky { fill: #cfe3ec; stroke: #2a5d78; stroke-width: 1; }
+.roof-tower { stroke: #6b6b68; stroke-width: 3; }
+.el-stone { fill: #8a8781; stroke: var(--ink); stroke-width: 0.6; }
+.el-glass { fill: #bcd6e2; stroke: #2a5d78; stroke-width: 0.5; }
+.el-slab { fill: #4a4a48; stroke: var(--ink); stroke-width: 0.4; }
+.el-roof { fill: #6b5a44; stroke: var(--ink); stroke-width: 0.6; }
+.el-sod { fill: #6f8f55; stroke: var(--ink); stroke-width: 0.5; }
+.el-timber { fill: #b08a5c; stroke: var(--ink); stroke-width: 0.4; }
+.el-hidden { display: none; }
+.el-earth { fill: #e7decd; }
+html[data-theme="dark"] .roof-eave { fill: #2c2a26; }
+html[data-theme="dark"] .el-earth { fill: #2a2722; }
+/* A1 paper sheet (units = mm) */
+.ps-page { fill: var(--paper); }
+.ps-border { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.ps-rule { stroke: var(--rule); stroke-width: 0.6; }
+.paper-sheet text { font-family: "IBM Plex Sans Condensed", sans-serif; fill: var(--ink); }
+.ps-title { font-size: 9px; font-weight: 600; letter-spacing: 1.2px; }
+.ps-no { font-size: 11px; font-weight: 600; font-family: "IBM Plex Mono", monospace !important; }
+.ps-sheet { font-size: 4.4px; font-weight: 600; }
+.ps-t { font-size: 3.1px; }
+.ps-k { font-size: 3px; fill: #6b675e !important; }
+.ps-h { font-size: 3.6px; font-weight: 600; letter-spacing: 0.6px; }
+.ps-sw-wall { fill: var(--ink); } .ps-sw-part { fill: #6a6a68; } .ps-sw-glass { fill: #eaf3f7; stroke: #2a5d78; stroke-width: 0.6; }
+.ps-sw-timber { fill: #b08a5c; } .ps-sw-water { fill: var(--water); stroke: var(--water-edge); stroke-width: 0.6; } .ps-sw-earth { fill: #e7decd; }
+/* schedules (mm) */
+.sched-title { font-size: 3.6px; font-weight: 600; letter-spacing: 0.5px; }
+.sched-frame { fill: none; stroke: var(--ink); stroke-width: 0.8; }
+.sched-rule { stroke: var(--ink); stroke-width: 0.6; }
+.sched-zebra { fill: color-mix(in srgb, var(--ink) 5%, transparent); }
+.sched-head { font-size: 2.7px; font-weight: 600; }
+.sched-cell { font-size: 2.6px; }
+.sched-note { font-size: 2.8px; fill: #6b675e !important; }
+
+/* PDF export: just the A1 sheet, full bleed */
+.app.export { grid-template-columns: 1fr; }
+.app.export .sheets, .app.export .status, .app.export .replay { display: none; }
+@page { size: 841mm 594mm; margin: 0; }

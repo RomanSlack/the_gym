@@ -15,7 +15,7 @@ It's also an experiment: **can a person and an AI picture the same building and 
 | ![Sunken garden](docs/img/garden_to_daycare.jpg) | ![Trailhead](docs/img/trailhead_sign.jpg) |
 | *The daycare's sunken play garden* | *The trailhead, with a map panel made by gpt-image-2* |
 
-**Drawings.** A real architectural drawing set generated from the model: plans, sections, site plan, dark mode, and scale figures.
+**Drawings.** A real architectural drawing set generated from the model: site plan, 5 floor plans, roof plan, 4 elevations, 3 sections and schedules, as A1 sheets at 1:200. Download the PDF set: [`docs/drawings/THE_GYM_drawing_set.pdf`](docs/drawings/THE_GYM_drawing_set.pdf).
 
 | | |
 |---|---|

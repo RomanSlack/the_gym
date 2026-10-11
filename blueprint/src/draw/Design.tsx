@@ -144,6 +144,12 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
             <text x={x} y={-y - 0.4} textAnchor="middle" className="txt-m">{title}</text>
             {rest.length > 0 && <text x={x} y={-y + 0.8} textAnchor="middle" className="txt-s sub">{rest.join(" · ")}</text>}
             <text x={x} y={-y + (rest.length ? 1.9 : 1.0)} textAnchor="middle" className="txt-s mono area">{a.toFixed(0)} m²</text>
+            {s.number && (
+              <g transform={`translate(${x} ${-y + (rest.length ? 3.0 : 2.1)})`}>
+                <rect x={-1.6} y={-0.62} width={3.2} height={0.95} className="room-tag" />
+                <text y={0.15} textAnchor="middle" className="txt-s mono room-no">{s.number}</text>
+              </g>
+            )}
           </g>
         );
       })}

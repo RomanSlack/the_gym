@@ -62,8 +62,8 @@
       {
         "id": "garage_ledge",
         "z": -6.6,
-        "poly": [[10.2, -9.5], [12.0, -9.5], [12.0, 12.0], [10.2, 12.0]],
-        "note": "rock shelf cut down so the garage's west wall is exposed: floor-to-ceiling glass over the ravine"
+        "poly": [[10.2, -9.5], [12.0, -9.5], [12.0, 16.18], [10.2, 16.18]],
+        "note": "rock shelf cut down so the garage's west wall is exposed: floor-to-ceiling glass over the ravine (extended along the game room)"
       }
     ],
     "features": {
@@ -1387,8 +1387,8 @@
     {"id": "W-east-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "W-east-E1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, -9.5], "to": [30.5, -6.0], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "W-east-E2", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, 0.0], "to": [30.5, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
-    {"id": "G-E2-W", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [12.0, 12.0], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
-    {"id": "W-east-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 12.0], "to": [12.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
+    {"id": "G-E2-W", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [12.0, 16.18], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
+    {"id": "W-east-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 16.18], "to": [12.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "W-east-N1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 33.3], "to": [18.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "G-E2-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [18.0, 33.3], "to": [30.5, 33.3], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
     {"id": "G-E1-W2", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, 6.8], "to": [12.0, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
@@ -1532,7 +1532,7 @@
       "level": "E1",
       "between": ["cafe", "wcs"],
       "openings": [
-        {"s": [3.9, 4.9], "z": [0.12, 2.22], "type": "door", "swing": -1, "note": "Public WCs ↔ Cafe"}
+        {"s": [3.6, 5.2], "z": [0.12, 2.52], "type": "baffle", "swing": -1, "note": "Public WCs ↔ Cafe"}
       ]
     },
     {"id": "P-E1-5", "type": "wall", "kind": "partition", "material": "timber_stud", "from": [20.8, 16.2], "to": [17.0, 16.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["wcs", "dc-wc"], "openings": []},
@@ -1569,8 +1569,8 @@
     {
       "id": "P-E1-10",
       "type": "wall",
-      "kind": "partition",
-      "material": "timber_stud",
+      "kind": "glazed",
+      "material": "glass",
       "from": [21.25, 21.2],
       "to": [17.0, 21.2],
       "size": [0.15, 5.52],
@@ -1578,22 +1578,10 @@
       "level": "E1",
       "between": ["dc-wc", "dc-kids"],
       "openings": [
-        {"s": [1.62, 2.62], "z": [0.12, 2.22], "type": "door", "swing": 1, "note": "Children's WC + changing ↔ Daycare play"}
+        {"s": [1.23, 3.03], "z": [0.12, 2.52], "type": "opening", "swing": 1, "note": "Children's WC + changing ↔ Daycare play"}
       ]
     },
-    {
-      "id": "P-E1-11",
-      "type": "wall",
-      "kind": "partition",
-      "material": "timber_stud",
-      "from": [24.0, 21.2],
-      "to": [21.25, 21.2],
-      "size": [0.15, 5.52],
-      "z": [0.12, 5.64],
-      "level": "E1",
-      "between": ["dc-wc", "daycare-up"],
-      "openings": []
-    },
+    {"id": "P-E1-11", "type": "wall", "kind": "glazed", "material": "glass", "from": [24.0, 21.2], "to": [21.25, 21.2], "size": [0.15, 5.52], "z": [0.12, 5.64], "level": "E1", "between": ["dc-wc", "daycare-up"], "openings": []},
     {
       "id": "P-E1-12",
       "type": "wall",
@@ -1776,8 +1764,8 @@
     {
       "id": "P-E2-25",
       "type": "wall",
-      "kind": "partition",
-      "material": "timber_stud",
+      "kind": "glazed",
+      "material": "glass",
       "from": [17.0, 21.2],
       "to": [24.0, 21.2],
       "size": [0.15, 5.88],
@@ -1785,7 +1773,7 @@
       "level": "E2",
       "between": ["dc-wc-low", "daycare-low"],
       "openings": [
-        {"s": [3.0, 4.0], "z": [-6.01, -3.91], "type": "door", "swing": -1, "note": "Children's WC + changing ↔ Active play"}
+        {"s": [2.6, 4.4], "z": [-6.01, -3.61], "type": "opening", "swing": -1, "note": "Children's WC + changing ↔ Active play"}
       ]
     },
     {
@@ -2716,7 +2704,7 @@
       "kind": "wet",
       "name": "Public WCs · women, men, accessible",
       "poly": [[12.0, 6.8], [20.8, 6.8], [20.8, 16.2], [12.0, 16.2]],
-      "note": "Gym V2's WC block, out to the west wall; water station at the cafe side",
+      "note": "Gym V2's WC cells: open baffled entry (no door), full-height stalls with doors inside, accessible WC with its own door; water station at the cafe side",
       "number": "E1.07"
     },
     {
@@ -2743,7 +2731,7 @@
       "kind": "wet",
       "name": "Children's WC + changing",
       "poly": [[17.0, 16.2], [24.0, 16.2], [24.0, 21.2], [17.0, 21.2]],
-      "note": "child-height WCs and basins (about 1 WC per 10 children), changing table with hand shower, accessible WC; stacked over the lower one",
+      "note": "glass wall + open doorway: staff line of sight from play; low stall screens; child-height WCs and basins, changing table with hand shower, accessible WC; stacked over the lower one",
       "number": "E1.05"
     },
     {
@@ -2805,8 +2793,9 @@
       "id": "game-room",
       "level": "E2",
       "kind": "lounge",
-      "name": "Game room",
+      "name": "Game room · table tennis on the ravine glass, pool",
       "poly": [[12.0, 6.8], [20.8, 6.8], [20.8, 16.18], [12.0, 16.18]],
+      "note": "table tennis parallel to the river right on the glass (the 'floating over the river' shot), classic 9-ft pool table, lounge corner",
       "number": "E2.05"
     },
     {
@@ -2968,6 +2957,10 @@
     {"id": "f3_dumbbells_0", "kind": "rack", "level": "F3", "rect": [-29.1, -29.8, -28.4, -25.0], "height": 0.95, "note": "dumbbell rack"},
     {"id": "f3_dumbbells_1", "kind": "rack", "level": "F3", "rect": [-29.1, -22.0, -28.4, -15.8], "height": 0.95, "note": "dumbbell rack"},
     {"id": "f3_dumbbells_2", "kind": "rack", "level": "F3", "rect": [-29.1, -12.6, -28.4, -1.0], "height": 0.95, "note": "dumbbell rack"},
+    {"id": "tt_table", "kind": "table", "level": "E2", "rect": [13.48, 10.12, 15.0, 12.86], "height": 0.76, "note": "table tennis, long axis parallel to the river, on the glass"},
+    {"id": "pool_table", "kind": "table", "level": "E2", "rect": [17.9, 9.0, 19.17, 11.54], "height": 0.8, "note": "classic 9-ft pool table"},
+    {"id": "game_sofa", "kind": "seat", "level": "E2", "rect": [16.6, 14.2, 20.2, 15.1], "height": 0.45, "note": "lounge chairs / sofa"},
+    {"id": "game_coffee", "kind": "table", "level": "E2", "rect": [17.6, 13.0, 19.2, 13.8], "height": 0.4, "note": "coffee table"},
     {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]}
   ]
 }
