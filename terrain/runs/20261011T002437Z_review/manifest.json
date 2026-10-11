@@ -1,0 +1,16 @@
+{
+ "id": "20261011T002437Z_review",
+ "stage": "review",
+ "started": "20261011T002437Z",
+ "code": "c4d0042+dirty",
+ "params": {
+  "views": [
+   "top_down",
+   "top_down_bridge",
+   "falls_from_pool"
+  ],
+  "sections": "y=0, y=22, x=21 through the east wing",
+  "scene": "out/scene/site.blend (scene run 20261011T002105Z)"
+ },
+ "outputs": {}
+}
