@@ -10,5 +10,6 @@ State on 2026-10-11: stages 0-4 built; stage 5 (interior shell) under way: recep
 - Before showing a stage: `build_model.py` ends with the stage coverage check (`tools/stage_check.py`); it must say OK. New design features need an owner stage in that file.
 - **Replay discipline:** commit right after each change Roman asked for (incl. messages he sends mid-turn), not once per turn; the commit hook adds `Prompt:` + `Also-Prompt:` trailers for every message since the last commit automatically. Renders you make to check your work are kept as `_vNNN`; no extra renders just for the replay.
 - Replays: drawings = H in `blueprint/`; 3D renders = `.capture/renders/replay.html` (rebuilt every turn by `tools/replay/render_history.py`, any camera, every version + its prompt).
+- Saved .blend files open with all foliage hidden in the viewport (forest + grass collections, sod-roof grass modifiers) so they load fast; renders still include it. Show it via the monitor icon on "6 · forest" / "6 · grass".
 - Never overwrite images: renders auto-version to `_vNNN.jpg`; anything else gets a new filename.
 - Gotcha: Blender 4.1+ makes new faces smooth unless set flat (handled in construction/bl_common.py).

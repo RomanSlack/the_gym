@@ -417,6 +417,16 @@ for o in bpy.data.objects:  # primitives + boolean results: flat shading for eve
         any(c_.name.startswith("v") and "_L" in c_.name for c_ in o.users_collection)  # library trees keep their smooth wood
     if o.type == "MESH" and not organic:
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
+# Roman's rule: all foliage is hidden in the viewport in the saved file (opening it must not crash / crawl).
+# Viewport only: renders (here and in the file) still include it; tick the monitor icon on "6 · forest" / "6 · grass" to show it.
+for cn in ("6 · forest", "6 · grass"):
+    c_ = bpy.data.collections.get(cn)
+    if c_:
+        c_.hide_viewport = True  # collection-level: not even evaluated in the viewport
+for o in bpy.data.objects:  # grass on the sod roofs lives as modifiers on the roof slabs: off in the viewport
+    for md_ in o.modifiers:
+        if md_.type == "NODES" and md_.node_group and md_.node_group.name.startswith(("GN_grass", "GN_forest")):
+            md_.show_viewport = False
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 EXPO = scene.view_settings.exposure
 if RENDER:
