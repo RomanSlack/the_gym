@@ -1002,7 +1002,20 @@
     {"id": "S-RF-west", "type": "slab", "material": "clt", "rect": [-29.45, -34.1, -6.45, 12.1], "z": [5.64, 5.84], "holes": []},
     {"id": "S-RF-east", "type": "slab", "material": "clt", "rect": [12.0, -9.5, 30.5, 33.3], "z": [5.64, 5.84], "holes": []},
     {"id": "S-RF-link", "type": "slab", "material": "clt", "rect": [-6.45, -9.1, 12.0, 8.3], "z": [5.64, 5.84], "holes": []},
-    {"id": "W-west-A", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, -34.1], "to": [-29.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
+    {
+      "id": "W-west-A",
+      "type": "wall",
+      "kind": "retaining",
+      "material": "concrete",
+      "from": [-29.45, -34.1],
+      "to": [-29.45, 12.1],
+      "size": [0.5, 15.74],
+      "z": [-15.99, -0.25],
+      "openings": [
+        {"s": [30.15, 32.25], "z": [-15.39, -13.09], "type": "door", "note": "men's express lift"},
+        {"s": [38.95, 41.05], "z": [-15.39, -13.09], "type": "door", "note": "women's express lift"}
+      ]
+    },
     {"id": "W-west-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
     {"id": "W-west-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
     {
@@ -1027,6 +1040,12 @@
         {"s": [2.0, 44.2], "z": [-4.46, -1.91], "type": "window", "note": "ravine view band"}
       ]
     },
+    {"id": "LS-men-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.1], "to": [-31.25, -1.7], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
+    {"id": "LS-men-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -1.7], "to": [-29.7, -1.7], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
+    {"id": "LS-men-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, -4.1], "to": [-29.7, -4.1], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
+    {"id": "LS-women-W", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-31.25, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
+    {"id": "LS-women-N", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 7.1], "to": [-29.7, 7.1], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
+    {"id": "LS-women-S", "type": "wall", "kind": "shaft", "material": "concrete", "from": [-31.25, 4.7], "to": [-29.7, 4.7], "size": [0.25, 22.39], "z": [-15.99, 6.4]},
     {"id": "A-annex-W", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-35.45, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
     {"id": "A-annex-N", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, 4.5], "to": [-32.0, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
     {"id": "A-annex-S", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-29.45, -1.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
@@ -1255,6 +1274,70 @@
       "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
     },
     {
+      "id": "lift-men-F4",
+      "level": "F4",
+      "kind": "core",
+      "name": "Express lift · men",
+      "poly": [[-31.25, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-31.25, -1.7]],
+      "note": "men's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-men-F3",
+      "level": "F3",
+      "kind": "core",
+      "name": "Lift shaft",
+      "poly": [[-31.25, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-31.25, -1.7]],
+      "note": "men's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-men-F2",
+      "level": "F2",
+      "kind": "core",
+      "name": "Lift shaft",
+      "poly": [[-31.25, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-31.25, -1.7]],
+      "note": "men's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-men-F1",
+      "level": "F1",
+      "kind": "core",
+      "name": "Express lift · men",
+      "poly": [[-31.25, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-31.25, -1.7]],
+      "note": "men's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-women-F4",
+      "level": "F4",
+      "kind": "core",
+      "name": "Express lift · women",
+      "poly": [[-31.25, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-31.25, 7.1]],
+      "note": "women's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-women-F3",
+      "level": "F3",
+      "kind": "core",
+      "name": "Lift shaft",
+      "poly": [[-31.25, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-31.25, 7.1]],
+      "note": "women's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-women-F2",
+      "level": "F2",
+      "kind": "core",
+      "name": "Lift shaft",
+      "poly": [[-31.25, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-31.25, 7.1]],
+      "note": "women's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
+      "id": "lift-women-F1",
+      "level": "F1",
+      "kind": "core",
+      "name": "Express lift · women",
+      "poly": [[-31.25, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-31.25, 7.1]],
+      "note": "women's locker room (F1) <-> pool lobby (F4), no stops between"
+    },
+    {
       "id": "women-lockers",
       "level": "F1",
       "kind": "wet",
@@ -1265,9 +1348,9 @@
       "id": "women-wet",
       "level": "F1",
       "kind": "wet",
-      "name": "Women's wet zone · showers, WCs, steam",
+      "name": "Women's wet zone · showers, WCs, grooming",
       "poly": [[-29.45, 7.65], [-13.6, 7.65], [-13.6, 12.1], [-29.45, 12.1]],
-      "note": "floor-to-ceiling WC stalls, private rainfall showers, steam + indoor sauna"
+      "note": "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)"
     },
     {
       "id": "men-lockers",
@@ -1280,9 +1363,9 @@
       "id": "men-wet",
       "level": "F1",
       "kind": "wet",
-      "name": "Men's wet zone · showers, WCs, steam",
+      "name": "Men's wet zone · showers, WCs, grooming",
       "poly": [[-29.45, -9.3], [-13.6, -9.3], [-13.6, -4.2], [-29.45, -4.2]],
-      "note": "floor-to-ceiling WC stalls, urinals, private rainfall showers, steam + indoor sauna"
+      "note": "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)"
     },
     {
       "id": "gallery",
@@ -1431,7 +1514,7 @@
       "id": "thermal",
       "level": "F4",
       "kind": "wet",
-      "name": "Thermal suite · hot/cold plunge, infrared, steam, cryo",
+      "name": "Thermal suite · Finnish sauna, steam, hot/cold plunge, infrared, cryo",
       "poly": [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]]
     },
     {
@@ -1480,8 +1563,23 @@
       "id": "treatment",
       "level": "F4",
       "kind": "wet",
-      "name": "Treatment rooms (3)",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, 12.1], [-29.45, 12.1]]
+      "name": "Treatment rooms (2)",
+      "poly": [[-29.45, 7.9], [-24.45, 7.9], [-24.45, 12.1], [-29.45, 12.1]]
+    },
+    {
+      "id": "treatment-s",
+      "level": "F4",
+      "kind": "wet",
+      "name": "Treatment room",
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -4.5], [-29.45, -4.5]]
+    },
+    {
+      "id": "pool-lobby",
+      "level": "F4",
+      "kind": "circulation",
+      "name": "Pool lobby · express lifts from the locker rooms",
+      "poly": [[-29.45, -4.5], [-24.45, -4.5], [-24.45, 7.9], [-29.45, 7.9]],
+      "note": "arrive from the locker rooms in robes, straight onto the pool deck"
     },
     {
       "id": "lounge",

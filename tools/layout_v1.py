@@ -35,13 +35,19 @@ S = lambda id_, level, kind, name, poly, note=None: spaces.append(
 STRETCH = [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-24.45, -11.0], [-24.45, -18.7], [-29.45, -18.7]]
 SPIRAL_BAY = R(-21.45, -18.7, -14.45, -11.0)
 
+LIFTS = {"men": R(-31.25, -4.1, -28.85, -1.7), "women": R(-31.25, 4.7, -28.85, 7.1)}  # 2.4 x 2.4, 0.6 m inside the wall
+for g, poly in LIFTS.items():
+    for L in ("F4", "F3", "F2", "F1"):
+        spaces.append({"id": f"lift-{g}-{L}", "level": L, "kind": "core", "name": f"Express lift · {g}" if L in ("F1", "F4") else "Lift shaft",
+                       "poly": poly, "note": f"{g}'s locker room (F1) <-> pool lobby (F4), no stops between"})
+
 # ---------------------------------------------------------------- F1 (gym wing) ±0.00
 # Locker block follows Gym V2's walls exactly (x -29.45..-13.6, y -9.3..12.1), split at y 1.5:
 # per room = changing room (middle) + wet zone (outer strip), full width to the gallery (Roman: wider, extend east)
 S("women-lockers", "F1", "wet", "Women's changing · lockers", R(-29.45, 1.5, -13.6, 7.65))
-S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, steam", R(-29.45, 7.65, -13.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, steam + indoor sauna")
+S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, grooming", R(-29.45, 7.65, -13.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
 S("men-lockers", "F1", "wet", "Men's changing · lockers", R(-29.45, -4.2, -13.6, 1.5))
-S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, steam", R(-29.45, -9.3, -13.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, steam + indoor sauna")
+S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, grooming", R(-29.45, -9.3, -13.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
 S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-13.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
 S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5),
   "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path")
@@ -71,7 +77,7 @@ S("river-edge", "F3", "feature", "River edge · waist-high river window + indoor
 
 # ---------------------------------------------------------------- F4 −15.39 (pool, recovery)
 S("north-stair-F4", "F4", "circulation", "Stair from F3", R(-21.45, 7.1, -15.45, 12.1))
-S("thermal", "F4", "wet", "Thermal suite · hot/cold plunge, infrared, steam, cryo",
+S("thermal", "F4", "wet", "Thermal suite · Finnish sauna, steam, hot/cold plunge, infrared, cryo",
   [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]])
 S("pool", "F4", "pool", "Lap pool 25 × 10 m · underwater river windows", R(-16.45, -28.1, -6.45, -3.1))
 S("pool-deck-w", "F4", "wet", "Pool deck & lounge", R(-24.45, -18.7, -16.45, 4.4))
@@ -79,7 +85,9 @@ S("pool-deck-n", "F4", "wet", "Pool deck", R(-16.45, -3.1, -6.45, 4.4))
 S("pool-deck-s", "F4", "wet", "Pool deck", R(-16.45, -34.1, -6.45, -28.1))
 S("plant", "F4", "service", "Plant room · pool + building", R(-24.45, -34.1, -16.45, -18.7))
 S("recovery", "F4", "gym", "Recovery lounge · compression, zero-gravity", R(-29.45, -28.1, -24.45, -18.7))
-S("treatment", "F4", "wet", "Treatment rooms (3)", R(-29.45, -11.0, -24.45, 12.1))
+S("treatment", "F4", "wet", "Treatment rooms (2)", R(-29.45, 7.9, -24.45, 12.1))
+S("treatment-s", "F4", "wet", "Treatment room", R(-29.45, -11.0, -24.45, -4.5))
+S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts from the locker rooms", R(-29.45, -4.5, -24.45, 7.9), "arrive from the locker rooms in robes, straight onto the pool deck")
 
 # ---------------------------------------------------------------- lounge link (F1)
 S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.1, 12.0, 8.3), "sliding glass walls open fully onto the decks")
@@ -141,6 +149,8 @@ def wall(id_, a, b, t, z0, z1, kind, material):
 x0, y0, x1, y1 = WEST
 zb, zt = lv["F4"] - 0.6, lv["F1"] - 0.25
 wall("W-west-A", [x0, y0], [x0, y1], 0.5, zb, zt, "retaining", "concrete")
+els[-1]["openings"] = [{"s": [30.15, 32.25], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "men's express lift"},
+                       {"s": [38.95, 41.05], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "women's express lift"}]
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # windows at F2/F3, underwater at F4
@@ -153,6 +163,10 @@ els[-1]["openings"] = (
         "note": "continuous river window: water surface (-8.77) about 1.0 m above the floor, waist height"}]
     + [{"s": [2.0, 44.2], "z": [round(F2 + 0.45, 2), round(F2 + 3.0, 2)], "type": "window", "note": "ravine view band"}]
 )
+for g, poly in LIFTS.items():  # shaft walls: stone-clad, rise just above the roof
+    (sx0, sy0), _, (sx1, sy1), _ = poly
+    for n_, (a_, b_) in {"W": ([sx0, sy0], [sx0, sy1]), "N": ([sx0, sy1], [-29.7, sy1]), "S": ([sx0, sy0], [-29.7, sy0])}.items():
+        wall(f"LS-{g}-{n_}", a_, b_, 0.25, lv["F4"] - 0.6, 6.4, "shaft", "concrete")
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")
