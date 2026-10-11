@@ -41,6 +41,14 @@ export default function App() {
     catch { return { on: false, x: 0, y: 0, n: 5, rot: 0 }; }
   });
   useEffect(() => localStorage.setItem("gym-figs", JSON.stringify(figs)), [figs]);
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem("gym-theme");
+    return saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    localStorage.setItem("gym-theme", dark ? "dark" : "light");
+  }, [dark]);
   const figDrag = useRef<{ x: number; y: number; fx: number; fy: number } | null>(null);
 
   useEffect(() => {
@@ -81,6 +89,7 @@ export default function App() {
       if (e.key === "ArrowDown" || e.key === "j") setIdx((i) => Math.min(sheets.length - 1, i + 1));
       if (e.key === "ArrowUp" || e.key === "k") setIdx((i) => Math.max(0, i - 1));
       if (e.key === "f") setVb(sheet.fit);
+      if (e.key === "d" || e.key === "D") setDark((v) => !v);
       if (e.key === "r" || e.key === "R") setFigs((f) => ({ ...f, rot: (f.rot + 90) % 360 }));
     };
     window.addEventListener("keydown", onKey);
@@ -94,6 +103,7 @@ export default function App() {
           <div className="proj-name">THE GYM</div>
           <div className="proj-sub">Drawing set · schematic</div>
         </div>
+        <button className="theme-btn" onClick={() => setDark((v) => !v)}>{dark ? "☀ Light mode" : "☾ Dark mode"} <span className="mono">(D)</span></button>
         {sheets.map((s, i) => (
           <button key={s.no} className={i === idx ? "sheet on" : "sheet"} onClick={() => setIdx(i)}>
             <span className="no">{s.no}</span>
@@ -127,7 +137,7 @@ export default function App() {
           )}
         </div>
         <div className="legend">
-          <div><i className="sw new" /> new design (black)</div>
+          <div><i className="sw new" /> new design</div>
           <div><i className="sw cut" /> cut (existing / Gym V2)</div>
           <div><i className="sw below" /> below cut</div>
           <div><i className="sw above" /> above cut</div>
@@ -195,7 +205,7 @@ export default function App() {
             <span>Drawn</span><span>R. Slack + Claude</span>
           </div>
         </div>
-        <div className="status mono">{hover || "scroll to zoom · drag to pan · f to fit · ↑↓ sheets"}</div>
+        <div className="status mono">{hover || "scroll to zoom · drag to pan · f to fit · ↑↓ sheets · D dark mode"}</div>
       </main>
     </div>
   );

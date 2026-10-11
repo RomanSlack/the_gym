@@ -149,3 +149,63 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .scale-figs circle, .scale-figs rect:not(.scale-figs-hit) { fill: #c2410c; stroke: #fbfaf6; stroke-width: 0.4; }
 .scale-figs-dim { stroke: #c2410c; stroke-width: 0.7; }
 .scale-figs-txt { fill: #c2410c; font-weight: 600; }
+
+/* ---------------- dark mode (toggle in the sidebar, or press D) ---------------- */
+html[data-theme="dark"] {
+  --paper: #14171b;
+  --ink: #e4e1d8;
+  --existing: #8a8a86;
+  --existing-fill: #2a2c2f;
+  --contour: #5d5444;
+  --water: #16303c;
+  --water-edge: #4f8fae;
+  --earth: #7d6c52;
+  --chrome: #1b1e23;
+  --rule: #34383f;
+  color-scheme: dark;
+}
+html[data-theme="dark"] .proj-sub,
+html[data-theme="dark"] .legend,
+html[data-theme="dark"] .tb-row > span:first-child,
+html[data-theme="dark"] .status { color: #9a968c; }
+html[data-theme="dark"] .sheet:hover { background: #262a30; }
+html[data-theme="dark"] .contour-label { fill: #8a7a5c; }
+html[data-theme="dark"] .note { fill: #e07a6a; }
+html[data-theme="dark"] .w-road-edge { stroke: #4a463f; }
+html[data-theme="dark"] .w-road { stroke: #6e6e6b; }
+html[data-theme="dark"] .w-court { fill: #3b3b39; }
+html[data-theme="dark"] .w-ramp { stroke: #8a8a86; }
+html[data-theme="dark"] .w-garden { fill: #233021; }
+html[data-theme="dark"] .w-terrace { stroke: #7fa063; }
+html[data-theme="dark"] .w-path { stroke: #6f6655; }
+html[data-theme="dark"] .w-building { fill: #6a6a68; }
+html[data-theme="dark"] .w-deck { fill: #4a3f30; }
+html[data-theme="dark"] .w-trail { stroke: #c58a54; }
+html[data-theme="dark"] .timber-line { stroke: #c08a55; }
+html[data-theme="dark"] .sp { stroke: #555a62; }
+html[data-theme="dark"] .sp-gym { fill: #2b2820; }
+html[data-theme="dark"] .sp-wet { fill: #1f2b31; }
+html[data-theme="dark"] .sp-pool { fill: #1d3d4b; }
+html[data-theme="dark"] .sp-core { fill: #3a3832; }
+html[data-theme="dark"] .sp-circulation { fill: #1c1f24; }
+html[data-theme="dark"] .sp-lounge { fill: #33291e; }
+html[data-theme="dark"] .sp-outdoor { fill: #1f291c; }
+html[data-theme="dark"] .sp-feature { fill: #1c3238; }
+html[data-theme="dark"] .sp-service { fill: #2c2b28; }
+html[data-theme="dark"] .sp-daycare { fill: #362c1b; }
+html[data-theme="dark"] .sp-garage { fill: #262729; }
+html[data-theme="dark"] .sp-label .sub { fill: #a5a198; }
+html[data-theme="dark"] .sp-label .area { fill: #8c887f; }
+html[data-theme="dark"] .sp-label-s { fill: #b4b0a6; }
+html[data-theme="dark"] .n-glass path, html[data-theme="dark"] .n-glass-sec { fill: #1b3440; stroke: #6fb4d6; }
+html[data-theme="dark"] .n-glass line { stroke: #6fb4d6; }
+html[data-theme="dark"] .n-stair line { stroke: #a5a198; }
+html[data-theme="dark"] .n-stair-edge { fill: var(--paper); }
+html[data-theme="dark"] .n-fixture circle { fill: #4a3a26; stroke: #c9a274; }
+html[data-theme="dark"] .person-plan circle { stroke: #e08a5a; }
+html[data-theme="dark"] .figure { fill: #e08a5a; }
+html[data-theme="dark"] .scale-figs circle, html[data-theme="dark"] .scale-figs rect:not(.scale-figs-hit) { fill: #ff7a3d; stroke: var(--paper); }
+html[data-theme="dark"] .scale-figs-dim { stroke: #ff7a3d; }
+html[data-theme="dark"] .scale-figs-txt { fill: #ff7a3d; }
+html[data-theme="dark"] .figs-ctl button { color: var(--ink); }
+.theme-btn { margin: 0 6px 8px; font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); border-radius: 3px; cursor: pointer; width: calc(100% - 12px); text-align: left; }
