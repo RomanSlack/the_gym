@@ -142,6 +142,9 @@ CAMS = {
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
+for o in bpy.data.objects:  # primitives + boolean results: flat shading for every hard-surface element
+    if o.type == "MESH" and not o.name.startswith(("terrain", "river", "falls")):
+        o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
     for n in (["site_aerial", "ravine_upstream", "site_top"] if STAGE == 0 else ["pit_overview", "pit_east", "cofferdam", "pit_floor", "site_top"]):

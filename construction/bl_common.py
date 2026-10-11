@@ -17,8 +17,8 @@ def mesh_from(name, verts, faces, attrs=None, smooth=True, coll=None):
         me.polygons.foreach_set("loop_start", np.arange(0, faces.size, faces.shape[1]))
         me.polygons.foreach_set("loop_total", np.full(len(faces), faces.shape[1]))
     me.update()
-    if smooth and faces.size:
-        me.polygons.foreach_set("use_smooth", np.ones(len(faces), bool))
+    if faces.size:  # Blender 4.1+: faces are smooth unless explicitly marked flat
+        me.polygons.foreach_set("use_smooth", np.full(len(faces), bool(smooth)))
     for k, v in (attrs or {}).items():
         a = me.attributes.new(k, "FLOAT", "POINT"); a.data.foreach_set("value", np.asarray(v, np.float32).ravel())
     ob = bpy.data.objects.new(name, me)
@@ -148,6 +148,7 @@ def cliff_rocks(H, rock, x0, y0, exclude, rng, coll=None):
             for f in src.faces:
                 bm.faces.new([nv[v.index] for v in f.verts])
     me = bpy.data.meshes.new("cliff_rocks"); bm.to_mesh(me)
+    me.polygons.foreach_set("use_smooth", np.zeros(len(me.polygons), bool))
     ob = bpy.data.objects.new("cliff_rocks", me); (coll or bpy.context.scene.collection).objects.link(ob)
     ob.data.materials.append(material("granite", (0.09, 0.09, 0.085), rough=0.85))
     return ob

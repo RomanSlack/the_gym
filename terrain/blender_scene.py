@@ -44,8 +44,7 @@ def mesh_from(name, verts, faces, attrs=None, smooth=True):
     me.polygons.foreach_set("loop_start", np.arange(0, faces.size, faces.shape[1]))
     me.polygons.foreach_set("loop_total", np.full(len(faces), faces.shape[1]))
     me.update()
-    if smooth:
-        me.polygons.foreach_set("use_smooth", np.ones(len(faces), bool))
+    me.polygons.foreach_set("use_smooth", np.full(len(faces), bool(smooth)))  # Blender 4.1+: explicit flat/smooth
     for k, v in (attrs or {}).items():
         a = me.attributes.new(k, "FLOAT", "POINT")
         a.data.foreach_set("value", np.asarray(v, np.float32).ravel())
