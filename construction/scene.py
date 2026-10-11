@@ -144,7 +144,7 @@ MAT = {
     "glulam": bc.material("glulam", (0.55, 0.36, 0.2), 0.6),
     "clt": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
     "timber": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
-    "steel_dark": bc.powder_coat("steel_powdercoat"),
+    "steel_dark": bc.blackened_steel(),
     "precast": bc.material("precast", (0.56, 0.55, 0.52), 0.8),
     "oak": bc.material("oak", (0.42, 0.28, 0.15), 0.5),
     "timber_clad": bc.stained_timber("tarred_timber"),
@@ -153,7 +153,7 @@ MAT = {
     "glass_obscured": bc.material("glass_obscured", (0.55, 0.58, 0.6), 0.35, alpha=0.75),
     "acrylic": bc.material("acrylic", (0.05, 0.08, 0.09), 0.03, alpha=0.2),
     "sod": bc.material("sod", (0.07, 0.11, 0.035), 0.95),
-    "frame": bc.powder_coat("frame_powdercoat"),  # powder-coated aluminium frames
+    "frame": bc.blackened_steel(),  # option D (Roman): blackened, waxed steel frames
 }
 PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope", 5: "5 · interior shell"}
 if STAGE >= 4:  # Cycles: real architectural glass (daylight comes through)
@@ -409,7 +409,7 @@ for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
 if STAGE >= 4:  # frames, mullions, posts, girders, stained columns: small bevels so every edge catches a highlight (real profiles are never razor sharp)
     for o in bpy.data.objects:
-        if o.type == "MESH" and o.data.materials and o.data.materials[0].name in ("frame_powdercoat", "steel_powdercoat", "tarred_timber") \
+        if o.type == "MESH" and o.data.materials and o.data.materials[0].name in ("blackened_steel_d", "tarred_timber") \
                 and not any(md_.type == "BOOLEAN" for md_ in o.modifiers):
             bv = o.modifiers.new("edge", "BEVEL"); bv.width = 0.004; bv.segments = 2; bv.limit_method = "ANGLE"; bv.harden_normals = False
 for o in bpy.data.objects:  # primitives + boolean results: flat shading for every hard-surface element

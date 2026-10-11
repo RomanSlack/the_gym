@@ -754,3 +754,43 @@ def powder_coat(name, rgb=(0.028, 0.028, 0.03)):
 def stained_timber(name="tarred_timber"):
     """Black-stained / tarred timber with its grain showing through (scanned CC0 black painted planks)."""
     return pbr_material(name, "black_painted_planks", 1.6, box=True, tint=(0.9, 0.88, 0.85), sat=0.6, val=0.85, piece_var=0.08, rough_mul=0.9, rough_add=0.05)
+
+
+def blackened_steel(name="blackened_steel_d"):
+    """Option D, Roman's primary metal: hot-rolled steel, chemically blackened and waxed. Uneven blue-black and smoky grey
+    tones in soft clouds, mill-scale streaks along the rolling direction, darker pooling, satin wax sheen that varies
+    (roughness 0.28-0.55), fine pitting in the bump. Every member reads a little different, like the real thing."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Metallic"].default_value = 0.85
+    tc = N.new("ShaderNodeTexCoord"); oi = N.new("ShaderNodeObjectInfo")
+    seed = N.new("ShaderNodeVectorMath"); seed.operation = "ADD"; L.new(tc.outputs["Object"], seed.inputs[0])
+    rs = N.new("ShaderNodeCombineXYZ"); L.new(oi.outputs["Random"], rs.inputs[0]); L.new(oi.outputs["Random"], rs.inputs[1]); L.new(rs.outputs[0], seed.inputs[1])
+    def noise(scale, stretch=(1, 1, 1), detail=4):
+        mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = stretch; L.new(seed.outputs[0], mp.inputs["Vector"])
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = scale; nz.inputs["Detail"].default_value = detail; nz.inputs["Roughness"].default_value = 0.6
+        L.new(mp.outputs[0], nz.inputs["Vector"]); return nz.outputs["Fac"]
+    clouds = noise(1.8)
+    scale_ = noise(6.0, stretch=(1.0, 1.0, 9.0))  # mill-scale streaks run along the member (z for posts and mullions)
+    ramp = N.new("ShaderNodeValToRGB")
+    els = ramp.color_ramp.elements
+    els[0].position = 0.3; els[0].color = (0.018, 0.02, 0.025, 1)      # blue-black
+    els[1].position = 0.75; els[1].color = (0.075, 0.072, 0.07, 1)     # smoky grey patches
+    e = els.new(0.52); e.color = (0.035, 0.036, 0.042, 1)
+    mx = N.new("ShaderNodeMath"); mx.operation = "MULTIPLY_ADD"; mx.inputs[1].default_value = 0.35; L.new(scale_, mx.inputs[0]); L.new(clouds, mx.inputs[2])
+    mr = N.new("ShaderNodeMapRange"); mr.inputs[1].default_value = 0.35; mr.inputs[2].default_value = 1.05; L.new(mx.outputs[0], mr.inputs[0])
+    L.new(mr.outputs[0], ramp.inputs[0]); L.new(ramp.outputs[0], b.inputs["Base Color"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.28; rr.inputs[4].default_value = 0.55; L.new(clouds, rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
+    pit = noise(700.0, detail=2)
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.08; bp.inputs["Distance"].default_value = 0.0003; L.new(pit, bp.inputs["Height"])
+    bp2 = N.new("ShaderNodeBump"); bp2.inputs["Strength"].default_value = 0.15; bp2.inputs["Distance"].default_value = 0.001; L.new(scale_, bp2.inputs["Height"]); L.new(bp.outputs[0], bp2.inputs["Normal"])
+    L.new(bp2.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def brass_accent(name="brass_accent"):
+    """Brushed, lightly aged brass for small accents only (pulls, call plates, inlays)."""
+    return metal_material(name, (0.78, 0.58, 0.3), rough=(0.2, 0.38))

@@ -31,12 +31,13 @@ def materials(MAT):
     M["linen"] = _emissive_fabric("linen_glow", "rough_linen", 0.27, (1.0, 0.86, 0.68), 2.5)
     M["opal"] = _opal("opal_glass", 9.0)
     M["walnut"] = bc.pbr_material("walnut_oiled", "natural_walnut_veneer", 1.0, box=True, tint=(1.15, 0.95, 0.75), sat=1.2, val=0.95, piece_var=0.06, rough_mul=0.8, rough_add=0.12)
-    M["bronze"] = bc.metal_material("dark_bronze", (0.28, 0.19, 0.11), rough=(0.25, 0.45))
-    M["steel"] = bc.metal_material("blackened_steel", (0.05, 0.048, 0.046), rough=(0.35, 0.6), brushed=False, wear=0.6)
+    M["steel"] = bc.blackened_steel()           # primary metal (option D)
+    M["bronze"] = M["steel"]                     # whole components are never brass/bronze (Roman): they take the primary metal
+    M["brass"] = bc.brass_accent()               # brass only as small accents
     M["brushed"] = bc.metal_material("brushed_steel", (0.62, 0.62, 0.6), rough=(0.18, 0.32))
     M["felt"] = MAT.get("felt_black") or bc.material("felt_black", (0.012, 0.012, 0.013), 0.95)
     M["glass"] = MAT.get("glass") or bc.arch_glass("arch_glass")
-    M["frame"] = MAT.get("frame") or bc.material("window_frame", (0.025, 0.025, 0.027), 0.4, metal=0.6)
+    M["frame"] = MAT.get("frame") or bc.blackened_steel()
     M["rubber"] = bc.material("rubber_black", (0.02, 0.02, 0.02), 0.8)
     return M
 
@@ -402,18 +403,19 @@ def door_slatted(P, width=1.0, height=2.3):
     P.box(M["felt"], (0, -0.03, height / 2), (width - 0.006, 0.04, height - 0.006))
     for x in np.arange(-width / 2 + 0.0325, width / 2, 0.065):
         P.box(M["oak"], (x, 0.0, height / 2), (0.045, 0.02, height - 0.01))
-    P.box(M["bronze"], (width / 2 - 0.12, 0.022, 1.05), (0.02, 0.025, 0.42))
+    P.box(M["brass"], (width / 2 - 0.12, 0.022, 1.05), (0.02, 0.025, 0.42))  # brass pull: an accent
 
 
 def lift_doors(P, width=1.2, height=2.3):
-    """Lift: two dark bronze centre-opening leaves, a 60 mm bronze frame, a call plate beside it."""
+    """Lift: two blackened-steel centre-opening leaves in a 60 mm blackened-steel frame; brass only on the call plate and a thin head line."""
     br = M["bronze"]
     for s in (-1, 1):
         P.box(br, (s * width / 4, 0.0, height / 2), (width / 2 - 0.004, 0.03, height))
     P.box(br, (0, 0.02, height + 0.03), (width + 0.12, 0.04, 0.06))
     for x in (-width / 2 - 0.03, width / 2 + 0.03):
         P.box(br, (x, 0.02, height / 2), (0.06, 0.04, height + 0.06))
-    P.box(br, (width / 2 + 0.25, 0.012, 1.1), (0.09, 0.012, 0.24))
+    P.box(M["brass"], (width / 2 + 0.25, 0.012, 1.1), (0.09, 0.012, 0.24))  # brass call plate: an accent
+    P.box(M["brass"], (0, 0.017, height - 0.002), (width, 0.004, 0.004))   # a thin brass line at the head
     P.cyl(M["opal"], (width / 2 + 0.25, 0.02, 1.08), 0.015, 0.006, seg=16)
 
 

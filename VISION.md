@@ -265,6 +265,7 @@ Roman: light floors, light ceilings, light walls, wooden slat walls; "only dark 
 - **Other walls:** smooth warm-white lime plaster.
 - **Dark only at the windows:** black window frames and the black facade band above the glass, inside as outside.
 - Palette lives in `tools/interior.py` (`PALETTES["L"]`); renders `construction/renders/stage_5_rec_*`.
+- **Primary metal: blackened, waxed steel (option D)** for window frames, posts, girders, lift doors, hardware: uneven blue-black and smoky grey, mill-scale streaks, satin wax. **Brass only as small accents** (pulls, call plates, thin inlays); no whole component in brass or bronze (Roman, 2026-10-11).
 
 ## Open questions
 
