@@ -3,6 +3,7 @@ import { model, underlay, fmtElev } from "./model";
 import type { Level, SectionDef } from "./model";
 import { Plan, type Layers } from "./draw/Plan";
 import { Section } from "./draw/Section";
+import { Figures, type FigState } from "./draw/Figures";
 
 type Sheet =
   | { no: string; title: string; kind: "plan"; level: Level; site: boolean; fit: [number, number, number, number] }
@@ -35,6 +36,12 @@ export default function App() {
   const [hover, setHover] = useState("");
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ x: number; y: number; vb: typeof vb } | null>(null);
+  const [figs, setFigs] = useState<FigState>(() => {
+    try { return { on: false, x: 0, y: 0, n: 5, rot: 0, ...JSON.parse(localStorage.getItem("gym-figs") ?? "{}") }; }
+    catch { return { on: false, x: 0, y: 0, n: 5, rot: 0 }; }
+  });
+  useEffect(() => localStorage.setItem("gym-figs", JSON.stringify(figs)), [figs]);
+  const figDrag = useRef<{ x: number; y: number; fx: number; fy: number } | null>(null);
 
   useEffect(() => {
     setVb(sheet.fit);
@@ -74,6 +81,7 @@ export default function App() {
       if (e.key === "ArrowDown" || e.key === "j") setIdx((i) => Math.min(sheets.length - 1, i + 1));
       if (e.key === "ArrowUp" || e.key === "k") setIdx((i) => Math.max(0, i - 1));
       if (e.key === "f") setVb(sheet.fit);
+      if (e.key === "r" || e.key === "R") setFigs((f) => ({ ...f, rot: (f.rot + 90) % 360 }));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -100,6 +108,24 @@ export default function App() {
             </label>
           ))}
         </div>
+        <div className="figs-tool">
+          <label>
+            <input type="checkbox" checked={figs.on} onChange={() => {
+              // first time on: drop the row in the middle of the current view
+              setFigs((f) => (f.on ? { ...f, on: false } : { ...f, on: true, ...(f.x === 0 && f.y === 0 ? { x: vb[0] + vb[2] * 0.4, y: vb[1] + vb[3] * 0.5 } : {}) }));
+            }} />
+            Scale people (6 ft, lying)
+          </label>
+          {figs.on && (
+            <div className="figs-ctl">
+              <button onClick={() => setFigs((f) => ({ ...f, n: Math.max(1, f.n - 1) }))}>−</button>
+              <span className="mono">{figs.n}</span>
+              <button onClick={() => setFigs((f) => ({ ...f, n: Math.min(60, f.n + 1) }))}>+</button>
+              <button onClick={() => setFigs((f) => ({ ...f, rot: (f.rot + 90) % 360 }))}>⟳ 90°</button>
+              <button onClick={() => setFigs((f) => ({ ...f, x: vb[0] + vb[2] * 0.4, y: vb[1] + vb[3] * 0.5 }))}>here</button>
+            </div>
+          )}
+        </div>
         <div className="legend">
           <div><i className="sw new" /> new design (black)</div>
           <div><i className="sw cut" /> cut (existing / Gym V2)</div>
@@ -119,12 +145,17 @@ export default function App() {
           onWheel={onWheel}
           onMouseDown={(e) => (drag.current = { x: e.clientX, y: e.clientY, vb })}
           onMouseMove={(e) => {
+            if (figDrag.current) {
+              const d = figDrag.current;
+              setFigs((f) => ({ ...f, x: d.fx + (e.clientX - d.x) / pxPerM, y: d.fy + (e.clientY - d.y) / pxPerM }));
+              return;
+            }
             if (!drag.current) return;
             const d = drag.current;
             setVb([d.vb[0] - (e.clientX - d.x) / pxPerM, d.vb[1] - (e.clientY - d.y) / pxPerM, d.vb[2], d.vb[3]]);
           }}
-          onMouseUp={() => (drag.current = null)}
-          onMouseLeave={() => (drag.current = null)}
+          onMouseUp={() => { drag.current = null; figDrag.current = null; }}
+          onMouseLeave={() => { drag.current = null; figDrag.current = null; }}
         >
           <defs>
             <pattern id="hatch-existing" patternUnits="userSpaceOnUse" width="0.35" height="0.35" patternTransform="rotate(45)">
@@ -143,6 +174,7 @@ export default function App() {
           ) : (
             <Section model={model} underlay={underlay} sec={sheet.sec} layers={layers} />
           )}
+          <Figures s={figs} onGrab={(e) => { e.stopPropagation(); figDrag.current = { x: e.clientX, y: e.clientY, fx: figs.x, fy: figs.y }; }} />
         </svg>
 
         <div className="titleblock">

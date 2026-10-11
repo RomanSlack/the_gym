@@ -137,3 +137,15 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .n-fixture circle { fill: #e9d3b5; stroke: #6b4a2b; stroke-width: 0.8; }
 .n-glass-sec { fill: #eaf3f7; stroke: #2a5d78; stroke-width: 0.6; }
 .n-stair-sec { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+
+/* scale figures tool */
+.figs-tool { border-top: 1px solid var(--rule); margin-top: 12px; padding: 10px 6px 0; display: grid; gap: 6px; }
+.figs-tool label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.figs-ctl { display: flex; gap: 4px; align-items: center; }
+.figs-ctl button { font: inherit; font-size: 12px; padding: 2px 7px; border: 1px solid var(--rule); background: var(--paper); border-radius: 3px; cursor: pointer; }
+.figs-ctl span { min-width: 22px; text-align: center; }
+.scale-figs { cursor: move; }
+.scale-figs-hit { fill: rgba(194, 65, 12, 0.06); stroke: none; }
+.scale-figs circle, .scale-figs rect:not(.scale-figs-hit) { fill: #c2410c; stroke: #fbfaf6; stroke-width: 0.4; }
+.scale-figs-dim { stroke: #c2410c; stroke-width: 0.7; }
+.scale-figs-txt { fill: #c2410c; font-weight: 600; }
