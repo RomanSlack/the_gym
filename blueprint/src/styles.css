@@ -109,3 +109,4 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .n-col-timber { fill: url(#hatch-timber); stroke: var(--ink); stroke-width: 1.2; }
 .n-col-below { fill: none; stroke: var(--ink); stroke-width: 0.6; stroke-dasharray: 2 2; }
 .timber-line { stroke: #8a5a2b; stroke-width: 0.5; }
+.n-beam-above { fill: none; stroke: var(--ink); stroke-width: 0.7; stroke-dasharray: 6 3; }

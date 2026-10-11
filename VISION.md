@@ -203,6 +203,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Daycare lower floor:** glazed toward the sunken garden (walk-out). It stays solid toward the ravine for safety.
 - **Trail:** a ~3.2 km (2-mile) loop around the upstream valley. It crosses the river at the rustic bridge and at a small timber footbridge far upstream, and passes the sauna. About 1.5 m wide, gentle, with low lights.
 - **Trail is for running and walking** (not a winter ski lysløype). It stays about 1.5 m wide, as laid out (2.06 mi loop). A later polish pass can add drainage dips and culverts, plus dark-sky bollard lighting.
+- **As column-free as possible:** no interior columns on any floor. Floors and roofs span wall to wall (23.1 m in the gym, 18.5 m in the east wing) on post-tensioned concrete beams (floors) and glulam beams (roofs). The tall floor-to-floor heights absorb the deeper beams.
+- **Flood regulations are ignored for this build.**
 
 ## Open questions
 

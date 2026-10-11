@@ -1,30 +1,37 @@
-# Structure: proposal v1 (to confirm)
+# Structure: proposal v2 (no interior columns)
 
 Source of truth: `model/building.json` → `structure` (generated into `grids` + `elements` by `tools/structure.py`).
 
-## Concept: concrete below, timber above, stone outside
+Roman's brief: as column-free as possible, none on the top floor. Flood regulations ignored for this build.
 
-Like the reference image:
-- **Reinforced concrete** wherever there is earth or water: F2–F4 in the gym wing and E2 in the east wing. Watertight concrete (a "white tank") on the river side, because F3 and F4 sit below the water.
-  - The F4 floor is a thick slab **anchored into bedrock**. 6.6 m of water depth pushes it upward.
-- **Glulam frame + CLT panels** (cross-laminated timber) for the F1 and E1 halls and their roofs. Deep roof overhangs, timber soffits.
-- **Stone cladding** on the concrete base.
-- **Foundations on bedrock.** The gorge is cut through rock, so the building can bear directly on it.
+## Concept: concrete below, timber above, stone outside, everything spans wall to wall
+
+- **Zero interior columns on every floor.** Floors and roofs span between the two long walls of each wing.
+- **Below grade / river side** (F2–F4, E2): reinforced concrete.
+  - The long walls are solid concrete: a retaining wall against the rock on the west, and the river wall with its windows on the east.
+  - The F4 floor slab is anchored into bedrock against uplift (6.6 m of water depth).
+- **Above grade** (F1, E1): glulam columns along the facades, CLT (cross-laminated timber) roof panels.
+- **Stone cladding** on the concrete base. Foundations bear on bedrock.
+
+## Spans
+
+| Where | Span | System | Beam depth | Clear height under beams |
+|---|---|---|---|---|
+| Gym floors F1, F2, F3 | 23.1 m | post-tensioned concrete beams 0.55 × 1.1 m @ 7.7 m + 250 mm slab | 1.1 m | F2 3.7 m, F3 3.7 m, F4 4.4 m |
+| Gym roof (F1 hall) | 23.1 m | glulam GL30c ~0.3 × 1.3 m @ 7.7 m + CLT | 1.3 m | 4.3 m |
+| East floor E1 (over garage/daycare) | 18.5 m | post-tensioned 0.5 × 0.9 m @ 8.56 m + 250 mm slab | 0.9 m | ~5 m |
+| East roof | 18.5 m | glulam ~0.25 × 1.0 m @ 8.56 m + CLT | 1.0 m | ~4.1 m |
+| Lounge link | 18.5 m | two trusses wing to wing; decks cantilever ~3 m | n/a | n/a |
+
+Between beams (every 7.7 / 8.56 m) the full floor height is available. Services (ducts, sprinklers) run between the beams, or through the glulam roof beams.
 
 ## Grid
 
-| Wing | Across | Along | Why |
-|---|---|---|---|
-| Gym (west) | A, B, C at 11.55 m (23.1 m total) | 1–7 every 7.7 m | F1 hall **column-free across 23.1 m** (glulam roof beams on A and C, as in Gym V2). F2–F4 add line **B** for heavy gym loads + earth/water pressure (11.55 m concrete spans). 7.7 m suits CLT panels. |
-| Lounge link | spans 18.5 m, grid C → D | n/a | Two deep glulam or steel trusses over the river; outdoor decks cantilever ~3 m. |
-| East | D, E, F at 9.25 m | 8–13 every 8.56 m | 8.56 m = parking module (3 × 2.85 m stalls) for the garage below. |
+- Gym: A (−29.45) and C (−6.45) × 1–7 every 7.7 m.
+- East: D (12.0) and F (30.5) × 8–13 every 8.56 m (parking module).
+- 52 perimeter columns / wall pilasters, 40 spanning beams.
 
-Columns (generated): concrete 500×500 (gym, F4→F1), 450×450 (east, E2→E1); glulam 400×600 (gym F1, lines A/C only), 350×350 (east E1).
+## Still to place (with the floor layouts)
 
-## To resolve
-
-1. **Spiral stair vs column B4.** Gym V2's spiral void (Ø 7.9 m at −19.5, −13.6) contains column B4 (−17.95, −11.0). Move the stair or drop/transfer that column.
-2. **Design flood level.** Norwegian TEK17 §7-2 flood safety classes (20 / 200 / 1000-year); a gym with a daycare is likely the 200-year class. Estimate the flood from the real upstream catchment, then check:
-   - the garage floor (E2 −6.01, only 2.8 m above normal water)
-   - the F3 river windows and the indoor-stream intake
-3. **Cores**: stair and elevator shafts double as the stiff concrete cores that brace the timber floors above. Their positions get fixed with the floor layouts.
+- **Cores:** stair and elevator shafts double as the stiff concrete cores that brace the floors.
+- **The spiral stair** (F1 → F3; normal stairs F3 → F4 toward the north edge). No column clash anymore.

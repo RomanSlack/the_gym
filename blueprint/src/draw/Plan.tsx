@@ -1,7 +1,7 @@
 // Floor / site plan for one level. Horizontal cut at level + plan_cut_height:
 // cut elements heavy with poché, things below the cut light, things above dashed.
 import { useMemo } from "react";
-import { wideTerrain } from "../model";
+import { footprint, wideTerrain } from "../model";
 import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
@@ -164,6 +164,15 @@ export function Plan({
 
       {(site || level.id === "F1") && <SiteWorks f={model.site.features} />}
 
+      {/* new design: beams overhead (dashed, as drawn above the cut) */}
+      {!site &&
+        model.elements
+          .filter((e) => e.type === "beam" && e.z[0] > cut && e.z[0] < top + 0.2)
+          .map((e) => (
+            <path key={e.id} d={"M" + footprint(e).map(([x, y]) => `${x} ${-y}`).join("L") + "Z"} className="n-beam-above"
+              data-n={`${e.id} · ${e.material} beam ${e.size[0]} x ${e.size[1]} · underside ${e.z[0]}`} />
+          ))}
+
       {/* new design: columns cut by this plan (solid black), or below it (outline) */}
       {!site &&
         model.elements
@@ -172,7 +181,7 @@ export function Plan({
             const isCut = e.z[1] >= cut;
             const [w, d] = e.size;
             return (
-              <rect key={e.id} x={e.at[0] - w / 2} y={-e.at[1] - d / 2} width={w} height={d}
+              <rect key={e.id} x={e.at![0] - w / 2} y={-e.at![1] - d / 2} width={w} height={d}
                 className={isCut ? (e.material === "glulam" ? "n-col-timber" : "n-col") : "n-col-below"}
                 data-n={`${e.id} · ${e.material} column ${w} x ${d} · z ${e.z[0]} to ${e.z[1]}`} />
             );

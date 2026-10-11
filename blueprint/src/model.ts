@@ -35,11 +35,25 @@ export interface SiteFeatures {
 }
 export interface DesignElement {
   id: string;
-  type: "column";
+  type: "column" | "beam";
   material: string;
-  at: Pt;
-  size: Pt;
+  at?: Pt; // columns
+  from?: Pt; // beams
+  to?: Pt;
+  size: Pt; // column: [w, d]; beam: [width, depth]
   z: [number, number];
+}
+
+/** Plan footprint (4 corners) of a design element. */
+export function footprint(e: DesignElement): Pt[] {
+  if (e.type === "column") {
+    const [x, y] = e.at!, [w, d] = e.size;
+    return [[x - w / 2, y - d / 2], [x + w / 2, y - d / 2], [x + w / 2, y + d / 2], [x - w / 2, y + d / 2]];
+  }
+  const [x0, y0] = e.from!, [x1, y1] = e.to!;
+  const L = Math.hypot(x1 - x0, y1 - y0), hw = e.size[0] / 2;
+  const nx = (-(y1 - y0) / L) * hw, ny = ((x1 - x0) / L) * hw;
+  return [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
 }
 export interface Model {
   schema: string;

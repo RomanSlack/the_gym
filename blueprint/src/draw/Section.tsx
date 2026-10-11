@@ -3,7 +3,7 @@
 // DEPTH m behind the cut) drawn light; earth hatched below the terrain profile.
 import { useMemo } from "react";
 import type { Model, SectionDef, Underlay, UElement } from "../model";
-import { terrainAt, waterAt } from "../model";
+import { footprint, terrainAt, waterAt } from "../model";
 import { Figure, LevelTag, ScaleBar } from "./symbols";
 import type { Layers } from "./Plan";
 
@@ -135,13 +135,11 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
 
       {/* new design columns crossed by the cut */}
       {model.elements
-        .filter((e) => e.type === "column")
         .map((e) => {
-          const [w, d] = e.size;
-          const corners: [number, number][] = [[-w / 2, -d / 2], [w / 2, -d / 2], [w / 2, d / 2], [-w / 2, d / 2]];
-          const dd = corners.map(([cx, cy]) => depth(e.at[0] + cx, e.at[1] + cy));
+          const corners = footprint(e);
+          const dd = corners.map(([cx, cy]) => depth(cx, cy));
           if (Math.min(...dd) > 0 || Math.max(...dd) < 0) return null;
-          const ss = corners.map(([cx, cy]) => along(e.at[0] + cx, e.at[1] + cy));
+          const ss = corners.map(([cx, cy]) => along(cx, cy));
           return <rect key={e.id} x={Math.min(...ss)} y={-e.z[1]} width={Math.max(...ss) - Math.min(...ss)} height={e.z[1] - e.z[0]}
             className={e.material === "glulam" ? "n-col-timber" : "n-col"} data-n={`${e.id} · ${e.material}`} />;
         })}
