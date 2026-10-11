@@ -32,9 +32,14 @@ def last_prompt(transcript):
             if any(c.get("type") == "tool_result" for c in content if isinstance(c, dict)):
                 continue
             content = " ".join(c.get("text", "") for c in content if isinstance(c, dict))
-        if isinstance(content, str) and content.strip():
+        if isinstance(content, str) and first_line(content):  # skips system notifications
             prompt, ts = content.strip(), e.get("timestamp", "")
     return prompt, ts
+
+
+def first_line(text):
+    """First line of real text, skipping wrapper tags (pasted content, system notes)."""
+    return next((l.strip() for l in text.splitlines() if l.strip() and not l.strip().startswith("<")), "")
 
 
 def main():
@@ -51,9 +56,7 @@ def main():
 
     if not git("status", "--porcelain").stdout.strip():
         return
-    # skip wrapper tags (pasted content, system notes) and use the first real line of text
-    lines = [l.strip() for l in prompt.splitlines()]
-    first = next((l for l in lines if l and not l.startswith("<")), "(no prompt)")
+    first = first_line(prompt) or "(no prompt)"
     subject = "checkpoint: " + (first[:69] + "..." if len(first) > 72 else first)
     body = f"Session-Id: {session}\nPrompt-Time: {ts}"
     git("add", "-A")
