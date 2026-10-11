@@ -133,16 +133,51 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
           <path key={e.name} d={rect(s0, s1, e)} className={e.kind === "void" ? "u-void" : "u-cut"} data-n={tip(e)} />
         ))}
 
-      {/* new design columns crossed by the cut */}
-      {model.elements
-        .map((e) => {
-          const corners = footprint(e);
-          const dd = corners.map(([cx, cy]) => depth(cx, cy));
-          if (Math.min(...dd) > 0 || Math.max(...dd) < 0) return null;
-          const ss = corners.map(([cx, cy]) => along(cx, cy));
-          return <rect key={e.id} x={Math.min(...ss)} y={-e.z[1]} width={Math.max(...ss) - Math.min(...ss)} height={e.z[1] - e.z[0]}
-            className={e.material === "glulam" ? "n-col-timber" : "n-col"} data-n={`${e.id} · ${e.material}`} />;
-        })}
+      {/* new design elements crossed by the cut (slabs break around their openings) */}
+      {model.elements.flatMap((e) => {
+        const corners = footprint(e);
+        const dd = corners.map(([cx, cy]) => depth(cx, cy));
+        if (Math.min(...dd) > 0 || Math.max(...dd) < 0) return [];
+        const ss = corners.map(([cx, cy]) => along(cx, cy));
+        let spans: [number, number][] = [[Math.max(0, Math.min(...ss)), Math.min(L, Math.max(...ss))]];
+        for (const h of e.holes ?? []) {
+          let gap: [number, number] | null = null;
+          if (h.circle) {
+            const [hx, hy, r] = h.circle, dh = depth(hx, hy);
+            if (Math.abs(dh) < r) { const w = Math.sqrt(r * r - dh * dh), sc = along(hx, hy); gap = [sc - w, sc + w]; }
+          } else if (h.rect) {
+            const hd = h.rect.map(([x, y]) => depth(x, y));
+            if (Math.min(...hd) <= 0 && Math.max(...hd) >= 0) { const hs = h.rect.map(([x, y]) => along(x, y)); gap = [Math.min(...hs), Math.max(...hs)]; }
+          }
+          if (gap) spans = spans.flatMap(([a, b]) => [[a, Math.min(b, gap![0])], [Math.max(a, gap![1]), b]] as [number, number][]).filter(([a, b]) => b - a > 0.05);
+        }
+        const cls = e.type === "wall" && e.kind === "glazed" ? "n-glass-sec" : e.material === "glulam" || e.material === "clt" ? "n-col-timber" : "n-col";
+        return spans.map(([a, b], k) => (
+          <rect key={`${e.id}-${k}`} x={a} y={-e.z[1]} width={b - a} height={e.z[1] - e.z[0]} className={cls} data-n={`${e.id} · ${e.type} ${e.material}`} />
+        ));
+      })}
+
+      {/* stairs in section: spirals as a stacked helix band, straight stairs as a sloped flight */}
+      {model.stairs.map((st) => {
+        const lvz = Object.fromEntries(model.levels.map((l) => [l.id, l.elevation]));
+        const z0 = lvz[st.from], z1 = lvz[st.to];
+        if (st.kind === "spiral") {
+          const [cx, cy] = st.center!, r = st.diameter! / 2, dh = depth(cx, cy);
+          if (Math.abs(dh) > r) return null;
+          const w = Math.sqrt(r * r - dh * dh), sc = along(cx, cy);
+          const turns = Math.max(1, Math.round((z1 - z0) / 3.5));
+          const pts = Array.from({ length: turns * 24 + 1 }, (_, k) => {
+            const t = k / (turns * 24);
+            return `${sc + w * Math.sin(t * turns * 2 * Math.PI)} ${-(z0 + (z1 - z0) * t)}`;
+          });
+          return <path key={st.id} d={"M" + pts.join("L")} className="n-stair-sec" data-n={`${st.id} · spiral ${st.diameter} m`} />;
+        }
+        const [x0, y0, x1, y1] = st.rect!;
+        const hd = [depth(x0, y0), depth(x1, y0), depth(x1, y1), depth(x0, y1)];
+        if (Math.min(...hd) > 0 || Math.max(...hd) < 0) return null;
+        const a = along(x0, y0), b = along(x0, y1);
+        return <path key={st.id} d={`M${a} ${-z0}L${b} ${-z1}`} className="n-stair-sec" data-n={st.id} />;
+      })}
 
       {levels.map((l) => (
         <g key={l.id}>

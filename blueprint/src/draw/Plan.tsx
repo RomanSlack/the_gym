@@ -5,6 +5,7 @@ import { footprint, wideTerrain } from "../model";
 import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
+import { DesignPlan } from "./Design";
 
 export interface Layers {
   underlay: boolean;
@@ -163,6 +164,8 @@ export function Plan({
         ))}
 
       {(site || level.id === "F1") && <SiteWorks f={model.site.features} />}
+
+      {!site && <DesignPlan model={model} levelId={level.id} cut={cut} elev={elev} />}
 
       {/* new design: beams overhead (dashed, as drawn above the cut) */}
       {!site &&

@@ -30,7 +30,7 @@ export default function App() {
   const sheets = useMemo(buildSheets, []);
   const [idx, setIdx] = useState(() => Math.max(0, sheets.findIndex((s) => "#" + s.no === location.hash)));
   const sheet = sheets[idx];
-  const [layers, setLayers] = useState<Layers>({ underlay: true, terrain: true, people: true, labels: true });
+  const [layers, setLayers] = useState<Layers>({ underlay: false, terrain: true, people: false, labels: false });
   const [vb, setVb] = useState(sheet.fit);
   const [hover, setHover] = useState("");
   const svgRef = useRef<SVGSVGElement>(null);

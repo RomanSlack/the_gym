@@ -35,23 +35,55 @@ export interface SiteFeatures {
 }
 export interface DesignElement {
   id: string;
-  type: "column" | "beam";
+  type: "column" | "beam" | "slab" | "wall";
   material: string;
+  kind?: string; // walls: retaining | river_wall | glazed
   at?: Pt; // columns
-  from?: Pt; // beams
+  from?: Pt; // beams, walls
   to?: Pt;
-  size: Pt; // column: [w, d]; beam: [width, depth]
+  rect?: [number, number, number, number]; // slabs
+  holes?: { circle?: [number, number, number]; rect?: Pt[] }[];
+  size: Pt; // column: [w, d]; beam: [width, depth]; wall: [thickness, height]
   z: [number, number];
+}
+export interface Space {
+  id: string;
+  level: string;
+  kind: string;
+  name: string;
+  poly: Pt[];
+  note?: string;
+}
+export interface Stair {
+  id: string;
+  kind: "spiral" | "straight";
+  center?: Pt;
+  diameter?: number;
+  rect?: [number, number, number, number];
+  from: string;
+  to: string;
+  run?: string;
+}
+export interface Fixture {
+  id: string;
+  kind: string;
+  level: string;
+  center: Pt;
+  diameter: number;
 }
 
 /** Plan footprint (4 corners) of a design element. */
 export function footprint(e: DesignElement): Pt[] {
+  if (e.type === "slab") {
+    const [x0, y0, x1, y1] = e.rect!;
+    return [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+  }
   if (e.type === "column") {
     const [x, y] = e.at!, [w, d] = e.size;
     return [[x - w / 2, y - d / 2], [x + w / 2, y - d / 2], [x + w / 2, y + d / 2], [x - w / 2, y + d / 2]];
   }
   const [x0, y0] = e.from!, [x1, y1] = e.to!;
-  const L = Math.hypot(x1 - x0, y1 - y0), hw = e.size[0] / 2;
+  const L = Math.hypot(x1 - x0, y1 - y0), hw = e.size[0] / 2; // beams and walls: width / thickness
   const nx = (-(y1 - y0) / L) * hw, ny = ((x1 - x0) / L) * hw;
   return [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
 }
@@ -63,6 +95,9 @@ export interface Model {
   views: { plan_cut_height: number; sections: SectionDef[] };
   grids: Grid[];
   elements: DesignElement[];
+  spaces: Space[];
+  stairs: Stair[];
+  fixtures: Fixture[];
 }
 
 export interface UElement {
@@ -141,6 +176,42 @@ export function waterAt(t: Terrain, x: number, y: number): number {
   if (i < 0 || j < 0 || i >= t.nx || j >= t.ny) return NaN;
   return t.water[j * t.nx + i];
 }
+
+export const polyArea = (p: Pt[]) =>
+  Math.abs(p.reduce((a, [x, y], i) => a + x * p[(i + 1) % p.length][1] - p[(i + 1) % p.length][0] * y, 0)) / 2;
+
+const insidePoly = (x: number, y: number, p: Pt[]) => {
+  let inside = false;
+  for (let i = 0, j = p.length - 1; i < p.length; j = i++) {
+    const [xi, yi] = p[i], [xj, yj] = p[j];
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+};
+const segDist = (x: number, y: number, [ax, ay]: Pt, [bx, by]: Pt) => {
+  const dx = bx - ax, dy = by - ay, t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy || 1)));
+  return Math.hypot(x - ax - t * dx, y - ay - t * dy);
+};
+
+/** Label anchor: the point deepest inside the room (max distance to its walls), plus whether the
+ *  room is long and narrow enough that the label should run along it. */
+export function labelPoint(p: Pt[]): { at: Pt; rotate: boolean; room: number; long: number } {
+  const xs = p.map((q) => q[0]), ys = p.map((q) => q[1]);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  let best: Pt = [(x0 + x1) / 2, (y0 + y1) / 2], bd = -1;
+  const step = Math.max(0.25, Math.min(x1 - x0, y1 - y0) / 12);
+  for (let x = x0 + step / 2; x < x1; x += step)
+    for (let y = y0 + step / 2; y < y1; y += step) {
+      if (!insidePoly(x, y, p)) continue;
+      const d = Math.min(...p.map((a, i) => segDist(x, y, a, p[(i + 1) % p.length])));
+      if (d > bd + 1e-6) { bd = d; best = [x, y]; }
+    }
+  const rotate = bd > 0 && bd < 2.2 && (y1 - y0) > 3 * (x1 - x0);
+  return { at: best, rotate, room: 2 * Math.max(bd, 0), long: rotate ? y1 - y0 : x1 - x0 };
+}
+
+/** Which levels' spaces appear on a plan sheet (F1 sheet also shows the east wing E1 and the lounge). */
+export const planGroup: Record<string, string[]> = { F1: ["F1", "E1"], F2: ["F2"], E2: ["E2"], F3: ["F3"], F4: ["F4"] };
 
 export const fmtElev = (z: number) =>
   Math.abs(z) < 0.005 ? "±0.00" : (z > 0 ? "+" : "−") + Math.abs(z).toFixed(2);

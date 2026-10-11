@@ -110,3 +110,30 @@ svg text { fill: var(--ink); font-family: "IBM Plex Sans Condensed", sans-serif;
 .n-col-below { fill: none; stroke: var(--ink); stroke-width: 0.6; stroke-dasharray: 2 2; }
 .timber-line { stroke: #8a5a2b; stroke-width: 0.5; }
 .n-beam-above { fill: none; stroke: var(--ink); stroke-width: 0.7; stroke-dasharray: 6 3; }
+
+/* rooms (schematic): pale tints by kind, thin outline; walls black */
+.sp { stroke: #3a3a3a; stroke-width: 0.5; }
+.sp-gym { fill: #efe8d8; }
+.sp-wet { fill: #dbe7ec; }
+.sp-pool { fill: #b9d6e3; }
+.sp-core { fill: #cfcac0; }
+.sp-circulation { fill: #f6f3ec; }
+.sp-lounge { fill: #f0e1cf; }
+.sp-outdoor { fill: #e3ead9; stroke-dasharray: 3 2; }
+.sp-feature { fill: #cfe3e8; }
+.sp-service { fill: #d9d6cf; }
+.sp-daycare { fill: #f4e4c8; }
+.sp-garage { fill: #e2e2df; }
+.sp:hover { stroke: #c2410c; stroke-width: 1.2; }
+.sp-label .sub { fill: #555; }
+.sp-label .area { fill: #777; }
+.sp-label-s { font-size: 0.75px; fill: #444; }
+.n-wall { fill: var(--ink); stroke: var(--ink); stroke-width: 0.5; }
+.n-glass path { fill: #eaf3f7; stroke: #2a5d78; stroke-width: 0.6; }
+.n-glass line { stroke: #2a5d78; stroke-width: 0.5; }
+.n-stair line { stroke: #444; stroke-width: 0.5; }
+.n-stair-edge { fill: #fbfaf6; stroke: var(--ink); stroke-width: 1; }
+.n-stair-arrow { fill: none; stroke: var(--ink); stroke-width: 0.8; marker-end: none; }
+.n-fixture circle { fill: #e9d3b5; stroke: #6b4a2b; stroke-width: 0.8; }
+.n-glass-sec { fill: #eaf3f7; stroke: #2a5d78; stroke-width: 0.6; }
+.n-stair-sec { fill: none; stroke: var(--ink); stroke-width: 1.4; }
