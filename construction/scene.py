@@ -426,4 +426,14 @@ if RENDER:
         scene.view_settings.exposure = EXPO + (2.8 if n.startswith(("rec_", "cafe_")) else 0.0)  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
+        # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
+        RND = ROOT / "construction" / "renders"; RND.mkdir(exist_ok=True)
+        v = 1 + max([int(p_.stem.rsplit("_v", 1)[1]) for p_ in RND.glob(f"stage_{STAGE}_{n}_v*.jpg") if p_.stem.rsplit("_v", 1)[1].isdigit()] or [0])
+        img_ = bpy.data.images.load(scene.render.filepath)
+        sc_ = bpy.context.scene; ff = sc_.render.image_settings.file_format; q_ = sc_.render.image_settings.quality
+        sc_.render.image_settings.file_format = "JPEG"; sc_.render.image_settings.quality = 90
+        img_.save_render(str(RND / f"stage_{STAGE}_{n}_v{v:03d}.jpg"), scene=sc_)
+        sc_.render.image_settings.file_format = ff; sc_.render.image_settings.quality = q_
+        bpy.data.images.remove(img_)
+        print("kept", f"stage_{STAGE}_{n}_v{v:03d}.jpg")
 print("stage", STAGE, "done")

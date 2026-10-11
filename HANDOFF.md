@@ -8,4 +8,5 @@ State on 2026-10-11: stages 0-4 built; stage 5 (interior shell) under way: recep
 - Decisions: VISION.md (incl. LOCKED exterior style B), STRUCTURE.md, DECISIONS_PENDING.md, docs/AUDIT.md, docs/FIT_STUDY.md.
 - Roman's standing rules: open plan + no door unless needed; column-free; Gym V2 is his intent reference; no PDF re-export unless asked; every commit carries the Prompt trailer (hook in tools/capture).
 - Before showing a stage: `build_model.py` ends with the stage coverage check (`tools/stage_check.py`); it must say OK. New design features need an owner stage in that file.
+- Never overwrite images: renders auto-version to `_vNNN.jpg`; anything else gets a new filename.
 - Gotcha: Blender 4.1+ makes new faces smooth unless set flat (handled in construction/bl_common.py).
