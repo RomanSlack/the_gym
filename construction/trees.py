@@ -270,7 +270,7 @@ def scots_pine(seed, H=None):
     trunk = curve_path(Vector((0, 0, -0.3)), Vector((rng.gauss(0, 0.03), rng.gauss(0, 0.03), 1)), H, 0.6, rng, wander=0.012)
     tr = [r0 * (1 - 0.88 * (i / (len(trunk) - 1)) ** 0.9) + 0.004 for i in range(len(trunk))]
     wood.tube(trunk, tr, 14, H)
-    crown0 = rng.uniform(0.58, 0.68) * H
+    crown0 = rng.uniform(0.6, 0.72) * H  # forest-grown: crown in the top ~third
     # a few dead stubs on the bare trunk
     for _ in range(rng.randint(3, 7)):
         z = rng.uniform(0.25, 0.55) * H; k = int(z / H * (len(trunk) - 1)); az = rng.random() * 2 * math.pi
@@ -313,11 +313,16 @@ def scots_pine(seed, H=None):
                     wood.tube(tw, [0.008 * (1 - 0.6 * i / (len(tw) - 1)) + 0.002 for i in range(len(tw))], 3, H, min(1.0, f + 0.3), min(1.0, f + 0.4))
                     tips.append((tw, len(tw) - 1))
             for tw, last in tips:
+                # needles stay 2-4 years, so foliage runs along the outer 70 % of every shoot: a continuous cloud, not pom-poms
+                for q in range(max(1, int(last * 0.3)), last + 1):
+                    dq = (tw[q] - tw[q - 1]).normalized()
+                    for _ in range(2):
+                        dd = (dq * 0.7 + Vector((rng.gauss(0, 0.7), rng.gauss(0, 0.7), rng.uniform(-0.1, 0.9)))).normalized()
+                        shoots.add(tw[q] + Vector((rng.gauss(0, 0.05), rng.gauss(0, 0.05), rng.gauss(0, 0.03))), dd, rng.uniform(0.8, 1.15), H, min(1.0, f + 0.4), rng)
                 dl = (tw[last] - tw[max(last - 1, 0)]).normalized()
-                for _ in range(rng.randint(10, 16)):  # a pad: tufts fanning out round the twig end, mostly upward
-                    dd = (dl * 0.5 + Vector((rng.gauss(0, 0.8), rng.gauss(0, 0.8), rng.uniform(-0.2, 1.0)))).normalized()  # every which way: a cloud, not a plate
-                    back = rng.uniform(0.0, 0.4)
-                    shoots.add(tw[last] - dl * back, dd, rng.uniform(0.85, 1.2), H, min(1.0, f + 0.4), rng)
+                for _ in range(rng.randint(4, 7)):  # the shoot tips fan out a little more
+                    dd = (dl * 0.5 + Vector((rng.gauss(0, 0.8), rng.gauss(0, 0.8), rng.uniform(-0.2, 1.0)))).normalized()
+                    shoots.add(tw[last] - dl * rng.uniform(0.0, 0.2), dd, rng.uniform(0.85, 1.2), H, min(1.0, f + 0.4), rng)
         for q in range(int(len(limb) * 0.75), len(limb)):  # the limb's own leader tuft
             for _ in range(6):
                 dd = ((limb[min(q + 1, len(limb) - 1)] - limb[q - 1]).normalized() + Vector((rng.gauss(0, 0.5), rng.gauss(0, 0.5), rng.uniform(0.2, 0.8)))).normalized()
@@ -453,6 +458,10 @@ def make_tree(kind, seed, coll, at=(0, 0, 0), H=None, wind=True, lod=0):
         bark = mats.get("bark_spruce") or tex_material("bark_spruce", "tree_bark_03", tint=(0.8, 0.72, 0.65))
         needles = mats.get("needles_spruce") or needle_material("needles_spruce", (0.03, 0.065, 0.035))
     deadm = mats.get("dead_wood") or tex_material("dead_wood", "knotted_pine_bark", tint=(0.6, 0.6, 0.6))
+    if lod >= 1:  # LOD 1: a third of the shoots, 1.5x larger (coverage ~ count x scale^2 stays about the same)
+        for k_ in ("p", "r", "s", "wt", "wb"):
+            setattr(shoots, k_, getattr(shoots, k_)[::3])
+        shoots.s = [v * 1.5 for v in shoots.s]
     pn = f"shoot_{kind}" + ("" if lod == 0 else f"_lod{lod}")
     proto = bpy.data.objects.get(pn) or shoot_proto(pn, kind, needles, coll, lod)
     tag = f"{kind}_{seed}" + ("" if lod == 0 else f"_lod{lod}")

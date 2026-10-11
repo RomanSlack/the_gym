@@ -23,8 +23,8 @@ scene = bpy.context.scene
 coll = bc.collection("trees")
 
 t0 = time.time()
-pine, Hp, np_ = trees.make_tree("pine", 3, coll, at=(0, 0, 0), H=21)
-spruce, Hs, ns_ = trees.make_tree("spruce", 5, coll, at=(14, 6, 0), H=25)
+pine, Hp, np_ = trees.make_tree("pine", 3, coll, at=(0, 0, 0), H=16)
+spruce, Hs, ns_ = trees.make_tree("spruce", 5, coll, at=(14, 6, 0), H=18)
 grove = []
 for k, (kind, x, y) in enumerate([("spruce", -18, 40), ("spruce", -9, 46), ("pine", -2, 38), ("spruce", 6, 50), ("spruce", 15, 44), ("pine", 22, 36),
                                    ("spruce", 30, 52), ("spruce", -26, 55), ("pine", 10, 60), ("spruce", 38, 41), ("spruce", -32, 44), ("spruce", 24, 64)]):

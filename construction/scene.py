@@ -30,6 +30,19 @@ rng = np.random.default_rng(3)
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 bc.world_and_render(scene)
+if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop stays responsive
+    scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
+    scene.cycles.samples = 64; scene.cycles.use_denoising = True
+    _pr = bpy.context.preferences.addons["cycles"].preferences
+    for _dev in ("OPTIX", "CUDA"):
+        try:
+            _pr.compute_device_type = _dev; _pr.get_devices()
+            for _d in _pr.devices:
+                _d.use = True
+            break
+        except Exception:
+            continue
+ONLY = next((a_.split(":", 1)[1].split(",") for a_ in args if a_.startswith("only:")), None)  # e.g. only:style_gorge,style_aerial
 
 # ---------------------------------------------------------------- terrain for this stage
 DX0, DX1, DY0, DY1 = -320, 620, -320, 900
@@ -237,6 +250,50 @@ for ph in range(1, STAGE + 1):
                 cc.objects.unlink(o)
             coll.objects.link(o)
 
+# ---------------------------------------------------------------- forest (stage 4+: the site is landscaped round the finished building)
+LOD_EYE = None
+if STAGE >= 4 and (OUT / "tree_lib.blend").exists() and (OUT / "forest_points.npz").exists():
+    with bpy.data.libraries.load(str(OUT / "tree_lib.blend"), link=False) as (src, dst):
+        dst.collections = ["tree_lib"]
+    lib = dst.collections[0]
+    fp = np.load(OUT / "forest_points.npz")
+    forest_coll = bc.collection("6 · forest")
+    pv = np.stack([fp["x"], fp["y"], fp["z"]], 1)
+    me = bpy.data.meshes.new("forest_points"); me.vertices.add(len(pv)); me.vertices.foreach_set("co", pv.astype(np.float32).ravel())
+    for nm, arr, typ in (("idx", fp["index"], "INT"), ("scl", fp["scale"], "FLOAT"), ("rot", fp["rot"], "FLOAT")):
+        at = me.attributes.new(nm, typ, "POINT"); at.data.foreach_set("value", arr)
+    forest = bpy.data.objects.new("forest", me); forest_coll.objects.link(forest)
+    LOD_EYE = bpy.data.objects.new("lod_eye", None); scene.collection.objects.link(LOD_EYE)
+    D1, D2 = 30.0, 90.0  # every needle within 30 m, reduced to 90 m, impostors beyond (see construction/lod_test.py)
+    ng = bpy.data.node_groups.new("GN_forest", "GeometryNodeTree")
+    ng.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+    ng.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+    N_, L_ = ng.nodes, ng.links
+    gi, go = N_.new("NodeGroupInput"), N_.new("NodeGroupOutput")
+    ci = N_.new("GeometryNodeCollectionInfo"); ci.inputs["Collection"].default_value = lib
+    ci.inputs["Separate Children"].default_value = True; ci.inputs["Reset Children"].default_value = True; ci.transform_space = "ORIGINAL"
+    eye = N_.new("GeometryNodeObjectInfo"); eye.inputs[0].default_value = LOD_EYE
+    pos = N_.new("GeometryNodeInputPosition")
+    dist = N_.new("ShaderNodeVectorMath"); dist.operation = "DISTANCE"; L_.new(pos.outputs[0], dist.inputs[0]); L_.new(eye.outputs["Location"], dist.inputs[1])
+    def mnode(op, a, b_):
+        n = N_.new("ShaderNodeMath"); n.operation = op
+        for k, v in enumerate((a, b_)):
+            (L_.new(v, n.inputs[k]) if not isinstance(v, (int, float)) else n.inputs[k].__setattr__("default_value", v))
+        return n.outputs[0]
+    lod = mnode("ADD", mnode("GREATER_THAN", dist.outputs["Value"], D1), mnode("GREATER_THAN", dist.outputs["Value"], D2))
+    def attr(name, typ="FLOAT"):
+        a_ = N_.new("GeometryNodeInputNamedAttribute"); a_.data_type = typ; a_.inputs["Name"].default_value = name
+        return a_.outputs["Attribute"]
+    index = mnode("ADD", mnode("MULTIPLY", attr("idx", "INT"), 3), lod)
+    ip = N_.new("GeometryNodeInstanceOnPoints"); ip.inputs["Pick Instance"].default_value = True
+    L_.new(gi.outputs[0], ip.inputs["Points"]); L_.new(ci.outputs[0], ip.inputs["Instance"]); L_.new(index, ip.inputs["Instance Index"])
+    rz = N_.new("ShaderNodeCombineXYZ"); L_.new(attr("rot"), rz.inputs["Z"])
+    e2r = N_.new("FunctionNodeEulerToRotation"); L_.new(rz.outputs[0], e2r.inputs[0]); L_.new(e2r.outputs[0], ip.inputs["Rotation"])
+    L_.new(attr("scl"), ip.inputs["Scale"])
+    L_.new(ip.outputs[0], go.inputs[0])
+    md = forest.modifiers.new("forest", "NODES"); md.node_group = ng
+    print("forest:", len(pv), "trees, library", lib.get("src_hash"))
+
 # ---------------------------------------------------------------- cameras + save
 CAMS = {
     "site_aerial": ((150, -170, 110), (0, 0, -8), 30),
@@ -273,8 +330,10 @@ if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
-    for n in shots[max(k for k in shots if k <= STAGE)]:
+    for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
+        if LOD_EYE is not None:  # LOD switches by distance from this camera
+            LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
 print("stage", STAGE, "done")
