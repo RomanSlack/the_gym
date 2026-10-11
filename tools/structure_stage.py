@@ -119,6 +119,11 @@ for n_, (a_, b_) in {"W": ([20.8, 6.8], [20.8, 16.2]), "E": ([24.0, 6.8], [24.0,
     add({"id": f"ST3-core-E-{n_}", "type": "wall", "kind": "core", "material": "concrete", "from": a_, "to": b_, "size": [0.25, 0], "z": [lv["E2"], lv["RF"]],
          "note": "250 mm concrete core wall"})
 
+# ---- core W3 at F1: lies outside the north facade, so its south side needs its own wall (the gallery door goes in it)
+add({"id": "ST3-core-W3-S-F1", "type": "wall", "kind": "core", "material": "concrete", "from": [-17.2, 12.35], "to": [-8.2, 12.35], "size": [0.25, 0],
+     "z": [lv["F1"], 2.6], "openings": [{"s": [7.1, 8.3], "z": [lv["F1"], 2.3], "type": "door", "swing": -1, "note": "discreet flush door: gallery -> core W3"}],
+     "note": "250 mm concrete: the W3 core's south wall at F1 (below F1 it is wall W-west-N)"})
+
 # ---- stairs
 RISE, GOING, WAIST = 0.175, 0.28, 0.2
 

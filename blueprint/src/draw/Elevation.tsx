@@ -52,14 +52,26 @@ export function Elevation({ model, underlay, sec }: { model: Model; underlay: Un
   const gline = "M" + ground.filter(([, z]) => !Number.isNaN(z)).map(([s, z]) => `${s} ${-z}`).join("L");
 
   const cls = (e: DesignElement) =>
-    e.type === "wall" ? (e.kind === "glazed" || e.material === "glass" ? "el-glass" : e.kind === "partition" ? "el-hidden" : "el-stone")
+    e.type === "wall" ? (e.kind === "glazed" || e.material === "glass" ? "el-glass" : e.kind === "partition" ? "el-hidden" : e.material === "timber_clad" ? "el-clad" : e.kind === "trim" ? "el-trim" : "el-stone")
     : e.type === "slab" ? (e.material === "glass" ? "el-glass" : e.material === "clt" ? "el-roof" : e.material === "sod" ? "el-sod" : "el-slab")
-    : e.type === "column" ? (e.material === "glulam" ? "el-timber" : "el-hidden") : "el-hidden";
+    : e.type === "column" ? (e.material === "glulam" ? (e.finish ? "el-clad" : "el-timber") : "el-hidden") : "el-hidden";
 
   return (
     <g>
       {items.map(({ e, s0, s1, z0, z1 }) => (
-        <rect key={e.id} x={s0} y={-z1} width={s1 - s0} height={z1 - z0} className={cls(e)} data-n={`${e.id} · ${e.type} ${e.material}`} />
+        <g key={e.id}>
+          <rect x={s0} y={-z1} width={s1 - s0} height={z1 - z0} className={cls(e)} data-n={`${e.id} · ${e.type} ${e.material}`} />
+          {e.mullions && e.from && e.to && (() => {  // divided glazing: mullions + transoms
+            const [fx, fy] = e.from, [tx, ty] = e.to, wl = Math.hypot(tx - fx, ty - fy);
+            const ms = e.mullions.map((m) => along(fx + ((tx - fx) * m) / wl, fy + ((ty - fy) * m) / wl));
+            return (
+              <g className="el-mullion">
+                {ms.map((x, k) => <line key={k} x1={x} y1={-z0} x2={x} y2={-z1} />)}
+                {(e.transoms ?? []).map((t, k) => <line key={`t${k}`} x1={s0} y1={-t} x2={s1} y2={-t} />)}
+              </g>
+            );
+          })()}
+        </g>
       ))}
       <path d={earth} className="earth el-earth" />
       <path d={gline} className="ground-line" />

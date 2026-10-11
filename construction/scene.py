@@ -43,6 +43,8 @@ if STAGE >= 1:
     ew = np.load(ROOT / "construction" / "out" / "earthworks_1m.npy")  # cut / fill: road, garden, ledge, sauna pad (tools/foundations.py)
     H = np.minimum(natural + ew, pit)
     cut = (H < natural - 0.05).astype(np.float32)
+if STAGE >= 4:  # backfilled against the walls + final grading: the finished site terrain, river back in its bed
+    H = np.load(RV / "eroded_1m.npy"); rock = np.load(RV / "rock_1m.npy"); cut = np.zeros_like(H)
 
 site0 = bc.collection("0 · site")
 terr = bc.grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "cut": cut[c]}, coll=site0)
@@ -55,15 +57,18 @@ far = bc.grid_mesh("terrain_context", ctx[::2, ::2], -4000 + 2, -4000 + 2, 8.0, 
 far.data.materials.append(bpy.data.materials["terrain"])
 
 W = np.load(RV / "water_1m.npy")
-if STAGE >= 1 and (OUT / "dewatered_1m.npy").exists():
+if 1 <= STAGE < 4 and (OUT / "dewatered_1m.npy").exists():
     W = np.where(np.load(OUT / "dewatered_1m.npy") > 0, np.nan, W)  # inside the cofferdam the river is pumped dry
 bc.water_mesh("river", W[c], DX0 + 0.5, DY0 + 0.5, 1.0, coll=site0)
 
 # natural cliffs (only where the ravine was already rock, not on excavation faces)
 busy = cut[c] > 0
+if STAGE >= 4:  # keep natural rock blocks off the building, site works and graded ground
+    fm_ = np.load(RV / "features_1m.npy")[c] > 0
+    busy = fm_ | (np.abs(H - natural)[c] > 0.5)
 for _ in range(5):  # keep natural rock blocks clear of the excavation and the new walls
     busy = busy | np.roll(busy, 1, 0) | np.roll(busy, -1, 0) | np.roll(busy, 1, 1) | np.roll(busy, -1, 1)
-bc.cliff_rocks(natural[c], rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)
+bc.cliff_rocks((H if STAGE >= 4 else natural)[c], rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)
 
 # falls: water curtains where the designed water level drops > 2 m between close stations
 st = sorted(model["site"]["ravine"]["stations"], key=lambda s: -s["y"])
@@ -94,14 +99,25 @@ MAT = {
     "steel_dark": bc.material("steel_dark", (0.03, 0.03, 0.032), 0.45, metal=0.7),
     "precast": bc.material("precast", (0.56, 0.55, 0.52), 0.8),
     "oak": bc.material("oak", (0.42, 0.28, 0.15), 0.5),
+    "timber_clad": bc.material("tarred_timber", (0.022, 0.02, 0.018), 0.75),
+    "stone": bc.material("granite_plinth", (0.075, 0.073, 0.07), 0.9),
+    "glass": bc.material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
+    "glass_obscured": bc.material("glass_obscured", (0.55, 0.58, 0.6), 0.35, alpha=0.75),
+    "acrylic": bc.material("acrylic", (0.05, 0.08, 0.09), 0.03, alpha=0.2),
+    "sod": bc.material("sod", (0.07, 0.11, 0.035), 0.95),
+    "frame": bc.material("window_frame", (0.025, 0.025, 0.027), 0.4, metal=0.6),
 }
-PHASES = {1: "1 · foundations", 3: "3 · structure"}
+PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope"}
 for ph in range(1, STAGE + 1):
     if ph not in PHASES:
         continue  # stage 2 (style) adds no elements
     coll = bc.collection(PHASES[ph])
     for e in sorted((e for e in model["elements"] if e.get("phase") == ph), key=lambda e: e.get("seq", 0)):
+        if e.get("temporary") and STAGE >= 4:
+            continue  # the cofferdam is pulled once the river wall is closed
         mat = MAT.get(e["material"], MAT["concrete"])
+        if STAGE >= 4 and e.get("finish") == "black_stain":
+            mat = MAT["timber_clad"]
         z0, z1 = e["z"]
         if e["type"] in ("slab", "footing", "blinding") and "rect" in e:
             x0, y0, x1, y1 = e["rect"]
@@ -113,7 +129,7 @@ for ph in range(1, STAGE + 1):
                     cu = bc.box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
                     cu.hide_render = True; cu.hide_viewport = True
                     md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
-        elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing"):
+        elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing") and "mullions" not in e and e.get("kind") != "clad":
             ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
             (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
             WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
@@ -122,6 +138,33 @@ for ph in range(1, STAGE + 1):
                                          e["size"][0] + 1.0, op["z"][0], op["z"][1], mat, coll)
                 cut_ob.hide_render = True; cut_ob.hide_viewport = True
                 md = ob.modifiers.new(f"op{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cut_ob
+        elif e["type"] == "wall" and "mullions" in e:  # divided glazing: glass + dark frames, mullions, transoms
+            (wx0, wy0), (wx1, wy1) = e["from"], e["to"]; WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
+            P = lambda s_: (wx0 + ux * s_, wy0 + uy * s_)
+            bc.oriented_box(e["id"], e["from"], e["to"], 0.03, z0, z1, mat, coll)
+            fw, fd = 0.07, max(0.12, e["size"][0])
+            for k, s_ in enumerate([0.0] + e["mullions"] + [WL]):
+                a_, b_ = max(0.0, s_ - fw / 2), min(WL, s_ + fw / 2)
+                bc.oriented_box(f"{e['id']}_m{k}", P(a_), P(b_), fd, z0, z1, MAT["frame"], coll)
+            for k, zt in enumerate([z0, z1 - fw] + e.get("transoms", [])):
+                bc.oriented_box(f"{e['id']}_t{k}", e["from"], e["to"], fd, zt, zt + fw, MAT["frame"], coll)
+        elif e["type"] == "wall" and e.get("kind") == "clad":  # black board-on-board: the wall + a top board every 0.3 m (real geometry, arrayed)
+            ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
+            (wx0, wy0), (wx1, wy1) = e["from"], e["to"]; WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
+            mx_, my_ = (wx0 + wx1) / 2, (wy0 + wy1) / 2
+            cx_, cy_ = min(((-17.95, -11.0), (21.25, 11.9)), key=lambda c_: math.hypot(c_[0] - mx_, c_[1] - my_))
+            out_side = 1 if ((-uy) * (mx_ - cx_) + ux * (my_ - cy_)) > 0 else -1  # boards on the outside face only
+            for side in (out_side,):
+                nx_, ny_ = -uy * side * (e["size"][0] / 2 + 0.011), ux * side * (e["size"][0] / 2 + 0.011)
+                bd = bc.oriented_box(f"{e['id']}_boards{side}", (wx0 + nx_, wy0 + ny_), (wx0 + nx_ + ux * 0.1, wy0 + ny_ + uy * 0.1), 0.022, z0, z1, mat, coll)
+                arr = bd.modifiers.new("boards", "ARRAY"); arr.use_relative_offset = False; arr.use_constant_offset = True
+                arr.constant_offset_displace = (ux * 0.3, uy * 0.3, 0); arr.count = max(1, int(WL / 0.3))
+            if e.get("openings"):
+                for k, op in enumerate(e["openings"]):
+                    cut_ob = bc.oriented_box(f"{e['id']}_op{k}", (wx0 + ux * op["s"][0], wy0 + uy * op["s"][0]), (wx0 + ux * op["s"][1], wy0 + uy * op["s"][1]),
+                                             e["size"][0] + 1.0, op["z"][0], op["z"][1], mat, coll)
+                    cut_ob.hide_render = True; cut_ob.hide_viewport = True
+                    md = ob.modifiers.new(f"op{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cut_ob
         elif e["type"] == "column":
             (x, y), (w, d) = e["at"], e["size"]; bc.box(e["id"], x - w / 2, y - d / 2, z0, x + w / 2, y + d / 2, z1, mat, coll)
         elif e["type"] == "beam":
@@ -186,6 +229,12 @@ CAMS = {
     "hall_f1": ((-9, -32, 1.7), (-24, 8, 3.8), 16),
     "spiral": ((-12.5, -22, -8.0), (-17.95, -14.85, -4.5), 16),
     "daycare_garden": ((46, 82, 24), (22, 38, -5), 26),
+    "style_gorge": ((3, -88, -1.0), (-1, 0, -1.5), 24),      # compare docs/style/bdarksod_gorge.jpg
+    "style_aerial": ((95, -120, 70), (2, 2, -6), 30),        # compare bdarksod_aerial.jpg
+    "style_arrival": ((60, -24, 2.0), (22, 4, 2.8), 22),     # compare bdarksod_arrival.jpg
+    "west_garden": ((-62, -40, 4), (-26, -10, 2), 22),
+    "garden_close": ((26, 45, -4.4), (23, 33.3, -2.4), 22),
+    "river_window_f3": ((-9.0, -32.5, -8.2), (-9.0, 8, -8.6), 16),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -195,7 +244,8 @@ for o in bpy.data.objects:  # primitives + boolean results: flat shading for eve
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
-             3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"]}
+             3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
+             4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3"]}
     for n in shots[max(k for k in shots if k <= STAGE)]:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")

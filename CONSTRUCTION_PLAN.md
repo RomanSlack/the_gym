@@ -20,7 +20,14 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
   - CLT 300 roofs with **2.5 m eaves in the model** (tapered glulam beam tails), one roof level across both wings and the lounge
   - lounge bridge on four dark steel girders + tapered deck outriggers; glulam roof beams on slim posts, glass walls can still open fully
   - concrete cores (incl. core E), precast dogleg stairs in every core, open steel + oak helix spiral, F3→F4 dogleg
-  - Next: stage 4, envelope.
+- ✅ **Stage 4 · Envelope** (awaiting Roman's review): `construction/out/stage_4.blend`, renders in `construction/renders/stage_4_*` (`style_gorge`, `style_aerial`, `style_arrival` are framed like the stage-2 references `docs/style/bdarksod_*`). Elements from `tools/envelope.py`:
+  - divided glazing with dark frames: a mullion at every column, panes ≤ 1.3 m (lounge sliding panels ≤ 2.3 m), transom on tall glass
+  - **solid black board-on-board timber where privacy is needed** (changing rooms, wet zones, WCs, staff, nursing) with a high obscured clerestory band; glass everywhere else
+  - black timber header band between the glass head and the roof; facade glulam posts black-stained (the dark posts of the references); beams, tails and oak soffits stay warm
+  - 150 mm dry-laid granite plinth on every concrete face above the finished ground (river wall, towers, lift shafts, gorge faces), wrapping the slab edges
+  - structural acrylic in the river-wall openings; sod roofs (0.45 m build-up) with thin dark roof edges, incl. the annex roofs; glass balustrades + dark edge plate on the lounge decks
+  - backfill + final grading and the cofferdam pulled (the river is back in its bed)
+  - Next: stage 5, interior.
 - Build: `terrain/.venv/bin/python tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
 
 ## Stages
@@ -31,7 +38,7 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
 | 1 | **Foundations** | Construction pit (excavation with rock-cut faces); temporary cofferdam in the river; rock anchors under F4; blinding; strip + pad footings; raft slabs; below-grade retaining walls + river wall; waterproofing; drainage; garage-ramp trench + tunnel; parking + annex foundations. | **STOP: Roman reviews** |
 | 2 | **Exterior style** | gpt-image-2 explorations, using clean renders of the stage-1 massing from 4–6 fixed cameras as geometry references: timber, stone, roof edge, glazing rhythm, towers, bridge. Roman picks one; it's locked into VISION.md. | Roman picks a style |
 | 3 | **Structure** | Concrete frame of F2–F4 (post-tensioned beams, slabs), glulam columns + beams on F1/E1, CLT roofs, lounge-bridge trusses, stairs, cores. | Review |
-| 4 | **Envelope** | Wall build-ups, cladding (per the chosen style), glazing systems, river windows, roof build-ups (sod, eaves), skylights. | Review |
+| 4 | **Envelope** | Backfill + final grading, cofferdam out; wall build-ups, cladding (per the chosen style), glazing systems, river windows, roof build-ups (sod, eaves), skylights. | Review |
 | 5 | **Interior** | Finishes, the equipment layout from `docs/FIT_STUDY.md`, lighting, locker fit-out, the den, pool + thermal, daycare, cafe. | Review |
 | 6 | **Landscape + finish** | Planting + forest, paths, trail, water and falls, exterior lighting; surfacing (road asphalt, gravel lot, meadow, stepping stones); finishing the sunken garden (dry-stone face, terrace planting, play surface); **outbuildings + bridges**, each foundation → frame → envelope: sauna, bike shelter, rustic footbridge, upstream timber footbridge, trailhead kiosk, outdoor rig; final renders, then the replay video. | Final |
 

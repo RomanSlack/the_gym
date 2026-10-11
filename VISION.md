@@ -248,6 +248,13 @@ Roman: "do whatever will look the best and sleekest for the design language", an
 - **Lounge bridge floor = dark steel girders under the deck, not trusses**, so the sliding glass walls open fully with only slim posts in the glass lines.
 - **Spiral = open helix, no centre post** (steel stringers, oak treads).
 
+## Envelope decisions (2026-10-11, stage 4)
+
+Read off the style-B references and built for real (`tools/envelope.py`):
+- **Glass where it's open, black timber where it's private.** Changing rooms, wet zones, WCs, staff and nursing rooms get solid black board-on-board walls with a high obscured clerestory band; everything else is divided glass.
+- Facade glulam posts are black-stained (dark posts in the references); the roof beams, their tails and the oak soffits stay warm.
+- Stone plinth on every concrete face that shows above ground, incl. the river wall from the riverbed up.
+
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)

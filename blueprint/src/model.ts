@@ -46,6 +46,9 @@ export interface DesignElement {
   from?: Pt; // beams, walls
   to?: Pt;
   rect?: [number, number, number, number]; // slabs
+  finish?: string; // e.g. "black_stain" on facade glulam
+  mullions?: number[]; // glazing: mullion stations along the wall, m
+  transoms?: number[];
   eaves?: [number, number, number, number]; // roofs: overhang past the facade per side [W, S, E, N], m (negative = meets the neighbouring eave)
   holes?: { circle?: [number, number, number]; rect?: Pt[] }[];
   openings?: { s: [number, number]; z: [number, number]; type: string; note?: string }[]; // walls: windows along the wall

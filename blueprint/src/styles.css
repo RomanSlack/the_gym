@@ -268,6 +268,9 @@ html[data-theme="dark"] .n-partition { fill: #9a968c; }
 .el-roof { fill: #6b5a44; stroke: var(--ink); stroke-width: 0.6; }
 .el-sod { fill: #6f8f55; stroke: var(--ink); stroke-width: 0.5; }
 .el-timber { fill: #b08a5c; stroke: var(--ink); stroke-width: 0.4; }
+.el-clad { fill: #2a2622; stroke: var(--ink); stroke-width: 0.4; }
+.el-trim { fill: #111; stroke: none; }
+.el-mullion line { stroke: #1d2a30; stroke-width: 0.35; }
 .el-hidden { display: none; }
 .el-earth { fill: #e7decd; }
 html[data-theme="dark"] .roof-eave { fill: #2c2a26; }

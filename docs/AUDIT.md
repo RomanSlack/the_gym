@@ -24,6 +24,7 @@
 - ⚠️ **Stage 3 notes (2026-10-11):**
   - W1/W2 core stairs only fit 1.0 m flights (2.2 m clear between the core wall and wall A). Check against TEK17 for the F4 occupancy. If wider is needed, the towers grow ~0.4 m outward.
   - The F3→F4 north stair can't be one straight flight in 5 m (5.6 m rise), so it's a dogleg now. The plan symbol in the drawings still shows a straight arrow.
+  - Drawings: elevation A-203 (east) draws no ground in front, so below-grade walls show (an error that was already there before stage 4: empty earth path).
   - Drawings: section sheets crashed on the stage-1 drain pipes (no `size`); fixed in `footprint()`.
 
 ## Building / code issues (original findings)
