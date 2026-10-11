@@ -45,10 +45,35 @@ if STAGE >= 1:
     cut = (H < natural - 0.05).astype(np.float32)
 if STAGE >= 4:  # backfilled against the walls + final grading: the finished site terrain, river back in its bed
     H = np.load(RV / "eroded_1m.npy"); rock = np.load(RV / "rock_1m.npy"); cut = np.zeros_like(H)
+    # backfilled terrain + the enclosed volumes cut out of it (written by tools/envelope.py)
+    H = np.load(OUT / "finished_1m.npy")
+    VOIDS = json.loads((OUT / "voids.json").read_text())
 
 site0 = bc.collection("0 · site")
-terr = bc.grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "cut": cut[c]}, coll=site0)
-terr.data.materials.append(bc.terrain_material())
+if STAGE >= 4:  # a local patch round the building gets the volumes cut out exactly; the rest stays one plain grid
+    Hc, Rc, Cc = H[c], rock[c], cut[c]
+    r0, r1, c0, c1 = -50 - DY0, 50 - DY0, -50 - DX0, 70 - DX0  # patch rows / cols in the cropped grid
+    keep = np.ones((Hc.shape[0] - 1, Hc.shape[1] - 1), bool); keep[r0:r1, c0:c1] = False
+    terr = bc.grid_mesh("terrain_detail", Hc, DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": Rc, "cut": Cc}, coll=site0, keep=keep)
+    terr.data.materials.append(bc.terrain_material())
+    patch = bc.grid_mesh("terrain_building", Hc[r0:r1 + 1, c0:c1 + 1], DX0 + 0.5 + c0, DY0 + 0.5 + r0, 1.0,
+                         {"rock": Rc[r0:r1 + 1, c0:c1 + 1], "cut": Cc[r0:r1 + 1, c0:c1 + 1]}, coll=site0)
+    patch.data.materials.append(bpy.data.materials["terrain"])
+    vs, fs = [], []
+    for (x0_, y0_, x1_, y1_), zb, zt in VOIDS:
+        b = len(vs)
+        vs += [(x0_, y0_, zb), (x1_, y0_, zb), (x1_, y1_, zb), (x0_, y1_, zb), (x0_, y0_, zt), (x1_, y0_, zt), (x1_, y1_, zt), (x0_, y1_, zt)]
+        fs += [(b, b + 3, b + 2, b + 1), (b + 4, b + 5, b + 6, b + 7), (b, b + 1, b + 5, b + 4), (b + 1, b + 2, b + 6, b + 5), (b + 2, b + 3, b + 7, b + 6), (b + 3, b, b + 4, b + 7)]
+    voids = bc.mesh_from("building_voids", vs, fs, smooth=False, coll=site0); voids.hide_render = True; voids.hide_viewport = True
+    md = patch.modifiers.new("voids", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = voids; md.solver = "EXACT"
+    for attr in ("use_hole_tolerant", "use_self"):  # open terrain patch, overlapping cutter boxes
+        try:
+            setattr(md, attr, True)
+        except AttributeError:
+            pass
+else:
+    terr = bc.grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "cut": cut[c]}, coll=site0)
+    terr.data.materials.append(bc.terrain_material())
 ctx = np.load(SITE / "context_4m.npy") - DATUM
 g4 = lambda w: (w + 4000) // 4
 ctx[750:1250, 750:1250] = natural.reshape(500, 4, 500, 4).mean((1, 3))
@@ -234,6 +259,8 @@ CAMS = {
     "style_arrival": ((60, -24, 2.0), (22, 4, 2.8), 22),     # compare bdarksod_arrival.jpg
     "west_garden": ((-62, -40, 4), (-26, -10, 2), 22),
     "garden_close": ((26, 45, -4.4), (23, 33.3, -2.4), 22),
+    "stair_f3_f4": ((-13.0, 1.5, -13.7), (-18.5, 10.5, -12.3), 18),
+    "towers_west": ((-46, -14, 3), (-30, -14, 0.5), 30),
     "river_window_f3": ((-9.0, -32.5, -8.2), (-9.0, 8, -8.6), 16),
 }
 for n, (loc, tgt, lens) in CAMS.items():
@@ -245,7 +272,7 @@ bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3"]}
+             4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in shots[max(k for k in shots if k <= STAGE)]:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")

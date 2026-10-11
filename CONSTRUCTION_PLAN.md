@@ -26,7 +26,8 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
   - black timber header band between the glass head and the roof; facade glulam posts black-stained (the dark posts of the references); beams, tails and oak soffits stay warm
   - 150 mm dry-laid granite plinth on every concrete face above the finished ground (river wall, towers, lift shafts, gorge faces), wrapping the slab edges
   - structural acrylic in the river-wall openings; sod roofs (0.45 m build-up) with thin dark roof edges, incl. the annex roofs; glass balustrades + dark edge plate on the lounge decks
-  - backfill + final grading and the cofferdam pulled (the river is back in its bed)
+  - backfill + final grading and the cofferdam pulled (the river is back in its bed); every enclosed volume (wings, cores, lift shafts, W3, rock annexes, sauna lobby, parking) is cut out of the finished ground exactly, so no ground runs through a stairwell or room and none of it gaps away from a wall
+  - below-grade layers (membranes, drainage gravel, drains) stop under the finished ground; scour toe under the river wall; granite plinth under the sauna-lobby annex and on the garden wall
   - Next: stage 5, interior.
 - Build: `terrain/.venv/bin/python tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
 
@@ -49,4 +50,4 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
 - Every element has `phase` (stage number) and `seq` (order within the stage) for the construction timelapse.
 - Heavy things stay instanced (trees, anchors); one Blender collection per phase.
 - The PDF drawing set is only re-exported when Roman asks.
-- **Coverage check:** `tools/stage_check.py` runs at the end of every build. Everything designed (site works in the terrain, site features, elements, stairs) must have an owner stage, and once that stage is built its work must exist. A new feature with no owner, or a built stage that skipped something, shows up as `!` lines. Fix those before showing Roman a stage. (Origin: the sunken daycare garden was designed but no stage dug it.)
+- **Coverage check:** `tools/stage_check.py` runs at the end of every build. Everything designed (site works in the terrain, site features, elements, stairs) must have an owner stage, and once that stage is built its work must exist. A new feature with no owner, or a built stage that skipped something, shows up as `!` lines. Fix those before showing Roman a stage. (Origin: the sunken daycare garden was designed but no stage dug it.) From stage 4 on it also checks that nothing meant to be buried shows above the finished ground and that no wall or footing hangs above the ground beside it (added after Roman spotted membranes, footings and gaps at the garden corners and tower bases).

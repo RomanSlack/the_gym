@@ -173,7 +173,8 @@ in_pad = ndi.binary_dilation(in_pad, iterations=1)
 cell = lambda x, y: (int(np.clip(y + 1000, 0, 1999)), int(np.clip(x + 1000, 0, 1999)))
 ground = lambda x, y: np.nan if in_pad[cell(x, y)] else float(fin[cell(x, y)])
 CENTRE = {"W-west-": (-17.95, -14.0), "SA-": (-17.65, -37.1), "WA-": (-31.45, -21.8), "W-east-": (21.25, 11.9),
-          "CS-W1-": (-30.45, -14.05), "CS-W2-": (-30.45, -29.6), "CS-W3-": (-12.7, 13.95), "LS-men-": (-30.05, -2.9), "LS-women-": (-30.05, 5.9)}
+          "CS-W1-": (-30.45, -14.05), "CS-W2-": (-30.45, -29.6), "CS-W3-": (-12.7, 13.95), "LS-men-": (-30.05, -2.9), "LS-women-": (-30.05, 5.9),
+          "FDN-garden-wall-W": (-20.0, 40.0)}  # garden wall: its exposed face is the garden (east) side
 for e in els:
     pre = next((p for p in CENTRE if e["id"].startswith(p)), None)
     if pre is None or e["type"] != "wall" or e["material"] != "concrete":
@@ -208,6 +209,12 @@ for e in els:
     if e.get("openings"):
         st["openings"] = e["openings"]
     add(st)
+
+# ---- the sauna-lobby annex sits on a low granite plinth (no gap under its timber walls)
+for e in els:
+    if e["id"].startswith("A-annex-"):
+        add({"id": f"EN-stone-{e['id']}", "type": "wall", "kind": "stone", "material": "stone", "from": e["from"], "to": e["to"], "size": [round(e["size"][0] + 0.1, 2), 0.7],
+             "z": [-0.7, 0.0], "note": "granite plinth under the annex wall, 0.7 m into the ground"})
 
 # ---- river glazing in the river-wall openings
 rw = by_id["W-west-C"]
@@ -287,6 +294,32 @@ for sid, (pa, pb) in {"S": ([-6.45, -12.45], [12.0, -12.45]), "N": ([-6.45, 11.2
 
 m["elements"] = els + new
 modelio.save(m)
+
+# ---- backfill: the finished ground for the construction scenes. Enclosed volumes (wings, cores, shafts, annexes, parking)
+# must not have ground running through them: inside each footprint the grid is refilled from the nearest outside ground
+# (no 1 m V-gap against the walls), and the scene cuts the volumes out exactly. Ground above a buried roof stays.
+import json  # noqa: E402
+sl = {e["id"]: e for e in m["elements"]}
+cores = {s_["id"].rsplit("-", 1)[0]: s_["poly"] for s_ in m["spaces"] if s_["kind"] == "core" and s_["level"] in ("F1", "E1")}
+VOIDS = [[[-29.45, -34.1, -6.45, 12.1], -17.0, 6.0], [[12.0, -9.5, 30.5, 33.3], -7.0, 6.0]]  # wings (rect at wall centre lines, bottom, top)
+for cid, poly in cores.items():
+    xs, ys = [p_[0] for p_ in poly], [p_[1] for p_ in poly]
+    top = max((e["z"][1] for e in m["elements"] if e["type"] == "wall" and e.get("kind") == "shaft"
+               and min(xs) - 0.2 <= e["from"][0] <= max(xs) + 0.2 and min(ys) - 0.2 <= e["from"][1] <= max(ys) + 0.2), default=6.0)
+    VOIDS.append([[min(xs), min(ys), max(xs), max(ys)], -17.5, top])
+for rid, zb, zt in (("S-WA-roof", -17.0, None), ("S-SA-roof", -17.0, None), ("S-P-roof", -7.0, None), ("S-F1-annex", None, 3.2)):
+    r = sl[rid]
+    VOIDS.append([r["rect"], r["z"][0] if zb is None else zb, r["z"][0] if zt is None else zt])
+H = fin.copy()
+for (x0_, y0_, x1_, y1_), zb, zt in VOIDS:
+    inside = (GX > x0_) & (GX < x1_) & (GY > y0_) & (GY < y1_) & (H < zt)
+    if inside.any():
+        _, (iy, ix) = ndi.distance_transform_edt(inside, return_indices=True)
+        H = np.where(inside, H[iy, ix], H)
+OUTD = ROOT / "construction" / "out"; OUTD.mkdir(parents=True, exist_ok=True)
+np.save(OUTD / "finished_1m.npy", H.astype(np.float32))
+(OUTD / "voids.json").write_text(json.dumps(VOIDS))
+print("backfill:", len(VOIDS), "enclosed volumes cut out of the finished ground")
 from collections import Counter
 p4 = [e for e in m["elements"] if e.get("phase") == 4]
 print("phase-4 elements:", len(p4), dict(Counter(e.get("kind") or e["type"] for e in p4)))

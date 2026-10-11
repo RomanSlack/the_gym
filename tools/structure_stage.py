@@ -128,7 +128,7 @@ add({"id": "ST3-core-W3-S-F1", "type": "wall", "kind": "core", "material": "conc
 RISE, GOING, WAIST = 0.175, 0.28, 0.2
 
 
-def dogleg(cid, lanes, axis, start, far, levels, landing=1.0, going=GOING):
+def dogleg(cid, lanes, axis, start, far, levels, landing=1.0, going=GOING, waist=WAIST, slab=WAIST):
     """Two flights per storey: up along lane 0 from `start` towards `far`, mid landing, back along lane 1; floor landings at `start`."""
     sgn = 1 if far > start else -1
     pt = lambda lane_c, s: [round(s, 2), round(lane_c, 2)] if axis == "x" else [round(lane_c, 2), round(s, 2)]
@@ -138,19 +138,19 @@ def dogleg(cid, lanes, axis, start, far, levels, landing=1.0, going=GOING):
         s0 = start + sgn * landing; s1 = s0 + sgn * g * (n - 1)
         for j, (lane, (sa, sb), (za, zb)) in enumerate(((lanes[0], (s0, s1), (zlo, zlo + half)), (lanes[1], (s1, s0), (zlo + half, zhi)))):
             add({"id": f"ST3-stair-{cid}-{lo}-{j}", "type": "stair_flight", "material": "precast", "from": pt(lane[0], sa), "to": pt(lane[0], sb),
-                 "size": [lane[1], WAIST], "z": [round(za, 3), round(zb, 3)], "risers": n,
+                 "size": [lane[1], waist], "z": [round(za, 3), round(zb, 3)], "risers": n,
                  "note": f"precast flight, {n} risers {half / n:.3f}, going {g:.3f}"})
         lane_lo, lane_hi = min(l[0] - l[1] / 2 for l in lanes), max(l[0] + l[1] / 2 for l in lanes)
         mid = sorted([s1, s1 + sgn * landing])
         r = [mid[0], lane_lo, mid[1], lane_hi] if axis == "x" else [lane_lo, mid[0], lane_hi, mid[1]]
         add({"id": f"ST3-landing-{cid}-{lo}", "type": "slab", "material": "precast", "rect": [round(v, 2) for v in r],
-             "z": [round(zlo + half - WAIST, 3), round(zlo + half, 3)], "holes": [], "note": "half landing"})
+             "z": [round(zlo + half - slab, 3), round(zlo + half, 3)], "holes": [], "note": f"half landing, {int(slab * 1000)} mm"})
     for L in levels:
         fl = sorted([start, start + sgn * landing])
         lane_lo, lane_hi = min(l[0] - l[1] / 2 for l in lanes), max(l[0] + l[1] / 2 for l in lanes)
         r = [fl[0], lane_lo, fl[1], lane_hi] if axis == "x" else [lane_lo, fl[0], lane_hi, fl[1]]
         add({"id": f"ST3-landing-{cid}-{L}-floor", "type": "slab", "material": "precast", "rect": [round(v, 2) for v in r],
-             "z": [round(lv[L] - WAIST, 3), lv[L]], "holes": [], "note": "floor landing"})
+             "z": [round(lv[L] - slab, 3), lv[L]], "holes": [], "note": "floor landing"})
 
 
 W_LANES = [(-31.38, 1.0), (-30.22, 1.0)]  # 2.2 m clear between the core wall and wall A
@@ -158,7 +158,10 @@ dogleg("W1", W_LANES, "y", -12.2, -18.4, ["F4", "F3", "F2", "F1"], landing=1.3) 
 dogleg("W2", W_LANES, "y", -25.25, -33.95, ["F4", "F3", "F2", "F1"], landing=1.4)
 dogleg("W3", [(13.1, 1.2), (14.65, 1.2)], "x", -8.35, -17.05, ["F4", "F3", "F2", "F1"], landing=1.4)  # 3.05 m clear north of wall N
 dogleg("E", [(21.6, 1.2), (23.2, 1.2)], "y", 6.95, 13.45, ["E2", "E1"], landing=1.2)  # lift in the north 2.5 m
-dogleg("N34", [(-19.95, 2.7), (-16.95, 2.7)], "y", 7.1, 12.1, ["F4", "F3"], landing=1.2, going=0.25)
+dogleg("N34", [(-19.95, 2.7), (-16.95, 2.7)], "y", 7.1, 12.1, ["F4", "F3"], landing=1.2, going=0.25, waist=0.3, slab=0.35)  # open feature stair: heavier
+for e in new:  # its half landing runs into the north wall, which carries it
+    if e["id"] == "ST3-landing-N34-F4":
+        e["rect"][3] = 12.35; e["material"] = "concrete"; e["note"] = "350 mm in-situ half landing, built into the north wall (W-west-N carries it)"
 
 # core doors moved onto the floor landings (a door can't open onto a flight); lift doors added where missing
 def door(wid, s, z_list, note, match=None):

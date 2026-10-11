@@ -10,6 +10,9 @@ Sweeps:
   2. site features: every entry in site.features (and every surface / path / stepping-stone line) must be owned by a stage,
      and an owner stage that is already built must show evidence (elements or earthworks).
   3. elements: every element has a phase or a planned later stage; every stair and core stair is built once stage 3 is.
+  4. once the ground is back (stage 4+): nothing meant to be buried (footings, membranes, drainage, pipes) shows above the
+     finished ground, and no wall or footing hangs above the ground beside it unless something below covers it (toe, plinth).
+     Added after Roman spotted membranes, footings and gaps showing at the garden corners and tower bases.
 When you add something to the design, give it an owner here; when a stage is built, its evidence has to exist.
 python3 tools/stage_check.py
 """
@@ -68,7 +71,7 @@ for k, b in list(KIND.items()) + [("pad", None)]:
 
 # ---- 2. site features: owner stages + evidence once a stage is built ("terrain" = covered by sweep 1, else an element id prefix)
 FEATURES = {
-    "road": {1: "terrain", 6: None}, "garage_ramp": {1: "FDN-ramp-"}, "daycare_garden": {1: "FDN-garden-wall-", 6: None},
+    "road": {1: "terrain", 6: None}, "garage_ramp": {1: "FDN-ramp-"}, "daycare_garden": {1: "FDN-garden-wall-", 4: "EN-stone-FDN-garden-wall-", 6: None},
     "sauna": {6: None}, "sauna_path": {6: None}, "trail": {6: None}, "bike_shelter": {6: None}, "trailhead_sign": {6: None},
     "outdoor_rig": {6: None},
 }
@@ -106,6 +109,50 @@ if BUILT >= 3:
         if not any(i.startswith(f"ST3-stair-{c}-") for i in ids):
             issues.append(f"core {c} has a stair in the plan but no stair flights")
 notes.append(f"fixtures (stage 5): {len(m.get('fixtures', []))}")
+
+# ---- 4. buried things stay buried, nothing floats (only once the site is backfilled)
+if BUILT >= 4:
+    import math
+    fin = np.load(RV / "eroded_1m.npy")
+    bpad = np.zeros(fin.shape, bool)
+    for p in m["site"]["pads"]:
+        if p["id"] in ("west_wing", "east_wing"):
+            bpad |= MPath(p["poly"]).contains_points(np.stack([X.ravel(), Y.ravel()], 1)).reshape(fin.shape)
+    bpad = ndi.binary_dilation(bpad, iterations=2)  # the building's own footprint (+ its 1 m grid edge) is not "ground"
+
+    def gnd(x, y):
+        i, j = int(np.clip(y + 1000, 0, 1999)), int(np.clip(x + 1000, 0, 1999))
+        return None if bpad[i, j] else float(fin[i, j])
+
+    def along(e, n=None):
+        (ax, ay), (bx, by) = e["from"], e["to"]; L = max(math.hypot(bx - ax, by - ay), 0.01)
+        return [(ax + (bx - ax) * f, ay + (by - ay) * f) for f in np.linspace(0, 1, n or max(2, int(L) + 1))], L, (ax, ay, bx, by)
+
+    BURIED = ("strip_footing", "membrane", "drain_layer", "drain_pipe", "pad_footing")
+    for e in els:
+        if e["type"] not in BURIED:
+            continue
+        pts = along(e)[0] if "from" in e else [tuple(e["at"])]
+        bad = [(x, y, g) for x, y in pts if (g := gnd(x, y)) is not None and e["z"][1] > g + 0.05]
+        if bad:
+            x, y, g = max(bad, key=lambda b: e["z"][1] - b[2])
+            issues.append(f"buried {e['type']} {e['id']} shows {e['z'][1] - g:.2f} m above the finished ground at ({x:.0f}, {y:.0f})")
+    lowers = [e for e in els if e["type"] in ("wall", "strip_footing") and "from" in e]
+    for e in els:
+        if e["type"] not in ("wall", "strip_footing") or "from" not in e or e.get("phase") is None or e.get("kind") in ("partition", "glazed", "trim", "clad"):
+            continue
+        pts, L, (ax, ay, bx, by) = along(e)
+        nx, ny = -(by - ay) / L, (bx - ax) / L; t = e["size"][0] / 2
+        for x, y in pts[1:-1] or pts:
+            gs = [g for sg in (1, -1) for d in (0.6, 1.4) if (g := gnd(x + nx * sg * (t + d), y + ny * sg * (t + d))) is not None]
+            if not gs or min(gs) >= e["z"][0] - 0.1:
+                continue
+            # covered if another wall / footing on (nearly) the same line reaches lower here
+            cov = any(o is not e and o["z"][0] <= min(gs) + 0.1 and abs((x - o["from"][0]) * (o["to"][1] - o["from"][1]) - (y - o["from"][1]) * (o["to"][0] - o["from"][0]))
+                      / max(math.hypot(o["to"][0] - o["from"][0], o["to"][1] - o["from"][1]), 0.01) < 0.6 for o in lowers)
+            if not cov:
+                issues.append(f"{e['type']} {e['id']} hangs {e['z'][0] - min(gs):.2f} m above the ground beside it at ({x:.0f}, {y:.0f})")
+                break
 
 print(f"stage check (built up to stage {BUILT}): " + ("OK" if not issues else f"{len(issues)} issue(s)"))
 for i in issues:

@@ -26,11 +26,13 @@ def mesh_from(name, verts, faces, attrs=None, smooth=True, coll=None):
     return ob
 
 
-def grid_mesh(name, H, x0, y0, res, attrs=None, coll=None):
+def grid_mesh(name, H, x0, y0, res, attrs=None, coll=None, keep=None):
+    """Heightfield mesh; `keep` (shape (ny-1, nx-1)) drops the quads where it is False."""
     ny, nx = H.shape
     X, Y = np.meshgrid(x0 + np.arange(nx, dtype=np.float32) * res, y0 + np.arange(ny, dtype=np.float32) * res)
     i = np.arange(nx * ny).reshape(ny, nx)
-    quads = np.stack([i[:-1, :-1], i[:-1, 1:], i[1:, 1:], i[1:, :-1]], -1).reshape(-1, 4)
+    quads = np.stack([i[:-1, :-1], i[:-1, 1:], i[1:, 1:], i[1:, :-1]], -1)
+    quads = (quads[keep] if keep is not None else quads).reshape(-1, 4)
     return mesh_from(name, np.stack([X, Y, H.astype(np.float32)], -1), quads, attrs, coll=coll)
 
 

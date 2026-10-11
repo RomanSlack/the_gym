@@ -157,12 +157,80 @@ x_a, x_b = min(p[0] for p in pts if p[0] <= rp["tunnel_from_x"] + 0.01), rp["tun
 add({"id": "FDN-ramp-tunnel-roof", "type": "slab", "material": "concrete", "rect": [round(x_a, 2), -1.0 - hw, round(x_b, 2), -1.0 + hw],
      "z": [-1.6, -1.2], "note": "cut-and-cover tunnel roof, backfilled + landscaped"}, 96)
 
+# ---- scour toe under the river wall: the bed scours below the raft line in places, so a cut-off key runs down to firm rock
+bed_min = min(float(np.load(ROOT / "terrain" / "out" / "ravine" / "eroded_1m.npy")[int(y + 1000), int(-5.5 + 1000)]) for y in np.arange(-34, 12, 1.0))
+add({"id": "FDN-river-toe", "type": "strip_footing", "material": "concrete", "from": [-6.45, -34.1], "to": [-6.45, 12.1], "size": [0.9, 0],
+     "z": [round(bed_min - 0.8, 2), round(F4B, 2)], "note": f"scour cut-off key under the river wall, down to {bed_min - 0.8:.2f} (lowest bed beside the wall {bed_min:.2f} - 0.8 m)"}, 50)
+
 # ---- the sunken garden's west retaining wall (trail side)
 gd = m["site"]["features"]["daycare_garden"]
 add({"id": "FDN-garden-wall-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
-     "size": [0.35, 0], "z": [-1.8, 1.6], "note": "sunken-garden retaining wall on the trail side: concrete core, dry-stone face in stage 6; top steps with the ground (simplified)"}, 95)
+     "size": [0.35, 0], "z": [-1.8, 1.6], "note": "sunken-garden retaining wall on the trail side: concrete core, dry-laid granite face in stage 4; top steps with the ground (simplified)"}, 95)
 add({"id": "FDN-strip-garden-wall-W", "type": "strip_footing", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
      "size": [1.2, 0.4], "z": [-2.2, -1.8], "note": "strip footing under the garden wall"}, 50)
+
+# ---- below-grade layers stop under the finished ground (no membrane / gravel / pipe in the open: towers, gorge faces, garden)
+FIN = np.load(ROOT / "terrain" / "out" / "ravine" / "eroded_1m.npy")
+_g = np.arange(-1000, 1000) + 0.5
+_X, _Y = np.meshgrid(_g, _g)
+_pad = np.zeros(FIN.shape, bool)
+for pad in m["site"]["pads"]:
+    if pad["id"] in ("west_wing", "east_wing"):
+        _pad |= MPath(pad["poly"]).contains_points(np.stack([_X.ravel(), _Y.ravel()], 1)).reshape(FIN.shape)
+_pad = ndi.binary_dilation(_pad, iterations=1)
+
+
+def finished_ground(x, y, nx, ny):
+    """Lowest finished ground in a small patch just outside a wall face (skips the building's own excavation; 1 m grid)."""
+    zs = []
+    for d in (0.6, 1.6):
+        for lat in (-0.7, 0.0, 0.7):
+            i, j = int(np.clip(y + ny * d - nx * lat + 1000, 0, 1999)), int(np.clip(x + nx * d + ny * lat + 1000, 0, 1999))
+            if not _pad[i, j]:
+                zs.append(float(FIN[i, j]))
+    return min(zs) if zs else None
+
+
+COVER = {"membrane": 0.15, "drain_layer": 0.3, "drain_pipe": 0.6}  # how far below the finished ground each layer stops
+clipped = []
+for e in new:
+    if e["type"] not in COVER or "from" not in e:
+        clipped.append(e)
+        continue
+    (ax, ay), (bx, by) = e["from"], e["to"]
+    L = math.hypot(bx - ax, by - ay)
+    host = by_id.get(e["id"].split("-", 2)[2])  # FDN-membrane-<wall id>
+    (hx0, hy0), (hx1, hy1) = host["from"], host["to"]
+    nx, ny = ax - hx0, ay - hy0  # the layer is the host wall offset outward, so this is the outward direction
+    nl = math.hypot(nx, ny) or 1.0
+    nx, ny = nx / nl, ny / nl
+    n_ = max(2, int(math.ceil(L)))
+    gzs = [finished_ground(ax + (bx - ax) * (k + 0.5) / n_, ay + (by - ay) * (k + 0.5) / n_, nx, ny) for k in range(n_)]
+    known = [k for k, g in enumerate(gzs) if g is not None]
+    gzs = [g if g is not None else (gzs[min(known, key=lambda q: abs(q - k))] if known else None) for k, g in enumerate(gzs)]  # fill from the nearest sample
+    segs = []
+    for k in range(n_):
+        f0, f1 = k / n_, (k + 1) / n_
+        gz = gzs[k]
+        if e["type"] == "drain_pipe":
+            ok = gz is None or gz - COVER["drain_pipe"] >= e["z"][1]
+            top = e["z"][1] if ok else None
+        else:
+            top = e["z"][1] if gz is None else min(e["z"][1], round(np.floor((gz - COVER[e["type"]]) * 4) / 4, 2))
+            if top <= e["z"][0] + 0.1:
+                top = None
+        if segs and segs[-1][2] == top:
+            segs[-1][1] = f1
+        else:
+            segs.append([f0, f1, top])
+    for k, (f0, f1, top) in enumerate(segs):
+        if top is None:
+            continue
+        e2 = dict(e, id=e["id"] if len(segs) == 1 else f"{e['id']}-{k}",
+                  **{"from": [round(ax + (bx - ax) * f0, 3), round(ay + (by - ay) * f0, 3)], "to": [round(ax + (bx - ax) * f1, 3), round(ay + (by - ay) * f1, 3)]})
+        e2["z"] = [e["z"][0], top] if e["type"] != "drain_pipe" else e["z"]
+        clipped.append(e2)
+new = clipped
 
 m["elements"] = els + new
 modelio.save(m)

@@ -46,5 +46,5 @@ Design rule for this stage: as sleek as the frame allows, in the style-B languag
   - Core stairs: precast concrete doglegs (0.175 rise, 0.28 going). W1/W2 flights are 1.0 m (2.2 m clear inside the core), W3 1.2 m, E 1.2 m.
   - Core doors moved onto the floor landings (a door can't open onto a flight); lift doors added in W1 and E.
 - **Spiral F1 → F3:** an open helix with no centre post: inner + outer dark steel helical stringers, 56 solid oak treads. Same build for the daycare's round stair.
-- **F3 → F4 north stair:** built as a dogleg in its 6 × 5 m opening (two 2.7 m flights, 0.25 going), because a single straight flight of 5.6 m rise can't fit in 5 m.
+- **F3 → F4 north stair:** built as a dogleg in its 6 × 5 m opening (two 2.7 m flights, 0.25 going), because a single straight flight of 5.6 m rise can't fit in 5 m. It's an open feature stair, so it's heavier than the core stairs: 300 mm waist and a 350 mm in-situ half landing built into the north wall.
 - Every phase-3 element has `phase: 3` and a `seq` that runs bottom-up by elevation, for the construction timelapse.
