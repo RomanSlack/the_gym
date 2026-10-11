@@ -66,13 +66,15 @@ S("spiral-F2", "F2", "circulation", "Spiral stair", SPIRAL_BAY)
 S("machines", "F2", "gym", "Machines", [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]])
 
 # ---------------------------------------------------------------- F3 −9.77 (river rim)
-S("sled-track", "F3", "gym", "Turf sprint / sled lane · 46 m", R(-24.45, -34.1, -21.45, 12.1))
-S("strongman", "F3", "gym", "Strongman · yoke, sleds", R(-29.45, -34.1, -24.45, -11.0))
-S("strongman-n", "F3", "gym", "Strongman · atlas stones", R(-29.45, -11.0, -24.45, 12.1))
+# F3 = "the den" (Roman): dark, locked-in. Free weights along 3/4 of the west wall, floor-to-ceiling mirrors
+S("free-weights-F3", "F3", "gym", "Free weights · mirror wall · the den", R(-29.45, -34.1, -21.45, 0.55),
+  "34.65 m of floor-to-ceiling mirror on the west wall (mirror-clad flush doors); benches flat/incline/decline facing it; dumbbells 2.5-75 kg")
+S("strongman", "F3", "gym", "Strongman · yoke, atlas stones", R(-29.45, 0.55, -21.45, 12.1))
 S("spiral-F3", "F3", "circulation", "Spiral stair (arrival)", SPIRAL_BAY)
 S("north-stair-F3", "F3", "circulation", "Stair to F4", R(-21.45, 7.1, -15.45, 12.1))
 S("functional", "F3", "gym", "Functional / CrossFit rig",
-  [[-21.45, -34.1], [-12.0, -34.1], [-12.0, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-21.45, -18.7]])
+  [[-21.45, -34.1], [-14.45, -34.1], [-14.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-21.45, -18.7]])
+S("sled-track", "F3", "gym", "Turf sprint / sled lane · 46 m", R(-14.45, -34.1, -12.0, 12.1))
 S("river-edge", "F3", "feature", "River edge · waist-high river window + indoor stream", R(-12.0, -34.1, -6.45, 12.1),
   "river water at -8.77 against the glass (about waist height); indoor stream fed by a gated intake above the falls")
 
@@ -144,11 +146,15 @@ m["stairs"] = [
 m["fixtures"] = [
     {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [21.25, -1.35], "diameter": 7.0, "note": "centered in the cafe (Gym V2 had it at (20, 0.2))"},
     {"id": "reception_desk", "kind": "counter", "level": "E1", "rect": [24.4, 8.0, 25.4, 14.6], "note": "backed onto core E, facing the east entrance"},
+    *[{"id": f"f3_bench_{k}", "kind": "bench", "level": "F3", "rect": [-26.6, y_, -25.3, y_ + 0.5], "height": 0.45,
+       "note": ["flat", "incline", "decline"][k % 3] + " bench facing the mirror"} for k, y_ in enumerate([-32.2 + 2.25 * i for i in range(14)])],
+    *[{"id": f"f3_dumbbells_{k}", "kind": "rack", "level": "F3", "rect": [-29.1, a_, -28.4, b_], "height": 0.95, "note": "dumbbell rack"}
+      for k, (a_, b_) in enumerate([(-29.8, -25.0), (-22.0, -15.8), (-12.6, -1.0)])],
     {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]},
 ]
 
 # ---------------------------------------------------------------- slabs + walls (frame envelope)
-els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall")]
+els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall") and not e.get("fixed")]
 WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.5, 12.0, 11.3)
 holes = {  # openings through each slab
     "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}],  # pool basin
@@ -183,6 +189,8 @@ els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "d
                        for L in ("F4", "F3", "F2") for c_, s_ in (("W2", [2.6, 4.0]), ("W1", [19.0, 21.0]), ("WC annex", [10.0, 11.4]))] + [
                        {"s": [30.15, 32.25], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "men's express lift"},
                        {"s": [38.95, 41.05], "z": [lv["F4"], round(lv["F4"] + 2.3, 2)], "type": "door", "note": "women's express lift"}]
+els[-1]["finishes"] = [{"level": "F3", "face": "interior", "kind": "mirror", "s": [0.0, 34.65], "z": [lv["F3"], round(lv["F3"] + 3.6, 2)],
+                         "note": "floor-to-ceiling mirror; the door openings on this stretch get flush mirror-clad doors"}]
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # windows at F2/F3, underwater at F4

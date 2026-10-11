@@ -216,6 +216,10 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Trailhead:** the 8-space gravel lot moved closer (x 99–120 along the road, ~50 m from the entrance). A **connector trail** runs north to the loop, and a **park-style trailhead sign** (log posts, small gable roof, illustrated map panel `terrain/assets/trail_map_v1.png`, made with gpt-image-2) stands at the trail start.
 - **Outdoor garden terrace on the west side** (from Roman's sketch): a lawn garden between the two stair towers with moss/boulder beds and a big pine. It has a **timber training deck** off stretching & mobility with an **outdoor calisthenics rig** (pull-up bars at 3 heights, parallel bars), and a **path north along the back of the building into the sauna path and the trail**.
 - **F2:** cardio halved (north half, river views); the south half is more machines (plate-loaded + cable).
+- **Floor 3 is "the den"**: a darker, locked-in vibe with a black rubber floor, dark ceiling and low warm pools of light.
+  - **Free weights take 3/4 of the west wall** (34.65 m), which is **floor-to-ceiling mirror**. The doors on that stretch are flush mirror-clad.
+  - Rows of flat/incline/decline benches face the mirror, with dumbbell racks along it.
+  - Strongman takes the north quarter; the sled lane moved east next to the river edge.
 
 ## Open questions
 

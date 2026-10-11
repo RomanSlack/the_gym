@@ -54,7 +54,7 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
         ),
       )}
       {model.fixtures.filter((f) => show.includes(f.level)).map((f) => (
-        <g key={f.id} className="n-fixture" data-n={`${f.id} · ${f.kind}`}>
+        <g key={f.id} className={`n-fixture n-fixture-${f.kind}`} data-n={`${f.id} · ${f.note ?? f.kind}`}>
           {f.rect ? (
             <rect x={f.rect[0]} y={-f.rect[3]} width={f.rect[2] - f.rect[0]} height={f.rect[3] - f.rect[1]} />
           ) : (
@@ -90,6 +90,17 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
         );
         });
       })}
+      {/* wall finishes on this level (e.g. the F3 mirror wall): a bright line on the interior face */}
+      {model.elements.filter((w) => w.type === "wall" && w.finishes).flatMap((w) =>
+        w.finishes!.filter((f) => show.includes(f.level)).map((f, k) => {
+          const [wx0, wy0] = w.from!, [wx1, wy1] = w.to!;
+          const WL = Math.hypot(wx1 - wx0, wy1 - wy0), ux = (wx1 - wx0) / WL, uy = (wy1 - wy0) / WL;
+          const off = w.size[0] / 2 + 0.08; // interior face (walls are drawn from the building's west/south edge, interior to the +x / +y side)
+          const nx = uy * -off, ny = -ux * -off;
+          return <line key={`${w.id}-f${k}`} x1={wx0 + ux * f.s[0] + nx} y1={-(wy0 + uy * f.s[0] + ny)} x2={wx0 + ux * f.s[1] + nx} y2={-(wy0 + uy * f.s[1] + ny)}
+            className={`n-finish n-finish-${f.kind}`} data-n={`${f.kind} · ${f.note ?? ""}`} />;
+        }))}
+
       {spaces.map((s) => {
         const { at: [x, y], rotate, long } = labelPoint(s.poly);
         const a = polyArea(s.poly);

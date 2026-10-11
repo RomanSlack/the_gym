@@ -1104,7 +1104,7 @@
     {"id": "E1", "name": "East Floor 1 · Reception, cafe, daycare", "elevation": 0.12, "wing": "east", "note": "Gym V2 east slab is 0.12 above the west. Probably meant to be equal."},
     {"id": "F2", "name": "Floor 2 · Free weights, machines, cardio", "elevation": -4.91, "wing": "west"},
     {"id": "E2", "name": "East lower · Garage, game room, daycare 2", "elevation": -6.01, "wing": "east"},
-    {"id": "F3", "name": "Floor 3 · River rim, functional, strongman", "elevation": -9.77, "wing": "west"},
+    {"id": "F3", "name": "Floor 3 · The den: free weights, strongman, river rim", "elevation": -9.77, "wing": "west"},
     {"id": "F4", "name": "Floor 4 · Pool, recovery", "elevation": -15.39, "wing": "west"}
   ],
   "views": {
@@ -1135,24 +1135,6 @@
     {"id": "13", "from": [8.0, -9.5], "to": [34.5, -9.5]}
   ],
   "elements": [
-    {"id": "C-P-38.7--1.0", "type": "column", "material": "concrete", "at": [38.7, -1.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-38.7-11.0", "type": "column", "material": "concrete", "at": [38.7, 11.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-46.9--1.0", "type": "column", "material": "concrete", "at": [46.9, -1.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-46.9-11.0", "type": "column", "material": "concrete", "at": [46.9, 11.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-55.1--1.0", "type": "column", "material": "concrete", "at": [55.1, -1.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-55.1-11.0", "type": "column", "material": "concrete", "at": [55.1, 11.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
-    {"id": "C-P-38.7--1.0", "type": "column", "material": "concrete", "at": [38.7, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-38.7-11.0", "type": "column", "material": "concrete", "at": [38.7, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-46.9--1.0", "type": "column", "material": "concrete", "at": [46.9, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-46.9-11.0", "type": "column", "material": "concrete", "at": [46.9, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-55.1--1.0", "type": "column", "material": "concrete", "at": [55.1, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-55.1-11.0", "type": "column", "material": "concrete", "at": [55.1, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-38.7--1.0", "type": "column", "material": "concrete", "at": [38.7, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-38.7-11.0", "type": "column", "material": "concrete", "at": [38.7, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-46.9--1.0", "type": "column", "material": "concrete", "at": [46.9, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-46.9-11.0", "type": "column", "material": "concrete", "at": [46.9, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-55.1--1.0", "type": "column", "material": "concrete", "at": [55.1, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
-    {"id": "C-P-55.1-11.0", "type": "column", "material": "concrete", "at": [55.1, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
     {
       "id": "S-F4-west",
       "type": "slab",
@@ -1256,6 +1238,9 @@
         {"s": [10.0, 11.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
         {"s": [30.15, 32.25], "z": [-15.39, -13.09], "type": "door", "note": "men's express lift"},
         {"s": [38.95, 41.05], "z": [-15.39, -13.09], "type": "door", "note": "women's express lift"}
+      ],
+      "finishes": [
+        {"level": "F3", "face": "interior", "kind": "mirror", "s": [0.0, 34.65], "z": [-9.77, -6.17], "note": "floor-to-ceiling mirror; the door openings on this stretch get flush mirror-clad doors"}
       ]
     },
     {"id": "W-west-N", "type": "wall", "kind": "retaining", "material": "concrete", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.5, 15.74], "z": [-15.99, -0.25]},
@@ -1753,25 +1738,19 @@
       "poly": [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]]
     },
     {
-      "id": "sled-track",
+      "id": "free-weights-F3",
       "level": "F3",
       "kind": "gym",
-      "name": "Turf sprint / sled lane · 46 m",
-      "poly": [[-24.45, -34.1], [-21.45, -34.1], [-21.45, 12.1], [-24.45, 12.1]]
+      "name": "Free weights · mirror wall · the den",
+      "poly": [[-29.45, -34.1], [-21.45, -34.1], [-21.45, 0.55], [-29.45, 0.55]],
+      "note": "34.65 m of floor-to-ceiling mirror on the west wall (mirror-clad flush doors); benches flat/incline/decline facing it; dumbbells 2.5-75 kg"
     },
     {
       "id": "strongman",
       "level": "F3",
       "kind": "gym",
-      "name": "Strongman · yoke, sleds",
-      "poly": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -11.0], [-29.45, -11.0]]
-    },
-    {
-      "id": "strongman-n",
-      "level": "F3",
-      "kind": "gym",
-      "name": "Strongman · atlas stones",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, 12.1], [-29.45, 12.1]]
+      "name": "Strongman · yoke, atlas stones",
+      "poly": [[-29.45, 0.55], [-21.45, 0.55], [-21.45, 12.1], [-29.45, 12.1]]
     },
     {
       "id": "spiral-F3",
@@ -1792,7 +1771,14 @@
       "level": "F3",
       "kind": "gym",
       "name": "Functional / CrossFit rig",
-      "poly": [[-21.45, -34.1], [-12.0, -34.1], [-12.0, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-21.45, -18.7]]
+      "poly": [[-21.45, -34.1], [-14.45, -34.1], [-14.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-21.45, -18.7]]
+    },
+    {
+      "id": "sled-track",
+      "level": "F3",
+      "kind": "gym",
+      "name": "Turf sprint / sled lane · 46 m",
+      "poly": [[-14.45, -34.1], [-12.0, -34.1], [-12.0, 12.1], [-14.45, 12.1]]
     },
     {
       "id": "river-edge",
@@ -2074,6 +2060,23 @@
   "fixtures": [
     {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [21.25, -1.35], "diameter": 7.0, "note": "centered in the cafe (Gym V2 had it at (20, 0.2))"},
     {"id": "reception_desk", "kind": "counter", "level": "E1", "rect": [24.4, 8.0, 25.4, 14.6], "note": "backed onto core E, facing the east entrance"},
+    {"id": "f3_bench_0", "kind": "bench", "level": "F3", "rect": [-26.6, -32.2, -25.3, -31.700000000000003], "height": 0.45, "note": "flat bench facing the mirror"},
+    {"id": "f3_bench_1", "kind": "bench", "level": "F3", "rect": [-26.6, -29.950000000000003, -25.3, -29.450000000000003], "height": 0.45, "note": "incline bench facing the mirror"},
+    {"id": "f3_bench_2", "kind": "bench", "level": "F3", "rect": [-26.6, -27.700000000000003, -25.3, -27.200000000000003], "height": 0.45, "note": "decline bench facing the mirror"},
+    {"id": "f3_bench_3", "kind": "bench", "level": "F3", "rect": [-26.6, -25.450000000000003, -25.3, -24.950000000000003], "height": 0.45, "note": "flat bench facing the mirror"},
+    {"id": "f3_bench_4", "kind": "bench", "level": "F3", "rect": [-26.6, -23.200000000000003, -25.3, -22.700000000000003], "height": 0.45, "note": "incline bench facing the mirror"},
+    {"id": "f3_bench_5", "kind": "bench", "level": "F3", "rect": [-26.6, -20.950000000000003, -25.3, -20.450000000000003], "height": 0.45, "note": "decline bench facing the mirror"},
+    {"id": "f3_bench_6", "kind": "bench", "level": "F3", "rect": [-26.6, -18.700000000000003, -25.3, -18.200000000000003], "height": 0.45, "note": "flat bench facing the mirror"},
+    {"id": "f3_bench_7", "kind": "bench", "level": "F3", "rect": [-26.6, -16.450000000000003, -25.3, -15.950000000000003], "height": 0.45, "note": "incline bench facing the mirror"},
+    {"id": "f3_bench_8", "kind": "bench", "level": "F3", "rect": [-26.6, -14.200000000000003, -25.3, -13.700000000000003], "height": 0.45, "note": "decline bench facing the mirror"},
+    {"id": "f3_bench_9", "kind": "bench", "level": "F3", "rect": [-26.6, -11.950000000000003, -25.3, -11.450000000000003], "height": 0.45, "note": "flat bench facing the mirror"},
+    {"id": "f3_bench_10", "kind": "bench", "level": "F3", "rect": [-26.6, -9.700000000000003, -25.3, -9.200000000000003], "height": 0.45, "note": "incline bench facing the mirror"},
+    {"id": "f3_bench_11", "kind": "bench", "level": "F3", "rect": [-26.6, -7.450000000000003, -25.3, -6.950000000000003], "height": 0.45, "note": "decline bench facing the mirror"},
+    {"id": "f3_bench_12", "kind": "bench", "level": "F3", "rect": [-26.6, -5.200000000000003, -25.3, -4.700000000000003], "height": 0.45, "note": "flat bench facing the mirror"},
+    {"id": "f3_bench_13", "kind": "bench", "level": "F3", "rect": [-26.6, -2.950000000000003, -25.3, -2.450000000000003], "height": 0.45, "note": "incline bench facing the mirror"},
+    {"id": "f3_dumbbells_0", "kind": "rack", "level": "F3", "rect": [-29.1, -29.8, -28.4, -25.0], "height": 0.95, "note": "dumbbell rack"},
+    {"id": "f3_dumbbells_1", "kind": "rack", "level": "F3", "rect": [-29.1, -22.0, -28.4, -15.8], "height": 0.95, "note": "dumbbell rack"},
+    {"id": "f3_dumbbells_2", "kind": "rack", "level": "F3", "rect": [-29.1, -12.6, -28.4, -1.0], "height": 0.95, "note": "dumbbell rack"},
     {"id": "cafe_back_counter", "kind": "counter", "level": "E1", "rect": [15.5, -9.2, 27.0, -8.2]}
   ]
 }

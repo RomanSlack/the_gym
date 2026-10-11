@@ -239,3 +239,7 @@ html[data-theme="dark"] .w-shelter { fill: #3a3022; }
 html[data-theme="dark"] .replay-subject, html[data-theme="dark"] .replay-meta { color: #9a968c; }
 .w-deck { fill: #c9b9a0; }
 .w-rig { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 1 1; }
+.n-finish-mirror { stroke: #6fb4d6; stroke-width: 3; stroke-linecap: butt; }
+.n-fixture-bench rect { fill: #3a3a3a; stroke: none; }
+.n-fixture-rack rect { fill: #8c8c88; stroke: #3a3a3a; stroke-width: 0.5; }
+html[data-theme="dark"] .n-fixture-bench rect { fill: #9a968c; }

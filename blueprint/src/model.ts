@@ -48,6 +48,7 @@ export interface DesignElement {
   rect?: [number, number, number, number]; // slabs
   holes?: { circle?: [number, number, number]; rect?: Pt[] }[];
   openings?: { s: [number, number]; z: [number, number]; type: string; note?: string }[]; // walls: windows along the wall
+  finishes?: { level: string; face: string; kind: string; s: [number, number]; z: [number, number]; note?: string }[];
   size: Pt; // column: [w, d]; beam: [width, depth]; wall: [thickness, height]
   z: [number, number];
 }
@@ -75,7 +76,9 @@ export interface Fixture {
   level: string;
   center?: Pt; // round fixtures
   diameter?: number;
-  rect?: [number, number, number, number]; // counters
+  rect?: [number, number, number, number]; // counters, benches, racks
+  height?: number;
+  note?: string;
 }
 
 /** Plan footprint (4 corners) of a design element. */

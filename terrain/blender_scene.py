@@ -524,6 +524,29 @@ if bs:
     box("bs_sod", x0 - 0.5, y0 - 0.5, rz + 0.25, x1 + 0.5, y1 + 0.5, rz + 0.45, bpy.data.materials.get("sod_roof") or moss)
     for px in np.arange(x0 + 0.6, x1 - 0.3, 0.7):  # bike stands
         box(f"bs_rack_{px:.1f}", px - 0.03, y0 + 1.2, fz, px + 0.03, y1 - 1.2, fz + 0.8, mullion)
+# wall finishes: floor-to-ceiling mirrors (F3 den)
+mirror_m = material("mirror", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.9, 0.9, 0.9, 1)), b.inputs["Metallic"].__setattr__("default_value", 1.0), b.inputs["Roughness"].__setattr__("default_value", 0.02)))
+for e in model["elements"]:
+    for fin in e.get("finishes", []):
+        if fin["kind"] != "mirror":
+            continue
+        (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
+        WL = math.hypot(wx1 - wx0, wy1 - wy0); ux_, uy_ = (wx1 - wx0) / WL, (wy1 - wy0) / WL
+        off = e["size"][0] / 2 + 0.03
+        a_ = (wx0 + ux_ * fin["s"][0] + uy_ * off, wy0 + uy_ * fin["s"][0] - ux_ * off)
+        b_ = (wx0 + ux_ * fin["s"][1] + uy_ * off, wy0 + uy_ * fin["s"][1] - ux_ * off)
+        oriented_box(f"{e['id']}_mirror", a_, b_, 0.02, fin["z"][0], fin["z"][1], mirror_m)
+# F3 den: black rubber floor, dark ceiling, low warm light instead of the bright wash
+rubber = material("rubber_floor", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.015, 0.015, 0.016, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.9)))
+box("f3_rubber_floor", -29.2, -33.85, LV["F3"], -6.7, 11.85, LV["F3"] + 0.015, rubber)
+dark_ceiling = material("dark_ceiling", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.03, 0.03, 0.032, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.8)))
+box("f3_dark_ceiling", -29.2, -33.85, LV["F2"] - 1.3, -6.7, 11.85, LV["F2"] - 1.25, dark_ceiling)
+if bpy.data.objects.get("light_F3"):
+    bpy.data.objects["light_F3"].data.energy = 1200
+for k, yy in enumerate(np.arange(-31.5, 0.0, 3.4)):  # warm pools of light over the bench line
+    sl = bpy.data.objects.new(f"f3_spot_{k}", bpy.data.lights.new(f"f3_spot_{k}", "SPOT"))
+    sl.data.energy = 900; sl.data.color = (1.0, 0.72, 0.45); sl.data.spot_size = math.radians(55); sl.data.spot_blend = 0.6
+    sl.location = (-26.0, yy, LV["F3"] + 3.4); scene.collection.objects.link(sl)
 # underground bike + motorcycle parking along the garage's south wall
 for sp in model.get("spaces", []):
     if sp["id"] == "bike-moto":
@@ -634,9 +657,9 @@ for st in model.get("stairs", []):
         for k in range(n):
             box(f"{st['id']}_t{k}", x0 + 0.3, y0 + run * k, zlo + rise * (k + 1) - 0.06, x1 - 0.3, y0 + run * (k + 1), zlo + rise * (k + 1), glulam)
 for f in model.get("fixtures", []):
-    if "rect" in f:  # counters: 1.05 m high timber
+    if "rect" in f:  # counters (timber), benches + racks (black steel)
         x0, y0, x1, y1 = f["rect"]
-        box(f["id"], x0, y0, LV[f["level"]], x1, y1, LV[f["level"]] + 1.05, glulam)
+        box(f["id"], x0, y0, LV[f["level"]], x1, y1, LV[f["level"]] + f.get("height", 1.05), glulam if f["kind"] == "counter" else mullion)
         continue
     (cx, cy), R_ = f["center"], f["diameter"] / 2
     bpy.ops.mesh.primitive_cylinder_add(radius=R_, depth=1.1, location=(cx, cy, LV[f["level"]] + 0.55), vertices=64)
