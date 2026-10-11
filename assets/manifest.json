@@ -189,6 +189,13 @@
       "res": "2k",
       "license": "CC0",
       "used_for": "pale ash: wave ceiling baffles"
+    },
+    {
+      "source": "polyhaven",
+      "id": "black_painted_planks",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "black-stained / tarred timber: cladding, facade posts, header band"
     }
   ],
   "hdris": [

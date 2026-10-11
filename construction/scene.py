@@ -144,16 +144,16 @@ MAT = {
     "glulam": bc.material("glulam", (0.55, 0.36, 0.2), 0.6),
     "clt": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
     "timber": bc.material("clt", (0.62, 0.45, 0.28), 0.65),
-    "steel_dark": bc.material("steel_dark", (0.03, 0.03, 0.032), 0.45, metal=0.7),
+    "steel_dark": bc.powder_coat("steel_powdercoat"),
     "precast": bc.material("precast", (0.56, 0.55, 0.52), 0.8),
     "oak": bc.material("oak", (0.42, 0.28, 0.15), 0.5),
-    "timber_clad": bc.material("tarred_timber", (0.022, 0.02, 0.018), 0.75),
+    "timber_clad": bc.stained_timber("tarred_timber"),
     "stone": bc.material("granite_plinth", (0.075, 0.073, 0.07), 0.9),
     "glass": bc.material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
     "glass_obscured": bc.material("glass_obscured", (0.55, 0.58, 0.6), 0.35, alpha=0.75),
     "acrylic": bc.material("acrylic", (0.05, 0.08, 0.09), 0.03, alpha=0.2),
     "sod": bc.material("sod", (0.07, 0.11, 0.035), 0.95),
-    "frame": bc.metal_material("window_frame", (0.03, 0.03, 0.032), rough=(0.3, 0.5), brushed=False),  # dark anodised aluminium
+    "frame": bc.powder_coat("frame_powdercoat"),  # powder-coated aluminium frames
 }
 PHASES = {1: "1 · foundations", 3: "3 · structure", 4: "4 · envelope", 5: "5 · interior shell"}
 if STAGE >= 4:  # Cycles: real architectural glass (daylight comes through)
@@ -407,6 +407,11 @@ CAMS = {
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
+if STAGE >= 4:  # frames, mullions, posts, girders, stained columns: small bevels so every edge catches a highlight (real profiles are never razor sharp)
+    for o in bpy.data.objects:
+        if o.type == "MESH" and o.data.materials and o.data.materials[0].name in ("frame_powdercoat", "steel_powdercoat", "tarred_timber") \
+                and not any(md_.type == "BOOLEAN" for md_ in o.modifiers):
+            bv = o.modifiers.new("edge", "BEVEL"); bv.width = 0.004; bv.segments = 2; bv.limit_method = "ANGLE"; bv.harden_normals = False
 for o in bpy.data.objects:  # primitives + boolean results: flat shading for every hard-surface element
     organic = o.name.startswith(("terrain", "river", "falls", "tuft_", "shoot_", "lawn_ground")) or \
         any(c_.name.startswith("v") and "_L" in c_.name for c_ in o.users_collection)  # library trees keep their smooth wood
@@ -431,9 +436,12 @@ if RENDER:
         v = 1 + max([int(p_.stem.rsplit("_v", 1)[1]) for p_ in RND.glob(f"stage_{STAGE}_{n}_v*.jpg") if p_.stem.rsplit("_v", 1)[1].isdigit()] or [0])
         img_ = bpy.data.images.load(scene.render.filepath)
         sc_ = bpy.context.scene; ff = sc_.render.image_settings.file_format; q_ = sc_.render.image_settings.quality
+        vs_ = sc_.view_settings; keep_ = (vs_.view_transform, vs_.look, vs_.exposure)
+        vs_.view_transform = "Standard"; vs_.look = "None"; vs_.exposure = 0.0  # the PNG is already graded: store it as is
         sc_.render.image_settings.file_format = "JPEG"; sc_.render.image_settings.quality = 90
         img_.save_render(str(RND / f"stage_{STAGE}_{n}_v{v:03d}.jpg"), scene=sc_)
         sc_.render.image_settings.file_format = ff; sc_.render.image_settings.quality = q_
+        vs_.view_transform, vs_.look, vs_.exposure = keep_
         bpy.data.images.remove(img_)
         print("kept", f"stage_{STAGE}_{n}_v{v:03d}.jpg")
 print("stage", STAGE, "done")

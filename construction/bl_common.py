@@ -717,3 +717,40 @@ def pattern_wave_ceiling(e, mat, coll, beam_lines):
     ob = mesh_from(e["id"], vs, fs, {"prand": np.array(pr)}, smooth=False, coll=coll)
     ob.data.materials.append(mat)
     return ob
+
+
+def powder_coat(name, rgb=(0.028, 0.028, 0.03)):
+    """Powder-coated / painted steel and aluminium (frames, posts, girders): a dielectric paint, not bare metal. Reads real through
+    (1) orange-peel micro texture in the bump, (2) roughness that drifts across a member (0.28-0.5), (3) a faint lighter cast on
+    edges where the coat thins (pointiness), (4) a very fine dust layer on upward faces. Pair with small bevels so edges catch light."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Metallic"].default_value = 0.0
+    for nm in ("Coat Weight", "Clearcoat"):
+        if nm in b.inputs:
+            b.inputs[nm].default_value = 0.1; break
+    tc = N.new("ShaderNodeTexCoord"); geo = N.new("ShaderNodeNewGeometry")
+    drift = N.new("ShaderNodeTexNoise"); drift.inputs["Scale"].default_value = 2.5; drift.inputs["Detail"].default_value = 3; L.new(tc.outputs["Object"], drift.inputs["Vector"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.28; rr.inputs[4].default_value = 0.5; L.new(drift.outputs["Fac"], rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
+    col = N.new("ShaderNodeCombineColor"); col.inputs[0].default_value, col.inputs[1].default_value, col.inputs[2].default_value = rgb
+    edge = N.new("ShaderNodeMapRange"); edge.inputs[1].default_value = 0.5; edge.inputs[2].default_value = 0.56; L.new(geo.outputs["Pointiness"], edge.inputs[0])
+    em = N.new("ShaderNodeMix"); em.data_type = "RGBA"; em.inputs["B"].default_value = (rgb[0] * 2.6 + 0.02, rgb[1] * 2.6 + 0.02, rgb[2] * 2.6 + 0.02, 1)
+    ef = N.new("ShaderNodeMath"); ef.operation = "MULTIPLY"; ef.inputs[1].default_value = 0.0; L.new(edge.outputs[0], ef.inputs[0])  # pointiness is unreliable on box profiles: off
+    L.new(ef.outputs[0], em.inputs["Factor"]); L.new(col.outputs[0], em.inputs["A"])
+    sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo.outputs["Normal"], sep.inputs[0])
+    up = N.new("ShaderNodeMapRange"); up.inputs[1].default_value = 0.7; up.inputs[2].default_value = 1.0; up.inputs[4].default_value = 0.08; L.new(sep.outputs["Z"], up.inputs[0])
+    dust = N.new("ShaderNodeMix"); dust.data_type = "RGBA"; dust.inputs["B"].default_value = (0.18, 0.17, 0.16, 1)
+    L.new(up.outputs[0], dust.inputs["Factor"]); L.new(em.outputs["Result"], dust.inputs["A"]); L.new(dust.outputs["Result"], b.inputs["Base Color"])
+    peel = N.new("ShaderNodeTexNoise"); peel.inputs["Scale"].default_value = 900.0; peel.inputs["Detail"].default_value = 2
+    L.new(tc.outputs["Object"], peel.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.12; bp.inputs["Distance"].default_value = 0.0004
+    L.new(peel.outputs["Fac"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def stained_timber(name="tarred_timber"):
+    """Black-stained / tarred timber with its grain showing through (scanned CC0 black painted planks)."""
+    return pbr_material(name, "black_painted_planks", 1.6, box=True, tint=(0.9, 0.88, 0.85), sat=0.6, val=0.85, piece_var=0.08, rough_mul=0.9, rough_add=0.05)
