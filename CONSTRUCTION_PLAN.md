@@ -4,6 +4,17 @@ We build the gym the way a real construction crew would, in stages. Each stage s
 
 Source of truth stays `model/building.json`. Each stage adds real elements to it, with real thicknesses, layers and build order. Blender scenes are generated from it, one collection per phase.
 
+## Progress
+
+- ✅ **Stage 0 · Site**: `construction/out/stage_0.blend`, renders in `construction/renders/stage_0_*`.
+- ✅ **Stage 1 · Foundations** (awaiting Roman's review): `construction/out/stage_1.blend`, renders in `construction/renders/stage_1_*`. 192 phase-1 elements from `tools/foundations.py`:
+  - construction pit with rock-cut faces, and a temporary sheet-pile cofferdam that keeps the river off the river wall
+  - 196 rock anchors (8 m, F4 raft + pool), blinding, thickened strip footings, rafts (F4, pool basin 2 m deeper, cores/lift pits, annexes, E2, parking), parking pad footings
+  - below-grade retaining walls + the river wall with its formed window openings
+  - waterproofing membranes, drainage gravel + perimeter drains
+  - garage-ramp trench walls + cut-and-cover tunnel roof
+- Build: `python3 tools/build_model.py` then `blender -b --factory-startup --python construction/scene.py -- <stage> render`.
+
 ## Stages
 
 | # | Stage | What gets modelled | Review gate |

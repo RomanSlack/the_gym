@@ -9,6 +9,7 @@ import json
 import sys
 from pathlib import Path
 
+import math
 import numpy as np
 import bpy
 
@@ -57,7 +58,10 @@ if STAGE >= 1 and (OUT / "dewatered_1m.npy").exists():
 bc.water_mesh("river", W[c], DX0 + 0.5, DY0 + 0.5, 1.0, coll=site0)
 
 # natural cliffs (only where the ravine was already rock, not on excavation faces)
-bc.cliff_rocks(natural[c], rock[c], DX0, DY0, exclude=cut[c] > 0, rng=rng, coll=site0)
+busy = cut[c] > 0
+for _ in range(5):  # keep natural rock blocks clear of the excavation and the new walls
+    busy = busy | np.roll(busy, 1, 0) | np.roll(busy, -1, 0) | np.roll(busy, 1, 1) | np.roll(busy, -1, 1)
+bc.cliff_rocks(natural[c], rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)
 
 # falls: water curtains where the designed water level drops > 2 m between close stations
 st = sorted(model["site"]["ravine"]["stations"], key=lambda s: -s["y"])
@@ -83,16 +87,28 @@ MAT = {
     "gravel": bc.material("drain_gravel", (0.33, 0.31, 0.28), 1.0),
     "pipe": bc.material("drain_pipe", (0.6, 0.45, 0.1), 0.5),
 }
-import math  # noqa: E402
 for ph in range(1, STAGE + 1):
     coll = bc.collection({1: "1 · foundations"}.get(ph, f"{ph}"))
     for e in sorted((e for e in model["elements"] if e.get("phase") == ph), key=lambda e: e.get("seq", 0)):
         mat = MAT.get(e["material"], MAT["concrete"])
         z0, z1 = e["z"]
         if e["type"] in ("slab", "footing", "blinding") and "rect" in e:
-            x0, y0, x1, y1 = e["rect"]; bc.box(e["id"], x0, y0, z0, x1, y1, z1, mat, coll)
+            x0, y0, x1, y1 = e["rect"]; ob = bc.box(e["id"], x0, y0, z0, x1, y1, z1, mat, coll)
+            for k, h in enumerate(e.get("holes", [])):
+                if "rect" in h:  # e.g. the pool basin through the F4 raft
+                    xs_, ys_ = [p[0] for p in h["rect"]], [p[1] for p in h["rect"]]
+                    cu = bc.box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
+                    cu.hide_render = True; cu.hide_viewport = True
+                    md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
         elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing"):
-            bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
+            ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
+            (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
+            WL = math.hypot(wx1 - wx0, wy1 - wy0); ux, uy = (wx1 - wx0) / WL, (wy1 - wy0) / WL
+            for k, op in enumerate(e.get("openings", [])):  # formed openings (windows, doors) cut with booleans
+                cut_ob = bc.oriented_box(f"{e['id']}_op{k}", (wx0 + ux * op["s"][0], wy0 + uy * op["s"][0]), (wx0 + ux * op["s"][1], wy0 + uy * op["s"][1]),
+                                         e["size"][0] + 1.0, op["z"][0], op["z"][1], mat, coll)
+                cut_ob.hide_render = True; cut_ob.hide_viewport = True
+                md = ob.modifiers.new(f"op{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cut_ob
         elif e["type"] == "pad_footing":
             (x, y), (w, d) = e["at"], e["size"]; bc.box(e["id"], x - w / 2, y - d / 2, z0, x + w / 2, y + d / 2, z1, mat, coll)
         elif e["type"] == "anchor_field":  # one instanced bar per grid point
@@ -121,12 +137,14 @@ CAMS = {
     "site_top": ((5, 0, 300), (5, 0.01, 0), ("ORTHO", 150)),
     "pit_overview": ((-70, -85, 45), (-5, 0, -10), 26),
     "pit_east": ((80, 40, 30), (5, 5, -8), 26),
+    "cofferdam": ((14, -50, 4), (-6, -10, -12), 22),
+    "pit_floor": ((-26, 8, -3), (-12, -20, -16), 18),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
-    for n in (["site_aerial", "ravine_upstream", "site_top"] if STAGE == 0 else ["pit_overview", "pit_east", "site_top", "ravine_upstream"]):
+    for n in (["site_aerial", "ravine_upstream", "site_top"] if STAGE == 0 else ["pit_overview", "pit_east", "cofferdam", "pit_floor", "site_top"]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
