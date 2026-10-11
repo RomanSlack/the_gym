@@ -56,6 +56,41 @@
       "res": "2k",
       "license": "CC0",
       "used_for": "dry grass variation"
+    },
+    {
+      "source": "polyhaven",
+      "id": "gravel_ground_01",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "paths, trail"
+    },
+    {
+      "source": "polyhaven",
+      "id": "dark_rock",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "granite cliff blocks"
+    },
+    {
+      "source": "polyhaven",
+      "id": "lichen_rock",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "cliff blocks, lichen"
+    },
+    {
+      "source": "polyhaven",
+      "id": "quarry_wall",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "fresh-cut rock faces"
+    },
+    {
+      "source": "polyhaven",
+      "id": "river_small_rocks",
+      "res": "2k",
+      "license": "CC0",
+      "used_for": "riverbed under the water"
     }
   ],
   "hdris": [],

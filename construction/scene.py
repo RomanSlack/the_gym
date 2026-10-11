@@ -64,14 +64,19 @@ if STAGE >= 4:  # backfilled against the walls + final grading: the finished sit
 
 site0 = bc.collection("0 · site")
 if STAGE >= 4:  # a local patch round the building gets the volumes cut out exactly; the rest stays one plain grid
+    import ground  # noqa: E402  (construction/ground.py)
     Hc, Rc, Cc = H[c], rock[c], cut[c]
+    GM = ground.ground_masks(Hc.shape, c, ROOT / "model" / "forest_sr16.npz", np.load(RV / "features_1m.npy").astype(int), rock, np.load(RV / "water_1m.npy"))
+    GM["cut"] = Cc
     r0, r1, c0, c1 = -50 - DY0, 50 - DY0, -50 - DX0, 70 - DX0  # patch rows / cols in the cropped grid
     keep = np.ones((Hc.shape[0] - 1, Hc.shape[1] - 1), bool); keep[r0:r1, c0:c1] = False
-    terr = bc.grid_mesh("terrain_detail", Hc, DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": Rc, "cut": Cc}, coll=site0, keep=keep)
-    terr.data.materials.append(bc.terrain_material())
+    terr = bc.grid_mesh("terrain_detail", Hc, DX0 + 0.5, DY0 + 0.5, 1.0, GM, coll=site0, keep=keep)
+    bc.terrain_material()  # still used by the far context ring
+    TM = ground.terrain_material_v2()
+    terr.data.materials.append(TM)
     patch = bc.grid_mesh("terrain_building", Hc[r0:r1 + 1, c0:c1 + 1], DX0 + 0.5 + c0, DY0 + 0.5 + r0, 1.0,
-                         {"rock": Rc[r0:r1 + 1, c0:c1 + 1], "cut": Cc[r0:r1 + 1, c0:c1 + 1]}, coll=site0)
-    patch.data.materials.append(bpy.data.materials["terrain"])
+                         {k: v[r0:r1 + 1, c0:c1 + 1] for k, v in GM.items()}, coll=site0)
+    patch.data.materials.append(TM)
     vs, fs = [], []
     for (x0_, y0_, x1_, y1_), zb, zt in VOIDS:
         b = len(vs)
@@ -106,7 +111,9 @@ if STAGE >= 4:  # keep natural rock blocks off the building, site works and grad
     busy = fm_ | (np.abs(H - natural)[c] > 0.5)
 for _ in range(5):  # keep natural rock blocks clear of the excavation and the new walls
     busy = busy | np.roll(busy, 1, 0) | np.roll(busy, -1, 0) | np.roll(busy, 1, 1) | np.roll(busy, -1, 1)
-bc.cliff_rocks((H if STAGE >= 4 else natural)[c], rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)
+Hn_ = (H if STAGE >= 4 else natural)[c]
+bc.cliff_face(Hn_, rock[c], DX0, DY0, exclude=busy, coll=site0)       # jointed granite skin on the ravine walls
+bc.fallen_blocks(Hn_, rock[c], DX0, DY0, exclude=busy, rng=rng, coll=site0)  # a few big angular blocks at the toes
 
 # falls: water curtains where the designed water level drops > 2 m between close stations
 st = sorted(model["site"]["ravine"]["stations"], key=lambda s: -s["y"])
@@ -250,6 +257,28 @@ for ph in range(1, STAGE + 1):
                 cc.objects.unlink(o)
             coll.objects.link(o)
 
+# ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
+if STAGE >= 4:
+    gcoll = bc.collection("6 · grass")
+    protos_meadow = [ground.grass_proto("tuft_meadow", "meadow", gcoll), ground.grass_proto("tuft_dry", "dry", gcoll)]
+    protos_lawn = [ground.grass_proto("tuft_lawn", "lawn", gcoll), ground.grass_proto("tuft_meadow2", "meadow", gcoll)]
+    ng_roof = ground.grass_nodes("GN_grass_roof", protos_meadow, density=45, seed=1)
+    for o in [o for o in bpy.data.objects if o.name.startswith("EN-sod-") or o.name == "RF-W3-sod"]:
+        md_ = o.modifiers.new("grass", "NODES"); md_.node_group = ng_roof
+    # lawns + meadow + garden beds: a distribution surface from the terrain cells flagged lawn
+    lm = GM["lawn"]
+    ii, jj = np.nonzero(lm[:-1, :-1] * lm[1:, :-1] * lm[:-1, 1:] * lm[1:, 1:] > 0)
+    if len(ii):
+        vv, ff = [], []
+        for k_, (i_, j_) in enumerate(zip(ii, jj)):
+            x_, y_ = DX0 + 0.5 + j_, DY0 + 0.5 + i_
+            vv += [(x_, y_, Hc[i_, j_]), (x_ + 1, y_, Hc[i_, j_ + 1]), (x_ + 1, y_ + 1, Hc[i_ + 1, j_ + 1]), (x_, y_ + 1, Hc[i_ + 1, j_])]
+            ff.append((4 * k_, 4 * k_ + 1, 4 * k_ + 2, 4 * k_ + 3))
+        lawn_ob = bc.mesh_from("lawn_ground", vv, ff, smooth=False, coll=gcoll)
+        lawn_ob.data.materials.append(TM)
+        md_ = lawn_ob.modifiers.new("grass", "NODES"); md_.node_group = ground.grass_nodes("GN_grass_lawn", protos_lawn, density=40, seed=2)
+        print("grass: lawn", len(ff), "m2; sod roofs", sum(1 for o in bpy.data.objects if o.name.startswith("EN-sod-")))
+
 # ---------------------------------------------------------------- forest (stage 4+: the site is landscaped round the finished building)
 LOD_EYE = None
 if STAGE >= 4 and (OUT / "tree_lib.blend").exists() and (OUT / "forest_points.npz").exists():
@@ -285,8 +314,11 @@ if STAGE >= 4 and (OUT / "tree_lib.blend").exists() and (OUT / "forest_points.np
         a_ = N_.new("GeometryNodeInputNamedAttribute"); a_.data_type = typ; a_.inputs["Name"].default_value = name
         return a_.outputs["Attribute"]
     index = mnode("ADD", mnode("MULTIPLY", attr("idx", "INT"), 3), lod)
+    # no tree within 5 m of the rendering camera (a camera never starts inside a crown)
+    near = mnode("LESS_THAN", dist.outputs["Value"], 5.0)
+    dl = N_.new("GeometryNodeDeleteGeometry"); dl.domain = "POINT"; L_.new(gi.outputs[0], dl.inputs["Geometry"]); L_.new(near, dl.inputs["Selection"])
     ip = N_.new("GeometryNodeInstanceOnPoints"); ip.inputs["Pick Instance"].default_value = True
-    L_.new(gi.outputs[0], ip.inputs["Points"]); L_.new(ci.outputs[0], ip.inputs["Instance"]); L_.new(index, ip.inputs["Instance Index"])
+    L_.new(dl.outputs[0], ip.inputs["Points"]); L_.new(ci.outputs[0], ip.inputs["Instance"]); L_.new(index, ip.inputs["Instance Index"])
     rz = N_.new("ShaderNodeCombineXYZ"); L_.new(attr("rot"), rz.inputs["Z"])
     e2r = N_.new("FunctionNodeEulerToRotation"); L_.new(rz.outputs[0], e2r.inputs[0]); L_.new(e2r.outputs[0], ip.inputs["Rotation"])
     L_.new(attr("scl"), ip.inputs["Scale"])
@@ -323,7 +355,9 @@ CAMS = {
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
 for o in bpy.data.objects:  # primitives + boolean results: flat shading for every hard-surface element
-    if o.type == "MESH" and not o.name.startswith(("terrain", "river", "falls")):
+    organic = o.name.startswith(("terrain", "river", "falls", "tuft_", "shoot_", "lawn_ground")) or \
+        any(c_.name.startswith("v") and "_L" in c_.name for c_ in o.users_collection)  # library trees keep their smooth wood
+    if o.type == "MESH" and not organic:
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
