@@ -90,9 +90,9 @@ S("treatment-s", "F4", "wet", "Treatment room", R(-29.45, -11.0, -24.45, -4.5))
 S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts from the locker rooms", R(-29.45, -4.5, -24.45, 7.9), "arrive from the locker rooms in robes, straight onto the pool deck")
 
 # ---------------------------------------------------------------- lounge link (F1)
-S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.1, 12.0, 8.3), "sliding glass walls open fully onto the decks")
+S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.5, 12.0, 8.3), "sliding glass walls open fully onto the decks")
 S("deck-n", "F1", "outdoor", "Deck · falls view", R(-6.45, 8.3, 12.0, 11.3))
-S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.1, 12.0, -9.1))
+S("deck-s", "F1", "outdoor", "Deck", R(-6.45, -12.5, 12.0, -9.5))
 
 # ---------------------------------------------------------------- east wing E1 +0.12
 S("cafe", "E1", "lounge", "Cafe · round island bar", R(12.0, -9.5, 21.25, 7.62))
@@ -121,7 +121,7 @@ m["fixtures"] = [
 
 # ---------------------------------------------------------------- slabs + walls (frame envelope)
 els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall")]
-WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.1, 12.0, 11.3)
+WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.5, 12.0, 11.3)
 holes = {  # openings through each slab
     "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}],  # pool basin
     "F1": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
@@ -137,11 +137,13 @@ for L, rect, thick in (("F4", WEST, 0.6), ("F3", WEST, 0.25), ("F2", WEST, 0.25)
                 "holes": holes.get(L, []) if rect is not LINK else []})
 els.append({"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": []})
 els.append({"id": "S-RF-annex", "type": "slab", "material": "clt", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [3.0, 3.2], "holes": []})
-for name, rect in (("west", WEST), ("east", EAST), ("link", (-6.45, -9.1, 12.0, 8.3))):
+for name, rect in (("west", WEST), ("east", EAST), ("link", (-6.45, -9.5, 12.0, 8.3))):
     els.append({"id": f"S-RF-{name}", "type": "slab", "material": "clt", "rect": list(rect), "z": [5.64, 5.84], "holes": []})
 
 
 def wall(id_, a, b, t, z0, z1, kind, material):
+    if abs(a[0] - b[0]) + abs(a[1] - b[1]) < 0.05:  # zero-length (e.g. a glazing segment closed up by a flush edge)
+        return
     els.append({"id": id_, "type": "wall", "kind": kind, "material": material, "from": a, "to": b,
                 "size": [t, round(z1 - z0, 2)], "z": [round(z0, 2), round(z1, 2)]})
 
@@ -180,7 +182,7 @@ for cid in ("W1", "W2"):
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")
-for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.1], "C1"), ([x1, 8.3], [x1, y1], "C2")):
+for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.5], "C1"), ([x1, 8.3], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
 x0, y0, x1, y1 = EAST
 zb, zt = lv["E2"] - 0.6, lv["E1"] - 0.25
@@ -191,9 +193,9 @@ wall("G-E2-W", [x0, y0], [x0, 12.0], 0.15, lv["E2"], zt, "glazed", "glass")    #
 wall("W-east-W", [x0, 12.0], [x0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("W-east-N1", [x0, y1], [18.0, y1], 0.4, zb, zt, "retaining", "concrete")
 wall("G-E2-N", [18.0, y1], [x1, y1], 0.15, lv["E2"], zt, "glazed", "glass")     # daycare onto the sunken garden
-for (a, b, n) in (([x0, y0], [x0, -9.1], "W1"), ([x0, 8.3], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):
+for (a, b, n) in (([x0, y0], [x0, -9.5], "W1"), ([x0, 8.3], [x0, y1], "W2"), ([x0, y1], [x1, y1], "N"), ([x1, y0], [x1, y1], "E"), ([x0, y0], [x1, y0], "S")):
     wall(f"G-E1-{n}", a, b, 0.15, lv["E1"], 4.34, "glazed", "glass")
-for (a, b, n) in (([-6.45, -9.1], [12.0, -9.1], "S"), ([-6.45, 8.3], [12.0, 8.3], "N")):
+for (a, b, n) in (([-6.45, -9.5], [12.0, -9.5], "S"), ([-6.45, 8.3], [12.0, 8.3], "N")):
     wall(f"G-link-{n}", a, b, 0.12, 0.0, 4.0, "glazed", "glass")  # sliding glass walls
 
 m["elements"] = els

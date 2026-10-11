@@ -996,12 +996,12 @@
         }
       ]
     },
-    {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.1, 12.0, 11.3], "z": [-0.3, 0.0], "holes": []},
+    {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.5, 12.0, 11.3], "z": [-0.3, 0.0], "holes": []},
     {"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": []},
     {"id": "S-RF-annex", "type": "slab", "material": "clt", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [3.0, 3.2], "holes": []},
     {"id": "S-RF-west", "type": "slab", "material": "clt", "rect": [-29.45, -34.1, -6.45, 12.1], "z": [5.64, 5.84], "holes": []},
     {"id": "S-RF-east", "type": "slab", "material": "clt", "rect": [12.0, -9.5, 30.5, 33.3], "z": [5.64, 5.84], "holes": []},
-    {"id": "S-RF-link", "type": "slab", "material": "clt", "rect": [-6.45, -9.1, 12.0, 8.3], "z": [5.64, 5.84], "holes": []},
+    {"id": "S-RF-link", "type": "slab", "material": "clt", "rect": [-6.45, -9.5, 12.0, 8.3], "z": [5.64, 5.84], "holes": []},
     {
       "id": "W-west-A",
       "type": "wall",
@@ -1079,7 +1079,7 @@
     {"id": "G-F1-A2", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, 4.5], "to": [-29.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
-    {"id": "G-F1-C1", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -34.1], "to": [-6.45, -9.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-C1", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -34.1], "to": [-6.45, -9.5], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-C2", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, 8.3], "to": [-6.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "W-east-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "W-east-E1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, -9.5], "to": [30.5, -6.0], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
@@ -1088,12 +1088,11 @@
     {"id": "W-east-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 12.0], "to": [12.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "W-east-N1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, 33.3], "to": [18.0, 33.3], "size": [0.4, 6.48], "z": [-6.61, -0.13]},
     {"id": "G-E2-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [18.0, 33.3], "to": [30.5, 33.3], "size": [0.15, 5.88], "z": [-6.01, -0.13]},
-    {"id": "G-E1-W1", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [12.0, -9.1], "size": [0.15, 4.22], "z": [0.12, 4.34]},
     {"id": "G-E1-W2", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, 8.3], "to": [12.0, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
     {"id": "G-E1-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, 33.3], "to": [30.5, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
     {"id": "G-E1-E", "type": "wall", "kind": "glazed", "material": "glass", "from": [30.5, -9.5], "to": [30.5, 33.3], "size": [0.15, 4.22], "z": [0.12, 4.34]},
     {"id": "G-E1-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.15, 4.22], "z": [0.12, 4.34]},
-    {"id": "G-link-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -9.1], "to": [12.0, -9.1], "size": [0.12, 4.0], "z": [0.0, 4.0]},
+    {"id": "G-link-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -9.5], "to": [12.0, -9.5], "size": [0.12, 4.0], "z": [0.0, 4.0]},
     {"id": "G-link-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, 8.3], "to": [12.0, 8.3], "size": [0.12, 4.0], "z": [0.0, 4.0]},
     {"id": "C-A1-F4", "type": "column", "material": "concrete", "at": [-29.45, 12.1], "size": [0.5, 0.6], "z": [-15.39, -1.1]},
     {"id": "C-A2-F4", "type": "column", "material": "concrete", "at": [-29.45, 4.4], "size": [0.5, 0.6], "z": [-15.39, -1.1]},
@@ -1605,7 +1604,7 @@
       "level": "F1",
       "kind": "lounge",
       "name": "Lounge bridge",
-      "poly": [[-6.45, -9.1], [12.0, -9.1], [12.0, 8.3], [-6.45, 8.3]],
+      "poly": [[-6.45, -9.5], [12.0, -9.5], [12.0, 8.3], [-6.45, 8.3]],
       "note": "sliding glass walls open fully onto the decks"
     },
     {
@@ -1620,7 +1619,7 @@
       "level": "F1",
       "kind": "outdoor",
       "name": "Deck",
-      "poly": [[-6.45, -12.1], [12.0, -12.1], [12.0, -9.1], [-6.45, -9.1]]
+      "poly": [[-6.45, -12.5], [12.0, -12.5], [12.0, -9.5], [-6.45, -9.5]]
     },
     {
       "id": "cafe",
