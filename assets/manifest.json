@@ -1,0 +1,14 @@
+{
+  "note": "Downloaded inputs only (textures, HDRIs). Every model/asset is generated in this project (Roman, 2026-10-11). Files are cached outside git in ~/.cache/the_gym/; run tools/assets.py to fetch. All CC0.",
+  "textures": [
+    {"source": "polyhaven", "id": "pine_bark", "res": "2k", "license": "CC0", "used_for": "Scots pine lower trunk (grey-brown plates)"},
+    {"source": "polyhaven", "id": "knotted_pine_bark", "res": "2k", "license": "CC0", "used_for": "pine branches"},
+    {"source": "polyhaven", "id": "tree_bark_03", "res": "2k", "license": "CC0", "used_for": "Norway spruce trunk"},
+    {"source": "polyhaven", "id": "forest_floor", "res": "2k", "license": "CC0", "used_for": "forest floor (needles, moss)"},
+    {"source": "polyhaven", "id": "forest_leaves_04", "res": "2k", "license": "CC0", "used_for": "pine-forest floor variation"},
+    {"source": "polyhaven", "id": "mossy_rock", "res": "2k", "license": "CC0", "used_for": "rock outcrops, cliff faces"},
+    {"source": "polyhaven", "id": "sparse_grass", "res": "2k", "license": "CC0", "used_for": "meadow / sod roof base"},
+    {"source": "polyhaven", "id": "withered_grass", "res": "2k", "license": "CC0", "used_for": "dry grass variation"}
+  ],
+  "hdris": []
+}
