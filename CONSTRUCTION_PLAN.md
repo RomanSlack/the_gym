@@ -13,6 +13,7 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
   - below-grade retaining walls + the river wall with its formed window openings
   - waterproofing membranes, drainage gravel + perimeter drains
   - garage-ramp trench walls + cut-and-cover tunnel roof
+  - site earthworks to formation level (added 2026-10-11, after the garden was missed): road + drop-off loop + trailhead lot, the **sunken daycare garden** (dug out, terraces roughed in, west retaining wall), the garage rock ledge, the sauna pad
 - ✅ **Stage 2 · Exterior style: LOCKED = B, dark tarred timber + sod roofs, divided glazing** (see VISION.md, `docs/style/`).
 - ✅ **Stage 3 · Structure** (awaiting Roman's review): `construction/out/stage_3.blend`, renders in `construction/renders/stage_3_*`. 214 phase-3 elements from `tools/structure_stage.py` (see STRUCTURE.md):
   - PT concrete floors F1–F3 + E1, pilasters, glulam facade columns, parking columns + buried roof
@@ -32,7 +33,7 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
 | 3 | **Structure** | Concrete frame of F2–F4 (post-tensioned beams, slabs), glulam columns + beams on F1/E1, CLT roofs, lounge-bridge trusses, stairs, cores. | Review |
 | 4 | **Envelope** | Wall build-ups, cladding (per the chosen style), glazing systems, river windows, roof build-ups (sod, eaves), skylights. | Review |
 | 5 | **Interior** | Finishes, the equipment layout from `docs/FIT_STUDY.md`, lighting, locker fit-out, the den, pool + thermal, daycare, cafe. | Review |
-| 6 | **Landscape + finish** | Planting + forest, paths, water and falls, exterior lighting, final renders, then the replay video. | Final |
+| 6 | **Landscape + finish** | Planting + forest, paths, trail, water and falls, exterior lighting; surfacing (road asphalt, gravel lot, meadow, stepping stones); finishing the sunken garden (dry-stone face, terrace planting, play surface); **outbuildings + bridges**, each foundation → frame → envelope: sauna, bike shelter, rustic footbridge, upstream timber footbridge, trailhead kiosk, outdoor rig; final renders, then the replay video. | Final |
 
 ## Rules for every stage
 
@@ -41,3 +42,4 @@ Source of truth stays `model/building.json`. Each stage adds real elements to it
 - Every element has `phase` (stage number) and `seq` (order within the stage) for the construction timelapse.
 - Heavy things stay instanced (trees, anchors); one Blender collection per phase.
 - The PDF drawing set is only re-exported when Roman asks.
+- **Coverage check:** `tools/stage_check.py` runs at the end of every build. Everything designed (site works in the terrain, site features, elements, stairs) must have an owner stage, and once that stage is built its work must exist. A new feature with no owner, or a built stage that skipped something, shows up as `!` lines. Fix those before showing Roman a stage. (Origin: the sunken daycare garden was designed but no stage dug it.)

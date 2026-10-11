@@ -157,6 +157,13 @@ x_a, x_b = min(p[0] for p in pts if p[0] <= rp["tunnel_from_x"] + 0.01), rp["tun
 add({"id": "FDN-ramp-tunnel-roof", "type": "slab", "material": "concrete", "rect": [round(x_a, 2), -1.0 - hw, round(x_b, 2), -1.0 + hw],
      "z": [-1.6, -1.2], "note": "cut-and-cover tunnel roof, backfilled + landscaped"}, 96)
 
+# ---- the sunken garden's west retaining wall (trail side)
+gd = m["site"]["features"]["daycare_garden"]
+add({"id": "FDN-garden-wall-W", "type": "wall", "kind": "retaining", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
+     "size": [0.35, 0], "z": [-1.8, 1.6], "note": "sunken-garden retaining wall on the trail side: concrete core, dry-stone face in stage 6; top steps with the ground (simplified)"}, 95)
+add({"id": "FDN-strip-garden-wall-W", "type": "strip_footing", "material": "concrete", "from": [gd["west_wall_x"], gd["building_edge_y"]], "to": [gd["west_wall_x"], 47.0],
+     "size": [1.2, 0.4], "z": [-2.2, -1.8], "note": "strip footing under the garden wall"}, 50)
+
 m["elements"] = els + new
 modelio.save(m)
 
@@ -179,6 +186,22 @@ for k in range(len(pts) - 1):  # ramp trench
     pit = np.minimum(pit, floor + np.maximum(dist - hw - 1.0, 0) * tan_face)
 out = ROOT / "construction" / "out"; out.mkdir(parents=True, exist_ok=True)
 np.save(out / "pit_1m.npy", pit.astype(np.float32))
+
+# ---- site earthworks: in stage 1 these cells are cut / filled to their designed (formation) level
+RV = ROOT / "terrain" / "out" / "ravine"
+designed, natural0, fm = np.load(RV / "terrain_1m.npy"), np.load(RV / "natural_1m.npy"), np.load(RV / "features_1m.npy").astype(int)
+EARTHWORKS = 1 | 2 | 4 | 8 | 16 | 64 | 2048  # terrain/ravine.py MASK: asphalt, shoulder, court, ramp, garden, sauna, gravel
+ew = (fm & EARTHWORKS) > 0
+pts2 = np.stack([X.ravel(), Y.ravel()], 1)
+for pad in m["site"]["pads"]:  # rock shelves etc. cut to a level
+    ew |= MPath(pad["poly"]).contains_points(pts2).reshape(X.shape)
+# side slopes of the graded corridors carry no tag: they belong to the nearest tagged work within 25 m
+changed = np.abs(designed - natural0) > 0.05
+_, (iy, ix) = ndi.distance_transform_edt(fm == 0, return_indices=True)
+near = ndi.distance_transform_edt(fm == 0) <= 25
+ew |= changed & (fm == 0) & near & ew[iy, ix]
+# stored as a height change, so it lands on the (eroded) natural ground of the construction scenes without steps at the edges
+np.save(out / "earthworks_1m.npy", np.where(ew & changed, designed - natural0, 0).astype(np.float32))
 W = np.load(ROOT / "terrain" / "out" / "ravine" / "water_1m.npy")
 dry = (~np.isnan(W)) & (X < -4.0) & (Y > -43) & (Y < 16)
 np.save(out / "dewatered_1m.npy", dry.astype(np.uint8))

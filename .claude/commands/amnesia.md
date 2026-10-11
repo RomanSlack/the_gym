@@ -16,6 +16,7 @@ You've lost context on The Gym (a luxury Nordic gym in an Elverum ravine, design
    - column-free
    - Gym V2 is his intent reference
    - no PDF re-export unless asked
+   - nothing designed gets skipped by the construction stages: run `terrain/.venv/bin/python tools/stage_check.py` and report any `!` lines
 4. Check the replay/recording is intact:
    - every commit carries a `Prompt:` trailer (`tools/capture/`)
    - `.capture/sessions/` archives the transcripts

@@ -39,9 +39,10 @@ rock = np.load(RV / "rock_natural_1m.npy")  # rock on the natural ravine walls (
 cut = np.zeros_like(natural)
 H = natural.copy()
 if STAGE >= 1:
-    pit = np.load(ROOT / "construction" / "out" / "pit_1m.npy")  # written by construction/foundations.py
-    cut = (pit < natural - 0.05).astype(np.float32)
-    H = np.minimum(natural, pit)
+    pit = np.load(ROOT / "construction" / "out" / "pit_1m.npy")  # written by tools/foundations.py
+    ew = np.load(ROOT / "construction" / "out" / "earthworks_1m.npy")  # cut / fill: road, garden, ledge, sauna pad (tools/foundations.py)
+    H = np.minimum(natural + ew, pit)
+    cut = (H < natural - 0.05).astype(np.float32)
 
 site0 = bc.collection("0 · site")
 terr = bc.grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "cut": cut[c]}, coll=site0)
@@ -184,6 +185,7 @@ CAMS = {
     "lounge_deck": ((3, -24, 1.7), (3, 2, 3.2), 18),
     "hall_f1": ((-9, -32, 1.7), (-24, 8, 3.8), 16),
     "spiral": ((-12.5, -22, -8.0), (-17.95, -14.85, -4.5), 16),
+    "daycare_garden": ((46, 82, 24), (22, 38, -5), 26),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -192,8 +194,8 @@ for o in bpy.data.objects:  # primitives + boolean results: flat shading for eve
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
 if RENDER:
-    shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "site_top"],
-             3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "site_top"]}
+    shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
+             3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"]}
     for n in shots[max(k for k in shots if k <= STAGE)]:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")

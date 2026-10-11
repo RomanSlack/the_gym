@@ -3871,6 +3871,31 @@
     {"id": "FDN-ramp-wall-2R", "type": "wall", "material": "concrete", "from": [75.0, 2.2], "to": [60.0, 2.2], "size": [0.35, 0], "z": [-6.6, 1.9], "note": "garage-ramp retaining wall", "phase": 1, "seq": 95},
     {"id": "FDN-ramp-tunnel-roof", "type": "slab", "material": "concrete", "rect": [60.0, -4.2, 78, 2.2], "z": [-1.6, -1.2], "note": "cut-and-cover tunnel roof, backfilled + landscaped", "phase": 1, "seq": 96},
     {
+      "id": "FDN-garden-wall-W",
+      "type": "wall",
+      "kind": "retaining",
+      "material": "concrete",
+      "from": [15.8, 33.3],
+      "to": [15.8, 47.0],
+      "size": [0.35, 0],
+      "z": [-1.8, 1.6],
+      "note": "sunken-garden retaining wall on the trail side: concrete core, dry-stone face in stage 6; top steps with the ground (simplified)",
+      "phase": 1,
+      "seq": 95
+    },
+    {
+      "id": "FDN-strip-garden-wall-W",
+      "type": "strip_footing",
+      "material": "concrete",
+      "from": [15.8, 33.3],
+      "to": [15.8, 47.0],
+      "size": [1.2, 0.4],
+      "z": [-2.2, -1.8],
+      "note": "strip footing under the garden wall",
+      "phase": 1,
+      "seq": 50
+    },
+    {
       "id": "ST3-link-girder-0",
       "type": "beam",
       "material": "steel_dark",
