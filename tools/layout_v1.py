@@ -20,7 +20,7 @@ lv = {l["id"]: l["elevation"] for l in m["levels"]}
 
 # ---------------------------------------------------------------- cores (all levels they pass)
 cores = {
-    "W1": {"poly": R(-29.45, -11.0, -24.45, -3.3), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
+    "W1": {"poly": R(-29.45, -18.7, -24.45, -11.0), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W1 · stair + elevator"},
     "W2": {"poly": R(-29.45, -34.1, -24.45, -28.1), "levels": ["F4", "F3", "F2", "F1"], "name": "Core W2 · exit stair"},
     "E": {"poly": R(12.0, 7.62, 17.0, 16.18), "levels": ["E2", "E1"], "name": "Core E · stair + elevator (garage ↔ reception)"},
 }
@@ -32,34 +32,36 @@ for cid, c in cores.items():
 S = lambda id_, level, kind, name, poly, note=None: spaces.append(
     {"id": id_, "level": level, "kind": kind, "name": name, "poly": poly, **({"note": note} if note else {})})
 
-STRETCH = [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-29.45, -11.0]]
+STRETCH = [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-24.45, -11.0], [-24.45, -18.7], [-29.45, -18.7]]
 SPIRAL_BAY = R(-21.45, -18.7, -14.45, -11.0)
 
 # ---------------------------------------------------------------- F1 (gym wing) ±0.00
-# Roman (after review): lockers rotated 90° as in Gym V2: two east-west rooms stacked north/south,
-# entered straight from a north-south gallery where the lounge bridge lands (Gym V2 walls at x≈-13.6, y≈1.5)
-S("men-lockers", "F1", "wet", "Men's locker room", [[-24.45, -11.0], [-14.45, -11.0], [-14.45, 1.5], [-29.45, 1.5], [-29.45, -3.3], [-24.45, -3.3]],
-  "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
-S("women-lockers", "F1", "wet", "Women's locker room", R(-29.45, 1.5, -14.45, 12.1),
-  "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam")
-S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-14.45, -11.0, -6.45, 8.3), "the bridge lands here; locker doors right off it")
-S("sauna-lobby", "F1", "wet", "Sauna lobby", R(-14.45, 8.3, -6.45, 12.1), "robes, towel warmer, sandals; key-card door north to the sauna path")
+# Locker block follows Gym V2's walls exactly (x -29.45..-13.6, y -9.3..12.1), split at y 1.5:
+# per room = changing room (middle) + wet zone (outer strip), full width to the gallery (Roman: wider, extend east)
+S("women-lockers", "F1", "wet", "Women's changing · lockers", R(-29.45, 1.5, -13.6, 7.65))
+S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, steam", R(-29.45, 7.65, -13.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, steam + indoor sauna")
+S("men-lockers", "F1", "wet", "Men's changing · lockers", R(-29.45, -4.2, -13.6, 1.5))
+S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, steam", R(-29.45, -9.3, -13.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, steam + indoor sauna")
+S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-13.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
+S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5),
+  "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path")
 S("stretching", "F1", "gym", "Stretching & mobility", STRETCH)
-S("spiral-F1", "F1", "circulation", "Spiral stair", SPIRAL_BAY)
-S("calisthenics", "F1", "gym", "Calisthenics", R(-14.45, -18.7, -6.45, -11.0))
+S("spiral-F1", "F1", "circulation", "Spiral stair", R(-21.45, -18.7, -14.45, -9.3))
+S("core-W1-hall", "F1", "circulation", "Hall", R(-29.45, -11.0, -21.45, -9.3))
+S("calisthenics", "F1", "gym", "Calisthenics", R(-14.45, -18.7, -6.45, -9.3))
 S("cardio-F1", "F1", "gym", "Cardio · river views", R(-17.7, -34.1, -6.45, -18.7))
 
 # ---------------------------------------------------------------- F2 −4.91
 S("free-weights", "F2", "gym", "Free weights · mirror wall", STRETCH)
-S("olympic", "F2", "gym", "Olympic platforms", R(-29.45, -3.3, -18.2, 12.1))
-S("cardio-F2", "F2", "gym", "Cardio · river views", [[-24.45, -11.0], [-6.45, -11.0], [-6.45, 12.1], [-17.7, 12.1], [-17.7, -3.3], [-24.45, -3.3]])
+S("olympic", "F2", "gym", "Olympic platforms", R(-29.45, -11.0, -18.2, 12.1))
+S("cardio-F2", "F2", "gym", "Cardio · river views", R(-18.2, -11.0, -6.45, 12.1))
 S("spiral-F2", "F2", "circulation", "Spiral stair", SPIRAL_BAY)
 S("machines", "F2", "gym", "Machines", [[-17.7, -34.1], [-6.45, -34.1], [-6.45, -11.0], [-14.45, -11.0], [-14.45, -18.7], [-17.7, -18.7]])
 
 # ---------------------------------------------------------------- F3 −9.77 (river rim)
 S("sled-track", "F3", "gym", "Turf sprint / sled lane · 46 m", R(-24.45, -34.1, -21.45, 12.1))
-S("strongman", "F3", "gym", "Strongman · yoke, sleds", R(-29.45, -28.1, -24.45, -11.0))
-S("strongman-n", "F3", "gym", "Strongman · atlas stones", R(-29.45, -3.3, -24.45, 12.1))
+S("strongman", "F3", "gym", "Strongman · yoke, sleds", R(-29.45, -28.1, -24.45, -18.7))
+S("strongman-n", "F3", "gym", "Strongman · atlas stones", R(-29.45, -11.0, -24.45, 12.1))
 S("spiral-F3", "F3", "circulation", "Spiral stair (arrival)", SPIRAL_BAY)
 S("north-stair-F3", "F3", "circulation", "Stair to F4", R(-21.45, 7.1, -15.45, 12.1))
 S("functional", "F3", "gym", "Functional / CrossFit rig",
@@ -76,8 +78,8 @@ S("pool-deck-w", "F4", "wet", "Pool deck & lounge", R(-24.45, -18.7, -16.45, 4.4
 S("pool-deck-n", "F4", "wet", "Pool deck", R(-16.45, -3.1, -6.45, 4.4))
 S("pool-deck-s", "F4", "wet", "Pool deck", R(-16.45, -34.1, -6.45, -28.1))
 S("plant", "F4", "service", "Plant room · pool + building", R(-24.45, -34.1, -16.45, -18.7))
-S("recovery", "F4", "gym", "Recovery lounge · compression, zero-gravity", R(-29.45, -28.1, -24.45, -11.0))
-S("treatment", "F4", "wet", "Treatment rooms (3)", R(-29.45, -3.3, -24.45, 12.1))
+S("recovery", "F4", "gym", "Recovery lounge · compression, zero-gravity", R(-29.45, -28.1, -24.45, -18.7))
+S("treatment", "F4", "wet", "Treatment rooms (3)", R(-29.45, -11.0, -24.45, 12.1))
 
 # ---------------------------------------------------------------- lounge link (F1)
 S("lounge", "F1", "lounge", "Lounge bridge", R(-6.45, -9.1, 12.0, 8.3), "sliding glass walls open fully onto the decks")
@@ -125,6 +127,8 @@ for L, rect, thick in (("F4", WEST, 0.6), ("F3", WEST, 0.25), ("F2", WEST, 0.25)
     els.append({"id": f"S-{L}-{'link' if rect is LINK else ('west' if rect is WEST else 'east')}", "type": "slab",
                 "material": "concrete", "rect": list(rect), "z": [round(top - thick, 2), top],
                 "holes": holes.get(L, []) if rect is not LINK else []})
+els.append({"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": []})
+els.append({"id": "S-RF-annex", "type": "slab", "material": "clt", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [3.0, 3.2], "holes": []})
 for name, rect in (("west", WEST), ("east", EAST), ("link", (-6.45, -9.1, 12.0, 8.3))):
     els.append({"id": f"S-RF-{name}", "type": "slab", "material": "clt", "rect": list(rect), "z": [5.64, 5.84], "holes": []})
 
@@ -149,7 +153,10 @@ els[-1]["openings"] = (
         "note": "continuous river window: water surface (-8.77) about 1.0 m above the floor, waist height"}]
     + [{"s": [2.0, 44.2], "z": [round(F2 + 0.45, 2), round(F2 + 3.0, 2)], "type": "window", "note": "ravine view band"}]
 )
-for (a, b, n) in (([x0, y0], [x0, y1], "A"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.1], "C1"), ([x1, 8.3], [x1, y1], "C2")):
+wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
+wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
+wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")
+for (a, b, n) in (([x0, y0], [x0, -1.5], "A1"), ([x0, 4.5], [x0, y1], "A2"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.1], "C1"), ([x1, 8.3], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
 x0, y0, x1, y1 = EAST
 zb, zt = lv["E2"] - 0.6, lv["E1"] - 0.25

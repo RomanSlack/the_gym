@@ -12,11 +12,11 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
    - **W2** (stair) in the south-west corner.
    *`model.spaces` kind `core`*
 3. **F3 → F4 "normal stairs off to the north edge"** (your words): an open stair at the north edge of F3. *`model.stairs` → `north_f3_f4`*
-4. **F1 (gym wing)**, revised after Roman's review to follow Gym V2:
-   - **Gallery runs north-south** along the river side (8 m wide) where the lounge bridge lands.
-   - **Locker rooms rotated 90°** into two east-west rooms (women's north, men's south, split at y = 1.5 like Gym V2's wall), entered straight off the gallery.
-   - **Sauna lobby** at the gallery's north end, with the door to the sauna path.
-   - South: stretching/mobility, the spiral, calisthenics, cardio by the river.
+4. **F1 (gym wing)**, revised twice with Roman to follow Gym V2's walls:
+   - The locker block is x −29.45..−13.6, y −9.3..12.1, split at y 1.5. Each room has a **changing room** (~95 m²) and a **wet zone** on its outer side (showers, WCs, steam), and runs full width to the gallery.
+   - The **gallery runs north-south** (7 m) where the lounge bridge lands; both locker doors open straight off it.
+   - **Sauna lobby = an annex outside the west wall** (6 × 6 m) where the two rooms meet, shared by both, with the door to the sauna path (path re-routed from there).
+   - **Core W1 moved one bay south** (y −18.7..−11) to clear the lockers; the floors below follow.
 5. **F2:**
    - Free weights along the solid west wall (mirrors go there).
    - Olympic platforms in the north-west.

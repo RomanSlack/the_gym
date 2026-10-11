@@ -203,9 +203,10 @@
         "note": "sod-roof badstue, set into the bank"
       },
       "sauna_path": {
-        "points": [[-20, 12.5], [-23, 35], [-27, 60], [-26, 80], [-23, 91.5]],
+        "points": [[-33.7, 4.5], [-34.5, 20], [-31, 45], [-28, 68], [-26, 84], [-23, 91.5]],
         "width": 2.0,
-        "heated_first_m": 30
+        "heated_first_m": 30,
+        "note": "from the sauna lobby annex on the gym's west wall"
       },
       "trail": {
         "target_m": 3220,
@@ -942,7 +943,7 @@
           "rect": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 12.1], [-21.45, 12.1]]
         },
         {
-          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+          "rect": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
         },
         {
           "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
@@ -958,7 +959,7 @@
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
-          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+          "rect": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
         },
         {
           "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
@@ -974,7 +975,7 @@
       "holes": [
         {"circle": [-17.95, -14.85, 3.5]},
         {
-          "rect": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+          "rect": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
         },
         {
           "rect": [[-29.45, -34.1], [-24.45, -34.1], [-24.45, -28.1], [-29.45, -28.1]]
@@ -996,6 +997,8 @@
       ]
     },
     {"id": "S-F1-link", "type": "slab", "material": "concrete", "rect": [-6.45, -12.1, 12.0, 11.3], "z": [-0.3, 0.0], "holes": []},
+    {"id": "S-F1-annex", "type": "slab", "material": "concrete", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [-0.25, 0.0], "holes": []},
+    {"id": "S-RF-annex", "type": "slab", "material": "clt", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [3.0, 3.2], "holes": []},
     {"id": "S-RF-west", "type": "slab", "material": "clt", "rect": [-29.45, -34.1, -6.45, 12.1], "z": [5.64, 5.84], "holes": []},
     {"id": "S-RF-east", "type": "slab", "material": "clt", "rect": [12.0, -9.5, 30.5, 33.3], "z": [5.64, 5.84], "holes": []},
     {"id": "S-RF-link", "type": "slab", "material": "clt", "rect": [-6.45, -9.1, 12.0, 8.3], "z": [5.64, 5.84], "holes": []},
@@ -1024,7 +1027,11 @@
         {"s": [2.0, 44.2], "z": [-4.46, -1.91], "type": "window", "note": "ravine view band"}
       ]
     },
-    {"id": "G-F1-A", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-29.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "A-annex-W", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-35.45, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
+    {"id": "A-annex-N", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, 4.5], "to": [-32.0, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
+    {"id": "A-annex-S", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-29.45, -1.5], "size": [0.25, 3.0], "z": [0.0, 3.0]},
+    {"id": "G-F1-A1", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-29.45, -1.5], "size": [0.15, 4.34], "z": [0.0, 4.34]},
+    {"id": "G-F1-A2", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, 4.5], "to": [-29.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-N", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, 12.1], "to": [-6.45, 12.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-S", "type": "wall", "kind": "glazed", "material": "glass", "from": [-29.45, -34.1], "to": [-6.45, -34.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
     {"id": "G-F1-C1", "type": "wall", "kind": "glazed", "material": "glass", "from": [-6.45, -34.1], "to": [-6.45, -9.1], "size": [0.15, 4.34], "z": [0.0, 4.34]},
@@ -1182,28 +1189,28 @@
       "level": "F4",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+      "poly": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
     },
     {
       "id": "core-W1-F3",
       "level": "F3",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+      "poly": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
     },
     {
       "id": "core-W1-F2",
       "level": "F2",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+      "poly": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
     },
     {
       "id": "core-W1-F1",
       "level": "F1",
       "kind": "core",
       "name": "Core W1 · stair + elevator",
-      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, -3.3], [-29.45, -3.3]]
+      "poly": [[-29.45, -18.7], [-24.45, -18.7], [-24.45, -11.0], [-29.45, -11.0]]
     },
     {
       "id": "core-W2-F4",
@@ -1248,57 +1255,78 @@
       "poly": [[12.0, 7.62], [17.0, 7.62], [17.0, 16.18], [12.0, 16.18]]
     },
     {
-      "id": "men-lockers",
-      "level": "F1",
-      "kind": "wet",
-      "name": "Men's locker room",
-      "poly": [[-24.45, -11.0], [-14.45, -11.0], [-14.45, 1.5], [-29.45, 1.5], [-29.45, -3.3], [-24.45, -3.3]],
-      "note": "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
-    },
-    {
       "id": "women-lockers",
       "level": "F1",
       "kind": "wet",
-      "name": "Women's locker room",
-      "poly": [[-29.45, 1.5], [-14.45, 1.5], [-14.45, 12.1], [-29.45, 12.1]],
-      "note": "entered from the gallery (east end); lockers, separate washroom / shower / changing zones, floor-to-ceiling WC stalls, private showers, sauna + steam"
+      "name": "Women's changing · lockers",
+      "poly": [[-29.45, 1.5], [-13.6, 1.5], [-13.6, 7.65], [-29.45, 7.65]]
+    },
+    {
+      "id": "women-wet",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Women's wet zone · showers, WCs, steam",
+      "poly": [[-29.45, 7.65], [-13.6, 7.65], [-13.6, 12.1], [-29.45, 12.1]],
+      "note": "floor-to-ceiling WC stalls, private rainfall showers, steam + indoor sauna"
+    },
+    {
+      "id": "men-lockers",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Men's changing · lockers",
+      "poly": [[-29.45, -4.2], [-13.6, -4.2], [-13.6, 1.5], [-29.45, 1.5]]
+    },
+    {
+      "id": "men-wet",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Men's wet zone · showers, WCs, steam",
+      "poly": [[-29.45, -9.3], [-13.6, -9.3], [-13.6, -4.2], [-29.45, -4.2]],
+      "note": "floor-to-ceiling WC stalls, urinals, private rainfall showers, steam + indoor sauna"
     },
     {
       "id": "gallery",
       "level": "F1",
       "kind": "circulation",
       "name": "Gallery · from the lounge bridge",
-      "poly": [[-14.45, -11.0], [-6.45, -11.0], [-6.45, 8.3], [-14.45, 8.3]],
-      "note": "the bridge lands here; locker doors right off it"
+      "poly": [[-13.6, -9.3], [-6.45, -9.3], [-6.45, 12.1], [-13.6, 12.1]],
+      "note": "the bridge lands here; both locker doors right off it"
     },
     {
       "id": "sauna-lobby",
       "level": "F1",
       "kind": "wet",
-      "name": "Sauna lobby",
-      "poly": [[-14.45, 8.3], [-6.45, 8.3], [-6.45, 12.1], [-14.45, 12.1]],
-      "note": "robes, towel warmer, sandals; key-card door north to the sauna path"
+      "name": "Sauna lobby (annex)",
+      "poly": [[-35.45, -1.5], [-29.45, -1.5], [-29.45, 4.5], [-35.45, 4.5]],
+      "note": "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path"
     },
     {
       "id": "stretching",
       "level": "F1",
       "kind": "gym",
       "name": "Stretching & mobility",
-      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-29.45, -11.0]]
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-24.45, -11.0], [-24.45, -18.7], [-29.45, -18.7]]
     },
     {
       "id": "spiral-F1",
       "level": "F1",
       "kind": "circulation",
       "name": "Spiral stair",
-      "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -11.0], [-21.45, -11.0]]
+      "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -9.3], [-21.45, -9.3]]
+    },
+    {
+      "id": "core-W1-hall",
+      "level": "F1",
+      "kind": "circulation",
+      "name": "Hall",
+      "poly": [[-29.45, -11.0], [-21.45, -11.0], [-21.45, -9.3], [-29.45, -9.3]]
     },
     {
       "id": "calisthenics",
       "level": "F1",
       "kind": "gym",
       "name": "Calisthenics",
-      "poly": [[-14.45, -18.7], [-6.45, -18.7], [-6.45, -11.0], [-14.45, -11.0]]
+      "poly": [[-14.45, -18.7], [-6.45, -18.7], [-6.45, -9.3], [-14.45, -9.3]]
     },
     {
       "id": "cardio-F1",
@@ -1312,21 +1340,21 @@
       "level": "F2",
       "kind": "gym",
       "name": "Free weights · mirror wall",
-      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-29.45, -11.0]]
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -34.1], [-18.2, -34.1], [-18.2, -18.7], [-21.45, -18.7], [-21.45, -11.0], [-24.45, -11.0], [-24.45, -18.7], [-29.45, -18.7]]
     },
     {
       "id": "olympic",
       "level": "F2",
       "kind": "gym",
       "name": "Olympic platforms",
-      "poly": [[-29.45, -3.3], [-18.2, -3.3], [-18.2, 12.1], [-29.45, 12.1]]
+      "poly": [[-29.45, -11.0], [-18.2, -11.0], [-18.2, 12.1], [-29.45, 12.1]]
     },
     {
       "id": "cardio-F2",
       "level": "F2",
       "kind": "gym",
       "name": "Cardio · river views",
-      "poly": [[-24.45, -11.0], [-6.45, -11.0], [-6.45, 12.1], [-17.7, 12.1], [-17.7, -3.3], [-24.45, -3.3]]
+      "poly": [[-18.2, -11.0], [-6.45, -11.0], [-6.45, 12.1], [-18.2, 12.1]]
     },
     {
       "id": "spiral-F2",
@@ -1354,14 +1382,14 @@
       "level": "F3",
       "kind": "gym",
       "name": "Strongman · yoke, sleds",
-      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -11.0], [-29.45, -11.0]]
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -18.7], [-29.45, -18.7]]
     },
     {
       "id": "strongman-n",
       "level": "F3",
       "kind": "gym",
       "name": "Strongman · atlas stones",
-      "poly": [[-29.45, -3.3], [-24.45, -3.3], [-24.45, 12.1], [-29.45, 12.1]]
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, 12.1], [-29.45, 12.1]]
     },
     {
       "id": "spiral-F3",
@@ -1446,14 +1474,14 @@
       "level": "F4",
       "kind": "gym",
       "name": "Recovery lounge · compression, zero-gravity",
-      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -11.0], [-29.45, -11.0]]
+      "poly": [[-29.45, -28.1], [-24.45, -28.1], [-24.45, -18.7], [-29.45, -18.7]]
     },
     {
       "id": "treatment",
       "level": "F4",
       "kind": "wet",
       "name": "Treatment rooms (3)",
-      "poly": [[-29.45, -3.3], [-24.45, -3.3], [-24.45, 12.1], [-29.45, 12.1]]
+      "poly": [[-29.45, -11.0], [-24.45, -11.0], [-24.45, 12.1], [-29.45, 12.1]]
     },
     {
       "id": "lounge",

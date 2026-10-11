@@ -1,0 +1,33 @@
+{
+ "id": "20261011T020334Z_erode",
+ "stage": "erode",
+ "started": "20261011T020334Z",
+ "code": "f69d3f1+dirty",
+ "params": {
+  "steps": 400,
+  "dt": 0.05,
+  "rain": 0.004,
+  "evap": 0.02,
+  "Kc": 0.6,
+  "Ks": 0.012,
+  "Kd": 0.02,
+  "min_slope": 0.03,
+  "talus_soil": 34.0,
+  "talus_rock": 75.0,
+  "thermal_rate": 0.15,
+  "rock_erodibility": 0.15,
+  "micro_relief_m": 0.15,
+  "veg_slope_deg": [
+   8.0,
+   20.0
+  ],
+  "seed": 7,
+  "input": "out/ravine/terrain_1m.npy"
+ },
+ "outputs": {
+  "eroded_1m.npy": {
+   "mean_abs_change_m": 0.11576227843761444,
+   "sha256": "70a87b53d660b0d0"
+  }
+ }
+}
