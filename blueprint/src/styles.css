@@ -219,3 +219,5 @@ html[data-theme="dark"] .w-terrace-band { stroke: #2e3d29; }
 html[data-theme="dark"] .w-lawn { fill: #26331f; stroke: #5c7a48; }
 html[data-theme="dark"] .w-planting { fill: #33452a; }
 html[data-theme="dark"] .w-gravel { fill: #3a362f; }
+.w-shelter { fill: #e9dcc5; stroke: var(--ink); stroke-width: 0.9; stroke-dasharray: 4 2; }
+html[data-theme="dark"] .w-shelter { fill: #3a3022; }

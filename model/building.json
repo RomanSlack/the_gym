@@ -1001,18 +1001,30 @@
         {
           "id": "trailhead_lot",
           "kind": "gravel",
-          "poly": [[149, 10.5], [172, 10.5], [172, 21.5], [149, 21.5]],
+          "poly": [[99, 15.5], [120, 15.5], [120, 25.5], [99, 25.5]],
           "z": "road",
-          "note": "8 spaces, gravel, between kept trees (overflow / visitors)",
+          "note": "trailhead parking: 8 spaces, gravel, between kept trees; trailhead sign + connector to the loop",
           "stalls": {"count": 8, "side": "N", "depth": 5.0, "width": 2.6}
+        },
+        {
+          "id": "bike_shelter_floor",
+          "kind": "gravel",
+          "poly": [[35.5, -6.5], [49.5, -6.5], [49.5, -0.5], [35.5, -0.5]],
+          "z": 0.55
         }
       ],
       "paths": [
         {
           "id": "trailhead_path",
           "width": 2.0,
-          "points": [[150, 18], [128, 22], [104, 24.5], [84, 23], [70, 21], [58, 22]],
-          "note": "lit forest path from the trailhead lot to the forecourt"
+          "points": [[100, 20.5], [88, 23.5], [76, 23.5], [66, 21.8], [58, 22]],
+          "note": "lit forest path from the trailhead lot to the entry meadow"
+        },
+        {
+          "id": "trail_connector",
+          "width": 1.5,
+          "points": [[112, 26], [114, 42], [111, 58], [106, 74], [93.5, 88.9]],
+          "note": "trailhead connector to the 2-mile loop"
         }
       ],
       "stepping_stones": [
@@ -1029,8 +1041,16 @@
           "spacing": 0.72,
           "size": [0.7, 0.5],
           "note": "joins from the forest path"
+        },
+        {
+          "id": "from_bike_shelter",
+          "points": [[42.5, -0.3], [40.8, 3.5], [39.6, 8.0], [38.5, 12.0]],
+          "spacing": 0.72,
+          "size": [0.7, 0.5]
         }
-      ]
+      ],
+      "bike_shelter": {"rect": [36.0, -6.0, 49.0, -1.0], "floor": 0.55, "roof": 3.0, "note": "covered bike shelter: timber frame, sod roof, ~30 bikes + e-bike charging, open to the meadow"},
+      "trailhead_sign": {"at": [109.5, 26.8], "facing_deg": 270, "note": "trailhead kiosk: two log posts, sod-roofed gable, map panel (park-style, Nordic build)"}
     },
     "envelope_placeholders": {
       "note": "Temporary walls for the east wing lower level (E2) until the real building is designed.",
@@ -1091,6 +1111,12 @@
     {"id": "C-P-46.9-11.0", "type": "column", "material": "concrete", "at": [46.9, 11.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
     {"id": "C-P-55.1--1.0", "type": "column", "material": "concrete", "at": [55.1, -1.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
     {"id": "C-P-55.1-11.0", "type": "column", "material": "concrete", "at": [55.1, 11.0], "size": [0.4, 0.4], "z": [-6.01, -0.6], "fixed": true},
+    {"id": "C-P-38.7--1.0", "type": "column", "material": "concrete", "at": [38.7, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
+    {"id": "C-P-38.7-11.0", "type": "column", "material": "concrete", "at": [38.7, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
+    {"id": "C-P-46.9--1.0", "type": "column", "material": "concrete", "at": [46.9, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
+    {"id": "C-P-46.9-11.0", "type": "column", "material": "concrete", "at": [46.9, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
+    {"id": "C-P-55.1--1.0", "type": "column", "material": "concrete", "at": [55.1, -1.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
+    {"id": "C-P-55.1-11.0", "type": "column", "material": "concrete", "at": [55.1, 11.0], "size": [0.4, 0.4], "z": [-6.01, -1.5], "fixed": true},
     {
       "id": "S-F4-west",
       "type": "slab",
@@ -1907,9 +1933,17 @@
       "id": "garage",
       "level": "E2",
       "kind": "garage",
-      "name": "Garage · 3 cars on the glass, bike storage",
-      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, 6.8], [12.0, 6.8]],
-      "note": "tunnel entry on the east wall"
+      "name": "Garage · cars on the glass",
+      "poly": [[12.0, -3.5], [30.5, -3.5], [30.5, 6.8], [12.0, 6.8]],
+      "note": "drive-through from the underground parking (east)"
+    },
+    {
+      "id": "bike-moto",
+      "level": "E2",
+      "kind": "garage",
+      "name": "Bike + motorcycle parking",
+      "poly": [[12.0, -9.5], [30.5, -9.5], [30.5, -3.5], [12.0, -3.5]],
+      "note": "along the south wall: ~40 bikes on two-tier racks with e-bike charging, 6 motorcycle bays, bike wash + repair stand; walkway north to the core E lift/stairs up to reception"
     },
     {
       "id": "game-room",

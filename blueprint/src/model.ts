@@ -33,6 +33,7 @@ export interface SiteFeatures {
   sauna_path: { points: Pt[]; width: number };
   surfaces?: { id: string; kind: string; poly?: Pt[]; circle?: [number, number, number]; ring?: [number, number, number, number] }[];
   paths?: { id: string; width: number; points: Pt[] }[];
+  bike_shelter?: { rect: [number, number, number, number] };
   stepping_stones?: { id: string; points: Pt[]; spacing: number; size: Pt }[];
 }
 export interface DesignElement {

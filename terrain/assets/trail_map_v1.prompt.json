@@ -1,0 +1,13 @@
+{
+  "prompt": "A high-quality illustrated trailhead map panel for a forest loop trail, in the style of a US national park trailhead sign (like the Black Hills or NPS wayside exhibits) but with a Scandinavian / Norwegian design sensibility: warm natural tones, calm and minimal, clean sans-serif typography, a subtle folk-pattern border. Horizontal landscape layout. Use the attached reference only for the geography and route: a river running north-south through a narrow rocky ravine on the left-center, a red dashed-free solid red trail loop going north from the buildings around a forested plateau and back, a small footbridge crossing at the top-left, a small sauna by the stream, the gym buildings straddling the ravine near the bottom, a road coming in from the right, and a gold star 'YOU ARE HERE' at the trailhead just right of the buildings. Painterly shaded-relief terrain with dense spruce and pine forest drawn as soft tree texture, granite outcrops along the ravine, a waterfall where the river drops just north of the buildings. Title at top left: 'SKOGSL\u00d8YPA' with subtitle 'Forest Loop \u00b7 3.3 km / 2.06 mi \u00b7 Easy \u00b7 Lit year-round'. Small legend at right: trail, river, road, bridge, sauna, parking. North arrow and a scale bar. Printed on a weathered dark-stained timber board look at the edges, but the map itself crisp and legible. No people, no photos, flat front-on view of the panel artwork only.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1536x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [
+    "out/scene/trail_map.png"
+  ],
+  "filename": "a_high-quality_illustrated_trailhead_map_panel_for_a_forest__0.png",
+  "generated_at": "2026-10-10T22:22:49"
+}

@@ -513,6 +513,51 @@ for e in model["elements"]:
         box(e["id"] + "_eaves", x0 - 2.5, y0 - 2.5, e["z"][1], x1 + 2.5, y1 + 2.5, e["z"][1] + 0.35, clt)
 
 LV = {l["id"]: l["elevation"] for l in model["levels"]}
+# covered bike shelter: timber posts + beams, sod roof, simple racks
+bs = model["site"]["features"].get("bike_shelter")
+if bs:
+    x0, y0, x1, y1 = bs["rect"]; fz, rz = bs["floor"], bs["floor"] + bs["roof"]
+    for px in np.linspace(x0 + 0.2, x1 - 0.2, 5):
+        for py in (y0 + 0.2, y1 - 0.2):
+            box(f"bs_post_{px:.1f}_{py:.1f}", px - 0.1, py - 0.1, fz, px + 0.1, py + 0.1, rz, glulam)
+    box("bs_roof", x0 - 0.6, y0 - 0.6, rz, x1 + 0.6, y1 + 0.6, rz + 0.25, clt)
+    box("bs_sod", x0 - 0.5, y0 - 0.5, rz + 0.25, x1 + 0.5, y1 + 0.5, rz + 0.45, bpy.data.materials.get("sod_roof") or moss)
+    for px in np.arange(x0 + 0.6, x1 - 0.3, 0.7):  # bike stands
+        box(f"bs_rack_{px:.1f}", px - 0.03, y0 + 1.2, fz, px + 0.03, y1 - 1.2, fz + 0.8, mullion)
+# underground bike + motorcycle parking along the garage's south wall
+for sp in model.get("spaces", []):
+    if sp["id"] == "bike-moto":
+        xs_, ys_ = [p[0] for p in sp["poly"]], [p[1] for p in sp["poly"]]
+        zf = LV[sp["level"]]
+        for px in np.arange(min(xs_) + 0.8, 24.5, 0.55):  # two-tier racks against the wall
+            box(f"ub_rack_{px:.2f}", px - 0.03, min(ys_) + 0.3, zf, px + 0.03, min(ys_) + 2.1, zf + 2.4, mullion)
+        for k, px in enumerate(np.arange(25.2, max(xs_) - 0.6, 1.1)):  # motorcycle bays
+            box(f"ub_moto_{k}", px - 0.35, min(ys_) + 0.4, zf + 0.3, px + 0.35, min(ys_) + 2.5, zf + 1.1, mullion)
+# trailhead sign: two log posts, sod-roofed gable, map panel with the real trail map
+ts = model["site"]["features"].get("trailhead_sign")
+if ts:
+    sx, sy = ts["at"]; sz = float(H[int(round(sy + 999.5)), int(round(sx + 999.5))])
+    rot = math.radians(ts.get("facing_deg", 0))
+    sign = bpy.data.objects.new("trailhead_sign", None); scene.collection.objects.link(sign)
+    sign.location = (sx, sy, sz); sign.rotation_euler[2] = rot
+    def part(ob):
+        ob.parent = sign
+        return ob
+    for dx in (-1.1, 1.1):
+        bpy.ops.mesh.primitive_cylinder_add(radius=0.11, depth=2.9, location=(dx, 0, 1.45), vertices=10)
+        part(bpy.context.object).data.materials.append(glulam)
+    part(box("ts_board", -1.0, -0.06, 0.8, 1.0, 0.06, 2.2, glulam))
+    part(box("ts_roof_a", -1.45, -0.05, 2.55, 1.45, 0.65, 2.68, clt)).rotation_euler[0] = math.radians(25)
+    part(box("ts_roof_b", -1.45, -0.65, 2.55, 1.45, 0.05, 2.68, clt)).rotation_euler[0] = math.radians(-25)
+    map_png = ROOT / "terrain" / "assets" / "trail_map_v1.png"  # gpt-image-2, prompt in trail_map_v1.prompt.json
+    if map_png.exists():
+        img = bpy.data.images.load(str(map_png))
+        mm = bpy.data.materials.new("trail_map"); mm.use_nodes = True
+        tex = mm.node_tree.nodes.new("ShaderNodeTexImage"); tex.image = img
+        mm.node_tree.links.new(tex.outputs["Color"], mm.node_tree.nodes["Principled BSDF"].inputs["Base Color"])
+        bpy.ops.mesh.primitive_plane_add(size=1, location=(0, -0.075, 1.5), rotation=(math.radians(90), 0, 0))
+        pl = part(bpy.context.object); pl.scale = (1.85, 1.3, 1); pl.data.materials.append(mm)
+        bpy.ops.object.mode_set(mode="OBJECT")
 # stepping stones: flat granite slabs set flush in the grass
 Hd_ = H  # 1 m terrain, rows = y + 1000
 for line in model["site"]["features"].get("stepping_stones", []):

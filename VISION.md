@@ -210,6 +210,10 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Parking is hidden:**
   - an **underground parking (~30 cars) under the entry meadow** (about 1 m of soil on its roof), drive-through to the east-wing garage, reached by the ramp tunnel off the road
   - plus a small **forest trailhead lot** (8 spaces, gravel, between kept trees) about 100 m east along the road, linked by a lit forest path
+- **Bikes:**
+  - A **covered bike shelter** (~30 bikes, e-bike charging, timber with a sod roof) at the south edge of the entry meadow, with stepping stones to the door.
+  - **Underground bike + motorcycle parking** along the south wall of the east-wing garage (~40 bikes on two-tier racks, 6 motorcycle bays, bike wash + repair stand), a short walk to the core E lift/stairs up to reception.
+- **Trailhead:** the 8-space gravel lot moved closer (x 99–120 along the road, ~50 m from the entrance). A **connector trail** runs north to the loop, and a **park-style trailhead sign** (log posts, small gable roof, illustrated map panel `terrain/assets/trail_map_v1.png`, made with gpt-image-2) stands at the trail start.
 
 ## Open questions
 

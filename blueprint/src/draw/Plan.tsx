@@ -87,6 +87,12 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
       <path d={rect(f.sauna.deck.rect)} className="w-deck" />
       <text x={sx} y={-sy} className="txt-s" textAnchor="middle">SAUNA</text>
       <text x={gc[0]} y={-gc[1]} className="txt-s" textAnchor="middle">SUNKEN GARDEN</text>
+      {f.bike_shelter && (
+        <g>
+          <path d={rect(f.bike_shelter.rect)} className="w-shelter" />
+          <text x={(f.bike_shelter.rect[0] + f.bike_shelter.rect[2]) / 2} y={-(f.bike_shelter.rect[1] + f.bike_shelter.rect[3]) / 2 + 0.3} className="txt-s" textAnchor="middle">BIKE SHELTER · ~30</text>
+        </g>
+      )}
       <text x={44} y={-9} className="txt-s" textAnchor="middle">ENTRY MEADOW</text>
       <text x={62} y={-19.5} className="txt-s" textAnchor="middle">DROP-OFF</text>
       <text x={160.5} y={-16} className="txt-s" textAnchor="middle">TRAILHEAD PARKING · 8</text>

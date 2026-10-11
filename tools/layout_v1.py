@@ -113,7 +113,9 @@ S("dc-nursing", "E1", "daycare", "Parent & nursing room", R(21.25, 21.2, 30.5, 2
 S("daycare-up", "E1", "daycare", "Baby & toddler room · 0–3", R(21.25, 25.2, 30.5, 33.3), "soft floor, cots, separated from the older kids")
 
 # ---------------------------------------------------------------- east wing E2 −6.01
-S("garage", "E2", "garage", "Garage · 3 cars on the glass, bike storage", R(12.0, -9.5, 30.5, 6.8), "tunnel entry on the east wall")
+S("garage", "E2", "garage", "Garage · cars on the glass", R(12.0, -3.5, 30.5, 6.8), "drive-through from the underground parking (east)")
+S("bike-moto", "E2", "garage", "Bike + motorcycle parking", R(12.0, -9.5, 30.5, -3.5),
+  "along the south wall: ~40 bikes on two-tier racks with e-bike charging, 6 motorcycle bays, bike wash + repair stand; walkway north to the core E lift/stairs up to reception")
 S("game-room", "E2", "lounge", "Game room", R(12.0, 6.8, 20.8, 16.18))
 S("lift-lobby-e2", "E2", "circulation", "Lift lobby · from the garage", R(24.0, 6.8, 30.5, 16.18))
 S("dc-rest", "E2", "daycare", "Rest / sleep room", R(12.0, 16.18, 17.0, 21.2))
