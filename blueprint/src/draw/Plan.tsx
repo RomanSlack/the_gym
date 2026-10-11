@@ -1,7 +1,7 @@
 // Floor / site plan for one level. Horizontal cut at level + plan_cut_height:
 // cut elements heavy with poché, things below the cut light, things above dashed.
-import { useMemo } from "react";
-import { footprint, wideTerrain } from "../model";
+import { Component, useMemo, type ReactNode } from "react";
+import { footprint } from "../model";
 import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
@@ -100,6 +100,14 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
   );
 }
 
+/** Older versions of the model may lack fields a renderer expects: draw nothing rather than crash. */
+class Safe extends Component<{ children: ReactNode }, { bad: boolean }> {
+  state = { bad: false };
+  static getDerivedStateFromError() { return { bad: true }; }
+  componentDidUpdate(prev: { children: ReactNode }) { if (prev.children !== this.props.children && this.state.bad) this.setState({ bad: false }); }
+  render() { return this.state.bad ? null : this.props.children; }
+}
+
 export function Plan({
   model, underlay, level, layers, site,
 }: { model: Model; underlay: Underlay; level: Level; layers: Layers; site: boolean }) {
@@ -114,7 +122,7 @@ export function Plan({
   );
 
   const t = underlay.terrain;
-  const tc = site ? wideTerrain : t;  // site plan: whole core at 10 m; floor plans: detail at 2 m
+  const tc = site && underlay.wide ? underlay.wide : t;  // site plan: whole core at 10 m; floor plans: detail at 2 m
   const contours = useMemo(() => {
     const out: { z: number; d: string; anchors: [number, number][] }[] = [];
     for (let z = -60; z <= 40; z += site ? 2 : 1) out.push({ z, ...contourPath(tc, z) });
@@ -189,9 +197,11 @@ export function Plan({
           </text>
         ))}
 
-      {(site || level.id === "F1") && <SiteWorks f={model.site.features} />}
+      {(site || level.id === "F1") && model.site.features?.road && (
+        <Safe><SiteWorks f={model.site.features} /></Safe>
+      )}
 
-      {!site && <DesignPlan model={model} levelId={level.id} cut={cut} elev={elev} />}
+      {!site && <Safe><DesignPlan model={model} levelId={level.id} cut={cut} elev={elev} /></Safe>}
 
       {/* new design: beams overhead (dashed, as drawn above the cut) */}
       {!site &&

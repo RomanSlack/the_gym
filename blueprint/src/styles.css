@@ -221,3 +221,19 @@ html[data-theme="dark"] .w-planting { fill: #33452a; }
 html[data-theme="dark"] .w-gravel { fill: #3a362f; }
 .w-shelter { fill: #e9dcc5; stroke: var(--ink); stroke-width: 0.9; stroke-dasharray: 4 2; }
 html[data-theme="dark"] .w-shelter { fill: #3a3022; }
+
+/* replay bar */
+.replay { position: absolute; left: 14px; right: 360px; top: 12px; background: color-mix(in srgb, var(--paper) 92%, transparent); border: 1.5px solid var(--ink); padding: 8px 10px; font-size: 13px; z-index: 5; }
+.replay-top { display: flex; align-items: center; gap: 6px; }
+.replay-top button, .replay-top select { font: inherit; font-size: 12px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); border-radius: 3px; padding: 2px 8px; cursor: pointer; }
+.replay-top .play { min-width: 34px; }
+.replay-count { min-width: 56px; text-align: center; }
+.replay-track { position: relative; flex: 1; height: 18px; margin: 0 10px; border-bottom: 1px solid var(--rule); }
+.replay-track .tick { position: absolute; top: 2px; width: 9px; height: 14px; margin-left: -4px; padding: 0; border: 1px solid var(--ink); background: var(--paper); border-radius: 2px; }
+.replay-track .tick.past { background: #b5aa96; }
+.replay-track .tick.on { background: #c2410c; border-color: #c2410c; transform: scale(1.35); }
+.replay-caption { margin-top: 6px; }
+.replay-meta { font-size: 11px; color: #7a766d; }
+.replay-prompt { font-style: italic; margin: 2px 0; }
+.replay-subject { font-size: 12px; color: #55524b; }
+html[data-theme="dark"] .replay-subject, html[data-theme="dark"] .replay-meta { color: #9a968c; }

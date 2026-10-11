@@ -63,5 +63,11 @@ def main():
     git("commit", "-q", "-m", subject, "-m", body)
 
 
+def rebuild_history():
+    """Refresh the blueprint's replay data (git-ignored) so the viewer always has the latest versions."""
+    subprocess.run([sys.executable, str(ROOT / "tools" / "replay" / "build_history.py")], capture_output=True, timeout=120)
+
+
 if __name__ == "__main__":
     main()
+    rebuild_history()

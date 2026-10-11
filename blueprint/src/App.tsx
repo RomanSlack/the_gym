@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { model, underlay, fmtElev } from "./model";
+import { model as currentModel, underlay as currentUnderlay, fmtElev } from "./model";
+import type { Model, Underlay } from "./model";
+import { ReplayBar, loadVersion, type Version } from "./draw/Replay";
 import type { Level, SectionDef } from "./model";
 import { Plan, type Layers } from "./draw/Plan";
 import { Section } from "./draw/Section";
@@ -9,6 +11,7 @@ type Sheet =
   | { no: string; title: string; kind: "plan"; level: Level; site: boolean; fit: [number, number, number, number] }
   | { no: string; title: string; kind: "section"; sec: SectionDef; fit: [number, number, number, number] };
 
+const model = currentModel; // sheets come from the current design
 function buildSheets(): Sheet[] {
   const byId = Object.fromEntries(model.levels.map((l) => [l.id, l]));
   const plans = ["F1", "F2", "E2", "F3", "F4"].filter((id) => byId[id]);
@@ -49,6 +52,26 @@ export default function App() {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     localStorage.setItem("gym-theme", dark ? "dark" : "light");
   }, [dark]);
+  // replay: versions from tools/replay/build_history.py, shown in place of the current design
+  const [versions, setVersions] = useState<Version[] | null>(null);
+  const [vIdx, setVIdx] = useState(0);
+  const [shown, setShown] = useState<{ model: Model; underlay: Underlay }>({ model: currentModel, underlay: currentUnderlay });
+  const openReplay = async () => {
+    try {
+      const idx = await (await fetch("/history/index.json")).json();
+      setVersions(idx.commits); setVIdx(0);
+    } catch { alert("No replay data yet: run  python3 tools/replay/build_history.py"); }
+  };
+  useEffect(() => {
+    if (!versions) { setShown({ model: currentModel, underlay: currentUnderlay }); return; }
+    let live = true;
+    loadVersion(versions[vIdx], currentUnderlay).then((s) => live && setShown(s));
+    return () => { live = false; };
+  }, [versions, vIdx]);
+  // early versions had no new design yet: show Gym V2 (what we were working from) automatically
+  const shownLayers = versions && shown.model.elements.length === 0 ? { ...layers, underlay: true, labels: true } : layers;
+  const versionsRef = useRef(versions); versionsRef.current = versions;
+  const openReplayRef = useRef(openReplay); openReplayRef.current = openReplay;
   const figDrag = useRef<{ x: number; y: number; fx: number; fy: number } | null>(null);
 
   useEffect(() => {
@@ -90,6 +113,7 @@ export default function App() {
       if (e.key === "ArrowUp" || e.key === "k") setIdx((i) => Math.max(0, i - 1));
       if (e.key === "f") setVb(sheet.fit);
       if (e.key === "d" || e.key === "D") setDark((v) => !v);
+      if (e.key === "h" || e.key === "H") (versionsRef.current ? setVersions(null) : openReplayRef.current());
       if (e.key === "r" || e.key === "R") setFigs((f) => ({ ...f, rot: (f.rot + 90) % 360 }));
     };
     window.addEventListener("keydown", onKey);
@@ -103,6 +127,7 @@ export default function App() {
           <div className="proj-name">THE GYM</div>
           <div className="proj-sub">Drawing set · schematic</div>
         </div>
+        <button className="theme-btn" onClick={() => (versions ? setVersions(null) : openReplay())}>{versions ? "⏹ Exit replay" : "⏵ Replay history"} <span className="mono">(H)</span></button>
         <button className="theme-btn" onClick={() => setDark((v) => !v)}>{dark ? "☀ Light mode" : "☾ Dark mode"} <span className="mono">(D)</span></button>
         {sheets.map((s, i) => (
           <button key={s.no} className={i === idx ? "sheet on" : "sheet"} onClick={() => setIdx(i)}>
@@ -180,9 +205,9 @@ export default function App() {
             </pattern>
           </defs>
           {sheet.kind === "plan" ? (
-            <Plan model={model} underlay={underlay} level={sheet.level} layers={layers} site={sheet.site} />
+            <Plan model={shown.model} underlay={shown.underlay} level={sheet.level} layers={shownLayers} site={sheet.site} />
           ) : (
-            <Section model={model} underlay={underlay} sec={sheet.sec} layers={layers} />
+            <Section model={shown.model} underlay={shown.underlay} sec={sheet.sec} layers={shownLayers} />
           )}
           <Figures s={figs} onGrab={(e) => { e.stopPropagation(); figDrag.current = { x: e.clientX, y: e.clientY, fx: figs.x, fy: figs.y }; }} />
         </svg>
@@ -205,6 +230,7 @@ export default function App() {
             <span>Drawn</span><span>R. Slack + Claude</span>
           </div>
         </div>
+        {versions && <ReplayBar versions={versions} index={vIdx} setIndex={setVIdx} onClose={() => setVersions(null)} />}
         <div className="status mono">{hover || "scroll to zoom · drag to pan · f to fit · ↑↓ sheets · D dark mode"}</div>
       </main>
     </div>

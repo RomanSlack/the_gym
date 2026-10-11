@@ -130,21 +130,42 @@ export interface Terrain {
 export interface Underlay {
   elements: UElement[];
   terrain: Terrain;
+  wide: Terrain | null; // 10 m grid over the whole core (site plan); null for old versions
 }
 
+type SiteRaw = { origin: number[]; step: number; nx: number; ny: number; heights: number[]; water?: (number | null)[];
+  wide?: { origin: number[]; step: number; nx: number; ny: number; heights: number[] } };
+
 /** Site terrain + water exported by terrain/export_blueprint.py (already relative to ±0.00). */
-function loadSite(raw: typeof siteJson): Terrain {
+export function loadSite(raw: SiteRaw): Terrain {
   const h = Float64Array.from(raw.heights, (v) => v / 100);
-  const water = Float64Array.from(raw.water, (v) => (v === null ? NaN : v / 100));
+  const water = raw.water ? Float64Array.from(raw.water, (v) => (v === null ? NaN : v / 100)) : new Float64Array(h.length).fill(NaN);
   return { origin: raw.origin as Pt, step: raw.step, nx: raw.nx, ny: raw.ny, h, water };
 }
 
-/** Coarse 10 m grid over the whole 2 x 2 km core, for the site plan's contours. */
-export const wideTerrain: Terrain = (() => {
-  const w = siteJson.wide;
+export function loadWide(raw: SiteRaw): Terrain | null {
+  const w = raw.wide;
+  if (!w) return null;
   const h = Float64Array.from(w.heights, (v) => v / 100);
   return { origin: w.origin as Pt, step: w.step, nx: w.nx, ny: w.ny, h, water: new Float64Array(h.length).fill(NaN) };
-})();
+}
+
+/** Gym V2's own sculpted terrain (Blender z, cm) on the project datum: what the drawings used before the site existed. */
+export function loadV2Terrain(datumZ: number): Terrain {
+  const t = underlayJson.terrain;
+  const h = Float64Array.from(t.heights as (number | null)[], (v) => (v === null ? NaN : v / 100 - datumZ));
+  return { origin: t.origin as Pt, step: t.step, nx: t.nx, ny: t.ny, h, water: new Float64Array(h.length).fill(NaN) };
+}
+
+/** Fill in anything an older version of the model doesn't have yet, so every version can be drawn. */
+export function normalizeModel(raw: any): Model {
+  const m = structuredClone(raw);
+  m.grids ??= []; m.elements ??= []; m.spaces ??= []; m.stairs ??= []; m.fixtures ??= [];
+  m.site ??= {}; m.site.features ??= {};
+  m.project.datum.blender_z_gymv2 ??= m.project.datum.blender_z ?? -3.47;
+  return m as Model;
+}
+
 
 /** Shift the raw Blender-z Gym V2 underlay onto the project datum; terrain = the new site. */
 export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay {
@@ -155,7 +176,7 @@ export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay
       z: [e.z[0] - datumZ, e.z[1] - datumZ] as [number, number],
       at: e.at ? [e.at[0], e.at[1], e.at[2] - datumZ] : undefined,
     }));
-  return { elements, terrain: loadSite(siteJson) };
+  return { elements, terrain: loadSite(siteJson as SiteRaw), wide: loadWide(siteJson as SiteRaw) };
 }
 
 export const model = modelJson as unknown as Model;
