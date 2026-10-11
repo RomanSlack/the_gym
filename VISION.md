@@ -199,6 +199,8 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Locker room back door:** a shared **sauna lobby** between the men's and women's locker rooms (F1, north side of the west wing), with robe hooks, a towel warmer, sandal racks and a key-card door.
 - **Sauna path:** a lit stone path, about 2 m wide, with low bollards. The first stretch has **snow-melt heating**, so robes and sandals work in winter.
 - **Indoor saunas too:** a men's and a women's sauna inside the locker rooms (plus the steam rooms). That's the quick everyday sauna; the badstue is the social, ritual one.
+- **Garage looks out across the ravine** (as in the original sketch: "Garage (area for nice cars), Window"). The rock ledge between the east wing and the canyon is cut down along the garage stretch, so the garage's west wall stands on a rock shelf above the plunge pool. **Floor-to-ceiling glazing** looks straight across the water at the gym. The garage floor (E2) is about 2.8 m above the water.
+- **Daycare lower floor:** glazed toward the sunken garden (walk-out). It stays solid toward the ravine for safety.
 
 ## Open questions
 

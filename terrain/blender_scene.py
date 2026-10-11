@@ -288,7 +288,10 @@ variants = [rock_variant(k) for k in range(6)]
 rock_bm = bmesh.new()
 Hfull = H[c, c]
 gyd, gxd = np.gradient(Hfull)
-steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c, c] > 0.25) & ~(FEAT[c, c] > 0)
+built = FEAT[c, c] > 0
+for _ in range(4):  # no natural rock on or right next to built works (terraces, ramp walls, paths)
+    built = built | np.roll(built, 1, 0) | np.roll(built, -1, 0) | np.roll(built, 1, 1) | np.roll(built, -1, 1)
+steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c, c] > 0.25) & ~built
 pad_box = np.zeros(steep.shape, bool)
 for p in model["site"]["pads"]:
     poly = np.array(p["poly"]); lo, hi = poly.min(0) - 1.5, poly.max(0) + 1.5
@@ -376,6 +379,80 @@ deck.modifiers.new("thick", "SOLIDIFY").thickness = 0.12
 deck.data.materials.append(deck_m)
 step = mesh_from("sauna_steps", [(x1_, scy - 0.8, fl), (dx0 + 1.6, scy - 0.8, dz_), (dx0 + 1.6, scy + 0.8, dz_), (x1_, scy + 0.8, fl)], [(0, 1, 2, 3)], smooth=False)
 step.data.materials.append(deck_m)
+
+# ---------------- east wing lower level: placeholder envelope, glazing, cars ----------------
+env = model["site"]["envelope_placeholders"]["east_wing_E2"]
+ex0, ey0, ex1, ey1 = env["rect"]
+ez0, ez1 = env["floor"], env["top"]
+concrete = material("concrete", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.42, 0.41, 0.39, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.85)))
+mullion = material("mullion", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.02, 0.022, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.4)))
+
+
+def glass_mat(nt, b):
+    b.inputs["Base Color"].default_value = (0.03, 0.045, 0.05, 1)
+    b.inputs["Roughness"].default_value = 0.03
+    b.inputs["Alpha"].default_value = 0.22
+
+
+glass_e = material("glass_facade", glass_mat)
+for attr, val in (("surface_render_method", "BLENDED"), ("blend_method", "BLEND")):
+    try:
+        setattr(glass_e, attr, val)
+        break
+    except (AttributeError, TypeError):
+        continue
+
+
+def box(name, x0, y0, z0, x1, y1, z1, mat):
+    v = [(x0, y0, z0), (x1, y0, z0), (x1, y1, z0), (x0, y1, z0), (x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]
+    f = [(0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)]
+    ob = mesh_from(name, v, f, smooth=False)
+    ob.data.materials.append(mat)
+    return ob
+
+
+T = 0.35  # wall thickness
+sides = {"W": ("y", ex0, ey0, ey1), "E": ("y", ex1, ey0, ey1), "S": ("x", ey0, ex0, ex1), "N": ("x", ey1, ex0, ex1)}
+for side, (run, fixed, a0, a1) in sides.items():
+    cuts = sorted([(g["from"], g["to"], "glass") for g in env["glazed"] if g["side"] == side] +
+                  [(o["from"], o["to"], "open") for o in env["openings"] if o["side"] == side])
+    spans, cur = [], a0
+    for f0, f1, kind in cuts:
+        if f0 > cur:
+            spans.append((cur, f0, "wall"))
+        spans.append((f0, f1, kind)); cur = f1
+    if cur < a1:
+        spans.append((cur, a1, "wall"))
+    for k, (s0, s1, kind) in enumerate(spans):
+        if kind == "open":
+            continue
+        if run == "y":
+            bx = (fixed - T / 2, s0, fixed + T / 2, s1)
+        else:
+            bx = (s0, fixed - T / 2, s1, fixed + T / 2)
+        if kind == "wall":
+            box(f"e2_wall_{side}{k}", bx[0], bx[1], ez0 - 0.6, bx[2], bx[3], ez1 - 0.3, concrete)
+        else:
+            box(f"e2_glass_{side}{k}", bx[0] + 0.1 * (run == "y"), bx[1] + 0.1 * (run == "x"), ez0, bx[2] - 0.1 * (run == "y"), bx[3] - 0.1 * (run == "x"), ez1 - 0.35, glass_e)
+            n = max(1, int((s1 - s0) / 2.4))
+            for i in range(n + 1):  # slim vertical mullions every ~2.4 m
+                t_ = s0 + (s1 - s0) * i / n
+                if run == "y":
+                    box(f"e2_mull_{side}{k}_{i}", fixed - 0.08, t_ - 0.04, ez0, fixed + 0.08, t_ + 0.04, ez1 - 0.35, mullion)
+                else:
+                    box(f"e2_mull_{side}{k}_{i}", t_ - 0.04, fixed - 0.08, ez0, t_ + 0.04, fixed + 0.08, ez1 - 0.35, mullion)
+box("e2_floor", ex0, ey0, ez0 - 0.3, ex1, ey1, ez0, concrete)
+
+car_paint = [material("car_silver", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.5, 0.52, 0.55, 1)), b.inputs["Metallic"].__setattr__("default_value", 0.9), b.inputs["Roughness"].__setattr__("default_value", 0.25))),
+             material("car_green", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.02, 0.08, 0.05, 1)), b.inputs["Metallic"].__setattr__("default_value", 0.8), b.inputs["Roughness"].__setattr__("default_value", 0.3)))]
+for k, cy_ in enumerate((3.2, 7.4)):
+    box(f"car_{k}_body", 13.6, cy_ - 0.95, ez0 + 0.25, 18.4, cy_ + 0.95, ez0 + 0.85, car_paint[k])
+    box(f"car_{k}_cabin", 14.9, cy_ - 0.8, ez0 + 0.85, 17.4, cy_ + 0.8, ez0 + 1.3, car_paint[k])
+
+glow = bpy.data.objects.new("e2_ceiling_light", bpy.data.lights.new("e2_light", "AREA"))
+glow.data.size = 16; glow.data.energy = 3500; glow.data.color = (1.0, 0.85, 0.7)
+glow.location = ((ex0 + ex1) / 2, (ey0 + ey1) / 2, ez1 - 0.6)
+scene.collection.objects.link(glow)
 
 # ---------------- light, world, cameras ----------------
 sun = bpy.data.objects.new("sun", bpy.data.lights.new("sun", "SUN"))

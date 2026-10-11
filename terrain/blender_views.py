@@ -19,6 +19,12 @@ VIEWS = {
     "bridge_oblique_ne": ((45, 90, 38), (-3, 30, -4), 24),
     "east_wing_from_east": ((85, -25, 34), (15, 12, -5), 24),
     "sauna_from_stream": ((-5, 113, 1.4), (-21, 95, 1.2), 20),
+    "garage_across_ravine": ((-3.5, -6, -5.5), (13, 3, -3.6), 16),
+    "garage_inside_out": ((27, 1.5, -4.4), (0, 4, -5.2), 15),
+    "garden_drone_close": ((44, 88, 44), (23, 40, -5), 26),
+    "garden_from_daycare": ((22, 35.5, -4.4), (25, 60, -1.5), 15),
+    "garden_to_daycare": ((27, 52, -1.0), (22, 33.5, -4.0), 16),
+    "garage_tunnel_portal": ((96, 3, 3.5), (55, -3, -3.5), 20),
 }
 for name, (loc, tgt, lens) in VIEWS.items():
     if want and name not in want:

@@ -232,6 +232,7 @@ if __name__ == "__main__":
     slope = np.degrees(np.arctan(np.hypot(gx, gy)))
     rockmask = np.clip((slope - 38) / 15, 0, 1) * np.clip(0.3 + rock, 0, 1)
     rockmask = np.maximum(rockmask, np.clip((slope - 55) / 10, 0, 1))  # any very steep face is rock
+    rockmask *= ~ndi.binary_dilation(fmask > 0, iterations=4)  # built walls/terraces are not natural rock
     np.save(OUT / "terrain_1m.npy", terrain)
     np.save(OUT / "water_1m.npy", water)
     np.save(OUT / "rock_1m.npy", rockmask.astype(np.float32))
