@@ -8,3 +8,10 @@
 
 node_modules/
 __pycache__/
+
+# Full-size run previews and renders stay local (small *.thumb.jpg are committed)
+terrain/runs/**/*.png
+blueprint/public/history/
+imagegen-outputs/
+*.blend
+!reference/gym_v2_original/*.blend

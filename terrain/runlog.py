@@ -2,7 +2,7 @@
 
 Each run gets terrain/runs/<UTC time>_<stage>/ with:
   manifest.json  inputs (params), code commit, output hashes  (committed to git)
-  *.png          small previews                                (committed to git)
+  *.png          previews (local only; *.thumb.jpg 640 px copies are committed)
 Large arrays are NOT committed: any run is reproducible from its manifest
 (+ the cached Kartverket tiles). Optional animation frames go to the local-only
 .capture/terrain/<run>/ folder for the video.
@@ -19,6 +19,14 @@ def _commit():
     r = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--short", "HEAD"], capture_output=True, text=True)
     dirty = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "terrain"], capture_output=True, text=True).stdout.strip()
     return r.stdout.strip() + ("+dirty" if dirty else "")
+
+
+def thumb(png: Path):
+    """Small committed JPG next to a (git-ignored) full-size PNG."""
+    from PIL import Image
+    im = Image.open(png).convert("RGB")
+    im.thumbnail((640, 640))
+    im.save(png.with_name(png.stem + ".thumb.jpg"), quality=78)
 
 
 class Run:
@@ -41,6 +49,7 @@ class Run:
     def preview(self, fig_or_path, name="preview.png", dpi=80):
         p = self.dir / name
         fig_or_path.savefig(p, dpi=dpi)
+        thumb(p)
         return p
 
     def frame(self, k: int, fig, dpi=60):
