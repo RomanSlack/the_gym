@@ -24,6 +24,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "terrain"))
 import modelio  # noqa: E402
+if len(sys.argv) > 2 and sys.argv[1] == '--art':
+    _m = modelio.load(); _m.setdefault('interior', {})['reception_art'] = sys.argv[2]; modelio.save(_m)
 
 m = modelio.load()
 lv = {l["id"]: l["elevation"] for l in m["levels"]}
@@ -51,7 +53,10 @@ put("boot_bench", (VX0 + VX1) / 2, VY0 + 0.32, rot=0, zone="entrance", length=1.
 
 # ---- reception
 put("reception_desk", 25.7, 11.3, rot=-90, length=4.6, note="desk faces the doors (east); staff side to the slatted core wall")
-put("relief_art", 24.21, 11.3, rot=-90, width=6.0, height=2.9, note="'Glomma' relief: layered timber fells, preserved moss, spruce silhouettes; behind the desk")
+ART = {"valley": "docs/art/artvalleyoil_0.png", "abstract": "docs/art/artabstracthills_0.png", "mist": "docs/art/artmistforest_0.png"}
+art_pick = m.get("interior", {}).get("reception_art", "valley")
+put("canvas_art", 24.22, 11.3, rot=-90, width=6.0, height=2.9, image=str(ROOT / ART[art_pick]),
+    note=f"painting behind the desk ({art_pick}), generated with gpt-image-2, stretched canvas in an oak float frame")
 for y in (10.0, 11.3, 12.6):
     put("pendant_opal", 25.7, y, hang=2.45, note="opal glass + oak pendant over the desk")
 put("lounge_chair", 28.7, 14.55, rot=-60, zone="reception")

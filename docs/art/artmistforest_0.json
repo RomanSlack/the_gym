@@ -1,0 +1,11 @@
+{
+  "prompt": "A large Japanese-Nordic ink and watercolour painting: a dense Norwegian spruce forest on a steep ravine edge emerging from mist, delicate wet-on-wet washes in greens and greys on warm off-white paper, lots of quiet negative space, elegant and minimal, museum quality. No frame, no text, fills the whole image edge to edge.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "3072x1488",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "artmistforest_0.png",
+  "generated_at": "2026-10-11T17:04:08"
+}

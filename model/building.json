@@ -8409,7 +8409,8 @@
         "name": "Light Nordic oak",
         "note": "white-oiled oak floor, undulating pale ash baffle ceiling between pale spruce glulam beams, oak slat feature walls, warm-white lime plaster elsewhere, light honed stone at the door; the only dark surfaces are the window frames and the facade band above them"
       }
-    }
+    },
+    "reception_art": "valley"
   },
   "furnishings": [
     {"id": "sliding_doors-000", "kind": "sliding_doors", "level": "E1", "at": [30.5, 11.288], "z": 0.12, "rot_deg": 90, "zone": "entrance", "width": 2.376, "height": 2.6, "note": "outer automatic sliding doors (vestibule)"},
@@ -8444,16 +8445,17 @@
     {"id": "boot_bench-006", "kind": "boot_bench", "level": "E1", "at": [31.7, 9.62], "z": 0.12, "rot_deg": 0, "zone": "entrance", "length": 1.8, "note": "boot bench: shoes off, as at home in Norway"},
     {"id": "reception_desk-007", "kind": "reception_desk", "level": "E1", "at": [25.7, 11.3], "z": 0.12, "rot_deg": -90, "zone": "reception", "length": 4.6, "note": "desk faces the doors (east); staff side to the slatted core wall"},
     {
-      "id": "relief_art-008",
-      "kind": "relief_art",
+      "id": "canvas_art-008",
+      "kind": "canvas_art",
       "level": "E1",
-      "at": [24.21, 11.3],
+      "at": [24.22, 11.3],
       "z": 0.12,
       "rot_deg": -90,
       "zone": "reception",
       "width": 6.0,
       "height": 2.9,
-      "note": "'Glomma' relief: layered timber fells, preserved moss, spruce silhouettes; behind the desk"
+      "image": "/home/roman/the_gym/docs/art/artvalleyoil_0.png",
+      "note": "painting behind the desk (valley), generated with gpt-image-2, stretched canvas in an oak float frame"
     },
     {"id": "pendant_opal-009", "kind": "pendant_opal", "level": "E1", "at": [25.7, 10.0], "z": 0.12, "rot_deg": 0.0, "zone": "reception", "hang": 2.45, "note": "opal glass + oak pendant over the desk"},
     {"id": "pendant_opal-010", "kind": "pendant_opal", "level": "E1", "at": [25.7, 11.3], "z": 0.12, "rot_deg": 0.0, "zone": "reception", "hang": 2.45, "note": "opal glass + oak pendant over the desk"},

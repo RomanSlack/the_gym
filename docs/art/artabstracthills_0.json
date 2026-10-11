@@ -1,0 +1,11 @@
+{
+  "prompt": "A large abstract artwork for a minimalist Scandinavian interior: soft organic layered shapes evoking forest hills and lakes, mid-century modern composition, flat matte colour fields in deep spruce green, moss, sage, pale birch white and a small warm ochre sun, subtle paper texture, calm and balanced, gallery quality. No frame, no text, fills the whole image edge to edge.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "3072x1488",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "artabstracthills_0.png",
+  "generated_at": "2026-10-11T17:03:56"
+}

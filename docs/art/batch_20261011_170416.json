@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-10-11T17:04:16",
+  "count": 3,
+  "succeeded": 3,
+  "failed": 0,
+  "total_cost_usd": 1.23,
+  "results": [
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "A large fine-art painting for the wall of a luxury Nordic lodge: a misty Norwegian boreal valley at dawn, layers of spruce-covered ridges fading into soft fog, a calm river winding through, painted in loose expressive oil with visible brushwork, a palette of deep forest greens, sage, moss and warm pale mist with a touch of soft gold light. Calm, minimal, Scandinavian, gallery quality. No frame, no text, the painting fills the whole image edge to edge.",
+      "images": [
+        "/home/roman/the_gym/docs/art/artvalleyoil_0.png"
+      ],
+      "cost_usd": 0.41,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "A large abstract artwork for a minimalist Scandinavian interior: soft organic layered shapes evoking forest hills and lakes, mid-century modern composition, flat matte colour fields in deep spruce green, moss, sage, pale birch white and a small warm ochre sun, subtle paper texture, calm and balanced, gallery quality. No frame, no text, fills the whole image edge to edge.",
+      "images": [
+        "/home/roman/the_gym/docs/art/artabstracthills_0.png"
+      ],
+      "cost_usd": 0.41,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "A large Japanese-Nordic ink and watercolour painting: a dense Norwegian spruce forest on a steep ravine edge emerging from mist, delicate wet-on-wet washes in greens and greys on warm off-white paper, lots of quiet negative space, elegant and minimal, museum quality. No frame, no text, fills the whole image edge to edge.",
+      "images": [
+        "/home/roman/the_gym/docs/art/artmistforest_0.png"
+      ],
+      "cost_usd": 0.41,
+      "error": null
+    }
+  ]
+}
