@@ -54,9 +54,15 @@ Session goal (2026-10-10): **schematic floor plans v1 for every level** inside t
 - **Drawings** (http://localhost:5280): every floor plan has rooms with names and areas, concrete walls, glazing, stairs and the cafe ring. Sections show slabs breaking around the spiral, core and stair openings, the spiral helix, and the F3→F4 stair. The Gym V2 underlay is off by default (one checkbox to turn it on).
 - **3D** (`terrain/out/scene/site.blend`): the new building is generated from the model and Gym V2 is hidden. It has the column-free F1 hall with glulam roof beams, the post-tensioned floor beams, the spiral stair with timber treads, the pool (with a basin opening in the F4 slab), the garage glass and the daycare garden glass. Renders are in `terrain/runs/*_scene/sheet5.png`.
 
+15. **River wall openings** (`W-west-C` → `openings`):
+    - **F4:** 8 underwater windows, 2.4 × 2.0 m, along the pool.
+    - **F3:** a continuous river window from the floor to 2.6 m, 42 m long. The water surface sits about 1.0 m above the floor, at waist height.
+    - **F2:** a view band from 0.45 to 3.0 m above the floor.
+
+    All are drawn in the plans and sections and cut into the 3D wall. The key render is `terrain/runs/*_scene/f3_river_window.png`: the river surface at waist height on the glass, rocks underwater, and the garage glass across the ravine.
+
 ## Not done yet (next steps)
 
-- Windows in the river wall (the F2 views, the F3 waist-high river window, the F4 underwater windows) are not modeled. The wall is solid stone-clad concrete for now.
 - Interior partitions inside rooms (lockers, WCs, showers) and doors.
 - Roof design (slope/flat, sod or timber, skylights).
 - The rustic bridge (still Gym V2's slab), and reframing the north footbridge views.

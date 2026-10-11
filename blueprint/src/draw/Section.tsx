@@ -152,9 +152,26 @@ export function Section({ model, underlay, sec, layers }: { model: Model; underl
           if (gap) spans = spans.flatMap(([a, b]) => [[a, Math.min(b, gap![0])], [Math.max(a, gap![1]), b]] as [number, number][]).filter(([a, b]) => b - a > 0.05);
         }
         const cls = e.type === "wall" && e.kind === "glazed" ? "n-glass-sec" : e.material === "glulam" || e.material === "clt" ? "n-col-timber" : "n-col";
-        return spans.map(([a, b], k) => (
-          <rect key={`${e.id}-${k}`} x={a} y={-e.z[1]} width={b - a} height={e.z[1] - e.z[0]} className={cls} data-n={`${e.id} · ${e.type} ${e.material}`} />
-        ));
+        // wall openings crossed by the cut: split the wall's height into solid / glass bands
+        let bands: [number, number, boolean][] = [[e.z[0], e.z[1], false]];
+        if (e.type === "wall" && e.openings?.length) {
+          const [wx0, wy0] = e.from!, [wx1, wy1] = e.to!;
+          const WL = Math.hypot(wx1 - wx0, wy1 - wy0);
+          // where along the wall does the section line cross it?
+          const d0 = depth(wx0, wy0), d1 = depth(wx1, wy1);
+          if (d0 !== d1) {
+            const sw = (d0 / (d0 - d1)) * WL;
+            const hits = e.openings.filter((o) => sw >= o.s[0] && sw <= o.s[1]).map((o) => o.z).sort((p, q) => p[0] - q[0]);
+            const out: [number, number, boolean][] = [];
+            let cz = e.z[0];
+            for (const [z0, z1] of hits) { if (z0 > cz) out.push([cz, z0, false]); out.push([z0, z1, true]); cz = z1; }
+            if (cz < e.z[1]) out.push([cz, e.z[1], false]);
+            bands = out;
+          }
+        }
+        return spans.flatMap(([a, b], k) => bands.map(([z0, z1, glass], j) => (
+          <rect key={`${e.id}-${k}-${j}`} x={a} y={-z1} width={b - a} height={z1 - z0} className={glass ? "n-glass-sec" : cls} data-n={`${e.id} · ${e.type} ${e.material}${glass ? " · window" : ""}`} />
+        )));
       })}
 
       {/* stairs in section: spirals as a stacked helix band, straight stairs as a sloped flight */}

@@ -138,6 +138,15 @@ wall("W-west-A", [x0, y0], [x0, y1], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-N", [x0, y1], [x1, y1], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
 wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # windows at F2/F3, underwater at F4
+# openings along the river wall: s = metres from its south end (y -34.1), z absolute
+F2, F3, F4 = lv["F2"], lv["F3"], lv["F4"]
+els[-1]["openings"] = (
+    [{"s": [6.0 + 3.2 * k, 8.4 + 3.2 * k], "z": [round(F4 + 0.35, 2), round(F4 + 2.35, 2)], "type": "underwater",
+      "note": "thick acrylic, looks into the river at the riverbed"} for k in range(8)]
+    + [{"s": [2.0, 44.2], "z": [F3, round(F3 + 2.6, 2)], "type": "river",
+        "note": "continuous river window: water surface (-8.77) about 1.0 m above the floor, waist height"}]
+    + [{"s": [2.0, 44.2], "z": [round(F2 + 0.45, 2), round(F2 + 3.0, 2)], "type": "window", "note": "ravine view band"}]
+)
 for (a, b, n) in (([x0, y0], [x0, y1], "A"), ([x0, y1], [x1, y1], "N"), ([x0, y0], [x1, y0], "S"), ([x1, y0], [x1, -9.1], "C1"), ([x1, 8.3], [x1, y1], "C2")):
     wall(f"G-F1-{n}", a, b, 0.15, lv["F1"], 4.34, "glazed", "glass")
 x0, y0, x1, y1 = EAST

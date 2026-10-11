@@ -59,19 +59,30 @@ export function DesignPlan({ model, levelId, cut, elev }: { model: Model; levelI
           <circle cx={f.center[0]} cy={-f.center[1]} r={f.diameter / 2 - 1.1} />
         </g>
       ))}
-      {walls.map((w) => {
-        const [x0, y0] = w.from!, [x1, y1] = w.to!;
+      {walls.flatMap((w) => {
+        const [wx0, wy0] = w.from!, [wx1, wy1] = w.to!;
+        const WL = Math.hypot(wx1 - wx0, wy1 - wy0);
+        // split the wall along its length where an opening is cut by this plan
+        const cuts = (w.openings ?? []).filter((o) => o.z[0] <= cut && o.z[1] >= cut).map((o) => o.s).sort((a, b) => a[0] - b[0]);
+        const pieces: { a: number; b: number; glass: boolean }[] = [];
+        let cur = 0;
+        for (const [a, b] of cuts) { if (a > cur) pieces.push({ a: cur, b: a, glass: w.kind === "glazed" }); pieces.push({ a, b, glass: true }); cur = b; }
+        if (cur < WL) pieces.push({ a: cur, b: WL, glass: w.kind === "glazed" });
+        return pieces.map(({ a, b, glass }, k) => {
+        const x0 = wx0 + ((wx1 - wx0) * a) / WL, y0 = wy0 + ((wy1 - wy0) * a) / WL;
+        const x1 = wx0 + ((wx1 - wx0) * b) / WL, y1 = wy0 + ((wy1 - wy0) * b) / WL;
         const L = Math.hypot(x1 - x0, y1 - y0), t = w.size[0] / 2;
         const nx = (-(y1 - y0) / L) * t, ny = ((x1 - x0) / L) * t;
         const pts: Pt[] = [[x0 + nx, y0 + ny], [x1 + nx, y1 + ny], [x1 - nx, y1 - ny], [x0 - nx, y0 - ny]];
-        return w.kind === "glazed" ? (
-          <g key={w.id} className="n-glass" data-n={`${w.id} · glazing`}>
+        return glass ? (
+          <g key={`${w.id}-${k}`} className="n-glass" data-n={`${w.id} · glazing`}>
             <path d={P(pts)} />
             <line x1={x0} y1={-y0} x2={x1} y2={-y1} />
           </g>
         ) : (
-          <path key={w.id} d={P(pts)} className="n-wall" data-n={`${w.id} · ${w.kind} ${w.material} ${w.size[0]} m`} />
+          <path key={`${w.id}-${k}`} d={P(pts)} className="n-wall" data-n={`${w.id} · ${w.kind} ${w.material} ${w.size[0]} m`} />
         );
+        });
       })}
       {spaces.map((s) => {
         const { at: [x, y], rotate, long } = labelPoint(s.poly);

@@ -43,6 +43,7 @@ export interface DesignElement {
   to?: Pt;
   rect?: [number, number, number, number]; // slabs
   holes?: { circle?: [number, number, number]; rect?: Pt[] }[];
+  openings?: { s: [number, number]; z: [number, number]; type: string; note?: string }[]; // walls: windows along the wall
   size: Pt; // column: [w, d]; beam: [width, depth]; wall: [thickness, height]
   z: [number, number];
 }

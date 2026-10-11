@@ -1,0 +1,11 @@
+{
+ "id": "20261011T012722Z_scene",
+ "stage": "scene",
+ "started": "20261011T012722Z",
+ "code": "b98b287+dirty",
+ "params": {
+  "focus": "river wall openings: F4 underwater windows, F3 waist-high river window, F2 view band",
+  "fix": "outward face winding for oriented boxes (booleans)"
+ },
+ "outputs": {}
+}

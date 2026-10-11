@@ -455,6 +455,9 @@ def oriented_box(name, a, b_, width, z0, z1, mat):
     (x0, y0), (x1, y1) = a, b_
     L = math.hypot(x1 - x0, y1 - y0); nx_, ny_ = -(y1 - y0) / L * width / 2, (x1 - x0) / L * width / 2
     v = [(x0 + nx_, y0 + ny_, z0), (x1 + nx_, y1 + ny_, z0), (x1 - nx_, y1 - ny_, z0), (x0 - nx_, y0 - ny_, z0)]
+    # keep the base ring counter-clockwise (seen from above) so faces point outward; booleans need that
+    if (v[1][0] - v[0][0]) * (v[3][1] - v[0][1]) - (v[1][1] - v[0][1]) * (v[3][0] - v[0][0]) < 0:
+        v = [v[0], v[3], v[2], v[1]]
     v += [(x, y, z1) for x, y, _ in v]
     ob = mesh_from(name, v, [(0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)], smooth=False)
     ob.data.materials.append(mat)
@@ -471,6 +474,15 @@ for e in model["elements"]:
     elif e["type"] == "wall":
         mat = glass_e if e["kind"] == "glazed" else (stone_clad if e["kind"] == "river_wall" else concrete)
         ob = oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat)
+        (wx0, wy0), (wx1, wy1) = e["from"], e["to"]
+        WL = math.hypot(wx1 - wx0, wy1 - wy0); ux_, uy_ = (wx1 - wx0) / WL, (wy1 - wy0) / WL
+        for k, op in enumerate(e.get("openings", [])):
+            s0, s1 = op["s"]; oz0, oz1 = op["z"]
+            a_ = (wx0 + ux_ * s0, wy0 + uy_ * s0); b2 = (wx0 + ux_ * s1, wy0 + uy_ * s1)
+            cutter = oriented_box(f"{e['id']}_open{k}", a_, b2, e["size"][0] + 1.0, oz0, oz1, concrete)
+            cutter.hide_render = True; cutter.hide_viewport = True
+            mod = ob.modifiers.new(f"open{k}", "BOOLEAN"); mod.operation = "DIFFERENCE"; mod.object = cutter
+            pane = oriented_box(f"{e['id']}_glass{k}", a_, b2, 0.06, oz0, oz1, glass_e)  # glazing in the opening
         if e["kind"] == "glazed":  # mullions every ~2.4 m
             (x0, y0), (x1, y1) = e["from"], e["to"]
             n = max(1, int(math.hypot(x1 - x0, y1 - y0) / 2.4))
