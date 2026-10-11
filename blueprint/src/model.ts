@@ -25,13 +25,15 @@ export interface Grid {
   to: Pt;
 }
 export interface SiteFeatures {
-  arrival_court: { center: Pt; size: Pt; z: number };
   road: { width: number; shoulder: number; points: [number, number, number][] };
   trail: { width: number; points: [number, number, number, number][]; bridges: { from: Pt; to: Pt; deck_z: number; span_m: number }[]; length_m: number };
   garage_ramp: { points: Pt[]; width: number; tunnel_from_x: number };
   daycare_garden: { curve: Pt[]; west_wall_x: number; building_edge_y: number; terraces: { count: number; run: number } };
   sauna: { center: Pt; size: Pt; deck: { rect: [number, number, number, number] } };
   sauna_path: { points: Pt[]; width: number };
+  surfaces?: { id: string; kind: string; poly?: Pt[]; circle?: [number, number, number]; ring?: [number, number, number, number] }[];
+  paths?: { id: string; width: number; points: Pt[] }[];
+  stepping_stones?: { id: string; points: Pt[]; spacing: number; size: Pt }[];
 }
 export interface DesignElement {
   id: string;

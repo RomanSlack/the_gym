@@ -212,3 +212,10 @@ html[data-theme="dark"] .figs-ctl button { color: var(--ink); }
 .w-terrace-band { fill: none; stroke: #c9d8bb; stroke-linejoin: round; vector-effect: none; opacity: 0.55; }
 html[data-theme="dark"] .w-terrace-band { stroke: #2e3d29; }
 .w-stone-wall { stroke: var(--ink); stroke-width: 2.5; }
+.w-lawn { fill: #d4e3c2; stroke: #6f8f55; stroke-width: 0.6; }
+.w-planting { fill: #a9c48f; stroke: #5d7a45; stroke-width: 0.6; }
+.w-gravel { fill: #ddd5c6; stroke: #9a8f7c; stroke-width: 0.6; }
+.w-stones { fill: none; stroke: #8f8a80; stroke-dasharray: 0.75 0.3; vector-effect: none; }
+html[data-theme="dark"] .w-lawn { fill: #26331f; stroke: #5c7a48; }
+html[data-theme="dark"] .w-planting { fill: #33452a; }
+html[data-theme="dark"] .w-gravel { fill: #3a362f; }

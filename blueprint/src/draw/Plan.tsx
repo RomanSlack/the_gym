@@ -59,8 +59,13 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
       ))}
       <path d={line(f.road.points)} className="w-road-edge" style={{ strokeWidth: f.road.width + 2 * f.road.shoulder }} />
       <path d={line(f.road.points)} className="w-road" style={{ strokeWidth: f.road.width }} />
-      <path d={rect([f.arrival_court.center[0] - f.arrival_court.size[0] / 2, f.arrival_court.center[1] - f.arrival_court.size[1] / 2,
-        f.arrival_court.center[0] + f.arrival_court.size[0] / 2, f.arrival_court.center[1] + f.arrival_court.size[1] / 2])} className="w-court" />
+      {(f.surfaces ?? []).map((sf) =>
+        sf.poly ? <path key={sf.id} d={"M" + sf.poly.map(([x, y]) => `${x} ${-y}`).join("L") + "Z"} className={`w-${sf.kind}`} />
+        : sf.circle ? <circle key={sf.id} cx={sf.circle[0]} cy={-sf.circle[1]} r={sf.circle[2]} className={`w-${sf.kind}`} />
+        : <path key={sf.id} d={`M${sf.ring![0] + sf.ring![3]} ${-sf.ring![1]}A${sf.ring![3]} ${sf.ring![3]} 0 1 0 ${sf.ring![0] - sf.ring![3]} ${-sf.ring![1]}A${sf.ring![3]} ${sf.ring![3]} 0 1 0 ${sf.ring![0] + sf.ring![3]} ${-sf.ring![1]}ZM${sf.ring![0] + sf.ring![2]} ${-sf.ring![1]}A${sf.ring![2]} ${sf.ring![2]} 0 1 1 ${sf.ring![0] - sf.ring![2]} ${-sf.ring![1]}A${sf.ring![2]} ${sf.ring![2]} 0 1 1 ${sf.ring![0] + sf.ring![2]} ${-sf.ring![1]}Z`} className="w-court" fillRule="evenodd" />,
+      )}
+      {(f.paths ?? []).map((pa) => <path key={pa.id} d={line(pa.points)} className="w-path" style={{ strokeWidth: pa.width }} />)}
+      {(f.stepping_stones ?? []).map((ln) => <path key={ln.id} d={line(ln.points)} className="w-stones" style={{ strokeWidth: ln.size[1] }} />)}
       <path d={line(rp)} className="w-ramp" style={{ strokeWidth: f.garage_ramp.width }} />
       <path d={line(rp.filter((p) => p[0] <= f.garage_ramp.tunnel_from_x + 20))} className="w-tunnel" style={{ strokeWidth: f.garage_ramp.width }} />
       <defs>
@@ -82,7 +87,9 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
       <path d={rect(f.sauna.deck.rect)} className="w-deck" />
       <text x={sx} y={-sy} className="txt-s" textAnchor="middle">SAUNA</text>
       <text x={gc[0]} y={-gc[1]} className="txt-s" textAnchor="middle">SUNKEN GARDEN</text>
-      <text x={f.arrival_court.center[0]} y={-f.arrival_court.center[1]} className="txt-s" textAnchor="middle">ARRIVAL</text>
+      <text x={44} y={-9} className="txt-s" textAnchor="middle">ENTRY MEADOW</text>
+      <text x={62} y={-19.5} className="txt-s" textAnchor="middle">DROP-OFF</text>
+      <text x={160.5} y={-16} className="txt-s" textAnchor="middle">TRAILHEAD PARKING · 8</text>
     </g>
   );
 }

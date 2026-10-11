@@ -21,7 +21,8 @@ H = np.load("out/ravine/eroded_1m.npy")
 m = modelio.load()
 F = m["site"]["features"]
 road = F["road"]
-end = np.array(F["arrival_court"]["center"], float)
+_lp = [sf for sf in F["surfaces"] if sf["id"] == "dropoff_loop"][0]
+end = np.array([_lp["ring"][0] + _lp["ring"][3], _lp["ring"][1]], float)  # east edge of the drop-off loop
 
 h = H.reshape(500, 4, 500, 4).mean((1, 3))
 gy, gx = np.gradient(ndi.gaussian_filter(h, 1.5), C)
@@ -58,9 +59,9 @@ S[-1] = end
 zg = ndi.map_coordinates(H, [S[:, 1] + 999.5, S[:, 0] + 999.5], order=1)
 seg = np.r_[0, np.cumsum(np.linalg.norm(np.diff(S, axis=0), axis=1))]
 z = ndi.gaussian_filter1d(zg, 12)
-z[-1] = F["arrival_court"]["z"]
+z[-1] = _lp["z"]
 blend = np.clip((seg - (seg[-1] - 90)) / 90, 0, 1)  # ease into the court over the last 90 m
-z = z * (1 - blend) + F["arrival_court"]["z"] * blend
+z = z * (1 - blend) + _lp["z"] * blend
 gmax = road["max_grade_pct"] / 100
 for _ in range(3):
     for k in range(len(z) - 2, -1, -1):  # from the court outward
@@ -68,7 +69,7 @@ for _ in range(3):
     for k in range(1, len(z)):
         z[k] = np.clip(z[k], z[k - 1] - gmax * (seg[k] - seg[k - 1]), z[k - 1] + gmax * (seg[k] - seg[k - 1]))
 pts = np.column_stack([S, z])[::5]  # every ~10 m
-pts[-1] = [*end, F["arrival_court"]["z"]]
+pts[-1] = [*end, _lp["z"]]
 road["points"] = [[round(float(a), 1), round(float(b), 1), round(float(c), 2)] for a, b, c in pts]
 road["length_m"] = round(float(seg[-1]))
 road["entry"] = f"east edge of the core at y = {ys}"

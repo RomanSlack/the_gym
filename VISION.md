@@ -206,6 +206,10 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **As column-free as possible:** no interior columns on any floor. Floors and roofs span wall to wall (23.1 m in the gym, 18.5 m in the east wing) on post-tensioned concrete beams (floors) and glulam beams (roofs). The tall floor-to-floor heights absorb the deeper beams.
 - **Flood regulations are ignored for this build.**
 - **Daycare = drop-in childcare** while parents train (not a full-day barnehage), but luxury: it must handle anything (babies to 12-year-olds) and everyone must be comfortable. It has age zones: a baby & toddler room, a kids' room, a parent & nursing room, a rest/sleep room, and active play opening onto the sunken garden. The current garden size is fine for drop-in.
+- **Arrival is landscape, not a parking lot.** The road ends in a small drop-off loop around a planted island (one big old pine, boulders, moss), with 3 accessible spaces. The main entrance is an **entry meadow: soft grass and natural stepping stones**, with moss and boulder beds and no hard paving.
+- **Parking is hidden:**
+  - an **underground parking (~30 cars) under the entry meadow** (about 1 m of soil on its roof), drive-through to the east-wing garage, reached by the ramp tunnel off the road
+  - plus a small **forest trailhead lot** (8 spaces, gravel, between kept trees) about 100 m east along the road, linked by a lit forest path
 
 ## Open questions
 

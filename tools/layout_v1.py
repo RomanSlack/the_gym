@@ -121,6 +121,10 @@ S("dc-wc-low", "E2", "wet", "Children's WC + changing", R(17.0, 16.18, 24.0, 21.
 S("dc-store", "E2", "service", "Storage · prams, outdoor gear", R(24.0, 16.18, 30.5, 21.2))
 S("daycare-low", "E2", "daycare", "Active play · climbing, soft play → sunken garden", R(12.0, 21.2, 30.5, 33.3), "walk-out to the garden; noisy play kept downstairs")
 
+# ---------------------------------------------------------------- underground parking under the entry forecourt (E2)
+S("parking", "E2", "garage", "Parking · ~30 cars, under the forecourt", R(30.5, -9.5, 60.0, 24.0),
+  "drive-through to the east wing garage; ramp tunnel enters on the east wall; the forecourt landscape is its roof")
+
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
 for L in ("F2", "F3", "F4"):
     S(f"wc-annex-{L}", L, "wet", "WCs · 3 single (1 accessible), water station", R(-33.45, -26.5, -29.45, -20.5), "annex in the rock outside the back wall, stacked")
@@ -203,6 +207,18 @@ for cid in ("W1", "W2"):
 for n_, (a_, b_) in {"W": ([-33.45, -26.5], [-33.45, -20.5]), "N": ([-33.45, -20.5], [-29.7, -20.5]), "S": ([-33.45, -26.5], [-29.7, -26.5])}.items():
     wall(f"WA-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, -0.25, "retaining", "concrete")
 els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-33.45, -26.5, -29.45, -20.5], "z": [-0.6, -0.25], "holes": []})
+# underground parking: retaining walls, columns on a 8.2 x 11 m grid, roof slab = the forecourt
+PZ0, PZ1 = lv["E2"] - 0.6, -1.1
+wall("WP-S", [30.5, -9.5], [60.0, -9.5], 0.4, PZ0, PZ1, "retaining", "concrete")
+wall("WP-N", [30.5, 24.0], [60.0, 24.0], 0.4, PZ0, PZ1, "retaining", "concrete")
+wall("WP-E1", [60.0, -9.5], [60.0, -4.0], 0.4, PZ0, PZ1, "retaining", "concrete")   # gap y -4..2 = ramp tunnel
+wall("WP-E2", [60.0, 2.0], [60.0, 24.0], 0.4, PZ0, PZ1, "retaining", "concrete")
+for cx_ in (38.7, 46.9, 55.1):
+    for cy_ in (-1.0, 11.0):
+        els.append({"id": f"C-P-{cx_}-{cy_}", "type": "column", "material": "concrete", "at": [cx_, cy_], "size": [0.4, 0.4], "z": [lv["E2"], -1.5], "fixed": True})
+els.append({"id": "S-P-roof", "type": "slab", "material": "concrete", "rect": [30.5, -9.5, 60.0, 24.0], "z": [-1.5, -1.1], "holes": [],
+            "note": "buried roof of the parking: ~1 m of soil on top carries the forecourt, moss beds and forest floor"})
+els.append({"id": "S-P-floor", "type": "slab", "material": "concrete", "rect": [30.5, -9.5, 60.0, 24.0], "z": [lv["E2"] - 0.3, lv["E2"]], "holes": []})
 wall("A-annex-W", [-35.45, -1.5], [-35.45, 4.5], 0.25, 0.0, 3.0, "solid", "timber")
 wall("A-annex-N", [-35.45, 4.5], [-32.0, 4.5], 0.25, 0.0, 3.0, "solid", "timber")   # door gap 32.0..-29.45 north = path exit
 wall("A-annex-S", [-35.45, -1.5], [-29.45, -1.5], 0.25, 0.0, 3.0, "solid", "timber")

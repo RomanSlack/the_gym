@@ -15,7 +15,7 @@ import modelio  # noqa: E402
 m = modelio.load()
 S = m["structure"]
 lv = {l["id"]: l["elevation"] for l in m["levels"]}
-grids, elements = [], [e for e in m.get("elements", []) if e.get("type") not in ("column", "beam")]
+grids, elements = [], [e for e in m.get("elements", []) if e.get("type") not in ("column", "beam") or e.get("fixed")]
 
 for wing in S["wings"]:
     xs, ys = wing["x_lines"], wing["y_lines"]

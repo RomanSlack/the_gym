@@ -1,0 +1,18 @@
+{
+ "id": "20261011T041533Z_road",
+ "stage": "road",
+ "started": "20261011T041533Z",
+ "code": "60e0f3c+dirty",
+ "params": {
+  "cost": "1 + (slope/5deg)^2.5, ravine and buildings excluded",
+  "grid_m": 4.0,
+  "max_grade_pct": 8,
+  "entry_tried": "east edge y -400..600 step 50"
+ },
+ "outputs": {
+  "road": {
+   "length_m": 950,
+   "sha256": "8021e01284750fa5"
+  }
+ }
+}

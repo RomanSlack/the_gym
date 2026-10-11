@@ -69,7 +69,7 @@ rock = np.load(RV / "rock_1m.npy")
 DX0, DX1, DY0, DY1 = -320, 620, -320, 900  # 1 m detail area: building, ravine and the whole trail loop
 c = (slice(1000 + DY0, 1000 + DY1), slice(1000 + DX0, 1000 + DX1))
 FEAT = np.load(RV / "features_1m.npy")
-BITS = (1, 2, 8, 16, 32, 256)  # asphalt, shoulder, ramp, garden, path, trail: one 0/1 attribute each (blends cleanly)
+BITS = (1, 2, 8, 16, 32, 256, 512, 1024, 2048, 4096)  # asphalt, shoulder, ramp, garden, path, trail, planting, stone, gravel
 detail = grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0,
                    {"rock": rock[c], **{f"feat{b}": ((FEAT[c] & b) > 0).astype(np.float32) for b in BITS}})
 
@@ -101,7 +101,7 @@ def terrain_mat(nt, bsdf):
     L.new(mx.outputs[0], mix.inputs["Factor"]); L.new(ramp.outputs["Color"], mix.inputs["A"])
     col = mix.outputs["Result"]
     # bit flags from terrain/ravine.py MASK: asphalt 1, shoulder 2, court 4, ramp 8, garden 16, path 32
-    for bit, rgb in ((256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
+    for bit, rgb in ((4096, (0.10, 0.16, 0.045)), (2048, (0.22, 0.20, 0.17)), (1024, (0.26, 0.25, 0.23)), (512, (0.06, 0.10, 0.035)), (256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
         fa = N.new("ShaderNodeAttribute"); fa.attribute_name = f"feat{bit}"
         gt = N.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.5; L.new(fa.outputs["Fac"], gt.inputs[0])
         mx2 = N.new("ShaderNodeMix"); mx2.data_type = "RGBA"; mx2.inputs["B"].default_value = (*rgb, 1)
@@ -446,7 +446,8 @@ mass.hide_viewport = True
 glulam = material("glulam", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.42, 0.27, 0.15, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.6)))
 clt = material("clt", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.5, 0.36, 0.22, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.7)))
 stone_clad = material("stone_cladding", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.13, 0.13, 0.125, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.9)))
-MAT = {"concrete": concrete, "glulam": glulam, "clt": clt, "glass": glass_e}
+paving = material("stone_paving", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.26, 0.25, 0.23, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.85)))
+MAT = {"concrete": concrete, "glulam": glulam, "clt": clt, "glass": glass_e, "stone": paving}
 
 
 def oriented_box(name, a, b_, width, z0, z1, mat):
@@ -512,6 +513,41 @@ for e in model["elements"]:
         box(e["id"] + "_eaves", x0 - 2.5, y0 - 2.5, e["z"][1], x1 + 2.5, y1 + 2.5, e["z"][1] + 0.35, clt)
 
 LV = {l["id"]: l["elevation"] for l in model["levels"]}
+# stepping stones: flat granite slabs set flush in the grass
+Hd_ = H  # 1 m terrain, rows = y + 1000
+for line in model["site"]["features"].get("stepping_stones", []):
+    pts = np.array(line["points"], float)
+    seg_ = np.r_[0, np.cumsum(np.linalg.norm(np.diff(pts, axis=0), axis=1))]
+    for k, s_ in enumerate(np.arange(0.3, seg_[-1], line["spacing"])):
+        x_ = np.interp(s_, seg_, pts[:, 0]) + rng.normal(0, 0.08); y_ = np.interp(s_, seg_, pts[:, 1]) + rng.normal(0, 0.08)
+        z_ = float(Hd_[int(round(y_ + 999.5)), int(round(x_ + 999.5))])
+        w_, d_ = line["size"]; sc = rng.uniform(0.85, 1.15)
+        bpy.ops.mesh.primitive_cylinder_add(vertices=7, radius=0.5, depth=0.12, location=(x_, y_, z_ + 0.02))
+        st = bpy.context.object; st.scale = (w_ * sc, d_ * sc, 1); st.rotation_euler[2] = rng.uniform(0, 3.14)
+        st.name = f"{line['id']}_{k}"; st.data.materials.append(bpy.data.materials["granite"])
+moss = material("moss_bed", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.06, 0.10, 0.035, 1)), b.inputs["Roughness"].__setattr__("default_value", 1.0)))
+granite_m = bpy.data.materials.get("granite")
+for sf in model["site"]["features"].get("surfaces", []):
+    if sf["kind"] != "planting":
+        continue
+    cx, cy, r = sf["circle"]
+    bpy.ops.mesh.primitive_uv_sphere_add(radius=r, location=(cx, cy, sf["z"] - 0.4), segments=32, ring_count=12)
+    mound = bpy.context.object; mound.scale = (1, 1, 0.18); mound.data.materials.append(moss); mound.name = sf["id"]
+    for k in range(3):  # a few granite boulders in each bed
+        a_ = rng.uniform(0, 6.28); rr = rng.uniform(0.15, 0.55) * r; sc = rng.uniform(0.5, 1.0)
+        src = variants[int(rng.integers(6))]
+        bmb = bmesh.new()
+        nv = [bmb.verts.new((cx + rr * math.cos(a_) + v.co.x * sc, cy + rr * math.sin(a_) + v.co.y * sc, sf["z"] - 0.1 + v.co.z * sc * 0.7)) for v in src.verts]
+        for f in src.faces:
+            bmb.faces.new([nv[v.index] for v in f.verts])
+        meb = bpy.data.meshes.new(f"{sf['id']}_boulder{k}"); bmb.to_mesh(meb)
+        bo = bpy.data.objects.new(meb.name, meb); scene.collection.objects.link(bo)
+        if granite_m:
+            bo.data.materials.append(granite_m)
+    if sf["id"] == "loop_island":  # one big old pine
+        big = protos[2].copy(); big.data = protos[2].data
+        scene.collection.objects.link(big); big.parent = None
+        big.location = (cx, cy, sf["z"]); big.scale = (1.5, 1.5, 1.5)
 for st in model.get("stairs", []):
     zlo, zhi = LV[st["from"]], LV[st["to"]]
     n = int(round((zhi - zlo) / 0.18))

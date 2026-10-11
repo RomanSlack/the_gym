@@ -97,7 +97,8 @@ def fill_sinks(H, keep, min_depth=0.3):
     return out
 
 
-MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128, "trail": 256}
+MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128, "trail": 256,
+        "planting": 512, "stone": 1024, "gravel": 2048, "lawn": 4096}
 
 
 def corridor(T, pts_xyz, half_flat, slope_ratio, reach=25.0):
@@ -123,12 +124,31 @@ def apply_features(T, F):
     mask[d <= rd["width"] / 2] |= MASK["asphalt"]
     mask[(d > rd["width"] / 2) & (d <= half)] |= MASK["shoulder"]
 
-    ac = F["arrival_court"]
-    (cx, cy), (w, h) = ac["center"], ac["size"]
-    court = (np.abs(X - cx) <= w / 2) & (np.abs(Y - cy) <= h / 2)
-    dc = ndi.distance_transform_edt(~court) * RES
-    T = np.where(dc < 20, np.clip(T, ac["z"] - dc * 0.5, ac["z"] + dc * 0.5), T).astype(np.float32)
-    mask[court] |= MASK["asphalt"] | MASK["court"]
+    # graded site surfaces: forecourt, drop-off loop, beds, trailhead lot (flat at z, soft side slopes)
+    road_pts = np.array(rd["points"], float)
+    for sf in F.get("surfaces", []):
+        if "poly" in sf:
+            area = MPath(sf["poly"]).contains_points(np.stack([X.ravel(), Y.ravel()], 1)).reshape(X.shape)
+        elif "circle" in sf:
+            cx, cy, r = sf["circle"]; area = np.hypot(X - cx, Y - cy) <= r
+        else:
+            cx, cy, r0, r1 = sf["ring"]; d_ = np.hypot(X - cx, Y - cy); area = (d_ >= r0) & (d_ <= r1)
+        z = sf["z"]
+        if z == "road":
+            c_ = np.array(sf["poly"], float).mean(0)
+            z = float(road_pts[np.argmin(np.linalg.norm(road_pts[:, :2] - c_, axis=1)), 2])
+        if sf["kind"] == "planting":  # raised soft mound, no grading around it
+            dc = ndi.distance_transform_edt(area) * RES
+            T = np.where(area, np.maximum(T, z - 0.4 + np.minimum(dc, 1.5) / 1.5 * 0.4), T).astype(np.float32)
+        else:
+            dc = ndi.distance_transform_edt(~area) * RES
+            T = np.where(dc < 15, np.clip(T, z - dc * 0.5, z + dc * 0.5), T).astype(np.float32)
+        mask[area] |= MASK[sf["kind"]] if sf["kind"] != "asphalt" else MASK["asphalt"] | MASK["court"]
+    for pa in F.get("paths", []):
+        pts = np.array(pa["points"], float)
+        zp = ndi.map_coordinates(ndi.gaussian_filter(T, 4), [pts[:, 1] + HALF - 0.5, pts[:, 0] + HALF - 0.5], order=1)
+        T, d = corridor(T, np.column_stack([pts, zp]), pa["width"] / 2, 0.66, reach=6)
+        mask[d <= pa["width"] / 2] |= MASK["path"]
 
     rp = F["garage_ramp"]
     rpts = np.array(rp["points"], float)
