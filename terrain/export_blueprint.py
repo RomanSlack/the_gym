@@ -27,5 +27,10 @@ out = {
     "heights": [int(round(v * 100)) for v in h.ravel()],
     "water": [None if np.isnan(v) else int(round(v * 100)) for v in wl.ravel()],
 }
+# wide, coarse grid for the site plan (the trail loop reaches ~900 m north)
+WS = 10
+hw = H[:2000, :2000].reshape(200, WS, 200, WS).mean((1, 3))
+out["wide"] = {"origin": [-1000 + WS / 2, -1000 + WS / 2], "step": WS, "nx": 200, "ny": 200,
+               "heights": [int(round(v * 100)) for v in hw.ravel()]}
 (ROOT / "model" / "site_terrain.json").write_text(json.dumps(out, separators=(",", ":")))
 print("wrote", (ROOT / "model" / "site_terrain.json").stat().st_size // 1024, "KB")

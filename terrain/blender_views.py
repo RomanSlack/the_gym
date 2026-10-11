@@ -24,6 +24,10 @@ VIEWS = {
     "garden_drone_close": ((44, 88, 44), (23, 40, -5), 26),
     "garden_from_daycare": ((22, 35.5, -4.4), (25, 60, -1.5), 15),
     "garden_to_daycare": ((27, 52, -1.0), (22, 33.5, -4.0), 16),
+    "trail_drone_north": ((-60.4, 610.0, 51.3), (-150.4, 690.0, 6.3), 24),
+    "north_footbridge": ((-128.4, 672.0, 7.3), (-150.4, 690.0, 6.8), 18),
+    "trail_in_forest": ((321.0, 752.3, 21.6), (347.6, 729.1, 21.0), 20),
+    "trail_overview": ((700, -250, 420), (150, 450, 0), 26),
     "garage_tunnel_portal": ((96, 3, 3.5), (55, -3, -3.5), 20),
 }
 for name, (loc, tgt, lens) in VIEWS.items():

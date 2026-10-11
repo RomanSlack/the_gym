@@ -201,10 +201,10 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Indoor saunas too:** a men's and a women's sauna inside the locker rooms (plus the steam rooms). That's the quick everyday sauna; the badstue is the social, ritual one.
 - **Garage looks out across the ravine** (as in the original sketch: "Garage (area for nice cars), Window"). The rock ledge between the east wing and the canyon is cut down along the garage stretch, so the garage's west wall stands on a rock shelf above the plunge pool. **Floor-to-ceiling glazing** looks straight across the water at the gym. The garage floor (E2) is about 2.8 m above the water.
 - **Daycare lower floor:** glazed toward the sunken garden (walk-out). It stays solid toward the ravine for safety.
+- **Trail:** a ~3.2 km (2-mile) loop around the upstream valley. It crosses the river at the rustic bridge and at a small timber footbridge far upstream, and passes the sauna. About 1.5 m wide, gentle, with low lights.
 
 ## Open questions
 
-1. **River depth vs floors** (from the Gym V2 survey):
-   - The river surface (-9.31) is only 0.46 m above F3. Waist height is about 1.0 m.
-   - The riverbed beside the west wing is about -21, which is 5.6 m below F4 (-15.39). Underwater windows at F4 would look at mid-depth water rather than the bed.
-   - Raise the water, lower F3, or reshape the channel?
+(Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)
+
+1. **Daycare garden size:** the sunken garden is about 12.5 × 15 m (~190 m²). How many children? If it's more than a small group, enlarge it north and east (Norwegian norms expect generous outdoor play space per child; verify the exact figure).

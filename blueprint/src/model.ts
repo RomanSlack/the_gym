@@ -27,6 +27,7 @@ export interface Grid {
 export interface SiteFeatures {
   arrival_court: { center: Pt; size: Pt; z: number };
   road: { width: number; shoulder: number; points: [number, number, number][] };
+  trail: { width: number; points: [number, number, number, number][]; bridges: { from: Pt; to: Pt; deck_z: number; span_m: number }[]; length_m: number };
   garage_ramp: { points: Pt[]; width: number; tunnel_from_x: number };
   daycare_garden: { rect: [number, number, number, number]; terraces: { sides: string[]; count: number; run: number } };
   sauna: { center: Pt; size: Pt; deck: { rect: [number, number, number, number] } };
@@ -75,6 +76,13 @@ function loadSite(raw: typeof siteJson): Terrain {
   const water = Float64Array.from(raw.water, (v) => (v === null ? NaN : v / 100));
   return { origin: raw.origin as Pt, step: raw.step, nx: raw.nx, ny: raw.ny, h, water };
 }
+
+/** Coarse 10 m grid over the whole 2 x 2 km core, for the site plan's contours. */
+export const wideTerrain: Terrain = (() => {
+  const w = siteJson.wide;
+  const h = Float64Array.from(w.heights, (v) => v / 100);
+  return { origin: w.origin as Pt, step: w.step, nx: w.nx, ny: w.ny, h, water: new Float64Array(h.length).fill(NaN) };
+})();
 
 /** Shift the raw Blender-z Gym V2 underlay onto the project datum; terrain = the new site. */
 export function loadUnderlay(raw: typeof underlayJson, datumZ: number): Underlay {

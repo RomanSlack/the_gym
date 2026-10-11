@@ -97,7 +97,7 @@ def fill_sinks(H, keep, min_depth=0.3):
     return out
 
 
-MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128}
+MASK = {"asphalt": 1, "shoulder": 2, "court": 4, "ramp": 8, "garden": 16, "path": 32, "sauna": 64, "tunnel": 128, "trail": 256}
 
 
 def corridor(T, pts_xyz, half_flat, slope_ratio, reach=25.0):
@@ -116,7 +116,7 @@ def corridor(T, pts_xyz, half_flat, slope_ratio, reach=25.0):
 
 
 def apply_features(T, F):
-    mask = np.zeros(T.shape, np.uint8)
+    mask = np.zeros(T.shape, np.uint16)
     rd = F["road"]
     half = rd["width"] / 2 + rd["shoulder"]
     T, d = corridor(T, rd["points"], half, 0.5)
@@ -167,6 +167,16 @@ def apply_features(T, F):
     zp = ndi.map_coordinates(ndi.gaussian_filter(T, 4), [pts[:, 1] + HALF - 0.5, pts[:, 0] + HALF - 0.5], order=1)
     T, d = corridor(T, np.column_stack([pts, zp]), sp["width"] / 2, 0.66, reach=6)
     mask[d <= sp["width"] / 2] |= MASK["path"]
+
+    trl = F.get("trail", {})
+    if trl.get("points"):
+        tp = np.array(trl["points"], float)
+        on_ground = tp[:, 3] < 0.5  # 1 = bridge span: leave the terrain (and the stream) alone
+        runs = np.split(np.arange(len(tp)), np.nonzero(np.diff(on_ground.astype(int)))[0] + 1)
+        for r in runs:
+            if on_ground[r[0]] and len(r) > 1:
+                T, d = corridor(T, tp[r, :3], trl["width"] / 2, 0.66, reach=5)
+                mask[(d <= trl["width"] / 2) & ((mask & MASK["path"]) == 0)] |= MASK["trail"]
     return T, mask
 
 

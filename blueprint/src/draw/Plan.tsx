@@ -1,6 +1,7 @@
 // Floor / site plan for one level. Horizontal cut at level + plan_cut_height:
 // cut elements heavy with poché, things below the cut light, things above dashed.
 import { useMemo } from "react";
+import { wideTerrain } from "../model";
 import type { Level, Model, SiteFeatures, Underlay, UElement } from "../model";
 import { contourPath, waterPath } from "./terrain";
 import { NorthArrow, ScaleBar, SectionMark } from "./symbols";
@@ -48,6 +49,10 @@ function SiteWorks({ f }: { f: SiteFeatures }) {
   const [sx, sy] = f.sauna.center, [sw, sh] = f.sauna.size;
   return (
     <g className="works">
+      <path d={line(f.trail.points)} className="w-trail" style={{ strokeWidth: f.trail.width }} />
+      {f.trail.bridges.map((b, k) => (
+        <path key={k} d={line([b.from, b.to])} className="w-bridge" style={{ strokeWidth: f.trail.width + 1.2 }} />
+      ))}
       <path d={line(f.road.points)} className="w-road-edge" style={{ strokeWidth: f.road.width + 2 * f.road.shoulder }} />
       <path d={line(f.road.points)} className="w-road" style={{ strokeWidth: f.road.width }} />
       <path d={rect([f.arrival_court.center[0] - f.arrival_court.size[0] / 2, f.arrival_court.center[1] - f.arrival_court.size[1] / 2,
@@ -82,11 +87,12 @@ export function Plan({
   );
 
   const t = underlay.terrain;
+  const tc = site ? wideTerrain : t;  // site plan: whole core at 10 m; floor plans: detail at 2 m
   const contours = useMemo(() => {
     const out: { z: number; d: string; anchors: [number, number][] }[] = [];
-    for (let z = -60; z <= 40; z += 1) out.push({ z, ...contourPath(t, z) });
+    for (let z = -60; z <= 40; z += site ? 2 : 1) out.push({ z, ...contourPath(tc, z) });
     return out;
-  }, [t]);
+  }, [tc, site]);
   const water = useMemo(() => waterPath(t), [t]);
 
   const groups = useMemo(() => {
@@ -172,8 +178,8 @@ export function Plan({
 
       {!site && model.views.sections.map((s) => <SectionMark key={s.id} from={s.from} to={s.to} id={s.id} />)}
 
-      <NorthArrow x={site ? 215 : 45} y={site ? -215 : -38} />
-      <ScaleBar x={site ? -225 : -46} y={site ? 225 : 40} />
+      <NorthArrow x={site ? 580 : 45} y={site ? -880 : -38} />
+      <ScaleBar x={site ? -400 : -46} y={site ? 150 : 40} />
     </g>
   );
 }

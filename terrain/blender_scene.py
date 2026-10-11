@@ -66,15 +66,16 @@ def material(name, build):
 # ---------------- terrain ----------------
 H = np.load(RV / "eroded_1m.npy")          # 2000 x 2000, x,y in [-1000, 1000)
 rock = np.load(RV / "rock_1m.npy")
-D = 320                                     # detail half-size at 1 m
-c = slice(1000 - D, 1000 + D)
+DX0, DX1, DY0, DY1 = -320, 620, -320, 900  # 1 m detail area: building, ravine and the whole trail loop
+c = (slice(1000 + DY0, 1000 + DY1), slice(1000 + DX0, 1000 + DX1))
 FEAT = np.load(RV / "features_1m.npy")
-detail = grid_mesh("terrain_detail", H[c, c], -D + 0.5, -D + 0.5, 1.0, {"rock": rock[c, c], "feat": FEAT[c, c].astype(np.float32)})
+detail = grid_mesh("terrain_detail", H[c], DX0 + 0.5, DY0 + 0.5, 1.0, {"rock": rock[c], "feat": FEAT[c].astype(np.float32)})
 
 ctx = np.load(SITE / "context_4m.npy") - DATUM   # 2000 x 2000 at 4 m over [-4000, 4000)
 core4 = H.reshape(500, 4, 500, 4).mean((1, 3))
 ctx[750:1250, 750:1250] = core4
-ctx[750 + 80 - 2:1250 - 80 + 2, 750 + 80 - 2:1250 - 80 + 2] -= 0.6   # tuck under the detail mesh
+g4 = lambda w: (w + 4000) // 4  # world metre -> context row/col
+ctx[g4(DY0) + 1:g4(DY1) - 1, g4(DX0) + 1:g4(DX1) - 1] -= 0.6  # tuck under the detail mesh
 far = grid_mesh("terrain_context", ctx[::2, ::2], -4000 + 2, -4000 + 2, 8.0,
                 {"rock": np.zeros(ctx[::2, ::2].shape)})
 
@@ -99,7 +100,7 @@ def terrain_mat(nt, bsdf):
     feat = N.new("ShaderNodeAttribute"); feat.attribute_name = "feat"
     col = mix.outputs["Result"]
     # bit flags from terrain/ravine.py MASK: asphalt 1, shoulder 2, court 4, ramp 8, garden 16, path 32
-    for bit, rgb in ((16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
+    for bit, rgb in ((256, (0.15, 0.12, 0.08)), (16, (0.05, 0.09, 0.03)), (2, (0.16, 0.15, 0.13)), (32, (0.20, 0.19, 0.17)), (8, (0.03, 0.03, 0.03)), (1, (0.018, 0.018, 0.02))):
         div = N.new("ShaderNodeMath"); div.operation = "DIVIDE"; div.inputs[1].default_value = bit
         L.new(feat.outputs["Fac"], div.inputs[0])
         fl = N.new("ShaderNodeMath"); fl.operation = "FLOOR"; L.new(div.outputs[0], fl.inputs[0])
@@ -128,14 +129,13 @@ def canopy_mat(nt, bsdf):
 far.data.materials.append(material("canopy_far", canopy_mat))
 
 # ---------------- water ----------------
-W = np.load(RV / "water_1m.npy")[c, c]
+W = np.load(RV / "water_1m.npy")[c]
 wet = ~np.isnan(W)
 ny, nx = W.shape
 i = np.arange(nx * ny).reshape(ny, nx)
 q = wet[:-1, :-1] & wet[:-1, 1:] & wet[1:, 1:] & wet[1:, :-1]
 quads = np.stack([i[:-1, :-1], i[:-1, 1:], i[1:, 1:], i[1:, :-1]], -1)[q]
-xs = np.arange(nx) - D + 0.5
-X, Y = np.meshgrid(xs, xs)
+X, Y = np.meshgrid(np.arange(nx) + DX0 + 0.5, np.arange(ny) + DY0 + 0.5)
 Wz = np.nan_to_num(W, nan=-50) + 0.02
 used = np.unique(quads)
 remap = -np.ones(nx * ny, int); remap[used] = np.arange(len(used))
@@ -226,7 +226,7 @@ def tree_proto(name, kind, h):
     return ob
 
 
-Hd = H[c, c]
+Hd = H[c]
 gy, gx = np.gradient(Hd)
 slope = np.degrees(np.arctan(np.hypot(gx, gy)))
 clear = np.zeros(Hd.shape, bool)
@@ -235,10 +235,10 @@ for p in pads:
     poly = np.array(p["poly"])
     lo, hi = poly.min(0) - 12, poly.max(0) + 12
     clear |= (X > lo[0]) & (X < hi[0]) & (Y > lo[1]) & (Y < hi[1])
-works = FEAT[c, c] > 0
+works = FEAT[c] > 0
 for _ in range(9):  # keep trees ~9 m off roads, paths, garden, sauna (crowns are ~4 m wide)
     works = works | np.roll(works, 1, 0) | np.roll(works, -1, 0) | np.roll(works, 1, 1) | np.roll(works, -1, 1)
-ok = (slope < 32) & np.isnan(np.load(RV / "water_1m.npy")[c, c]) & ~clear & (rock[c, c] < 0.3) & ~works
+ok = (slope < 32) & np.isnan(np.load(RV / "water_1m.npy")[c]) & ~clear & (rock[c] < 0.3) & ~works
 cand = np.argwhere(ok)
 pick = cand[rng.random(len(cand)) < 1 / 28]
 pick = pick + rng.random(pick.shape) - 0.5
@@ -246,16 +246,23 @@ protos = [tree_proto("spruce_a", "spruce", 22), tree_proto("spruce_b", "spruce",
 for k, proto in enumerate(protos):
     sel = pick[k::3]
     zz = Hd[sel[:, 0].astype(int), sel[:, 1].astype(int)]
-    pv = np.stack([sel[:, 1] - D + 0.5, sel[:, 0] - D + 0.5, zz], 1)
+    pv = np.stack([sel[:, 1] + DX0 + 0.5, sel[:, 0] + DY0 + 0.5, zz], 1)
     holder = mesh_from(f"forest_{proto.name}", pv, np.zeros((0, 4), int))
     proto.parent = holder
     proto.location = (0, 0, 0)
     holder.instance_type = "VERTS"
 ring = rng.random((95000, 2)) * 2400 - 1200
-ring = ring[(np.abs(ring).max(1) > D)]
+ring = ring[~((ring[:, 1] > DX0) & (ring[:, 1] < DX1) & (ring[:, 0] > DY0) & (ring[:, 0] < DY1))]  # ring rows are (y, x)
 road_xy = np.array([p[:2] for p in model["site"]["features"]["road"]["points"]])
 dmin = np.min(np.hypot(ring[:, None, 1] - road_xy[None, :, 0], ring[:, None, 0] - road_xy[None, :, 1]), axis=1)
 ring = ring[dmin > 12]  # keep the road corridor open beyond the detail area
+trail_xy = np.array([p[:2] for p in model["site"]["features"]["trail"]["points"]])
+from mathutils.kdtree import KDTree
+kd = KDTree(len(trail_xy))
+for k_, (tx, ty) in enumerate(trail_xy):
+    kd.insert((tx, ty, 0), k_)
+kd.balance()
+ring = np.array([p for p in ring if kd.find((p[1], p[0], 0))[2] > 5.0])  # ring rows are (y, x)
 cz = ctx[((ring[:, 0] + 4000) / 4).astype(int), ((ring[:, 1] + 4000) / 4).astype(int)]
 ring_v = np.stack([ring[:, 1], ring[:, 0], cz - 0.6], 1)
 for k, proto in enumerate(protos):
@@ -286,12 +293,12 @@ def rock_variant(seed):
 import bmesh  # noqa: E402
 variants = [rock_variant(k) for k in range(6)]
 rock_bm = bmesh.new()
-Hfull = H[c, c]
+Hfull = H[c]
 gyd, gxd = np.gradient(Hfull)
-built = FEAT[c, c] > 0
+built = FEAT[c] > 0
 for _ in range(4):  # no natural rock on or right next to built works (terraces, ramp walls, paths)
     built = built | np.roll(built, 1, 0) | np.roll(built, -1, 0) | np.roll(built, 1, 1) | np.roll(built, -1, 1)
-steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c, c] > 0.25) & ~built
+steep = (np.degrees(np.arctan(np.hypot(gxd, gyd))) > 48) & (rock[c] > 0.25) & ~built
 pad_box = np.zeros(steep.shape, bool)
 for p in model["site"]["pads"]:
     poly = np.array(p["poly"]); lo, hi = poly.min(0) - 1.5, poly.max(0) + 1.5
@@ -312,8 +319,8 @@ for (j, i) in cells:
         sc = rng.uniform(1.0, 2.2)
         ang = math.atan2(out[1], out[0]) + rng.normal(0, 0.3)
         ca, sa = math.cos(ang), math.sin(ang)
-        px = i - D + 0.5 - out[0] * 0.6 * sc + rng.normal(0, 0.3)
-        py = j - D + 0.5 - out[1] * 0.6 * sc + rng.normal(0, 0.3)
+        px = i + DX0 + 0.5 - out[0] * 0.6 * sc + rng.normal(0, 0.3)
+        py = j + DY0 + 0.5 - out[1] * 0.6 * sc + rng.normal(0, 0.3)
         base_i = len(rock_bm.verts)
         new = []
         for v in bm_src.verts:
@@ -323,12 +330,12 @@ for (j, i) in cells:
             rock_bm.faces.new([new[v.index] for v in f.verts])
         blocks += 1
 # boulders at wall feet and along the water's edge
-wet = ~np.isnan(np.load(RV / "water_1m.npy")[c, c])
+wet = ~np.isnan(np.load(RV / "water_1m.npy")[c])
 edge = wet & ~(np.roll(wet, 1, 0) & np.roll(wet, -1, 0) & np.roll(wet, 1, 1) & np.roll(wet, -1, 1))
 for (j, i) in np.argwhere(edge)[rng.random(int(edge.sum())) < 0.12]:
     bm_src = variants[rng.integers(6)]
     sc = rng.uniform(0.4, 1.4)
-    new = [rock_bm.verts.new((i - D + 0.5 + v.co.x * sc, j - D + 0.5 + v.co.y * sc, Hfull[j, i] + v.co.z * sc * 0.6)) for v in bm_src.verts]
+    new = [rock_bm.verts.new((i + DX0 + 0.5 + v.co.x * sc, j + DY0 + 0.5 + v.co.y * sc, Hfull[j, i] + v.co.z * sc * 0.6)) for v in bm_src.verts]
     for f in bm_src.faces:
         rock_bm.faces.new([new[v.index] for v in f.verts])
 rock_me = bpy.data.meshes.new("rocks")
@@ -379,6 +386,31 @@ deck.modifiers.new("thick", "SOLIDIFY").thickness = 0.12
 deck.data.materials.append(deck_m)
 step = mesh_from("sauna_steps", [(x1_, scy - 0.8, fl), (dx0 + 1.6, scy - 0.8, dz_), (dx0 + 1.6, scy + 0.8, dz_), (x1_, scy + 0.8, fl)], [(0, 1, 2, 3)], smooth=False)
 step.data.materials.append(deck_m)
+
+# ---------------- trail footbridges ----------------
+timber = material("timber", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.16, 0.10, 0.06, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.8)))
+stone = material("stone", lambda nt, b: (b.inputs["Base Color"].__setattr__("default_value", (0.18, 0.18, 0.17, 1)), b.inputs["Roughness"].__setattr__("default_value", 0.9)))
+for k_, br in enumerate(model["site"]["features"]["trail"]["bridges"]):
+    if br["deck_z"] == -0.15:
+        continue  # the rustic bridge: Gym V2's north deck for now
+    (fx, fy), (tx, ty), dz_ = br["from"], br["to"], br["deck_z"]
+    L_ = math.hypot(tx - fx, ty - fy); ux, uy = (tx - fx) / L_, (ty - fy) / L_
+    nx_, ny_ = -uy, ux
+    fx, fy, tx, ty = fx - ux * 2, fy - uy * 2, tx + ux * 2, ty + uy * 2  # land on the banks
+    def quad(x0, y0, x1, y1, hw, z0, z1, name, mat):
+        v = [(x0 + nx_ * hw, y0 + ny_ * hw, z0), (x1 + nx_ * hw, y1 + ny_ * hw, z0), (x1 - nx_ * hw, y1 - ny_ * hw, z0), (x0 - nx_ * hw, y0 - ny_ * hw, z0)]
+        v += [(a, b_, z1) for a, b_, _ in v]
+        ob = mesh_from(name, v, [(0, 1, 2, 3), (4, 7, 6, 5), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)], smooth=False)
+        ob.data.materials.append(mat)
+    quad(fx, fy, tx, ty, 1.0, dz_ - 0.35, dz_, f"footbridge_{k_}_deck", timber)
+    for side in (1, -1):  # rails
+        ox, oy = nx_ * side * 0.95, ny_ * side * 0.95
+        quad(fx + ox, fy + oy, tx + ox, ty + oy, 0.05, dz_ + 1.0, dz_ + 1.1, f"footbridge_{k_}_rail{side}", timber)
+        for t_ in np.linspace(0, 1, int(L_ / 2.5) + 2):
+            px, py = fx + (tx - fx) * t_ + ox, fy + (ty - fy) * t_ + oy
+            quad(px - ux * 0.06, py - uy * 0.06, px + ux * 0.06, py + uy * 0.06, 0.06, dz_, dz_ + 1.1, f"footbridge_{k_}_post", timber)
+    for (ax_, ay_) in ((fx, fy), (tx, ty)):  # dry-stone abutments
+        quad(ax_ - ux * 1.5, ay_ - uy * 1.5, ax_ + ux * 1.5, ay_ + uy * 1.5, 1.4, dz_ - 4, dz_ - 0.35, f"footbridge_{k_}_abutment", stone)
 
 # ---------------- east wing lower level: placeholder envelope, glazing, cars ----------------
 env = model["site"]["envelope_placeholders"]["east_wing_E2"]
