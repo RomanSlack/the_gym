@@ -272,6 +272,22 @@ Roman: light floors, light ceilings, light walls, wooden slat walls; "only dark 
 - **Entrance:** the vestibule (vindfang) stands outside under the eave; the facade doors are its inner doors.
 - **Primary metal: blackened, waxed steel (option D)** for window frames, posts, girders, lift doors, hardware: uneven blue-black and smoky grey, mill-scale streaks, satin wax. **Brass only as small accents** (pulls, call plates, thin inlays); no whole component in brass or bronze (Roman, 2026-10-11).
 
+### Wet rooms: WCs, locker rooms, showers (2026-10-12, Roman: "do whatever is best")
+The reception language carried into the wet rooms. Wood stays where it doesn't get wet; stone and glazed tile take over where it does.
+- **Floor:** the light honed stone, in 600 x 600 slabs laid in stack bond (slip-rated finish R10, and R11 in showers), falling to linear drains in the showers.
+- **Walls:** handmade-look glazed tile in a warm chalk white, 65 x 260 laid vertically in stack bond (it echoes the oak slats), to 2.6 m on every wall. Warm-white lime plaster above.
+- **Cubicles:** oak boxes standing in the tall room: floor to 2.6 m, closed to the floor, with a lid, faced in vertical oak staves (the slat language) and flush doors with shadow gaps. They are "full height" by having their own lid, so the 5.5 m room above stays open to the clerestory light. Each one has its own light.
+- **Vanities:** a long honed-stone trough on the wall, wall-mounted blackened-steel spouts, a full-length mirror in a slim oak frame, and a linear light above it.
+- **Ceramics** are white, and grab rails, flush plates and roll holders are blackened steel. Brass is used only for the small door pulls.
+- **Every public WC room** has its own accessible WC (2.5 x 2.4 m, its own door, fold-down changing table) and a cleaner's cupboard.
+- **Locker rooms (F1, later):** the same floor and tile in the wet zones. The changing rooms get oak slat walls, oak lockers and walnut benches, as in the reception.
+
+### Daycare: playful, still Nordic (2026-10-12, Roman: "more playful and colorful decorations and vibes")
+The light shell stays: oak floor, ash ceiling, plaster. Play and colour come from things at child height:
+- **Colour:** a soft Nordic set (lingonberry, cloudberry yellow, moss, fjord blue, heather), in wool felt, linoleum tops, cushions, cubbies and art. It's never the walls, and never primary plastic colours.
+- **Rounded oak furniture** at child height, a play loft or "tree house" built from oak (the rooms are 5.5 m tall), felt cloud acoustic panels, and generated forest-animal art at a child's eye level.
+- **Wardrobe** with named cubbies and drying cabinets, in oak with coloured felt backs.
+
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)

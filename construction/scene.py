@@ -408,6 +408,12 @@ CAMS = {
     "rec_corner_s": ((27.6, 9.4, 1.62), (24.0, 6.8, 2.2), 24),
     "rec_mat": ((26.6, 12.9, 1.62), (30.2, 11.1, 0.15), 22),
     "rec_scraper": ((29.4, 13.6, 1.62), (32.2, 11.3, 0.1), 22),
+    # public WCs (E1)
+    "wc_w_aisle": ((14.9, 8.3, 1.62), (13.9, 15.8, 1.5), 16),
+    "wc_w_vanity": ((14.3, 8.4, 1.62), (16.3, 11.6, 1.3), 18),
+    "wc_w_light": ((15.9, 8.4, 1.5), (12.3, 13.5, 4.2), 15),
+    "wc_m_aisle": ((17.2, 8.4, 1.62), (20.4, 13.4, 1.3), 16),
+    "wc_acc": ((14.1, 13.9, 1.62), (13.0, 16.1, 0.9), 14),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -436,13 +442,13 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (2.8 if n.startswith(("rec_", "cafe_")) else 0.0)  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

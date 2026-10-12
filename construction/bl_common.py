@@ -563,6 +563,26 @@ def pattern_lining(e, mat, coll, rng, backing_mat=None):
                 boxes.append(quad(s - p["w"] / 2, s + p["w"] / 2, za, zb, base_t + d - p["d"], base_t + d))
             s += p["pitch"]
         back.append((0.0, L))
+    elif p["kind"] == "tiles":  # glazed wall tiles in stack bond on a grout bed; tiles cut at the ends, none across an opening
+        t_d = p["d"]; g = p["gap"]
+        z = z0
+        while z < z1 - 0.02:
+            h = min(p["h"], z1 - z); s = 0.0
+            while s < L - 0.01:
+                w_ = min(p["w"], L - s)
+                if not blocked(s, s + w_, z, z + h):
+                    boxes.append(quad(s + g / 2, s + w_ - g / 2, z + g / 2, z + h - g / 2, base_t + d - t_d, base_t + d))
+                s += p["w"]
+            z += h
+        cuts = sorted({0.0, L, *[v for o in ops for v in o["s"]]})
+        for s0, s1 in zip(cuts, cuts[1:]):
+            mid = (s0 + s1) / 2; segs = [(z0, z1)]
+            for o in ops:
+                if o["s"][0] <= mid <= o["s"][1]:
+                    segs = [q for sg in segs for q in ((sg[0], min(sg[1], o["z"][0])), (max(sg[0], o["z"][1]), sg[1])) if q[1] - q[0] > 0.02]
+            back += [quad(s0, s1, za, zb, base_t, base_t + d - t_d + 0.001) for za, zb in segs]
+        _pieces_mesh(e["id"] + "_grout", back, material("grout_warm", (0.6, 0.58, 0.54), 0.9), coll)
+        back = []
     elif p["kind"] == "courses":
         z = z0
         while z < z1 - 1e-6:
@@ -645,7 +665,40 @@ def interior_materials():
         "screed": material("screed", (0.4, 0.39, 0.37), 0.9),
         "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),
         "glass_partition": material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
+        "tile_glazed": glazed_tile(),
     }
+
+
+def glazed_tile(name="tile_chalk", tones=((0.80, 0.78, 0.72), (0.76, 0.74, 0.68), (0.83, 0.81, 0.76), (0.73, 0.71, 0.66))):
+    """Handmade-look glazed tile: every tile ('prand') picks its own glaze tone, the glaze pools and waves a little
+    (noise bump), glossy with a thin clear coat, slightly rougher where the glaze thins."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]
+    pr = N.new("ShaderNodeAttribute"); pr.attribute_name = "prand"
+    ramp = N.new("ShaderNodeValToRGB"); ramp.color_ramp.interpolation = "CONSTANT"
+    els = ramp.color_ramp.elements
+    for k, t in enumerate(tones):
+        e_ = els[k] if k < len(els) else els.new(k / len(tones))
+        e_.position = k / len(tones); e_.color = (*t, 1)
+    L.new(pr.outputs["Fac"], ramp.inputs["Fac"])
+    tc = N.new("ShaderNodeTexCoord")
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9.0; nz.inputs["Detail"].default_value = 3.0
+    L.new(tc.outputs["Object"], nz.inputs["Vector"])
+    mix = N.new("ShaderNodeMix"); mix.data_type = "RGBA"; mix.blend_type = "MULTIPLY"; mix.inputs["Factor"].default_value = 0.08
+    L.new(ramp.outputs["Color"], mix.inputs["A"]); L.new(nz.outputs["Color"], mix.inputs["B"])
+    L.new(mix.outputs["Result"], b.inputs["Base Color"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.05; rr.inputs[4].default_value = 0.2
+    L.new(nz.outputs["Fac"], rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
+    bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.12; bump.inputs["Distance"].default_value = 0.002
+    L.new(nz.outputs["Fac"], bump.inputs["Height"]); L.new(bump.outputs["Normal"], b.inputs["Normal"])
+    for k_, v_ in (("Coat Weight", 0.4), ("Coat Roughness", 0.03)):
+        if k_ in b.inputs:
+            b.inputs[k_].default_value = v_
+    return m
 
 
 def arch_glass(name, tint=(0.92, 0.95, 0.94), rough=0.0, frosted=False):

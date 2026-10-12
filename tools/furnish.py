@@ -81,9 +81,36 @@ put("lift_doors", 24.19, 15.3, rot=-90, width=1.2, height=2.3, note="lift: dark 
 put("glass_door", 27.4, 16.2, rot=0, width=1.6, height=2.3, note="daycare secure door (glass, staff / parent release)")
 by_id["G-E1-daycare"]["mullions"] = [1.3, 2.6, 4.2, 5.35]  # mullions clear the door
 
-# ---- WC baffles (open entries, VISION: no doors on the public WCs)
-put("baffle_screen", 14.2, 7.9, rot=0, zone="cafe", width=2.6, height=2.4, note="women's WC privacy baffle")
-put("baffle_screen", 18.6, 7.9, rot=0, zone="cafe", width=2.6, height=2.4, note="men's WC privacy baffle")
+# ---- WC baffles (open entries, VISION: no doors on the public WCs); 2.2 wide leaves 0.9-1.0 m to walk round either end
+put("baffle_screen", 14.2, 7.9, rot=0, zone="wc", width=2.2, height=2.4, note="women's WC privacy baffle")
+put("baffle_screen", 18.6, 7.9, rot=0, zone="wc", width=2.2, height=2.4, note="men's WC privacy baffle")
+
+# ---- public WCs (VISION "Wet rooms"): tile faces (interior.py) women x 12.22 / 16.305, men x 16.495 / 20.655, north y 16.105
+WARM = [1.0, 0.86, 0.7]
+def wc_room(stall_x, stall_rot, stall_y, n_stalls, van_x, van_rot, acc_cx, acc_pan, acc_door, store_cx, aisle_x, urinal_y=None, tag=""):
+    put("wc_cells", stall_x, stall_y, rot=stall_rot, zone="wc", n=n_stalls, w=1.1, depth=1.65, style="wc", note=f"{tag} WC cells: oak boxes with lids")
+    out = 1 if stall_rot == -90 else -1  # +x or -x into the room
+    for k in range(n_stalls):
+        cy = stall_y + (n_stalls / 2 - k - 0.5) * 1.1 * (1 if stall_rot == -90 else -1)
+        put("cell_light", stall_x + out * 0.85, cy, zone="wc", z_ceiling=2.6,
+            light={"type": "POINT", "energy": 18, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM}, note="light in the cell lid")
+    put("wc_cells", acc_cx, 16.105, rot=180, zone="wc", n=1, w=2.5, depth=2.4, style="accessible", door_at=acc_door, pan_at=acc_pan,
+        note=f"{tag} accessible WC: its own door, rails, basin, fold-down changing table")
+    put("cell_light", acc_cx, 14.9, zone="wc", z_ceiling=2.6, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM})
+    put("wc_cells", store_cx, 16.105, rot=180, zone="wc", n=1, w=1.4, depth=1.0, style="store", note="cleaner's cupboard")
+    put("vanity", van_x, 10.7, rot=van_rot, zone="wc", length=3.0, n=3, note=f"{tag} stone trough vanity, mirror, light")
+    vin = 1 if van_rot == -90 else -1
+    put("light_only", van_x + vin * 0.06, 10.7, zone="wc",
+        light={"type": "AREA", "energy": 60, "size": 2.9, "size_y": 0.04, "offset": [0, 0, 2.2], "aim": [van_x + vin * 1.2, 10.7, 0.9], "color": WARM},
+        note="linear light above the mirror (the fitting is part of the vanity)")
+    for y in (8.6, 11.0, 13.0):
+        put("downlight", aisle_x, y, zone="wc", z_ceiling=5.02,
+            light={"type": "SPOT", "energy": 200, "spot_deg": 60, "offset": [0, 0, 4.85], "aim": [aisle_x, y, 0.12], "color": WARM})
+    if urinal_y is not None:
+        put("urinals", 20.655, urinal_y, rot=90, zone="wc", n=3, pitch=0.75, note="urinals with oak screens, one at child height")
+
+wc_room(12.22, -90, 11.25, 4, 16.305, 90, 13.5, 0.75, -0.6, 15.55, 14.8, tag="women's")
+wc_room(20.655, 90, 12.45, 2, 16.495, -90, 19.405, -0.745, 0.705, 17.25, 18.0, urinal_y=10.0, tag="men's")
 
 # ---- cafe: island bar + ring pendant
 cx, cy = 21.25, -1.35

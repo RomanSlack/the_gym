@@ -39,6 +39,8 @@ def materials(MAT):
     M["glass"] = MAT.get("glass") or bc.arch_glass("arch_glass")
     M["frame"] = MAT.get("frame") or bc.blackened_steel()
     M["rubber"] = bc.material("rubber_black", (0.02, 0.02, 0.02), 0.8)
+    M["ceramic"] = bc.material("ceramic_white", (0.86, 0.85, 0.82), 0.05)
+    M["mirror"] = bc.material("mirror", (0.92, 0.92, 0.9), 0.01, metal=1.0)
     M["mat_textile"] = bc.pbr_material("mat_textile", "caban", 0.274, box=True, tint=(0.2, 0.19, 0.18), sat=0.25, val=0.35, piece_var=0.0, rough_add=0.2)  # charcoal entrance textile
     return M
 
@@ -83,6 +85,16 @@ class Part:
         b = self.bm(mat)
         g = bmesh.ops.create_cone(b, cap_ends=True, segments=seg, radius1=r, radius2=r if r2 is None else r2, depth=h)["verts"]
         bmesh.ops.translate(b, verts=g, vec=(c[0], c[1], c[2] + h / 2))
+
+    def blob(self, mat, c, radii, seg=24, z_cut=None):
+        """Scaled sphere (ceramics: WC pans, urinal bowls); z_cut flattens it below a height (the wall side / a seat)."""
+        b = self.bm(mat)
+        g = bmesh.ops.create_uvsphere(b, u_segments=seg, v_segments=seg // 2, radius=1.0)["verts"]
+        bmesh.ops.scale(b, vec=radii, verts=g)
+        if z_cut is not None:
+            for v in g:
+                v.co.z = max(v.co.z, z_cut - c[2])
+        bmesh.ops.translate(b, verts=g, vec=c)
 
     def rod(self, mat, p0, p1, r0, r1=None, seg=16):
         """Tapered round member between two points (legs, spindles, cables)."""
@@ -472,6 +484,116 @@ def entrance_mat(P, size=(2.15, 2.9), style="wiper"):
                 P.box(tex, (x, 0, -0.009), (0.022, d - 0.05, 0.018))
 
 
+# ------------------------------------------------------------------ wet rooms (VISION "Wet rooms", Roman 2026-10-12)
+def _staved_front(P, x0, x1, h, y, doors):
+    """Vertical oak staves 45 @ 65 across x0..x1 (the slat language) on a black core; doors = [(xa, xb, hd)] get a
+    6 mm shadow gap round the leaf (staves straddling a door edge are left out = the vertical gap)."""
+    P.box(M["felt"], ((x0 + x1) / 2, y - 0.025, h / 2), (x1 - x0, 0.02, h))
+    for x in np.arange(x0 + 0.0325, x1 - 0.02, 0.065):
+        a, b_ = x - 0.0225, x + 0.0225
+        d_ = next((d for d in doors if a < d[1] and b_ > d[0]), None)
+        if d_ and (a < d_[0] < b_ or a < d_[1] < b_):
+            continue
+        if d_:
+            P.box(M["oak"], (x, y, d_[2] / 2), (0.045, 0.02, d_[2] - 0.006))
+            P.box(M["oak"], (x, y, (d_[2] + h) / 2 + 0.003), (0.045, 0.02, h - d_[2] - 0.006))
+        else:
+            P.box(M["oak"], (x, y, h / 2), (0.045, 0.02, h))
+
+
+def _wc_pan(P, x, side_rail=0):
+    """Wall-hung white WC (seat at 0.46) with a blackened-steel flush plate, roll holder and (accessible) fold-up rails."""
+    P.box(M["ceramic"], (x, 0.09, 0.4), (0.36, 0.18, 0.2))
+    P.blob(M["ceramic"], (x, 0.33, 0.36), (0.18, 0.25, 0.12), z_cut=0.28)
+    P.box(M["ceramic"], (x, 0.32, 0.455), (0.37, 0.46, 0.02))
+    P.box(M["steel"], (x, 0.004, 1.05), (0.25, 0.008, 0.16))
+    P.rod(M["steel"], (x + 0.38, 0.0, 0.75), (x + 0.38, 0.12, 0.75), 0.008, seg=8)
+    P.rod(M["steel"], (x + 0.38, 0.12, 0.75), (x + 0.5, 0.12, 0.75), 0.008, seg=8)
+    for s_ in ([-1, 1] if side_rail else []):  # fold-up grab rails either side, 0.35 off the pan centre, at 0.8
+        xr = x + s_ * 0.35
+        P.box(M["steel"], (xr, 0.03, 0.8), (0.07, 0.06, 0.16))
+        P.rod(M["steel"], (xr, 0.05, 0.8), (xr, 0.85, 0.8), 0.016, seg=12)
+
+
+def wc_cells(P, n=4, w=1.1, depth=1.65, h=2.6, style="wc", door_at=0.0, pan_at=0.0):
+    """A row of WC cells standing in the tall WC room: oak boxes, floor to 2.6 m and closed to the floor, with an oak lid,
+    so each is private while the room above stays open to the clerestory light. Origin = the wall face at the row centre,
+    cells along x, front towards +y. Panels 30 mm, front in vertical oak staves with flush doors (0.8 m; accessible 1.0).
+    style 'wc' (a pan per cell), 'accessible' (one cell: pan with rails, basin, fold-down changing table), 'store' (cleaner)."""
+    W = n * w
+    for k in range(n + 1):
+        P.box(M["oak"], (-W / 2 + k * w, depth / 2, h / 2), (0.03, depth, h))
+    P.box(M["oak"], (0, depth / 2, h + 0.02), (W + 0.03, depth + 0.02, 0.04))  # lid
+    dw = 1.0 if style == "accessible" else (0.9 if style == "store" else 0.8)
+    doors = []
+    for k in range(n):
+        cx = -W / 2 + (k + 0.5) * w + (door_at if n == 1 else 0.0)
+        doors.append((cx - dw / 2, cx + dw / 2, 2.1))
+    _staved_front(P, -W / 2, W / 2, h, depth + 0.01, doors)
+    P.box(M["oak"], (0, depth - 0.04, h / 2), (W - 0.03, 0.012, h))  # plain oak face on the inside of the front (doors closed)
+    for (xa, xb, hd) in doors:  # small brass pull on the latch side (an accent) + a blackened-steel occupancy turn
+        P.box(M["brass"], (xb - 0.09, depth + 0.035, 1.05), (0.016, 0.02, 0.3))
+        P.cyl(M["steel"], (xb - 0.09, depth + 0.025, 1.3), 0.022, 0.012, seg=20)
+    if style == "wc":
+        for k in range(n):
+            _wc_pan(P, -W / 2 + (k + 0.5) * w)
+            P.rod(M["steel"], (-W / 2 + (k + 0.5) * w - 0.2, depth - 0.02, 1.7), (-W / 2 + (k + 0.5) * w - 0.2, depth - 0.08, 1.7), 0.01, seg=8)  # coat hook
+    elif style == "accessible":
+        _wc_pan(P, pan_at, side_rail=1)
+        bx = -pan_at * 0.9 if abs(pan_at) > 0.3 else W / 2 - 0.45
+        P.box(M["stone"], (bx, 0.24, 0.80), (0.5, 0.45, 0.06))  # small basin slab, knee space below (accessible)
+        P.box(M["ceramic"], (bx, 0.24, 0.775), (0.38, 0.3, 0.02))
+        P.rod(M["steel"], (bx, 0.0, 0.98), (bx, 0.16, 0.98), 0.012, seg=12)
+        P.box(M["mirror"], (bx, 0.004, 1.45), (0.5, 0.006, 0.8))
+        sx = W / 2 - 0.015 if bx < 0 else -W / 2 + 0.015  # fold-down changing table on the side panel away from the basin
+        P.box(M["oak"], (sx - np.sign(sx) * 0.05, depth / 2, 0.9), (0.1, 0.8, 0.5))
+
+
+def vanity(P, L=3.0, n=3):
+    """Honed-stone trough vanity on the wall: 120 mm slab, top at 0.86, 0.5 deep, n basins sunk into it; wall-mounted
+    blackened-steel spouts; a full-length mirror (1.0 tall) in a slim oak frame; a slim steel light channel above it."""
+    d, t, top = 0.5, 0.12, 0.86
+    bw = 0.48
+    xs = [-L / 2 + (k + 0.5) * L / n for k in range(n)]
+    cuts = sorted([-L / 2, L / 2] + [v for x in xs for v in (x - bw / 2, x + bw / 2)])
+    for a, b_ in zip(cuts[::2], cuts[1::2]):  # solid stone between the basins
+        P.box(M["stone"], ((a + b_) / 2, d / 2, top - t / 2), (b_ - a, d, t))
+    for x in xs:
+        P.box(M["stone"], (x, 0.06, top - t / 2), (bw, 0.12, t))          # back strip
+        P.box(M["stone"], (x, d - 0.04, top - t / 2), (bw, 0.08, t))      # front lip
+        P.box(M["stone"], (x, 0.24, top - t - 0.03), (bw, 0.3, 0.06))     # basin floor, 150 mm below the top
+        P.rod(M["steel"], (x, 0.0, top + 0.16), (x, 0.17, top + 0.16), 0.011, seg=12)        # spout
+        P.rod(M["steel"], (x + 0.12, 0.0, top + 0.16), (x + 0.12, 0.05, top + 0.16), 0.009, seg=10)  # lever
+    P.box(M["oak"], (0, 0.012, top + 0.25 + 0.52), (L + 0.03, 0.022, 1.04))   # oak frame behind the mirror
+    P.box(M["mirror"], (0, 0.025, top + 0.25 + 0.52), (L - 0.02, 0.006, 1.0))
+    P.box(M["steel"], (0, 0.04, top + 1.37), (L, 0.06, 0.04))                 # light channel above the mirror
+    P.box(M["opal"], (0, 0.04, top + 1.349), (L - 0.04, 0.05, 0.003))
+
+
+def urinals(P, n=3, pitch=0.75):
+    """Wall-hung white urinals (rim 0.62; the first lower, 0.5, for children) with oak privacy screens between them."""
+    for k in range(n):
+        x = -(n - 1) * pitch / 2 + k * pitch
+        rim = 0.5 if k == 0 else 0.62
+        P.cyl(M["ceramic"], (x, 0.13, rim - 0.48), 0.165, 0.62, seg=40)       # a slim upright pod, round to the front
+        P.box(M["ceramic"], (x, 0.04, rim - 0.17), (0.33, 0.08, 0.62))        # flat back on the wall
+        P.cyl(M["steel"], (x, 0.16, rim - 0.48), 0.035, 0.004, seg=16)        # outlet glimpse at the base
+        P.box(M["steel"], (x, 0.004, rim + 0.42), (0.08, 0.008, 0.12))
+    for k in range(n - 1):
+        x = -(n - 1) * pitch / 2 + (k + 0.5) * pitch
+        P.box(M["oak"], (x, 0.24, 1.05), (0.03, 0.45, 0.9))
+
+
+def cell_light(P, z_ceiling=2.6):
+    """Small opal disc under a WC cell lid."""
+    P.cyl(M["steel"], (0, 0, z_ceiling - 0.012), 0.06, 0.012, seg=24)
+    P.cyl(M["opal"], (0, 0, z_ceiling - 0.014), 0.05, 0.003, seg=24)
+
+
+def light_only(P):
+    """A light whose fitting belongs to another piece (e.g. the vanity's light channel): no geometry."""
+
+
 def window_counter(P, L=11.0):
     """Window counter at 1.05: 40 mm oak top 0.45 deep on blackened steel brackets, facing the forest."""
     P.box(M["oak"], (0, 0, 1.03), (L, 0.45, 0.04))
@@ -640,12 +762,14 @@ BUILDERS = {
     "lift_doors": lift_doors, "glass_door": glass_door, "baffle_screen": baffle_screen, "window_counter": window_counter,
     "relief_art": relief_art, "porch_floor": porch_floor, "canvas_art": canvas_art,
     "wall_light": wall_light, "downlight": downlight, "gallery_spot": gallery_spot, "entrance_mat": entrance_mat,
+    "wc_cells": wc_cells, "vanity": vanity, "urinals": urinals, "cell_light": cell_light, "light_only": light_only,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
-          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style")}
+          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
+          "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at"), "vanity": ("length", "n"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -660,7 +784,7 @@ def build_all(model, MAT, coll):
         for k in keys:
             if k in f:
                 name = k
-                if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter") and k == "length":
+                if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"
