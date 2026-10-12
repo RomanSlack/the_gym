@@ -464,7 +464,7 @@ CAMS = {
     "dc_low_fort": ((24.6, 26.4, -4.6), (21.0, 30.4, -5.6), 18),
     "dc_low_wheels": ((26.5, 25.6, -4.75), (26.4, 21.3, -5.6), 17),
     "dc_tube_top": ((19.6, 21.9, 1.62), (15.9, 24.0, 0.2), 18),
-    "dc_tube_down": ((17.4, 24.0, 0.9), (15.6, 24.1, -4.0), 15),
+    "dc_tube_down": ((19.0, 26.4, 1.75), (15.6, 23.9, -2.6), 16),
     "dc_story_close": ((18.2, 28.6, 1.3), (21.2, 28.6, 1.35), 24),
     "dc_lake_close": ((28.75, 27.2, 1.0), (28.75, 29.2, 0.95), 24),
 }
@@ -495,7 +495,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]

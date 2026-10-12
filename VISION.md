@@ -290,6 +290,19 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
 - **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
 - **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
 - **Sleep room (Roman: no bunks):** a wall-to-wall wool carpet with sleeping mats and blankets, so children sleep where they like. Spare mats live on a low shelf, and a fibre-optic star canopy hangs overhead.
+- **Also in the lower play room (Roman):**
+  - a foam fortress of felt-covered foam blocks to build, knock down and throw
+  - a wheels corner with balance bikes, caster boards (RipStik), tricycles and a rack for them and the helmets. There are two more tricycles out on the garden loop
+  - my pick: a lekebakke, a carpeted rolling hill with a crawl tunnel through it
+- **Tube slide down the round stair (Roman):**
+  - a 660 mm tube spiralling inside the stair's eye from the upper floor to the play room (about 2 turns at roughly 24°)
+  - the lower half is brushed stainless and the upper half clear polycarbonate
+  - steel flanges, and hangers up to the stair's inner stringer
+  - three rescue hatches on the stair side, each opposite a lockable gate in the inner balustrade, placed where an adult on the treads stands level with the tube
+  - an oak bridge with guards from the floor to the entry hood, and a run-out with a landing mat
+  - the stair's eye is widened to 1.45 m radius for it; the treads stay 1.1 m wide
+- **Stair opening framed properly (Roman caught it):** beam B-9 now stops at a trimmer beam beside the round opening, and the lower ceiling is cut round the stairwell and the trimmer.
+- **Children's WC on both floors:** the lower one sits directly under the upper one, opening off the play room.
 - **Pram store:** pram parking, an outdoor-gear wall with rain suits and boots, and drying cabinets.
 - **Garden (barnehage practice):**
   - by the door, for the youngest: a sandbox with a sit-on oak edge, and a vognskur where toddlers nap outdoors in their prams

@@ -99,6 +99,10 @@ for f in pieces:
     coll, obs = build(f)
     coll.hide_render = False
     ctr, rad, zmin = frame(obs)
+    if zmin < -0.02:  # pieces that hang down from their origin (stair guards, the tube slide, the terrace slide) stand on the studio floor
+        for o in obs:
+            o.location.z -= zmin
+        ctr, rad, zmin = frame(obs)
     rad = max(rad, 0.25)
     shots = []
     for label, az, el in VIEWS:
