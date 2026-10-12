@@ -1580,9 +1580,10 @@ def felt_banner(P, motif="sun", colour="fjord", w=0.8, h=1.9, top=4.75):
                       cz + 0.22 + 0.07 * math.sin(math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45)) for k in range(10)], a, b_)
 
 
-def bunting(P, length=17.0, sag=0.6):
+def bunting(P, L=17.0, sag=0.6):
     """A string of felt pennant bunting swagged between two walls (origin = one end, string runs along +x), a pennant every 0.32 m
     in the palette colours, hanging on a hemp cord that sags 0.6 m in the middle."""
+    length = L
     n = int(length / 0.08)
     zc = lambda x: -4 * sag * (x / length) * (1 - x / length)
     prev = None
@@ -1827,7 +1828,7 @@ def build_all(model, MAT, coll):
                 name = k
                 if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
-                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack") and k == "length":
+                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"
