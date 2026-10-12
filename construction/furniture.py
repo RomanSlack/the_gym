@@ -39,6 +39,7 @@ def materials(MAT):
     M["glass"] = MAT.get("glass") or bc.arch_glass("arch_glass")
     M["frame"] = MAT.get("frame") or bc.blackened_steel()
     M["rubber"] = bc.material("rubber_black", (0.02, 0.02, 0.02), 0.8)
+    M["mat_textile"] = bc.pbr_material("mat_textile", "caban", 0.274, box=True, tint=(0.2, 0.19, 0.18), sat=0.25, val=0.35, piece_var=0.0, rough_add=0.2)  # charcoal entrance textile
     return M
 
 
@@ -444,6 +445,33 @@ def porch_floor(P, size=(2.5, 4.1)):
     P.box(bc.material("concrete", (0.48, 0.47, 0.44), 0.85), (0, 0, -0.35), (size[0], size[1], 0.58))
 
 
+def entrance_mat(P, size=(2.15, 2.9), style="wiper"):
+    """Entrance matting, flush with the floor (top at z 0). 'scraper': open blackened-steel bar grate (5 mm bars @ 15 mm,
+    walking across them) over a dark drained pit. 'wiper': charcoal textile ribs 22 mm wide with every fourth a rubber
+    scraper strip, in a 25 mm blackened-steel frame, 22 mm deep (the stone thickness)."""
+    w, d = size
+    fr = M["steel"]
+    lift = 0.004 if style == "scraper" else 0.0  # the porch slab is one piece: the grate frame shows a 4 mm lip on it
+    for sx in (-1, 1):
+        P.box(fr, (sx * (w / 2 - 0.0125), 0, -0.011 + lift), (0.025, d, 0.022))
+    for sy in (-1, 1):
+        P.box(fr, (0, sy * (d / 2 - 0.0125), -0.011 + lift), (w - 0.05, 0.025, 0.022))
+    if style == "scraper":
+        P.box(M["rubber"], (0, 0, -0.08), (w - 0.05, d - 0.05, 0.02))
+        for x in np.arange(-w / 2 + 0.035, w / 2 - 0.025, 0.015):  # bars run along the door (y), feet cross them
+            P.box(fr, (x, 0, -0.016 + lift), (0.005, d - 0.05, 0.03))
+        for y in np.arange(-d / 2 + 0.2, d / 2 - 0.1, 0.4):
+            P.box(fr, (0, y, -0.027 + lift), (w - 0.05, 0.004, 0.008))
+    else:
+        tex, rub = M["mat_textile"], M["rubber"]
+        P.box(rub, (0, 0, -0.02), (w - 0.05, d - 0.05, 0.004))
+        for k, x in enumerate(np.arange(-w / 2 + 0.04, w / 2 - 0.03, 0.026)):
+            if k % 4 == 3:
+                P.box(rub, (x, 0, -0.0085), (0.012, d - 0.05, 0.017))
+            else:
+                P.box(tex, (x, 0, -0.009), (0.022, d - 0.05, 0.018))
+
+
 def window_counter(P, L=11.0):
     """Window counter at 1.05: 40 mm oak top 0.45 deep on blackened steel brackets, facing the forest."""
     P.box(M["oak"], (0, 0, 1.03), (L, 0.45, 0.04))
@@ -611,13 +639,13 @@ BUILDERS = {
     "glass_screen": glass_screen, "sliding_doors": sliding_doors, "vestibule_lid": vestibule_lid, "door_slatted": door_slatted,
     "lift_doors": lift_doors, "glass_door": glass_door, "baffle_screen": baffle_screen, "window_counter": window_counter,
     "relief_art": relief_art, "porch_floor": porch_floor, "canvas_art": canvas_art,
-    "wall_light": wall_light, "downlight": downlight, "gallery_spot": gallery_spot,
+    "wall_light": wall_light, "downlight": downlight, "gallery_spot": gallery_spot, "entrance_mat": entrance_mat,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
-          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",)}
+          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style")}
 ARGNAME = {"length": "L", "height": "h"}
 
 

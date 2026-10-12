@@ -73,6 +73,7 @@ if g:
 
 # ---- zone: reception + the open E1 hall (cafe) around it
 E1 = lv["E1"]
+MAT_WELL = [28.3, 9.85, 30.45, 12.75]  # Roman: keep the stone, but a mat inside the doors for grit and snow (flush, in a well in the stone)
 FLOORS = {"reception": [24.0, 6.8, 28.0, 16.2], "entry": [28.0, 6.8, 30.5, 16.2], "cafe": [12.0, -9.5, 30.5, 6.8]}
 for nm, r in FLOORS.items():
     add({"id": f"IN-E1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(E1 - 0.10, 3), round(E1 - 0.08, 3)], "holes": [],
@@ -80,7 +81,8 @@ for nm, r in FLOORS.items():
     add({"id": f"IN-E1-{nm}-screed", "type": "slab", "material": "screed", "rect": r, "z": [round(E1 - 0.08, 3), round(E1 - 0.022, 3)], "holes": [],
          "note": "58 mm screed with underfloor heating pipes"})
     f = FINISH[P["entry"] if nm == "entry" else P["floor"]]
-    add({"id": f"IN-E1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(E1 - f["t"], 3), E1], "holes": [],
+    holes = [{"rect": MAT_WELL, "note": "recessed entrance mat well (the mat itself: tools/furnish.py)"}] if nm == "entry" else []
+    add({"id": f"IN-E1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(E1 - f["t"], 3), E1], "holes": holes,
          "pattern": {k: v for k, v in f.items() if k not in ("material", "t")}, "note": f"floor finish: {P['entry'] if nm == 'entry' else P['floor']}"})
 
 RF = lv["RF"]

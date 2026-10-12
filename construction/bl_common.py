@@ -486,13 +486,15 @@ def pattern_floor(e, mat, coll, rng):
         c = c0; row = 0
         while c < c1 - 1e-6:
             cw = min(w, c1 - c)
-            a = a0 - (rng.uniform(0, max(p["L"])) if p["kind"] == "boards" else (p["L"][0] / 2 if row % 2 else 0))  # staggered / running bond
+            a = a0 - (rng.uniform(0, max(p["L"])) if p["kind"] == "boards" else (p["L"][0] / 2 if row % 2 and p.get("bond") != "stack" else 0))  # staggered / running / stack bond
             while a < a1 - 1e-6:
                 L = float(rng.choice(p["L"])) if p["kind"] == "boards" else p["L"][0]
                 s0, s1 = max(a, a0), min(a + L, a1)
                 if s1 - s0 > 0.05:
                     q = (c + gap / 2, s0 + gap / 2, c + cw - gap / 2, s1 - gap / 2)
-                    boxes.append(_box(q[0], q[1], z0, q[2], q[3], z1) if along_y else _box(q[1], q[0], z0, q[3], q[2], z1))
+                    q = (q[0], q[1], q[2], q[3]) if along_y else (q[1], q[0], q[3], q[2])
+                    for r_ in _minus_holes(q, e.get("holes", [])):  # recesses (e.g. the entrance mat well): pieces cut round them
+                        boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1))
                 a += L
             c += w; row += 1
     else:  # poured: panels between saw cuts
@@ -503,6 +505,23 @@ def pattern_floor(e, mat, coll, rng):
                 boxes.append(_box(x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, z0,
                                   x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015, z1))
     return _pieces_mesh(e["id"], boxes, mat, coll)
+
+
+def _minus_holes(q, holes):
+    """Axis-aligned rect q (x0, y0, x1, y1) minus rect holes ({"rect": [x0, y0, x1, y1]}): the pieces left over."""
+    out = [q]
+    for h in holes:
+        if "rect" not in h or not isinstance(h["rect"][0], (int, float)):
+            continue
+        hx0, hy0, hx1, hy1 = h["rect"]; nxt = []
+        for (x0, y0, x1, y1) in out:
+            if hx0 >= x1 or hx1 <= x0 or hy0 >= y1 or hy1 <= y0:
+                nxt.append((x0, y0, x1, y1)); continue
+            for r_ in ((x0, y0, hx0, y1), (hx1, y0, x1, y1), (max(x0, hx0), y0, min(x1, hx1), hy0), (max(x0, hx0), hy1, min(x1, hx1), y1)):
+                if r_[2] - r_[0] > 0.01 and r_[3] - r_[1] > 0.01:
+                    nxt.append(r_)
+        out = nxt
+    return out
 
 
 def pattern_ceiling(e, mat, coll, beam_lines):

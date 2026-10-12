@@ -49,6 +49,11 @@ put("glass_screen", VX1, (VY0 + VY1) / 2, rot=90, zone="entrance", width=VY1 - V
 put("glass_screen", (VX0 + VX1) / 2, VY0, rot=0, zone="entrance", width=VX1 - VX0, height=3.0, door=0.0, note="vestibule side glass")
 put("glass_screen", (VX0 + VX1) / 2, VY1, rot=0, zone="entrance", width=VX1 - VX0, height=3.0, door=0.0, note="vestibule side glass")
 put("vestibule_lid", (VX0 + VX1) / 2, (VY0 + VY1) / 2, zone="entrance", size=[VX1 - VX0, VY1 - VY0], height=3.0, note="oak slat lid at 3.0 m, under the eave")
+# entrance matting in two zones (Roman: the stone stays, but grit and snow need a mat): an open steel scraper grate in the
+# vestibule floor at the outer doors, then a textile wiper mat in a flush well inside the facade doors (well cut in tools/interior.py)
+put("entrance_mat", 32.05, (VY0 + VY1) / 2, zone="entrance", size=[1.5, 2.6], style="scraper", note="scraper grate over a drained pit, blackened steel")
+put("entrance_mat", (28.3 + 30.45) / 2, (9.85 + 12.75) / 2, zone="entrance", size=[2.15, 2.9], style="wiper",
+    note="recessed wiper mat: charcoal textile ribs with rubber scraper strips in a blackened-steel frame, flush with the stone")
 put("boot_bench", (VX0 + VX1) / 2, VY0 + 0.32, rot=0, zone="entrance", length=1.8, note="boot bench: shoes off, as at home in Norway")
 
 # ---- reception
