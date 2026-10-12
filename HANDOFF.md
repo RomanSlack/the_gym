@@ -1,13 +1,35 @@
 # Handoff (read first in a new session)
 
-**State on 2026-10-11 (end of session c2657e98):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). The forest follows real forest data (NIBIO SR16), and the site has its ground, grass, rocks, water and HDRI sky. Stage 5 is under way: **the reception + cafe hall on E1 is the finished prototype** (interior shell, furniture, lighting, art). Its choices are LOCKED and recorded in VISION.md ("Interior direction" + "Primary metal").
+**State on 2026-10-12 (end of session ec5888c8):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). Stage 5: **the whole east wing at E1 + the daycare are finished** to the new baseline:
+- reception + cafe (the prototype), with the entrance matting
+- the public WCs (wet-room rules in VISION)
+- the daycare upper floor: the tree house, the tube slide down the round stair, and the toddler zone with 'Kronen' + the nest
+- the daycare lower floor: race track, foam fortress, music wall, banners, sleep room with mats
+- the sunken garden in barnehage practice
+- staff + nursing rooms
 
-**Next step:** apply the reception's design language to every other area, zone by zone, in this order:
-1. ~~the rest of E1: public WCs, the daycare upper floor~~ (done 2026-10-12: see VISION "Wet rooms" + "Daycare"; renders `stage_5_wc_*`, `stage_5_dc_*`)
-2. the lounge bridge (next)
-3. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms
-4. E2: garage, game room, daycare lower floor
-5. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
+All choices are in VISION.md ("Interior direction", "Wet rooms", "Daycare", "Baseline detail everywhere").
+
+**The detail standard (Roman, 2026-10-12): the level of detail now in the daycare + reception is the bare MINIMUM for every zone, before any final styling.** Concretely, every zone gets:
+- real fittings: bins, soap, towels, nappy/sanitary bins, brushes, pull cords, floor drains
+- safety: an AED / extinguisher / first-aid point, exit signs, sprinklers + smoke detectors
+- bilingual oak wayfinding
+- things set out the way they're used (desk kit, table settings, menus, cups)
+- furniture joints that really join (no floating stretchers)
+- lighting with no dark blotches
+- a catalogue sheet for every new piece
+
+Do a "does this make sense" pass per zone: circulation, doors versus stairs, windows where people sit.
+
+**Open question for Roman:** card-reader gates where the cafe meets the lounge bridge into the gym (it changes the cafe's circulation; not done).
+
+**Next step:** apply the language + the detail standard to the remaining zones, in this order:
+1. ~~E1: reception, cafe, public WCs, daycare upper floor~~ (done)
+2. ~~daycare lower floor (E2) + the sunken garden~~ (done)
+3. the lounge bridge (next)
+4. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms (wet-room rules already in VISION)
+5. E2: garage, bike/moto parking, game room, lift lobby
+6. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
 For each zone:
 - First the shell: floors, ceilings and linings, in `tools/interior.py`.
@@ -30,6 +52,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
   - Cameras are in the `CAMS` dict in `scene.py`; reception and cafe cameras are named `rec_*` / `cafe_*`.
 - **Drawings:** `cd blueprint && npx vite --port 5280` (H = replay, P = A1 sheets, D = dark). Re-export the PDF only when Roman asks: `node tools/export/export_pdf.js`.
 - **Component catalogue** (every designed piece alone in a studio, 4 angles, one sheet each + an overview): `nice -n 19 blender -b --factory-startup -t 12 --python construction/catalog.py -- [zone:daycare,garden] [only:kind1,kind2]` → `construction/renders/catalog/<kind>_vNNN.jpg`, every single view also kept in `construction/renders/catalog/views/<kind>_<angle>_vNNN.jpg` (composed by `tools/catalog_sheets.py`). **Roman treasures the catalogue: it is a permanent, versioned record; never delete or overwrite any of it.**
+- **New in this session:** `tools/partitions.py` splits L-shaped shared edges into straight legs (ids kept). Round slab openings are cut through the structural slabs too. The daycare stair's position + start angle live in `model.stairs` (`layout_v1.py`), and the opening, trimmer beam, floor/ceiling cuts, guards and tube follow from it. Sanitation + safety builders (`towel_station`, `safety_point`, `exit_sign`, `ceiling_services`, ...) are in `construction/furniture.py`.
 - **Art:** generated with gpt-image-2 via the imagegen skill into `docs/art/`. The reception painting is `artvalleyoil_0.png`.
 
 ## Where the design lives
