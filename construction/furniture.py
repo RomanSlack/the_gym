@@ -927,7 +927,10 @@ def wall_bars(P, L=2.7, h=2.4):
 def nest_swing(P, top=5.13):
     """Indoor nest swing: a 1.0 m felt-padded ring with a hemp net, on four ropes up to the beam above, seat at 0.45."""
     P.ring(M["felt_fjord"], (0, 0), 0.42, 0.5, 0.41, 0.49, seg=48)
-    P.cyl(M["rope"], (0, 0, 0.44), 0.42, 0.01, seg=32)
+    for k in np.arange(-0.36, 0.37, 0.09):  # woven rope net
+        w_ = math.sqrt(max(0.0, 0.43 ** 2 - k * k))
+        P.rod(M["rope"], (-w_, k, 0.44), (w_, k, 0.44), 0.006, seg=6)
+        P.rod(M["rope"], (k, -w_, 0.445), (k, w_, 0.445), 0.006, seg=6)
     for a in (45, 135, 225, 315):
         x, y = 0.46 * math.cos(math.radians(a)), 0.46 * math.sin(math.radians(a))
         P.rod(M["rope"], (x, y, 0.49), (0, 0, 1.6), 0.008, seg=6)
@@ -1366,26 +1369,39 @@ def wheel_rack(P, L=2.3):
         P.blob(M["lino_" + COLOURS[k % 5]], (x, 0.14, 1.22), (0.11, 0.13, 0.09), z_cut=1.12)  # helmets
 
 
-def rolling_hill(P, L=3.0, D=2.2, h=0.8):
-    """'Lekebakke', the indoor rolling hill (my pick): a soft carpeted mound on an oak frame, to run up, roll down, sit on top of,
-    with a felt-lined crawl tunnel straight through it and an oak rim round the foot."""
-    b = P.bm(M["carpet"] if "carpet" in M else M["felt_oat"])
-    nx_, ny_ = 24, 18
-    vs = {}
-    for i in range(nx_ + 1):
-        for j in range(ny_ + 1):
-            x, y = -L / 2 + L * i / nx_, -D / 2 + D * j / ny_
-            u, v = 2 * x / L, 2 * y / D
-            z = h * max(0.0, 1 - u * u) * max(0.0, 1 - v * v) ** 0.6
-            vs[i, j] = b.verts.new((x, y, z))
-    for i in range(nx_):
-        for j in range(ny_):
-            b.faces.new((vs[i, j], vs[i + 1, j], vs[i + 1, j + 1], vs[i, j + 1]))
-    for sx in (-1, 1):  # tunnel mouths (dark felt) on the long sides
-        P.box(M["felt_fjord"], (0, sx * (D / 2 - 0.35), 0.24), (0.62, 0.02, 0.48))
-    P.rod(M["felt_fjord"], (0, -D / 2 + 0.3, 0.24), (0, D / 2 - 0.3, 0.24), 0.3, seg=24)
-    for (x, y, sx, sy) in ((0, D / 2, L, 0.06), (0, -D / 2, L, 0.06), (L / 2, 0, 0.06, D), (-L / 2, 0, 0.06, D)):
-        P.box(M["oak"], (x, y, 0.03), (sx, sy, 0.06))
+def rolling_hill(P, L=3.2, D=2.4, h=0.8):
+    """'Lekebakke', the indoor rolling hill (my pick): a soft rounded ridge (3.2 across, 2.4 long, 0.8 high) on an oak frame to
+    run over, roll down and sit on, with an arched crawl tunnel (0.62 wide, 0.66 high) running straight through it, open at
+    both flat ends. Upholstered in wool felt in contour bands of the palette (a little mountain on a map); the tunnel is lined
+    in dark fjord felt. Tunnel axis = y."""
+    zt = lambda x: h * max(0.0, 1 - (2 * x / L) ** 2) ** 0.7     # the ridge's cross-section
+    ar = 0.31; ac = 0.35                                            # tunnel arch radius, arch centre height
+    za = lambda x: ac + math.sqrt(max(0.0, ar * ar - x * x))        # tunnel roof
+    bands = ["felt_oat", "felt_moss", "felt_oat", "felt_cloud", "felt_oat", "felt_heather", "felt_oat", "felt_fjord"]
+    n = 64
+    xs = sorted(set([round(-L / 2 + L * i / n, 5) for i in range(n + 1)] + [-ar, ar] + [ar * math.cos(math.pi * k / 24) for k in range(1, 24)]))
+    for x0, x1 in zip(xs, xs[1:]):  # top surface, in bands by height (straight stripes along the ridge)
+        zc = zt((x0 + x1) / 2)
+        b = P.bm(M[bands[min(len(bands) - 1, int(zc / 0.1))]])
+        v = [b.verts.new(p) for p in ((x0, -D / 2, zt(x0)), (x1, -D / 2, zt(x1)), (x1, D / 2, zt(x1)), (x0, D / 2, zt(x0)))]
+        b.faces.new(v)
+        inside = abs((x0 + x1) / 2) < ar  # over the tunnel the end face starts at the arch, elsewhere at the floor
+        zb = lambda x: za(x) if inside else 0.0
+        for y, flip in ((-D / 2, False), (D / 2, True)):  # flat end faces, cut round the arch
+            e = P.bm(M["felt_oat"])
+            q = [e.verts.new(p) for p in ((x0, y, zb(x0)), (x1, y, zb(x1)), (x1, y, zt(x1)), (x0, y, zt(x0)))]
+            e.faces.new(q[::-1] if flip else q)
+    lin = P.bm(M["felt_fjord"])  # the tunnel: two low walls + the arched roof, the whole length
+    m = 24
+    for side in (-1, 1):
+        lin.faces.new([lin.verts.new(p) for p in ((side * ar, -D / 2, 0.0), (side * ar, D / 2, 0.0), (side * ar, D / 2, ac), (side * ar, -D / 2, ac))])
+    for k in range(m):
+        a0, a1 = math.pi * k / m, math.pi * (k + 1) / m
+        p0 = (ar * math.cos(a0), ac + ar * math.sin(a0)); p1 = (ar * math.cos(a1), ac + ar * math.sin(a1))
+        lin.faces.new([lin.verts.new(p) for p in ((p0[0], -D / 2, p0[1]), (p1[0], -D / 2, p1[1]), (p1[0], D / 2, p1[1]), (p0[0], D / 2, p0[1]))])
+    P.box(M["felt_moss"], (0, 0, 0.01), (2 * ar, D, 0.02))  # soft floor in the tunnel
+    for (x, y, sx, sy) in ((0, D / 2 + 0.03, L, 0.06), (0, -D / 2 - 0.03, L, 0.06), (L / 2, 0, 0.06, D + 0.12), (-L / 2, 0, 0.06, D + 0.12)):
+        P.box(M["oak"], (x, y, 0.04), (sx, sy, 0.08))
 
 
 def light_only(P):

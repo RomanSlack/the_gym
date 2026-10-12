@@ -189,7 +189,7 @@ for ph in range(1, STAGE + 1):
             W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))  # roofs: plate runs past the facade
             ob = bc.box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
             for k, h in enumerate(e.get("holes", [])):
-                if "circle" in h and e.get("phase") == 5:  # floor build-up round a stairwell (the structural slab's own holes are drawn elsewhere)
+                if "circle" in h:  # round stair openings, through the structural slab and the floor build-up alike (Roman: the stairwell was closed)
                     hx, hy, hr = h["circle"]
                     bpy.ops.mesh.primitive_cylinder_add(radius=hr, depth=(z1 - z0) + 1.0, vertices=96, location=(hx, hy, (z0 + z1) / 2))
                     cu = bpy.context.object; cu.name = f"{e['id']}_hole{k}"

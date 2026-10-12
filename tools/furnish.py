@@ -214,7 +214,7 @@ E2 = lv["E2"]
 def put2(kind, x, y, rot=0.0, **kw):
     put(kind, x, y, rot=rot, zone=kw.pop("zone", "daycare"), level="E2", z=E2, **kw)
 def dl2(x, y, energy=300):
-    put2("downlight", x, y, z_ceiling=5.0, light={"type": "SPOT", "energy": energy, "spot_deg": 60, "offset": [0, 0, 4.82], "aim": [x, y, E2], "color": WARM})
+    put2("downlight", x, y, z_ceiling=5.0, light={"type": "SPOT", "energy": energy, "spot_deg": 75, "blend": 1.0, "radius": 0.25, "offset": [0, 0, 4.82], "aim": [x, y, E2], "color": WARM})
 
 # the garden door: a pair of glass doors in the north glazing between two mullions, straight onto the garden floor
 gn = by_id["EN-G-E2-N-0"]
