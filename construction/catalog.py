@@ -23,7 +23,7 @@ ZONES = next((a.split(":", 1)[1].split(",") for a in args if a.startswith("zone:
 ONLY = next((a.split(":", 1)[1].split(",") for a in args if a.startswith("only:")), None)
 SKIP = {"light_only", "porch_floor"}
 OUT = ROOT / "construction" / "renders" / "catalog"; OUT.mkdir(parents=True, exist_ok=True)
-TMP = ROOT / "construction" / "out" / "catalog_tmp"; TMP.mkdir(parents=True, exist_ok=True)
+TMP = ROOT / "construction" / "out" / "catalog_frames"; TMP.mkdir(parents=True, exist_ok=True)
 model = json.loads((ROOT / "model" / "building.json").read_text())
 
 bpy.ops.wm.read_factory_settings(use_empty=True)

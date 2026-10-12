@@ -22,6 +22,16 @@ def next_name(stem):
 
 
 pieces = json.loads(Path(sys.argv[1]).read_text())
+# Roman: the catalogue is treasured, nothing temporary. Every single view is also kept as its own versioned file
+# (construction/renders/catalog/views/<kind>_<angle>_vNNN.jpg), next to the sheets; the Blender frames folder is only scratch.
+VIEWS = OUT / "views"; VIEWS.mkdir(exist_ok=True)
+for pc in pieces:
+    for label, p in pc["shots"]:
+        stem = f"{pc['kind']}_{label.replace('/', '').replace(' ', '')}"
+        v = 1 + max([int(q.stem.rsplit("_v", 1)[1]) for q in VIEWS.glob(f"{stem}_v*.jpg") if q.stem.rsplit("_v", 1)[1].isdigit()] or [0])
+        Image.open(p).convert("RGB").save(VIEWS / f"{stem}_v{v:03d}.jpg", quality=92)
+if "--views-only" in sys.argv:
+    sys.exit(0)
 sheets = []
 for pc in pieces:
     W_, H_ = Image.open(pc["shots"][0][1]).size
