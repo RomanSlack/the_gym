@@ -680,6 +680,7 @@ def interior_materials():
         "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),
         "glass_partition": material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
         "tile_glazed": glazed_tile(),
+        "carpet_wool": pbr_material("carpet_wool", "poly_wool_herringbone", 0.27, tint=(1.0, 0.96, 0.9), sat=0.3, val=1.25, piece_var=0.0),
     }
 
 

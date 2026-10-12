@@ -205,6 +205,43 @@ for wid, side, rng_, tag in (("P-E1-12", 1, (0.075, 5.0 - 0.075 - TD), "-dcwc"),
     lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, TILE_TOP])
     lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[TILE_TOP, w_["z"][1]])
 
+# ---- zone: the daycare lower floor (E2, under the upper one): active play walking out to the sunken garden, the sleep room,
+# the children's WC (stacked), the pram + outdoor-gear store. Same light shell; the ceiling is the wave hung under the E1 slab
+# between its beams (slab soffit -0.23, beams to -0.88).
+E2 = lv["E2"]; SOF = -0.23
+DL = {"dclow": ([12.0, 21.2, 30.5, 33.3], "floor", [STAIR_HOLE]), "dcrest": ([12.0, 16.18, 17.0, 21.2], "floor", []),
+      "dcwclow": ([17.0, 16.18, 24.0, 21.2], "wet", []), "dcstore": ([24.0, 16.18, 30.5, 21.2], "wet", [])}
+for nm, (r, fk, holes) in DL.items():
+    f = FINISH[P["floor"]] if fk == "floor" else wet
+    if nm == "dcrest":  # Roman: a soft carpeted floor in the sleep room (mats + blankets on it): 10 mm wool carpet on felt underlay
+        add({"id": f"IN-E2-{nm}-screed", "type": "slab", "material": "screed", "rect": r, "z": [round(E2 - 0.08, 3), round(E2 - 0.012, 3)], "holes": [],
+             "note": "screed with underfloor heating"})
+        add({"id": f"IN-E2-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": "carpet_wool", "rect": r, "z": [round(E2 - 0.012, 3), E2], "holes": [],
+             "note": "floor finish: wall-to-wall oat wool carpet on felt underlay"})
+        continue
+    add({"id": f"IN-E2-{nm}-screed", "type": "slab", "material": "screed", "rect": r, "z": [round(E2 - 0.08, 3), round(E2 - f["t"], 3)], "holes": [],
+         "note": "screed with underfloor heating on the raft (insulated below)" + (" + liquid waterproofing" if fk == "wet" else "")})
+    add({"id": f"IN-E2-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(E2 - f["t"], 3), E2], "holes": [],
+         "pattern": {k: v for k, v in f.items() if k not in ("material", "t")}, "note": "floor finish: " + ("white-oiled oak boards" if fk == "floor" else "light honed stone 600 x 600, R10")})
+    if nm != "dcrest":  # the sleep room gets its own star ceiling (tools/furnish.py)
+        add({"id": f"IN-E2-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": r, "z": [round(SOF - ceil["dmax"], 3), SOF], "holes": [],
+             "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.5, "note": "ash wave ceiling under the E1 slab, between its beams"})
+        add({"id": f"IN-E2-ceiling-{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": r, "z": [round(SOF - 0.01, 3), round(SOF - 0.002, 3)],
+             "holes": [STAIR_HOLE] if holes else [], "note": "black acoustic felt on the slab soffit"})
+# the concrete retaining walls of the play room: warm lime plaster (the climbing wall goes on the west one)
+for wid, side, rng_ in (("W-east-W", -1, (5.02 + 0.075, 17.12 - 0.2 - 0.015)), ("W-east-N1", -1, (0.2, 6.0))):
+    lining(wid, P["plain"], side, rng_, "-dclow", z=[E2, -0.88])
+lining("W-east-W", P["plain"], -1, (0.2 + 0.0, 5.02 - 0.075), "-dcrest", z=[E2, -0.88])
+lining("W-east-E2", P["plain"], 1, (21.275, 33.24), "-dclow", z=[E2, -0.88])      # east concrete wall of the play room
+lining("W-east-E2", P["plain"], 1, (16.305, 21.125), "-dcstore", z=[E2, -0.88])   # and of the pram store
+for wid, side, rng_, tag in (("P-E2-25", -1, (0.075 + TD, 5.02 - 0.075), "-dcwclow"),   # west (to the sleep room)
+                             ("P-E2-23", -1, (0.125, 3.8 - 0.075), "-dcwclow"),          # south, behind the children's WCs
+                             ("P-E2-20", -1, (0.2, 3.325 - 0.0), "-dcwclow"),            # core E's north face
+                             ("P-E2-27", -1, (0.075, 5.0 - 0.125 - TD), "-dcwclow")):    # east (to the store)
+    w_ = by_id[wid]
+    lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E2, round(E2 + 2.6, 2)])
+    lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[round(E2 + 2.6, 2), w_["z"][1]])
+
 m["elements"] = els + new
 modelio.save(m)
 print(f"phase-5 elements: {sum(1 for e in m['elements'] if e.get('phase') == 5)}; reception palette {m['interior']['palette']} ({P['name']})")

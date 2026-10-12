@@ -287,6 +287,18 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
 - **Colour:** a soft Nordic set (lingonberry, cloudberry yellow, moss, fjord blue, heather), in wool felt, linoleum tops, cushions, cubbies and art. It's never the walls, and never primary plastic colours.
 - **Rounded oak furniture** at child height, a play loft or "tree house" built from oak (the rooms are 5.5 m tall), felt cloud acoustic panels, and generated forest-animal art at a child's eye level.
 - **Wardrobe** with named cubbies and drying cabinets, in oak with coloured felt backs.
+- **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
+- **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
+- **Sleep room (Roman: no bunks):** a wall-to-wall wool carpet with sleeping mats and blankets, so children sleep where they like. Spare mats live on a low shelf, and a fibre-optic star canopy hangs overhead.
+- **Pram store:** pram parking, an outdoor-gear wall with rain suits and boots, and drying cabinets.
+- **Garden (barnehage practice):**
+  - by the door, for the youngest: a sandbox with a sit-on oak edge, and a vognskur where toddlers nap outdoors in their prams
+  - a mud kitchen and a lekehus (the building in miniature: tarred boards and a sod roof)
+  - a tricycle loop around a picnic table for lunch outdoors
+  - swings (a nest swing and a seat swing)
+  - a gapahuk facing the bålplass (fire pit) with log seats
+  - a freestanding slide off the terrace edge with a stair beside it
+  - stepping stumps along the west terrace
 
 ## Open questions
 

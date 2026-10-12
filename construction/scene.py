@@ -311,10 +311,32 @@ if STAGE >= 4:
         md_ = o.modifiers.new("grass", "NODES"); md_.node_group = ng_roof
     # lawns + meadow + garden beds: a distribution surface from the terrain cells flagged lawn
     lm = GM["lawn"].copy()
-    for f_ in model.get("furnishings", []):  # no grass through the porch floor
-        if f_["kind"] == "porch_floor":
-            (px_, py_), (sx_, sy_) = f_["at"], f_["size"]
-            lm[max(0, int(py_ - sy_ / 2 - 1 - DY0)):int(py_ + sy_ / 2 + 1 - DY0), max(0, int(px_ - sx_ / 2 - 1 - DX0)):int(px_ + sx_ / 2 + 1 - DX0)] = 0
+    # no grass through the porch floor or the garden's hard pieces (sand, rubber, bark, floors): half sizes in each piece's own frame
+    FOOT = {"porch_floor": None, "sandbox": (1.5, 1.2), "swing_frame": (2.1, 2.0), "gapahuk": (2.1, 1.4), "pram_shelter": (2.0, 1.3),
+            "playhouse": (1.2, 1.2), "mud_kitchen": (0.9, 0.6), "fire_pit": (0.8, 0.8), "communal_table": (1.3, 1.1), "terrace_slide": (0.5, 4.3)}
+    for f_ in model.get("furnishings", []):
+        k_ = f_["kind"]
+        if k_ == "trike_loop":  # the ring itself
+            cx_, cy_ = f_["at"]; rx_, ry_ = f_.get("rx", 2.6), f_.get("ry", 2.3)
+            for i_ in range(int(cy_ - ry_ - 2 - DY0), int(cy_ + ry_ + 2 - DY0)):
+                for j_ in range(int(cx_ - rx_ - 2 - DX0), int(cx_ + rx_ + 2 - DX0)):
+                    x_, y_ = DX0 + j_ + 0.5, DY0 + i_ + 0.5
+                    q_ = math.hypot((x_ - cx_) / rx_, (y_ - cy_) / ry_)
+                    if abs(q_ - 1.0) < 0.6 / min(rx_, ry_):
+                        lm[i_, j_] = 0
+            continue
+        if k_ not in FOOT:
+            continue
+        if k_ == "porch_floor":
+            hx_, hy_ = f_["size"][0] / 2, f_["size"][1] / 2
+        else:
+            hx_, hy_ = FOOT[k_]
+        r_ = math.radians(f_.get("rot_deg", 0))
+        ex_ = abs(hx_ * math.cos(r_)) + abs(hy_ * math.sin(r_)); ey_ = abs(hx_ * math.sin(r_)) + abs(hy_ * math.cos(r_))
+        px_, py_ = f_["at"]
+        if k_ == "terrace_slide":  # the slide runs out from its top point: centre the box on the run
+            px_, py_ = px_ - math.sin(r_) * 2.3, py_ + math.cos(r_) * 2.3
+        lm[max(0, int(py_ - ey_ - DY0)):int(py_ + ey_ + 1 - DY0), max(0, int(px_ - ex_ - DX0)):int(px_ + ex_ + 1 - DX0)] = 0
     ii, jj = np.nonzero(lm[:-1, :-1] * lm[1:, :-1] * lm[:-1, 1:] * lm[1:, 1:] > 0)
     if len(ii):
         vv, ff = [], []
@@ -429,6 +451,14 @@ CAMS = {
     "dc_toddler": ((21.8, 22.0, 1.2), (28.0, 29.0, 1.0), 16),
     "dc_wardrobe": ((29.7, 20.7, 1.5), (24.1, 17.6, 1.0), 18),
     "dc_wc": ((19.6, 20.9, 1.3), (19.6, 16.3, 0.5), 15),
+    "dc_low_play": ((29.2, 22.0, -4.6), (14.0, 31.0, -4.7), 15),
+    "dc_low_climb": ((19.5, 26.8, -4.7), (12.3, 30.5, -4.9), 18),
+    "dc_low_sleep": ((16.6, 20.9, -4.7), (12.3, 18.0, -4.6), 15),
+    "dc_low_store": ((27.3, 20.9, -4.6), (27.5, 16.4, -5.4), 15),
+    "dc_low_mudroom": ((24.0, 28.6, -4.7), (30.3, 28.6, -5.1), 17),
+    "garden_from_door": ((24.2, 34.0, -4.6), (28.5, 44.0, -5.3), 16),
+    "garden_from_top": ((38.5, 51.5, 5.0), (27.5, 40.5, -6.0), 20),
+    "garden_slide": ((34.0, 45.5, -4.5), (27.0, 47.3, -4.8), 18),
     "dc_story_close": ((18.2, 28.6, 1.3), (21.2, 28.6, 1.35), 24),
     "dc_lake_close": ((28.75, 27.2, 1.0), (28.75, 29.2, 0.95), 24),
 }
@@ -459,7 +489,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]

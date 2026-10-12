@@ -156,7 +156,7 @@ put("low_shelf", 24.0, 32.9, rot=180, zone="daycare", length=3.0, h=0.6)
 # felt clouds over both zones (acoustics + colour from above), offset from the downlight grid
 for (cx, cy, c, sc) in ((18.0, 29.2, "oat", 1.1), (19.6, 24.0, "cloud", 0.9), (14.8, 22.4, "fjord", 0.8), (25.8, 23.9, "heather", 1.1),
                         (23.4, 30.4, "oat", 1.0), (27.4, 26.2, "moss", 0.9), (19.9, 32.2, "lingon", 0.8)):
-    put("felt_cloud", cx, cy, zone="daycare", colour=c, s=sc, z=round(3.4 + (cx * 7 % 5) / 10, 2))
+    put("felt_cloud", cx, cy, zone="daycare", colour=c, s=sc, hang=round(3.4 + (cx * 7 % 5) / 10, 2))
 for x in (13.6, 17.4, 21.2, 25.0, 28.6):
     for y in (22.7, 26.0, 29.2, 32.3):
         if not (27.0 < x and y > 29.3):
@@ -195,6 +195,86 @@ put("side_table", 28.7, 32.75, zone="daycare")
 put("vanity", 29.6, 29.395, rot=0, zone="daycare", length=1.2, n=1, note="bottle prep: small stone basin")
 put("rug_round", 29.0, 31.6, zone="daycare", d=1.8, colour="heather")
 put("wall_light", 30.425, 31.0, rot=90, zone="daycare", light={"type": "AREA", "energy": 30, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None, "color": [1.0, 0.8, 0.6]})
+
+# ---- daycare lower floor (E2): active play walking out to the garden, sleep room, children's WC, pram store
+E2 = lv["E2"]
+def put2(kind, x, y, rot=0.0, **kw):
+    put(kind, x, y, rot=rot, zone=kw.pop("zone", "daycare"), level="E2", z=E2, **kw)
+def dl2(x, y, energy=300):
+    put2("downlight", x, y, z_ceiling=5.0, light={"type": "SPOT", "energy": energy, "spot_deg": 60, "offset": [0, 0, 4.82], "aim": [x, y, E2], "color": WARM})
+
+# the garden door: a pair of glass doors in the north glazing between two mullions, straight onto the garden floor
+gn = by_id["EN-G-E2-N-0"]
+gn["openings"] = [{"s": [5.03, 7.47], "z": [E2, round(E2 + 2.4, 2)], "type": "door", "note": "daycare garden doors"}]
+put2("glass_door", 24.25, 33.3, width=2.4, height=2.4, note="garden doors (pair)")
+# active play: bouldering wall + crash mat on the west wall, wall bars, two nest swings from the beam, soft play, a balance beam
+put2("climbing_wall", 12.215, 30.25, rot=-90, length=5.5, note="children's bouldering wall, 2.7 m, crash mat")
+put2("wall_bars", 30.285, 22.95, rot=90, length=2.7, note="ribbevegg")
+for x in (22.8, 26.6):
+    put2("nest_swing", x, 24.74, top=round(-0.88 - E2, 2), note="nest swing hung from the E1 beam")
+put2("soft_play", 20.8, 29.6)
+put2("balance_beam", 16.8, 31.6, length=3.0)
+# mudroom by the garden door (grovgarderobe): boot-wash trough, cubbies, drying cabinets on the east wall
+put2("vanity", 30.285, 25.6, rot=90, length=1.6, n=2, top=0.5, note="boot + hand wash trough at child height")
+put2("cubbies", 30.285, 28.5, rot=90, length=3.4, n=8, note="outdoor-clothes cubbies by the garden door")
+for y in (30.6, 31.25):
+    put2("drying_cabinet", 30.285, y, rot=90)
+for x in (14.5, 18.5, 22.5, 26.5):
+    for y in (22.8, 27.0, 31.0):
+        dl2(x, y)
+# sleep room (Roman: no bunks; a soft carpeted floor with mats + blankets, they sleep where they like): wall-to-wall wool
+# carpet (tools/interior.py), mats laid out loosely, the rest on a low shelf, a star canopy, a soft wall light
+put2("star_ceiling", 14.56, 18.69, size=[4.6, 4.7], hang=3.2, note="fibre-optic star canopy")
+for k, (x, y, r) in enumerate(((13.1, 17.3, 8), (13.9, 17.5, -6), (14.9, 17.2, 15), (13.2, 19.0, -4), (14.3, 19.4, 22), (15.6, 19.1, -12),
+                              (13.6, 20.5, 80), (15.4, 20.6, 95))):
+    put2("sleep_mat", x, y, rot=r, colour=COL[k % 5], note="sleeping mat + blanket")
+put2("mat_shelf", 16.925, 17.2, rot=90, length=1.6, note="mats + blankets between naps")
+put2("wall_light", 16.925, 19.2, rot=90, light={"type": "AREA", "energy": 30, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None, "color": [1.0, 0.75, 0.5]})
+for y in (17.6, 19.8):
+    dl2(14.6, y, 140)
+# children's WC (stacked under the upper one, same layout)
+put2("kid_wc_cells", 18.9, 16.275, n=4, w=0.85, depth=1.2)
+put2("vanity", 17.095, 19.0, rot=-90, length=2.4, n=3, top=0.55)
+put2("light_only", 17.16, 19.0, light={"type": "AREA", "energy": 45, "size": 2.3, "size_y": 0.04, "offset": [0, 0, 1.9], "aim": [18.3, 19.0, E2 + 0.7], "color": WARM})
+put2("changing_unit", 23.905, 19.95, rot=90, length=1.8)
+put2("wc_cells", 22.65, 16.345, n=1, w=2.5, depth=2.4, style="accessible", door_at=-0.6, pan_at=0.7)
+put2("cell_light", 22.65, 17.55, z_ceiling=2.6, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM})
+for x in (18.6, 21.2):
+    dl2(x, 19.6, 320)
+# pram + outdoor-gear store
+for k, (x, c) in enumerate(((25.0, "fjord"), (26.2, "moss"), (28.6, "oat"), (29.6, "heather"))):
+    put2("pram", x, 17.55, colour=c, note="pram parking")
+put2("gear_rack", 30.285, 18.7, rot=90, length=4.0)
+for y in (19.6, 20.25):
+    put2("drying_cabinet", 24.075, y, rot=-90)
+for x in (25.6, 28.8):
+    for y in (17.6, 19.9):
+        dl2(x, y, 300)
+
+# ---- the sunken garden (outdoors, floor -6.15; Norwegian barnehage practice: gapahuk + fire, sand, swings, a playhouse,
+# a trike loop, an embankment slide, outdoor napping in prams under a shelter, loose natural things; no fence along the top)
+GZ = -6.15
+def putg(kind, x, y, rot=0.0, z=GZ, **kw):
+    put(kind, x, y, rot=rot, zone="garden", level="garden", z=z, **kw)
+putg("sandbox", 27.3, 35.6, note="sandbox with a sit-on oak edge, by the door (the youngest play close to the building)")
+putg("pram_shelter", 32.4, 37.0, rot=90, note="vognskur: the toddlers nap outdoors in their prams")
+for y in (36.2, 37.8):
+    putg("pram", 32.5, y, rot=90, colour="fjord" if y < 37 else "moss")
+putg("mud_kitchen", 22.5, 36.3, rot=-90, note="gjørmekjøkken")
+putg("playhouse", 24.3, 40.2, rot=-90, note="lekehus: the building in miniature, tarred boards + sod roof")
+putg("trike_loop", 28.6, 41.0, rx=2.6, ry=2.3, note="tricycle loop, poured rubber")
+putg("communal_table", 28.6, 41.0, length=2.0, note="picnic table inside the loop: lunch outdoors")
+for y, r in ((40.32, 0), (41.68, 180)):
+    putg("bench", 28.6, y, rot=r, length=1.8)
+putg("swing_frame", 33.7, 41.5, rot=90, note="nest swing + seat swing on a bark fall surface")
+putg("gapahuk", 25.0, 45.7, rot=180, note="gapahuk facing the fire")
+putg("fire_pit", 25.2, 42.9, note="bålplass")
+putg("log_bench", 23.7, 43.0, rot=90, length=1.6)
+for (x, y) in ((26.3, 43.6), (26.0, 42.2)):
+    putg("stump", x, y, r=0.2, h=0.4)
+putg("terrace_slide", 29.6, 48.4, rot=180, z=-3.45, drop=2.7, note="freestanding slide off the terrace edge, stair beside it")
+for k, y in enumerate((36.5, 37.3, 38.2, 39.0, 40.0, 41.1, 42.0)):  # stepping stumps along the west terrace
+    putg("stump", 20.3 + (0.25 if k % 2 else -0.15), y, z=-3.6, r=0.17, h=0.25 + 0.1 * (k % 3))
 
 # ---- cafe: island bar + ring pendant
 cx, cy = 21.25, -1.35
