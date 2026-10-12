@@ -354,6 +354,73 @@ put2("sanitiser", 22.9, 32.9, note="hand sanitiser at the garden doors")
 put("recycling", 13.0, 21.125, rot=180, zone="daycare", length=1.2, note="staff room waste sorting")
 put("recycling", 27.8, -9.25, rot=0, zone="cafe", length=1.2, note="cafe waste sorting (kildesortering) by the window counter")
 
+# ---- detail pass (Roman: the daycare's level of detail is the bare minimum everywhere): reception, public WCs, cafe, services
+def putz(kind, x, y, dz, rot=0.0, zone="cafe", **kw):  # a piece standing on a surface dz above the floor
+    put(kind, x, y, rot=rot, zone=zone, **kw); F[-1]["z"] = round(E1 + dz, 3)
+# reception: coat stand + umbrellas inside the doors, a reading lamp and magazines in the waiting nook
+put("coat_rack", 29.9, 13.5, rot=90, zone="reception", note="coat stand + umbrella stand inside the doors")
+put("floor_lamp", 29.95, 15.85, zone="reception", light={"type": "POINT", "energy": 25, "radius": 0.15, "offset": [0, 0, 1.4], "color": [1.0, 0.8, 0.58]},
+    note="reading lamp in the waiting nook")
+putz("magazines", 29.45, 15.1, 0.525, zone="reception")
+# safety: AED + extinguisher + first aid on core E's cafe face; a second point in the daycare wardrobe, a third downstairs
+put("safety_point", 23.45, 6.61, rot=180, zone="cafe", note="hjertestarter (AED), 6 kg extinguisher, first-aid kit")
+put("safety_point", 24.095, 20.95, rot=-90, zone="daycare", aed=False, note="extinguisher + first aid at the daycare entrance")
+put2("safety_point", 30.285, 21.95, rot=90, aed=False, note="extinguisher + first aid on the lower floor")
+# exit signs over the exits
+put("exit_sign", 30.44, 11.29, rot=90, zone="entrance", mount=2.85, note="nødutgang over the main doors")
+put("exit_sign", 27.4, 16.13, rot=180, zone="reception", mount=2.5, note="over the daycare door")
+put("exit_sign", 24.19 + 0.07, 7.55, rot=-90, zone="reception", mount=2.5, note="over the core E stair door")
+put2("exit_sign", 24.25, 33.24, rot=180, mount=2.6, note="over the garden doors")
+# wayfinding, Norwegian + English, burnt into oak
+put("wall_sign", 14.2, 6.71, rot=180, zone="cafe", text="Toalett · Dame|Toilets · Women", w=0.9, h=0.22, mount=2.75, size=0.055)
+put("wall_sign", 18.6, 6.71, rot=180, zone="cafe", text="Toalett · Herre|Toilets · Men", w=0.9, h=0.22, mount=2.75, size=0.055)
+put("wall_sign", 12.95, 6.71, rot=180, zone="cafe", text="←  Trening · Garderober|←  Gym · Changing rooms", w=1.1, h=0.22, mount=3.2, size=0.05)
+put("wall_sign", 27.4, 16.17, rot=180, zone="reception", text="Barnehage|Daycare", w=0.7, h=0.22, mount=2.85, size=0.06)
+put("wall_sign", 24.26, 15.3, rot=-90, zone="reception", text="Heis · Garasje|Lift · Garage", w=0.6, h=0.2, mount=2.6, size=0.045)
+# public WCs: a floor drain in each, an amenity tray on every vanity (period products in the women's)
+for x in (14.75, 18.05):
+    put("floor_drain", x, 12.4, zone="wc")
+for y in (10.2, 11.2):
+    putz("amenity_tray", 16.305, y, 0.86, rot=90, zone="wc", products=True)
+    putz("amenity_tray", 16.495, y, 0.86, rot=-90, zone="wc", products=False)
+# cafe: a setting on every table (tealight, carafe, menu card), the counter and communal table too; a water + cutlery station;
+# a menu on the bar; two high chairs; downlights over the tables (the ring light only covers the bar)
+for x in (26.7, 29.0):
+    for y in (-7.2, -4.3, -1.4, 1.5):
+        putz("table_setting", x, y, 0.74, rot=30)
+for y in (-6.6, -4.6):
+    putz("table_setting", 14.3, y, 0.74, rot=90)
+for x in (17.0, 19.5, 22.0, 24.5):
+    putz("table_setting", x, -8.95, 1.05, carafe=False)
+put("water_station", 22.0, 6.61, rot=180, zone="cafe", note="water, glasses, cutlery, napkins, trays; waste sorting in the base")
+putz("menu_board", 21.25 + 3.3 * math.cos(math.radians(100)), -1.35 + 3.3 * math.sin(math.radians(100)), 1.05, rot=10)
+putz("menu_board", 21.25 + 3.3 * math.cos(math.radians(330)), -1.35 + 3.3 * math.sin(math.radians(330)), 1.05, rot=240)
+put("high_chair", 14.3, -3.15, rot=180, zone="cafe")
+put("high_chair", 15.1, -3.25, rot=180, zone="cafe")
+for x in (26.7, 29.0):
+    for y in (-7.2, -4.3, -1.4, 1.5):
+        dl(x, y, 160, zone="cafe")
+for y in (-6.6, -4.6):
+    dl(14.3, y, 160, zone="cafe")
+for x in (17.0, 21.0, 25.0):
+    dl(x, -8.6, 140, zone="cafe")
+# building services in every ceiling (TEK17): sprinklers on a ~3 m grid, smoke detectors one per ~7 m, dropped below the fins
+def services(x0, x1, y0, y1, level, z, ceil, avoid=()):
+    k = 0; floor = E1 if level == "E1" else E2
+    nx, ny = int((x1 - x0) / 3.1) + 1, int((y1 - y0) / 3.1) + 1
+    for i in range(nx):
+        for j in range(ny):
+            x, y = x0 + i * 3.1, y0 + j * 3.1
+            if any(math.hypot(x - ax, y - ay) < ar for ax, ay, ar in avoid):
+                continue
+            put("ceiling_services", round(x, 2), round(y, 2), zone="services", level=level, device="smoke" if k % 4 == 0 else "sprinkler",
+                z_local=round(z - floor, 3), ceiling=round(ceil - floor, 3))
+            F[-1]["z"] = floor
+            k += 1
+services(13.3, 30.4, -8.7, 16.0, "E1", 5.05, 5.62, avoid=((21.25, -1.35, 3.6),))                  # cafe, reception, WCs
+services(13.1, 30.4, 17.0, 33.0, "E1", 5.05, 5.62, avoid=((25.2, 27.0, 3.2), (16.6, 25.0, 2.7)))   # daycare upper (crown has its own)
+services(13.1, 30.4, 17.0, 33.0, "E2", -0.6, -0.24, avoid=((16.6, 25.0, 2.7),))                    # daycare lower
+
 # ---- cafe: island bar + ring pendant
 cx, cy = 21.25, -1.35
 put("cafe_island", cx, cy, zone="cafe", r_out=3.5, gap_deg=225, note="round island bar: outer bar, staff ring, back counter")

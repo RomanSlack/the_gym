@@ -302,6 +302,18 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - children's WCs: low roll holders, with brushes kept out of reach
   - hand sanitiser at the entrances, the daycare door, the toddler zone and the garden doors
   - kildesortering (waste sorting) in the cafe and the staff room
+- **Baseline detail everywhere (Roman, 2026-10-12: the daycare's level of detail is the bare minimum before the final styling):**
+  - **Reception:** the desk is fitted out: two staff monitors on the worktop behind the desk front, keyboards, a phone, drawer pedestals, a card terminal angled to the customer, a check-in tablet and a member-card tray. There's also a coat stand with an umbrella stand, a reading lamp and magazines in the waiting nook.
+  - **Safety:** a safety point with an AED (hjertestarter), an extinguisher and a first-aid kit (one on each floor of the daycare), and lit exit signs over every exit.
+  - **Wayfinding:** oak signs with burnt-in Norwegian + English text (toilets, gym, daycare, lift).
+  - **Public WCs:** an emergency pull cord in the accessible WCs, floor drains, amenity trays on the vanities (period products in the women's), and baffles slatted on both faces.
+  - **Cafe:**
+    - on the tables: a tealight, a carafe with glasses and a menu card on every table
+    - a water, glasses and cutlery station with waste sorting in its base
+    - menu boards and cups on the bar, bag hooks under it, and a card terminal
+    - two high chairs, and downlights over the tables
+  - **Services:** sprinklers and smoke detectors in every ceiling (109 points across E1 and E2).
+  - **Furniture joints:** stretchers and footrests are joined to the legs at their real height (the cafe chairs had floating stretchers).
 - **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
 - **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
 - **Sleep room (Roman: no bunks):** a wall-to-wall wool carpet with sleeping mats and blankets, so children sleep where they like. Spare mats live on a low shelf, and a fibre-optic star canopy hangs overhead.
