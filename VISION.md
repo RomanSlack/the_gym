@@ -306,6 +306,10 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - three rescue hatches on the stair side, each opposite a lockable gate in the inner balustrade, placed where an adult on the treads stands level with the tube
   - an oak bridge with guards from the floor to the entry hood, and a run-out with a landing mat
   - the stair's eye is widened to 1.45 m radius for it; the treads stay 1.1 m wide
+- **Polish pass (Roman: things need to make sense and be intentional):**
+  - The round stair moved 1 m north-east and turned. Its top step used to land on the staff-room door, with the floor guard almost touching that wall. Now the top step lands facing north into the play room and the bottom step faces the open lower floor. There's 1.9 m clear in front of the staff door, and the tube slide starts from a bridge on the west side and runs out north on the lower floor.
+  - The staff room is not a privacy room: it gets divided glass to the west forest. Its toilet is a real walled, tiled room with a door (not a freestanding booth), and the room also has a kitchenette on the south wall, oak staff lockers, and the table by the window.
+  - Upstairs line between the age zones: the tree house moved east of the stair and the craft tables west. The forest painting faces the open floor, the tree-house slide comes down beside a low shelf, and the toddler gate is at the south end by the children's WC.
 - **Stair opening framed properly (Roman caught it):** beam B-9 now stops at a trimmer beam beside the round opening, and the lower ceiling is cut round the stairwell and the trimmer.
 - **Children's WC on both floors:** the lower one sits directly under the upper one, opening off the play room.
 - **Pram store:** pram parking, an outdoor-gear wall with rain suits and boots, and drying cabinets.

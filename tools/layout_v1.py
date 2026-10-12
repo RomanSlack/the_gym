@@ -114,7 +114,7 @@ S("dc-wardrobe", "E1", "daycare", "Daycare main entrance · check-in + wardrobe"
   "entrance and exit straight off reception, north of the desk (as in Gym V2); each child's cubby, boot racks, drying cabinets")
 S("dc-wc", "E1", "wet", "Children's WC + changing", R(17.0, 16.2, 24.0, 21.2),
   "glass wall + open doorway: staff line of sight from play; low stall screens; child-height WCs and basins, changing table with hand shower, accessible WC; stacked over the lower one")
-S("dc-staff", "E1", "service", "Staff room + staff WC", R(12.0, 16.2, 17.0, 21.2))
+S("dc-staff", "E1", "service", "Staff room + staff toilet", R(12.0, 16.2, 17.0, 21.2))
 # drop-in childcare while parents train (Roman: luxury, handles anything, everyone comfortable): zones by age
 # Roman: open plan, no walls unless needed -> one open play space; baby/toddler is a gated zone inside it.
 S("dc-kids", "E1", "daycare", "Daycare play · open, kids 3–12", R(12.0, 21.2, 21.25, 33.3), "crafts, reading, homework; round stair down to active play", open_=True)
@@ -174,7 +174,9 @@ m["stairs"] = [
     {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1",
      "note": "open, sculptural; moved from Gym V2 (-19.5,-13.6) Ø7.9 to fit between beam lines 4 and 5"},
     {"id": "north_f3_f4", "kind": "straight", "rect": [-21.45, 7.1, -15.45, 12.1], "from": "F4", "to": "F3", "run": "north"},
-    {"id": "daycare_round", "kind": "spiral", "center": [15.7, 24.2], "diameter": 5.1, "from": "E2", "to": "E1", "note": "Gym V2's round stair"},
+    {"id": "daycare_round", "kind": "spiral", "center": [16.6, 25.0], "diameter": 5.1, "from": "E2", "to": "E1", "a0": 292.5,
+     "note": "Gym V2's round stair, moved 1 m north-east and turned (Roman, 2026-10-12): the top step lands facing north into the play room "
+             "(it landed on the staff-room door), the bottom step faces the open lower play room; 1.9 m clear in front of the staff door"},
 ]
 m["fixtures"] = [
     {"id": "cafe_ring", "kind": "island_bar", "level": "E1", "center": [21.25, -1.35], "diameter": 7.0, "note": "centered in the cafe (Gym V2 had it at (20, 0.2))"},
@@ -198,7 +200,7 @@ holes = {  # openings through each slab
     "F1": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F2": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F3": [{"rect": R(-21.45, 7.1, -15.45, 12.1)}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
-    "E1": [{"circle": [15.7, 24.2, 2.55]}, {"rect": cores["E"]["poly"]}],
+    "E1": [{"circle": [16.6, 25.0, 2.55]}, {"rect": cores["E"]["poly"]}],
 }
 for L, rect, thick in (("F4", WEST, 0.6), ("F3", WEST, 0.25), ("F2", WEST, 0.25), ("F1", WEST, 0.25),
                        ("E2", EAST, 0.6), ("E1", EAST, 0.25), ("F1", LINK, 0.3)):

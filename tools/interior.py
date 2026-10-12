@@ -180,7 +180,8 @@ lining("EN-G-E1-W2-0-wall", "tile_wall", -1, (0.075 + TD, 9.4 - 0.075 - TD), "-w
 
 # ---- zone: the daycare upper floor (E1; VISION "Daycare: playful, still Nordic"): the light shell, oak floors,
 # stone + tile in the children's WC, the ash wave ceiling everywhere; play and colour come from the furniture (tools/furnish.py)
-STAIR_HOLE = {"circle": [15.7, 24.2, 2.55], "note": "round stair down to the daycare lower floor (E2)"}
+_ds = next(st for st in m["stairs"] if st["id"] == "daycare_round")
+STAIR_HOLE = {"circle": [*_ds["center"], _ds["diameter"] / 2], "note": "round stair down to the daycare lower floor (E2)"}
 DC = {"dckids": ([12.0, 21.2, 30.5, 33.3], "floor", [STAIR_HOLE]), "dcward": ([24.0, 16.2, 30.5, 21.2], "floor", []),
       "dcstaff": ([12.0, 16.2, 17.0, 21.2], "floor", []), "dcwc": ([17.0, 16.2, 24.0, 21.2], "wet", [])}
 for nm, (r, fk, holes) in DC.items():
@@ -204,6 +205,20 @@ for wid, side, rng_, tag in (("P-E1-12", 1, (0.075, 5.0 - 0.075 - TD), "-dcwc"),
     w_ = by_id[wid]
     lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, TILE_TOP])
     lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[TILE_TOP, w_["z"][1]])
+
+# ---- the staff toilet: a small walled room in the staff room's south-east corner (Roman: not an odd booth), stud walls to 2.7 m with
+# a plastered lid (the staff room stays tall and open to its new forest window), tiled inside like every wet room
+SW_ = [("IN-E1-staffwc-W", [15.3, 16.275], [15.3, 18.5], []),
+       ("IN-E1-staffwc-N", [15.25, 18.45], [16.925, 18.45], [{"s": [0.35, 1.25], "z": [E1, round(E1 + 2.1, 2)], "type": "door", "note": "staff toilet door"}])]
+for wid, a_, b_, ops in SW_:
+    w_ = {"id": wid, "type": "wall", "kind": "partition", "material": "timber_stud", "from": a_, "to": b_, "size": [0.1, 2.7],
+          "z": [E1, round(E1 + 2.7, 2)], "openings": ops, "note": "70 mm studs + gypsum, painted outside, tiled inside"}
+    add(w_); by_id[wid] = w_
+add({"id": "IN-E1-staffwc-lid", "type": "slab", "material": "lime_plaster", "rect": [15.25, 16.275, 16.925, 18.5], "z": [round(E1 + 2.7, 2), round(E1 + 2.75, 2)],
+     "holes": [], "note": "plastered lid over the staff toilet"})
+for wid, side, rng_, tag in (("IN-E1-staffwc-W", -1, (0.0, 2.175 - 0.05 - TD), "-in"), ("IN-E1-staffwc-N", -1, (0.05 + TD, 1.675), "-in"),
+                             ("P-E1-12", -1, (2.75, 4.925 - TD), "-staffwc"), ("P-E1-7", -1, (0.0, 1.0), "-staffwc"), ("P-E1-9", -1, (0.075, 0.6), "-staffwc")):
+    lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, round(E1 + 2.6, 2)])
 
 # ---- zone: the daycare lower floor (E2, under the upper one): active play walking out to the sunken garden, the sleep room,
 # the children's WC (stacked), the pram + outdoor-gear store. Same light shell; the ceiling is the wave hung under the E1 slab

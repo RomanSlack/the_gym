@@ -217,7 +217,7 @@ for st in m["stairs"]:
     R = st["diameter"] / 2
     r_in = 1.45 if st["id"] == "daycare_round" else round(R * 0.36, 2)  # daycare: a wider eye holds the tube slide (Roman), treads 1.1 m
     add({"id": f"ST3-{st['id']}", "type": "spiral_stair", "material": "steel_dark", "center": st["center"], "r": [r_in, R],
-         "z": [zlo, zhi], "risers": n, "step_deg": 15, "a0": 90,
+         "z": [zlo, zhi], "risers": n, "step_deg": 15, "a0": st.get("a0", 90),
          "note": f"open helix, no centre post: inner + outer dark steel helical stringers, {n} solid oak treads ({(zhi - zlo) / n:.3f} rise, 15 deg each)"})
 
 # ---- the daycare's round stair opening in the E1 slab (Roman caught beam B-9 running straight through it): the beam stops at a

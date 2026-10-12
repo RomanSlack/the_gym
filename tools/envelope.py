@@ -56,7 +56,7 @@ for e in els:
         e["finish"] = "black_stain"
 
 # ---- facades: split every facade glass wall by the room behind it
-PRIVATE = ("changing", "wet zone", "WC", "Staff", "Nursing", "sleep")
+PRIVATE = ("changing", "wet zone", "WC", "Nursing", "sleep")  # not the staff room (Roman): it looks out at the forest; its toilet is an inner room
 spaces = {}
 for s in m["spaces"]:
     spaces.setdefault(s["level"], []).append((s, MPath(s["poly"])))

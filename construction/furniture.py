@@ -1199,7 +1199,7 @@ def stump(P, r=0.18, h=0.35):
     P.cyl(M["oak"], (0, 0, h), r - 0.01, 0.003, seg=20)
 
 
-def tube_slide(P, rt=1.08, rr=0.33, a_top=300.0, turns_deg=690.0, z_top=0.36, z_bot=-5.39, run=3.0, hatches=(), bridge=(2.62, 1.3)):
+def tube_slide(P, rt=1.08, rr=0.33, a_top=300.0, turns_deg=690.0, z_top=0.36, z_bot=-5.39, run=3.0, hatches=(), bridge=(2.62, 1.3), stair_a0=90.0):
     """Tube slide spiralling down inside the eye of the round stair (Roman): a 660 mm tube on a 1.08 m centreline radius, going
     round the same way the stair does, from the upper floor to a straight run-out and an open chute on the lower floor.
     Lower half brushed stainless, upper half clear polycarbonate (children are seen all the way down); steel flanges every
@@ -1251,7 +1251,8 @@ def tube_slide(P, rt=1.08, rr=0.33, a_top=300.0, turns_deg=690.0, z_top=0.36, z_
         c, tng, out = pts[k_]
         P.rod(M["steel"], c - tng * 0.012, c + tng * 0.012, rr + 0.02, seg=32)
         ang = (a_top + turns_deg * k_ / N) % 360
-        above = [-6.13 + (int((al - 90) / 15) + 1) * 6.13 / 35 - 0.36 for al in (ang + 360 * j for j in range(-1, 3)) if 90 <= al <= 615]
+        above = [-6.13 + (int((al - stair_a0) / 15) + 1) * 6.13 / 35 - 0.36 for al in (ang + 360 * j for j in range(-1, 4))
+                 if stair_a0 <= al <= stair_a0 + 525]
         above = [z for z in above if z > c.z + rr + 0.1]
         if above:
             P.rod(M["steel"], c + Vector((0, 0, rr + 0.02)), Vector((c.x * 1.45 / rt, c.y * 1.45 / rt, min(above))), 0.008, seg=6)
@@ -1370,7 +1371,8 @@ def wheel_rack(P, L=2.3):
     P.box(M["oak"], (0, 0.15, 1.1), (L, 0.3, 0.03))
     P.box(M["oak"], (0, 0.01, 0.65), (L, 0.02, 1.1))
     for k, x in enumerate(np.arange(-L / 2 + 0.25, L / 2, 0.45)):
-        P.blob(M["lino_" + COLOURS[k % 5]], (x, 0.14, 1.22), (0.11, 0.13, 0.09), z_cut=1.12)  # helmets
+        P.blob(M["lino_" + COLOURS[k % 5]], (x, 0.15, 1.125), (0.1, 0.125, 0.12), z_cut=1.125)  # kids' helmets: domes on the shelf
+        P.box(M["rubber"], (x, 0.03, 1.13), (0.06, 0.02, 0.01))
 
 
 def rolling_hill(P, L=3.2, D=2.4, h=0.8):
@@ -1600,6 +1602,25 @@ def bunting(P, L=17.0, sag=0.6):
         x += 0.32; k += 1
 
 
+def staff_wc_fit(P):
+    """Fittings of the staff toilet (a small walled, tiled room): a wall-hung WC with a blackened-steel flush plate and roll
+    holder on the back wall, and a small stone basin with a spout, mirror and hook on the side wall. Origin = back wall face."""
+    _wc_pan(P, 0.0)
+    P.rod(M["steel"], (-0.45, 0.1, 1.65), (-0.45, 0.18, 1.65), 0.01, seg=8)
+
+
+def staff_lockers(P, n=6, w=0.38, h=1.9, d=0.5):
+    """Staff lockers: tall oak doors in a run, each with a blackened-steel pull and a small oak name tag, a plinth and a top."""
+    W = n * w
+    P.box(M["oak"], (0, d / 2, h / 2 + 0.05), (W, d - 0.02, h))
+    P.box(M["felt"], (0, d / 2, 0.025), (W, d - 0.06, 0.05))
+    for k in range(n):
+        x = -W / 2 + (k + 0.5) * w
+        P.box(M["felt"], (x - w / 2, d - 0.005, h / 2 + 0.05), (0.004, 0.004, h))
+        P.box(M["steel"], (x + w / 2 - 0.06, d + 0.012, 1.1), (0.016, 0.02, 0.22))
+        P.box(M["oak"], (x, d + 0.004, h - 0.15), (0.12, 0.006, 0.04))
+
+
 def light_only(P):
     """A light whose fitting belongs to another piece (e.g. the vanity's light channel): no geometry."""
 
@@ -1796,7 +1817,7 @@ BUILDERS = {
     "tube_slide": tube_slide, "foam_fortress": foam_fortress, "ripstick": ripstick, "tricycle": tricycle, "strider": strider,
     "wheel_rack": wheel_rack, "rolling_hill": rolling_hill, "floor_track": floor_track, "hopscotch": hopscotch,
     "music_wall": music_wall, "dance_mirror": dance_mirror, "balance_trail": balance_trail,
-    "felt_banner": felt_banner, "bunting": bunting,
+    "felt_banner": felt_banner, "bunting": bunting, "staff_wc_fit": staff_wc_fit, "staff_lockers": staff_lockers,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -1807,8 +1828,8 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
           "kid_chair": ("colour",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
-          "stair_guard": ("gap", "gaps", "gates", "r_in"), "felt_banner": ("motif", "colour", "h"), "bunting": ("length", "sag"),
-          "tube_slide": ("hatches",), "ripstick": ("colour",), "tricycle": ("colour",), "strider": ("colour",), "wheel_rack": ("length",), "art_labels": ("width", "height", "z0", "labels", "size"),
+          "stair_guard": ("gap", "gaps", "gates", "r_in", "a0"), "felt_banner": ("motif", "colour", "h"), "staff_lockers": ("n",), "bunting": ("length", "sag"),
+          "tube_slide": ("hatches", "a_top", "turns_deg", "run", "stair_a0"), "ripstick": ("colour",), "tricycle": ("colour",), "strider": ("colour",), "wheel_rack": ("length",), "art_labels": ("width", "height", "z0", "labels", "size"),
           "climbing_wall": ("length",), "wall_bars": ("length",), "nest_swing": ("top",), "balance_beam": ("length",), "sleep_mat": ("colour",), "mat_shelf": ("length",),
           "star_ceiling": ("size", "hang"), "pram": ("colour",), "gear_rack": ("length",), "log_bench": ("length",), "trike_loop": ("rx", "ry"),
           "terrace_slide": ("drop",), "stump": ("r", "h")}

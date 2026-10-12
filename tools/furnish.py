@@ -120,42 +120,45 @@ def dl(x, y, energy=200, zone="daycare"):
 
 # round stair down to the lower daycare: guards round the opening + up both edges of the helix (the way on stays open)
 # tube slide inside the stair's eye (Roman): find where the stair runs alongside the tube at an adult's reach -> rescue hatches
-# in the tube + lockable gates in the stair's inner balustrade opposite them
-T_TOP, T_TURN, TZ0, TZ1 = 300.0, 690.0, 0.36, -5.39
+# in the tube + lockable gates in the stair's inner balustrade opposite them. Stair turned (Roman): bottom step at a0, top step
+# 525 deg on; the tube starts at a bridge on the west side and ends heading north into the lower play room.
+DS = next(st for st in m["stairs"] if st["id"] == "daycare_round"); SCX, SCY = DS["center"]; SA0 = DS.get("a0", 90.0)
+T_TOP, T_TURN, TZ0, TZ1 = 200.0, 520.0, 0.36, -5.39
 tz = lambda th: TZ0 + (TZ1 - TZ0) * (th - T_TOP) / T_TURN
-sz = lambda al: -6.13 + (int((al - 90) / 15) + 1) * 6.13 / 35
+sz = lambda al: -6.13 + (int((al - SA0) / 15) + 1) * 6.13 / 35
 HATCH, GATES = [], []
 for th in range(int(T_TOP) + 20, int(T_TOP + T_TURN) - 20, 2):
-    for al in (th - 360 * j for j in range(-1, 4)):
-        if 95 <= al <= 600 and 0.45 <= tz(th) - sz(al) <= 0.95 and all(abs(th - h) >= 150 for h in HATCH):
+    for al in (th - 360 * j for j in range(-2, 4)):
+        if SA0 + 5 <= al <= SA0 + 510 and 0.45 <= tz(th) - sz(al) <= 0.95 and all(abs(th - h) >= 150 for h in HATCH):
             HATCH.append(th); GATES.append(al)
-put("stair_guard", 15.7, 24.2, zone="daycare", gaps=[[233.0, 262.0], [290.0, 310.0]], gates=GATES, r_in=1.45,
+top_c = (SA0 + 517.5) % 360  # the top tread: step off radially there
+put("stair_guard", SCX, SCY, zone="daycare", gaps=[[top_c - 15, top_c + 15], [T_TOP - 10, T_TOP + 10]], gates=GATES, r_in=1.45, a0=SA0,
     note="child-safe guards: 1.2 m oak staves round the opening, balustrades on the helix, rescue gates by the tube's hatches")
-put("tube_slide", 15.7, 24.2, zone="daycare", hatches=HATCH,
+put("tube_slide", SCX, SCY, zone="daycare", hatches=HATCH, a_top=T_TOP, turns_deg=T_TURN, run=2.4, stair_a0=SA0,
     note="tube slide down the stair's eye: stainless below, clear polycarbonate above, rescue hatches, oak bridge at the top")
 # the 'tree house' play loft against the north glass (forest view from the deck), den underneath
-put("play_loft", 14.5, 30.55, rot=180, zone="daycare", length=4.0, D=2.6, deck=1.6, note="oak play loft: deck 1.6 m, gable frame, stair, slide, den")
+put("play_loft", 18.9, 30.55, rot=180, zone="daycare", length=4.0, D=2.6, deck=1.6, note="oak play loft: deck 1.6 m, gable frame, stair, slide, den")
 # craft tables at child height
-for (tx, ty, tc) in ((18.0, 27.4, "cloud"), (18.6, 31.0, "moss")):
+for (tx, ty, tc) in ((14.7, 28.7, "cloud"), (13.9, 31.5, "moss")):
     put("kid_table", tx, ty, zone="daycare", colour=tc)
     for k in range(5):
         a = 90 + 72 * k
         put("kid_chair", tx + 0.78 * math.cos(math.radians(a)), ty + 0.78 * math.sin(math.radians(a)), rot=a + 90, zone="daycare", colour=COL[(k + 2) % 5])
 # reading: the den under the loft is the reading nook (cushions + a felt curtain); a low face-out bookshelf beside it
-put("low_shelf", 17.2, 33.0, rot=180, zone="daycare", length=1.6, h=0.8, note="face-out picture books by the den")
+put("low_shelf", 15.6, 33.0, rot=180, zone="daycare", length=1.6, h=0.8, note="face-out picture books by the den")
 # the line between the kids' (3-12) and toddlers' (0-3) zones at x 21.25: low shelves, a gate, the story wall with the forest painting
-put("low_shelf", 21.25, 23.5, rot=90, zone="daycare", length=3.8, h=0.8)
-put("gate", 21.25, 25.9, rot=90, zone="daycare", width=0.9)
-put("story_wall", 21.25, 28.6, rot=90, zone="daycare", length=4.4, note="freestanding: the forest painting to the kids, books + pin board to the toddlers")
-put("canvas_art", 21.25 - 0.06, 28.6, rot=90, zone="daycare", width=4.0, height=2.0, image=str(ROOT / DCART["forest"]),
+put("low_shelf", 21.25, 28.8, rot=90, zone="daycare", length=3.8, h=0.8)
+put("gate", 21.25, 21.85, rot=90, zone="daycare", width=0.9)  # at the south end, by the children's WC, well away from where the tree-house slide lands
+put("story_wall", 21.25, 24.6, rot=90, zone="daycare", length=4.4, note="freestanding: the forest painting to the kids, books + pin board to the toddlers")
+put("canvas_art", 21.25 - 0.06, 24.6, rot=90, zone="daycare", width=4.0, height=2.0, image=str(ROOT / DCART["forest"]),
     note="'forest friends', gpt-image-2 gouache, at children's eye level (0.45-2.45)", )
 F[-1]["z0"] = 0.45
 # name plaques under each animal (Roman: English, a little educational); positions in image fractions (u from left, v from top)
-put("art_labels", 21.25 - 0.06, 28.6, rot=90, zone="daycare", width=4.0, height=2.0, z0=0.45, size=0.034,
+put("art_labels", 21.25 - 0.06, 24.6, rot=90, zone="daycare", width=4.0, height=2.0, z0=0.45, size=0.034,
     labels=[[0.075, 0.725, "Red squirrel"], [0.35, 0.745, "Moose calf"], [0.235, 0.85, "Hedgehog"], [0.46, 0.82, "Red fox"],
             [0.665, 0.335, "Tawny owl"], [0.83, 0.88, "Mountain hare"], [0.195, 0.29, "Willow tit"], [0.93, 0.44, "Bullfinch"]],
     note="educational name plaques on the forest painting")
-put("low_shelf", 21.25, 32.0, rot=90, zone="daycare", length=2.2, h=0.8)
+put("low_shelf", 21.25, 31.95, rot=90, zone="daycare", length=2.2, h=0.8)
 # toddlers: soft play, cushions, the lake painting low on the nursing room wall
 put("soft_play", 24.8, 26.4, zone="daycare", note="felt-covered foam steps, ramp, hump, arch on a round mat")
 put("canvas_art", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, image=str(ROOT / DCART["lake"]), note="'moose by the lake', low for toddlers")
@@ -167,8 +170,8 @@ for (cx, cy, c) in ((28.0, 28.0, "heather"), (28.9, 27.4, "cloud"), (29.5, 28.3,
     put("floor_cushion", cx, cy, zone="daycare", colour=c, r=0.36)
 put("low_shelf", 24.0, 32.9, rot=180, zone="daycare", length=3.0, h=0.6)
 # felt clouds over both zones (acoustics + colour from above), offset from the downlight grid
-for (cx, cy, c, sc) in ((18.0, 29.2, "oat", 1.1), (19.6, 24.0, "cloud", 0.9), (14.8, 22.4, "fjord", 0.8), (25.8, 23.9, "heather", 1.1),
-                        (23.4, 30.4, "oat", 1.0), (27.4, 26.2, "moss", 0.9), (19.9, 32.2, "lingon", 0.8)):
+for (cx, cy, c, sc) in ((14.6, 30.0, "oat", 1.1), (19.6, 23.4, "cloud", 0.9), (13.6, 22.6, "fjord", 0.8), (25.8, 23.9, "heather", 1.1),
+                        (23.4, 30.4, "oat", 1.0), (27.4, 26.2, "moss", 0.9), (13.4, 32.6, "lingon", 0.7)):
     put("felt_cloud", cx, cy, zone="daycare", colour=c, s=sc, hang=round(3.4 + (cx * 7 % 5) / 10, 2))
 for x in (13.6, 17.4, 21.2, 25.0, 28.6):
     for y in (22.7, 26.0, 29.2, 32.3):
@@ -191,17 +194,23 @@ put("wc_cells", 22.65, 16.345, rot=0, zone="daycare", n=1, w=2.5, depth=2.4, sty
 put("cell_light", 22.65, 17.55, zone="daycare", z_ceiling=2.6, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM})
 for x in (18.6, 21.2):
     dl(x, 19.6, 160)
-# staff room: kitchenette on the (solid) facade wall, a table for four, a staff WC cell
-put("kitchenette", 12.22, 17.9, rot=-90, zone="daycare", length=2.4)
-put("cafe_table", 14.3, 18.6, zone="daycare")
+# staff room (Roman: it had no windows and a booth): it now looks west at the forest through divided glass; a kitchenette on the
+# south wall, a walled + tiled staff toilet in the south-east corner (tools/interior.py), oak staff lockers on the east wall, the
+# table for four by the window
+put("kitchenette", 13.7, 16.275, rot=0, zone="daycare", length=2.4)
+put("door_slatted", 15.95, 18.5, rot=0, zone="daycare", width=0.9, height=2.1, note="staff toilet door")
+put("staff_wc_fit", 16.905, 17.35, rot=90, zone="daycare", note="staff toilet: WC, roll holder, hook")
+put("vanity", 15.85, 16.295, rot=0, zone="daycare", length=0.6, n=1, note="staff toilet basin + mirror")
+put("cell_light", 16.1, 17.4, zone="daycare", z_ceiling=2.7, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.6], "color": WARM})
+put("staff_lockers", 16.925, 19.75, rot=90, zone="daycare", n=6, note="staff lockers")
+put("cafe_table", 13.4, 19.5, zone="daycare")
 for d in (0, 90, 180, 270):
-    put("dining_chair", 14.3 + 0.62 * math.cos(math.radians(d)), 18.6 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="daycare")
-put("wc_cells", 16.15, 16.275, rot=0, zone="daycare", n=1, w=1.4, depth=1.8, style="wc", door_at=0.0, note="staff WC")
-put("lounge_chair", 16.2, 20.3, rot=200, zone="daycare")
-dl(14.3, 18.6, 160)
+    put("dining_chair", 13.4 + 0.62 * math.cos(math.radians(d)), 19.5 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="daycare")
+dl(13.4, 19.5, 160)
+dl(14.2, 17.4, 140)
 # the two private daycare rooms get real doors (oak-slatted leaves, like the reception's stair door)
 put("door_slatted", 26.905, 31.3, rot=90, zone="daycare", width=1.0, height=2.1, note="nursing room door")
-put("door_slatted", 14.5, 21.295, rot=0, zone="daycare", width=1.0, height=2.1, note="staff room door")
+put("door_slatted", 14.5, 21.295, rot=0, zone="daycare", width=1.0, height=2.1, note="staff room door (1.9 m clear in front of it now)")
 # nursing room: a lounge chair, side table, a small bottle-prep basin, a soft wall light
 put("lounge_chair", 29.5, 32.3, rot=135, zone="daycare")
 put("side_table", 28.7, 32.75, zone="daycare")

@@ -446,8 +446,8 @@ CAMS = {
     "wc_acc": ((14.1, 13.9, 1.62), (13.0, 16.1, 0.9), 14),
     # daycare upper floor (E1), at a child's eye height where it helps
     "dc_kids": ((20.6, 21.9, 1.5), (13.8, 31.0, 1.8), 15),
-    "dc_loft": ((18.6, 25.6, 1.3), (14.3, 31.6, 2.3), 18),
-    "dc_story": ((16.7, 29.9, 1.2), (21.2, 28.3, 1.3), 18),
+    "dc_loft": ((13.3, 26.4, 1.3), (18.9, 31.6, 2.2), 16),
+    "dc_story": ((19.0, 26.9, 1.2), (21.2, 24.4, 1.3), 20),
     "dc_toddler": ((21.8, 22.0, 1.2), (28.0, 29.0, 1.0), 16),
     "dc_wardrobe": ((29.7, 20.7, 1.5), (24.1, 17.6, 1.0), 18),
     "dc_wc": ((19.6, 20.9, 1.3), (19.6, 16.3, 0.5), 15),
@@ -460,15 +460,19 @@ CAMS = {
     "garden_from_top": ((38.5, 51.5, 5.0), (27.5, 40.5, -6.0), 20),
     "garden_slide": ((34.0, 45.5, -4.5), (27.0, 47.3, -4.8), 18),
     "dc_low_track": ((29.0, 26.0, -3.6), (22.5, 30.5, -6.0), 15),
+    "dc_staff": ((16.3, 20.8, 1.62), (12.4, 18.0, 1.4), 16),
+    "dc_staff_wc": ((15.9, 20.6, 1.62), (16.2, 17.2, 1.0), 18),
+    "dc_gate": ((18.9, 23.2, 1.3), (21.25, 21.85, 0.6), 18),
+    "dc_staff_door": ((15.2, 24.4, 1.62), (14.6, 21.2, 1.2), 18),
     "dc_low_banners": ((27.5, 22.4, -4.4), (17.0, 31.0, -2.6), 14),
     "dc_low_music": ((18.6, 28.4, -4.8), (15.2, 33.0, -5.2), 18),
     "dc_low_wc": ((19.6, 20.9, -4.75), (19.6, 16.3, -5.5), 15),
-    "dc_low_tube": ((20.2, 23.6, -4.6), (15.0, 24.2, -3.2), 16),
+    "dc_low_tube": ((21.0, 23.4, -4.6), (16.6, 25.0, -3.2), 16),
     "dc_low_fort": ((24.6, 26.4, -4.6), (21.0, 30.4, -5.6), 18),
     "dc_low_wheels": ((26.5, 25.6, -4.75), (26.4, 21.3, -5.6), 17),
-    "dc_tube_top": ((19.6, 21.9, 1.62), (15.9, 24.0, 0.2), 18),
-    "dc_tube_down": ((19.0, 26.4, 1.75), (15.6, 23.9, -2.6), 16),
-    "dc_story_close": ((18.2, 28.6, 1.3), (21.2, 28.6, 1.35), 24),
+    "dc_tube_top": ((20.3, 22.3, 1.62), (16.6, 25.0, 0.2), 18),
+    "dc_tube_down": ((19.8, 27.3, 1.75), (16.6, 25.0, -2.6), 16),
+    "dc_story_close": ((19.6, 24.6, 1.3), (21.2, 24.6, 1.35), 24),
     "dc_lake_close": ((28.75, 27.2, 1.0), (28.75, 29.2, 0.95), 24),
 }
 for n, (loc, tgt, lens) in CAMS.items():
@@ -498,7 +502,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
