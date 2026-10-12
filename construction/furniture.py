@@ -115,7 +115,7 @@ class Part:
                 v.co.z = max(v.co.z, z_cut - c[2])
         bmesh.ops.translate(b, verts=g, vec=c)
 
-    def text(self, mat, body, c, size, depth=0.0015, font="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"):
+    def text(self, mat, body, c, size, depth=0.0015, font="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", flat=False, rz=0.0):
         """Real 3D lettering, centred on c, facing +y and reading left-to-right for someone looking at the front."""
         cu = bpy.data.curves.new("txt", "FONT"); cu.body = body; cu.size = size; cu.extrude = depth / 2
         cu.align_x = "CENTER"; cu.align_y = "CENTER"
@@ -127,7 +127,10 @@ class Part:
         dg = bpy.context.evaluated_depsgraph_get()
         me = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
         bpy.data.objects.remove(ob); bpy.data.curves.remove(cu)
-        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(math.pi, 4, "Z") @ Matrix.Rotation(math.pi / 2, 4, "X"))
+        if flat:  # lying on the floor, readable from -y, turned by rz
+            me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(rz, 4, "Z"))
+        else:
+            me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(math.pi, 4, "Z") @ Matrix.Rotation(math.pi / 2, 4, "X"))
         self.bm(mat).from_mesh(me); bpy.data.meshes.remove(me)
 
     def rod(self, mat, p0, p1, r0, r1=None, seg=16):
@@ -1288,13 +1291,14 @@ def foam_fortress(P):
     for course in range(2):
         z = bz / 2 + course * bz
         off = (bx / 2) * (course % 2)
+        j_ = lambda: (rng.uniform(-0.012, 0.012), rng.uniform(-0.03, 0.03))  # hand-stacked: a little off, a little turned
         for x in np.arange(-1.2 + off, 1.21, bx):  # back wall
-            P.box(c_(k), (x, -1.0, z), (bx - 0.01, by, bz)); k += 1
+            d, r_ = j_(); P.box(c_(k), (x + d, -1.0 + d, z), (bx - 0.015, by, bz - 0.005), rz=r_); k += 1
         for y in np.arange(-0.7 + off, 0.95, bx):  # side walls
             for sx in (-1.35, 1.35):
-                P.box(c_(k), (sx, y, z), (by, bx - 0.01, bz)); k += 1
+                d, r_ = j_(); P.box(c_(k), (sx + d, y + d, z), (by, bx - 0.015, bz - 0.005), rz=r_); k += 1
         for x in (-1.0, 1.0):  # front wall either side of the gate
-            P.box(c_(k), (x, 1.0, z), (bx - 0.01, by, bz)); k += 1
+            d, r_ = j_(); P.box(c_(k), (x + d, 1.0 + d, z), (bx - 0.015, by, bz - 0.005), rz=r_); k += 1
     for sx in (-1.35, 1.35):  # towers
         P.cyl(c_(k), (sx, 1.0, 0), 0.3, 0.9, seg=32); k += 1
         P.cyl(M["felt_oat"], (sx, 1.0, 0.9), 0.32, 0.08, seg=32)
@@ -1402,6 +1406,136 @@ def rolling_hill(P, L=3.2, D=2.4, h=0.8):
     P.box(M["felt_moss"], (0, 0, 0.01), (2 * ar, D, 0.02))  # soft floor in the tunnel
     for (x, y, sx, sy) in ((0, D / 2 + 0.03, L, 0.06), (0, -D / 2 - 0.03, L, 0.06), (L / 2, 0, 0.06, D + 0.12), (-L / 2, 0, 0.06, D + 0.12)):
         P.box(M["oak"], (x, y, 0.04), (sx, sy, 0.08))
+
+
+def _flat_quad(P, mat, pts, z=0.002):
+    b = P.bm(mat)
+    b.faces.new([b.verts.new((x, y, z)) for x, y in pts])
+
+
+def floor_track(P, straight=5.2, r=2.55, w=0.9):
+    """Race track inlaid in the oak floor (Roman: make the bottom floor fun): a stadium loop of muted fjord-blue linoleum, 0.9
+    wide, oat edge lines, a dashed white centre line, a checkered start/finish line on the south straight and chevrons
+    showing the way round (anticlockwise). Flush inlay (2 mm proud only so it renders). Origin = loop centre."""
+    white = M.setdefault("line_white", bc.material("line_white", (0.84, 0.82, 0.77), 0.45))
+    per = 2 * straight + 2 * math.pi * r
+    def at(s_):  # centreline point + outward normal, s_ from the middle of the south straight, anticlockwise
+        s_ = s_ % per
+        if s_ < straight / 2:
+            return (s_, -r), (0, -1)
+        s_ -= straight / 2
+        if s_ < math.pi * r:
+            a = -math.pi / 2 + s_ / r
+            return (straight / 2 + r * math.cos(a), r * math.sin(a)), (math.cos(a), math.sin(a))
+        s_ -= math.pi * r
+        if s_ < straight:
+            return (straight / 2 - s_, r), (0, 1)
+        s_ -= straight
+        if s_ < math.pi * r:
+            a = math.pi / 2 + s_ / r
+            return (-straight / 2 + r * math.cos(a), r * math.sin(a)), (math.cos(a), math.sin(a))
+        s_ -= math.pi * r
+        return (-straight / 2 + s_, -r), (0, -1)
+    def ribbon(mat, d0, d1, s0, s1, z, step=0.08):
+        n = max(1, int((s1 - s0) / step))
+        for k in range(n):
+            sa, sb = s0 + (s1 - s0) * k / n, s0 + (s1 - s0) * (k + 1) / n
+            (pa, na), (pb, nb) = at(sa), at(sb)
+            _flat_quad(P, mat, [(pa[0] + na[0] * d0, pa[1] + na[1] * d0), (pb[0] + nb[0] * d0, pb[1] + nb[1] * d0),
+                                (pb[0] + nb[0] * d1, pb[1] + nb[1] * d1), (pa[0] + na[0] * d1, pa[1] + na[1] * d1)], z)
+    ribbon(M["lino_fjord"], -w / 2, w / 2, 0, per, 0.002)
+    for d in (-w / 2, w / 2 - 0.05):
+        ribbon(M["lino_oat"], d, d + 0.05, 0, per, 0.0025)
+    s_ = 0.6
+    while s_ < per - 0.3:  # dashed centre line
+        ribbon(white, -0.025, 0.025, s_, s_ + 0.3, 0.0028); s_ += 0.6
+    for i in range(9):  # checkered start/finish across the south straight
+        for j in range(2):
+            x0, y0 = -0.2 + j * 0.1, -r - w / 2 + i * w / 9
+            _flat_quad(P, white if (i + j) % 2 else M["lino_lingon"], [(x0, y0), (x0 + 0.1, y0), (x0 + 0.1, y0 + w / 9), (x0, y0 + w / 9)], 0.003)
+    for s_ in (straight / 2 + math.pi * r / 2, straight * 1.5 + math.pi * r * 1.5 - straight / 2 + straight / 2):  # chevrons on the bends
+        for k in range(3):
+            (p0, n0) = at(s_ + k * 0.35); t = (-n0[1], n0[0])
+            tip = (p0[0] + t[0] * 0.12, p0[1] + t[1] * 0.12)
+            for sgn in (-1, 1):
+                q = (p0[0] - t[0] * 0.08 + n0[0] * sgn * 0.25, p0[1] - t[1] * 0.08 + n0[1] * sgn * 0.25)
+                _flat_quad(P, M["lino_cloud"], [q, tip, (tip[0] - t[0] * 0.07, tip[1] - t[1] * 0.07), (q[0] - t[0] * 0.07, q[1] - t[1] * 0.07)], 0.0029)
+
+
+def hopscotch(P):
+    """Hopscotch inlaid in linoleum along +x: 1-2-3 single, 4|5, 6, 7|8, a half-round 'home', numbers burnt into the squares."""
+    burnt = bc.material("burnt_text", (0.035, 0.022, 0.014), 0.75)
+    a = 0.42; cells = [(0, 0, 1), (1, 0, 2), (2, 0, 3), (3, -0.5, 4), (3, 0.5, 5), (4, 0, 6), (5, -0.5, 7), (5, 0.5, 8)]
+    for k, (i, j, num) in enumerate(cells):
+        x0, y0 = i * a, j * a - a / 2
+        _flat_quad(P, M["lino_" + COLOURS[k % 5]], [(x0 + 0.02, y0 + 0.02), (x0 + a - 0.02, y0 + 0.02), (x0 + a - 0.02, y0 + a - 0.02), (x0 + 0.02, y0 + a - 0.02)], 0.002)
+        P.text(burnt, str(num), (x0 + a / 2, y0 + a / 2, 0.0025), 0.2, depth=0.0005, flat=True, rz=math.pi / 2)
+    b = P.bm(M["lino_oat"]); n = 16; cx = 6 * a
+    vs = [b.verts.new((cx, 0, 0.002))] + [b.verts.new((cx + 0.4 * math.sin(math.pi * t / n), -0.4 * math.cos(math.pi * t / n), 0.002)) for t in range(n + 1)]
+    for t in range(n):
+        b.faces.new((vs[0], vs[t + 1], vs[t + 2]))
+
+
+def music_wall(P, L=1.9):
+    """Music wall at child height on an oak panel: a xylophone of 8 tuned oak bars (palette-tipped) with two mallets on a cord,
+    a row of hanging brass-free steel chime tubes, two felt-rimmed hand drums and a rain stick. Origin = wall face, centre."""
+    P.box(M["oak"], (0, 0.015, 0.95), (L, 0.03, 1.3))
+    for k in range(8):  # xylophone: bars getting shorter to the right, on a felt rail
+        x = -L / 2 + 0.25 + k * 0.1; ln = 0.42 - k * 0.03
+        P.box(M["oak"], (x, 0.06, 0.62), (0.07, 0.03, ln))
+        P.box(M["lino_" + COLOURS[k % 5]], (x, 0.076, 0.62 + ln / 2 - 0.03), (0.07, 0.002, 0.05))
+    P.box(M["felt"], (-L / 2 + 0.6, 0.04, 0.62), (0.85, 0.01, 0.03))
+    for x in (-L / 2 + 0.15, -L / 2 + 1.05):
+        P.rod(M["oak"], (x, 0.05, 0.85), (x, 0.08, 0.6), 0.008, seg=8)
+        P.blob(M["felt_lingon"], (x, 0.08, 0.6), (0.025, 0.025, 0.025))
+    P.box(M["oak"], (0.35, 0.08, 1.55), (0.7, 0.1, 0.04))  # chime rail
+    for k in range(7):
+        x = 0.05 + k * 0.1
+        P.cyl(M["brushed"], (x, 0.1, 1.55 - 0.15 - (0.45 - k * 0.04)), 0.013, 0.45 - k * 0.04, seg=16)
+    for (x, z, r) in ((0.25, 0.75, 0.16), (0.6, 0.72, 0.12)):  # hand drums mounted face-out
+        b = P.bm(M["felt_moss"] if r > 0.14 else M["felt_cloud"])
+        g = bmesh.ops.create_cone(b, cap_ends=True, segments=32, radius1=r, radius2=r, depth=0.1)["verts"]
+        bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X"))
+        bmesh.ops.translate(b, verts=g, vec=(x, 0.08, z))
+        b2 = P.bm(M["pad"])
+        g2 = bmesh.ops.create_cone(b2, cap_ends=True, segments=32, radius1=r - 0.01, radius2=r - 0.01, depth=0.004)["verts"]
+        bmesh.ops.rotate(b2, verts=g2, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X"))
+        bmesh.ops.translate(b2, verts=g2, vec=(x, 0.132, z))
+    P.rod(M["log"], (L / 2 - 0.15, 0.08, 0.35), (L / 2 - 0.15, 0.08, 1.45), 0.035, seg=12)  # rain stick on two clips
+
+
+def dance_mirror(P, L=1.8, h=1.3):
+    """Low wide safety mirror (shatterproof acrylic mirror in a slim oak frame, from 0.15 to 1.45) with an oak barre at 0.55 on
+    blackened-steel brackets: for dancing, pulling faces, and watching yourself on the balance trail."""
+    P.box(M["oak"], (0, 0.012, 0.15 + h / 2), (L + 0.04, 0.024, h + 0.04))
+    P.box(M["mirror"], (0, 0.026, 0.15 + h / 2), (L, 0.006, h))
+    for x in (-L / 2 + 0.15, 0.0, L / 2 - 0.15):
+        P.box(M["steel"], (x, 0.1, 0.55), (0.025, 0.17, 0.025))
+    P.rod(M["oak"], (-L / 2 + 0.05, 0.18, 0.55), (L / 2 - 0.05, 0.18, 0.55), 0.02, seg=16)
+
+
+def balance_trail(P):
+    """Balance trail (more fun than one beam): three oak beams in a zig-zag at 0.2 / 0.3 / 0.25 high (100, 80 and a wavy 120 mm
+    one), felt-topped stepping pods of different heights between them, and a rocking wobble board at the end."""
+    beams = [((-2.0, -0.6), (-0.9, 0.2), 0.2, 0.1), ((-0.5, 0.35), (0.7, -0.35), 0.3, 0.08), ((1.1, -0.2), (2.0, 0.45), 0.25, 0.12)]
+    for (a, b, h, w) in beams:
+        L_ = math.hypot(b[0] - a[0], b[1] - a[1]); ang = math.atan2(b[1] - a[1], b[0] - a[0]); c = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+        P.box(M["oak"], (c[0], c[1], h - 0.03), (L_, w, 0.06), rz=ang)
+        for t in (0.15, 0.85):
+            x, y = a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t
+            P.box(M["oak"], (x, y, (h - 0.06) / 2), (0.08, 0.4, h - 0.06), rz=ang)
+    for k, (x, y, h) in enumerate(((-0.72, 0.38, 0.16), (-0.65, -0.15, 0.24), (0.9, -0.55, 0.2), (0.95, 0.05, 0.3), (2.3, 0.6, 0.12))):
+        P.cyl(M["oak"], (x, y, 0), 0.15, h - 0.03, seg=24)
+        P.cyl(M["felt_" + COLOURS[k % 5]], (x, y, h - 0.03), 0.15, 0.03, seg=24)
+    b = P.bm(M["oak"])  # wobble board: a curved rocker under a flat oak board
+    n = 16
+    for k in range(n):
+        a0, a1 = math.pi * (1 + k / n), math.pi * (1 + (k + 1) / n)
+        p0 = (0.35 * math.cos(a0), 0.12 + 0.12 * math.sin(a0)); p1 = (0.35 * math.cos(a1), 0.12 + 0.12 * math.sin(a1))
+        b.faces.new([b.verts.new((2.55 + p0[0], -0.35 - 0.15, p0[1])), b.verts.new((2.55 + p1[0], -0.35 - 0.15, p1[1])),
+                     b.verts.new((2.55 + p1[0], -0.35 + 0.15, p1[1])), b.verts.new((2.55 + p0[0], -0.35 + 0.15, p0[1]))])
+    P.box(M["oak"], (2.55, -0.35, 0.135), (0.75, 0.32, 0.03))
+    P.box(M["felt_lingon"], (2.55, -0.35, 0.152), (0.7, 0.28, 0.004))
 
 
 def light_only(P):
@@ -1598,7 +1732,8 @@ BUILDERS = {
     "sandbox": sandbox, "swing_frame": swing_frame, "playhouse": playhouse, "mud_kitchen": mud_kitchen, "trike_loop": trike_loop,
     "terrace_slide": terrace_slide, "pram_shelter": pram_shelter, "stump": stump,
     "tube_slide": tube_slide, "foam_fortress": foam_fortress, "ripstick": ripstick, "tricycle": tricycle, "strider": strider,
-    "wheel_rack": wheel_rack, "rolling_hill": rolling_hill,
+    "wheel_rack": wheel_rack, "rolling_hill": rolling_hill, "floor_track": floor_track, "hopscotch": hopscotch,
+    "music_wall": music_wall, "dance_mirror": dance_mirror, "balance_trail": balance_trail,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -1642,7 +1777,7 @@ def build_all(model, MAT, coll):
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")
             P = Part(pc.name)
             BUILDERS[kind](P, **kw)
-            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0}.get(kind, 0.004))
+            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(kind, 0.004))
             PROTO[key] = pc
         e = bpy.data.objects.new(f["id"], None)
         e.instance_type = "COLLECTION"; e.instance_collection = PROTO[key]

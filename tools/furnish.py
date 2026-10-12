@@ -225,8 +225,11 @@ put2("climbing_wall", 12.215, 30.25, rot=-90, length=5.5, note="children's bould
 put2("wall_bars", 30.285, 22.95, rot=90, length=2.7, note="ribbevegg")
 for x in (22.8, 26.6):
     put2("nest_swing", x, 24.74, top=round(-0.88 - E2, 2), note="nest swing hung from the E1 beam")
-put2("foam_fortress", 20.8, 29.8, note="foam fortress: felt-covered foam blocks to build, knock down and throw")
-put2("rolling_hill", 27.0, 29.5, note="lekebakke: a carpeted rolling hill with a crawl tunnel")
+put2("foam_fortress", 21.6, 29.6, note="foam fortress: felt-covered foam blocks to build, knock down and throw")
+put2("rolling_hill", 26.5, 29.6, note="lekebakke: a carpeted rolling hill with a crawl tunnel")
+# floor games inlaid in linoleum (Roman: the floor was bleak): a race track looping round the fortress and the hill, a hopscotch
+put2("floor_track", 24.0, 29.6, note="race track inlaid in the floor: a loop for trikes + balance bikes, start line, chevrons")
+put2("hopscotch", 20.0, 22.35, note="hopscotch, numbered squares inlaid in the floor")
 # wheels corner (Roman): caster boards, balance bikes and tricycles, a rack on the store wall
 put2("wheel_rack", 25.45, 21.275, length=2.3, note="rack for balance bikes, caster boards, helmets")
 for k, x in enumerate((24.7, 25.4, 26.1)):
@@ -235,7 +238,12 @@ for k, (x, y, r) in enumerate(((24.9, 23.0, 80), (25.4, 23.25, 95), (25.9, 22.95
     put2("ripstick", x, y, rot=r, colour=COL[k * 2 % 5], note="caster board")
 for k, x in enumerate((28.1, 28.9, 29.6)):
     put2("tricycle", x, 22.2, rot=-90 + 10 * k, colour=COL[(k + 3) % 5], note="tricycle")
-put2("balance_beam", 16.8, 31.6, length=3.0)
+# the north wall beside the climbing wall (Roman: a lame corner): a music wall + a low dance mirror with a barre; and a balance
+# trail in front of the mirror instead of a single beam
+NW = 33.3 - 0.2 - 0.015  # plaster face of the north wall
+put2("music_wall", 15.25, NW, rot=180, length=1.9, note="music wall: xylophone, chimes, drums, rain stick")
+put2("dance_mirror", 17.25, NW, rot=180, length=1.6, note="low safety mirror + barre at 0.55")
+put2("balance_trail", 16.0, 31.1, note="balance trail: zig-zag beams, stepping pods, a wobble board")
 # mudroom by the garden door (grovgarderobe): boot-wash trough, cubbies, drying cabinets on the east wall
 put2("vanity", 30.285, 25.6, rot=90, length=1.6, n=2, top=0.5, note="boot + hand wash trough at child height")
 put2("cubbies", 30.285, 28.5, rot=90, length=3.4, n=8, note="outdoor-clothes cubbies by the garden door")

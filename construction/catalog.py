@@ -75,7 +75,7 @@ def build(f):
     coll = bpy.data.collections.new("piece_" + f["kind"]); scene.collection.children.link(coll)
     P = furniture.Part(coll.name)
     furniture.BUILDERS[f["kind"]](P, **kw)
-    obs = P.build(coll, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0}.get(f["kind"], 0.004))
+    obs = P.build(coll, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(f["kind"], 0.004))
     return coll, obs
 
 

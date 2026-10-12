@@ -294,6 +294,9 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - a foam fortress of felt-covered foam blocks to build, knock down and throw
   - a wheels corner with balance bikes, caster boards (RipStik), tricycles and a rack for them and the helmets. There are two more tricycles out on the garden loop
   - my pick: a lekebakke, a rounded felt ridge in contour-stripe bands with an arched crawl tunnel running straight through it
+  - floor games inlaid in linoleum (Roman: the floor was bleak): a fjord-blue race track looping round the fortress and the hill, with oat edge lines, a dashed centre line, a checkered start line and chevrons; and a numbered hopscotch
+  - on the north wall beside the climbing wall: a music wall (oak xylophone, chimes, felt drums, rain stick) and a low safety mirror with a barre; in front of it a balance trail (zig-zag beams, stepping pods, wobble board)
+  - foam blocks have soft rounded edges and sit slightly off, as if stacked by hand
   - the nest swings have a woven rope net (not a solid disc), and the lower floor's downlights are soft-edged, so there are no hard dark spots on the floor
 - **Tube slide down the round stair (Roman):**
   - a 660 mm tube spiralling inside the stair's eye from the upper floor to the play room (about 2 turns at roughly 24°)
