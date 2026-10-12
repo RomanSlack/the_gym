@@ -265,6 +265,11 @@ Roman: light floors, light ceilings, light walls, wooden slat walls; "only dark 
 - **Other walls:** smooth warm-white lime plaster.
 - **Dark only at the windows:** black window frames and the black facade band above the glass, inside as outside.
 - Palette lives in `tools/interior.py` (`PALETTES["L"]`); renders `construction/renders/stage_5_rec_*`.
+- **Ceiling (updated):** undulating pale ash baffle ceiling (30 mm fins at 110 mm, depth waving 60 to 320 mm) between the glulam beams, replacing the flat slats.
+- **Furniture:** oiled walnut frames (contrast to the oak floor), oat wool, cognac leather, sheepskin; cushions rake back; minimal Nordic mid-century. All designed in `construction/furniture.py`.
+- **Art:** the reception painting is a gpt-image-2 oil (`docs/art/artvalleyoil_0.png`) on a stretched canvas with a procedural linen weave, in an oak float frame. Green comes from art and the forest views.
+- **Lighting:** no pendants in front of art; slim blackened-steel wall lights, downlights, soft wall-washers; every fitting is a real light source.
+- **Entrance:** the vestibule (vindfang) stands outside under the eave; the facade doors are its inner doors.
 - **Primary metal: blackened, waxed steel (option D)** for window frames, posts, girders, lift doors, hardware: uneven blue-black and smoky grey, mill-scale streaks, satin wax. **Brass only as small accents** (pulls, call plates, thin inlays); no whole component in brass or bronze (Roman, 2026-10-11).
 
 ## Open questions
