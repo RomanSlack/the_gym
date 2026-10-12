@@ -3,8 +3,8 @@
 **State on 2026-10-11 (end of session c2657e98):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). The forest follows real forest data (NIBIO SR16), and the site has its ground, grass, rocks, water and HDRI sky. Stage 5 is under way: **the reception + cafe hall on E1 is the finished prototype** (interior shell, furniture, lighting, art). Its choices are LOCKED and recorded in VISION.md ("Interior direction" + "Primary metal").
 
 **Next step:** apply the reception's design language to every other area, zone by zone, in this order:
-1. the rest of E1: public WCs, the daycare upper floor
-2. the lounge bridge
+1. ~~the rest of E1: public WCs, the daycare upper floor~~ (done 2026-10-12: see VISION "Wet rooms" + "Daycare"; renders `stage_5_wc_*`, `stage_5_dc_*`)
+2. the lounge bridge (next)
 3. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms
 4. E2: garage, game room, daycare lower floor
 5. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
