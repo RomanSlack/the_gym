@@ -1538,6 +1538,67 @@ def balance_trail(P):
     P.box(M["felt_lingon"], (2.55, -0.35, 0.152), (0.7, 0.28, 0.004))
 
 
+def felt_banner(P, motif="sun", colour="fjord", w=0.8, h=1.9, top=4.75):
+    """A tall wool-felt wall banner (fanevegg) with a swallowtail hem, hung on an oak rod with round end knobs and two cords to a
+    wall hook; a simple appliqué motif in contrasting felt: sun, mountains, spruce, waves or moon + star. Front = +y, on a wall."""
+    y0, y1 = 0.03, 0.036
+    bot = top - h
+    P.prism(M["felt_" + colour], [(-w / 2, top), (w / 2, top), (w / 2, bot), (0, bot + 0.18), (-w / 2, bot)], y0, y1)
+    P.rod(M["oak"], (-w / 2 - 0.08, 0.04, top + 0.02), (w / 2 + 0.08, 0.04, top + 0.02), 0.016, seg=12)
+    for x in (-w / 2 - 0.08, w / 2 + 0.08):
+        P.blob(M["oak"], (x, 0.04, top + 0.02), (0.025, 0.025, 0.025))
+        P.rod(M["rope"], (x * 0.9, 0.04, top + 0.02), (0, 0.01, top + 0.32), 0.003, seg=4)
+    a, b_ = y1, y1 + 0.006
+    cz = bot + h * 0.58
+    other = [c for c in ("oat", "cloud", "lingon", "moss", "heather", "fjord") if c != colour]
+    m1, m2 = M["felt_" + other[0]], M["felt_" + other[1]]
+    if motif == "sun":
+        pts = [(0.2 * math.cos(2 * math.pi * k / 24), cz + 0.2 * math.sin(2 * math.pi * k / 24)) for k in range(24)]
+        P.prism(m2, pts, a, b_)
+        for k in range(12):
+            t = 2 * math.pi * k / 12
+            P.prism(m2, [(0.25 * math.cos(t - 0.08), cz + 0.25 * math.sin(t - 0.08)), (0.33 * math.cos(t), cz + 0.33 * math.sin(t)),
+                         (0.25 * math.cos(t + 0.08), cz + 0.25 * math.sin(t + 0.08))], a, b_)
+    elif motif == "mountains":
+        P.prism(m1, [(-0.36, cz - 0.3), (-0.08, cz + 0.22), (0.12, cz - 0.05), (0.2, cz + 0.08), (0.36, cz - 0.3)], a, b_)
+        P.prism(m2, [(-0.15, cz + 0.09), (-0.08, cz + 0.22), (-0.01, cz + 0.09)], b_, b_ + 0.004)
+    elif motif == "spruce":
+        for k, s_ in enumerate((0.34, 0.27, 0.2, 0.13)):
+            z0_ = cz - 0.35 + k * 0.16
+            P.prism(m1 if colour != "moss" else M["felt_oat"], [(-s_, z0_), (s_, z0_), (0, z0_ + 0.26)], a, b_)
+        P.prism(M["felt_oat"], [(-0.04, cz - 0.48), (0.04, cz - 0.48), (0.04, cz - 0.35), (-0.04, cz - 0.35)], a, b_)
+    elif motif == "waves":
+        for k in range(3):
+            zc = cz + 0.25 - k * 0.22
+            pts = [(-0.36 + 0.72 * i / 24, zc + 0.05 * math.sin(i / 24 * 4 * math.pi)) for i in range(25)]
+            P.prism(m1 if k % 2 == 0 else m2, pts + [(x, z - 0.07) for x, z in reversed(pts)], a, b_)
+    else:  # moon + star
+        pts = [(0.22 * math.cos(t), cz + 0.22 * math.sin(t)) for t in np.linspace(math.pi * 0.35, math.pi * 1.65, 20)]
+        inner = [(0.07 + 0.17 * math.cos(t), cz + 0.17 * math.sin(t)) for t in np.linspace(math.pi * 1.62, math.pi * 0.38, 20)]
+        P.prism(m2, pts + inner, a, b_)
+        P.prism(m1, [(0.2 + 0.07 * math.cos(math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45),
+                      cz + 0.22 + 0.07 * math.sin(math.pi / 2 + k * math.pi / 5) * (1 if k % 2 == 0 else 0.45)) for k in range(10)], a, b_)
+
+
+def bunting(P, length=17.0, sag=0.6):
+    """A string of felt pennant bunting swagged between two walls (origin = one end, string runs along +x), a pennant every 0.32 m
+    in the palette colours, hanging on a hemp cord that sags 0.6 m in the middle."""
+    n = int(length / 0.08)
+    zc = lambda x: -4 * sag * (x / length) * (1 - x / length)
+    prev = None
+    for i in range(n + 1):
+        x = length * i / n; p_ = (x, 0, zc(x))
+        if prev:
+            P.rod(M["rope"], prev, p_, 0.004, seg=4)
+        prev = p_
+    k = 0
+    x = 0.3
+    while x < length - 0.3:
+        z = zc(x)
+        P.prism(M["felt_" + COLOURS[k % 5]], [(x - 0.12, z), (x + 0.12, z), (x, z - 0.3)], -0.003, 0.003)
+        x += 0.32; k += 1
+
+
 def light_only(P):
     """A light whose fitting belongs to another piece (e.g. the vanity's light channel): no geometry."""
 
@@ -1734,6 +1795,7 @@ BUILDERS = {
     "tube_slide": tube_slide, "foam_fortress": foam_fortress, "ripstick": ripstick, "tricycle": tricycle, "strider": strider,
     "wheel_rack": wheel_rack, "rolling_hill": rolling_hill, "floor_track": floor_track, "hopscotch": hopscotch,
     "music_wall": music_wall, "dance_mirror": dance_mirror, "balance_trail": balance_trail,
+    "felt_banner": felt_banner, "bunting": bunting,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -1744,7 +1806,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
           "kid_chair": ("colour",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
-          "stair_guard": ("gap", "gaps", "gates", "r_in"),
+          "stair_guard": ("gap", "gaps", "gates", "r_in"), "felt_banner": ("motif", "colour", "h"), "bunting": ("length", "sag"),
           "tube_slide": ("hatches",), "ripstick": ("colour",), "tricycle": ("colour",), "strider": ("colour",), "wheel_rack": ("length",), "art_labels": ("width", "height", "z0", "labels", "size"),
           "climbing_wall": ("length",), "wall_bars": ("length",), "nest_swing": ("top",), "balance_beam": ("length",), "sleep_mat": ("colour",), "mat_shelf": ("length",),
           "star_ceiling": ("size", "hang"), "pram": ("colour",), "gear_rack": ("length",), "log_bench": ("length",), "trike_loop": ("rx", "ry"),

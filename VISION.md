@@ -296,6 +296,7 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - my pick: a lekebakke, a rounded felt ridge in contour-stripe bands with an arched crawl tunnel running straight through it
   - floor games inlaid in linoleum (Roman: the floor was bleak): a fjord-blue race track looping round the fortress and the hill, with oat edge lines, a dashed centre line, a checkered start line and chevrons; and a numbered hopscotch
   - on the north wall beside the climbing wall: a music wall (oak xylophone, chimes, felt drums, rain stick) and a low safety mirror with a barre; in front of it a balance trail (zig-zag beams, stepping pods, wobble board)
+  - the upper walls carry tall wool-felt banners (sun, mountains, spruce, waves, moon + star appliqué, swallowtail hems, oak rods), and two strings of felt pennant bunting swag across the room over the race track
   - foam blocks have soft rounded edges and sit slightly off, as if stacked by hand
   - the nest swings have a woven rope net (not a solid disc), and the lower floor's downlights are soft-edged, so there are no hard dark spots on the floor
 - **Tube slide down the round stair (Roman):**

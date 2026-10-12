@@ -241,8 +241,17 @@ for k, x in enumerate((28.1, 28.9, 29.6)):
 # the north wall beside the climbing wall (Roman: a lame corner): a music wall + a low dance mirror with a barre; and a balance
 # trail in front of the mirror instead of a single beam
 NW = 33.3 - 0.2 - 0.015  # plaster face of the north wall
-put2("music_wall", 15.25, NW, rot=180, length=1.9, note="music wall: xylophone, chimes, drums, rain stick")
-put2("dance_mirror", 17.25, NW, rot=180, length=1.6, note="low safety mirror + barre at 0.55")
+put2("music_wall", 15.1, NW, rot=180, length=1.9, note="music wall: xylophone, chimes, drums, rain stick")
+put2("dance_mirror", 16.95, NW, rot=180, length=1.5, note="low safety mirror + barre at 0.55 (stays on the wall: it ends 0.25 m before the glass)")
+# the upper walls (Roman: fill them out, fun for the kids): tall felt banners with appliqué motifs, and pennant bunting across
+MOTIFS = ["sun", "mountains", "spruce", "waves", "moon"]
+BAN = [(12.215, y, -90, 1.9) for y in (22.6, 25.9, 27.9, 29.4, 30.9, 32.4)] + \
+      [(30.285, y, 90, 2.0) for y in (22.5, 24.6, 26.7, 28.8, 30.9)] + \
+      [(x, NW, 180, 1.8) for x in (14.2, 16.5)] + [(x, 21.275, 0, 1.9) for x in (25.0, 28.9)]
+for k, (x, y, r, h) in enumerate(BAN):
+    put2("felt_banner", x, y, rot=r, motif=MOTIFS[k % 5], colour=COL[(k * 2 + 1) % 5], h=h, note="felt wall banner with an appliqué motif")
+for y, z in ((27.6, 4.6), (31.2, 4.4)):  # bunting from the west wall to the east wall, high over the race track
+    put("bunting", 12.25, y, zone="daycare", level="E2", z=round(E2 + z, 2), length=18.0, sag=0.7, note="felt pennant bunting")
 put2("balance_trail", 16.0, 31.1, note="balance trail: zig-zag beams, stepping pods, a wobble board")
 # mudroom by the garden door (grovgarderobe): boot-wash trough, cubbies, drying cabinets on the east wall
 put2("vanity", 30.285, 25.6, rot=90, length=1.6, n=2, top=0.5, note="boot + hand wash trough at child height")
