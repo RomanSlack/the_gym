@@ -57,8 +57,17 @@ ART = {"valley": "docs/art/artvalleyoil_0.png", "abstract": "docs/art/artabstrac
 art_pick = m.get("interior", {}).get("reception_art", "valley")
 put("canvas_art", 24.22, 11.3, rot=-90, width=6.0, height=2.9, image=str(ROOT / ART[art_pick]),
     note=f"painting behind the desk ({art_pick}), generated with gpt-image-2, stretched canvas in an oak float frame")
-for y in (10.0, 11.3, 12.6):
-    put("pendant_opal", 25.7, y, hang=2.45, note="opal glass + oak pendant over the desk")
+# desk + painting lighting (Roman: the pendants blocked the painting): slim wall lights either side of the canvas,
+# downlights in the ceiling over the desk, two gallery spots washing the painting. All in blackened steel.
+for y in (8.17, 14.47):  # in the gaps between the canvas (8.3-14.3) and the stair door / lift frames
+    put("wall_light", 24.22, y, rot=-90, light={"type": "AREA", "energy": 35, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None, "color": [1.0, 0.82, 0.62]},
+        note="slim vertical wall light, 60 x 900, glows up and down along the slats")
+for y in (9.9, 11.3, 12.7):
+    put("downlight", 25.75, y, z_ceiling=5.02, light={"type": "SPOT", "energy": 220, "spot_deg": 50, "offset": [0, 0, 4.85], "aim": [25.75, y, 0.12], "color": [1.0, 0.86, 0.7]},
+        note="recessed-look downlight over the desk, 2700 K")
+for y in (8.9, 10.5, 12.1, 13.7):  # four soft wall-washers, each on its own quarter of the canvas: an even wash, no hotspot
+    put("gallery_spot", 26.9, y, z_ceiling=5.02, light={"type": "SPOT", "energy": 70, "spot_deg": 75, "blend": 1.0, "radius": 0.15, "offset": [0, 0, 4.85],
+        "aim": [24.25, y, 2.6], "color": [1.0, 0.9, 0.78]}, note="soft wall-washer on the painting")
 put("lounge_chair", 28.7, 14.55, rot=-60, zone="reception")
 put("lounge_chair", 28.7, 15.65, rot=-120, zone="reception")
 put("side_table", 29.45, 15.1, zone="reception")

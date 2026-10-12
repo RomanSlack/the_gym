@@ -582,6 +582,28 @@ def canvas_art(P, width=6.0, height=2.9, z0=1.45, image=""):
     P.box(M["felt"], (0, 0.002, z0 + H / 2), (W + 2 * g, 0.004, H + 2 * g))  # dark tray behind the gap
 
 
+def wall_light(P):
+    """Slim vertical wall light: a 60 x 40 blackened-steel channel, 0.9 m tall, centred at 2.75, an opal diffuser on its face."""
+    P.box(M["steel"], (0, 0.02, 2.75), (0.06, 0.04, 0.9))
+    P.box(M["opal"], (0, 0.042, 2.75), (0.036, 0.006, 0.84))
+    P.box(M["brass"], (0, 0.02, 2.75 - 0.46), (0.062, 0.042, 0.012))  # thin brass collar: the accent
+
+
+def downlight(P, z_ceiling=5.02):
+    """Downlight dropped just below the wave fins: Ø90 blackened-steel can, 160 long, opal lens glowing at the bottom."""
+    P.cyl(M["steel"], (0, 0, z_ceiling - 0.16), 0.045, 0.16, seg=32)
+    P.cyl(M["opal"], (0, 0, z_ceiling - 0.165), 0.032, 0.006, seg=32)
+    P.rod(M["steel"], (0, 0, z_ceiling), (0, 0, 5.62), 0.004, seg=6)
+
+
+def gallery_spot(P, z_ceiling=5.02):
+    """Adjustable gallery spot: a blackened-steel cylinder on a yoke, tilted towards the painting."""
+    P.rod(M["steel"], (0, 0, z_ceiling), (0, 0, 5.62), 0.004, seg=6)
+    P.box(M["steel"], (0, 0, z_ceiling - 0.02), (0.06, 0.06, 0.04))
+    P.rod(M["steel"], (0, 0, z_ceiling - 0.06), (-0.12, 0, z_ceiling - 0.2), 0.04, 0.04, seg=32)
+    P.cyl(M["opal"], (-0.125, 0, z_ceiling - 0.205), 0.03, 0.004, seg=24)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -589,12 +611,13 @@ BUILDERS = {
     "glass_screen": glass_screen, "sliding_doors": sliding_doors, "vestibule_lid": vestibule_lid, "door_slatted": door_slatted,
     "lift_doors": lift_doors, "glass_door": glass_door, "baffle_screen": baffle_screen, "window_counter": window_counter,
     "relief_art": relief_art, "porch_floor": porch_floor, "canvas_art": canvas_art,
+    "wall_light": wall_light, "downlight": downlight, "gallery_spot": gallery_spot,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
-          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image")}
+          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -625,4 +648,18 @@ def build_all(model, MAT, coll):
         e.instance_type = "COLLECTION"; e.instance_collection = PROTO[key]
         e.location = (f["at"][0], f["at"][1], f["z"]); e.rotation_euler = (0, 0, math.radians(f.get("rot_deg", 0)))
         coll.objects.link(e); count += 1
+        L_ = f.get("light")
+        if L_:  # a real light source with the fitting
+            ld = bpy.data.lights.new(f["id"] + "_light", L_["type"]); ld.energy = L_["energy"]; ld.color = L_.get("color", (1, 1, 1))
+            if L_["type"] == "SPOT":
+                ld.spot_size = math.radians(L_.get("spot_deg", 45)); ld.spot_blend = L_.get("blend", 0.6); ld.shadow_soft_size = L_.get("radius", 0.03)
+            elif L_["type"] == "AREA":
+                ld.shape = "RECTANGLE"; ld.size = L_.get("size", 0.1); ld.size_y = L_.get("size_y", 0.1)
+            lo = bpy.data.objects.new(f["id"] + "_light", ld); coll.objects.link(lo)
+            ox, oy, oz = L_.get("offset", (0, 0, 0)); r = math.radians(f.get("rot_deg", 0))
+            lo.location = (f["at"][0] + ox * math.cos(r) - oy * math.sin(r), f["at"][1] + ox * math.sin(r) + oy * math.cos(r), f["z"] + oz)
+            if L_.get("aim"):
+                lo.rotation_euler = (Vector(L_["aim"]) - lo.location).to_track_quat("-Z", "Y").to_euler()
+            else:  # wall light: emit away from the wall
+                lo.rotation_euler = (Vector((math.cos(r - math.pi / 2), math.sin(r - math.pi / 2), 0)) * -1).to_track_quat("-Z", "Y").to_euler()
     return count
