@@ -215,9 +215,23 @@ for st in m["stairs"]:
         continue
     zlo, zhi = lv[st["from"]], lv[st["to"]]; n = round((zhi - zlo) / RISE)
     R = st["diameter"] / 2
-    add({"id": f"ST3-{st['id']}", "type": "spiral_stair", "material": "steel_dark", "center": st["center"], "r": [round(R * 0.36, 2), R],
+    r_in = 1.45 if st["id"] == "daycare_round" else round(R * 0.36, 2)  # daycare: a wider eye holds the tube slide (Roman), treads 1.1 m
+    add({"id": f"ST3-{st['id']}", "type": "spiral_stair", "material": "steel_dark", "center": st["center"], "r": [r_in, R],
          "z": [zlo, zhi], "risers": n, "step_deg": 15, "a0": 90,
          "note": f"open helix, no centre post: inner + outer dark steel helical stringers, {n} solid oak treads ({(zhi - zlo) / n:.3f} rise, 15 deg each)"})
+
+# ---- the daycare's round stair opening in the E1 slab (Roman caught beam B-9 running straight through it): the beam stops at a
+# trimmer beam just east of the opening; the trimmer spans north-south between B-10 and B-8 and takes the cut beam's end.
+ds = next(st for st in m["stairs"] if st["id"] == "daycare_round")
+(scx, scy), sR = ds["center"], ds["diameter"] / 2
+b9 = by_id.get("B-9-E1-east")
+if b9 and abs(b9["from"][1] - scy) < sR:
+    half = (sR ** 2 - (b9["from"][1] - scy) ** 2) ** 0.5
+    xt = round(scx + half + 0.25 + 0.05, 2)  # trimmer clear of the opening by 50 mm
+    b9["from"] = [xt, b9["from"][1]]
+    b9["note"] = "stops at the stair trimmer (the round daycare stair opening)"
+    add({"id": "ST3-trimmer-dc-stair", "type": "beam", "material": b9["material"], "from": [xt, 16.18], "to": [xt, 33.3], "size": list(b9["size"]),
+         "z": list(b9["z"]), "note": "post-tensioned trimmer beam beside the round stair opening: carries beam B-9, spans B-10 to B-8"})
 
 m["elements"] = els + new
 modelio.save(m)

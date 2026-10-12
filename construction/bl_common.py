@@ -786,8 +786,21 @@ def pattern_wave_ceiling(e, mat, coll, beam_lines):
         if all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
             r = float(rng_.random())
             ph = y / p.get("drift", 4.0) * 2 * math.pi
+            open_ = False  # fins stop where the ceiling is cut (a stairwell, a beam running across the fins)
             for k in range(nseg):
                 xa, xb = x0 + (x1 - x0) * k / nseg, x0 + (x1 - x0) * (k + 1) / nseg
+                xm = (xa + xb) / 2
+                cut = any("circle" in h and math.hypot(xm - h["circle"][0], y - h["circle"][1]) < h["circle"][2] + 0.1 for h in e.get("holes", [])) \
+                    or any(c0 <= xm <= c1 for c0, c1 in e.get("cut_x", []))
+                if cut:
+                    if not open_ and k > 0:
+                        fs.append((len(vs) - 7, len(vs) - 6, len(vs) - 2, len(vs) - 3))  # close the fin end before the gap
+                    open_ = True
+                    continue
+                if open_:
+                    open_ = False
+                    b_ = len(vs)
+                    fs.append((b_ + 3, b_, b_ + 4, b_ + 7))  # and its start after it
                 da = p["dmin"] + (p["dmax"] - p["dmin"]) * (0.5 + 0.5 * math.sin(2 * math.pi * xa / p["wave"] + ph))
                 db = p["dmin"] + (p["dmax"] - p["dmin"]) * (0.5 + 0.5 * math.sin(2 * math.pi * xb / p["wave"] + ph))
                 ya, yb_ = y - p["w"] / 2, y + p["w"] / 2

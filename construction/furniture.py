@@ -57,6 +57,7 @@ def materials(MAT):
     M["log"] = bc.pbr_material("log_pine", "pine_bark", 1.2, box=True, piece_var=0.05)
     M["rope"] = bc.material("rope_hemp", (0.45, 0.36, 0.24), 0.9)
     M["trike"] = bc.material("rubber_path", (0.55, 0.46, 0.34), 0.9)  # sand-coloured poured rubber
+    M["carpet"] = MAT.get("carpet_wool") or bc.material("carpet_oat", (0.66, 0.6, 0.5), 0.95)
     M["star"] = bc.material("star_dot", (1.0, 0.95, 0.85), 0.5, emit=((1.0, 0.9, 0.75), 25.0))
     M["mirror"] = bc.material("mirror", (0.92, 0.92, 0.9), 0.01, metal=1.0)
     M["mat_textile"] = bc.pbr_material("mat_textile", "caban", 0.274, box=True, tint=(0.2, 0.19, 0.18), sat=0.25, val=0.35, piece_var=0.0, rough_add=0.2)  # charcoal entrance textile
@@ -764,13 +765,14 @@ def play_loft(P, L=4.0, D=2.6, deck=1.6):
     P.box(M["felt_oat"], (0, y0 + 0.12, deck / 2 - 0.05), (L - 0.3, 0.02, deck - 0.2))
 
 
-def stair_guard(P, r_in=0.92, r_out=2.55, rise=-6.13, risers=35, step_deg=15.0, a0=90.0, gap=(233.0, 262.0), h=1.2):
+def stair_guard(P, r_in=0.92, r_out=2.55, rise=-6.13, risers=35, step_deg=15.0, a0=90.0, gap=(233.0, 262.0), h=1.2, gaps=None, gates=()):
     """Child-safe guards for the open round stair (daycare): a guard round the floor opening (oak staves 30 @ 90 = 60 mm gaps,
     1.2 m, an oak kerb ring hiding the floor edge, a steel top rail), the way on to the top tread left open; and an oak-staved
     balustrade up both edges of the helix (outer + round the open eye), with a handrail at 0.9 and a child rail at 0.6.
     Origin = stair centre at the upper floor; z goes down to the lower floor (rise)."""
     R = r_out + 0.07
-    in_gap = lambda a: gap[0] <= a % 360 <= gap[1]
+    gaps = [tuple(g) for g in (gaps or [gap])]
+    in_gap = lambda a: any(g0 <= a % 360 <= g1 for g0, g1 in gaps)
     P.ring(M["oak"], (0, 0), r_out - 0.005, r_out + 0.25, -0.02, 0.1, seg=192)
     na = int(2 * math.pi * R / 0.09)
     for k in range(na):
@@ -779,7 +781,9 @@ def stair_guard(P, r_in=0.92, r_out=2.55, rise=-6.13, risers=35, step_deg=15.0, 
             continue
         ca, sa = math.cos(math.radians(a)), math.sin(math.radians(a))
         P.box(M["oak"], (R * ca, R * sa, 0.1 + (h - 0.1) / 2), (0.03, 0.03, h - 0.1), rz=math.radians(a))
-    P.ring(M["steel"], (0, 0), R - 0.025, R + 0.025, h, h + 0.04, a0=gap[1], a1=gap[0] + 360, seg=192)
+    gs = sorted(gaps)
+    for (g0, g1), (n0, n1) in zip(gs, gs[1:] + [(gs[0][0] + 360, 0)]):  # top rail between the gaps
+        P.ring(M["steel"], (0, 0), R - 0.025, R + 0.025, h, h + 0.04, a0=g1, a1=n0, seg=192)
     # helix balustrades: a stave every 90 mm along each edge, rails as short chords
     for rad in (r_out - 0.06, r_in + 0.06):
         prev = None
@@ -790,11 +794,26 @@ def stair_guard(P, r_in=0.92, r_out=2.55, rise=-6.13, risers=35, step_deg=15.0, 
             k = min(risers - 1, int(t * risers))
             zt = rise + (-rise) * (k + 1) / risers  # tread top, counted up from the lower floor
             x, y = rad * math.cos(a), rad * math.sin(a)
+            gate = rad < r_out - 0.5 and next((g for g in gates if abs(math.degrees(a) - g) * math.pi / 180 * rad < 0.3), None)
+            if gate is not None and gate is not False:
+                prev = None
+                continue
             P.box(M["oak"], (x, y, zt + 0.45), (0.03, 0.03, 0.9), rz=a)
             top = (x, y, zt + 0.9)
             if prev is not None:
                 P.rod(M["steel"], prev, top, 0.02, seg=8)
             prev = top
+    for g in gates:  # rescue gates in the inner balustrade (hinged oak panels, a red latch an adult can reach, children can't)
+        a = math.radians(g); rad = r_in + 0.06
+        k = min(risers - 1, int((g - a0) / step_deg)); zt = rise + (-rise) * (k + 1) / risers
+        ca, sa = math.cos(a), math.sin(a); tx, ty = -sa, ca
+        for d in (-0.28, 0.28):
+            P.box(M["oak"], (rad * ca + tx * d, rad * sa + ty * d, zt + 0.45), (0.04, 0.04, 0.9), rz=a)
+        for dz in (0.05, 0.9):
+            P.box(M["oak"], (rad * ca, rad * sa, zt + dz), (0.04, 0.6, 0.04), rz=a)
+        for d in np.arange(-0.22, 0.25, 0.09):
+            P.box(M["oak"], (rad * ca + tx * d, rad * sa + ty * d, zt + 0.47), (0.025, 0.025, 0.82), rz=a)
+        P.box(M["lino_lingon"], (rad * ca + tx * 0.24 + ca * 0.03, rad * sa + ty * 0.24 + sa * 0.03, zt + 0.88), (0.04, 0.05, 0.06), rz=a)
 
 
 def felt_cloud(P, colour="oat", s=1.0, hang=3.6, ceiling=5.3):
@@ -1174,6 +1193,201 @@ def stump(P, r=0.18, h=0.35):
     P.cyl(M["oak"], (0, 0, h), r - 0.01, 0.003, seg=20)
 
 
+def tube_slide(P, rt=1.08, rr=0.33, a_top=300.0, turns_deg=690.0, z_top=0.36, z_bot=-5.39, run=3.0, hatches=(), bridge=(2.62, 1.3)):
+    """Tube slide spiralling down inside the eye of the round stair (Roman): a 660 mm tube on a 1.08 m centreline radius, going
+    round the same way the stair does, from the upper floor to a straight run-out and an open chute on the lower floor.
+    Lower half brushed stainless, upper half clear polycarbonate (children are seen all the way down); steel flanges every
+    1.5 m; side rescue hatches facing the stair where an adult on the treads can reach them (opposite gates in the stair's
+    inner balustrade); slim steel brackets to the inner stringer. At the top an oak bridge crosses from the floor guard to the
+    entry hood. Origin = stair centre on the upper floor; angles in degrees like the stair."""
+    poly = M.setdefault("polycarb", bc.arch_glass("polycarbonate", tint=(0.94, 0.97, 0.98), rough=0.02))
+    n_ring = 28
+    def frame_at(t):  # t in [0, 1] down the helix -> centre, tangent, outward normal
+        a = math.radians(a_top + turns_deg * t)
+        c = Vector((rt * math.cos(a), rt * math.sin(a), z_top + (z_bot - z_top) * t))
+        L = math.radians(turns_deg) * rt; dz = z_bot - z_top
+        tng = Vector((-math.sin(a) * L, math.cos(a) * L, dz)).normalized()
+        out = Vector((math.cos(a), math.sin(a), 0))
+        return c, tng, out
+    pts = []
+    N = int(turns_deg / 2.5)
+    for i in range(N + 1):
+        pts.append(frame_at(i / N))
+    c_end, t_end, o_end = pts[-1]
+    t_flat = Vector((t_end.x, t_end.y, 0)).normalized()
+    z_exit = -6.13 + 0.42 - 0.0
+    for j in range(1, 13):  # run-out: straight, easing down to the exit height
+        u = j / 12
+        c = c_end + t_flat * run * u; c.z = c_end.z + (z_exit - c_end.z) * (1 - (1 - u) ** 2)
+        pts.append((c, t_flat, Vector((-t_flat.y, t_flat.x, 0))))
+    lo, hi = P.bm(M["brushed"]), P.bm(poly)
+    rings_lo, rings_hi = [], []
+    for k_, (c, tng, out) in enumerate(pts):
+        side = tng.cross(Vector((0, 0, 1))).normalized(); up = side.cross(tng).normalized()
+        chute = k_ > len(pts) - 5  # the last 0.8 m is an open chute (no lid)
+        rl, rh = [], []
+        for i in range(n_ring + 1):
+            ph = math.pi + math.pi * i / n_ring  # lower half: 180..360 deg round the tube
+            rl.append(lo.verts.new(c + (side * math.cos(ph) + up * math.sin(ph)) * rr))
+            if not chute:
+                ph2 = math.pi * i / n_ring
+                rh.append(hi.verts.new(c + (side * math.cos(ph2) + up * math.sin(ph2)) * rr))
+        rings_lo.append(rl); rings_hi.append(rh)
+    for A, B in zip(rings_lo, rings_lo[1:]):
+        for i in range(n_ring):
+            lo.faces.new((A[i], A[i + 1], B[i + 1], B[i]))
+    for A, B in zip(rings_hi, rings_hi[1:]):
+        if A and B:
+            for i in range(n_ring):
+                hi.faces.new((A[i], A[i + 1], B[i + 1], B[i]))
+    step = max(1, int(1.5 / (math.radians(2.5) * rt)))
+    for k_ in range(0, N, step):  # flanges; a hanger from each up to the stair's inner stringer on the turn above
+        c, tng, out = pts[k_]
+        P.rod(M["steel"], c - tng * 0.012, c + tng * 0.012, rr + 0.02, seg=32)
+        ang = (a_top + turns_deg * k_ / N) % 360
+        above = [-6.13 + (int((al - 90) / 15) + 1) * 6.13 / 35 - 0.36 for al in (ang + 360 * j for j in range(-1, 3)) if 90 <= al <= 615]
+        above = [z for z in above if z > c.z + rr + 0.1]
+        if above:
+            P.rod(M["steel"], c + Vector((0, 0, rr + 0.02)), Vector((c.x * 1.45 / rt, c.y * 1.45 / rt, min(above))), 0.008, seg=6)
+    for th in hatches:  # rescue hatch: a framed 480 x 420 door on the stair side, hinged at the top, red pull
+        t = (th - a_top) / turns_deg
+        c, tng, out = frame_at(t)
+        hc = c + out * (rr + 0.012)
+        for dz, dt, sx, sz in ((0.21, 0, 0.5, 0.03), (-0.21, 0, 0.5, 0.03), (0, 0.24, 0.03, 0.45), (0, -0.24, 0.03, 0.45)):
+            P.box(M["steel"], hc + Vector((0, 0, dz)) + tng * dt, (sx, 0.02, sz), rz=math.atan2(tng.y, tng.x))
+        P.cyl(M["steel"], hc + Vector((0, 0, 0.22)) - tng * 0.2, 0.012, 0.0, seg=8)
+        P.box(M["lino_lingon"], hc + Vector((0, 0, -0.14)) + out * 0.02, (0.12, 0.03, 0.04), rz=math.atan2(tng.y, tng.x))
+    # the oak bridge from the floor guard to the entry hood, guards both sides, an oak hood with a grab bar over the start
+    a = math.radians(a_top); ca, sa = math.cos(a), math.sin(a); tx, ty = -sa, ca
+    r0, r1 = bridge; rm = (r0 + r1) / 2
+    P.box(M["oak"], (rm * ca, rm * sa, -0.05), (r0 - r1 + 0.3, 0.95, 0.1), rz=a)
+    for d in (-0.47, 0.47):
+        for r_ in np.arange(r1, r0, 0.09):
+            P.box(M["oak"], (r_ * ca + tx * d, r_ * sa + ty * d, 0.6), (0.03, 0.03, 1.2), rz=a)
+        P.box(M["steel"], (rm * ca + tx * d, rm * sa + ty * d, 1.22), (r0 - r1, 0.04, 0.04), rz=a)
+    c, tng, out = frame_at(0.0)
+    for d in (-0.42, 0.42):
+        P.box(M["oak"], (c.x + out.x * d, c.y + out.y * d, 0.55), (0.08, 0.08, 1.1), rz=a)
+    P.box(M["oak"], (c.x, c.y, 1.12), (0.08, 0.95, 0.08), rz=a)
+    P.rod(M["steel"], (c.x - out.x * 0.35, c.y - out.y * 0.35, 0.95), (c.x + out.x * 0.35, c.y + out.y * 0.35, 0.95), 0.016, seg=10)
+    # a soft landing mat at the exit
+    ce = pts[-1][0]
+    P.box(M["felt_oat"], (ce.x + t_flat.x * 0.7, ce.y + t_flat.y * 0.7, -6.13 + 0.05), (1.2, 1.2, 0.1), rz=math.atan2(t_flat.y, t_flat.x))
+
+
+def foam_fortress(P):
+    """Foam fortress (Roman): big lightweight foam blocks in wool-felt covers, stacked into a little fort they can knock down and
+    rebuild: walls two courses high with a gateway, two round towers, a half-round arch, and a scatter of thrown blocks."""
+    rng = np.random.default_rng(21)
+    bx, by, bz = 0.6, 0.3, 0.3
+    c_ = lambda k: M["felt_" + COLOURS[k % 5]]
+    k = 0
+    for course in range(2):
+        z = bz / 2 + course * bz
+        off = (bx / 2) * (course % 2)
+        for x in np.arange(-1.2 + off, 1.21, bx):  # back wall
+            P.box(c_(k), (x, -1.0, z), (bx - 0.01, by, bz)); k += 1
+        for y in np.arange(-0.7 + off, 0.95, bx):  # side walls
+            for sx in (-1.35, 1.35):
+                P.box(c_(k), (sx, y, z), (by, bx - 0.01, bz)); k += 1
+        for x in (-1.0, 1.0):  # front wall either side of the gate
+            P.box(c_(k), (x, 1.0, z), (bx - 0.01, by, bz)); k += 1
+    for sx in (-1.35, 1.35):  # towers
+        P.cyl(c_(k), (sx, 1.0, 0), 0.3, 0.9, seg=32); k += 1
+        P.cyl(M["felt_oat"], (sx, 1.0, 0.9), 0.32, 0.08, seg=32)
+    P.ring(M["felt_cloud"], (0, 1.0), 0.32, 0.5, -0.15, 0.15, seg=48)  # on edge as the gateway arch
+    for j in range(9):  # thrown blocks
+        a, d = rng.uniform(0, 2 * math.pi), rng.uniform(2.0, 2.9)
+        P.box(c_(j + 3), (d * math.cos(a), d * math.sin(a) + 0.3, bz / 2), (bx, by, bz), rz=rng.uniform(0, math.pi),
+              rx=(math.pi / 2 if j % 3 == 0 else 0.0))
+    P.box(M["felt_oat"], (0, 0, 0.01), (3.4, 2.8, 0.02))
+
+
+def ripstick(P, colour="lingon"):
+    """Caster board (RipStik): two shaped decks on a torsion bar, a 76 mm inline caster under each, 0.86 long. Long axis = x."""
+    for x in (-0.25, 0.25):
+        P.cyl(M["lino_" + colour], (x, 0, 0.1), 0.13, 0.02, seg=32)
+        P.rod(M["steel"], (x, 0, 0.1), (x, 0, 0.04), 0.012, seg=8)
+        b = P.bm(M["rubber"])
+        g = bmesh.ops.create_cone(b, cap_ends=True, segments=24, radius1=0.038, radius2=0.038, depth=0.025)["verts"]
+        bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X"))
+        bmesh.ops.translate(b, verts=g, vec=(x, 0, 0.038))
+    P.rod(M["steel"], (-0.25, 0, 0.09), (0.25, 0, 0.09), 0.018, seg=12)
+
+
+def _wheel(P, c, r, w, mat=None):
+    b = P.bm(mat or M["rubber"])
+    g = bmesh.ops.create_cone(b, cap_ends=True, segments=28, radius1=r, radius2=r, depth=w)["verts"]
+    bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "Y"))
+    bmesh.ops.translate(b, verts=g, vec=c)
+
+
+def tricycle(P, colour="fjord"):
+    """Child's tricycle: a bent steel frame in a palette colour, a big front wheel with pedals, two rear wheels on an axle, an oak
+    seat, a handlebar with rubber grips. Front = +y."""
+    fr = M["lino_" + colour]
+    _wheel(P, (0, 0.38, 0.17), 0.17, 0.04)
+    for x in (-0.22, 0.22):
+        _wheel(P, (x, -0.22, 0.12), 0.12, 0.04)
+    P.rod(M["steel"], (-0.22, -0.22, 0.12), (0.22, -0.22, 0.12), 0.01, seg=8)
+    P.rod(fr, (0, -0.2, 0.14), (0, 0.15, 0.36), 0.022, seg=12)
+    P.rod(fr, (0, 0.15, 0.36), (0, 0.38, 0.17), 0.018, seg=12)
+    P.rod(fr, (0, 0.33, 0.28), (0, 0.3, 0.6), 0.016, seg=12)
+    P.rod(M["steel"], (-0.2, 0.3, 0.6), (0.2, 0.3, 0.6), 0.012, seg=10)
+    for x in (-0.2, 0.2):
+        P.rod(M["rubber"], (x * 0.9, 0.3, 0.6), (x * 1.15, 0.3, 0.6), 0.016, seg=10)
+    P.box(M["oak"], (0, -0.02, 0.42), (0.16, 0.2, 0.03))
+    for s_ in (-1, 1):
+        P.box(M["rubber"], (s_ * 0.07, 0.38, 0.17 + s_ * 0.08), (0.06, 0.03, 0.02))
+
+
+def strider(P, colour="moss"):
+    """Balance bike (Strider type, no pedals): 12-inch wheels, a slim frame in a palette colour, oak saddle, low handlebar."""
+    fr = M["lino_" + colour]
+    for y in (-0.3, 0.32):
+        _wheel(P, (0, y, 0.15), 0.15, 0.05)
+    P.rod(fr, (0, -0.3, 0.15), (0, -0.08, 0.38), 0.016, seg=10)
+    P.rod(fr, (0, -0.08, 0.38), (0, 0.24, 0.42), 0.02, seg=10)
+    P.rod(fr, (0, 0.24, 0.42), (0, 0.32, 0.15), 0.015, seg=10)
+    P.rod(fr, (0, 0.24, 0.42), (0, 0.22, 0.58), 0.014, seg=10)
+    P.rod(M["steel"], (-0.18, 0.22, 0.58), (0.18, 0.22, 0.58), 0.011, seg=10)
+    P.box(M["oak"], (0, -0.1, 0.42), (0.1, 0.2, 0.025))
+
+
+def wheel_rack(P, L=2.3):
+    """Low oak rack on the wall for the kids' wheels: slotted front rail for balance-bike wheels, a shelf above for caster boards
+    and helmets (felt-lined hooks)."""
+    P.box(M["oak"], (0, 0.2, 0.1), (L, 0.4, 0.04))
+    for x in np.arange(-L / 2 + 0.1, L / 2, 0.38):
+        P.box(M["oak"], (x, 0.3, 0.2), (0.03, 0.2, 0.2))
+    P.box(M["oak"], (0, 0.15, 1.1), (L, 0.3, 0.03))
+    P.box(M["oak"], (0, 0.01, 0.65), (L, 0.02, 1.1))
+    for k, x in enumerate(np.arange(-L / 2 + 0.25, L / 2, 0.45)):
+        P.blob(M["lino_" + COLOURS[k % 5]], (x, 0.14, 1.22), (0.11, 0.13, 0.09), z_cut=1.12)  # helmets
+
+
+def rolling_hill(P, L=3.0, D=2.2, h=0.8):
+    """'Lekebakke', the indoor rolling hill (my pick): a soft carpeted mound on an oak frame, to run up, roll down, sit on top of,
+    with a felt-lined crawl tunnel straight through it and an oak rim round the foot."""
+    b = P.bm(M["carpet"] if "carpet" in M else M["felt_oat"])
+    nx_, ny_ = 24, 18
+    vs = {}
+    for i in range(nx_ + 1):
+        for j in range(ny_ + 1):
+            x, y = -L / 2 + L * i / nx_, -D / 2 + D * j / ny_
+            u, v = 2 * x / L, 2 * y / D
+            z = h * max(0.0, 1 - u * u) * max(0.0, 1 - v * v) ** 0.6
+            vs[i, j] = b.verts.new((x, y, z))
+    for i in range(nx_):
+        for j in range(ny_):
+            b.faces.new((vs[i, j], vs[i + 1, j], vs[i + 1, j + 1], vs[i, j + 1]))
+    for sx in (-1, 1):  # tunnel mouths (dark felt) on the long sides
+        P.box(M["felt_fjord"], (0, sx * (D / 2 - 0.35), 0.24), (0.62, 0.02, 0.48))
+    P.rod(M["felt_fjord"], (0, -D / 2 + 0.3, 0.24), (0, D / 2 - 0.3, 0.24), 0.3, seg=24)
+    for (x, y, sx, sy) in ((0, D / 2, L, 0.06), (0, -D / 2, L, 0.06), (L / 2, 0, 0.06, D), (-L / 2, 0, 0.06, D)):
+        P.box(M["oak"], (x, y, 0.03), (sx, sy, 0.06))
+
+
 def light_only(P):
     """A light whose fitting belongs to another piece (e.g. the vanity's light channel): no geometry."""
 
@@ -1367,6 +1581,8 @@ BUILDERS = {
     "star_ceiling": star_ceiling, "pram": pram, "gear_rack": gear_rack, "gapahuk": gapahuk, "fire_pit": fire_pit, "log_bench": log_bench,
     "sandbox": sandbox, "swing_frame": swing_frame, "playhouse": playhouse, "mud_kitchen": mud_kitchen, "trike_loop": trike_loop,
     "terrace_slide": terrace_slide, "pram_shelter": pram_shelter, "stump": stump,
+    "tube_slide": tube_slide, "foam_fortress": foam_fortress, "ripstick": ripstick, "tricycle": tricycle, "strider": strider,
+    "wheel_rack": wheel_rack, "rolling_hill": rolling_hill,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -1377,7 +1593,8 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
           "kid_chair": ("colour",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
-          "stair_guard": ("gap",), "art_labels": ("width", "height", "z0", "labels", "size"),
+          "stair_guard": ("gap", "gaps", "gates", "r_in"),
+          "tube_slide": ("hatches",), "ripstick": ("colour",), "tricycle": ("colour",), "strider": ("colour",), "wheel_rack": ("length",), "art_labels": ("width", "height", "z0", "labels", "size"),
           "climbing_wall": ("length",), "wall_bars": ("length",), "nest_swing": ("top",), "balance_beam": ("length",), "sleep_mat": ("colour",), "mat_shelf": ("length",),
           "star_ceiling": ("size", "hang"), "pram": ("colour",), "gear_rack": ("length",), "log_bench": ("length",), "trike_loop": ("rx", "ry"),
           "terrace_slide": ("drop",), "stump": ("r", "h")}
@@ -1397,7 +1614,7 @@ def build_all(model, MAT, coll):
                 name = k
                 if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
-                            "gear_rack", "log_bench", "mat_shelf") and k == "length":
+                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"

@@ -119,7 +119,20 @@ def dl(x, y, energy=200, zone="daycare"):
     put("downlight", x, y, zone=zone, z_ceiling=5.02, light={"type": "SPOT", "energy": energy, "spot_deg": 60, "offset": [0, 0, 4.85], "aim": [x, y, 0.12], "color": WARM})
 
 # round stair down to the lower daycare: guards round the opening + up both edges of the helix (the way on stays open)
-put("stair_guard", 15.7, 24.2, zone="daycare", gap=[233.0, 262.0], note="child-safe guards: 1.2 m oak staves round the opening, balustrades on the helix")
+# tube slide inside the stair's eye (Roman): find where the stair runs alongside the tube at an adult's reach -> rescue hatches
+# in the tube + lockable gates in the stair's inner balustrade opposite them
+T_TOP, T_TURN, TZ0, TZ1 = 300.0, 690.0, 0.36, -5.39
+tz = lambda th: TZ0 + (TZ1 - TZ0) * (th - T_TOP) / T_TURN
+sz = lambda al: -6.13 + (int((al - 90) / 15) + 1) * 6.13 / 35
+HATCH, GATES = [], []
+for th in range(int(T_TOP) + 20, int(T_TOP + T_TURN) - 20, 2):
+    for al in (th - 360 * j for j in range(-1, 4)):
+        if 95 <= al <= 600 and 0.45 <= tz(th) - sz(al) <= 0.95 and all(abs(th - h) >= 150 for h in HATCH):
+            HATCH.append(th); GATES.append(al)
+put("stair_guard", 15.7, 24.2, zone="daycare", gaps=[[233.0, 262.0], [290.0, 310.0]], gates=GATES, r_in=1.45,
+    note="child-safe guards: 1.2 m oak staves round the opening, balustrades on the helix, rescue gates by the tube's hatches")
+put("tube_slide", 15.7, 24.2, zone="daycare", hatches=HATCH,
+    note="tube slide down the stair's eye: stainless below, clear polycarbonate above, rescue hatches, oak bridge at the top")
 # the 'tree house' play loft against the north glass (forest view from the deck), den underneath
 put("play_loft", 14.5, 30.55, rot=180, zone="daycare", length=4.0, D=2.6, deck=1.6, note="oak play loft: deck 1.6 m, gable frame, stair, slide, den")
 # craft tables at child height
@@ -212,7 +225,16 @@ put2("climbing_wall", 12.215, 30.25, rot=-90, length=5.5, note="children's bould
 put2("wall_bars", 30.285, 22.95, rot=90, length=2.7, note="ribbevegg")
 for x in (22.8, 26.6):
     put2("nest_swing", x, 24.74, top=round(-0.88 - E2, 2), note="nest swing hung from the E1 beam")
-put2("soft_play", 20.8, 29.6)
+put2("foam_fortress", 20.8, 29.8, note="foam fortress: felt-covered foam blocks to build, knock down and throw")
+put2("rolling_hill", 27.0, 29.5, note="lekebakke: a carpeted rolling hill with a crawl tunnel")
+# wheels corner (Roman): caster boards, balance bikes and tricycles, a rack on the store wall
+put2("wheel_rack", 25.45, 21.275, length=2.3, note="rack for balance bikes, caster boards, helmets")
+for k, x in enumerate((24.7, 25.4, 26.1)):
+    put2("strider", x, 21.95, rot=0, colour=COL[k + 1], note="balance bike")
+for k, (x, y, r) in enumerate(((24.9, 23.0, 80), (25.4, 23.25, 95), (25.9, 22.95, 70))):
+    put2("ripstick", x, y, rot=r, colour=COL[k * 2 % 5], note="caster board")
+for k, x in enumerate((28.1, 28.9, 29.6)):
+    put2("tricycle", x, 22.2, rot=-90 + 10 * k, colour=COL[(k + 3) % 5], note="tricycle")
 put2("balance_beam", 16.8, 31.6, length=3.0)
 # mudroom by the garden door (grovgarderobe): boot-wash trough, cubbies, drying cabinets on the east wall
 put2("vanity", 30.285, 25.6, rot=90, length=1.6, n=2, top=0.5, note="boot + hand wash trough at child height")
@@ -263,6 +285,8 @@ for y in (36.2, 37.8):
 putg("mud_kitchen", 22.5, 36.3, rot=-90, note="gjørmekjøkken")
 putg("playhouse", 24.3, 40.2, rot=-90, note="lekehus: the building in miniature, tarred boards + sod roof")
 putg("trike_loop", 28.6, 41.0, rx=2.6, ry=2.3, note="tricycle loop, poured rubber")
+for (x, y, r, c) in ((31.2, 41.4, 0, "cloud"), (28.2, 38.7, 90, "lingon")):
+    putg("tricycle", x, y, rot=r, colour=c)
 putg("communal_table", 28.6, 41.0, length=2.0, note="picnic table inside the loop: lunch outdoors")
 for y, r in ((40.32, 0), (41.68, 180)):
     putg("bench", 28.6, y, rot=r, length=1.8)

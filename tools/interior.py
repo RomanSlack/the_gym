@@ -224,8 +224,11 @@ for nm, (r, fk, holes) in DL.items():
     add({"id": f"IN-E2-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(E2 - f["t"], 3), E2], "holes": [],
          "pattern": {k: v for k, v in f.items() if k not in ("material", "t")}, "note": "floor finish: " + ("white-oiled oak boards" if fk == "floor" else "light honed stone 600 x 600, R10")})
     if nm != "dcrest":  # the sleep room gets its own star ceiling (tools/furnish.py)
-        add({"id": f"IN-E2-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": r, "z": [round(SOF - ceil["dmax"], 3), SOF], "holes": [],
-             "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.5, "note": "ash wave ceiling under the E1 slab, between its beams"})
+        tr = by_id.get("ST3-trimmer-dc-stair")
+        add({"id": f"IN-E2-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": r, "z": [round(SOF - ceil["dmax"], 3), SOF],
+             "holes": holes, "cut_x": [[round(tr["from"][0] - 0.3, 2), round(tr["from"][0] + 0.3, 2)]] if tr and r[0] < tr["from"][0] < r[2] else [],
+             "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.5,
+             "note": "ash wave ceiling under the E1 slab, between its beams, cut round the stairwell and the stair trimmer"})
         add({"id": f"IN-E2-ceiling-{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": r, "z": [round(SOF - 0.01, 3), round(SOF - 0.002, 3)],
              "holes": [STAIR_HOLE] if holes else [], "note": "black acoustic felt on the slab soffit"})
 # the concrete retaining walls of the play room: warm lime plaster (the climbing wall goes on the west one)
