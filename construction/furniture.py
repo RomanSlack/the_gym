@@ -16,6 +16,9 @@ import bl_common as bc
 
 PROTO = {}
 M = {}
+PALETTE = {"lingon": (0.30, 0.06, 0.06), "cloud": (0.62, 0.40, 0.12), "moss": (0.20, 0.25, 0.11), "fjord": (0.11, 0.19, 0.30),
+           "heather": (0.42, 0.25, 0.32), "oat": (0.62, 0.57, 0.48)}  # muted Nordic: lingonberry, cloudberry, moss, fjord, heather
+COLOURS = ["lingon", "cloud", "moss", "fjord", "heather"]
 
 
 def materials(MAT):
@@ -40,6 +43,10 @@ def materials(MAT):
     M["frame"] = MAT.get("frame") or bc.blackened_steel()
     M["rubber"] = bc.material("rubber_black", (0.02, 0.02, 0.02), 0.8)
     M["ceramic"] = bc.material("ceramic_white", (0.86, 0.85, 0.82), 0.05)
+    for k_, rgb in PALETTE.items():  # daycare colour (VISION): wool felt and linoleum in a soft Nordic set, never on the walls
+        M["felt_" + k_] = bc.material("felt_" + k_, tuple(c * 0.85 for c in rgb), 0.95)  # matte pressed wool felt
+        M["lino_" + k_] = bc.material("lino_" + k_, rgb, 0.45)
+    M["pad"] = bc.material("pad_oat", (0.62, 0.56, 0.46), 0.5)
     M["mirror"] = bc.material("mirror", (0.92, 0.92, 0.9), 0.01, metal=1.0)
     M["mat_textile"] = bc.pbr_material("mat_textile", "caban", 0.274, box=True, tint=(0.2, 0.19, 0.18), sat=0.25, val=0.35, piece_var=0.0, rough_add=0.2)  # charcoal entrance textile
     return M
@@ -549,10 +556,10 @@ def wc_cells(P, n=4, w=1.1, depth=1.65, h=2.6, style="wc", door_at=0.0, pan_at=0
         P.box(M["oak"], (sx - np.sign(sx) * 0.05, depth / 2, 0.9), (0.1, 0.8, 0.5))
 
 
-def vanity(P, L=3.0, n=3):
+def vanity(P, L=3.0, n=3, top=0.86):
     """Honed-stone trough vanity on the wall: 120 mm slab, top at 0.86, 0.5 deep, n basins sunk into it; wall-mounted
     blackened-steel spouts; a full-length mirror (1.0 tall) in a slim oak frame; a slim steel light channel above it."""
-    d, t, top = 0.5, 0.12, 0.86
+    d, t = 0.5, 0.12
     bw = 0.48
     xs = [-L / 2 + (k + 0.5) * L / n for k in range(n)]
     cuts = sorted([-L / 2, L / 2] + [v for x in xs for v in (x - bw / 2, x + bw / 2)])
@@ -588,6 +595,262 @@ def cell_light(P, z_ceiling=2.6):
     """Small opal disc under a WC cell lid."""
     P.cyl(M["steel"], (0, 0, z_ceiling - 0.012), 0.06, 0.012, seg=24)
     P.cyl(M["opal"], (0, 0, z_ceiling - 0.014), 0.05, 0.003, seg=24)
+
+
+# ------------------------------------------------------------------ daycare (VISION "Daycare: playful, still Nordic", Roman 2026-10-12)
+def kid_wc_cells(P, n=4, w=0.85, depth=1.2):
+    """Children's WCs: low oak screens (1.2 m, staff can see over) with half-height doors in coloured linoleum, oak-edged;
+    small wall-hung pans (seat 0.33), a low flush plate. Origin = wall face at the row centre, front +y."""
+    W, h = n * w, 1.2
+    for k in range(n + 1):
+        P.box(M["oak"], (-W / 2 + k * w, depth / 2, 0.15 + h / 2), (0.025, depth, h))
+    for k in range(n):
+        cx = -W / 2 + (k + 0.5) * w
+        c = COLOURS[k % len(COLOURS)]
+        P.box(M["lino_" + c], (cx, depth, 0.2 + 0.45), (w - 0.06, 0.02, 0.9))          # half-height door
+        P.box(M["oak"], (cx, depth, 1.11), (w - 0.06, 0.025, 0.02))                    # oak top edge
+        P.cyl(M["oak"], (cx + w / 2 - 0.12, depth + 0.012, 0.75), 0.03, 0.02, seg=20)  # round oak knob
+        P.box(M["ceramic"], (cx, 0.08, 0.28), (0.3, 0.16, 0.16))
+        P.blob(M["ceramic"], (cx, 0.26, 0.25), (0.14, 0.2, 0.09), z_cut=0.18)
+        P.box(M["ceramic"], (cx, 0.26, 0.33), (0.3, 0.36, 0.018))
+        P.box(M["steel"], (cx, 0.004, 0.75), (0.2, 0.008, 0.13))
+
+
+def changing_unit(P, L=1.8):
+    """Nappy changing unit, 0.9 high x 0.8 deep in oak: a wipeable oat pad with a raised oak rim, a small sink with a hand
+    shower at one end, and pull-out oak steps at the other so toddlers climb up themselves (saves the staff's backs)."""
+    d = 0.8
+    P.box(M["oak"], (0, d / 2, 0.45), (L, d, 0.9))
+    P.box(M["pad"], (-0.15, d / 2, 0.93), (L - 0.65, d - 0.1, 0.06))
+    for y in (0.04, d - 0.04):
+        P.box(M["oak"], (-0.15, y, 0.98), (L - 0.65, 0.04, 0.1))
+    P.box(M["stone"], (L / 2 - 0.25, d / 2, 0.91), (0.5, d, 0.03))
+    P.box(M["ceramic"], (L / 2 - 0.25, d / 2, 0.895), (0.36, 0.4, 0.02))
+    P.rod(M["steel"], (L / 2 - 0.25, 0.0, 1.2), (L / 2 - 0.25, 0.2, 1.2), 0.012, seg=10)
+    P.rod(M["steel"], (L / 2 - 0.08, 0.02, 0.95), (L / 2 - 0.08, 0.02, 1.45), 0.01, seg=10)   # hand shower on its rail
+    for k in range(3):  # steps out of the left end
+        P.box(M["oak"], (-L / 2 - 0.15 - k * 0.0, d / 2 + 0.25 + k * 0.0, 0.11 + k * 0.25), (0.3, 0.6 - k * 0.12, 0.04))
+        P.box(M["oak"], (-L / 2 - 0.15, d / 2 + 0.25 - (0.3 - k * 0.06) + 0.02, 0.06 + k * 0.125), (0.3, 0.03, 0.12 + k * 0.25))
+
+
+def cubbies(P, L=3.4, n=8):
+    """Wardrobe cubbies, one per child: an oak frame 1.75 high, 0.4 deep; a slatted bench at 0.3 with boot slots under it,
+    a coloured felt back in each cubby (each child 'has a colour'), two steel pegs, a hat shelf at 1.45 and a box on top."""
+    d, H = 0.4, 1.75
+    w = L / n
+    P.box(M["oak"], (0, d / 2, 0.02), (L, d, 0.04))
+    for k in range(n + 1):
+        P.box(M["oak"], (-L / 2 + k * w, d / 2, H / 2), (0.022, d, H))
+    for z in (0.3, 1.45, H):
+        P.box(M["oak"], (0, d / 2, z), (L, d, 0.022))
+    for x in np.arange(-L / 2 + 0.03, L / 2 - 0.02, 0.06):   # bench slats over the boot slots
+        P.box(M["oak"], (x, d / 2 + 0.02, 0.32), (0.045, d - 0.04, 0.025))
+    for k in range(n):
+        cx = -L / 2 + (k + 0.5) * w
+        c = COLOURS[(k * 2) % len(COLOURS)]
+        P.box(M["felt_" + c], (cx, 0.012, 0.88), (w - 0.03, 0.012, 1.13))
+        for dx in (-0.09, 0.09):
+            P.rod(M["steel"], (cx + dx, 0.02, 1.1), (cx + dx, 0.12, 1.14), 0.009, seg=8)
+        P.box(M["felt_" + COLOURS[(k * 2 + 1) % len(COLOURS)]], (cx, d / 2, 1.58), (w - 0.06, d - 0.08, 0.24))  # a felt box on the hat shelf
+        P.cyl(M["oak"], (cx, d + 0.001, 1.38), 0.035, 0.004, seg=16)  # a little round name tag
+
+
+def drying_cabinet(P):
+    """Drying cabinet for wet outdoor gear (tørkeskap): tall oak cabinet 0.6 x 0.6 x 1.9, vent slats at the top, steel pull."""
+    P.box(M["oak"], (0, 0.3, 0.95), (0.6, 0.6, 1.9))
+    for z in np.arange(1.72, 1.86, 0.03):
+        P.box(M["felt"], (0, 0.601, z), (0.5, 0.004, 0.012))
+    P.box(M["steel"], (0.24, 0.62, 1.0), (0.02, 0.03, 0.4))
+
+
+def kid_table(P, colour="cloud", d=1.2, h=0.58):
+    """Round table at child height: coloured linoleum top in a thick rounded oak edge, four splayed oak legs."""
+    P.cyl(M["oak"], (0, 0, h - 0.035), d / 2, 0.035, seg=64)
+    P.cyl(M["lino_" + colour], (0, 0, h), d / 2 - 0.03, 0.002, seg=64)
+    for a in (45, 135, 225, 315):
+        ca, sa = math.cos(math.radians(a)), math.sin(math.radians(a))
+        P.rod(M["oak"], (ca * 0.42, sa * 0.42, 0), (ca * 0.3, sa * 0.3, h - 0.035), 0.022, 0.03, seg=12)
+
+
+def kid_chair(P, colour="fjord"):
+    """Child's chair (seat 0.32): oak frame, a round-ended oak back hoop, a coloured wool felt seat pad."""
+    s, h = 0.3, 0.32
+    legs4(P, M["oak"], s, s, h, inset=0.03, r0=0.016, r1=0.012, splay=0.015)
+    P.box(M["oak"], (0, 0, h), (s, s, 0.022))
+    P.box(M["felt_" + colour], (0, 0.01, h + 0.02), (s - 0.03, s - 0.04, 0.025))
+    for x in (-s / 2 + 0.03, s / 2 - 0.03):
+        P.rod(M["oak"], (x, -s / 2 + 0.03, h), (x, -s / 2 + 0.01, h + 0.28), 0.012, seg=10)
+    P.box(M["oak"], (0, -s / 2 + 0.01, h + 0.24), (s, 0.02, 0.08))
+
+
+def play_loft(P, L=4.0, D=2.6, deck=1.6):
+    """The 'tree house': an oak play loft against the forest glass. A deck at 1.6 m on four oak posts, oak slat guards 1.1 high
+    (vertical, 80 mm gaps, nothing to climb), a gable 'house' frame of oak over it (the drawn-house silhouette every child knows)
+    with a felt pennant line, a stair with a handrail up the right end, a slide down the left end, and a den underneath with
+    cushions. Origin = front centre on the floor; the glass is behind (-y), the room in front (+y)."""
+    y0, y1 = -D, 0.0
+    for x in (-L / 2 + 0.06, L / 2 - 0.06):
+        for y in (y0 + 0.06, y1 - 0.06):
+            P.box(M["oak"], (x, y, (deck + 2.0) / 2), (0.1, 0.1, deck + 2.0))  # posts run up to carry the gable
+    P.box(M["oak"], (0, (y0 + y1) / 2, deck - 0.05), (L, D, 0.1))
+    for x in np.arange(-L / 2 + 0.06, L / 2, 0.11):  # guards front + back
+        for y in (y0 + 0.03, y1 - 0.03):
+            if y == y1 - 0.03 and (x > L / 2 - 0.85 or x < -L / 2 + 0.75):
+                continue  # stair landing + slide openings
+            P.box(M["oak"], (x, y, deck + 0.55), (0.03, 0.03, 1.1))
+    for y in np.arange(y0 + 0.06, y1, 0.11):
+        for x in (-L / 2 + 0.03, L / 2 - 0.03):
+            P.box(M["oak"], (x, y, deck + 0.55), (0.03, 0.03, 1.1))
+    for y in (y0 + 0.03, y1 - 0.03):
+        P.box(M["oak"], (0, y, deck + 1.12), (L, 0.06, 0.04))
+    # gable: two pitched rafters per end + a ridge (the house outline), 45 degrees
+    eave, rise_ = deck + 2.0, 1.0  # gable top 4.6 m, under the wave ceiling (5.3)
+    for y in (y0 + 0.06, y1 - 0.06):
+        apex = (0, y, eave + rise_)
+        for x in (-L / 2 + 0.06, L / 2 - 0.06):
+            P.rod(M["oak"], (x, y, eave), apex, 0.05, seg=4)
+        P.box(M["oak"], (0, y, eave), (L, 0.1, 0.1))
+    P.box(M["oak"], (0, (y0 + y1) / 2, eave + rise_), (0.1, D, 0.1))
+    for k in range(9):  # felt pennants on a cord under the front rafters
+        x = -L / 2 + 0.5 + k * (L - 1.0) / 8
+        z = eave + rise_ * (1 - abs(x) / (L / 2)) - 0.25
+        P.box(M["felt_" + COLOURS[k % 5]], (x, y1 - 0.06, z), (0.18, 0.01, 0.2))
+    # stair up the right end (9 risers 0.178, 0.25 going), towards +y, oak, with a low handrail
+    n = 9
+    for k in range(n):
+        P.box(M["oak"], (L / 2 - 0.4, y1 + 0.25 * (n - k) - 0.125, (k + 1) * deck / n - 0.02), (0.7, 0.26, 0.04))
+    for x in (L / 2 - 0.77, L / 2 - 0.03):
+        P.rod(M["oak"], (x, y1 + 0.25 * n, 0.65), (x, y1, deck + 0.65), 0.022, seg=12)
+        P.box(M["oak"], (x, y1 + 0.125 * n, deck / 2), (0.04, 0.25 * n * 1.0, 0.04), rx=-math.atan2(deck, 0.25 * n))
+    # slide down the left end: a stainless chute in an oak cheek, out towards +y
+    run = 2.6
+    ang = math.atan2(deck - 0.25, run)
+    P.box(M["brushed"], (-L / 2 + 0.38, y1 + run / 2, (deck + 0.25) / 2), (0.5, run / math.cos(ang), 0.02), rx=ang)
+    for x in (-L / 2 + 0.1, -L / 2 + 0.66):
+        P.box(M["oak"], (x, y1 + run / 2, (deck + 0.25) / 2 + 0.12), (0.03, run / math.cos(ang), 0.25), rx=ang)
+    P.box(M["oak"], (-L / 2 + 0.38, y1 + run + 0.15, 0.12), (0.6, 0.3, 0.24))
+    # the den underneath: floor cushions + a felt curtain at the back
+    for k, (x, c) in enumerate(zip((-1.1, -0.2, 0.7), ("moss", "heather", "fjord"))):
+        P.blob(M["felt_" + c], (x, -D / 2, 0.11), (0.38, 0.34, 0.11), z_cut=0.0)
+    P.box(M["felt_oat"], (0, y0 + 0.12, deck / 2 - 0.05), (L - 0.3, 0.02, deck - 0.2))
+
+
+def stair_guard(P, r_in=0.92, r_out=2.55, rise=-6.13, risers=35, step_deg=15.0, a0=90.0, gap=(233.0, 262.0), h=1.2):
+    """Child-safe guards for the open round stair (daycare): a guard round the floor opening (oak staves 30 @ 90 = 60 mm gaps,
+    1.2 m, an oak kerb ring hiding the floor edge, a steel top rail), the way on to the top tread left open; and an oak-staved
+    balustrade up both edges of the helix (outer + round the open eye), with a handrail at 0.9 and a child rail at 0.6.
+    Origin = stair centre at the upper floor; z goes down to the lower floor (rise)."""
+    R = r_out + 0.07
+    in_gap = lambda a: gap[0] <= a % 360 <= gap[1]
+    P.ring(M["oak"], (0, 0), r_out - 0.005, r_out + 0.25, -0.02, 0.1, seg=192)
+    na = int(2 * math.pi * R / 0.09)
+    for k in range(na):
+        a = 360 * k / na
+        if in_gap(a):
+            continue
+        ca, sa = math.cos(math.radians(a)), math.sin(math.radians(a))
+        P.box(M["oak"], (R * ca, R * sa, 0.1 + (h - 0.1) / 2), (0.03, 0.03, h - 0.1), rz=math.radians(a))
+    P.ring(M["steel"], (0, 0), R - 0.025, R + 0.025, h, h + 0.04, a0=gap[1], a1=gap[0] + 360, seg=192)
+    # helix balustrades: a stave every 90 mm along each edge, rails as short chords
+    for rad in (r_out - 0.06, r_in + 0.06):
+        prev = None
+        steps = int(risers * step_deg * math.pi / 180 * rad / 0.09)
+        for j in range(steps + 1):
+            t = j / steps
+            a = math.radians(a0 + step_deg * risers * t)
+            k = min(risers - 1, int(t * risers))
+            zt = rise + (-rise) * (k + 1) / risers  # tread top, counted up from the lower floor
+            x, y = rad * math.cos(a), rad * math.sin(a)
+            P.box(M["oak"], (x, y, zt + 0.45), (0.03, 0.03, 0.9), rz=a)
+            top = (x, y, zt + 0.9)
+            if prev is not None:
+                P.rod(M["steel"], prev, top, 0.02, seg=8)
+            prev = top
+
+
+def felt_cloud(P, colour="oat", s=1.0, z=3.6, ceiling=5.3):
+    """Acoustic cloud: three overlapping discs of 40 mm wool felt (a soft cloud outline) on thin steel cables."""
+    for (dx, dy, r) in ((-0.45, 0.0, 0.55), (0.25, 0.12, 0.7), (0.85, -0.05, 0.45)):
+        P.cyl(M["felt_" + colour], (dx * s, dy * s, z), r * s, 0.04, seg=48)
+    for dx in (-0.5, 0.3, 0.9):
+        P.rod(M["steel"], (dx * s, 0, z + 0.04), (dx * s, 0, ceiling), 0.0015, seg=4)
+
+
+def soft_play(P):
+    """Toddler soft-play landscape on a round oat mat: wool-felt covered foam steps (3 tiers), a ramp, a half-round hump
+    and a low arch to crawl through, all with soft (30 mm) radii."""
+    P.cyl(M["felt_oat"], (0, 0, 0.0), 1.9, 0.04, seg=96)
+    P.box(M["felt_moss"], (-0.9, 0.5, 0.15), (0.9, 0.9, 0.3))
+    P.box(M["felt_moss"], (-0.9, 0.85, 0.35), (0.9, 0.3, 0.1))  # the top tier
+    P.box(M["felt_cloud"], (-0.9, -0.25, 0.1), (0.9, 0.6, 0.2))
+    P.box(M["felt_fjord"], (0.25, 0.75, 0.2), (1.2, 0.45, 0.4), rx=0.0)
+    P.box(M["felt_heather"], (0.3, 0.2, 0.08), (1.1, 0.6, 0.12), rx=0.25)  # ramp
+    P.blob(M["felt_lingon"], (0.9, -0.7, 0.04), (0.5, 0.35, 0.28), z_cut=0.04)
+    P.ring(M["felt_cloud"], (0, -0.8), 0.32, 0.55, -0.15, 0.15, seg=48)  # the arch, set on edge below
+    for k in range(4):
+        P.blob(M["felt_" + COLOURS[k]], (-1.3 + k * 0.6, -1.35, 0.12), (0.16, 0.16, 0.16))
+
+
+def low_shelf(P, L=3.8, h=0.8, books=True):
+    """Low oak shelving (0.8 m, 0.35 deep), open both sides, with face-out picture books on two ledges: the soft line
+    between the kids' and the toddlers' zones. Books in palette colours."""
+    d = 0.35
+    for z in (0.04, 0.4, h):
+        P.box(M["oak"], (0, 0, z), (L, d, 0.025))
+    for x in np.arange(-L / 2, L / 2 + 0.01, L / max(1, round(L / 0.8))):
+        P.box(M["oak"], (x, 0, h / 2), (0.025, d, h))
+    if books:
+        rng = np.random.default_rng(3)
+        for k, x in enumerate(np.arange(-L / 2 + 0.2, L / 2 - 0.1, 0.32)):
+            for z, side in ((0.06, 1), (0.42, -1)):
+                c = COLOURS[int(rng.integers(0, 5))]
+                P.box(M["lino_" + c], (x, side * 0.1, z + 0.12), (0.24, 0.02, 0.24), rx=side * 0.12)
+
+
+def gate(P, w=0.9, h=0.8):
+    """Low oak gate between the zones: vertical staves 60 mm apart, a toddler-proof latch high on the frame."""
+    for x in np.arange(-w / 2 + 0.03, w / 2, 0.09):
+        P.box(M["oak"], (x, 0, h / 2 + 0.03), (0.03, 0.03, h - 0.06))
+    for z in (0.05, h):
+        P.box(M["oak"], (0, 0, z), (w, 0.04, 0.05))
+    P.box(M["steel"], (w / 2 - 0.05, 0.03, h - 0.06), (0.06, 0.02, 0.08))
+
+
+def story_wall(P, L=4.4, h=2.6):
+    """Freestanding 'story wall' at the edge of the kids' zone: a 120 mm oak-framed panel, the forest painting on the front
+    (the canvas is its own piece), low face-out bookshelves and a felt pin board on the back (towards the toddlers)."""
+    P.box(M["oak"], (0, 0.0, h / 2), (L, 0.12, h))
+    for x in (-L / 2 + 0.3, L / 2 - 0.3):
+        P.box(M["oak"], (x, 0, 0.03), (0.08, 0.6, 0.06))  # feet
+    P.box(M["felt_oat"], (0, -0.065, 1.55), (L - 0.4, 0.01, 0.9))
+    for z in (0.08, 0.5):
+        P.box(M["oak"], (0, -0.2, z), (L - 0.2, 0.28, 0.025))
+        P.box(M["oak"], (0, -0.33, z + 0.05), (L - 0.2, 0.02, 0.08))
+        for k, x in enumerate(np.arange(-L / 2 + 0.3, L / 2 - 0.2, 0.34)):
+            P.box(M["lino_" + COLOURS[(k + int(z * 10)) % 5]], (x, -0.12, z + 0.14), (0.26, 0.02, 0.26), rx=-0.15)
+
+
+def floor_cushion(P, colour="moss", r=0.35):
+    P.blob(M["felt_" + colour], (0, 0, 0.1), (r, r, 0.11), z_cut=0.0)
+
+
+def rug_round(P, d=2.2, colour="oat"):
+    P.cyl(M["felt_" + colour], (0, 0, 0.0), d / 2, 0.012, seg=96)
+
+
+def kitchenette(P, L=2.4):
+    """Staff kitchenette: oak base units 0.9 high, light stone top, a steel sink + tap, an oak tall unit (fridge) at one end,
+    an open oak shelf above."""
+    d = 0.6
+    P.box(M["oak"], (-0.3, d / 2, 0.44), (L - 0.6, d - 0.02, 0.88))
+    P.box(M["stone"], (-0.3, d / 2, 0.9), (L - 0.6, d, 0.03))
+    P.box(M["brushed"], (0.0, d / 2, 0.905), (0.5, 0.38, 0.02))
+    P.rod(M["steel"], (0.0, 0.08, 0.915), (0.0, 0.08, 1.2), 0.012, seg=10)
+    P.rod(M["steel"], (0.0, 0.08, 1.2), (0.0, 0.25, 1.2), 0.012, seg=10)
+    P.box(M["oak"], (L / 2 - 0.3, d / 2, 1.05), (0.6, d, 2.1))
+    P.box(M["oak"], (-0.3, 0.13, 1.55), (L - 0.6, 0.26, 0.03))
+    for k in range(int((L - 0.6) / 0.6)):  # base unit fronts: shadow gaps
+        P.box(M["felt"], (-L / 2 + 0.6 * (k + 1), d, 0.44), (0.004, 0.004, 0.86))
 
 
 def light_only(P):
@@ -763,13 +1026,21 @@ BUILDERS = {
     "relief_art": relief_art, "porch_floor": porch_floor, "canvas_art": canvas_art,
     "wall_light": wall_light, "downlight": downlight, "gallery_spot": gallery_spot, "entrance_mat": entrance_mat,
     "wc_cells": wc_cells, "vanity": vanity, "urinals": urinals, "cell_light": cell_light, "light_only": light_only,
+    "kid_wc_cells": kid_wc_cells, "changing_unit": changing_unit, "cubbies": cubbies, "drying_cabinet": drying_cabinet,
+    "kid_table": kid_table, "kid_chair": kid_chair, "play_loft": play_loft, "stair_guard": stair_guard, "felt_cloud": felt_cloud,
+    "soft_play": soft_play, "low_shelf": low_shelf, "gate": gate, "story_wall": story_wall, "floor_cushion": floor_cushion,
+    "rug_round": rug_round, "kitchenette": kitchenette,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
-          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
-          "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at"), "vanity": ("length", "n"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",)}
+          "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image", "z0"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
+          "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),
+          "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
+          "kid_chair": ("colour",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "z"), "low_shelf": ("length", "h"),
+          "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
+          "stair_guard": ("gap",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -784,17 +1055,20 @@ def build_all(model, MAT, coll):
         for k in keys:
             if k in f:
                 name = k
-                if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity") and k == "length":
+                if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
+                            "play_loft", "low_shelf", "story_wall", "kitchenette") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"
+                if kind == "gate" and k == "width":
+                    name = "w"
                 kw[name] = tuple(f[k]) if isinstance(f[k], list) else f[k]
         key = kind + "|" + "|".join(f"{k}={v}" for k, v in sorted(kw.items()))
         if key not in PROTO:
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")
             P = Part(pc.name)
             BUILDERS[kind](P, **kw)
-            P.build(pc, bevel=0.0 if kind in ("rug",) else 0.004)
+            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0}.get(kind, 0.004))
             PROTO[key] = pc
         e = bpy.data.objects.new(f["id"], None)
         e.instance_type = "COLLECTION"; e.instance_collection = PROTO[key]

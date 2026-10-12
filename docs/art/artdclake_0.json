@@ -1,0 +1,11 @@
+{
+  "prompt": "A calm wall painting for a baby and toddler room in a Norwegian nursery: a mother moose and her calf standing by a still forest lake at dusk, two ducks on the water, a few birches, soft round hills behind, a big pale moon. Hand-painted gouache and watercolour on paper, very simple soft rounded shapes, mid-century Scandinavian children's book illustration style, gentle and sleepy. Soft muted Nordic palette on warm cream: fjord blue, moss green, heather pink, cloudberry yellow, a touch of lingonberry red. Subtle paper grain. No text, no letters, no border, no frame.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "2048x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "artdclake_0.png",
+  "generated_at": "2026-10-11T18:33:42"
+}

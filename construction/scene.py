@@ -189,6 +189,14 @@ for ph in range(1, STAGE + 1):
             W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))  # roofs: plate runs past the facade
             ob = bc.box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
             for k, h in enumerate(e.get("holes", [])):
+                if "circle" in h and e.get("phase") == 5:  # floor build-up round a stairwell (the structural slab's own holes are drawn elsewhere)
+                    hx, hy, hr = h["circle"]
+                    bpy.ops.mesh.primitive_cylinder_add(radius=hr, depth=(z1 - z0) + 1.0, vertices=96, location=(hx, hy, (z0 + z1) / 2))
+                    cu = bpy.context.object; cu.name = f"{e['id']}_hole{k}"
+                    for c_ in list(cu.users_collection):
+                        c_.objects.unlink(cu)
+                    coll.objects.link(cu); cu.hide_render = True; cu.hide_viewport = True
+                    md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
                 if "rect" in h:  # e.g. the pool basin through the F4 raft
                     xs_, ys_ = [p[0] for p in h["rect"]], [p[1] for p in h["rect"]]
                     cu = bc.box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
@@ -414,6 +422,13 @@ CAMS = {
     "wc_w_light": ((15.9, 8.4, 1.5), (12.3, 13.5, 4.2), 15),
     "wc_m_aisle": ((17.2, 8.4, 1.62), (20.4, 13.4, 1.3), 16),
     "wc_acc": ((14.1, 13.9, 1.62), (13.0, 16.1, 0.9), 14),
+    # daycare upper floor (E1), at a child's eye height where it helps
+    "dc_kids": ((20.6, 21.9, 1.5), (13.8, 31.0, 1.8), 15),
+    "dc_loft": ((18.6, 25.6, 1.3), (14.3, 31.6, 2.3), 18),
+    "dc_story": ((16.7, 29.9, 1.2), (21.2, 28.3, 1.3), 18),
+    "dc_toddler": ((21.8, 22.0, 1.2), (28.0, 29.0, 1.0), 16),
+    "dc_wardrobe": ((29.7, 20.7, 1.5), (24.1, 17.6, 1.0), 18),
+    "dc_wc": ((19.6, 20.9, 1.3), (19.6, 16.3, 0.5), 15),
 }
 for n, (loc, tgt, lens) in CAMS.items():
     bc.camera(scene, f"cam_{n}", loc, tgt, lens)
@@ -442,7 +457,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]

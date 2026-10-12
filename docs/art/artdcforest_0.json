@@ -1,0 +1,11 @@
+{
+  "prompt": "A large wall painting for a Norwegian nursery, seen at a child's eye level: a gentle Nordic forest floor between birch and spruce trunks, with friendly forest animals spread across the whole width: a moose calf, a red fox curled up, a hedgehog, an owl on a spruce branch, a red squirrel, a mountain hare, small birds. Blueberries, cloudberries, lingonberries, chanterelles and ferns on soft mossy ground. Hand-painted gouache and watercolour on paper, flat simple shapes, mid-century Scandinavian children's book illustration style, calm and whimsical. Soft muted Nordic palette on warm cream: moss green, lingonberry red, cloudberry yellow, fjord blue, heather pink. Subtle paper grain. No text, no letters, no border, no frame.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "2048x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "artdcforest_0.png",
+  "generated_at": "2026-10-11T18:33:55"
+}

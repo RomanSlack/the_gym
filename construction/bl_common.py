@@ -511,6 +511,20 @@ def _minus_holes(q, holes):
     """Axis-aligned rect q (x0, y0, x1, y1) minus rect holes ({"rect": [x0, y0, x1, y1]}): the pieces left over."""
     out = [q]
     for h in holes:
+        if "circle" in h:  # boards cut back to the circle where it crosses them (the widest chord over the piece; a curb covers the edge)
+            cx, cy, r = h["circle"]; nxt = []
+            for (x0, y0, x1, y1) in out:
+                long_y = (y1 - y0) >= (x1 - x0)
+                c0, c1, a0, a1, cc, ca = (x0, x1, y0, y1, cx, cy) if long_y else (y0, y1, x0, x1, cy, cx)
+                dn = 0.0 if c0 <= cc <= c1 else min(abs(c0 - cc), abs(c1 - cc))
+                if dn >= r:
+                    nxt.append((x0, y0, x1, y1)); continue
+                hl = math.sqrt(r * r - dn * dn)
+                for s0, s1 in ((a0, min(a1, ca - hl)), (max(a0, ca + hl), a1)):
+                    if s1 - s0 > 0.01:
+                        nxt.append((c0, s0, c1, s1) if long_y else (s0, c0, s1, c1))
+            out = nxt
+            continue
         if "rect" not in h or not isinstance(h["rect"][0], (int, float)):
             continue
         hx0, hy0, hx1, hy1 = h["rect"]; nxt = []

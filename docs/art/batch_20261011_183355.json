@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-10-11T18:33:55",
+  "count": 2,
+  "succeeded": 2,
+  "failed": 0,
+  "total_cost_usd": 0.82,
+  "results": [
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "A large wall painting for a Norwegian nursery, seen at a child's eye level: a gentle Nordic forest floor between birch and spruce trunks, with friendly forest animals spread across the whole width: a moose calf, a red fox curled up, a hedgehog, an owl on a spruce branch, a red squirrel, a mountain hare, small birds. Blueberries, cloudberries, lingonberries, chanterelles and ferns on soft mossy ground. Hand-painted gouache and watercolour on paper, flat simple shapes, mid-century Scandinavian children's book illustration style, calm and whimsical. Soft muted Nordic palette on warm cream: moss green, lingonberry red, cloudberry yellow, fjord blue, heather pink. Subtle paper grain. No text, no letters, no border, no frame.",
+      "images": [
+        "/home/roman/the_gym/docs/art/artdcforest_0.png"
+      ],
+      "cost_usd": 0.41,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "A calm wall painting for a baby and toddler room in a Norwegian nursery: a mother moose and her calf standing by a still forest lake at dusk, two ducks on the water, a few birches, soft round hills behind, a big pale moon. Hand-painted gouache and watercolour on paper, very simple soft rounded shapes, mid-century Scandinavian children's book illustration style, gentle and sleepy. Soft muted Nordic palette on warm cream: fjord blue, moss green, heather pink, cloudberry yellow, a touch of lingonberry red. Subtle paper grain. No text, no letters, no border, no frame.",
+      "images": [
+        "/home/roman/the_gym/docs/art/artdclake_0.png"
+      ],
+      "cost_usd": 0.41,
+      "error": null
+    }
+  ]
+}

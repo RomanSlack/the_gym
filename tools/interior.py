@@ -178,6 +178,33 @@ for wid, side, rng_, tag in WCW:
 fw = by_id["EN-G-E1-W2-0-wall"]
 lining("EN-G-E1-W2-0-wall", "tile_wall", -1, (0.075 + TD, 9.4 - 0.075 - TD), "-wcw-tile", z=[E1, fw["z"][1]])
 
+# ---- zone: the daycare upper floor (E1; VISION "Daycare: playful, still Nordic"): the light shell, oak floors,
+# stone + tile in the children's WC, the ash wave ceiling everywhere; play and colour come from the furniture (tools/furnish.py)
+STAIR_HOLE = {"circle": [15.7, 24.2, 2.55], "note": "round stair down to the daycare lower floor (E2)"}
+DC = {"dckids": ([12.0, 21.2, 30.5, 33.3], "floor", [STAIR_HOLE]), "dcward": ([24.0, 16.2, 30.5, 21.2], "floor", []),
+      "dcstaff": ([12.0, 16.2, 17.0, 21.2], "floor", []), "dcwc": ([17.0, 16.2, 24.0, 21.2], "wet", [])}
+for nm, (r, fk, holes) in DC.items():
+    f = FINISH[P["floor"]] if fk == "floor" else wet
+    add({"id": f"IN-E1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(E1 - 0.10, 3), round(E1 - 0.08, 3)], "holes": holes,
+         "note": "20 mm impact sound mat"})
+    add({"id": f"IN-E1-{nm}-screed", "type": "slab", "material": "screed", "rect": r, "z": [round(E1 - 0.08, 3), round(E1 - f["t"], 3)], "holes": holes,
+         "note": "screed with underfloor heating" + (" + liquid waterproofing" if fk == "wet" else "")})
+    add({"id": f"IN-E1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(E1 - f["t"], 3), E1], "holes": holes,
+         "pattern": {k: v for k, v in f.items() if k not in ("material", "t")}, "note": "floor finish: " + ("white-oiled oak boards" if fk == "floor" else "light honed stone 600 x 600, R10")})
+    cr = [r[0], max(r[1], 16.18), r[2], min(r[3], 33.3)]
+    add({"id": f"IN-E1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": cr, "z": [round(RF - ceil["dmax"], 3), RF], "holes": [],
+         "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.25, "note": "undulating pale ash baffle ceiling (as the reception)"})
+    add({"id": f"IN-E1-ceiling-{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": cr,
+         "z": [round(RF - 0.01, 3), round(RF - 0.002, 3)], "holes": [], "note": "black acoustic felt behind the fins"})
+# children's WC: tile to 2.6 m + plaster above on its four solid walls (the north side is the safeguarding glass)
+for wid, side, rng_, tag in (("P-E1-12", 1, (0.075, 5.0 - 0.075 - TD), "-dcwc"),      # west wall (to the staff room)
+                             ("P-E1-8", -1, (0.125, 3.8 - 0.075), "-dcwc"),            # south, behind the children's WCs
+                             ("P-E1-3", -1, (0.2, 3.45 - 0.125), "-dcwc"),             # south: core E's north face
+                             ("P-E1-10", -1, (0.075, 5.0 - 0.125 - TD), "-dcwc")):     # east wall (to the wardrobe)
+    w_ = by_id[wid]
+    lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, TILE_TOP])
+    lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[TILE_TOP, w_["z"][1]])
+
 m["elements"] = els + new
 modelio.save(m)
 print(f"phase-5 elements: {sum(1 for e in m['elements'] if e.get('phase') == 5)}; reception palette {m['interior']['palette']} ({P['name']})")

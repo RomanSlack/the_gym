@@ -103,12 +103,16 @@ for L in sorted({sp["level"] for sp in spaces}):
         for seg in segs:
             if on_envelope(seg, L):
                 continue
-            (x0, y0), (x1, y1) = seg.coords[0], seg.coords[-1]
+            legs = [(a_, b_) for a_, b_ in zip(seg.coords, seg.coords[1:]) if LineString([a_, b_]).length >= 0.3]
             glass = frozenset((ia, ib)) in GLASS_PAIRS or (ia in GLASS_IDS or ib in GLASS_IDS) and not ({ia, ib} & {"dc-wc", "dc-wc-low", "dc-staff", "dc-rest", "dc-store", "dc-nursing", "wc-women", "wc-men"}) \
                 and A["kind"] != "core" and B["kind"] != "core"
-            walls.append({"id": f"P-{L}-{k}", "type": "wall", "kind": "glazed" if glass else "partition", "material": "glass" if glass else "timber_stud",
-                          "from": [round(x0, 3), round(y0, 3)], "to": [round(x1, 3), round(y1, 3)], "size": [0.15, round(CEIL[L] - lv[L], 2)],
-                          "z": [lv[L], CEIL[L]], "level": L, "between": [ia, ib], "openings": []})
+            # an L-shaped shared edge (e.g. the nursing room in the toddler zone's corner) is one straight wall per leg, not a
+            # diagonal; the first leg keeps the running id (other tools refer to walls by id), extra legs get a suffix
+            for j, ((x0, y0), (x1, y1)) in enumerate(legs):
+                walls.append({"id": f"P-{L}-{k}" + ("" if j == 0 else "abcdefgh"[j]), "type": "wall", "kind": "glazed" if glass else "partition",
+                              "material": "glass" if glass else "timber_stud",
+                              "from": [round(x0, 3), round(y0, 3)], "to": [round(x1, 3), round(y1, 3)], "size": [0.15, round(CEIL[L] - lv[L], 2)],
+                              "z": [lv[L], CEIL[L]], "level": L, "between": [ia, ib], "openings": []})
             k += 1
     # doors
     for sp in S:

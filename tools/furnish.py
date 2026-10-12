@@ -87,6 +87,7 @@ put("baffle_screen", 18.6, 7.9, rot=0, zone="wc", width=2.2, height=2.4, note="m
 
 # ---- public WCs (VISION "Wet rooms"): tile faces (interior.py) women x 12.22 / 16.305, men x 16.495 / 20.655, north y 16.105
 WARM = [1.0, 0.86, 0.7]
+COL = ["lingon", "cloud", "moss", "fjord", "heather"]
 def wc_room(stall_x, stall_rot, stall_y, n_stalls, van_x, van_rot, acc_cx, acc_pan, acc_door, store_cx, aisle_x, urinal_y=None, tag=""):
     put("wc_cells", stall_x, stall_y, rot=stall_rot, zone="wc", n=n_stalls, w=1.1, depth=1.65, style="wc", note=f"{tag} WC cells: oak boxes with lids")
     out = 1 if stall_rot == -90 else -1  # +x or -x into the room
@@ -111,6 +112,82 @@ def wc_room(stall_x, stall_rot, stall_y, n_stalls, van_x, van_rot, acc_cx, acc_p
 
 wc_room(12.22, -90, 11.25, 4, 16.305, 90, 13.5, 0.75, -0.6, 15.55, 14.8, tag="women's")
 wc_room(20.655, 90, 12.45, 2, 16.495, -90, 19.405, -0.745, 0.705, 17.25, 18.0, urinal_y=10.0, tag="men's")
+
+# ---- daycare upper floor (VISION "Daycare: playful, still Nordic"): play and colour from the furniture, light shell
+DCART = {"forest": "docs/art/artdcforest_0.png", "lake": "docs/art/artdclake_0.png"}
+def dl(x, y, energy=200, zone="daycare"):
+    put("downlight", x, y, zone=zone, z_ceiling=5.02, light={"type": "SPOT", "energy": energy, "spot_deg": 60, "offset": [0, 0, 4.85], "aim": [x, y, 0.12], "color": WARM})
+
+# round stair down to the lower daycare: guards round the opening + up both edges of the helix (the way on stays open)
+put("stair_guard", 15.7, 24.2, zone="daycare", gap=[233.0, 262.0], note="child-safe guards: 1.2 m oak staves round the opening, balustrades on the helix")
+# the 'tree house' play loft against the north glass (forest view from the deck), den underneath
+put("play_loft", 14.5, 30.55, rot=180, zone="daycare", length=4.0, D=2.6, deck=1.6, note="oak play loft: deck 1.6 m, gable frame, stair, slide, den")
+# craft tables at child height
+for (tx, ty, tc) in ((18.0, 27.4, "cloud"), (18.6, 31.0, "moss")):
+    put("kid_table", tx, ty, zone="daycare", colour=tc)
+    for k in range(5):
+        a = 90 + 72 * k
+        put("kid_chair", tx + 0.78 * math.cos(math.radians(a)), ty + 0.78 * math.sin(math.radians(a)), rot=a + 90, zone="daycare", colour=COL[(k + 2) % 5])
+# reading: the den under the loft is the reading nook (cushions + a felt curtain); a low face-out bookshelf beside it
+put("low_shelf", 17.2, 33.0, rot=180, zone="daycare", length=1.6, h=0.8, note="face-out picture books by the den")
+# the line between the kids' (3-12) and toddlers' (0-3) zones at x 21.25: low shelves, a gate, the story wall with the forest painting
+put("low_shelf", 21.25, 23.5, rot=90, zone="daycare", length=3.8, h=0.8)
+put("gate", 21.25, 25.9, rot=90, zone="daycare", width=0.9)
+put("story_wall", 21.25, 28.6, rot=90, zone="daycare", length=4.4, note="freestanding: the forest painting to the kids, books + pin board to the toddlers")
+put("canvas_art", 21.25 - 0.06, 28.6, rot=90, zone="daycare", width=4.0, height=2.0, image=str(ROOT / DCART["forest"]),
+    note="'forest friends', gpt-image-2 gouache, at children's eye level (0.45-2.45)", )
+F[-1]["z0"] = 0.45
+put("low_shelf", 21.25, 32.0, rot=90, zone="daycare", length=2.2, h=0.8)
+# toddlers: soft play, cushions, the lake painting low on the nursing room wall
+put("soft_play", 24.8, 26.4, zone="daycare", note="felt-covered foam steps, ramp, hump, arch on a round mat")
+put("canvas_art", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, image=str(ROOT / DCART["lake"]), note="'moose by the lake', low for toddlers")
+F[-1]["z0"] = 0.4
+put("rug_round", 28.7, 27.8, zone="daycare", d=2.2, colour="oat")
+for (cx, cy, c) in ((28.0, 28.0, "heather"), (28.9, 27.4, "cloud"), (29.5, 28.3, "fjord")):
+    put("floor_cushion", cx, cy, zone="daycare", colour=c, r=0.36)
+put("low_shelf", 24.0, 32.9, rot=180, zone="daycare", length=3.0, h=0.6)
+# felt clouds over both zones (acoustics + colour from above), offset from the downlight grid
+for (cx, cy, c, sc) in ((18.0, 29.2, "oat", 1.1), (19.6, 24.0, "cloud", 0.9), (14.8, 22.4, "fjord", 0.8), (25.8, 23.9, "heather", 1.1),
+                        (23.4, 30.4, "oat", 1.0), (27.4, 26.2, "moss", 0.9), (19.9, 32.2, "lingon", 0.8)):
+    put("felt_cloud", cx, cy, zone="daycare", colour=c, s=sc, z=round(3.4 + (cx * 7 % 5) / 10, 2))
+for x in (13.6, 17.4, 21.2, 25.0, 28.6):
+    for y in (22.7, 26.0, 29.2, 32.3):
+        if not (27.0 < x and y > 29.3):
+            dl(x, y)
+# wardrobe (check-in): cubbies on the west wall, drying cabinets, a parents' bench on the glass, a check-in stand by the door
+put("cubbies", 24.095, 18.1, rot=-90, zone="daycare", length=3.4, n=8, note="a cubby per child, felt backs, pegs, boot slots")
+for y in (20.2, 20.82):
+    put("drying_cabinet", 24.095, y, rot=-90, zone="daycare", note="drying cabinet for wet outdoor clothes")
+put("boot_bench", 30.18, 18.7, rot=90, zone="daycare", length=2.0, note="parents' bench along the glass")
+put("side_table", 28.95, 17.0, zone="daycare", note="check-in stand (tablet)")
+for y in (17.6, 19.8):
+    dl(27.2, y, 160)
+# children's WC (safeguarding glass to the play zone): low cells, a child-height trough, changing unit, accessible WC
+put("kid_wc_cells", 18.9, 16.295, rot=0, zone="daycare", n=4, w=0.85, depth=1.2, note="children's WCs: low screens, coloured half doors")
+put("vanity", 17.095, 19.0, rot=-90, zone="daycare", length=2.4, n=3, top=0.55, note="children's trough basin at 0.55, low mirror")
+put("light_only", 17.16, 19.0, zone="daycare", light={"type": "AREA", "energy": 45, "size": 2.3, "size_y": 0.04, "offset": [0, 0, 1.9], "aim": [18.3, 19.0, 0.7], "color": WARM})
+put("changing_unit", 23.905, 19.95, rot=90, zone="daycare", length=1.8, note="changing unit with steps + hand shower")
+put("wc_cells", 22.65, 16.345, rot=0, zone="daycare", n=1, w=2.5, depth=2.4, style="accessible", door_at=-0.6, pan_at=0.7, note="accessible adult WC")
+put("cell_light", 22.65, 17.55, zone="daycare", z_ceiling=2.6, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM})
+for x in (18.6, 21.2):
+    dl(x, 19.6, 160)
+# staff room: kitchenette on the (solid) facade wall, a table for four, a staff WC cell
+put("kitchenette", 12.22, 17.9, rot=-90, zone="daycare", length=2.4)
+put("cafe_table", 14.3, 18.6, zone="daycare")
+for d in (0, 90, 180, 270):
+    put("dining_chair", 14.3 + 0.62 * math.cos(math.radians(d)), 18.6 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="daycare")
+put("wc_cells", 16.15, 16.275, rot=0, zone="daycare", n=1, w=1.4, depth=1.8, style="wc", door_at=0.0, note="staff WC")
+put("lounge_chair", 16.2, 20.3, rot=200, zone="daycare")
+dl(14.3, 18.6, 160)
+# the two private daycare rooms get real doors (oak-slatted leaves, like the reception's stair door)
+put("door_slatted", 26.905, 31.3, rot=90, zone="daycare", width=1.0, height=2.1, note="nursing room door")
+put("door_slatted", 14.5, 21.295, rot=0, zone="daycare", width=1.0, height=2.1, note="staff room door")
+# nursing room: a lounge chair, side table, a small bottle-prep basin, a soft wall light
+put("lounge_chair", 29.5, 32.3, rot=135, zone="daycare")
+put("side_table", 28.7, 32.75, zone="daycare")
+put("vanity", 29.6, 29.395, rot=0, zone="daycare", length=1.2, n=1, note="bottle prep: small stone basin")
+put("rug_round", 29.0, 31.6, zone="daycare", d=1.8, colour="heather")
+put("wall_light", 30.425, 31.0, rot=90, zone="daycare", light={"type": "AREA", "energy": 30, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None, "color": [1.0, 0.8, 0.6]})
 
 # ---- cafe: island bar + ring pendant
 cx, cy = 21.25, -1.35
