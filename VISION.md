@@ -287,6 +287,21 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
 - **Colour:** a soft Nordic set (lingonberry, cloudberry yellow, moss, fjord blue, heather), in wool felt, linoleum tops, cushions, cubbies and art. It's never the walls, and never primary plastic colours.
 - **Rounded oak furniture** at child height, a play loft or "tree house" built from oak (the rooms are 5.5 m tall), felt cloud acoustic panels, and generated forest-animal art at a child's eye level.
 - **Wardrobe** with named cubbies and drying cabinets, in oak with coloured felt backs.
+- **Toddler zone (0-3), the high-effort one (Roman):** references were Råå day care (Dorte Mandrup), Kočevje kindergarten's built-in nooks, Kéré's Kinderoase, and Montessori + Pikler practice.
+  - **Kronen**, the structural piece: an oval oak sunburst canopy (6 x 4.6 m, 72 radial fins deepening to the rim) hung at 2.75 m from the roof, with a glowing linen oculus. It gives the toddlers their own low sky in the 5.5 m room.
+  - **The nest** under it: a stepped oak amphitheatre with felt-topped tiers and a soft felt pit full of cushions, with a gentle ramp in for crawlers.
+  - a cushioned **window nest** along the forest glass with a low rail, for watching birds
+  - a Pikler arch with a ramp
+  - a low Montessori mirror with a pull-up barre under the moose painting
+  - sensory panels (bead maze, spinners, textures, peekaboo flaps)
+  - a low oval snack table with toddler chairs
+- **Sanitation everywhere (Roman: that level of detail):**
+  - every WC cell: a sanitary pedal bin and a toilet brush
+  - every basin: a wall soap dispenser, with a paper-towel dispenser and a 60 l waste bin beside every vanity
+  - changing units: a sealed nappy bin, glove boxes, a disposable liner roll, a wipes shelf and soap
+  - children's WCs: low roll holders, with brushes kept out of reach
+  - hand sanitiser at the entrances, the daycare door, the toddler zone and the garden doors
+  - kildesortering (waste sorting) in the cafe and the staff room
 - **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
 - **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
 - **Sleep room (Roman: no bunks):** a wall-to-wall wool carpet with sleeping mats and blankets, so children sleep where they like. Spare mats live on a low shelf, and a fibre-optic star canopy hangs overhead.

@@ -460,7 +460,14 @@ CAMS = {
     "garden_from_top": ((38.5, 51.5, 5.0), (27.5, 40.5, -6.0), 20),
     "garden_slide": ((34.0, 45.5, -4.5), (27.0, 47.3, -4.8), 18),
     "dc_low_track": ((29.0, 26.0, -3.6), (22.5, 30.5, -6.0), 15),
-    "dc_staff": ((16.3, 20.8, 1.62), (12.4, 18.0, 1.4), 16),
+    "dc_nest": ((21.9, 23.6, 1.0), (25.4, 27.4, 0.9), 16),
+    "dc_crown": ((22.6, 24.4, 0.8), (25.2, 27.2, 3.1), 14),
+    "dc_window_nest": ((26.8, 22.6, 1.0), (30.4, 26.4, 0.6), 18),
+    "dc_mirror": ((26.4, 25.6, 0.9), (28.6, 29.2, 0.8), 20),
+    "wc_w_sanit": ((14.6, 9.6, 1.5), (16.3, 9.5, 0.9), 22),
+    "wc_cell_in": ((13.75, 10.7, 1.35), (12.3, 10.7, 0.4), 18),
+    "dc_changing": ((21.6, 19.4, 1.5), (23.9, 20.1, 1.0), 20),
+    "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
     "dc_staff_wc": ((15.9, 20.6, 1.62), (16.2, 17.2, 1.0), 18),
     "dc_gate": ((18.9, 23.2, 1.3), (21.25, 21.85, 0.6), 18),
     "dc_staff_door": ((15.2, 24.4, 1.62), (14.6, 21.2, 1.2), 18),
@@ -502,7 +509,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]

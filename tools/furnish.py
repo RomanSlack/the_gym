@@ -159,23 +159,36 @@ put("art_labels", 21.25 - 0.06, 24.6, rot=90, zone="daycare", width=4.0, height=
             [0.665, 0.335, "Tawny owl"], [0.83, 0.88, "Mountain hare"], [0.195, 0.29, "Willow tit"], [0.93, 0.44, "Bullfinch"]],
     note="educational name plaques on the forest painting")
 put("low_shelf", 21.25, 31.95, rot=90, zone="daycare", length=2.2, h=0.8)
-# toddlers: soft play, cushions, the lake painting low on the nursing room wall
-put("soft_play", 24.8, 26.4, zone="daycare", note="felt-covered foam steps, ramp, hump, arch on a round mat")
-put("canvas_art", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, image=str(ROOT / DCART["lake"]), note="'moose by the lake', low for toddlers")
-F[-1]["z0"] = 0.4
-put("art_labels", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, z0=0.4, size=0.03,
+# the toddler zone, 0-3 (Roman: high effort, something structural; references: Råå day care's gables, Kočevje's built-in nooks,
+# Montessori + Pikler practice): 'Kronen', an oval oak sunburst canopy hung at 2.75 m that gives the toddlers their own low sky,
+# over the nest, a stepped oak amphitheatre with a soft felt pit; a Pikler arch; a cushioned window nest along the forest glass;
+# a low mirror with a pull-up barre under the lake painting; sensory panels on the nursing-room wall; a low snack table
+KX, KY = 25.2, 27.0
+put("canopy_crown", KX, KY, zone="daycare", note="Kronen: oval oak sunburst canopy at 2.75 m with a glowing linen oculus, hung from the roof",
+    light={"type": "AREA", "energy": 80, "size": 1.0, "size_y": 0.8, "offset": [0, 0, 2.7], "aim": [KX, KY, E1], "color": [1.0, 0.82, 0.6]})
+put("light_only", KX, KY, zone="daycare", light={"type": "POINT", "energy": 120, "radius": 0.4, "offset": [0, 0, 3.4], "color": [1.0, 0.85, 0.65]},
+    note="glow over the crown onto the ceiling")
+put("nest", KX, KY, zone="daycare", note="the nest: stepped oak amphitheatre, felt-topped tiers, soft felt pit with cushions, a ramp in from the south")
+put("pikler_arch", 28.9, 24.0, zone="daycare", note="Pikler climbing arch with a ramp")
+put("window_nest", 30.44, 25.2, rot=90, zone="daycare", length=7.0, note="cushioned window nest with a low rail along the forest glass")
+put("canvas_art", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, image=str(ROOT / DCART["lake"]), note="'moose by the lake', at toddler eye level over the mirror")
+F[-1]["z0"] = 0.85
+put("art_labels", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, z0=0.85, size=0.03,
     labels=[[0.19, 0.64, "Moose"], [0.31, 0.82, "Moose calf"], [0.69, 0.865, "Mallard ducks"]], note="name plaques on the lake painting")
-put("rug_round", 28.7, 27.8, zone="daycare", d=2.2, colour="oat")
-for (cx, cy, c) in ((28.0, 28.0, "heather"), (28.9, 27.4, "cloud"), (29.5, 28.3, "fjord")):
-    put("floor_cushion", cx, cy, zone="daycare", colour=c, r=0.36)
+put("dance_mirror", 28.35, 29.225, rot=180, zone="daycare", length=2.2, h=0.6, barre=0.4, note="low Montessori mirror with a pull-up barre at 0.40")
+put("sensory_panel", 26.925, 30.05, rot=90, zone="daycare", style="maze", note="sensory panel: bead maze, spinners, felt textures")
+put("sensory_panel", 26.925, 32.55, rot=90, zone="daycare", style="peek", note="sensory panel: peekaboo flaps, mirrors, pockets")
+put("toddler_table", 23.4, 22.6, zone="daycare", note="low oval snack table")
+for k, (dx, dy, r) in enumerate(((-0.45, -0.62, 0), (0.45, -0.62, 0), (-0.45, 0.62, 180), (0.45, 0.62, 180), (-1.05, 0, -90), (1.05, 0, 90))):
+    put("kid_chair", 23.4 + dx, 22.6 + dy, rot=r, zone="daycare", colour=COL[k % 5], seat=0.22)
 put("low_shelf", 24.0, 32.9, rot=180, zone="daycare", length=3.0, h=0.6)
 # felt clouds over both zones (acoustics + colour from above), offset from the downlight grid
-for (cx, cy, c, sc) in ((14.6, 30.0, "oat", 1.1), (19.6, 23.4, "cloud", 0.9), (13.6, 22.6, "fjord", 0.8), (25.8, 23.9, "heather", 1.1),
-                        (23.4, 30.4, "oat", 1.0), (27.4, 26.2, "moss", 0.9), (13.4, 32.6, "lingon", 0.7)):
+for (cx, cy, c, sc) in ((14.6, 30.0, "oat", 1.1), (19.6, 23.4, "cloud", 0.9), (13.6, 22.6, "fjord", 0.8), (23.2, 22.7, "heather", 1.0),
+                        (23.4, 30.4, "oat", 1.0), (29.2, 22.4, "moss", 0.8), (13.4, 32.6, "lingon", 0.7)):
     put("felt_cloud", cx, cy, zone="daycare", colour=c, s=sc, hang=round(3.4 + (cx * 7 % 5) / 10, 2))
 for x in (13.6, 17.4, 21.2, 25.0, 28.6):
     for y in (22.7, 26.0, 29.2, 32.3):
-        if not (27.0 < x and y > 29.3):
+        if not (27.0 < x and y > 29.3) and ((x - 25.2) / 3.4) ** 2 + ((y - 27.0) / 2.7) ** 2 > 1:  # none over the nursing room or the crown
             dl(x, y)
 # wardrobe (check-in): cubbies on the west wall, drying cabinets, a parents' bench on the glass, a check-in stand by the door
 put("cubbies", 24.095, 18.1, rot=-90, zone="daycare", length=3.4, n=8, note="a cubby per child, felt backs, pegs, boot slots")
@@ -203,10 +216,10 @@ put("staff_wc_fit", 16.905, 17.35, rot=90, zone="daycare", note="staff toilet: W
 put("vanity", 15.85, 16.295, rot=0, zone="daycare", length=0.6, n=1, note="staff toilet basin + mirror")
 put("cell_light", 16.1, 17.4, zone="daycare", z_ceiling=2.7, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.6], "color": WARM})
 put("staff_lockers", 16.925, 19.75, rot=90, zone="daycare", n=6, note="staff lockers")
-put("cafe_table", 13.4, 19.5, zone="daycare")
+put("cafe_table", 13.4, 19.2, zone="daycare")
 for d in (0, 90, 180, 270):
-    put("dining_chair", 13.4 + 0.62 * math.cos(math.radians(d)), 19.5 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="daycare")
-dl(13.4, 19.5, 160)
+    put("dining_chair", 13.4 + 0.62 * math.cos(math.radians(d)), 19.2 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="daycare")
+dl(13.4, 19.2, 160)
 dl(14.2, 17.4, 140)
 # the two private daycare rooms get real doors (oak-slatted leaves, like the reception's stair door)
 put("door_slatted", 26.905, 31.3, rot=90, zone="daycare", width=1.0, height=2.1, note="nursing room door")
@@ -325,6 +338,21 @@ for (x, y) in ((26.3, 43.6), (26.0, 42.2)):
 putg("terrace_slide", 29.6, 48.4, rot=180, z=-3.45, drop=2.7, note="freestanding slide off the terrace edge, stair beside it")
 for k, y in enumerate((36.5, 37.3, 38.2, 39.0, 40.0, 41.1, 42.0)):  # stepping stumps along the west terrace
     putg("stump", 20.3 + (0.25 if k % 2 else -0.15), y, z=-3.6, r=0.17, h=0.25 + 0.1 * (k % 3))
+
+# ---- sanitation everywhere it belongs (Roman: the level of detail): a towel dispenser + waste bin beside every vanity, nappy bins,
+# gloves + liners at the changing units (in their builders), sanitiser at the entrances, waste sorting (kildesortering)
+for (x, y, r, z) in ((16.305, 8.95, 90, None), (16.495, 8.95, -90, None),            # public WCs, south of each vanity
+                     (17.095, 20.65, -90, "E1"), (17.095, 20.65, -90, "E2"),         # children's WCs (towels at child height)
+                     (30.285, 24.55, 90, "E2"),                                      # garden mudroom trough
+                     (28.6, 29.395, 0, "E1")):                                      # nursing room bottle prep
+    kw = {"level": "E2", "z": E2} if z == "E2" else {}
+    put("towel_station", x, y, rot=r, zone="wc" if z is None else "daycare", **kw)
+put("sanitiser", 29.6, 9.6, zone="entrance", note="hand sanitiser inside the main doors")
+put("sanitiser", 26.4, 16.6, zone="daycare", note="hand sanitiser by the daycare door")
+put("sanitiser", 24.6, 21.6, zone="daycare", note="hand sanitiser at the toddler zone")
+put2("sanitiser", 22.9, 32.9, note="hand sanitiser at the garden doors")
+put("recycling", 13.0, 21.125, rot=180, zone="daycare", length=1.2, note="staff room waste sorting")
+put("recycling", 27.8, -9.25, rot=0, zone="cafe", length=1.2, note="cafe waste sorting (kildesortering) by the window counter")
 
 # ---- cafe: island bar + ring pendant
 cx, cy = 21.25, -1.35
