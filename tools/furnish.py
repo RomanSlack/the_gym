@@ -137,11 +137,18 @@ put("story_wall", 21.25, 28.6, rot=90, zone="daycare", length=4.4, note="freesta
 put("canvas_art", 21.25 - 0.06, 28.6, rot=90, zone="daycare", width=4.0, height=2.0, image=str(ROOT / DCART["forest"]),
     note="'forest friends', gpt-image-2 gouache, at children's eye level (0.45-2.45)", )
 F[-1]["z0"] = 0.45
+# name plaques under each animal (Roman: English, a little educational); positions in image fractions (u from left, v from top)
+put("art_labels", 21.25 - 0.06, 28.6, rot=90, zone="daycare", width=4.0, height=2.0, z0=0.45, size=0.034,
+    labels=[[0.075, 0.725, "Red squirrel"], [0.35, 0.745, "Moose calf"], [0.235, 0.85, "Hedgehog"], [0.46, 0.82, "Red fox"],
+            [0.665, 0.335, "Tawny owl"], [0.83, 0.88, "Mountain hare"], [0.195, 0.29, "Willow tit"], [0.93, 0.44, "Bullfinch"]],
+    note="educational name plaques on the forest painting")
 put("low_shelf", 21.25, 32.0, rot=90, zone="daycare", length=2.2, h=0.8)
 # toddlers: soft play, cushions, the lake painting low on the nursing room wall
 put("soft_play", 24.8, 26.4, zone="daycare", note="felt-covered foam steps, ramp, hump, arch on a round mat")
 put("canvas_art", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, image=str(ROOT / DCART["lake"]), note="'moose by the lake', low for toddlers")
 F[-1]["z0"] = 0.4
+put("art_labels", 28.75, 29.225, rot=180, zone="daycare", width=3.0, height=1.5, z0=0.4, size=0.03,
+    labels=[[0.19, 0.64, "Moose"], [0.31, 0.82, "Moose calf"], [0.69, 0.865, "Mallard ducks"]], note="name plaques on the lake painting")
 put("rug_round", 28.7, 27.8, zone="daycare", d=2.2, colour="oat")
 for (cx, cy, c) in ((28.0, 28.0, "heather"), (28.9, 27.4, "cloud"), (29.5, 28.3, "fjord")):
     put("floor_cushion", cx, cy, zone="daycare", colour=c, r=0.36)

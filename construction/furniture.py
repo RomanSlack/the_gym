@@ -103,6 +103,21 @@ class Part:
                 v.co.z = max(v.co.z, z_cut - c[2])
         bmesh.ops.translate(b, verts=g, vec=c)
 
+    def text(self, mat, body, c, size, depth=0.0015, font="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"):
+        """Real 3D lettering, centred on c, facing +y and reading left-to-right for someone looking at the front."""
+        cu = bpy.data.curves.new("txt", "FONT"); cu.body = body; cu.size = size; cu.extrude = depth / 2
+        cu.align_x = "CENTER"; cu.align_y = "CENTER"
+        try:
+            cu.font = bpy.data.fonts.load(font, check_existing=True)
+        except (RuntimeError, OSError):
+            pass
+        ob = bpy.data.objects.new("txt", cu); bpy.context.scene.collection.objects.link(ob)
+        dg = bpy.context.evaluated_depsgraph_get()
+        me = bpy.data.meshes.new_from_object(ob.evaluated_get(dg))
+        bpy.data.objects.remove(ob); bpy.data.curves.remove(cu)
+        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(math.pi, 4, "Z") @ Matrix.Rotation(math.pi / 2, 4, "X"))
+        self.bm(mat).from_mesh(me); bpy.data.meshes.remove(me)
+
     def rod(self, mat, p0, p1, r0, r1=None, seg=16):
         """Tapered round member between two points (legs, spindles, cables)."""
         p0, p1 = Vector(p0), Vector(p1); d = p1 - p0; L = d.length
@@ -998,6 +1013,18 @@ def canvas_art(P, width=6.0, height=2.9, z0=1.45, image=""):
     P.box(M["felt"], (0, 0.002, z0 + H / 2), (W + 2 * g, 0.004, H + 2 * g))  # dark tray behind the gap
 
 
+def art_labels(P, width=4.0, height=2.0, z0=0.45, labels=(), size=0.034):
+    """Educational name plaques on a painting (Roman: English names under each animal): small white-oiled oak tablets, 8 mm,
+    set on the canvas, the name burnt in dark. labels = [(u, v, name)] in image fractions (u from the left, v from the top);
+    same local frame as canvas_art (canvas face at y 0.04, seen from +y, image left at +x)."""
+    burnt = bc.material("burnt_text", (0.035, 0.022, 0.014), 0.75)
+    for u, v, name in labels:
+        x, z = width / 2 - u * width, z0 + (1 - v) * height
+        w = 0.06 + 0.9 * size * len(name)
+        P.box(M["oak"], (x, 0.044, z), (w, 0.008, size * 2.1))
+        P.text(burnt, name, (x, 0.0485, z - size * 0.08), size * 1.5)
+
+
 def wall_light(P):
     """Slim vertical wall light: a 60 x 40 blackened-steel channel, 0.9 m tall, centred at 2.75, an opal diffuser on its face."""
     P.box(M["steel"], (0, 0.02, 2.75), (0.06, 0.04, 0.9))
@@ -1032,7 +1059,7 @@ BUILDERS = {
     "kid_wc_cells": kid_wc_cells, "changing_unit": changing_unit, "cubbies": cubbies, "drying_cabinet": drying_cabinet,
     "kid_table": kid_table, "kid_chair": kid_chair, "play_loft": play_loft, "stair_guard": stair_guard, "felt_cloud": felt_cloud,
     "soft_play": soft_play, "low_shelf": low_shelf, "gate": gate, "story_wall": story_wall, "floor_cushion": floor_cushion,
-    "rug_round": rug_round, "kitchenette": kitchenette,
+    "rug_round": rug_round, "kitchenette": kitchenette, "art_labels": art_labels,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -1043,7 +1070,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
           "kid_chair": ("colour",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "z"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
-          "stair_guard": ("gap",)}
+          "stair_guard": ("gap",), "art_labels": ("width", "height", "z0", "labels", "size")}
 ARGNAME = {"length": "L", "height": "h"}
 
 
