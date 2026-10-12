@@ -725,10 +725,13 @@ def play_loft(P, L=4.0, D=2.6, deck=1.6):
     # slide down the left end: a stainless chute in an oak cheek, out towards +y
     run = 2.6
     ang = math.atan2(deck - 0.25, run)
-    P.box(M["brushed"], (-L / 2 + 0.38, y1 + run / 2, (deck + 0.25) / 2), (0.5, run / math.cos(ang), 0.02), rx=ang)
+    # high end at the deck edge, falling away from it (rx < 0 tips the far end down), then a flat run-out at 0.25 to land on
+    P.box(M["brushed"], (-L / 2 + 0.38, y1 + run / 2, (deck + 0.25) / 2), (0.5, run / math.cos(ang), 0.02), rx=-ang)
     for x in (-L / 2 + 0.1, -L / 2 + 0.66):
-        P.box(M["oak"], (x, y1 + run / 2, (deck + 0.25) / 2 + 0.12), (0.03, run / math.cos(ang), 0.25), rx=ang)
-    P.box(M["oak"], (-L / 2 + 0.38, y1 + run + 0.15, 0.12), (0.6, 0.3, 0.24))
+        P.box(M["oak"], (x, y1 + run / 2, (deck + 0.25) / 2 + 0.12), (0.03, run / math.cos(ang), 0.25), rx=-ang)
+        P.box(M["oak"], (x, y1 + run + 0.2, 0.25 + 0.06), (0.03, 0.4, 0.25))
+        P.box(M["oak"], (x, y1 + run + 0.38, 0.09), (0.05, 0.05, 0.18))  # a short leg under the run-out
+    P.box(M["brushed"], (-L / 2 + 0.38, y1 + run + 0.2, 0.25), (0.5, 0.4, 0.02))
     # the den underneath: floor cushions + a felt curtain at the back
     for k, (x, c) in enumerate(zip((-1.1, -0.2, 0.7), ("moss", "heather", "fjord"))):
         P.blob(M["felt_" + c], (x, -D / 2, 0.11), (0.38, 0.34, 0.11), z_cut=0.0)
