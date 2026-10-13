@@ -54,6 +54,10 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "fossen": {"label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)", "d": 2.1, "h": 2.6, "clear": 1.2, "mat": "wet_feature"},
     "shoe_bench": {"label": "Shoe bench + rack (shoes off)", "d": 0.4, "h": 0.45, "mat": "walnut"},
     "towels": {"label": "Fresh towels", "d": 0.45, "h": 1.8, "mat": "oak"},
+    "shoe_cubbies": {"label": "Shoe cubbies (open oak shelves)", "d": 0.35, "h": 1.6, "mat": "oak"},
+    "stone_bench": {"label": "Stone bench by the stream (onsen-style rest)", "d": 0.45, "h": 0.45, "mat": "stone"},
+    "route": {"label": "Route (people flow)", "d": 0.0, "h": 0.0, "mat": "route"},
+    "width_check": {"label": "Clear width at a pinch point", "d": 0.0, "h": 0.0, "mat": "route"},
     "towel_return": {"label": "Towel return", "d": 0.5, "h": 0.9, "mat": "steel"},
     "shower": {"label": "Shower, private, with dry area", "d": 2.1, "h": 2.6, "clear": 0.9, "mat": "wet"},
     "shower_acc": {"label": "Accessible shower (seat, rails)", "d": 2.1, "h": 2.6, "clear": 1.5, "mat": "wet"},
@@ -90,11 +94,11 @@ def changing(room, s):
     storage (linen, cleaning). The ring language of Steinringen + Kronen, made into rooms. s = +1 men (block off the north wall,
     aisle along the south), -1 women (mirrored)."""
     wall = 1.425 if s > 0 else 1.575                 # the shared M/W wall face
-    depth = 4.2                                      # the block, off the wall
+    depth = 3.85                                     # the block, off the wall (Roman: the aisle was too narrow with the stream)
     front = wall - s * depth                         # its face on the aisle
     xs, xe = -27.0, -14.475
     put(room, "oak_block", (xs + xe) / 2, (wall + front) / 2, xe - xs, 0, d=depth, label="Oak block: three round locker rooms carved out")
-    R_out, R_in, mouth = 1.95, 1.4, 1.2
+    R_out, R_in, mouth = 1.9, 1.35, 1.2
     cy = (wall + front) / 2
     sp = (xe - xs) / 3
     n = 0
@@ -104,10 +108,13 @@ def changing(room, s):
         nl = int((ang - mouth) / 0.4)
         put(room, "locker_ring", cx, cy, 2 * R_out, 0 if s < 0 else 180, d=2 * R_out, r_in=R_in, r_out=R_out, mouth=mouth, n=nl,
             label=f"Round locker room: {nl} lockers on the curve")
-        put(room, "round_seat", cx, cy, 0.8, 0, d=0.8, label="Round seat (walnut + wool)")
+        put(room, "round_seat", cx, cy, 0.6, 0, d=0.6, label="Round seat (walnut + wool), 1.05 m clear to the locker faces")
         n += nl
     # the screen on the vestibule line: hides the drums' mouths from the entry
-    put(room, "screen", -14.4, (wall + front - s * 0.25) / 2, abs(depth + 0.25), 90, d=0.1)
+    top = -0.45 if s > 0 else wall                   # men: the screen stops at the women's vestibule wall
+    put(room, "screen", -14.4, (top + front - s * 0.25) / 2, abs(top - front) + 0.25, 90, d=0.1)
+    # grooming on the dry side (hair dryers, mirror, shelf) on the block's west end, facing the west lobby
+    put(room, "grooming", xs - 0.25, cy, 2.4, 90, label="Grooming bar: mirror, hair dryers, shelf (dry side)")
     return n, front
 
 
@@ -119,9 +126,13 @@ put("men-lockers", "floor_zone", (-14.4 - 11.675) / 2, (-4.275 - 0.45) / 2, -11.
 put("women-lockers", "floor_zone", (-14.4 - 11.675) / 2, (-0.3 + 7.575) / 2, -11.675 + 14.4, 0, d=7.575 + 0.3,
     label="Shoe zone: stone, from the gallery to the WC room door; shoes off at the line (x -14.4)")
 # arrival nooks: shoes off, fresh towels
-put("men-lockers", "shoe_bench", -13.5, -0.68, 1.6, 180)
-put("men-lockers", "towels", -14.15, -1.3, 1.0, -90, d=0.45)
-put("women-lockers", "shoe_bench", -13.0, 1.8, 1.6, 0)
+# shoes off AT the line (Roman: the flow): a bench on the screen's shoe side right beside the aisle mouth, shoe cubbies beside it;
+# you sit, shoes into a cubby, and step straight into the barefoot aisle
+put("men-lockers", "shoe_bench", -14.15, -1.6, 1.4, -90)
+put("men-lockers", "shoe_cubbies", -13.38, -0.625, 2.0, 180, d=0.35)
+put("men-lockers", "towels", -12.67, -1.45, 1.0, 90, d=0.45)
+put("women-lockers", "shoe_bench", -14.15, 4.6, 1.4, -90)
+put("women-lockers", "shoe_cubbies", -14.175, 2.75, 1.8, -90, d=0.35)
 put("women-lockers", "towels", -12.0, 3.8, 1.2, 90)
 put("women-lockers", "towels", -12.0, 5.2, 1.2, 90)
 
@@ -151,9 +162,11 @@ def wash(room, s):
         put(room, "shower", x0 + w_sh * (k + 0.5), back + s * dsh / 2, w_sh, r, d=dsh)
     rv = 180 if s > 0 else 0
     (o1a, o1b), (o2a, o2b) = openings(room.replace("wet", "lockers"), room)
-    put(room, "grooming", (WASH_X[0] + o1a) / 2 - 0.05, front - s * 0.25, round(o1a - WASH_X[0] - 0.2, 2), rv)
+    dw = 1.0 if s > 0 else 0.85                    # the women's zone is shallower: wash places 0.85 deep, the aisle stays >= 1.4
     for k in range(3):
-        put(room, "wash_station", o1b + 0.1 + (o2a - o1b - 0.2) * (k + 0.5) / 3, front - s * 0.5, 0.95, rv, d=1.0)
+        put(room, "wash_station", o1b + 0.1 + (o2a - o1b - 0.2) * (k + 0.5) / 3, front - s * dw / 2, 0.95, rv, d=dw)
+    # a stone bench in the strip between the facade and the stream, sitting by the water (onsen-style)
+    put(room, "stone_bench", WASH_X[0] + 0.3, (front + (back + s * dsh)) / 2, abs((back + s * dsh) - front) - 0.4, -90, d=0.45)
     put(room, "vanity", (o2b + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - o2b - 0.1, 2), rv, n=2)
     return (o1a, o1b), (o2a, o2b)
 
@@ -194,17 +207,21 @@ ops_w = wash("women-wet", -1); wc_room("women-wc", -1)
 # just past the WC door, runs along the edge of the changing room's aisle at the foot of the wash-zone wall (granite slabs carry the
 # floor over it at the openings), turns down the west side of the westmost opening into the wash zone and ends in Fossen's front
 def stream(room_c, room_w, s, ops):
-    y = (-4.275 + 0.25) if s > 0 else (7.575 - 0.25)
-    ye = -7.0 if s > 0 else 9.85
-    xw = ops[0][0] + 0.17
-    yl = -4.2 if s > 0 else 7.65                     # the wall line: the channel passes through the opening there
-    pts_c = [[-15.3, y], [round(xw, 3), y], [round(xw, 3), yl]]
-    pts_w = [[round(xw, 3), yl], [round(xw, 3), ye]]
-    put(room_c, "spring_basin", -15.0, y, 0.6, 0, d=0.6)
-    items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.35})
-    items.append({"id": f"{room_w}-stream", "room": room_w, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_w, "width": 0.35})
+    """Roman: the water must not block doorways. A 250 mm channel tight to the foot of the slate wall; flush granite slabs carry the
+    floor over it across both openings (the water slips under them); it passes under the wall in a culvert at x -28.5, west of the
+    openings, and runs down the wash zone's west side straight into Fossen: no route crosses it in the open."""
+    face = -4.275 if s > 0 else 7.575
+    y = round(face + s * (0.03 + 0.155), 3)           # in front of the slate lining: lining 30, lip 30, half the channel 125
+    ye = -7.0 if s > 0 else 10.05
+    xw = -28.5
+    yl = -4.2 if s > 0 else 7.65
+    pts_c = [[-15.3, y], [xw, y], [xw, yl]]
+    pts_w = [[xw, yl], [xw, ye]]
+    put(room_c, "spring_basin", -15.0, y, 0.5, 0, d=0.32)  # flush with the channel line: it does not narrow the aisle
+    items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.25})
+    items.append({"id": f"{room_w}-stream", "room": room_w, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_w, "width": 0.25})
     for xa, xb in ops:
-        put(room_c, "bridge_slab", (xa + xb) / 2, y, xb - xa + 0.2, 0, d=0.6)
+        put(room_c, "bridge_slab", (xa + xb) / 2, y, xb - xa + 0.3, 0, d=0.42, label="Granite slab over the stream, flush: the opening stays clear")
 stream("men-lockers", "men-wet", 1, ops_m)
 stream("women-lockers", "women-wet", -1, ops_w)
 # towel returns: slots in the oak block's aisle face, between the drums
@@ -240,6 +257,96 @@ put("women-lockers", "uvc_plate", -13.5, 7.15, 1.0, 0, d=0.7)
 put("sauna-lobby", "robe_hooks", -35.325 + 0.175, 1.5, 4.2, -90)
 put("sauna-lobby", "towel_warmer", -31.0, 4.375 - 0.225, 1.2, 180)
 put("sauna-lobby", "bench", -32.6, -1.375 + 0.3, 2.4, 0, d=0.45)
+
+import math as _mt
+# ---- people flow (Roman: map the flow; no road blocks or collisions; are the entrances + spaces too narrow?). Walkable floor = each
+# room's clear polygon (to the wall faces) minus every element's footprint (the stream too, except under its bridges); every pinch
+# point is measured on it. >= 1.5 m main routes (two pass + wheelchair turning), >= 1.2 secondary, doors >= 0.9 clear (TEK17).
+from shapely.geometry import LineString as _LS, Point as _Pt, Polygon as _Poly, box as _bx
+from shapely.ops import unary_union as _un
+_rooms = ["men-lockers", "men-wet", "men-wc", "women-lockers", "women-wet", "women-wc", "sauna-lobby", "gallery"]
+_sp = {x["id"]: x for x in _m["spaces"]}
+_wls = [e for e in _m["elements"] if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and e["z"][0] <= 1.0 <= e["z"][1] and "from" in e]
+def _wseg(e):  # a wall's footprint (+ its linings), its door / opening gaps left open
+    (ax, ay), (bx, by) = e["from"], e["to"]; L = _mt.hypot(bx - ax, by - ay); ux, uy = (bx - ax) / L, (by - ay) / L
+    cuts = sorted(o["s"] for o in e.get("openings", []) if o["z"][0] <= 1.0 <= o["z"][1]); out, s0 = [], 0.0
+    for a_, b_ in cuts + [[L, L]]:
+        if a_ > s0:
+            out.append(_LS([(ax + ux * s0, ay + uy * s0), (ax + ux * a_, ay + uy * a_)]).buffer(e["size"][0] / 2 + 0.03, cap_style=2))
+        s0 = max(s0, b_)
+    return _un(out) if out else None
+_wu = _un([g for g in (_wseg(e) for e in _wls) if g is not None])
+_walk = _un([_Poly(_sp[r]["poly"]) for r in _rooms]).difference(_wu)
+def _foot(it):
+    k = it["kind"]
+    if k in ("floor_zone", "uvc_plate", "far_uvc", "robot", "robot_dock", "route", "width_check", "towel_return", "bridge_slab"):
+        return None
+    if k == "stream":
+        return _un([_LS([a, b]).buffer(it["width"] / 2 + 0.03, cap_style=2) for a, b in zip(it["pts"], it["pts"][1:])])
+    if k == "round_seat":
+        return _Pt(it["x"], it["y"]).buffer(it["w"] / 2)
+    if k == "locker_ring":
+        return None  # inside the oak block
+    r = _mt.radians(it.get("rot", 0)); c, sn = _mt.cos(r), _mt.sin(r); w, d = it["w"] / 2, it["d"] / 2
+    return _Poly([(it["x"] + x * c - y * sn, it["y"] + x * sn + y * c) for x, y in ((-w, -d), (w, -d), (w, d), (-w, d))])
+_obs = [f for f in (_foot(i) for i in items) if f is not None]
+_bridges = _un([_foot({**i, "kind": "slab"}) for i in items if i["kind"] == "bridge_slab"])
+_walk = _walk.difference(_un(_obs)).union(_bridges.intersection(_un([_Poly(_sp[r]["poly"]) for r in _rooms]).difference(_wu)))
+def check(room, a, b, label, need=1.5):
+    seg = _LS([a, b]).intersection(_walk)
+    parts = [g for g in getattr(seg, "geoms", [seg]) if g.geom_type == "LineString"]
+    if not parts:
+        return
+    g = max(parts, key=lambda g: g.length); w = round(g.length, 2)
+    st = "ok" if w >= need else ("tight" if w >= min(need, 1.2) - 0.0001 and w >= 0.9 else "narrow")
+    items.append({"id": f"chk-{len(items)}", "room": room, "kind": "width_check", "label": f"{label}: {w:.2f} m (needs {need})",
+                  "pts": [[round(c[0], 3), round(c[1], 3)] for c in g.coords], "width": w, "need": need, "status": st})
+for room, ys, ya, yb in (("men-lockers", -1, -4.3, -1.0), ("women-lockers", 1, 4.0, 7.6)):
+    for x in (-25.6, -21.8, -17.6, -15.0):
+        check(room, (x, ya), (x, yb), "main aisle")
+for x in (-25.6, -21.0, -20.0):
+    check("men-wet", (x, -9.3), (x, -4.2), "wash aisle", 1.2)
+    check("women-wet", (x, 7.65), (x, 12.1), "wash aisle", 1.2)
+check("men-wc", (-15.8, -9.3), (-15.8, -4.2), "WC lobby", 1.5)
+check("women-wc", (-16.5, 7.65), (-16.5, 12.1), "WC lobby", 1.5)
+check("men-lockers", (-29.5, -1.0), (-26.5, -1.0), "west lobby (lift, sauna door)", 1.5)
+check("women-lockers", (-29.5, 3.6), (-26.5, 3.6), "west lobby (lift, sauna door)", 1.5)
+check("men-lockers", (-14.4, -3.15), (-11.6, -3.15), "shoe zone, the way in", 1.5)
+check("men-lockers", (-14.6, -1.2), (-11.6, -1.2), "shoe nook (bench, towels)", 0.9)
+check("women-lockers", (-14.6, 4.6), (-11.6, 4.6), "shoe zone by the bench", 1.2)
+check("sauna-lobby", (-35.4, 1.5), (-29.4, 1.5), "sauna lobby", 1.5)
+# doors + openings (clear widths from the plan)
+for room, a, b, label in (("men-lockers", (-11.6, -3.895), (-11.6, -2.395), "entry from the gallery"), ("women-lockers", (-11.6, -0.3), (-11.6, 1.2), "entry from the gallery"),
+                          ("men-wc", (-14.0, -4.2), (-13.0, -4.2), "WC room door"), ("women-wc", (-14.0, 7.65), (-13.0, 7.65), "WC room door")):
+    check(room, a, b, label, 0.9)
+for room, y in (("men-wet", -4.2), ("women-wet", 7.65)):
+    for xa, xb in ((-27.84, -26.04), (-22.81, -21.01)):
+        check(room, (xa, y), (xb, y), "wash zone opening", 0.9)
+for rg in [i for i in items if i["kind"] == "locker_ring"]:
+    a0 = _mt.radians(rg["rot"] + 90); cx, cy = rg["x"] + _mt.cos(a0) * rg["r_in"], rg["y"] + _mt.sin(a0) * rg["r_in"]
+    items.append({"id": f"chk-{len(items)}", "room": rg["room"], "kind": "width_check", "label": f"locker-room mouth: {rg['mouth']:.2f} m (needs 0.9)",
+                  "pts": [[round(cx - rg["mouth"] / 2, 3), round(cy, 3)], [round(cx + rg["mouth"] / 2, 3), round(cy, 3)]], "width": rg["mouth"], "need": 0.9, "status": "ok"})
+# the routes: arrive -> shoes off -> locker -> wash -> back; gym users in shoes -> WC; members -> lift (the pool) / sauna
+def route(room, pts, label, cls="main"):
+    items.append({"id": f"route-{len(items)}", "room": room, "kind": "route", "label": label, "pts": pts, "cls": cls})
+for room, s_ in (("men", 1), ("women", -1)):
+    ent = (-10.6, -3.15) if s_ > 0 else (-10.6, 0.45)
+    aisle_y = -3.2 if s_ > 0 else 6.35
+    wcd = (-13.5, -4.7) if s_ > 0 else (-13.5, 8.15)
+    rlk = f"{room}-lockers"
+    if s_ > 0:
+        route(rlk, [list(ent), [-13.3, -3.15], [-13.6, -1.9]], "arrive · shoes off at the bench")
+        route(rlk, [[-14.0, -2.1], [-14.6, aisle_y], [-27.6, aisle_y]], "barefoot: the aisle to the locker rooms + the west lobby")
+    else:
+        route(rlk, [list(ent), [-13.0, 0.45], [-13.0, 4.4]], "arrive · through the vestibule · shoes off at the bench")
+        route(rlk, [[-13.9, 4.9], [-14.6, aisle_y], [-27.6, aisle_y]], "barefoot: the aisle to the locker rooms + the west lobby")
+    route(rlk, [list(ent), [-13.5, ent[1] if s_ > 0 else 6.9], list(wcd)], "in shoes, straight to the WC room (shoe zone only)", "shoe")
+    for xd in (-24.95, -20.74, -16.55):
+        route(rlk, [[xd, aisle_y], [xd, aisle_y + (0.9 if s_ > 0 else -0.9)]], "into a round locker room", "branch")
+    for xo in (-26.94, -21.91):
+        route(rlk, [[xo, aisle_y], [xo, -5.6 if s_ > 0 else 9.0]], "to the wash zone (barefoot)", "wash")
+    route(rlk, [[-27.6, aisle_y], [-28.2, -2.9 if s_ > 0 else 5.9]], "the express lift to the pool (F4)", "branch")
+    route(rlk, [[-27.6, aisle_y], [-28.6, aisle_y], [-28.9, 0.0 if s_ > 0 else 3.0], [-30.2, 0.0 if s_ > 0 else 3.0]], "the sauna lobby", "branch")
 
 data = {"note": "F1 locker rooms: the 2D layout (see tools/locker_layout.py for the rules). Edited in blueprint/layout.html; x, y = centre in "
                 "project metres, w along the piece, d front-to-back, rot = the way its front faces (0 = north).",

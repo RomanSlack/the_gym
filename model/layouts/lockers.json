@@ -141,6 +141,30 @@
    "h": 1.8,
    "mat": "oak"
   },
+  "shoe_cubbies": {
+   "label": "Shoe cubbies (open oak shelves)",
+   "d": 0.35,
+   "h": 1.6,
+   "mat": "oak"
+  },
+  "stone_bench": {
+   "label": "Stone bench by the stream (onsen-style rest)",
+   "d": 0.45,
+   "h": 0.45,
+   "mat": "stone"
+  },
+  "route": {
+   "label": "Route (people flow)",
+   "d": 0.0,
+   "h": 0.0,
+   "mat": "route"
+  },
+  "width_check": {
+   "label": "Clear width at a pinch point",
+   "d": 0.0,
+   "h": 0.0,
+   "mat": "route"
+  },
   "towel_return": {
    "label": "Towel return",
    "d": 0.5,
@@ -222,9 +246,9 @@
    "kind": "oak_block",
    "label": "Oak block: three round locker rooms carved out",
    "x": -20.738,
-   "y": -0.675,
+   "y": -0.5,
    "w": 12.525,
-   "d": 4.2,
+   "d": 3.85,
    "rot": 0,
    "h": 2.6
   },
@@ -234,25 +258,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -24.913,
-   "y": -0.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": -0.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 180,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "men-lockers-round_seat-1",
    "room": "men-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -24.913,
-   "y": -0.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": -0.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -262,25 +286,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -20.738,
-   "y": -0.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": -0.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 180,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "men-lockers-round_seat-2",
    "room": "men-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -20.738,
-   "y": -0.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": -0.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -290,25 +314,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -16.562,
-   "y": -0.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": -0.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 180,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "men-lockers-round_seat-3",
    "room": "men-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -16.562,
-   "y": -0.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": -0.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -318,11 +342,23 @@
    "kind": "screen",
    "label": "Oak screen, full height",
    "x": -14.4,
-   "y": -0.8,
-   "w": 4.45,
+   "y": -1.562,
+   "w": 2.225,
    "d": 0.1,
    "rot": 90,
    "h": 2.6
+  },
+  {
+   "id": "men-lockers-grooming-1",
+   "room": "men-lockers",
+   "kind": "grooming",
+   "label": "Grooming bar: mirror, hair dryers, shelf (dry side)",
+   "x": -27.25,
+   "y": -0.5,
+   "w": 2.4,
+   "d": 0.5,
+   "rot": 90,
+   "h": 0.86
   },
   {
    "id": "women-lockers-oak_block-1",
@@ -330,9 +366,9 @@
    "kind": "oak_block",
    "label": "Oak block: three round locker rooms carved out",
    "x": -20.738,
-   "y": 3.675,
+   "y": 3.5,
    "w": 12.525,
-   "d": 4.2,
+   "d": 3.85,
    "rot": 0,
    "h": 2.6
   },
@@ -342,25 +378,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -24.913,
-   "y": 3.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": 3.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 0,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "women-lockers-round_seat-1",
    "room": "women-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -24.913,
-   "y": 3.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": 3.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -370,25 +406,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -20.738,
-   "y": 3.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": 3.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 0,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "women-lockers-round_seat-2",
    "room": "women-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -20.738,
-   "y": 3.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": 3.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -398,25 +434,25 @@
    "kind": "locker_ring",
    "label": "Round locker room: 18 lockers on the curve",
    "x": -16.562,
-   "y": 3.675,
-   "w": 3.9,
-   "d": 3.9,
+   "y": 3.5,
+   "w": 3.8,
+   "d": 3.8,
    "rot": 0,
    "h": 2.0,
    "n": 18,
-   "r_in": 1.4,
-   "r_out": 1.95,
+   "r_in": 1.35,
+   "r_out": 1.9,
    "mouth": 1.2
   },
   {
    "id": "women-lockers-round_seat-3",
    "room": "women-lockers",
    "kind": "round_seat",
-   "label": "Round seat (walnut + wool)",
+   "label": "Round seat (walnut + wool), 1.05 m clear to the locker faces",
    "x": -16.562,
-   "y": 3.675,
-   "w": 0.8,
-   "d": 0.8,
+   "y": 3.5,
+   "w": 0.6,
+   "d": 0.6,
    "rot": 0,
    "h": 0.45
   },
@@ -426,11 +462,23 @@
    "kind": "screen",
    "label": "Oak screen, full height",
    "x": -14.4,
-   "y": 3.8,
-   "w": 4.45,
+   "y": 3.625,
+   "w": 4.1,
    "d": 0.1,
    "rot": 90,
    "h": 2.6
+  },
+  {
+   "id": "women-lockers-grooming-1",
+   "room": "women-lockers",
+   "kind": "grooming",
+   "label": "Grooming bar: mirror, hair dryers, shelf (dry side)",
+   "x": -27.25,
+   "y": 3.5,
+   "w": 2.4,
+   "d": 0.5,
+   "rot": 90,
+   "h": 0.86
   },
   {
    "id": "men-lockers-floor_zone-1",
@@ -461,23 +509,35 @@
    "room": "men-lockers",
    "kind": "shoe_bench",
    "label": "Shoe bench + rack (shoes off)",
-   "x": -13.5,
-   "y": -0.68,
-   "w": 1.6,
+   "x": -14.15,
+   "y": -1.6,
+   "w": 1.4,
    "d": 0.4,
-   "rot": 180,
+   "rot": -90,
    "h": 0.45
+  },
+  {
+   "id": "men-lockers-shoe_cubbies-1",
+   "room": "men-lockers",
+   "kind": "shoe_cubbies",
+   "label": "Shoe cubbies (open oak shelves)",
+   "x": -13.38,
+   "y": -0.625,
+   "w": 2.0,
+   "d": 0.35,
+   "rot": 180,
+   "h": 1.6
   },
   {
    "id": "men-lockers-towels-1",
    "room": "men-lockers",
    "kind": "towels",
    "label": "Fresh towels",
-   "x": -14.15,
-   "y": -1.3,
+   "x": -12.67,
+   "y": -1.45,
    "w": 1.0,
    "d": 0.45,
-   "rot": -90,
+   "rot": 90,
    "h": 1.8
   },
   {
@@ -485,12 +545,24 @@
    "room": "women-lockers",
    "kind": "shoe_bench",
    "label": "Shoe bench + rack (shoes off)",
-   "x": -13.0,
-   "y": 1.8,
-   "w": 1.6,
+   "x": -14.15,
+   "y": 4.6,
+   "w": 1.4,
    "d": 0.4,
-   "rot": 0,
+   "rot": -90,
    "h": 0.45
+  },
+  {
+   "id": "women-lockers-shoe_cubbies-1",
+   "room": "women-lockers",
+   "kind": "shoe_cubbies",
+   "label": "Shoe cubbies (open oak shelves)",
+   "x": -14.175,
+   "y": 2.75,
+   "w": 1.8,
+   "d": 0.35,
+   "rot": -90,
+   "h": 1.6
   },
   {
    "id": "women-lockers-towels-1",
@@ -601,18 +673,6 @@
    "h": 2.6
   },
   {
-   "id": "men-wet-grooming-1",
-   "room": "men-wet",
-   "kind": "grooming",
-   "label": "Grooming station (dryers, mirror)",
-   "x": -28.595,
-   "y": -4.525,
-   "w": 1.21,
-   "d": 0.5,
-   "rot": 180,
-   "h": 0.86
-  },
-  {
    "id": "men-wet-wash_station-1",
    "room": "men-wet",
    "kind": "wash_station",
@@ -647,6 +707,18 @@
    "d": 1.0,
    "rot": 180,
    "h": 1.2
+  },
+  {
+   "id": "men-wet-stone_bench-1",
+   "room": "men-wet",
+   "kind": "stone_bench",
+   "label": "Stone bench by the stream (onsen-style rest)",
+   "x": -28.95,
+   "y": -5.7,
+   "w": 2.45,
+   "d": 0.45,
+   "rot": -90,
+   "h": 0.45
   },
   {
    "id": "men-wet-vanity-1",
@@ -927,26 +999,14 @@
    "h": 2.6
   },
   {
-   "id": "women-wet-grooming-1",
-   "room": "women-wet",
-   "kind": "grooming",
-   "label": "Grooming station (dryers, mirror)",
-   "x": -28.595,
-   "y": 7.975,
-   "w": 1.21,
-   "d": 0.5,
-   "rot": 0,
-   "h": 0.86
-  },
-  {
    "id": "women-wet-wash_station-1",
    "room": "women-wet",
    "kind": "wash_station",
    "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
    "x": -25.435,
-   "y": 8.225,
+   "y": 8.15,
    "w": 0.95,
-   "d": 1.0,
+   "d": 0.85,
    "rot": 0,
    "h": 1.2
   },
@@ -956,9 +1016,9 @@
    "kind": "wash_station",
    "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
    "x": -24.425,
-   "y": 8.225,
+   "y": 8.15,
    "w": 0.95,
-   "d": 1.0,
+   "d": 0.85,
    "rot": 0,
    "h": 1.2
   },
@@ -968,11 +1028,23 @@
    "kind": "wash_station",
    "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
    "x": -23.415,
-   "y": 8.225,
+   "y": 8.15,
    "w": 0.95,
-   "d": 1.0,
+   "d": 0.85,
    "rot": 0,
    "h": 1.2
+  },
+  {
+   "id": "women-wet-stone_bench-1",
+   "room": "women-wet",
+   "kind": "stone_bench",
+   "label": "Stone bench by the stream (onsen-style rest)",
+   "x": -28.95,
+   "y": 8.863,
+   "w": 1.875,
+   "d": 0.45,
+   "rot": -90,
+   "h": 0.45
   },
   {
    "id": "women-wet-vanity-1",
@@ -1126,9 +1198,9 @@
    "kind": "spring_basin",
    "label": "Spring basin: where the stream rises",
    "x": -15.0,
-   "y": -4.025,
-   "w": 0.6,
-   "d": 0.6,
+   "y": -4.09,
+   "w": 0.5,
+   "d": 0.32,
    "rot": 0,
    "h": 0.5
   },
@@ -1140,18 +1212,18 @@
    "pts": [
     [
      -15.3,
-     -4.025
+     -4.09
     ],
     [
-     -27.67,
-     -4.025
+     -28.5,
+     -4.09
     ],
     [
-     -27.67,
+     -28.5,
      -4.2
     ]
    ],
-   "width": 0.35
+   "width": 0.25
   },
   {
    "id": "men-wet-stream",
@@ -1160,25 +1232,25 @@
    "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
    "pts": [
     [
-     -27.67,
+     -28.5,
      -4.2
     ],
     [
-     -27.67,
+     -28.5,
      -7.0
     ]
    ],
-   "width": 0.35
+   "width": 0.25
   },
   {
    "id": "men-lockers-bridge_slab-1",
    "room": "men-lockers",
    "kind": "bridge_slab",
-   "label": "Granite slab over the stream (flush)",
+   "label": "Granite slab over the stream, flush: the opening stays clear",
    "x": -26.94,
-   "y": -4.025,
-   "w": 2.0,
-   "d": 0.6,
+   "y": -4.09,
+   "w": 2.1,
+   "d": 0.42,
    "rot": 0,
    "h": 0.0
   },
@@ -1186,11 +1258,11 @@
    "id": "men-lockers-bridge_slab-2",
    "room": "men-lockers",
    "kind": "bridge_slab",
-   "label": "Granite slab over the stream (flush)",
+   "label": "Granite slab over the stream, flush: the opening stays clear",
    "x": -21.91,
-   "y": -4.025,
-   "w": 2.0,
-   "d": 0.6,
+   "y": -4.09,
+   "w": 2.1,
+   "d": 0.42,
    "rot": 0,
    "h": 0.0
   },
@@ -1200,9 +1272,9 @@
    "kind": "spring_basin",
    "label": "Spring basin: where the stream rises",
    "x": -15.0,
-   "y": 7.325,
-   "w": 0.6,
-   "d": 0.6,
+   "y": 7.39,
+   "w": 0.5,
+   "d": 0.32,
    "rot": 0,
    "h": 0.5
   },
@@ -1214,18 +1286,18 @@
    "pts": [
     [
      -15.3,
-     7.325
+     7.39
     ],
     [
-     -27.67,
-     7.325
+     -28.5,
+     7.39
     ],
     [
-     -27.67,
+     -28.5,
      7.65
     ]
    ],
-   "width": 0.35
+   "width": 0.25
   },
   {
    "id": "women-wet-stream",
@@ -1234,25 +1306,25 @@
    "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
    "pts": [
     [
-     -27.67,
+     -28.5,
      7.65
     ],
     [
-     -27.67,
-     9.85
+     -28.5,
+     10.05
     ]
    ],
-   "width": 0.35
+   "width": 0.25
   },
   {
    "id": "women-lockers-bridge_slab-1",
    "room": "women-lockers",
    "kind": "bridge_slab",
-   "label": "Granite slab over the stream (flush)",
+   "label": "Granite slab over the stream, flush: the opening stays clear",
    "x": -26.94,
-   "y": 7.325,
-   "w": 2.0,
-   "d": 0.6,
+   "y": 7.39,
+   "w": 2.1,
+   "d": 0.42,
    "rot": 0,
    "h": 0.0
   },
@@ -1260,11 +1332,11 @@
    "id": "women-lockers-bridge_slab-2",
    "room": "women-lockers",
    "kind": "bridge_slab",
-   "label": "Granite slab over the stream (flush)",
+   "label": "Granite slab over the stream, flush: the opening stays clear",
    "x": -21.91,
-   "y": 7.325,
-   "w": 2.0,
-   "d": 0.6,
+   "y": 7.39,
+   "w": 2.1,
+   "d": 0.42,
    "rot": 0,
    "h": 0.0
   },
@@ -1274,7 +1346,7 @@
    "kind": "towel_return",
    "label": "Towel return slot in the oak block",
    "x": -22.825,
-   "y": -2.795,
+   "y": -2.445,
    "w": 0.6,
    "d": 0.04,
    "rot": 180,
@@ -1286,7 +1358,7 @@
    "kind": "towel_return",
    "label": "Towel return slot in the oak block",
    "x": -18.65,
-   "y": -2.795,
+   "y": -2.445,
    "w": 0.6,
    "d": 0.04,
    "rot": 180,
@@ -1298,7 +1370,7 @@
    "kind": "towel_return",
    "label": "Towel return slot in the oak block",
    "x": -22.825,
-   "y": 5.795,
+   "y": 5.445,
    "w": 0.6,
    "d": 0.04,
    "rot": 0,
@@ -1310,7 +1382,7 @@
    "kind": "towel_return",
    "label": "Towel return slot in the oak block",
    "x": -18.65,
-   "y": 5.795,
+   "y": 5.445,
    "w": 0.6,
    "d": 0.04,
    "rot": 0,
@@ -1543,6 +1615,1070 @@
    "d": 0.45,
    "rot": 0,
    "h": 0.45
+  },
+  {
+   "id": "chk-110",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.51 m (needs 1.5)",
+   "pts": [
+    [
+     -25.6,
+     -3.935
+    ],
+    [
+     -25.6,
+     -2.425
+    ]
+   ],
+   "width": 1.51,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-111",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.88 m (needs 1.5)",
+   "pts": [
+    [
+     -21.8,
+     -4.3
+    ],
+    [
+     -21.8,
+     -2.425
+    ]
+   ],
+   "width": 1.88,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-112",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.51 m (needs 1.5)",
+   "pts": [
+    [
+     -17.6,
+     -3.935
+    ],
+    [
+     -17.6,
+     -2.425
+    ]
+   ],
+   "width": 1.51,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-113",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.50 m (needs 1.5)",
+   "pts": [
+    [
+     -15.0,
+     -3.93
+    ],
+    [
+     -15.0,
+     -2.425
+    ]
+   ],
+   "width": 1.5,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-114",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.81 m (needs 1.5)",
+   "pts": [
+    [
+     -25.6,
+     5.425
+    ],
+    [
+     -25.6,
+     7.235
+    ]
+   ],
+   "width": 1.81,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-115",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 2.17 m (needs 1.5)",
+   "pts": [
+    [
+     -21.8,
+     5.425
+    ],
+    [
+     -21.8,
+     7.6
+    ]
+   ],
+   "width": 2.17,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-116",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.81 m (needs 1.5)",
+   "pts": [
+    [
+     -17.6,
+     5.425
+    ],
+    [
+     -17.6,
+     7.235
+    ]
+   ],
+   "width": 1.81,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-117",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "main aisle: 1.80 m (needs 1.5)",
+   "pts": [
+    [
+     -15.0,
+     5.425
+    ],
+    [
+     -15.0,
+     7.23
+    ]
+   ],
+   "width": 1.8,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-118",
+   "room": "men-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 1.85 m (needs 1.2)",
+   "pts": [
+    [
+     -25.6,
+     -7.125
+    ],
+    [
+     -25.6,
+     -5.275
+    ]
+   ],
+   "width": 1.85,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-119",
+   "room": "women-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 1.42 m (needs 1.2)",
+   "pts": [
+    [
+     -25.6,
+     8.575
+    ],
+    [
+     -25.6,
+     10.0
+    ]
+   ],
+   "width": 1.42,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-120",
+   "room": "men-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 2.82 m (needs 1.2)",
+   "pts": [
+    [
+     -21.0,
+     -7.125
+    ],
+    [
+     -21.0,
+     -4.305
+    ]
+   ],
+   "width": 2.82,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-121",
+   "room": "women-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 2.24 m (needs 1.2)",
+   "pts": [
+    [
+     -21.0,
+     7.755
+    ],
+    [
+     -21.0,
+     10.0
+    ]
+   ],
+   "width": 2.24,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-122",
+   "room": "men-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 2.25 m (needs 1.2)",
+   "pts": [
+    [
+     -20.0,
+     -7.125
+    ],
+    [
+     -20.0,
+     -4.875
+    ]
+   ],
+   "width": 2.25,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-123",
+   "room": "women-wet",
+   "kind": "width_check",
+   "label": "wash aisle: 1.67 m (needs 1.2)",
+   "pts": [
+    [
+     -20.0,
+     8.325
+    ],
+    [
+     -20.0,
+     10.0
+    ]
+   ],
+   "width": 1.67,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-124",
+   "room": "men-wc",
+   "kind": "width_check",
+   "label": "WC lobby: 3.12 m (needs 1.5)",
+   "pts": [
+    [
+     -15.8,
+     -7.425
+    ],
+    [
+     -15.8,
+     -4.305
+    ]
+   ],
+   "width": 3.12,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-125",
+   "room": "women-wc",
+   "kind": "width_check",
+   "label": "WC lobby: 1.77 m (needs 1.5)",
+   "pts": [
+    [
+     -16.5,
+     8.325
+    ],
+    [
+     -16.5,
+     10.1
+    ]
+   ],
+   "width": 1.77,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-126",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "west lobby (lift, sauna door): 1.84 m (needs 1.5)",
+   "pts": [
+    [
+     -29.345,
+     -1.0
+    ],
+    [
+     -27.5,
+     -1.0
+    ]
+   ],
+   "width": 1.84,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-127",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "west lobby (lift, sauna door): 1.84 m (needs 1.5)",
+   "pts": [
+    [
+     -29.345,
+     3.6
+    ],
+    [
+     -27.5,
+     3.6
+    ]
+   ],
+   "width": 1.84,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-128",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "shoe zone, the way in: 2.80 m (needs 1.5)",
+   "pts": [
+    [
+     -14.4,
+     -3.15
+    ],
+    [
+     -11.6,
+     -3.15
+    ]
+   ],
+   "width": 2.8,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-129",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "shoe nook (bench, towels): 1.06 m (needs 0.9)",
+   "pts": [
+    [
+     -13.95,
+     -1.2
+    ],
+    [
+     -12.895,
+     -1.2
+    ]
+   ],
+   "width": 1.06,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-130",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "shoe zone by the bench: 2.25 m (needs 1.2)",
+   "pts": [
+    [
+     -13.95,
+     4.6
+    ],
+    [
+     -11.705,
+     4.6
+    ]
+   ],
+   "width": 2.25,
+   "need": 1.2,
+   "status": "ok"
+  },
+  {
+   "id": "chk-131",
+   "room": "sauna-lobby",
+   "kind": "width_check",
+   "label": "sauna lobby: 5.42 m (needs 1.5)",
+   "pts": [
+    [
+     -34.975,
+     1.5
+    ],
+    [
+     -29.555,
+     1.5
+    ]
+   ],
+   "width": 5.42,
+   "need": 1.5,
+   "status": "ok"
+  },
+  {
+   "id": "chk-132",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "entry from the gallery: 1.50 m (needs 0.9)",
+   "pts": [
+    [
+     -11.6,
+     -3.895
+    ],
+    [
+     -11.6,
+     -2.395
+    ]
+   ],
+   "width": 1.5,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-133",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "entry from the gallery: 1.47 m (needs 0.9)",
+   "pts": [
+    [
+     -11.6,
+     -0.27
+    ],
+    [
+     -11.6,
+     1.2
+    ]
+   ],
+   "width": 1.47,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-134",
+   "room": "men-wc",
+   "kind": "width_check",
+   "label": "WC room door: 1.00 m (needs 0.9)",
+   "pts": [
+    [
+     -14.0,
+     -4.2
+    ],
+    [
+     -13.0,
+     -4.2
+    ]
+   ],
+   "width": 1.0,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-135",
+   "room": "women-wc",
+   "kind": "width_check",
+   "label": "WC room door: 1.00 m (needs 0.9)",
+   "pts": [
+    [
+     -14.0,
+     7.65
+    ],
+    [
+     -13.0,
+     7.65
+    ]
+   ],
+   "width": 1.0,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-136",
+   "room": "men-wet",
+   "kind": "width_check",
+   "label": "wash zone opening: 1.80 m (needs 0.9)",
+   "pts": [
+    [
+     -27.84,
+     -4.2
+    ],
+    [
+     -26.04,
+     -4.2
+    ]
+   ],
+   "width": 1.8,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-137",
+   "room": "men-wet",
+   "kind": "width_check",
+   "label": "wash zone opening: 1.80 m (needs 0.9)",
+   "pts": [
+    [
+     -22.81,
+     -4.2
+    ],
+    [
+     -21.01,
+     -4.2
+    ]
+   ],
+   "width": 1.8,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-138",
+   "room": "women-wet",
+   "kind": "width_check",
+   "label": "wash zone opening: 1.80 m (needs 0.9)",
+   "pts": [
+    [
+     -27.84,
+     7.65
+    ],
+    [
+     -26.04,
+     7.65
+    ]
+   ],
+   "width": 1.8,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-139",
+   "room": "women-wet",
+   "kind": "width_check",
+   "label": "wash zone opening: 1.80 m (needs 0.9)",
+   "pts": [
+    [
+     -22.81,
+     7.65
+    ],
+    [
+     -21.01,
+     7.65
+    ]
+   ],
+   "width": 1.8,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-140",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -25.513,
+     -1.85
+    ],
+    [
+     -24.313,
+     -1.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-141",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -21.338,
+     -1.85
+    ],
+    [
+     -20.138,
+     -1.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-142",
+   "room": "men-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -17.162,
+     -1.85
+    ],
+    [
+     -15.962,
+     -1.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-143",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -25.513,
+     4.85
+    ],
+    [
+     -24.313,
+     4.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-144",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -21.338,
+     4.85
+    ],
+    [
+     -20.138,
+     4.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "chk-145",
+   "room": "women-lockers",
+   "kind": "width_check",
+   "label": "locker-room mouth: 1.20 m (needs 0.9)",
+   "pts": [
+    [
+     -17.162,
+     4.85
+    ],
+    [
+     -15.962,
+     4.85
+    ]
+   ],
+   "width": 1.2,
+   "need": 0.9,
+   "status": "ok"
+  },
+  {
+   "id": "route-146",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "arrive \u00b7 shoes off at the bench",
+   "pts": [
+    [
+     -10.6,
+     -3.15
+    ],
+    [
+     -13.3,
+     -3.15
+    ],
+    [
+     -13.6,
+     -1.9
+    ]
+   ],
+   "cls": "main"
+  },
+  {
+   "id": "route-147",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "barefoot: the aisle to the locker rooms + the west lobby",
+   "pts": [
+    [
+     -14.0,
+     -2.1
+    ],
+    [
+     -14.6,
+     -3.2
+    ],
+    [
+     -27.6,
+     -3.2
+    ]
+   ],
+   "cls": "main"
+  },
+  {
+   "id": "route-148",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "in shoes, straight to the WC room (shoe zone only)",
+   "pts": [
+    [
+     -10.6,
+     -3.15
+    ],
+    [
+     -13.5,
+     -3.15
+    ],
+    [
+     -13.5,
+     -4.7
+    ]
+   ],
+   "cls": "shoe"
+  },
+  {
+   "id": "route-149",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -24.95,
+     -3.2
+    ],
+    [
+     -24.95,
+     -2.3000000000000003
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-150",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -20.74,
+     -3.2
+    ],
+    [
+     -20.74,
+     -2.3000000000000003
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-151",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -16.55,
+     -3.2
+    ],
+    [
+     -16.55,
+     -2.3000000000000003
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-152",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "to the wash zone (barefoot)",
+   "pts": [
+    [
+     -26.94,
+     -3.2
+    ],
+    [
+     -26.94,
+     -5.6
+    ]
+   ],
+   "cls": "wash"
+  },
+  {
+   "id": "route-153",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "to the wash zone (barefoot)",
+   "pts": [
+    [
+     -21.91,
+     -3.2
+    ],
+    [
+     -21.91,
+     -5.6
+    ]
+   ],
+   "cls": "wash"
+  },
+  {
+   "id": "route-154",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "the express lift to the pool (F4)",
+   "pts": [
+    [
+     -27.6,
+     -3.2
+    ],
+    [
+     -28.2,
+     -2.9
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-155",
+   "room": "men-lockers",
+   "kind": "route",
+   "label": "the sauna lobby",
+   "pts": [
+    [
+     -27.6,
+     -3.2
+    ],
+    [
+     -28.6,
+     -3.2
+    ],
+    [
+     -28.9,
+     0.0
+    ],
+    [
+     -30.2,
+     0.0
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-156",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "arrive \u00b7 through the vestibule \u00b7 shoes off at the bench",
+   "pts": [
+    [
+     -10.6,
+     0.45
+    ],
+    [
+     -13.0,
+     0.45
+    ],
+    [
+     -13.0,
+     4.4
+    ]
+   ],
+   "cls": "main"
+  },
+  {
+   "id": "route-157",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "barefoot: the aisle to the locker rooms + the west lobby",
+   "pts": [
+    [
+     -13.9,
+     4.9
+    ],
+    [
+     -14.6,
+     6.35
+    ],
+    [
+     -27.6,
+     6.35
+    ]
+   ],
+   "cls": "main"
+  },
+  {
+   "id": "route-158",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "in shoes, straight to the WC room (shoe zone only)",
+   "pts": [
+    [
+     -10.6,
+     0.45
+    ],
+    [
+     -13.5,
+     6.9
+    ],
+    [
+     -13.5,
+     8.15
+    ]
+   ],
+   "cls": "shoe"
+  },
+  {
+   "id": "route-159",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -24.95,
+     6.35
+    ],
+    [
+     -24.95,
+     5.449999999999999
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-160",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -20.74,
+     6.35
+    ],
+    [
+     -20.74,
+     5.449999999999999
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-161",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "into a round locker room",
+   "pts": [
+    [
+     -16.55,
+     6.35
+    ],
+    [
+     -16.55,
+     5.449999999999999
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-162",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "to the wash zone (barefoot)",
+   "pts": [
+    [
+     -26.94,
+     6.35
+    ],
+    [
+     -26.94,
+     9.0
+    ]
+   ],
+   "cls": "wash"
+  },
+  {
+   "id": "route-163",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "to the wash zone (barefoot)",
+   "pts": [
+    [
+     -21.91,
+     6.35
+    ],
+    [
+     -21.91,
+     9.0
+    ]
+   ],
+   "cls": "wash"
+  },
+  {
+   "id": "route-164",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "the express lift to the pool (F4)",
+   "pts": [
+    [
+     -27.6,
+     6.35
+    ],
+    [
+     -28.2,
+     5.9
+    ]
+   ],
+   "cls": "branch"
+  },
+  {
+   "id": "route-165",
+   "room": "women-lockers",
+   "kind": "route",
+   "label": "the sauna lobby",
+   "pts": [
+    [
+     -27.6,
+     6.35
+    ],
+    [
+     -28.6,
+     6.35
+    ],
+    [
+     -28.9,
+     3.0
+    ],
+    [
+     -30.2,
+     3.0
+    ]
+   ],
+   "cls": "branch"
   }
  ]
 }

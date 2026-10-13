@@ -45,3 +45,5 @@ html, body, #root { margin: 0; height: 100%; }
 .sel-t { font-size: 0.3px; fill: #d2421e; text-anchor: middle; font-family: "IBM Plex Mono", monospace; }
 .tag { font-size: 0.16px; fill: #3b3934; text-anchor: middle; pointer-events: none; font-family: "IBM Plex Mono", monospace; }
 .zone-t { font-size: 0.17px; fill: #6a5a42; text-anchor: middle; pointer-events: none; font-style: italic; }
+.w-t { font-size: 0.2px; font-family: "IBM Plex Mono", monospace; font-weight: 600; pointer-events: none; }
+.flow-layer { pointer-events: none; }

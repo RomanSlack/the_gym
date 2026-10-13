@@ -9,7 +9,7 @@ interface Item {
   id: string; room: string; kind: string; label: string;
   x?: number; y?: number; w?: number; d?: number; rot?: number; h?: number; n?: number;
   r_in?: number; r_out?: number; mouth?: number;
-  pts?: Pt[]; width?: number;
+  pts?: Pt[]; width?: number; cls?: string; status?: string; need?: number;
 }
 interface Kind { label: string; d: number; h: number; unit?: number; clear?: number; mat: string }
 interface Layout { note: string; rooms: string[]; view: [number, number, number, number]; kinds: Record<string, Kind>; items: Item[] }
@@ -61,6 +61,7 @@ export default function LayoutApp() {
   const [vb, setVb] = useState<[number, number, number, number]>([-36.5, -12.5, 30, 25]);
   const [showClear, setShowClear] = useState(true);
   const [snapOn, setSnapOn] = useState(true);
+  const [showFlow, setShowFlow] = useState(true);
   const undo = useRef<string[]>([]);
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ kind: "item" | "pan"; x: number; y: number; ox: number; oy: number; vb: typeof vb; pts?: Pt[] } | null>(null);
@@ -150,6 +151,7 @@ export default function LayoutApp() {
       drag.current = { kind: "item", x: wx, y: wy, ox: it.x ?? 0, oy: it.y ?? 0, vb, pts: it.pts };
     };
     const cls = on ? "it on" : "it";
+    if (it.kind === "route" || it.kind === "width_check") return null;
     if (it.kind === "stream" && it.pts) {
       return (
         <g key={it.id} className={cls} onMouseDown={grab}>
@@ -215,6 +217,7 @@ export default function LayoutApp() {
           <button onClick={() => { const u = undo.current.pop(); if (u) { setData(JSON.parse(u)); setDirty(true); } }}>Undo (Ctrl Z)</button>
           <label><input type="checkbox" checked={showClear} onChange={() => setShowClear((v) => !v)} /> clearances</label>
           <label><input type="checkbox" checked={snapOn} onChange={() => setSnapOn((v) => !v)} /> snap 25 mm</label>
+          <label><input type="checkbox" checked={showFlow} onChange={() => setShowFlow((v) => !v)} /> people flow + widths</label>
         </div>
         <div className="lay-msg mono">{msg}</div>
         <div className="lay-sec">
@@ -277,6 +280,7 @@ export default function LayoutApp() {
           {data.items.filter((i) => i.kind === "floor_zone").map(renderItem)}
           {data.items.filter((i) => i.kind === "oak_block").map(renderItem)}
           {data.items.filter((i) => i.kind !== "oak_block" && i.kind !== "floor_zone").map(renderItem)}
+          {showFlow && <Flow items={data.items} />}
           {selIt && !selIt.pts && <SelDims it={selIt} />}
         </svg>
         <div className="lay-status mono">scroll zoom · drag empty space to pan · F fit · dims in metres to wall faces</div>
@@ -314,4 +318,39 @@ function Dims() {
 function SelDims({ it }: { it: Item }) {
   const w = it.w ?? 0, d = it.d ?? 0;
   return <text x={it.x! } y={-it.y! - Math.max(w, d) / 2 - 0.25} className="sel-t">{f2(w)} × {f2(d)}{it.h ? ` × ${f2(it.h)} h` : ""}{it.rot ? ` · ${it.rot}°` : ""}</text>;
+}
+
+/** People flow: the routes (arrowed) + every pinch point's clear width (green ok, amber tight, red narrow). */
+function Flow({ items }: { items: Item[] }) {
+  const RC: Record<string, string> = { main: "#1f6f63", shoe: "#8a5a2b", wash: "#2f6683", branch: "#6b6b6b" };
+  const SC: Record<string, string> = { ok: "#2e8b57", tight: "#d18a00", narrow: "#c62828" };
+  return (
+    <g className="flow-layer">
+      {items.filter((i) => i.kind === "route" && i.pts).map((r) => {
+        const pts = r.pts!, [ax, ay] = pts[pts.length - 2], [bx, by] = pts[pts.length - 1];
+        const a = Math.atan2(by - ay, bx - ax), L = 0.28;
+        const head = [[bx, by], [bx - L * Math.cos(a - 0.45), by - L * Math.sin(a - 0.45)], [bx - L * Math.cos(a + 0.45), by - L * Math.sin(a + 0.45)]] as Pt[];
+        const c = RC[r.cls ?? "main"];
+        return (
+          <g key={r.id}>
+            <path d={path(pts, false)} style={{ stroke: c, strokeWidth: r.cls === "branch" ? 0.05 : 0.09, fill: "none", strokeDasharray: r.cls === "shoe" ? "0.2 0.12" : undefined, opacity: 0.85 }} />
+            <path d={path(head)} style={{ fill: c, opacity: 0.9 }} />
+            <title>{r.label}</title>
+          </g>
+        );
+      })}
+      {items.filter((i) => i.kind === "width_check" && i.pts).map((w) => {
+        const [[ax, ay], [bx, by]] = [w.pts![0], w.pts![w.pts!.length - 1]];
+        const c = SC[w.status ?? "ok"], mx = (ax + bx) / 2, my = (ay + by) / 2, vert = Math.abs(bx - ax) < Math.abs(by - ay);
+        return (
+          <g key={w.id}>
+            <line x1={ax} y1={-ay} x2={bx} y2={-by} style={{ stroke: c, strokeWidth: 0.03 }} />
+            {[[ax, ay], [bx, by]].map(([x, y], k) => <circle key={k} cx={x} cy={-y} r={0.05} style={{ fill: c }} />)}
+            <text x={mx + (vert ? 0.08 : 0)} y={-my + (vert ? 0 : -0.08)} className="w-t" style={{ fill: c }} textAnchor={vert ? "start" : "middle"}>{w.width?.toFixed(2)}</text>
+            <title>{w.label}</title>
+          </g>
+        );
+      })}
+    </g>
+  );
 }
