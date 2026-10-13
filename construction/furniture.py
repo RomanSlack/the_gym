@@ -195,10 +195,11 @@ def legs4(P, mat, w, d, h, inset=0.04, r0=0.022, r1=0.015, splay=0.025):
 
 
 # ------------------------------------------------------------------ pieces
-def lounge_chair(P):
+def lounge_chair(P, outdoor=False):
     """'Elverum' lounge chair: walnut frame with wide flat arms, deep oat wool cushions raked back 14°, a sheepskin over the back.
-    0.78 x 0.82 x 0.76; seat at 0.40."""
-    wd = M["walnut"]
+    0.78 x 0.82 x 0.76; seat at 0.40. outdoor=True: the deck version (oiled oak frame, solution-dyed canvas cushions)."""
+    wd = M["oak"] if outdoor else M["walnut"]
+    cu = _canvas() if outdoor else M["boucle"]
     W = 0.78
     for sx in (-1, 1):
         x = sx * (W / 2 - 0.035)
@@ -208,13 +209,14 @@ def lounge_chair(P):
         P.box(wd, (x, -0.02, 0.2), (0.028, 0.66, 0.04))              # side rail carrying the seat
     P.box(wd, (0, 0.31, 0.2), (W - 0.07, 0.035, 0.05))
     P.box(wd, (0, -0.33, 0.2), (W - 0.07, 0.035, 0.05))
-    P.box(M["boucle"], (0, 0.03, 0.33), (W - 0.13, 0.66, 0.15))      # seat cushion
-    P.box(M["boucle"], (0, -0.27, 0.61), (W - 0.13, 0.15, 0.5), rx=math.radians(14))  # back cushion raked back
+    P.box(cu, (0, 0.03, 0.33), (W - 0.13, 0.66, 0.15))      # seat cushion
+    P.box(cu, (0, -0.27, 0.61), (W - 0.13, 0.15, 0.5), rx=math.radians(14))  # back cushion raked back
     P.box(M["sheepskin"], (0, -0.205, 0.66), (W - 0.24, 0.025, 0.44), rx=math.radians(14))
 
 
-def sofa(P, L=2.2):
-    wd = M["walnut"]
+def sofa(P, L=2.2, outdoor=False):
+    wd = M["oak"] if outdoor else M["walnut"]
+    cu = _canvas() if outdoor else M["boucle"]
     for sx in (-1, 1):
         x = sx * (L / 2 - 0.035)
         P.rod(wd, (x, 0.36, 0), (x, 0.33, 0.6), 0.024, 0.02); P.rod(wd, (x, -0.39, 0), (x, -0.35, 0.58), 0.024, 0.02)
@@ -224,9 +226,14 @@ def sofa(P, L=2.2):
         P.rod(wd, (x, 0.33, 0), (x, 0.33, 0.18), 0.02); P.rod(wd, (x, -0.35, 0), (x, -0.35, 0.18), 0.02)
     cw = (L - 0.15) / 3
     for k in (-1, 0, 1):
-        P.box(M["boucle"], (k * cw, 0.03, 0.33), (cw - 0.012, 0.7, 0.15))
-        P.box(M["boucle"], (k * cw, -0.29, 0.61), (cw - 0.012, 0.15, 0.5), rx=math.radians(13))
+        P.box(cu, (k * cw, 0.03, 0.33), (cw - 0.012, 0.7, 0.15))
+        P.box(cu, (k * cw, -0.29, 0.61), (cw - 0.012, 0.15, 0.5), rx=math.radians(13))
     P.box(M["sheepskin"], (-cw, -0.225, 0.66), (0.52, 0.025, 0.44), rx=math.radians(13))
+    if outdoor:  # a folded wool pledd over the right arm (Norwegian decks hand out blankets), a second sheepskin on the seat
+        x = L / 2 - 0.035
+        P.box(M["felt_fjord"], (x, 0.0, 0.625), (0.16, 0.42, 0.024))
+        P.box(M["felt_fjord"], (x + 0.07, 0.0, 0.47), (0.024, 0.42, 0.3))
+        P.box(M["sheepskin"], (cw * 0.9, 0.05, 0.415), (0.5, 0.55, 0.02))
 
 
 def dining_chair(P):
@@ -2115,9 +2122,17 @@ def wall_sign(P, text="WC", w=0.6, h=0.2, mount=2.2, size=0.05, blade=False):
     _sign_text(P, burnt, text, (0, 0.0215, z + (len(lines) - 1) * size * 0.75), size)
 
 
-def exit_sign(P, mount=2.45):
-    """Emergency exit sign (lit, battery-backed): the green running-man panel in a slim blackened-steel frame, over every exit."""
+def exit_sign(P, mount=2.45, hang_to=None):
+    """Emergency exit sign (lit, battery-backed): the green running-man panel in a slim blackened-steel frame, over every exit.
+    hang_to = a ceiling / beam height: hung on two steel rods, lit both faces (where no wall carries it, e.g. the bridge)."""
     z = mount
+    if hang_to:
+        for x in (-0.14, 0.14):
+            P.rod(M["steel"], (x, 0.02, z + 0.08), (x, 0.02, hang_to), 0.002, seg=6)
+        exit_sign(P, mount)
+        P.box(M["exit_green"], (0, -0.001, z), (0.33, 0.004, 0.13))
+        P.box(M["exit_white"], (0.06, -0.004, z), (0.03, 0.002, 0.08)); P.box(M["exit_white"], (-0.06, -0.004, z), (0.1, 0.002, 0.02))
+        return
     g = M.setdefault("exit_green", bc.material("exit_green", (0.05, 0.5, 0.2), 0.4, emit=((0.1, 0.9, 0.35), 4.0)))
     P.box(M["steel"], (0, 0.02, z), (0.36, 0.04, 0.16))
     P.box(g, (0, 0.041, z), (0.33, 0.004, 0.13))
@@ -2651,6 +2666,270 @@ def gallery_spot(P, z_ceiling=5.02):
     P.cyl(M["opal"], (-0.125, 0, z_ceiling - 0.205), 0.03, 0.004, seg=24)
 
 
+# ------------------------------------------------------------------ lounge bridge + decks (Roman, 2026-10-12: minimal pass-through
+# to the gym, a flowing ladder of light down the middle, glass in the floor each side, standing tables + outdoor sofas on the decks)
+def _canvas():
+    """Outdoor upholstery: solution-dyed acrylic canvas in the cafe's oat, a close linen-like weave (dries fast, keeps its colour)."""
+    if "canvas" not in M:
+        M["canvas"] = bc.pbr_material("canvas_oat", "rough_linen", 0.27, box=True, tint=(0.97, 0.94, 0.88), sat=0.15, val=1.5, piece_var=0.02)
+    return M["canvas"]
+
+
+def _led(name, rgb, strength):
+    return M.setdefault(name, bc.material(name, tuple(c * 0.5 for c in rgb), 0.4, emit=(rgb, strength)))
+
+
+def _frit():
+    """Anti-slip ceramic frit on the top ply of walk-on glass: fired white dots, Ø3.2 mm at 8 mm (about 12 % cover), clear between."""
+    m = bpy.data.materials.get("glass_frit")
+    if m:
+        return m
+    m = bpy.data.materials.new("glass_frit"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    out = N["Material Output"]; N.remove(N["Principled BSDF"])
+    tc = N.new("ShaderNodeTexCoord"); sc = N.new("ShaderNodeVectorMath"); sc.operation = "SCALE"; sc.inputs["Scale"].default_value = 1 / 0.008
+    L.new(tc.outputs["Object"], sc.inputs[0])
+    fr = N.new("ShaderNodeVectorMath"); fr.operation = "FRACTION"; L.new(sc.outputs[0], fr.inputs[0])
+    sx = N.new("ShaderNodeSeparateXYZ"); L.new(fr.outputs[0], sx.inputs[0])
+    cx = N.new("ShaderNodeCombineXYZ"); L.new(sx.outputs[0], cx.inputs[0]); L.new(sx.outputs[1], cx.inputs[1])
+    sub = N.new("ShaderNodeVectorMath"); sub.operation = "SUBTRACT"; sub.inputs[1].default_value = (0.5, 0.5, 0.0); L.new(cx.outputs[0], sub.inputs[0])
+    ln = N.new("ShaderNodeVectorMath"); ln.operation = "LENGTH"; L.new(sub.outputs[0], ln.inputs[0])
+    lt = N.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.2; L.new(ln.outputs["Value"], lt.inputs[0])
+    dot = N.new("ShaderNodeBsdfPrincipled"); dot.inputs["Base Color"].default_value = (0.8, 0.8, 0.78, 1); dot.inputs["Roughness"].default_value = 0.6
+    tr = N.new("ShaderNodeBsdfTransparent")
+    mx = N.new("ShaderNodeMixShader"); L.new(lt.outputs[0], mx.inputs[0]); L.new(tr.outputs[0], mx.inputs[1]); L.new(dot.outputs[0], mx.inputs[2])
+    L.new(mx.outputs[0], out.inputs["Surface"])
+    return m
+
+
+def _tube(P, mat, pts, r, seg=16, caps=True):
+    """A smooth round member swept along a polyline (bent-laminated rails): rings of verts on parallel-transported frames."""
+    b = P.bm(mat)
+    pts = [Vector(p) for p in pts]
+    tg = [(pts[min(i + 1, len(pts) - 1)] - pts[max(i - 1, 0)]).normalized() for i in range(len(pts))]
+    n = Vector((0, 0, 1)) if abs(tg[0].z) < 0.9 else Vector((1, 0, 0))
+    n = (n - tg[0] * n.dot(tg[0])).normalized()
+    rings = []
+    for i, p in enumerate(pts):
+        if i:
+            n = (n - tg[i] * n.dot(tg[i])).normalized()
+        bn = tg[i].cross(n)
+        rings.append([b.verts.new(p + (n * math.cos(a) + bn * math.sin(a)) * r) for a in np.linspace(0, 2 * math.pi, seg, endpoint=False)])
+    for A, B in zip(rings, rings[1:]):
+        for k in range(seg):
+            b.faces.new((A[k], A[(k + 1) % seg], B[(k + 1) % seg], B[k]))
+    if caps:
+        b.faces.new(rings[0][::-1]); b.faces.new(rings[-1])
+
+
+def _fish(P, mat, p, ang, L, pitch=0.0):
+    """A mirror-polished steel trout (as in Elva), 6 mm plate, head towards ang; pitch tilts it nose-up (leaping)."""
+    body = [(L / 2 * math.cos(a), 0.11 * L * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 24, endpoint=False)]
+    tail = [(-L / 2 + 0.02, 0.0), (-L / 2 - 0.12 * L / 0.3, 0.06), (-L / 2 - 0.1 * L / 0.3, 0.0), (-L / 2 - 0.12 * L / 0.3, -0.06)]
+    for shape in (body, tail):
+        b = P.bm(mat)
+        v0 = [b.verts.new((p[0] + x * math.cos(pitch) * math.cos(ang), p[1] + x * math.cos(pitch) * math.sin(ang), p[2] + x * math.sin(pitch) + z * math.cos(pitch)))
+              for x, z in shape]
+        off = Vector((-math.sin(ang), math.cos(ang), 0)) * 0.006
+        v1 = [b.verts.new(v.co + off) for v in v0]
+        b.faces.new(v0[::-1]); b.faces.new(v1)
+        for q in range(len(v0)):
+            r = (q + 1) % len(v0); b.faces.new((v0[q], v0[r], v1[r], v1[q]))
+
+
+def laksetrappa(P, rails=(), rungs=(), cables=(), fish=()):
+    """'Laksetrappa' (the salmon ladder): the bridge's light, a flowing ladder hung down its middle. Two rails of steam-bent,
+    white-oiled solid oak (Ø64) sway in plan, dip and rise, and roll round each other as they go; they grow out of the slat ceiling at
+    both ends. Between them ~50 rungs of opal light (Ø36 opal acrylic tubes with 2700 K LED inside, tenoned into the rails, a thin
+    brass collar at each joint). Hung on 1.5 mm steel wires from the glulam beams and through the slats to the CLT. Three
+    mirror-steel trout leap up it towards the gym: Elva's fish swim upstream to the bridge, the ladder carries them on.
+    Geometry (local, origin on the bridge axis at F1) comes from tools/furnish.py: rails, rungs, cable points, fish."""
+    for rail in rails:
+        _tube(P, M["oak"], rail, 0.032, seg=20)
+        for end in (rail[0], rail[-1]):  # blackened-steel ceiling rose where the rail meets the slats
+            if end[2] > 5.0:
+                P.cyl(M["steel"], (end[0], end[1], end[2] - 0.01), 0.07, 0.012, seg=32)
+    for a, b_ in rungs:
+        a, b_ = Vector(a), Vector(b_); d = (b_ - a).normalized()
+        P.rod(M["opal"], a + d * 0.026, b_ - d * 0.026, 0.018, seg=20)
+        for c, s_ in ((a, 1), (b_, -1)):
+            P.rod(M["brass"], c + d * s_ * 0.024, c + d * s_ * 0.034, 0.021, seg=20)
+    for (x, y, z0, z1) in cables:
+        P.rod(M["steel"], (x, y, z0), (x, y, z1), 0.0012, seg=5)
+    fm = M.setdefault("polished_steel", bc.metal_material("polished_steel", (0.92, 0.92, 0.9), rough=(0.02, 0.06), brushed=False))
+    for (x, y, z, ang, L, pitch, ztop) in fish:
+        _fish(P, fm, (x, y, z), ang, L, pitch)
+        P.rod(M["steel"], (x, y, z + 0.03), (x, y, ztop), 0.0008, seg=4)
+
+
+def glass_floor(P, depth=0.42):
+    """Walk-on glass panel, 1.0 m square (origin = its centre on the finished floor): a 20 mm blackened-steel rim flush with the
+    oak, the glass bedded on EPDM on a steel angle ledge; laminated 3 x 12 mm heat-strengthened + an 8 mm sacrificial top ply
+    with an anti-slip ceramic frit (SentryGlas interlayers, 5 kN/m2); below it a blackened-steel sleeve lines the cast opening
+    down through the screed and the 300 mm deck to the soffit, a framed window straight down to the river."""
+    st = M["steel"]
+    G, F, ledge = 1.0, 1.04, 0.02
+    for sx, sy, w, d in ((0, 1, F, (F - G) / 2), (0, -1, F, (F - G) / 2), (1, 0, (F - G) / 2, G), (-1, 0, (F - G) / 2, G)):
+        c = (sx * (G + F) / 4, sy * (G + F) / 4)
+        P.box(st, (c[0], c[1], -0.0225), (w, d, 0.045))                               # rim: the angle's upstand, flush
+    for sx, sy, w, d in ((0, 1, G, ledge), (0, -1, G, ledge), (1, 0, ledge, G - 2 * ledge), (-1, 0, ledge, G - 2 * ledge)):
+        P.box(st, (sx * (G / 2 - ledge / 2), sy * (G / 2 - ledge / 2), -0.051), (w, d, 0.008))  # the ledge the glass sits on
+    P.box(M["glass"], (0, 0, -0.024), (G - 0.004, G - 0.004, 0.042))                   # laminated glass
+    P.box(_frit(), (0, 0, -0.0012), (G - 0.006, G - 0.006, 0.0008))                     # frit on the top ply
+    S = 1.06
+    for sx, sy, w, d in ((0, 1, S + 0.016, 0.008), (0, -1, S + 0.016, 0.008), (1, 0, 0.008, S), (-1, 0, 0.008, S)):
+        P.box(st, (sx * (S / 2 + 0.004), sy * (S / 2 + 0.004), -0.055 - (depth - 0.055) / 2), (w, d, depth - 0.055))  # sleeve
+
+
+def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=1.0, wing=1.2):
+    """Members' speed gates (Roman: automatic, the phone is the key): slim blackened-steel cabinets with white-oiled oak tops, a
+    tap point for the phone (NFC / BLE) in each top with a brass ring and a soft light, glass swing wings to 1.2 m. Local x runs
+    across the lanes, +y faces the cafe. Entry readers sit on the walker's right at the cafe end, exit readers at the gym end.
+    Lane lights in the cabinet faces glow green while a lane is open. Wings fail safe: they swing open on a fire alarm (TEK17 escape
+    route) and from the release by the gates. cabs = [[x, width]], lanes = [[x0, x1]], open_ = lane indices shown open."""
+    st, oak = M["steel"], M["oak"]
+    green, white = _led("led_green", (0.2, 1.0, 0.4), 6.0), M["opal"]
+    sensor = M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08))
+    for x, w in cabs:
+        P.box(st, (x, 0, 0.04 + (hc - 0.07) / 2), (w, Lc, hc - 0.07))
+        P.box(M["rubber"], (x, 0, 0.02), (w - 0.02, Lc - 0.02, 0.04))                  # shadow plinth
+        P.box(oak, (x, 0, hc - 0.015), (w + 0.01, Lc + 0.01, 0.03))                    # oak top
+    def reader(x, y):
+        P.ring(M["brass"], (x, y), 0.04, 0.046, hc, hc + 0.002, seg=48)
+        P.cyl(white, (x, y, hc), 0.038, 0.0015, seg=48)
+        P.box(M["brass"], (x, y - 0.075 if y > 0 else y + 0.075, hc + 0.001), (0.014, 0.024, 0.0015))  # a little phone in brass: tap here
+    for i, (x0, x1) in enumerate(lanes):
+        is_open = i in open_
+        left = next((c for c in cabs if abs(c[0] + c[1] / 2 - x0) < 0.02), None)
+        right = next((c for c in cabs if abs(c[0] - c[1] / 2 - x1) < 0.02), None)
+        if left:
+            reader(left[0], Lc / 2 - 0.16)          # entry (walking from the cafe): reader on the walker's right
+        if right:
+            reader(right[0], -Lc / 2 + 0.16)        # exit (walking from the gym)
+        for xf, sg in ((x0, 1), (x1, -1)):           # lane light + safety sensors in both faces
+            P.box(green if is_open else white, (xf + sg * 0.002, 0, 0.84), (0.004, Lc - 0.36, 0.012))
+            for yy in (-0.45, 0.45):
+                for zz in (0.35, 0.62):
+                    P.box(sensor, (xf + sg * 0.0015, yy, zz), (0.003, 0.05, 0.03))
+        wl = (x1 - x0) / 2 - 0.008
+        for xp, sg in ((x0, 1), (x1, -1)):           # two glass wings, hubs on polished pivots in the cabinets
+            P.cyl(M["brushed"], (xp + sg * 0.012, 0, 0.22), 0.016, wing - 0.2, seg=20)
+            if is_open:                              # swung 90 deg towards the gym
+                P.box(M["glass"], (xp + sg * 0.03, -wl / 2 - 0.02, (0.25 + wing) / 2), (0.012, wl, wing - 0.25))
+            else:
+                P.box(M["glass"], (xp + sg * (wl / 2 + 0.012), 0, (0.25 + wing) / 2), (wl, 0.012, wing - 0.25))
+
+
+def glass_fence(P, L=4.0, h=1.2):
+    """Frameless 12 mm toughened laminated glass, 1.2 m, clamped in a channel set into the floor (only a 35 mm steel cover shows):
+    closes the line either side of the gates without closing the view."""
+    n = max(1, math.ceil(L / 2.0)); w = L / n
+    for k in range(n):
+        P.box(M["glass"], (-L / 2 + w * (k + 0.5), 0, h / 2), (w - 0.006, 0.012, h))
+    P.box(M["steel"], (0, 0, 0.0015), (L, 0.035, 0.003))
+
+
+def floor_strip(P, L=2.0, w=0.03, style="plain"):
+    """Flush floor strips: 'plain' = a blackened-steel threshold / track line; 'grate' = a slot drain (blackened-steel grating
+    over a channel) at the deck thresholds, so the deck can sit 15 mm lower and water never reaches the oak."""
+    if style == "grate":
+        P.box(M["felt"], (0, 0, -0.03), (L, w - 0.01, 0.06))
+        for y in (-w / 2 + 0.004, w / 2 - 0.004):
+            P.box(M["steel"], (0, y, -0.006), (L, 0.008, 0.012))
+        for x in np.arange(-L / 2 + 0.0125, L / 2, 0.025):
+            P.box(M["steel"], (x, 0, -0.008), (0.006, w - 0.012, 0.016))
+    else:
+        P.box(M["steel"], (0, 0, -0.001), (L, w, 0.003))
+
+
+def bridge_bench(P, L=3.2):
+    """Bridge bench: one solid walnut plank (480 x 60) on two blackened-steel sled frames (60 x 12 flat bar), backless so you can
+    sit facing the view or the room; a sheepskin. Seat at 0.45."""
+    P.box(M["walnut"], (0, 0, 0.42), (L, 0.48, 0.06))
+    for sx in (-1, 1):
+        x = sx * (L / 2 - 0.42)
+        P.box(M["steel"], (x, 0, 0.384), (0.012, 0.42, 0.012))                         # under the plank
+        P.box(M["steel"], (x, 0, 0.006), (0.012, 0.46, 0.012))                         # runner
+        for sy in (-1, 1):
+            P.box(M["steel"], (x, sy * 0.204, 0.195), (0.012, 0.012, 0.37))
+    P.box(M["sheepskin"], (L / 2 - 0.55, 0.0, 0.462), (0.6, 0.44, 0.025))
+
+
+def standing_table(P, d=0.7, h=1.08):
+    """Standing table for the decks: a round oiled-oak top (40 mm, glued staves), a blackened-steel column on a heavy steel disc
+    (it stays put in the wind over the gorge), a footrest ring at 0.28 and a small brass bag hook under the top."""
+    P.cyl(M["oak"], (0, 0, h - 0.04), d / 2, 0.04, seg=64)
+    P.cyl(M["steel"], (0, 0, h - 0.06), 0.09, 0.02, seg=32)                              # top plate
+    P.cyl(M["steel"], (0, 0, 0.025), 0.038, h - 0.085, seg=24)
+    P.cyl(M["steel"], (0, 0, 0.0), 0.26, 0.025, seg=64)
+    pts = [(0.2 * math.cos(math.radians(a)), 0.2 * math.sin(math.radians(a)), 0.28) for a in range(0, 361, 15)]
+    for p0, p1 in zip(pts, pts[1:]):
+        P.rod(M["steel"], p0, p1, 0.009, seg=10)
+    for k in range(3):
+        a = math.radians(90 + 120 * k)
+        P.rod(M["steel"], (0.036 * math.cos(a), 0.036 * math.sin(a), 0.28), (0.2 * math.cos(a), 0.2 * math.sin(a), 0.28), 0.008, seg=8)
+    P.rod(M["brass"], (0, -0.09, h - 0.06), (0, -0.13, h - 0.11), 0.004, seg=8)
+    P.rod(M["brass"], (0, -0.13, h - 0.11), (0, -0.13, h - 0.085), 0.004, seg=8)
+
+
+def deck_sofa(P, L=2.2):
+    """The cafe sofa made for the decks: same form, oiled oak frame, solution-dyed canvas in the cafe's oat, a wool pledd."""
+    sofa(P, L, outdoor=True)
+
+
+def deck_chair(P):
+    """The 'Elverum' lounge chair for the decks: oiled oak frame, outdoor canvas cushions, sheepskin."""
+    lounge_chair(P, outdoor=True)
+
+
+def deck_table(P, d=0.9, h=0.38):
+    """Deck table: a honed granite top (40 mm, the same stone as the cafe's boulder) on a blackened-steel pedestal and cross base."""
+    P.cyl(_honed_granite(), (0, 0, h - 0.04), d / 2, 0.04, seg=64)
+    P.cyl(M["steel"], (0, 0, 0.03), 0.035, h - 0.07, seg=24)
+    for a in (0, 90):
+        P.box(M["steel"], (0, 0, 0.015), (d * 0.6, 0.05, 0.03), rz=math.radians(a + 45))
+
+
+def blanket_basket(P, colours=("moss", "oat", "lingon")):
+    """A woven willow basket (Ø0.46) of rolled wool blankets by each deck sofa."""
+    P.ring(M["rope"], (0, 0), 0.215, 0.23, 0.0, 0.4, seg=48)
+    P.cyl(M["rope"], (0, 0, 0.0), 0.215, 0.015, seg=48)
+    for k, c in enumerate(colours):
+        a = math.radians(40 + 120 * k)
+        P.cyl(M["felt_" + c], (0.1 * math.cos(a), 0.1 * math.sin(a), 0.015), 0.085, 0.45 + 0.04 * k, seg=24)
+
+
+def ir_heater(P, z_top=5.615, L=1.4):
+    """Infrared heater under the eave soffit: a slim blackened-steel body with a dark ceramic-glass emitter, on two short drops.
+    Off by day; warms the people, not the air, on cold evenings."""
+    z = z_top - 0.15
+    P.box(M["steel"], (0, 0, z), (L, 0.13, 0.06))
+    P.box(M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08)), (0, 0, z - 0.031), (L - 0.06, 0.1, 0.002))
+    for x in (-L / 2 + 0.15, L / 2 - 0.15):
+        P.rod(M["steel"], (x, 0, z + 0.03), (x, 0, z_top), 0.008, seg=8)
+
+
+def slide_panel(P, w=2.23, h=3.0):
+    """A lift-and-slide glass leaf, slid open behind its neighbour (the doorway to the deck): 60 mm blackened-steel frame,
+    triple glazing, a long oak pull on both faces, on its own inner track (recessed flush in the floor)."""
+    fr = M["frame"]
+    P.box(M["glass"], (0, 0, h / 2), (w - 0.1, 0.03, h - 0.1))
+    for x in (-w / 2 + 0.03, w / 2 - 0.03):
+        P.box(fr, (x, 0, h / 2), (0.06, 0.07, h))
+    for z in (0.03, h - 0.03):
+        P.box(fr, (0, 0, z), (w, 0.07, 0.06))
+    for y in (-0.05, 0.05):
+        P.rod(M["oak"], (w / 2 - 0.12, y, 0.8), (w / 2 - 0.12, y, 1.9), 0.015)
+
+
+def gate_release(P):
+    """Green emergency release (nødåpning) for the gates: a break-glass call point on the column, at 1.2 m."""
+    g = M.setdefault("sign_green", bc.material("sign_green", (0.04, 0.4, 0.18), 0.5))
+    P.box(g, (0, 0.025, 1.2), (0.09, 0.05, 0.09))
+    P.box(M.setdefault("sign_white", bc.material("sign_white", (0.92, 0.92, 0.9), 0.5)), (0, 0.0505, 1.2), (0.05, 0.002, 0.05))
+    P.box(M["glass"], (0, 0.053, 1.2), (0.07, 0.003, 0.07))
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -2678,6 +2957,9 @@ BUILDERS = {
     "wall_sign": wall_sign, "exit_sign": exit_sign, "safety_point": safety_point, "ceiling_services": ceiling_services,
     "floor_drain": floor_drain, "amenity_tray": amenity_tray, "table_setting": table_setting, "water_station": water_station,
     "menu_board": menu_board, "high_chair": high_chair, "coat_rack": coat_rack, "floor_lamp": floor_lamp, "magazines": magazines,
+    "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
+    "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
+    "blanket_basket": blanket_basket, "ir_heater": ir_heater, "slide_panel": slide_panel, "gate_release": gate_release,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -2687,14 +2969,17 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at", "number0", "occupied"),
           "wc_run": ("cells", "depth", "open_", "occupied", "pan_side"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
-          "kid_chair": ("colour", "seat"), "dance_mirror": ("length", "h", "barre"), "window_nest": ("length",), "sensory_panel": ("style",), "pictogram": ("figure", "size", "mount"), "portal_frame": ("width", "height", "depth"), "wall_sign": ("text", "w", "h", "mount", "size", "blade"), "exit_sign": ("mount",), "safety_point": ("aed",),
+          "kid_chair": ("colour", "seat"), "dance_mirror": ("length", "h", "barre"), "window_nest": ("length",), "sensory_panel": ("style",), "pictogram": ("figure", "size", "mount"), "portal_frame": ("width", "height", "depth"), "wall_sign": ("text", "w", "h", "mount", "size", "blade"), "exit_sign": ("mount", "hang_to"), "safety_point": ("aed",),
           "ceiling_services": ("z_local", "ceiling", "device"), "amenity_tray": ("products",), "table_setting": ("carafe",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
           "stair_guard": ("gap", "gaps", "gates", "r_in", "a0"), "felt_banner": ("motif", "colour", "h"), "staff_lockers": ("n",), "bunting": ("length", "sag"),
           "tube_slide": ("hatches", "a_top", "turns_deg", "run", "stair_a0"), "ripstick": ("colour",), "tricycle": ("colour",), "strider": ("colour",), "wheel_rack": ("length",), "art_labels": ("width", "height", "z0", "labels", "size"),
           "climbing_wall": ("length",), "wall_bars": ("length",), "nest_swing": ("top",), "balance_beam": ("length",), "sleep_mat": ("colour",), "mat_shelf": ("length",),
           "star_ceiling": ("size", "hang"), "pram": ("colour",), "gear_rack": ("length",), "log_bench": ("length",), "trike_loop": ("rx", "ry"),
-          "terrace_slide": ("drop",), "stump": ("r", "h")}
+          "terrace_slide": ("drop",), "stump": ("r", "h"),
+          "laksetrappa": ("rails", "rungs", "cables", "fish"), "glass_floor": ("depth",), "speed_gates": ("cabs", "lanes", "open_"),
+          "glass_fence": ("length",), "floor_strip": ("length", "w", "style"), "bridge_bench": ("length",), "deck_sofa": ("length",),
+          "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_panel": ("w",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -2711,7 +2996,8 @@ def build_all(model, MAT, coll):
                 name = k
                 if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
-                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall") and k == "length":
+                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
+                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"

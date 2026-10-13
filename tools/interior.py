@@ -215,15 +215,44 @@ for wid, side, rng_, tag in (("P-E1-12", 1, (0.075, 5.0 - 0.075 - TD), "-dcwc"),
 # bridge's finished oak floor rises 120 mm over its 18.45 m (1:150, imperceptible): flush at both ends, no step, no ramp.
 # Build-up on the suspended link slab (top -0.10): impact mat, screed (falls with the floor), white-oiled oak boards.
 F1v = lv["F1"]; BR = [-6.45, -9.5, 12.0, 6.8]
-add({"id": "IN-F1-bridge-impact", "type": "slab", "material": "impact_mat", "rect": BR, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": [],
-     "note": "20 mm impact sound mat"})
-add({"id": "IN-F1-bridge-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": BR, "z": [round(F1v - 0.08, 3), round(F1v - 0.022, 3)], "holes": [],
-     "pattern": {"kind": "poured", "joint": 6.0}, "slope": [[-6.45, 0.0], [12.0, round(E1 - F1v, 3)]], "slope_top_only": True,
-     "note": "screed with underfloor heating, laid to the 1:150 rise; its top under the oak"})
+SLOPE = [[-6.45, 0.0], [12.0, round(E1 - F1v, 3)]]
+# the walk-on glass panels (cast openings in tools/structure_stage.py): the build-up stops at each panel's 1.04 m steel frame
+GLASS = [{"rect": [round(h["glass_floor"][0] - 0.52, 3), round(h["glass_floor"][1] - 0.52, 3), round(h["glass_floor"][0] + 0.52, 3), round(h["glass_floor"][1] + 0.52, 3)],
+          "note": "walk-on glass panel in its steel frame"} for h in by_id["S-F1-link"].get("holes", []) if h.get("glass_floor")]
+add({"id": "IN-F1-bridge-impact", "type": "slab", "material": "impact_mat", "rect": BR, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": GLASS,
+     "pattern": {"kind": "poured", "joint": 20.0}, "note": "20 mm impact sound mat"})
+add({"id": "IN-F1-bridge-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": BR, "z": [round(F1v - 0.08, 3), round(F1v - 0.022, 3)], "holes": GLASS,
+     "pattern": {"kind": "poured", "joint": 6.0}, "slope": SLOPE, "slope_top_only": True,
+     "note": "screed with underfloor heating, laid to the 1:150 rise; its top under the oak; cut round the glass panels"})
 fb = FINISH[P["floor"]]
-add({"id": "IN-F1-bridge-floor", "type": "slab", "kind": "floor_finish", "material": fb["material"], "rect": BR, "z": [round(F1v - fb["t"], 3), F1v], "holes": [],
-     "pattern": {k: v for k, v in fb.items() if k not in ("material", "t")}, "slope": [[-6.45, 0.0], [12.0, round(E1 - F1v, 3)]],
-     "note": "white-oiled oak boards rising 0.00 (gym) -> 0.12 (cafe) at 1:150: no step at either end"})
+add({"id": "IN-F1-bridge-floor", "type": "slab", "kind": "floor_finish", "material": fb["material"], "rect": BR, "z": [round(F1v - fb["t"], 3), F1v], "holes": GLASS,
+     "pattern": {**{k: v for k, v in fb.items() if k not in ("material", "t")}, "dir": "x"}, "slope": SLOPE,
+     "note": "white-oiled oak boards running the length of the bridge (east-west, they lead on to the gym), rising 0.00 (gym) -> 0.12 "
+             "(cafe) at 1:150: no step at either end; cut round the glass panels"})
+# bridge ceiling (Roman: minimal, the light sculpture is the feature): oak acoustic slats on black felt running the length of the
+# bridge, between the five glulam beams (they cross it every 4.47 m); no wave here
+BR_BEAMS = sorted(e["from"][0] for e in by_id.values() if e["id"].startswith("ST3-link-roofbeam-"))
+zc_ = round(RF - 0.08, 3)
+add({"id": "IN-F1-ceiling-bridge", "type": "slab", "kind": "ceiling", "material": "oak_slat", "rect": BR, "z": [round(zc_ - 0.02, 3), zc_], "holes": [],
+     "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x"}, "ignore_beams": True,
+     "split_x": [[round(x - 0.145, 3), round(x + 0.145, 3)] for x in BR_BEAMS],
+     "note": "oak acoustic slats 45 x 20 @ 65 mm along the bridge, on black felt + battens, stopping at each glulam beam"})
+add({"id": "IN-F1-ceiling-bridge-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": BR, "z": [round(zc_ + 0.06, 3), round(zc_ + 0.07, 3)],
+     "holes": [], "note": "black acoustic felt on battens behind the slats"})
+for wid, sign in (("EN-header-G-link-S", 1), ("EN-header-G-link-N", -1)):  # the header band over the glass stays dark inside (as in the cafe)
+    lining(wid, P["header"], sign)
+
+# ---- the decks (outdoors, cantilevered over the river; Roman: standing tables + outdoor sofas). Build-up on the deck slab (top -0.10):
+# a torch-on waterproofing membrane laid to falls towards the edge gutters, adjustable pedestals on rubber pads, and 28 x 120 mm
+# Kebony (furfurylated pine, weathers silver like the old boat houses) with 6 mm gaps, running east-west like the oak inside, its top
+# 15 mm under the bridge floor (a slot drain at the threshold takes the step: level access when the glass walls open)
+DECKS = {"n": ([-6.39, 6.98, 11.8, 11.22], []), "s": ([-6.39, -12.42, 11.92, -9.68], [{"rect": [-6.67, -11.32, -6.23, -10.68], "note": "gym facade column C4"}])}
+for nm, (r, holes) in DECKS.items():
+    add({"id": f"IN-F1-deck{nm}-membrane", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.10, 3), round(F1v - 0.095, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 20.0}, "note": "torch-on bitumen waterproofing to falls, under the pedestals"})
+    add({"id": f"IN-F1-deck{nm}-boards", "type": "slab", "kind": "floor_finish", "material": "decking", "rect": r, "z": [round(F1v - 0.015 - 0.028, 3), round(F1v - 0.015, 3)],
+         "holes": holes, "pattern": {"kind": "boards", "w": 0.126, "L": [3.0, 3.6, 4.2], "gap": 0.006, "dir": "x"}, "slope": SLOPE,
+         "note": "28 x 120 Kebony decking, 6 mm gaps, on adjustable pedestals; top 15 mm below the bridge floor, rising with it at 1:150"})
 
 # ---- the staff toilet: a small walled room in the staff room's south-east corner (Roman: not an odd booth), stud walls to 2.7 m with
 # a plastered lid (the staff room stays tall and open to its new forest window), tiled inside like every wet room

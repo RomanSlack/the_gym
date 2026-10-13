@@ -328,7 +328,7 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
     - Every fin has a polished brass tip, and nine mirror-steel trout and grayling swim upstream.
   - **View lounge along the south glass:** pairs of low lounge chairs with side tables on round rugs.
   - **East glass:** two conversation groups (a sofa, two lounge chairs and a coffee table on a rug).
-  - **Kept:** the north-west sofa corner, and two tables for four for people who want to eat at a table.
+  - **Kept:** two tables for four for people who want to eat at a table. (The north-west sofa corner went on 2026-10-12: the members' gates stand at the bridge mouth, see "Lounge bridge".)
   - **WC wall:** oak slats like the core, blackened-steel portal frames, and pictograms (steel plates with brass figures) instead of text signs. The gym, daycare and lift signs are pictograms too.
 - **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
 - **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
@@ -364,6 +364,39 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - a gapahuk facing the bålplass (fire pit) with log seats
   - a freestanding slide off the terrace edge with a stair beside it
   - stepping stumps along the west terrace
+
+### Lounge bridge + decks (2026-10-12, Roman: "pretty minimal ... it should really be a passthrough space as you enter the grand gym"; "really high levels of thoughtfulness and detail")
+
+- **Members' gates (Roman: yes, automatic; the phone is the key):** speed gates on the column line where the cafe meets the bridge (x 12.0).
+  - Phone tap (NFC / BLE) on a brass-ringed reader in each cabinet's oak top: entry readers at the cafe end on the walker's right, exit readers at the gym end.
+  - Column D12 is the spine of the bank. Each side has a 650 mm lane and a 1000 mm lane (wheelchairs, prams, kit), giving 4 lanes in all.
+  - Cabinets: slim blackened steel with white-oiled oak tops and glass swing wings to 1.2 m. The lane lights glow green when a lane is open.
+  - Frameless 1.2 m glass closes the rest of the line to the glass walls, set in a floor channel so only a 35 mm steel cover shows.
+  - Fail-safe: the wings swing open on a fire alarm (the bridge is an escape route), and there's a green emergency release on the column on both sides.
+  - Both decks are only reachable from the bridge, so they sit on the members' side. The cafe's north-west sofa corner was removed so people walk straight off the gates; Steinringen beside the gates is the meeting point.
+- **Laksetrappa (the salmon ladder), the one feature inside:**
+  - a flowing ladder of light hung down the middle of the bridge
+  - two rails of steam-bent, white-oiled solid oak grow out of the slat ceiling at both ends, dip to 3.4 to 4.2 m (under the beams), sway in plan and roll round each other as they go
+  - about 50 rungs of opal light (2700 K) with thin brass collars, one every 0.3 m
+  - three mirror-steel trout leap up it towards the gym: Elva's fish swim upstream to the bridge, and the ladder carries them on
+  - hung on 1.5 mm steel wires from the glulam beams and through the slats to the CLT
+- **Glass in the floor:** two mirrored rows of nine 1.0 m walk-on glass panels running east-west, one each side of the walkway, at 1.6 m centres.
+  - Each row sits mid-bay between two steel girders, so nothing structural crosses the view about 8.8 m down to the river.
+  - The openings are cast into the deck slab. Each panel has a 20 mm blackened-steel rim flush with the oak and laminated 3 x 12 mm glass plus an 8 mm top ply with an anti-slip ceramic frit.
+  - Below the glass, a blackened-steel sleeve lines the opening down to the soffit.
+- **Shell:**
+  - **Floor:** white-oiled oak boards running east-west (they lead on to the gym), rising 1:150 from the gym (0.00) to the cafe (0.12). A blackened-steel threshold marks where the bridge oak meets the cafe oak.
+  - **Ceiling:** oak acoustic slats along the bridge on black felt, stopping at each of the five glulam beams. No wave here, so the ladder reads.
+  - **Header band** over the glass: dark inside, as in the cafe.
+- **Inside, only two benches:** backless walnut planks on blackened-steel sleds in the outer bays, one facing the falls and one the gorge downstream.
+- **Way out to the decks:** one lift-and-slide leaf per side is slid open behind its neighbour (the bay between the posts at x 5.0 to 7.2), on a flush inner track. The full fold-away system for opening the whole wall is still to be designed.
+- **Decks:**
+  - **Surface:** Kebony boards weathered silver, running east-west, on pedestals over a waterproofing membrane. The deck sits 15 mm below the bridge floor, with a slot drain along each threshold (level access).
+  - **North deck (the falls view):** two outdoor versions of the cafe's sofa group, each with the sofa's back to the glass, a honed-granite low table (the boulder's stone) and two chairs. One group sits on the falls' axis. Three standing tables (oiled oak on steel, footrest ring, bag hook, tealight) stand at the balustrade between the groups.
+  - **South deck (the sun deck, 2.7 m deep):** two sofas facing the sun and the downstream gorge, each with a granite side table, plus three standing tables at the balustrade.
+  - **Outdoor furniture:** the cafe's forms in oiled oak with oat outdoor canvas. Sheepskins, a wool pledd on each sofa arm and a basket of wool blankets by each sofa.
+  - **Under the eave:** infrared heaters over the sofas, and downlights in the oak soffit.
+- **Services:** sprinklers and smoke detectors mid-bay in the slat ceiling, and lit exit signs hung from the end beams.
 
 ## Open questions
 

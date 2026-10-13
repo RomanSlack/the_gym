@@ -139,7 +139,7 @@ if BUILT >= 4:
             issues.append(f"buried {e['type']} {e['id']} shows {e['z'][1] - g:.2f} m above the finished ground at ({x:.0f}, {y:.0f})")
     lowers = [e for e in els if e["type"] in ("wall", "strip_footing") and "from" in e]
     for e in els:
-        if e["type"] not in ("wall", "strip_footing") or "from" not in e or e.get("phase") is None or e.get("kind") in ("partition", "glazed", "trim", "clad"):
+        if e["type"] not in ("wall", "strip_footing") or "from" not in e or e.get("phase") is None or e.get("kind") in ("partition", "glazed", "trim", "clad", "lining"):  # linings hang on their wall
             continue
         pts, L, (ax, ay, bx, by) = along(e)
         nx, ny = -(by - ay) / L, (bx - ax) / L; t = e["size"][0] / 2

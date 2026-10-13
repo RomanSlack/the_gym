@@ -490,6 +490,17 @@ CAMS = {
     "cafe_east": ((24.2, -1.0, 1.5), (28.6, -1.0, 0.8), 16),
     "cafe_wcwall": ((17.0, 1.8, 1.55), (17.0, 6.8, 2.0), 16),
     "br_join": ((15.5, -2.0, 1.4), (8.0, -1.0, 0.0), 22),
+    # the lounge bridge + decks (F1 0.00 -> 0.12, eye ~1.65)
+    "br_from_cafe": ((15.4, 2.9, 1.72), (-6.0, -1.8, 2.3), 17),
+    "br_gates": ((14.7, 2.1, 1.6), (12.0, -1.1, 0.85), 22),
+    "br_axis": ((9.6, -1.35, 1.66), (-6.45, -1.35, 2.5), 16),
+    "br_to_cafe": ((-5.7, -2.4, 1.64), (12.0, -0.9, 2.1), 16),
+    "br_glass": ((3.7, -5.0, 1.62), (2.775, -6.785, -0.4), 20),
+    "br_ladder": ((6.6, -4.3, 1.45), (2.6, -0.8, 3.95), 17),
+    "br_to_deck": ((3.4, 0.6, 1.64), (6.4, 9.5, 1.3), 18),
+    "deck_n": ((11.2, 10.7, 1.66), (-4.5, 8.4, 1.2), 18),
+    "deck_n_falls": ((0.3, 7.08, 1.7), (-3.0, 32.0, -1.0), 20),
+    "deck_s": ((11.4, -12.15, 1.66), (-4.5, -10.4, 1.1), 18),
     "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
     "dc_staff_wc": ((15.9, 20.6, 1.62), (16.2, 17.2, 1.0), 18),
     "dc_gate": ((18.9, 23.2, 1.3), (21.25, 21.85, 0.6), 18),
@@ -532,7 +543,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]

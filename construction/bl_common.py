@@ -502,13 +502,14 @@ def pattern_floor(e, mat, coll, rng):
         nx_, ny_ = max(1, round((x1 - x0) / J)), max(1, round((y1 - y0) / J))
         for i in range(nx_):
             for j in range(ny_):
-                boxes.append(_box(x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, z0,
-                                  x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015, z1))
+                q = (x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015)
+                for r_ in _minus_holes(q, e.get("holes", [])):
+                    boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1))
     if e.get("slope"):  # a floor that rises along x (the bridge: gym F1 0.00 -> cafe E1 0.12): each piece lifted by its centre's x
         (xa, za), (xb, zb) = e["slope"]
         top_only = e.get("slope_top_only")  # screed: thickens (its underside stays on the slab)
-        lift = lambda bx: za + (zb - za) * min(1, max(0, (sum(p_[0] for p_ in bx) / 8 - xa) / (xb - xa)))
-        boxes = [[(c[0], c[1], c[2] + (lift(bx) if (not top_only or abs(c[2] - z1) < 1e-6) else 0.0)) for c in bx] for bx in boxes]
+        lift = lambda x_: za + (zb - za) * min(1, max(0, (x_ - xa) / (xb - xa)))  # per vertex: long boards tilt with the screed, no steps
+        boxes = [[(c[0], c[1], c[2] + (lift(c[0]) if (not top_only or abs(c[2] - z1) < 1e-6) else 0.0)) for c in bx] for bx in boxes]
     return _pieces_mesh(e["id"], boxes, mat, coll)
 
 
@@ -550,7 +551,10 @@ def pattern_ceiling(e, mat, coll, beam_lines):
     y = y0 + p["pitch"] / 2
     while y < y1:
         if e.get("ignore_beams") or all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
-            boxes.append(_box(x0, y - p["w"] / 2, z0, x1, y + p["w"] / 2, z1))
+            xs_ = [x0] + [v for c0, c1 in sorted(e.get("split_x", [])) for v in (c0, c1)] + [x1]  # beams crossing the slats (the bridge)
+            for xa, xb in zip(xs_[::2], xs_[1::2]):
+                if xb - xa > 0.02:
+                    boxes.append(_box(max(x0, xa), y - p["w"] / 2, z0, min(x1, xb), y + p["w"] / 2, z1))
         y += p["pitch"]
     return _pieces_mesh(e["id"], boxes, mat, coll)
 
@@ -680,6 +684,8 @@ def interior_materials():
         "stone_light": pbr_material("stone_light", "smooth_concrete_floor", 2.0, tint=(1.0, 0.98, 0.95), box=True, rough_mul=0.6, rough_add=0.15, piece_var=0.05, sat=0.2, val=2.0),
         "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
         "ash_fin": pbr_material("ash_fin", "ash_veneer", 1.0, box=True, tint=(1.05, 1.02, 0.95), sat=0.45, val=1.75, piece_var=0.06),
+        # outdoor decking: Kebony, weathered to its silver grey (like the old boat houses), still warm in the grain
+        "decking": pbr_material("decking_kebony", "ash_veneer", 1.0, box=True, tint=(0.78, 0.76, 0.73), sat=0.18, val=0.95, piece_var=0.1, rough_add=0.15),
         "impact_mat": material("impact_mat", (0.05, 0.05, 0.05), 0.9),
         "screed": material("screed", (0.4, 0.39, 0.37), 0.9),
         "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),

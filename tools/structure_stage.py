@@ -122,7 +122,19 @@ for k, y in enumerate(np.linspace(LINK[1], LINK[3], 4)):
     add({"id": f"ST3-link-girder-{k}", "type": "beam", "material": "steel_dark", "from": [LINK[0], round(float(y), 2)], "to": [LINK[2], round(float(y), 2)],
          "size": [0.45, 1.0], "z": [round(DECK_Z[0] - 1.0, 2), DECK_Z[0]],
          "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge"})
-add({"id": "ST3-link-ledge-E", "type": "beam", "material": "concrete", "from": [12.0, -9.5], "to": [12.0, 7.62], "size": [0.5, 0.6],
+# walk-on glass in the bridge floor (Roman, 2026-10-12): two mirrored rows of 1.0 m panels running east-west, one each side of the
+# walkway. Each row sits mid-bay between two girders (the deck spans girder to girder, 5.43 m), so nothing structural crosses the view
+# down to the river; the openings are cast into the deck (1.10 square: steel sleeve + grout), trimmed with extra bars in the 0.6 m
+# strips of slab between them. The glass + its steel frames: tools/furnish.py ("glass_floor").
+GIRDER_Y = [round(float(y), 2) for y in np.linspace(LINK[1], LINK[3], 4)]
+deck = by_id["S-F1-link"]
+deck["holes"] = [h for h in deck.get("holes", []) if not h.get("glass_floor")]
+for yr in ((GIRDER_Y[0] + GIRDER_Y[1]) / 2, (GIRDER_Y[2] + GIRDER_Y[3]) / 2):
+    for k in range(-4, 5):
+        xg = (LINK[0] + LINK[2]) / 2 + 1.6 * k
+        deck["holes"].append({"rect": [[round(xg - 0.55, 3), round(yr - 0.55, 3)], [round(xg + 0.55, 3), round(yr + 0.55, 3)]], "glass_floor": [round(xg, 3), round(yr, 3)],
+                              "note": "cast opening for a 1.0 m walk-on glass panel (steel sleeve, laminated glass)"})
+add({"id": "ST3-link-ledge-E","type": "beam", "material": "concrete", "from": [12.0, -9.5], "to": [12.0, 7.62], "size": [0.5, 0.6],
      "z": [round(DECK_Z[0] - 1.6, 2), round(DECK_Z[0] - 1.0, 2)], "note": "concrete bearing ledge between columns D13-D11 for the lounge girders"})
 for k, x in enumerate(np.linspace(LINK[0] + 0.45, LINK[2] - 0.45, 7)):
     x = round(float(x), 2)

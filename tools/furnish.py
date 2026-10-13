@@ -398,7 +398,7 @@ for y in (10.2, 11.2):
 # water station; downlights over each seating group
 for x in (27.0, 29.4):
     putz("table_setting", x, -7.0, 0.74, rot=30)
-for (x, y) in ((28.2, -3.3), (28.2, 1.6), (15.0, 0.6)):
+for (x, y) in ((28.2, -3.3), (28.2, 1.6)):
     putz("table_setting", x, y, 0.395, carafe=False)
 for x in (17.9, 21.3, 24.7):
     putz("table_setting", x, -8.45, 0.525, carafe=False)
@@ -413,7 +413,7 @@ for (x, y) in ((27.0, -7.0), (29.4, -7.0), (28.2, -3.3), (28.2, 1.6), (17.9, -8.
     dl(x, y, 160, zone="cafe")
 # building services in every ceiling (TEK17): sprinklers on a ~3 m grid, smoke detectors one per ~7 m, dropped below the fins
 def services(x0, x1, y0, y1, level, z, ceil, avoid=()):
-    k = 0; floor = E1 if level == "E1" else E2
+    k = 0; floor = lv[level]
     nx, ny = int((x1 - x0) / 3.1) + 1, int((y1 - y0) / 3.1) + 1
     for i in range(nx):
         for j in range(ny):
@@ -459,17 +459,139 @@ for y in (-3.3, 1.6):
     put("coffee_table", 28.2, y, zone="cafe")
     put("lounge_chair", 29.55, y - 0.85, rot=110, zone="cafe")
     put("lounge_chair", 29.55, y + 0.85, rot=70, zone="cafe")
-# the north-west sofa corner stays (by the bridge)
-put("rug", 15.0, 0.6, zone="cafe", size=[2.6, 3.0])
-put("sofa", 13.4, 0.6, rot=-90, zone="cafe", length=2.2)
-put("lounge_chair", 16.55, 0.0, rot=60, zone="cafe")
-put("lounge_chair", 16.55, 1.25, rot=120, zone="cafe")
-put("coffee_table", 15.0, 0.6, zone="cafe")
+# (the north-west sofa corner by the bridge is gone (2026-10-12): the members' gates stand at the bridge mouth and people walk off
+# them right there; Steinringen beside the gates is the meeting point)
 # two tables for four in the south-east corner, for those who want to eat at a table
 for x in (27.0, 29.4):
     put("cafe_table", x, -7.0, zone="cafe")
     for d in (0, 90, 180, 270):
         put("dining_chair", x + 0.62 * math.cos(math.radians(d)), -7.0 + 0.62 * math.sin(math.radians(d)), rot=d + 90, zone="cafe")
+
+# ---- the lounge bridge + its decks (Roman, 2026-10-12): a minimal pass-through as you enter the gym. Members' gates at the cafe
+# mouth (the phone is the key), 'Laksetrappa', a flowing ladder of light down the middle, two mirrored rows of walk-on glass in the
+# floor looking down to the river, two benches and nothing else inside; standing tables + outdoor versions of the cafe sofas on the
+# decks. The bridge floor rises 0.00 -> 0.12 over its 18.45 m: everything on it stands at zf(x).
+F1 = lv["F1"]
+zf = lambda x: round(F1 + (E1 - F1) * min(1.0, max(0.0, (x + 6.45) / 18.45)), 4)
+def putb(kind, x, y, rot=0.0, zone="bridge", z=None, **kw):
+    put(kind, x, y, rot=rot, zone=zone, level="F1", z=zf(x) if z is None else z, **kw)
+BAX, BAY = 2.775, -1.35   # the bridge's centre (x mid-span, y on the axis between the glass walls)
+BEAMS = sorted(e["from"][0] for e in m["elements"] if e["id"].startswith("ST3-link-roofbeam-"))
+SLATS, CLT_ = 5.54, 5.62  # underside of the bridge's slat ceiling; the CLT behind it
+BEAM_BOT = next(e["z"][0] for e in m["elements"] if e["id"] == "ST3-link-roofbeam-0")
+
+# members' gates on the column line at the cafe mouth (x 12.0): column D12 stands in the middle of the bank as its spine; each side
+# a 650 lane + a 1000 lane (wheelchairs, prams, kit); 200 cabinets. Frameless 1.2 m glass closes the line to the glass walls.
+GX, GY = 12.0, -0.94      # column D12
+CABS_W = [-0.585, 0.265, 1.465, -1.295, -2.145, -3.345]           # cabinet centres (world y)
+LANES_W = [[0.365, 1.365], [-0.485, 0.165], [-2.045, -1.395], [-3.245, -2.245]]
+loc = lambda y: round(-(y - GY), 3)                                # local x of the bank (rot -90: local +y faces the cafe)
+put("speed_gates", GX, GY, rot=-90, zone="bridge", cabs=[[loc(y), 0.2] for y in CABS_W], lanes=sorted([sorted([loc(a), loc(b)]) for a, b in LANES_W]),
+    open_=[0], note="members' speed gates: tap the phone (NFC / BLE), glass wings, fail-safe open on fire alarm")
+put("glass_fence", GX, (1.565 + 6.65) / 2, rot=90, zone="bridge", length=round(6.65 - 1.565, 3), note="frameless 1.2 m glass to the WC wall")
+put("glass_fence", GX, (-9.275 - 3.445) / 2, rot=90, zone="bridge", length=round(9.275 - 3.445, 3), note="frameless 1.2 m glass to column D13")
+put("floor_strip", GX, (-3.445 + 1.565) / 2, rot=90, zone="bridge", length=5.01, w=0.04, note="blackened-steel threshold where the bridge oak meets the cafe oak")
+put("gate_release", GX + 0.175, GY, rot=-90, zone="bridge", note="nødåpning: emergency release for the gates (cafe side)")
+put("gate_release", GX - 0.175, GY, rot=90, zone="bridge", note="nødåpning (bridge side)")
+# the walk-on glass (openings cast in tools/structure_stage.py): each panel's sleeve runs from the floor down to the deck soffit
+for h in next(e for e in m["elements"] if e["id"] == "S-F1-link")["holes"]:
+    if h.get("glass_floor"):
+        x, y = h["glass_floor"]
+        putb("glass_floor", x, y, depth=round(zf(x) + 0.40, 2), note="1.0 m walk-on glass, frit top ply, steel sleeve to the soffit")
+# Laksetrappa: two oak rails grow out of the ceiling at x -5.2 and 10.6 (clear of the end beams), dip to ~3.4-4.2 m along the
+# middle (under the three inner beams, bottoms at 4.64), swaying in plan and rolling round each other; rungs of light every 0.3 m.
+XA, XB = -5.2, 10.6
+def lad(u):
+    e_ = max(0.0, 1 - min(u, 1 - u) / 0.17); bl = e_ * e_          # e^2: leaves the ceiling steeply, levels out smoothly
+    zc = (3.72 + 0.28 * math.sin(2 * math.pi * 1.5 * u + 0.4)) * (1 - bl) + SLATS * bl
+    yc = 0.5 * math.sin(2 * math.pi * 1.1 * u + 0.5) * (1 - 0.5 * bl)
+    w = (0.40 + 0.16 * math.sin(2 * math.pi * 2.2 * u + 1.1)) * (1 - bl) + 0.2 * bl
+    th = 0.45 * math.sin(2 * math.pi * 0.85 * u + 0.7) * (1 - bl)
+    return XA + (XB - XA) * u, yc, zc, w, th
+def rails_at(u):
+    x, yc, zc, w, th = lad(u); x2, yc2 = lad(min(1, u + 1e-3))[:2]; x1, yc1 = lad(max(0, u - 1e-3))[:2]
+    tx, ty = x2 - x1, yc2 - yc1; n_ = math.hypot(tx, ty); nx, ny = -ty / n_, tx / n_
+    return [[round(x - BAX + s_ * w * math.cos(th) * nx, 4), round(yc + s_ * w * math.cos(th) * ny, 4), round(zc + s_ * w * math.sin(th), 4)] for s_ in (1, -1)]
+US = [k / 400 for k in range(401)]
+R2 = [rails_at(u) for u in US]
+rails = [[r[0] for r in R2], [r[1] for r in R2]]
+for rl in rails:  # the rail ends stop at the slats, whatever their offset
+    for i in (0, -1):
+        rl[i][2] = SLATS
+rungs, ux = [], (0.25 + 0.3 * k for k in range(60))
+for d in ux:
+    if d > XB - XA - 0.25:
+        break
+    a_, b_ = rails_at(d / (XB - XA))
+    if max(a_[2], b_[2]) < SLATS - 0.25:
+        rungs.append([a_, b_])
+cables = []
+for xc in (-3.6, BEAMS[1], (BEAMS[1] + BEAMS[2]) / 2, BEAMS[2], (BEAMS[2] + BEAMS[3]) / 2, BEAMS[3], 8.9):
+    for p_ in rails_at((xc - XA) / (XB - XA)):
+        on_beam = any(abs(xc - b) < 0.13 for b in BEAMS)
+        cables.append([p_[0], p_[1], round(p_[2] + 0.03, 3), BEAM_BOT if on_beam else CLT_])
+fish = []
+for k, (xf, Lf) in enumerate(((8.15, 0.42), (6.3, 0.34), (4.0, 0.3))):  # leaping west, up the ladder, towards the gym
+    _, yc, zc, _, _ = lad((xf - XA) / (XB - XA))
+    fish.append([round(xf - BAX, 3), round(yc + 0.08 * (-1) ** k, 3), round(zc + 0.2 + 0.06 * k, 3), math.pi, Lf, 0.32, CLT_])
+putb("laksetrappa", BAX, BAY, z=F1, rails=rails, rungs=rungs, cables=cables, fish=fish,
+     note="Laksetrappa: a flowing oak ladder of light down the bridge, opal rungs, three steel trout leaping up it")
+for k in range(10):  # the rungs are the light: real sources along the ladder, soft and wide, 2700 K
+    x, yc, zc, _, _ = lad(0.12 + 0.76 * k / 9)
+    putb("light_only", x, BAY + yc, z=F1, light={"type": "AREA", "energy": 45, "size": 1.2, "size_y": 0.3, "offset": [0, 0, round(zc - 0.06, 3)],
+         "aim": [x, BAY + yc, 0.0], "color": [1.0, 0.82, 0.6]}, note="light from the Laksetrappa rungs")
+# two benches and nothing else: backless walnut planks in the outer bays, facing the view (falls north, the gorge south)
+putb("bridge_bench", BAX, -8.45, rot=180, length=3.2, note="bench facing the gorge downstream")
+putb("bridge_bench", BAX, 5.75, rot=0, length=3.2, note="bench facing the falls")
+# the doorway to each deck: one lift-and-slide leaf per side slid open behind its neighbour (bay x 5.01-7.24, between the posts)
+for gid, yl, yin in (("EN-G-link-N-0", 6.8, 6.68), ("EN-G-link-S-0", -9.5, -9.38)):
+    by_id[gid]["openings"] = [{"s": [11.495, 13.655], "z": [F1, 3.0], "type": "door", "note": "lift-and-slide leaf, slid open: the way out to the deck"}]
+    putb("slide_panel", 4.0, yin, rot=0, w=2.23, h=2.93, note="lift-and-slide leaf, slid open on its inner track")
+    putb("floor_strip", 5.03, yin, length=4.34, w=0.02, note="recessed inner track, flush")
+# services: sprinklers + smoke detectors in the slat ceiling, mid-bay between the beams, clear of the ladder; exit signs at both ends
+k = 0
+for i in range(4):
+    for y in (-8.0, -4.9, 2.1, 5.2):
+        putb("ceiling_services", round((BEAMS[i] + BEAMS[i + 1]) / 2, 3), y, zone="services", z=F1, device="smoke" if (k % 4 == 1 and abs(y) < 5) else "sprinkler",
+             z_local=5.48, ceiling=CLT_)
+        k += 1
+putb("exit_sign", BEAMS[-1], BAY + 0.9, rot=90, z=F1, mount=2.75, hang_to=BEAM_BOT, note="nødutgang: towards the cafe + the main doors")
+putb("exit_sign", BEAMS[0], BAY + 0.9, rot=-90, z=F1, mount=2.75, hang_to=BEAM_BOT, note="nødutgang: towards the gym's exit stairs")
+
+# decks: boards 15 mm under the bridge floor (tools/interior.py), a slot drain along each threshold
+zd = lambda x: round(zf(x) - 0.015, 4)
+def putd(kind, x, y, rot=0.0, z=None, **kw):
+    putb(kind, x, y, rot=rot, zone="deck", z=zd(x) if z is None else z, **kw)
+for yd, x1 in ((6.92, 11.8), (-9.62, 11.92)):
+    xs_ = [-6.39 + 2.0 * i for i in range(int((x1 + 6.39) / 2.0) + 1)] + [x1]
+    for xa, xb in zip(xs_, xs_[1:]):
+        putd("floor_strip", (xa + xb) / 2, yd, length=round(xb - xa, 3), w=0.12, style="grate", note="slot drain at the threshold")
+def group(xg, yb, face):  # the cafe's sofa group made for the deck: sofa with its back to the glass, a granite table, two chairs
+    s_ = 1 if face == "N" else -1; r0 = 0 if face == "N" else 180
+    putd("deck_sofa", xg, yb + s_ * 0.4, rot=r0, length=2.2, note="outdoor sofa (the cafe's, in oiled oak + canvas)")
+    putd("deck_table", xg, yb + s_ * 1.5, d=0.9, h=0.38, note="low table, honed granite")
+    putd("deck_chair", xg - 1.45, yb + s_ * 1.6, rot=r0 - s_ * 60)
+    putd("deck_chair", xg + 1.45, yb + s_ * 1.6, rot=r0 + s_ * 60)
+    putd("blanket_basket", xg + 1.47, yb + s_ * 0.2, note="wool blankets")
+    putb("ir_heater", xg, yb + s_ * 0.9, zone="deck", z=F1, z_top=5.615, note="infrared heater under the eave (cold evenings)")
+NB, SB = 7.35, -10.06   # sofa backs: 0.4 m off the glass (the slot drain + room for the sliding leaves)
+for xg in (-2.4, 8.6):    # north deck, the falls view: one group on the falls' axis (x ~ -3), one at the east end
+    group(xg, NB, "N")
+for xt in (1.2, 2.9, 4.6):  # standing tables at the balustrade between the groups: stand facing the falls
+    putd("standing_table", xt, 10.75, note="standing table, oiled oak on steel")
+    putd("table_setting", xt + 0.12, 10.75, z=round(zd(xt) + 1.08, 3), carafe=False)
+# south deck (the sun deck, downstream view; 2.7 m deep): two sofas facing south with a side table + blankets, standing tables between
+for xs in (-0.6, 9.2):
+    putd("deck_sofa", xs, SB - 0.4, rot=180, length=2.2, note="outdoor sofa facing the sun")
+    putd("deck_table", xs + 1.45, SB - 0.45, d=0.5, h=0.5, note="side table, honed granite")
+    putd("blanket_basket", xs - 1.47, SB - 0.3)
+    putb("ir_heater", xs, SB - 0.6, zone="deck", z=F1, z_top=5.615)
+for xt in (-4.0, 2.0, 3.7):
+    putd("standing_table", xt, -11.95)
+    putd("table_setting", xt - 0.12, -11.95, z=round(zd(xt) + 1.08, 3), carafe=False)
+for (x, y) in ((-2.4, 8.9), (2.9, 8.9), (8.6, 8.9), (-0.6, -11.0), (2.85, -11.0), (9.2, -11.0)):  # in the oak eave soffit
+    putb("downlight", x, y, zone="deck", z=F1, z_ceiling=5.6, light={"type": "SPOT", "energy": 120, "spot_deg": 70, "blend": 1.0, "radius": 0.05,
+         "offset": [0, 0, 5.42], "aim": [x, y, 0.0], "color": WARM})
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
