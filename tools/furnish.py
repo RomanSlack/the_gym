@@ -500,46 +500,77 @@ for h in next(e for e in m["elements"] if e["id"] == "S-F1-link")["holes"]:
         putb("glass_floor", x, y, depth=round(zf(x) + 0.40, 2), note="1.0 m walk-on glass, frit top ply, steel sleeve to the soffit")
 # Laksetrappa: two oak rails grow out of the ceiling at x -5.2 and 10.6 (clear of the end beams), dip to ~3.4-4.2 m along the
 # middle (under the three inner beams, bottoms at 4.64), swaying in plan and rolling round each other; rungs of light every 0.3 m.
+# Roman: two more in the same style, one either side, symmetric, drawing you in: they start wide, high and flat over the outer bays
+# at the cafe end and sweep in towards the middle one as they run to the gym, tapering, dropping and rolling over as they go, so all
+# three lines converge on the way into the gym (the side pair is one shape, mirrored about the axis).
 XA, XB = -5.2, 10.6
-def lad(u):
+def lad_mid(u):
     e_ = max(0.0, 1 - min(u, 1 - u) / 0.17); bl = e_ * e_          # e^2: leaves the ceiling steeply, levels out smoothly
     zc = (3.72 + 0.28 * math.sin(2 * math.pi * 1.5 * u + 0.4)) * (1 - bl) + SLATS * bl
     yc = 0.5 * math.sin(2 * math.pi * 1.1 * u + 0.5) * (1 - 0.5 * bl)
     w = (0.40 + 0.16 * math.sin(2 * math.pi * 2.2 * u + 1.1)) * (1 - bl) + 0.2 * bl
     th = 0.45 * math.sin(2 * math.pi * 0.85 * u + 0.7) * (1 - bl)
     return XA + (XB - XA) * u, yc, zc, w, th
-def rails_at(u):
-    x, yc, zc, w, th = lad(u); x2, yc2 = lad(min(1, u + 1e-3))[:2]; x1, yc1 = lad(max(0, u - 1e-3))[:2]
-    tx, ty = x2 - x1, yc2 - yc1; n_ = math.hypot(tx, ty); nx, ny = -ty / n_, tx / n_
-    return [[round(x - BAX + s_ * w * math.cos(th) * nx, 4), round(yc + s_ * w * math.cos(th) * ny, 4), round(zc + s_ * w * math.sin(th), 4)] for s_ in (1, -1)]
-US = [k / 400 for k in range(401)]
-R2 = [rails_at(u) for u in US]
-rails = [[r[0] for r in R2], [r[1] for r in R2]]
-for rl in rails:  # the rail ends stop at the slats, whatever their offset
-    for i in (0, -1):
-        rl[i][2] = SLATS
-rungs, ux = [], (0.25 + 0.3 * k for k in range(60))
-for d in ux:
-    if d > XB - XA - 0.25:
-        break
-    a_, b_ = rails_at(d / (XB - XA))
-    if max(a_[2], b_[2]) < SLATS - 0.25:
-        rungs.append([a_, b_])
-cables = []
-for xc in (-3.6, BEAMS[1], (BEAMS[1] + BEAMS[2]) / 2, BEAMS[2], (BEAMS[2] + BEAMS[3]) / 2, BEAMS[3], 8.9):
-    for p_ in rails_at((xc - XA) / (XB - XA)):
-        on_beam = any(abs(xc - b) < 0.13 for b in BEAMS)
-        cables.append([p_[0], p_[1], round(p_[2] + 0.03, 3), BEAM_BOT if on_beam else CLT_])
+def lad_side(sg):  # u = 0 at the gym end (west), 1 at the cafe end; sg = +1 north, -1 south (mirror)
+    def f(u):
+        e_ = max(0.0, 1 - min(u, 1 - u) / 0.15); bl = e_ * e_
+        g = u ** 1.35
+        zc = (3.7 + 0.5 * g) * (1 - bl) + SLATS * bl                  # low near the gym, high + flat at the cafe
+        yc = sg * (1.85 + 2.75 * g + 0.12 * math.sin(2 * math.pi * 1.2 * u))  # sweeps in to the middle towards the gym
+        w = (0.16 + 0.44 * g) * (1 - bl) + 0.15 * bl                  # tapers towards the gym
+        th = -sg * 1.15 * (1 - g) * (1 - bl)                          # rolls over (inner rail down) as it goes in
+        return XA + (XB - XA) * u, yc, zc, w, th
+    return f
+def ladder(lad):
+    def rails_at(u):
+        x, yc, zc, w, th = lad(u); x2, yc2 = lad(min(1, u + 1e-3))[:2]; x1, yc1 = lad(max(0, u - 1e-3))[:2]
+        tx, ty = x2 - x1, yc2 - yc1; n_ = math.hypot(tx, ty); nx, ny = -ty / n_, tx / n_
+        return [[round(x - BAX + s_ * w * math.cos(th) * nx, 4), round(yc + s_ * w * math.cos(th) * ny, 4), round(zc + s_ * w * math.sin(th), 4)] for s_ in (1, -1)]
+    R2 = [rails_at(k / 400) for k in range(401)]
+    rails = [[r[0] for r in R2], [r[1] for r in R2]]
+    for rl in rails:  # the rail ends stop at the slats, whatever their offset
+        for i in (0, -1):
+            rl[i][2] = SLATS
+    rungs = []
+    for k in range(60):
+        d = 0.25 + 0.3 * k
+        if d > XB - XA - 0.25:
+            break
+        a_, b_ = rails_at(d / (XB - XA))
+        if max(a_[2], b_[2]) < SLATS - 0.25:
+            rungs.append([a_, b_])
+    cables = []
+    for xc in (-3.6, BEAMS[1], (BEAMS[1] + BEAMS[2]) / 2, BEAMS[2], (BEAMS[2] + BEAMS[3]) / 2, BEAMS[3], 8.9):
+        for p_ in rails_at((xc - XA) / (XB - XA)):
+            on_beam = any(abs(xc - b) < 0.13 for b in BEAMS)
+            cables.append([p_[0], p_[1], round(p_[2] + 0.03, 3), BEAM_BOT if on_beam else CLT_])
+    return rails, rungs, cables
+for u in [k / 200 for k in range(201)]:  # the beams cross every ladder: stay under them (bottoms at 4.64) where they do
+    for lad in (lad_mid, lad_side(1), lad_side(-1)):
+        x, yc, zc, w, th = lad(u)
+        if any(abs(x - b) < 0.3 for b in BEAMS) and zc + w * abs(math.sin(th)) + 0.032 > BEAM_BOT - 0.1:
+            raise SystemExit(f"ladder hits a roof beam at x {x:.2f}")
 fish = []
 for k, (xf, Lf) in enumerate(((8.15, 0.42), (6.3, 0.34), (4.0, 0.3))):  # leaping west, up the ladder, towards the gym
-    _, yc, zc, _, _ = lad((xf - XA) / (XB - XA))
+    _, yc, zc, _, _ = lad_mid((xf - XA) / (XB - XA))
     fish.append([round(xf - BAX, 3), round(yc + 0.08 * (-1) ** k, 3), round(zc + 0.2 + 0.06 * k, 3), math.pi, Lf, 0.32, CLT_])
+rails, rungs, cables = ladder(lad_mid)
 putb("laksetrappa", BAX, BAY, z=F1, rails=rails, rungs=rungs, cables=cables, fish=fish,
      note="Laksetrappa: a flowing oak ladder of light down the bridge, opal rungs, three steel trout leaping up it")
-for k in range(10):  # the rungs are the light: real sources along the ladder, soft and wide, 2700 K
-    x, yc, zc, _, _ = lad(0.12 + 0.76 * k / 9)
-    putb("light_only", x, BAY + yc, z=F1, light={"type": "AREA", "energy": 45, "size": 1.2, "size_y": 0.3, "offset": [0, 0, round(zc - 0.06, 3)],
-         "aim": [x, BAY + yc, 0.0], "color": [1.0, 0.82, 0.6]}, note="light from the Laksetrappa rungs")
+for sg in (1, -1):
+    rails, rungs, cables = ladder(lad_side(sg))
+    putb("laksetrappa", BAX, BAY, z=F1, rails=rails, rungs=rungs, cables=cables, fish=[],
+         note="side ladder: sweeps in from the outer bay at the cafe towards the middle at the gym, tapering + rolling over")
+for lad, n_, e_ in ((lad_mid, 10, 45), (lad_side(1), 7, 30), (lad_side(-1), 7, 30)):  # the rungs are the light: real sources along each ladder, 2700 K
+    for k in range(n_):
+        x, yc, zc, _, _ = lad(0.12 + 0.76 * k / (n_ - 1))
+        putb("light_only", x, BAY + yc, z=F1, light={"type": "AREA", "energy": e_, "size": 1.2, "size_y": 0.3, "offset": [0, 0, round(zc - 0.06, 3)],
+             "aim": [x, BAY + yc, 0.0], "color": [1.0, 0.82, 0.6]}, note="light from the Laksetrappa rungs")
+# three woven rugs down the middle (Roman: geometric, modern colours that fit, tasteful), one under each inner beam: flatweave wool
+# after the Norwegian åkle, a sequence towards the gym (tools/rug_patterns.py): a lozenge lattice at the cafe end, one big concentric
+# lozenge in the middle, stepped chevrons pointing into the gym
+for xr, img in ((BEAMS[3], "rug_lattice_v2.png"), (BEAMS[2], "rug_lozenge_v1.png"), (BEAMS[1], "rug_chevrons_v2.png")):
+    putb("woven_rug", xr, BAY, image=str(ROOT / "docs" / "art" / img), size=[2.6, 4.0], note=f"flatweave wool rug ({img.split('_')[1]}), åkle patterns")
 # two benches and nothing else: backless walnut planks in the outer bays, facing the view (falls north, the gorge south)
 putb("bridge_bench", BAX, -8.45, rot=180, length=3.2, note="bench facing the gorge downstream")
 putb("bridge_bench", BAX, 5.75, rot=0, length=3.2, note="bench facing the falls")

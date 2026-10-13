@@ -2679,31 +2679,6 @@ def _led(name, rgb, strength):
     return M.setdefault(name, bc.material(name, tuple(c * 0.5 for c in rgb), 0.4, emit=(rgb, strength)))
 
 
-def _frit():
-    """Anti-slip ceramic frit on the top ply of walk-on glass: fired translucent dots, Ø2 mm at 6 mm (about 9 % cover), clear between:
-    a faint satin haze from standing height, the river still clear through it."""
-    m = bpy.data.materials.get("glass_frit")
-    if m:
-        return m
-    m = bpy.data.materials.new("glass_frit"); m.use_nodes = True
-    N, L = m.node_tree.nodes, m.node_tree.links
-    out = N["Material Output"]; N.remove(N["Principled BSDF"])
-    tc = N.new("ShaderNodeTexCoord"); sc = N.new("ShaderNodeVectorMath"); sc.operation = "SCALE"; sc.inputs["Scale"].default_value = 1 / 0.006
-    L.new(tc.outputs["Object"], sc.inputs[0])
-    fr = N.new("ShaderNodeVectorMath"); fr.operation = "FRACTION"; L.new(sc.outputs[0], fr.inputs[0])
-    sx = N.new("ShaderNodeSeparateXYZ"); L.new(fr.outputs[0], sx.inputs[0])
-    cx = N.new("ShaderNodeCombineXYZ"); L.new(sx.outputs[0], cx.inputs[0]); L.new(sx.outputs[1], cx.inputs[1])
-    sub = N.new("ShaderNodeVectorMath"); sub.operation = "SUBTRACT"; sub.inputs[1].default_value = (0.5, 0.5, 0.0); L.new(cx.outputs[0], sub.inputs[0])
-    ln = N.new("ShaderNodeVectorMath"); ln.operation = "LENGTH"; L.new(sub.outputs[0], ln.inputs[0])
-    lt = N.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.17; L.new(ln.outputs["Value"], lt.inputs[0])
-    dot = N.new("ShaderNodeBsdfPrincipled"); dot.inputs["Base Color"].default_value = (0.8, 0.8, 0.78, 1); dot.inputs["Roughness"].default_value = 0.6
-    tr = N.new("ShaderNodeBsdfTransparent")
-    hz = N.new("ShaderNodeMath"); hz.operation = "MULTIPLY"; hz.inputs[1].default_value = 0.45; L.new(lt.outputs[0], hz.inputs[0])  # translucent ceramic
-    mx = N.new("ShaderNodeMixShader"); L.new(hz.outputs[0], mx.inputs[0]); L.new(tr.outputs[0], mx.inputs[1]); L.new(dot.outputs[0], mx.inputs[2])
-    L.new(mx.outputs[0], out.inputs["Surface"])
-    return m
-
-
 def _tube(P, mat, pts, r, seg=16, caps=True):
     """A smooth round member swept along a polyline (bent-laminated rails): rings of verts on parallel-transported frames."""
     b = P.bm(mat)
@@ -2764,10 +2739,42 @@ def laksetrappa(P, rails=(), rungs=(), cables=(), fish=()):
         P.rod(M["steel"], (x, y, z + 0.03), (x, y, ztop), 0.0008, seg=4)
 
 
+def _rug_mat(path, L, W):
+    """Flatweave wool: the woven pattern (tools/rug_patterns.py) mapped over the rug by its own coordinates, a weft-faced rib
+    (picks ~3 mm) in the bump, matte wool, slight tone variation from yarn to yarn."""
+    name = "rug_" + path.split("/")[-1]
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L_ = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.92
+    tc = N.new("ShaderNodeTexCoord")
+    mp = N.new("ShaderNodeMapping"); mp.vector_type = "TEXTURE"; mp.inputs["Scale"].default_value = (L, W, 1); mp.inputs["Location"].default_value = (-L / 2, -W / 2, 0)
+    L_.new(tc.outputs["Object"], mp.inputs["Vector"])
+    t = N.new("ShaderNodeTexImage"); t.image = bpy.data.images.load(path, check_existing=True); t.interpolation = "Closest"; t.extension = "EXTEND"
+    L_.new(mp.outputs[0], t.inputs["Vector"])
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 300.0; L_.new(tc.outputs["Object"], nz.inputs["Vector"])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 0.18
+    L_.new(t.outputs["Color"], mx.inputs["A"]); L_.new(nz.outputs["Color"], mx.inputs["B"])
+    L_.new(mx.outputs["Result"], b.inputs["Base Color"])
+    rib = N.new("ShaderNodeTexWave"); rib.wave_type = "BANDS"; rib.bands_direction = "Y"; rib.inputs["Scale"].default_value = 330.0
+    rib.inputs["Distortion"].default_value = 0.6; L_.new(tc.outputs["Object"], rib.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.4; bp.inputs["Distance"].default_value = 0.0015
+    L_.new(rib.outputs["Fac"], bp.inputs["Height"]); L_.new(bp.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def woven_rug(P, image="", size=(2.6, 4.0)):
+    """A flatweave wool rug (åkle patterns, tools/rug_patterns.py), 10 mm on a felt underlay, edges bound."""
+    L, W = size
+    P.box(_rug_mat(image, L, W), (0, 0, 0.006), (L, W, 0.012))
+
+
 def glass_floor(P, depth=0.42):
     """Walk-on glass panel, 1.0 m square (origin = its centre on the finished floor): a 20 mm blackened-steel rim flush with the
-    oak, the glass bedded on EPDM on a steel angle ledge; laminated 3 x 12 mm heat-strengthened + an 8 mm sacrificial top ply
-    with an anti-slip ceramic frit (SentryGlas interlayers, 5 kN/m2); below it a blackened-steel sleeve lines the cast opening
+    oak, the glass bedded on EPDM on a steel angle ledge; laminated low-iron 3 x 12 mm heat-strengthened + an 8 mm top ply, fully
+    clear (Roman: see the river, no frit) (SentryGlas interlayers, 5 kN/m2); below it a blackened-steel sleeve lines the cast opening
     down through the screed and the 300 mm deck to the soffit, a framed window straight down to the river."""
     st = M["steel"]
     G, F, ledge = 1.0, 1.04, 0.02
@@ -2776,8 +2783,7 @@ def glass_floor(P, depth=0.42):
         P.box(st, (c[0], c[1], -0.0225), (w, d, 0.045))                               # rim: the angle's upstand, flush
     for sx, sy, w, d in ((0, 1, G, ledge), (0, -1, G, ledge), (1, 0, ledge, G - 2 * ledge), (-1, 0, ledge, G - 2 * ledge)):
         P.box(st, (sx * (G / 2 - ledge / 2), sy * (G / 2 - ledge / 2), -0.051), (w, d, 0.008))  # the ledge the glass sits on
-    P.box(M["glass"], (0, 0, -0.024), (G - 0.004, G - 0.004, 0.042))                   # laminated glass
-    P.box(_frit(), (0, 0, -0.0012), (G - 0.006, G - 0.006, 0.0008))                     # frit on the top ply
+    P.box(M["glass"], (0, 0, -0.024), (G - 0.004, G - 0.004, 0.042))                   # laminated glass, clear (low-iron)
     S = 1.06
     for sx, sy, w, d in ((0, 1, S + 0.016, 0.008), (0, -1, S + 0.016, 0.008), (1, 0, 0.008, S), (-1, 0, 0.008, S)):
         P.box(st, (sx * (S / 2 + 0.004), sy * (S / 2 + 0.004), -0.055 - (depth - 0.055) / 2), (w, d, depth - 0.055))  # sleeve
@@ -2970,7 +2976,7 @@ BUILDERS = {
     "menu_board": menu_board, "high_chair": high_chair, "coat_rack": coat_rack, "floor_lamp": floor_lamp, "magazines": magazines,
     "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
     "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
-    "blanket_basket": blanket_basket, "ir_heater": ir_heater, "slide_panel": slide_panel, "gate_release": gate_release,
+    "blanket_basket": blanket_basket, "ir_heater": ir_heater, "slide_panel": slide_panel, "gate_release": gate_release, "woven_rug": woven_rug,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -2990,7 +2996,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "terrace_slide": ("drop",), "stump": ("r", "h"),
           "laksetrappa": ("rails", "rungs", "cables", "fish"), "glass_floor": ("depth",), "speed_gates": ("cabs", "lanes", "open_"),
           "glass_fence": ("length",), "floor_strip": ("length", "w", "style"), "bridge_bench": ("length",), "deck_sofa": ("length",),
-          "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_panel": ("w",)}
+          "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_panel": ("w", "h"), "woven_rug": ("image", "size")}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -3020,7 +3026,7 @@ def build_all(model, MAT, coll):
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")
             P = Part(pc.name)
             BUILDERS[kind](P, **kw)
-            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(kind, 0.004))
+            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "woven_rug": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(kind, 0.004))
             PROTO[key] = pc
         e = bpy.data.objects.new(f["id"], None)
         e.instance_type = "COLLECTION"; e.instance_collection = PROTO[key]
