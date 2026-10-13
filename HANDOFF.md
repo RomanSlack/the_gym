@@ -1,35 +1,66 @@
 # Handoff (read first in a new session)
 
-**State on 2026-10-12 (end of session ec5888c8):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). Stage 5: **the whole east wing at E1 + the daycare are finished** to the new baseline:
-- reception + cafe (the prototype), with the entrance matting
-- the public WCs (wet-room rules in VISION)
-- the daycare upper floor: the tree house, the tube slide down the round stair, and the toddler zone with 'Kronen' + the nest
-- the daycare lower floor: race track, foam fortress, music wall, banners, sleep room with mats
-- the sunken garden in barnehage practice
-- staff + nursing rooms
+**State on 2026-10-12 (end of session ec5888c8 + its continuation):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). In stage 5, **the whole east wing (E1 + E2 daycare) is finished** to the baseline detail standard:
+- **Reception:** the prototype, with the entrance matting, a fitted-out desk and the waiting nook.
+- **Cafe (reworked, VISION "Cafe rethink"):**
+  - Steinringen: a conversation ring round a granite boulder
+  - Elva: the suspended river sculpture with brass tips and steel fish
+  - a view lounge on the south glass and sofa groups on the east glass
+  - only two dining tables
+  - pictogram signs, and an oak-slat WC wall with steel portals
+- **Public WCs (VISION "Public WCs, reworked"):**
+  - an oak slat ceiling at 2.75 m and full-height cells in one flush run per room
+  - outward doors with green/red turn indicators
+  - the accessible WC as the widest cell (TEK17 kit, wall-mounted pull cord, real accessible basin)
+  - Nautilus splash-free urinals
+- **Daycare:**
+  - upper floor: the tree house, the tube slide down the round stair, and the toddler zone with 'Kronen' + the nest
+  - lower floor: the race track, foam fortress, music wall, banners, and a sleep room with mats
+  - the sunken garden, with no fence along the top
+  - staff and nursing rooms
 
-All choices are in VISION.md ("Interior direction", "Wet rooms", "Daycare", "Baseline detail everywhere").
+All choices are in VISION.md: "Interior direction", "Wet rooms", "Daycare", "Baseline detail everywhere", "Cafe rethink" and "Public WCs, reworked".
 
-**The detail standard (Roman, 2026-10-12): the level of detail now in the daycare + reception is the bare MINIMUM for every zone, before any final styling.** Concretely, every zone gets:
+**The detail standard (Roman, 2026-10-12): the level of detail now in the east wing is the bare MINIMUM for every zone, before any final styling.** Concretely, every zone gets:
 - real fittings: bins, soap, towels, nappy/sanitary bins, brushes, pull cords, floor drains
-- safety: an AED / extinguisher / first-aid point, exit signs, sprinklers + smoke detectors
-- bilingual oak wayfinding
+- safety: an AED / extinguisher / first-aid point, lit exit signs, sprinklers + smoke detectors (`services()` in furnish.py)
+- pictogram wayfinding: brass figures on blackened-steel plates (Roman found text signs lame)
 - things set out the way they're used (desk kit, table settings, menus, cups)
 - furniture joints that really join (no floating stretchers)
-- lighting with no dark blotches
+- lighting with no dark blotches (soft spots, sources outside the fittings)
 - a catalogue sheet for every new piece
 
-Do a "does this make sense" pass per zone: circulation, doors versus stairs, windows where people sit.
+Do a "does this make sense" pass per zone, and look at every render yourself before showing Roman. Check:
+- circulation, and doors versus stairs
+- windows where people sit
+- no slivers between built-ins, no doors clashing at 90 deg
+- no empty voids above things
+- nothing hanging mid-room that should be on a wall
 
-**Open question for Roman:** card-reader gates where the cafe meets the lounge bridge into the gym (it changes the cafe's circulation; not done).
+Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet people, and views used well.
 
-**Next step:** apply the language + the detail standard to the remaining zones, in this order:
-1. ~~E1: reception, cafe, public WCs, daycare upper floor~~ (done)
-2. ~~daycare lower floor (E2) + the sunken garden~~ (done)
-3. the lounge bridge (next)
-4. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms (wet-room rules already in VISION)
-5. E2: garage, bike/moto parking, game room, lift lobby
-6. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
+**NEXT: the lounge bridge + its decks** (`model.spaces`):
+- `lounge` (F1, x -6.45..12.0, y -9.5..6.8): the enclosed bridge over the river, the only link from reception/cafe to the gym. VISION wants it wide, with a seating area for meeting people and sliding glass walls that open fully.
+- `deck-n` (y 6.8..11.3, the falls view) and `deck-s` (y -12.5..-9.5): outdoor decks cantilevered over the river.
+- **Structure (stage 3/4, already built):**
+  - `S-F1-link` slab and `S-RF-link` sod roof
+  - four dark steel girders and the tapered deck outriggers (`ST3-link-*`)
+  - glulam roof beams on slim posts
+  - glass `EN-G-link-N-0` / `EN-G-link-S-0` with their headers, and the glass balustrades `EN-balustrade-*`
+- **Floor levels:** the bridge floor is F1 = 0.0, while the cafe is E1 = 0.12. Check the 120 mm step at the cafe end (x 12.0); it probably wants a gentle ramp or a flush threshold.
+- **Shell to do:** floor, ceiling and linings in `tools/interior.py`. There's no stage-5 finish on the bridge yet; it's still the raw slab.
+- **Furnish in `tools/furnish.py`:**
+  - the meeting/seating area
+  - the deck furniture (weatherproof: oiled oak / steel, sheepskins, blankets, heaters?)
+  - lighting and services
+  - the sliding-wall hardware made real
+- **Open question to put to Roman:** card-reader gates into the gym where the cafe meets the bridge (members' gym; it changes the cafe's circulation).
+- **The gallery** on the gym side (`gallery`, F1, x -11.6..-6.45) is where the bridge lands. Do it with the bridge or straight after.
+
+**Then:**
+1. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms (wet-room rules already in VISION)
+2. E2: garage, bike/moto parking, game room, lift lobby
+3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
 For each zone:
 - First the shell: floors, ceilings and linings, in `tools/interior.py`.
@@ -51,6 +82,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
   - Stage 5 adds the interior and furniture.
   - Cameras are in the `CAMS` dict in `scene.py`; reception and cafe cameras are named `rec_*` / `cafe_*`.
 - **Drawings:** `cd blueprint && npx vite --port 5280` (H = replay, P = A1 sheets, D = dark). Re-export the PDF only when Roman asks: `node tools/export/export_pdf.js`.
+- **Cameras:** every zone's cameras are in `CAMS` in `construction/scene.py` (prefixes `rec_`, `cafe_`, `wc_`, `dc_`, `garden_`). Interiors get +2.8 exposure by prefix: add yours (e.g. `br_`) to that tuple in scene.py.
 - **Component catalogue** (every designed piece alone in a studio, 4 angles, one sheet each + an overview): `nice -n 19 blender -b --factory-startup -t 12 --python construction/catalog.py -- [zone:daycare,garden] [only:kind1,kind2]` → `construction/renders/catalog/<kind>_vNNN.jpg`, every single view also kept in `construction/renders/catalog/views/<kind>_<angle>_vNNN.jpg` (composed by `tools/catalog_sheets.py`). **Roman treasures the catalogue: it is a permanent, versioned record; never delete or overwrite any of it.**
 - **New in this session:** `tools/partitions.py` splits L-shaped shared edges into straight legs (ids kept). Round slab openings are cut through the structural slabs too. The daycare stair's position + start angle live in `model.stairs` (`layout_v1.py`), and the opening, trimmer beam, floor/ceiling cuts, guards and tube follow from it. Sanitation + safety builders (`towel_station`, `safety_point`, `exit_sign`, `ceiling_services`, ...) are in `construction/furniture.py`.
 - **Art:** generated with gpt-image-2 via the imagegen skill into `docs/art/`. The reception painting is `artvalleyoil_0.png`.

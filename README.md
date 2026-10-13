@@ -29,7 +29,7 @@ It's also an experiment: **can a person and an AI picture the same building and 
 
 ## Status
 
-Current phase: **building it like a construction crew**, stage by stage. Stages 0-4 are built; stage 5 (interiors) is finished for the whole east wing: reception, cafe, public WCs, and the two-floor daycare with its sunken garden, tube slide and toddler canopy. Next it rolls out to the gym zones. Every designed piece is also rendered alone from four angles in a component catalogue (`construction/renders/catalog/`). Interiors and furniture are designed here; the forest follows real Norwegian forest data (docs/ECOLOGY.md). See [CONSTRUCTION_PLAN.md](CONSTRUCTION_PLAN.md).
+Current phase: **building it like a construction crew**, stage by stage. Stages 0-4 are built; stage 5 (interiors) is finished for the whole east wing: reception, a lounge-style cafe with a suspended river sculpture and a boulder conversation ring, public WCs with splash-free urinals and a TEK17 accessible cell, and the two-floor daycare with its sunken garden, tube slide and toddler canopy. Next comes the lounge bridge over the river, then the gym zones. Every designed piece is also rendered alone from four angles in a component catalogue (`construction/renders/catalog/`). Interiors and furniture are designed here; the forest follows real Norwegian forest data (docs/ECOLOGY.md). See [CONSTRUCTION_PLAN.md](CONSTRUCTION_PLAN.md).
 
 
 - [x] Document the original hand-made blockout (`reference/gym_v2_original/`, see [ORIGINAL_GYM_V2.md](ORIGINAL_GYM_V2.md))
