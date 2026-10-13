@@ -67,6 +67,18 @@ For each zone:
 
 Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like the furniture.
 
+**Locker rooms: in 2D first (Roman, 2026-10-12).** The layout page is `blueprint/layout.html` (run `npx vite --port 5280` in blueprint/, then open /layout.html; the drawing set links to it).
+- It draws walls, openings, columns and rooms from building.json, and every element from `model/layouts/lockers.json`, at true size with dimensions.
+- Drag, R / [ ] to rotate, arrows to nudge, D to duplicate, Del, Ctrl Z, Ctrl S. Saving goes through the dev server's `/api/layout`. `?view=x0,y0,x1,y1` frames an area.
+- `tools/locker_layout.py` wrote the first proposal and won't overwrite it without `--force`. Once Roman edits it, the JSON is the source.
+- **Design so far:**
+  - three round oak locker rooms carved out of one oak block per changing room
+  - Bekken, a stream from a spring basin by the entry along the aisle edge into the wet zone, ending in Fossen (the experience shower)
+  - onsen-style seated wash places
+  - private showers with dry areas, WC runs plus an accessible WC and shower, urinals, vanity, grooming station
+  - arrival nooks (shoes off, towels)
+- 3D comes after Roman signs off the plan.
+
 ## Commands
 - **Source of truth:** `model/building.json`. Rebuild everything derived with `terrain/.venv/bin/python tools/build_model.py`. It runs layout → structure → partitions → room numbers → foundations → stage-3 structure → stage-4 envelope → stage-5 interior → furnish → stage coverage check, and must end with `stage check ... OK`.
 - **Downloaded inputs** (CC0 textures, HDRI): `python3 tools/assets.py`. Cached in `~/.cache/the_gym/`; manifest in `assets/manifest.json`. Nothing downloaded is committed (the repo is public).

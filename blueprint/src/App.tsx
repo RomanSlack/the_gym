@@ -154,6 +154,7 @@ export default function App() {
         <button className="theme-btn" onClick={() => (versions ? setVersions(null) : openReplay())}>{versions ? "⏹ Exit replay" : "⏵ Replay history"} <span className="mono">(H)</span></button>
         <button className="theme-btn" onClick={() => setPaper((v) => !v)}>{paper ? "▭ Screen view" : "▤ A1 sheet view"} <span className="mono">(P)</span></button>
         <button className="theme-btn" onClick={() => setDark((v) => !v)}>{dark ? "☀ Light mode" : "☾ Dark mode"} <span className="mono">(D)</span></button>
+        <a className="theme-btn" href="/layout.html" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · locker rooms (2D)</a>
         {sheets.map((s, i) => (
           <button key={s.no} className={i === idx ? "sheet on" : "sheet"} onClick={() => setIdx(i)}>
             <span className="no">{s.no}</span>

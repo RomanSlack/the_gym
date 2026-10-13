@@ -1,0 +1,1226 @@
+{
+ "note": "F1 locker rooms: the 2D layout (see tools/locker_layout.py for the rules). Edited in blueprint/layout.html; x, y = centre in project metres, w along the piece, d front-to-back, rot = the way its front faces (0 = north).",
+ "rooms": [
+  "men-lockers",
+  "men-wet",
+  "women-lockers",
+  "women-wet",
+  "sauna-lobby",
+  "gallery"
+ ],
+ "view": [
+  -36.6,
+  -13.4,
+  31.0,
+  23.6
+ ],
+ "kinds": {
+  "lockers": {
+   "label": "Lockers 400 x 550, full height",
+   "d": 0.55,
+   "h": 2.0,
+   "unit": 0.4,
+   "clear": 1.2,
+   "mat": "oak"
+  },
+  "bench": {
+   "label": "Walnut bench",
+   "d": 0.45,
+   "h": 0.45,
+   "mat": "walnut"
+  },
+  "screen": {
+   "label": "Oak screen, full height",
+   "d": 0.1,
+   "h": 2.6,
+   "mat": "oak"
+  },
+  "oak_block": {
+   "label": "Oak block (closed storage between the drums)",
+   "d": 4.2,
+   "h": 2.6,
+   "mat": "oak_solid"
+  },
+  "locker_ring": {
+   "label": "Round locker room",
+   "d": 3.9,
+   "h": 2.0,
+   "mat": "oak"
+  },
+  "round_seat": {
+   "label": "Round seat",
+   "d": 0.8,
+   "h": 0.45,
+   "mat": "walnut"
+  },
+  "stream": {
+   "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
+   "d": 0.35,
+   "h": -0.12,
+   "mat": "water"
+  },
+  "spring_basin": {
+   "label": "Spring basin: where the stream rises",
+   "d": 0.6,
+   "h": 0.5,
+   "mat": "stone"
+  },
+  "bridge_slab": {
+   "label": "Granite slab over the stream (flush)",
+   "d": 0.6,
+   "h": 0.0,
+   "mat": "stone"
+  },
+  "wash_station": {
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "d": 1.0,
+   "h": 1.2,
+   "clear": 0.6,
+   "mat": "wet"
+  },
+  "fossen": {
+   "label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)",
+   "d": 2.1,
+   "h": 2.6,
+   "clear": 1.2,
+   "mat": "wet_feature"
+  },
+  "shoe_bench": {
+   "label": "Shoe bench + rack (shoes off)",
+   "d": 0.4,
+   "h": 0.45,
+   "mat": "walnut"
+  },
+  "towels": {
+   "label": "Fresh towels",
+   "d": 0.45,
+   "h": 1.8,
+   "mat": "oak"
+  },
+  "towel_return": {
+   "label": "Towel return",
+   "d": 0.5,
+   "h": 0.9,
+   "mat": "steel"
+  },
+  "shower": {
+   "label": "Shower, private, with dry area",
+   "d": 2.1,
+   "h": 2.6,
+   "clear": 0.9,
+   "mat": "wet"
+  },
+  "shower_acc": {
+   "label": "Accessible shower (seat, rails)",
+   "d": 2.1,
+   "h": 2.6,
+   "clear": 1.5,
+   "mat": "wet"
+  },
+  "wc": {
+   "label": "WC cell, full height",
+   "d": 1.8,
+   "h": 2.6,
+   "clear": 0.9,
+   "mat": "wc"
+  },
+  "wc_acc": {
+   "label": "Accessible WC (TEK17)",
+   "d": 2.2,
+   "h": 2.6,
+   "clear": 1.5,
+   "mat": "wc"
+  },
+  "urinal": {
+   "label": "Urinal + oak screen",
+   "d": 0.45,
+   "h": 1.5,
+   "clear": 0.9,
+   "mat": "wc"
+  },
+  "vanity": {
+   "label": "Vanity trough + mirror",
+   "d": 0.6,
+   "h": 0.86,
+   "clear": 0.9,
+   "mat": "stone"
+  },
+  "grooming": {
+   "label": "Grooming station (dryers, mirror)",
+   "d": 0.5,
+   "h": 0.86,
+   "clear": 0.9,
+   "mat": "stone"
+  },
+  "cleaner": {
+   "label": "Cleaner's cupboard",
+   "d": 0.6,
+   "h": 2.6,
+   "mat": "steel"
+  },
+  "robe_hooks": {
+   "label": "Robe hooks + sandal rack",
+   "d": 0.35,
+   "h": 1.8,
+   "mat": "oak"
+  },
+  "towel_warmer": {
+   "label": "Towel warmer",
+   "d": 0.45,
+   "h": 1.6,
+   "mat": "steel"
+  }
+ },
+ "items": [
+  {
+   "id": "men-lockers-oak_block-1",
+   "room": "men-lockers",
+   "kind": "oak_block",
+   "label": "Oak block: three round locker rooms carved out",
+   "x": -20.738,
+   "y": -0.675,
+   "w": 12.525,
+   "d": 4.2,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-lockers-locker_ring-1",
+   "room": "men-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -24.913,
+   "y": -0.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 180,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "men-lockers-round_seat-1",
+   "room": "men-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -24.913,
+   "y": -0.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "men-lockers-locker_ring-2",
+   "room": "men-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -20.738,
+   "y": -0.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 180,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "men-lockers-round_seat-2",
+   "room": "men-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -20.738,
+   "y": -0.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "men-lockers-locker_ring-3",
+   "room": "men-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -16.562,
+   "y": -0.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 180,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "men-lockers-round_seat-3",
+   "room": "men-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -16.562,
+   "y": -0.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "men-lockers-screen-1",
+   "room": "men-lockers",
+   "kind": "screen",
+   "label": "Oak screen, full height",
+   "x": -14.4,
+   "y": -0.8,
+   "w": 4.45,
+   "d": 0.1,
+   "rot": 90,
+   "h": 2.6
+  },
+  {
+   "id": "women-lockers-oak_block-1",
+   "room": "women-lockers",
+   "kind": "oak_block",
+   "label": "Oak block: three round locker rooms carved out",
+   "x": -20.738,
+   "y": 3.675,
+   "w": 12.525,
+   "d": 4.2,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "women-lockers-locker_ring-1",
+   "room": "women-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -24.913,
+   "y": 3.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 0,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "women-lockers-round_seat-1",
+   "room": "women-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -24.913,
+   "y": 3.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "women-lockers-locker_ring-2",
+   "room": "women-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -20.738,
+   "y": 3.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 0,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "women-lockers-round_seat-2",
+   "room": "women-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -20.738,
+   "y": 3.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "women-lockers-locker_ring-3",
+   "room": "women-lockers",
+   "kind": "locker_ring",
+   "label": "Round locker room: 18 lockers on the curve",
+   "x": -16.562,
+   "y": 3.675,
+   "w": 3.9,
+   "d": 3.9,
+   "rot": 0,
+   "h": 2.0,
+   "n": 18,
+   "r_in": 1.4,
+   "r_out": 1.95,
+   "mouth": 1.2
+  },
+  {
+   "id": "women-lockers-round_seat-3",
+   "room": "women-lockers",
+   "kind": "round_seat",
+   "label": "Round seat (walnut + wool)",
+   "x": -16.562,
+   "y": 3.675,
+   "w": 0.8,
+   "d": 0.8,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "women-lockers-screen-1",
+   "room": "women-lockers",
+   "kind": "screen",
+   "label": "Oak screen, full height",
+   "x": -14.4,
+   "y": 3.8,
+   "w": 4.45,
+   "d": 0.1,
+   "rot": 90,
+   "h": 2.6
+  },
+  {
+   "id": "men-lockers-shoe_bench-1",
+   "room": "men-lockers",
+   "kind": "shoe_bench",
+   "label": "Shoe bench + rack (shoes off)",
+   "x": -13.5,
+   "y": -0.68,
+   "w": 1.6,
+   "d": 0.4,
+   "rot": 180,
+   "h": 0.45
+  },
+  {
+   "id": "men-lockers-towels-1",
+   "room": "men-lockers",
+   "kind": "towels",
+   "label": "Fresh towels",
+   "x": -14.15,
+   "y": -1.3,
+   "w": 1.0,
+   "d": 0.45,
+   "rot": -90,
+   "h": 1.8
+  },
+  {
+   "id": "women-lockers-shoe_bench-1",
+   "room": "women-lockers",
+   "kind": "shoe_bench",
+   "label": "Shoe bench + rack (shoes off)",
+   "x": -13.0,
+   "y": 1.8,
+   "w": 1.6,
+   "d": 0.4,
+   "rot": 0,
+   "h": 0.45
+  },
+  {
+   "id": "women-lockers-towels-1",
+   "room": "women-lockers",
+   "kind": "towels",
+   "label": "Fresh towels",
+   "x": -12.0,
+   "y": 3.8,
+   "w": 1.2,
+   "d": 0.45,
+   "rot": 90,
+   "h": 1.8
+  },
+  {
+   "id": "women-lockers-towels-2",
+   "room": "women-lockers",
+   "kind": "towels",
+   "label": "Fresh towels",
+   "x": -12.0,
+   "y": 5.2,
+   "w": 1.2,
+   "d": 0.45,
+   "rot": 90,
+   "h": 1.8
+  },
+  {
+   "id": "men-wet-wc_acc-1",
+   "room": "men-wet",
+   "kind": "wc_acc",
+   "label": "Accessible WC (TEK17)",
+   "x": -12.675,
+   "y": -8.125,
+   "w": 2.0,
+   "d": 2.2,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-wc-1",
+   "room": "men-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -14.175,
+   "y": -8.325,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-wc-2",
+   "room": "men-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -15.175,
+   "y": -8.325,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-wc-3",
+   "room": "men-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -16.175,
+   "y": -8.325,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-wc-4",
+   "room": "men-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -17.175,
+   "y": -8.325,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower_acc-1",
+   "room": "men-wet",
+   "kind": "shower_acc",
+   "label": "Accessible shower (seat, rails)",
+   "x": -18.575,
+   "y": -8.175,
+   "w": 1.8,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-fossen-1",
+   "room": "men-wet",
+   "kind": "fossen",
+   "label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)",
+   "x": -28.05,
+   "y": -8.175,
+   "w": 2.4,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-1",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -20.002,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-2",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -21.055,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-3",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -22.109,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-4",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -23.163,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-5",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -24.216,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-6",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -25.27,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-shower-7",
+   "room": "men-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -26.323,
+   "y": -8.175,
+   "w": 1.054,
+   "d": 2.1,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-vanity-2",
+   "room": "men-wet",
+   "kind": "vanity",
+   "label": "Vanity trough + mirror",
+   "x": -17.55,
+   "y": -4.575,
+   "w": 3.6,
+   "d": 0.6,
+   "rot": 180,
+   "h": 0.86,
+   "n": 4
+  },
+  {
+   "id": "men-wet-grooming-1",
+   "room": "men-wet",
+   "kind": "grooming",
+   "label": "Grooming station (dryers, mirror)",
+   "x": -28.31,
+   "y": -4.525,
+   "w": 1.6,
+   "d": 0.5,
+   "rot": 180,
+   "h": 0.86
+  },
+  {
+   "id": "men-wet-cleaner-1",
+   "room": "men-wet",
+   "kind": "cleaner",
+   "label": "Cleaner's cupboard",
+   "x": -12.678,
+   "y": -4.575,
+   "w": 1.0,
+   "d": 0.6,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "men-wet-urinal-1",
+   "room": "men-wet",
+   "kind": "urinal",
+   "label": "Urinal + oak screen",
+   "x": -11.9,
+   "y": -6.6,
+   "w": 0.6,
+   "d": 0.45,
+   "rot": 90,
+   "h": 1.5
+  },
+  {
+   "id": "men-wet-urinal-2",
+   "room": "men-wet",
+   "kind": "urinal",
+   "label": "Urinal + oak screen",
+   "x": -11.9,
+   "y": -5.8,
+   "w": 0.6,
+   "d": 0.45,
+   "rot": 90,
+   "h": 1.5
+  },
+  {
+   "id": "men-wet-urinal-3",
+   "room": "men-wet",
+   "kind": "urinal",
+   "label": "Urinal + oak screen",
+   "x": -11.9,
+   "y": -5.0,
+   "w": 0.6,
+   "d": 0.45,
+   "rot": 90,
+   "h": 1.5
+  },
+  {
+   "id": "men-wet-towel_return-1",
+   "room": "men-wet",
+   "kind": "towel_return",
+   "label": "Towel return",
+   "x": -14.18,
+   "y": -4.525,
+   "w": 0.8,
+   "d": 0.5,
+   "rot": 180,
+   "h": 0.9
+  },
+  {
+   "id": "women-wet-wc_acc-1",
+   "room": "women-wet",
+   "kind": "wc_acc",
+   "label": "Accessible WC (TEK17)",
+   "x": -12.675,
+   "y": 10.8,
+   "w": 2.0,
+   "d": 2.2,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-1",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -14.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-2",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -15.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-3",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -16.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-4",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -17.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-5",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -18.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-wc-6",
+   "room": "women-wet",
+   "kind": "wc",
+   "label": "WC cell, full height",
+   "x": -19.175,
+   "y": 11.0,
+   "w": 1.0,
+   "d": 1.8,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower_acc-1",
+   "room": "women-wet",
+   "kind": "shower_acc",
+   "label": "Accessible shower (seat, rails)",
+   "x": -20.575,
+   "y": 10.85,
+   "w": 1.8,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-fossen-1",
+   "room": "women-wet",
+   "kind": "fossen",
+   "label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)",
+   "x": -28.05,
+   "y": 10.85,
+   "w": 2.4,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower-1",
+   "room": "women-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -22.013,
+   "y": 10.85,
+   "w": 1.075,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower-2",
+   "room": "women-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -23.088,
+   "y": 10.85,
+   "w": 1.075,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower-3",
+   "room": "women-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -24.163,
+   "y": 10.85,
+   "w": 1.075,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower-4",
+   "room": "women-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -25.238,
+   "y": 10.85,
+   "w": 1.075,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-shower-5",
+   "room": "women-wet",
+   "kind": "shower",
+   "label": "Shower, private, with dry area",
+   "x": -26.312,
+   "y": 10.85,
+   "w": 1.075,
+   "d": 2.1,
+   "rot": 180,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-vanity-2",
+   "room": "women-wet",
+   "kind": "vanity",
+   "label": "Vanity trough + mirror",
+   "x": -17.55,
+   "y": 8.025,
+   "w": 3.6,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.86,
+   "n": 4
+  },
+  {
+   "id": "women-wet-grooming-1",
+   "room": "women-wet",
+   "kind": "grooming",
+   "label": "Grooming station (dryers, mirror)",
+   "x": -28.31,
+   "y": 7.975,
+   "w": 1.6,
+   "d": 0.5,
+   "rot": 0,
+   "h": 0.86
+  },
+  {
+   "id": "women-wet-cleaner-1",
+   "room": "women-wet",
+   "kind": "cleaner",
+   "label": "Cleaner's cupboard",
+   "x": -12.678,
+   "y": 8.025,
+   "w": 1.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 2.6
+  },
+  {
+   "id": "women-wet-towel_return-1",
+   "room": "women-wet",
+   "kind": "towel_return",
+   "label": "Towel return",
+   "x": -14.18,
+   "y": 7.975,
+   "w": 0.8,
+   "d": 0.5,
+   "rot": 0,
+   "h": 0.9
+  },
+  {
+   "id": "men-wet-wash_station-1",
+   "room": "men-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -24.92,
+   "y": -4.775,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 180,
+   "h": 1.2
+  },
+  {
+   "id": "men-wet-wash_station-2",
+   "room": "men-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -23.97,
+   "y": -4.775,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 180,
+   "h": 1.2
+  },
+  {
+   "id": "men-wet-wash_station-3",
+   "room": "men-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -23.02,
+   "y": -4.775,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 180,
+   "h": 1.2
+  },
+  {
+   "id": "men-wet-wash_station-4",
+   "room": "men-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -22.07,
+   "y": -4.775,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 180,
+   "h": 1.2
+  },
+  {
+   "id": "women-wet-wash_station-1",
+   "room": "women-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -24.92,
+   "y": 8.225,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 0,
+   "h": 1.2
+  },
+  {
+   "id": "women-wet-wash_station-2",
+   "room": "women-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -23.97,
+   "y": 8.225,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 0,
+   "h": 1.2
+  },
+  {
+   "id": "women-wet-wash_station-3",
+   "room": "women-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -23.02,
+   "y": 8.225,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 0,
+   "h": 1.2
+  },
+  {
+   "id": "women-wet-wash_station-4",
+   "room": "women-wet",
+   "kind": "wash_station",
+   "label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf",
+   "x": -22.07,
+   "y": 8.225,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": 0,
+   "h": 1.2
+  },
+  {
+   "id": "men-lockers-spring_basin-1",
+   "room": "men-lockers",
+   "kind": "spring_basin",
+   "label": "Spring basin: where the stream rises",
+   "x": -13.85,
+   "y": -4.025,
+   "w": 0.6,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.5
+  },
+  {
+   "id": "men-lockers-stream",
+   "room": "men-lockers",
+   "kind": "stream",
+   "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
+   "pts": [
+    [
+     -14.2,
+     -4.025
+    ],
+    [
+     -26.9,
+     -4.025
+    ],
+    [
+     -27.2,
+     -4.3
+    ]
+   ],
+   "width": 0.35
+  },
+  {
+   "id": "men-wet-stream",
+   "room": "men-wet",
+   "kind": "stream",
+   "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
+   "pts": [
+    [
+     -27.2,
+     -4.3
+    ],
+    [
+     -27.2,
+     -7.0
+    ]
+   ],
+   "width": 0.35
+  },
+  {
+   "id": "men-lockers-bridge_slab-1",
+   "room": "men-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -14.58,
+   "y": -4.025,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "men-lockers-bridge_slab-2",
+   "room": "men-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -20.52,
+   "y": -4.025,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "men-lockers-bridge_slab-3",
+   "room": "men-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -26.47,
+   "y": -4.025,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "women-lockers-spring_basin-1",
+   "room": "women-lockers",
+   "kind": "spring_basin",
+   "label": "Spring basin: where the stream rises",
+   "x": -13.85,
+   "y": 7.325,
+   "w": 0.6,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.5
+  },
+  {
+   "id": "women-lockers-stream",
+   "room": "women-lockers",
+   "kind": "stream",
+   "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
+   "pts": [
+    [
+     -14.2,
+     7.325
+    ],
+    [
+     -26.9,
+     7.325
+    ],
+    [
+     -27.2,
+     7.7
+    ]
+   ],
+   "width": 0.35
+  },
+  {
+   "id": "women-wet-stream",
+   "room": "women-wet",
+   "kind": "stream",
+   "label": "Bekken: the stream (slate channel, pebble bed, moving water)",
+   "pts": [
+    [
+     -27.2,
+     7.7
+    ],
+    [
+     -27.2,
+     9.6
+    ]
+   ],
+   "width": 0.35
+  },
+  {
+   "id": "women-lockers-bridge_slab-1",
+   "room": "women-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -14.58,
+   "y": 7.325,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "women-lockers-bridge_slab-2",
+   "room": "women-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -20.52,
+   "y": 7.325,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "women-lockers-bridge_slab-3",
+   "room": "women-lockers",
+   "kind": "bridge_slab",
+   "label": "Granite slab over the stream (flush)",
+   "x": -26.47,
+   "y": 7.325,
+   "w": 2.0,
+   "d": 0.6,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "sauna-lobby-robe_hooks-1",
+   "room": "sauna-lobby",
+   "kind": "robe_hooks",
+   "label": "Robe hooks + sandal rack",
+   "x": -35.15,
+   "y": 1.5,
+   "w": 4.2,
+   "d": 0.35,
+   "rot": -90,
+   "h": 1.8
+  },
+  {
+   "id": "sauna-lobby-towel_warmer-1",
+   "room": "sauna-lobby",
+   "kind": "towel_warmer",
+   "label": "Towel warmer",
+   "x": -31.0,
+   "y": 4.15,
+   "w": 1.2,
+   "d": 0.45,
+   "rot": 180,
+   "h": 1.6
+  },
+  {
+   "id": "sauna-lobby-bench-1",
+   "room": "sauna-lobby",
+   "kind": "bench",
+   "label": "Walnut bench",
+   "x": -32.6,
+   "y": -1.075,
+   "w": 2.4,
+   "d": 0.45,
+   "rot": 0,
+   "h": 0.45
+  }
+ ]
+}
