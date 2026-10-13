@@ -2739,10 +2739,28 @@ def laksetrappa(P, rails=(), rungs=(), cables=(), fish=()):
         P.rod(M["steel"], (x, y, z + 0.03), (x, y, ztop), 0.0008, seg=4)
 
 
+def _ar_glass():
+    """Low-iron glass with an anti-reflective coating (the walk-on panels): ~1 % reflection instead of ~8 %, so the dark gorge below
+    shows through instead of the bright ceiling mirrored in it; a Fresnel-weighted gloss, clear for everything else."""
+    m = bpy.data.materials.get("glass_lowiron_ar")
+    if m:
+        return m
+    m = bpy.data.materials.new("glass_lowiron_ar"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    N.remove(N["Principled BSDF"])
+    tr = N.new("ShaderNodeBsdfTransparent"); tr.inputs["Color"].default_value = (0.97, 0.99, 0.98, 1)
+    gl = N.new("ShaderNodeBsdfGlossy"); gl.inputs["Roughness"].default_value = 0.02
+    lw = N.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = 0.15
+    f = N.new("ShaderNodeMath"); f.operation = "MULTIPLY"; f.inputs[1].default_value = 0.25; L.new(lw.outputs["Fresnel"], f.inputs[0])
+    mx = N.new("ShaderNodeMixShader"); L.new(f.outputs[0], mx.inputs[0]); L.new(tr.outputs[0], mx.inputs[1]); L.new(gl.outputs[0], mx.inputs[2])
+    L.new(mx.outputs[0], N["Material Output"].inputs["Surface"])
+    return m
+
+
 def glass_floor(P, depth=0.42):
     """Walk-on glass panel, 1.0 m square (origin = its centre on the finished floor): a 20 mm blackened-steel rim flush with the
     oak, the glass bedded on EPDM on a steel angle ledge; laminated low-iron 3 x 12 mm heat-strengthened + an 8 mm top ply, fully
-    clear (Roman: see the river, no frit) (SentryGlas interlayers, 5 kN/m2); below it a blackened-steel sleeve lines the cast opening
+    clear, anti-reflective coated (Roman: see the river, no frit) (SentryGlas interlayers, 5 kN/m2); below it a blackened-steel sleeve lines the cast opening
     down through the screed and the 300 mm deck to the soffit, a framed window straight down to the river."""
     st = M["steel"]
     G, F, ledge = 1.0, 1.04, 0.02
@@ -2751,7 +2769,7 @@ def glass_floor(P, depth=0.42):
         P.box(st, (c[0], c[1], -0.0225), (w, d, 0.045))                               # rim: the angle's upstand, flush
     for sx, sy, w, d in ((0, 1, G, ledge), (0, -1, G, ledge), (1, 0, ledge, G - 2 * ledge), (-1, 0, ledge, G - 2 * ledge)):
         P.box(st, (sx * (G / 2 - ledge / 2), sy * (G / 2 - ledge / 2), -0.051), (w, d, 0.008))  # the ledge the glass sits on
-    P.box(M["glass"], (0, 0, -0.024), (G - 0.004, G - 0.004, 0.042))                   # laminated glass, clear (low-iron)
+    P.box(_ar_glass(), (0, 0, -0.024), (G - 0.004, G - 0.004, 0.042))                  # laminated glass, low-iron, anti-reflective
     S = 1.06
     for sx, sy, w, d in ((0, 1, S + 0.016, 0.008), (0, -1, S + 0.016, 0.008), (1, 0, 0.008, S), (-1, 0, 0.008, S)):
         P.box(st, (sx * (S / 2 + 0.004), sy * (S / 2 + 0.004), -0.055 - (depth - 0.055) / 2), (w, d, depth - 0.055))  # sleeve
