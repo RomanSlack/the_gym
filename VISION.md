@@ -437,6 +437,14 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - It's a hands-free automatic sliding door: hygiene is a reason a door is needed.
   - Toilet slippers wait at the door (the onsen habit), so bare feet never touch the WC floor.
 - **Plumbing:** the WC rooms are stacked at the same position in both wings (x -19.4 .. -11.6), beside the wash zones' wet walls.
+- **Hygiene tech (Roman, 2026-10-13: robots that keep cleaning, sanitise your shoes as you walk in, technology that keeps the floors clean):**
+  - **Vaskebjørn (the raccoon, literally "wash bear"):** little cleaning robots, 420 mm cubes with oiled oak side panels, a blackened-steel chassis, a grey rubber bumper skirt and a smoked-glass face band with two soft round LED eyes (Wall-E, but realistic and natural).
+    - One per zone, and they never cross zones: a lingon ring for the WC rooms, fjord blue for the wash zones (the hospital colour code).
+    - Each lives in its own dock (WC rooms: a floor flap into the cleaner's cupboard, which auto-empties and refills it; wash zones: a garage under the vanity).
+    - They clean when the zone is empty (occupancy sensors), keep to the walls, and go home when someone comes in.
+  - **UV-C sole plates** (walk over them and the soles are sanitised) at both ways in from the gallery and outside each WC door.
+  - **Toilet slippers** in a UV-C cabinet, sanitised between users.
+  - **Far-UVC ceiling lamps** (222 nm, safe with people present) in the WC rooms, and self-cleaning photocatalytic tile laid to falls.
 - **Plan:** the 2D layout is in `blueprint/layout.html` / `model/layouts/lockers.json`.
 
 ## Open questions

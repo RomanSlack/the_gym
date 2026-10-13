@@ -26,12 +26,12 @@ const TAG: Record<string, string> = {
   lockers: "L", bench: "bench", shoe_bench: "shoes off", towels: "towels", towel_return: "towel return", shower: "SH", shower_acc: "SH ♿",
   wc: "WC", wc_acc: "WC ♿", urinal: "U", vanity: "vanity", grooming: "grooming", cleaner: "clean", robe_hooks: "robes + sandals",
   towel_warmer: "warmer", fossen: "FOSSEN", wash_station: "wash", spring_basin: "spring", bridge_slab: "", screen: "", oak_block: "",
-  slipper_rack: "slippers", partition: "", floor_zone: "",
+  slipper_rack: "slippers UV", partition: "", floor_zone: "", robot: "🤖", robot_dock: "dock", uvc_plate: "UV-C", far_uvc: "UVC",
 };
 const MAT: Record<string, [string, string]> = { // fill, stroke
   oak: ["#e4cfa8", "#8a6a3a"], oak_solid: ["#efe2c6", "#8a6a3a"], walnut: ["#9b6b45", "#4f3420"], mirror: ["#cfdde3", "#4a6b78"],
   steel: ["#4a4c50", "#1e1f22"], wet: ["#dfe9ee", "#5b8aa3"], wet_feature: ["#c6dbe5", "#2f6683"], wc: ["#f4f4f2", "#555"],
-  stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"], zone: ["rgba(120, 110, 95, 0.10)", "rgba(120, 110, 95, 0.6)"], wall: ["#555", "#333"],
+  stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"], zone: ["rgba(120, 110, 95, 0.10)", "rgba(120, 110, 95, 0.6)"], wall: ["#555", "#333"], robot: ["#d6b98a", "#2a2a2a"], uvc: ["rgba(140, 110, 220, 0.25)", "#6b4fc4"],
 };
 
 function rectPts(it: Item, w = it.w ?? 1, d = it.d ?? 1, dy = 0): Pt[] {

@@ -46,7 +46,11 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "wash_station": {"label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf", "d": 1.0, "h": 1.2, "clear": 0.6, "mat": "wet"},
     "floor_zone": {"label": "Floor zone (its own floor)", "d": 1.0, "h": 0.0, "mat": "zone"},
     "partition": {"label": "Partition, full height, tiled", "d": 0.1, "h": 2.6, "mat": "wall"},
-    "slipper_rack": {"label": "Toilet slippers (onsen habit: barefoot never on the WC floor)", "d": 0.35, "h": 0.4, "mat": "oak"},
+    "slipper_rack": {"label": "Toilet slippers in a UV-C cabinet (onsen habit; sanitised between users)", "d": 0.35, "h": 0.6, "mat": "oak"},
+    "robot": {"label": "Vaskebjørn: cleaning robot (420 cube, oak panels, steel chassis, smoked-glass face, zone ring)", "d": 0.42, "h": 0.42, "mat": "robot"},
+    "robot_dock": {"label": "Robot dock (charge, auto-empty + refill)", "d": 0.5, "h": 0.5, "mat": "steel"},
+    "uvc_plate": {"label": "UV-C sole plate: walk over it, soles sanitised", "d": 0.9, "h": 0.0, "mat": "uvc"},
+    "far_uvc": {"label": "Far-UVC lamp (222 nm, ceiling)", "d": 0.25, "h": 0.0, "mat": "uvc"},
     "fossen": {"label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)", "d": 2.1, "h": 2.6, "clear": 1.2, "mat": "wet_feature"},
     "shoe_bench": {"label": "Shoe bench + rack (shoes off)", "d": 0.4, "h": 0.45, "mat": "walnut"},
     "towels": {"label": "Fresh towels", "d": 0.45, "h": 1.8, "mat": "oak"},
@@ -208,6 +212,28 @@ for room, s in (("men-lockers", 1), ("women-lockers", -1)):
     fy = blk["y"] - s * blk["d"] / 2
     for xr in (-22.825, -18.65):
         put(room, "towel_return", xr, fy - s * 0.02, 0.6, 180 if s > 0 else 0, d=0.04, label="Towel return slot in the oak block")
+
+# ---- hygiene tech (Roman, 2026-10-13: robots that keep cleaning, something that sanitises your shoes as you walk in, technology
+# that keeps the floors clean): 'Vaskebjørn' (the raccoon, literally 'wash bear'), little cleaning robots, one per zone and never
+# crossing zones (a lingon ring = WC rooms, fjord = wash zones, as hospitals colour-code). Each lives in its own dock and cleans
+# when its zone is empty (occupancy sensors), keeping to the walls; anyone comes in, it goes home. UV-C sole plates at every way in
+# from the gallery and outside the WC doors; far-UVC (222 nm, safe with people) in the WC ceilings; self-cleaning photocatalytic
+# tile in the WC rooms.
+for room, s_ in (("men-wc", 1), ("women-wc", -1)):
+    cl = next(i for i in items if i["room"] == room and i["kind"] == "cleaner")
+    put(room, "robot_dock", cl["x"] + 0.5 * (1 if s_ > 0 else -1) * 0 + (0.75 if s_ > 0 else -0.75), cl["y"], 0.5, cl["rot"], label="Robot dock: a floor flap into the cleaner's cupboard (auto-empty + refill)")
+    put(room, "robot", -16.2, -6.6 if s_ > 0 else 9.2, 0.42, 30, d=0.42, label="Vaskebjørn (WC room, lingon ring)")
+    for x in (-17.0, -13.2):
+        put(room, "far_uvc", x, -6.4 if s_ > 0 else 9.0, 0.25, 0, d=0.25)
+for room, s_ in (("men-wet", 1), ("women-wet", -1)):
+    v = next(i for i in items if i["room"] == room and i["kind"] == "vanity")
+    put(room, "robot_dock", v["x"], v["y"], 0.5, v["rot"], label="Robot garage recessed under the vanity")
+    put(room, "robot", -24.6, -6.5 if s_ > 0 else 9.2, 0.42, -20, d=0.42, label="Vaskebjørn (wash zone, fjord ring)")
+# UV-C sole plates: the men's entry, the women's vestibule entry, and in front of each WC door on the shoe side
+put("men-lockers", "uvc_plate", -12.15, -3.145, 1.5, -90, d=0.9)
+put("women-lockers", "uvc_plate", -12.15, 0.45, 1.5, -90, d=0.9)
+put("men-lockers", "uvc_plate", -13.5, -3.85, 1.0, 180, d=0.7)
+put("women-lockers", "uvc_plate", -13.5, 7.15, 1.0, 0, d=0.7)
 
 # sauna lobby annex (shared): robes + sandals along the west wall, a towel warmer, a bench
 put("sauna-lobby", "robe_hooks", -35.325 + 0.175, 1.5, 4.2, -90)

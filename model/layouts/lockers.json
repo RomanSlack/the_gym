@@ -93,10 +93,34 @@
    "mat": "wall"
   },
   "slipper_rack": {
-   "label": "Toilet slippers (onsen habit: barefoot never on the WC floor)",
+   "label": "Toilet slippers in a UV-C cabinet (onsen habit; sanitised between users)",
    "d": 0.35,
-   "h": 0.4,
+   "h": 0.6,
    "mat": "oak"
+  },
+  "robot": {
+   "label": "Vaskebj\u00f8rn: cleaning robot (420 cube, oak panels, steel chassis, smoked-glass face, zone ring)",
+   "d": 0.42,
+   "h": 0.42,
+   "mat": "robot"
+  },
+  "robot_dock": {
+   "label": "Robot dock (charge, auto-empty + refill)",
+   "d": 0.5,
+   "h": 0.5,
+   "mat": "steel"
+  },
+  "uvc_plate": {
+   "label": "UV-C sole plate: walk over it, soles sanitised",
+   "d": 0.9,
+   "h": 0.0,
+   "mat": "uvc"
+  },
+  "far_uvc": {
+   "label": "Far-UVC lamp (222 nm, ceiling)",
+   "d": 0.25,
+   "h": 0.0,
+   "mat": "uvc"
   },
   "fossen": {
    "label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)",
@@ -810,13 +834,13 @@
    "id": "men-wc-slipper_rack-1",
    "room": "men-wc",
    "kind": "slipper_rack",
-   "label": "Toilet slippers (onsen habit: barefoot never on the WC floor)",
+   "label": "Toilet slippers in a UV-C cabinet (onsen habit; sanitised between users)",
    "x": -14.7,
    "y": -4.475,
    "w": 1.0,
    "d": 0.35,
    "rot": 180,
-   "h": 0.4
+   "h": 0.6
   },
   {
    "id": "women-wet-fossen-1",
@@ -1088,13 +1112,13 @@
    "id": "women-wc-slipper_rack-1",
    "room": "women-wc",
    "kind": "slipper_rack",
-   "label": "Toilet slippers (onsen habit: barefoot never on the WC floor)",
+   "label": "Toilet slippers in a UV-C cabinet (onsen habit; sanitised between users)",
    "x": -14.7,
    "y": 7.925,
    "w": 1.0,
    "d": 0.35,
    "rot": 0,
-   "h": 0.4
+   "h": 0.6
   },
   {
    "id": "men-lockers-spring_basin-1",
@@ -1291,6 +1315,198 @@
    "d": 0.04,
    "rot": 0,
    "h": 0.9
+  },
+  {
+   "id": "men-wc-robot_dock-1",
+   "room": "men-wc",
+   "kind": "robot_dock",
+   "label": "Robot dock: a floor flap into the cleaner's cupboard (auto-empty + refill)",
+   "x": -18.0,
+   "y": -4.575,
+   "w": 0.5,
+   "d": 0.5,
+   "rot": 180,
+   "h": 0.5
+  },
+  {
+   "id": "men-wc-robot-1",
+   "room": "men-wc",
+   "kind": "robot",
+   "label": "Vaskebj\u00f8rn (WC room, lingon ring)",
+   "x": -16.2,
+   "y": -6.6,
+   "w": 0.42,
+   "d": 0.42,
+   "rot": 30,
+   "h": 0.42
+  },
+  {
+   "id": "men-wc-far_uvc-1",
+   "room": "men-wc",
+   "kind": "far_uvc",
+   "label": "Far-UVC lamp (222 nm, ceiling)",
+   "x": -17.0,
+   "y": -6.4,
+   "w": 0.25,
+   "d": 0.25,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "men-wc-far_uvc-2",
+   "room": "men-wc",
+   "kind": "far_uvc",
+   "label": "Far-UVC lamp (222 nm, ceiling)",
+   "x": -13.2,
+   "y": -6.4,
+   "w": 0.25,
+   "d": 0.25,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "women-wc-robot_dock-1",
+   "room": "women-wc",
+   "kind": "robot_dock",
+   "label": "Robot dock: a floor flap into the cleaner's cupboard (auto-empty + refill)",
+   "x": -13.088,
+   "y": 8.025,
+   "w": 0.5,
+   "d": 0.5,
+   "rot": 0,
+   "h": 0.5
+  },
+  {
+   "id": "women-wc-robot-1",
+   "room": "women-wc",
+   "kind": "robot",
+   "label": "Vaskebj\u00f8rn (WC room, lingon ring)",
+   "x": -16.2,
+   "y": 9.2,
+   "w": 0.42,
+   "d": 0.42,
+   "rot": 30,
+   "h": 0.42
+  },
+  {
+   "id": "women-wc-far_uvc-1",
+   "room": "women-wc",
+   "kind": "far_uvc",
+   "label": "Far-UVC lamp (222 nm, ceiling)",
+   "x": -17.0,
+   "y": 9.0,
+   "w": 0.25,
+   "d": 0.25,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "women-wc-far_uvc-2",
+   "room": "women-wc",
+   "kind": "far_uvc",
+   "label": "Far-UVC lamp (222 nm, ceiling)",
+   "x": -13.2,
+   "y": 9.0,
+   "w": 0.25,
+   "d": 0.25,
+   "rot": 0,
+   "h": 0.0
+  },
+  {
+   "id": "men-wet-robot_dock-1",
+   "room": "men-wet",
+   "kind": "robot_dock",
+   "label": "Robot garage recessed under the vanity",
+   "x": -20.242,
+   "y": -4.575,
+   "w": 0.5,
+   "d": 0.5,
+   "rot": 180,
+   "h": 0.5
+  },
+  {
+   "id": "men-wet-robot-1",
+   "room": "men-wet",
+   "kind": "robot",
+   "label": "Vaskebj\u00f8rn (wash zone, fjord ring)",
+   "x": -24.6,
+   "y": -6.5,
+   "w": 0.42,
+   "d": 0.42,
+   "rot": -20,
+   "h": 0.42
+  },
+  {
+   "id": "women-wet-robot_dock-1",
+   "room": "women-wet",
+   "kind": "robot_dock",
+   "label": "Robot garage recessed under the vanity",
+   "x": -20.242,
+   "y": 8.025,
+   "w": 0.5,
+   "d": 0.5,
+   "rot": 0,
+   "h": 0.5
+  },
+  {
+   "id": "women-wet-robot-1",
+   "room": "women-wet",
+   "kind": "robot",
+   "label": "Vaskebj\u00f8rn (wash zone, fjord ring)",
+   "x": -24.6,
+   "y": 9.2,
+   "w": 0.42,
+   "d": 0.42,
+   "rot": -20,
+   "h": 0.42
+  },
+  {
+   "id": "men-lockers-uvc_plate-1",
+   "room": "men-lockers",
+   "kind": "uvc_plate",
+   "label": "UV-C sole plate: walk over it, soles sanitised",
+   "x": -12.15,
+   "y": -3.145,
+   "w": 1.5,
+   "d": 0.9,
+   "rot": -90,
+   "h": 0.0
+  },
+  {
+   "id": "women-lockers-uvc_plate-1",
+   "room": "women-lockers",
+   "kind": "uvc_plate",
+   "label": "UV-C sole plate: walk over it, soles sanitised",
+   "x": -12.15,
+   "y": 0.45,
+   "w": 1.5,
+   "d": 0.9,
+   "rot": -90,
+   "h": 0.0
+  },
+  {
+   "id": "men-lockers-uvc_plate-2",
+   "room": "men-lockers",
+   "kind": "uvc_plate",
+   "label": "UV-C sole plate: walk over it, soles sanitised",
+   "x": -13.5,
+   "y": -3.85,
+   "w": 1.0,
+   "d": 0.7,
+   "rot": 180,
+   "h": 0.0
+  },
+  {
+   "id": "women-lockers-uvc_plate-2",
+   "room": "women-lockers",
+   "kind": "uvc_plate",
+   "label": "UV-C sole plate: walk over it, soles sanitised",
+   "x": -13.5,
+   "y": 7.15,
+   "w": 1.0,
+   "d": 0.7,
+   "rot": 0,
+   "h": 0.0
   },
   {
    "id": "sauna-lobby-robe_hooks-1",
