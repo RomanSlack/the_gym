@@ -544,7 +544,7 @@ def pattern_ceiling(e, mat, coll, beam_lines):
     boxes = []
     y = y0 + p["pitch"] / 2
     while y < y1:
-        if all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
+        if e.get("ignore_beams") or all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
             boxes.append(_box(x0, y - p["w"] / 2, z0, x1, y + p["w"] / 2, z1))
         y += p["pitch"]
     return _pieces_mesh(e["id"], boxes, mat, coll)

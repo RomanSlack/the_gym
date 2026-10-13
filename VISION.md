@@ -279,6 +279,12 @@ The reception language carried into the wet rooms. Wood stays where it doesn't g
 - **Cubicles:** oak boxes standing in the tall room: floor to 2.6 m, closed to the floor, with a lid, faced in vertical oak staves (the slat language) and flush doors with shadow gaps. They are "full height" by having their own lid, so the 5.5 m room above stays open to the clerestory light. Each one has its own light.
 - **Vanities:** a long honed-stone trough on the wall, wall-mounted blackened-steel spouts, a full-length mirror in a slim oak frame, and a linear light above it.
 - **Ceramics** are white, and grab rails, flush plates and roll holders are blackened steel. Brass is used only for the small door pulls.
+- **Public WCs, reworked (Roman, 2026-10-12: they felt odd, with no way to tell if a cell was free):**
+  - **Ceiling:** an oak slat ceiling at 2.75 m (the top of the solid facade wall) closes the 5.5 m void, with a plasterboard lid above for extract air. The cells now run floor to ceiling as true full-height cubicles, and the tile runs to the ceiling.
+  - **Cell fronts:** one flush oak face with fine fluting. Each door is framed by a 5 mm shadow gap, with a steel lever and a thumb-turn showing green (ledig) or red (opptatt).
+  - **Over each door:** a steel plate with the cell number in brass and a lit green/red occupancy dot, readable down the room. The accessible door has the wheelchair and baby-changing pictograms; the cleaner's door is marked R.
+  - **Urinals:** splash-free "Nautilus" shells (U. Waterloo / PNAS Nexus research: a curved inner wall keeps the stream under the ~30 deg critical angle where splash-back almost disappears), with touch-free flush sensors. Tall oak privacy screens hang between them, and one urinal is at child height.
+  - **Lighting:** recessed lights in the slat ceiling, plus a light in every cell.
 - **Every public WC room** has its own accessible WC (2.5 x 2.4 m, its own door, fold-down changing table) and a cleaner's cupboard.
 - **Locker rooms (F1, later):** the same floor and tile in the wet zones. The changing rooms get oak slat walls, oak lockers and walnut benches, as in the reception.
 

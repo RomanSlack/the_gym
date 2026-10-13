@@ -151,11 +151,17 @@ for sid, r in WC.items():
          "note": "58 mm screed with underfloor heating + liquid waterproofing membrane, turned 150 mm up the walls"})
     add({"id": f"IN-E1-wc{nm}-floor", "type": "slab", "kind": "floor_finish", "material": wet["material"], "rect": r, "z": [round(E1 - wet["t"], 3), E1], "holes": [],
          "pattern": {k: v for k, v in wet.items() if k not in ("material", "t")}, "note": "floor finish: light honed stone 600 x 600, stack bond, R10"})
-    add({"id": f"IN-E1-ceiling-wc{nm}", "type": "slab", "kind": "ceiling", "material": ceil["material"], "rect": [r[0], r[1], r[2], 16.18], "z": [round(RF - ceil["dmax"], 3), RF],
-         "holes": [], "pattern": {k: v for k, v in ceil.items() if k != "material"}, "between_beams": 0.25,
-         "note": "the reception's undulating ash baffle ceiling carries on over the WCs (oiled ash; the WCs are dry rooms with extract air)"})
-    add({"id": f"IN-E1-ceiling-wc{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": [r[0], r[1], r[2], 16.18],
-         "z": [round(RF - 0.01, 3), round(RF - 0.002, 3)], "holes": [], "note": "black acoustic felt behind the fins"})
+    # Roman: the 5.5 m void over the cells felt odd. A real WC ceiling at 2.75 (the top of the solid facade wall, so the frosted
+    # clerestory sits above it): white-oiled oak acoustic slats on black felt, a closed plasterboard lid above for the extract
+    # ductwork; the cells run floor to ceiling = proper full-height cubicles.
+    WCC = round(E1 + 2.75, 2)
+    add({"id": f"IN-E1-ceiling-wc{nm}", "type": "slab", "kind": "ceiling", "material": "oak_slat", "rect": [r[0], r[1], r[2], r[3]],
+         "z": [round(WCC - 0.02, 3), WCC], "holes": [], "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x"},
+         "ignore_beams": True, "note": "oak acoustic slat ceiling at 2.75 m (45 x 20 @ 65) on black felt"})
+    add({"id": f"IN-E1-ceiling-wc{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": [r[0], r[1], r[2], r[3]],
+         "z": [round(WCC + 0.03, 3), round(WCC + 0.04, 3)], "holes": [], "note": "black acoustic felt behind the slats"})
+    add({"id": f"IN-E1-ceiling-wc{nm}-lid", "type": "slab", "kind": "ceiling", "material": "timber_stud", "rect": [r[0], r[1], r[2], r[3]],
+         "z": [round(WCC + 0.04, 3), round(WCC + 0.065, 3)], "holes": [], "note": "plasterboard lid closing the WC rooms (plenum above for extract air)"})
 
 # every wall inside the WCs: tile to 2.6 m, plaster above. s ranges stop at the faces of the walls they meet
 # (partition half 0.075, core half 0.125, facade half 0.2) + the tile depth, so the corners close without overlaps.
@@ -172,8 +178,7 @@ WCW = [  # (wall, side towards the WC, s range, tag)
 ]
 for wid, side, rng_, tag in WCW:
     w_ = by_id[wid]
-    lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, TILE_TOP])
-    lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[TILE_TOP, w_["z"][1]])
+    lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, round(E1 + 2.75, 2)])  # tile all the way to the new ceiling
 # the women's west wall is the facade: solid black timber to 2.72, frosted clerestory above. Tile up to the clerestory sill.
 fw = by_id["EN-G-E1-W2-0-wall"]
 lining("EN-G-E1-W2-0-wall", "tile_wall", -1, (0.075 + TD, 9.4 - 0.075 - TD), "-wcw-tile", z=[E1, fw["z"][1]])

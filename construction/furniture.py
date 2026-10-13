@@ -639,6 +639,57 @@ def recycling(P, L=1.2):
         P.box(M["felt"], (x - L / n / 2, d + 0.002, h / 2), (0.004, 0.004, h - 0.04))
 
 
+def _cell_front(P, x0, x1, h, depth, doors, style="wc", number0=1, occupied=()):
+    """Front of a row of WC cells (Roman: you must see where the doors are and if they are free): a continuous oak face with fine
+    fluting (30 mm flutes, 3 mm grooves: the slat language without dark gaps), each door leaf framed by a 5 mm black shadow
+    gap, a transom panel above it. On each door: a blackened-steel lever and an indicator thumb-turn (green 'ledig' / red
+    'opptatt' segment). Over each door: a slim steel plate with the cell number in brass and a lit occupancy dot (green free,
+    red occupied: the same signal as the turn), visible down the whole room. Accessible + cleaner's doors carry pictograms."""
+    ok, sh = M["oak"], M["felt"]
+    yf = depth + 0.01
+    free = M.setdefault("led_free", bc.material("led_free", (0.02, 0.45, 0.1), 0.3, emit=((0.05, 1.0, 0.2), 0.5)))
+    busy = M.setdefault("led_busy", bc.material("led_busy", (0.6, 0.02, 0.01), 0.3, emit=((1.0, 0.05, 0.02), 0.5)))
+    P.box(ok, ((x0 + x1) / 2, yf - 0.012, h / 2), (x1 - x0, 0.024, h))          # the face (one plane, doors cut by shadow gaps)
+    for x in np.arange(x0 + 0.015, x1, 0.03):                                   # fluting grooves, stopped at the door gaps
+        P.box(sh, (x, yf + 0.0005, h / 2), (0.003, 0.002, h - 0.02))
+    P.box(ok, ((x0 + x1) / 2, depth - 0.05, h / 2), (x1 - x0 - 0.03, 0.012, h))  # plain oak inside face
+    for i, (xa, xb, hd) in enumerate(doors):
+        for (cx, cz, sx, sz) in (((xa + xb) / 2, hd + 0.0025, xb - xa + 0.005, 0.005), (xa, hd / 2, 0.005, hd), (xb, hd / 2, 0.005, hd)):
+            P.box(sh, (cx, yf + 0.001, cz), (sx, 0.004, sz))                     # shadow gap round the leaf
+        lx = xb - 0.08
+        P.box(M["steel"], (lx, yf + 0.008, 1.0), (0.05, 0.016, 0.05))            # lever rose + lever
+        P.box(M["steel"], (lx - 0.06, yf + 0.03, 1.0), (0.13, 0.02, 0.018))
+        busy_ = (number0 + i) in occupied
+        b = P.bm(M["steel"]); g = bmesh.ops.create_cone(b, cap_ends=True, segments=24, radius1=0.028, radius2=0.028, depth=0.008)["verts"]
+        bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b, verts=g, vec=(lx, yf + 0.004, 1.18))
+        P.box(busy if busy_ else free, (lx, yf + 0.009, 1.195), (0.03, 0.002, 0.012))  # indicator window on the turn
+        # the plate over the door: number in brass + a lit dot
+        P.box(M["steel"], ((xa + xb) / 2, yf + 0.004, hd + 0.17), (0.22, 0.008, 0.1))
+        if style == "wc":
+            P.text(M["brass"], str(number0 + i), ((xa + xb) / 2 - 0.04, yf + 0.009, hd + 0.165), 0.06, depth=0.002)
+        elif style == "accessible":
+            pictogram_on(P, "accessible", (xa + xb) / 2 - 0.04, yf + 0.008, hd + 0.17, 0.085)
+        else:
+            P.text(M["brass"], "R", ((xa + xb) / 2 - 0.04, yf + 0.009, hd + 0.165), 0.055, depth=0.002)  # renhold (cleaner)
+        if style != "store":
+            b = P.bm(busy if busy_ else free); g = bmesh.ops.create_cone(b, cap_ends=True, segments=20, radius1=0.016, radius2=0.016, depth=0.006)["verts"]
+            bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X"))
+            bmesh.ops.translate(b, verts=g, vec=((xa + xb) / 2 + 0.05, yf + 0.009, hd + 0.17))
+        if style == "accessible":  # baby-changing on the accessible door too, at eye height
+            pictogram_on(P, "baby", (xa + xb) / 2, yf + 0.004, 1.55, 0.16, plate=True)
+
+
+def pictogram_on(P, figure, x, y, z, size, plate=False):
+    """A pictogram placed in another piece's frame, facing +y (wraps pictogram())."""
+    tmp = Part("tmp")
+    pictogram(tmp, figure=figure, size=size if plate else size * 2.2, mount=0.0)
+    for mat, b in tmp.bms.items():
+        for v in b.verts:
+            v.co = Vector((x + v.co.x, y + v.co.y - (0.0 if plate else 0.006), z + v.co.z))
+        tgt = P.bm(mat)
+        me = bpy.data.meshes.new("tmp"); b.to_mesh(me); b.free(); tgt.from_mesh(me); bpy.data.meshes.remove(me)
+
+
 def _wc_pan(P, x, side_rail=0):
     """Wall-hung white WC (seat at 0.46) with a blackened-steel flush plate, roll holder and (accessible) fold-up rails."""
     P.box(M["ceramic"], (x, 0.06, 0.38), (0.34, 0.12, 0.2))                       # back, against the wall
@@ -665,7 +716,7 @@ def _wc_pan(P, x, side_rail=0):
         P.rod(M["steel"], (xr, 0.05, 0.8), (xr, 0.85, 0.8), 0.016, seg=12)
 
 
-def wc_cells(P, n=4, w=1.1, depth=1.65, h=2.6, style="wc", door_at=0.0, pan_at=0.0):
+def wc_cells(P, n=4, w=1.1, depth=1.65, h=2.73, style="wc", door_at=0.0, pan_at=0.0, number0=1, occupied=()):
     """A row of WC cells standing in the tall WC room: oak boxes, floor to 2.6 m and closed to the floor, with an oak lid,
     so each is private while the room above stays open to the clerestory light. Origin = the wall face at the row centre,
     cells along x, front towards +y. Panels 30 mm, front in vertical oak staves with flush doors (0.8 m; accessible 1.0).
@@ -679,11 +730,7 @@ def wc_cells(P, n=4, w=1.1, depth=1.65, h=2.6, style="wc", door_at=0.0, pan_at=0
     for k in range(n):
         cx = -W / 2 + (k + 0.5) * w + (door_at if n == 1 else 0.0)
         doors.append((cx - dw / 2, cx + dw / 2, 2.1))
-    _staved_front(P, -W / 2, W / 2, h, depth + 0.01, doors)
-    P.box(M["oak"], (0, depth - 0.04, h / 2), (W - 0.03, 0.012, h))  # plain oak face on the inside of the front (doors closed)
-    for (xa, xb, hd) in doors:  # small brass pull on the latch side (an accent) + a blackened-steel occupancy turn
-        P.box(M["brass"], (xb - 0.09, depth + 0.035, 1.05), (0.016, 0.02, 0.3))
-        P.cyl(M["steel"], (xb - 0.09, depth + 0.025, 1.3), 0.022, 0.012, seg=20)
+    _cell_front(P, -W / 2, W / 2, h, depth, doors, style=style, number0=number0, occupied=occupied)
     if style == "wc":
         for k in range(n):
             _wc_pan(P, -W / 2 + (k + 0.5) * w)
@@ -732,18 +779,45 @@ def vanity(P, L=3.0, n=3, top=0.86):
     P.box(M["opal"], (0, 0.04, top + 1.349), (L - 0.04, 0.05, 0.003))
 
 
-def urinals(P, n=3, pitch=0.75):
-    """Wall-hung white urinals (rim 0.62; the first lower, 0.5, for children) with oak privacy screens between them."""
+def _nautilus(P, x, rim=0.62):
+    """Splash-free urinal after the 'Nautilus' study (Pan, Thurairajah et al., U. Waterloo 2022; PNAS Nexus): a tall, slender
+    vitreous-china shell whose inner back wall follows a nautilus (logarithmic) curve, so the stream meets it at under ~30 deg
+    (the critical angle below which almost nothing splashes back) for any height or aim; a narrow front opening, the lip at
+    'rim'. Built as a loft of U-shaped sections: depth and width follow the spiral from the floor trap up to the hood."""
+    b = P.bm(M["ceramic"]); n = 40
+    lip = rim - 0.06
+    rings = []
+    for j in range(17):
+        u = j / 16
+        z = 0.2 + (rim + 0.6 - 0.2) * u
+        depth = 0.14 + 0.22 * math.sin(math.pi * min(1.0, u * 1.1)) ** 0.8   # the belly where the stream lands (shallow angle)
+        half = 0.12 + 0.07 * math.sin(math.pi * u) ** 0.7
+        ring = [b.verts.new((x + half * math.cos(2 * math.pi * k / n), 0.02 + depth / 2 + depth / 2 * math.sin(2 * math.pi * k / n), z)) for k in range(n)]
+        rings.append((ring, z))
+    for (A, za), (B, zb) in zip(rings, rings[1:]):
+        for k in range(n):
+            am = 2 * math.pi * (k + 0.5) / n
+            front = abs(((am - math.pi / 2) + math.pi) % (2 * math.pi) - math.pi) < math.radians(55)
+            if front and za >= lip:
+                continue  # the narrow front opening above the lip
+            b.faces.new((A[k], A[(k + 1) % n], B[(k + 1) % n], B[k]))
+    b.faces.new(rings[0][0][::-1])
+    P.box(M["ceramic"], (x, 0.03, 0.55), (0.32, 0.04, 0.95))                       # back plate on the wall
+    P.cyl(M["steel"], (x, 0.12, 0.23), 0.025, 0.004, seg=16)                        # trap grate
+    P.box(M["steel"], (x, 0.004, rim + 0.62), (0.08, 0.008, 0.12))                  # touch-free flush sensor
+
+
+def urinals(P, n=3, pitch=0.85):
+    """Splash-free 'Nautilus' urinals (one lower, rim 0.5, for children) with tall oak privacy screens between them (0.45 deep,
+    0.4 to 1.6 m: you see a screen, never a neighbour) on blackened-steel brackets."""
     for k in range(n):
         x = -(n - 1) * pitch / 2 + k * pitch
-        rim = 0.5 if k == 0 else 0.62
-        P.cyl(M["ceramic"], (x, 0.13, rim - 0.48), 0.165, 0.62, seg=40)       # a slim upright pod, round to the front
-        P.box(M["ceramic"], (x, 0.04, rim - 0.17), (0.33, 0.08, 0.62))        # flat back on the wall
-        P.cyl(M["steel"], (x, 0.16, rim - 0.48), 0.035, 0.004, seg=16)        # outlet glimpse at the base
-        P.box(M["steel"], (x, 0.004, rim + 0.42), (0.08, 0.008, 0.12))
+        _nautilus(P, x, rim=0.5 if k == 0 else 0.62)
     for k in range(n - 1):
         x = -(n - 1) * pitch / 2 + (k + 0.5) * pitch
-        P.box(M["oak"], (x, 0.24, 1.05), (0.03, 0.45, 0.9))
+        P.box(M["oak"], (x, 0.28, 1.0), (0.025, 0.5, 1.2))
+        for z in (0.55, 1.45):
+            P.box(M["steel"], (x, 0.02, z), (0.04, 0.04, 0.04))
 
 
 def cell_light(P, z_ceiling=2.6):
@@ -2487,7 +2561,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
           "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image", "z0"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
-          "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),
+          "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at", "number0", "occupied"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
           "kid_chair": ("colour", "seat"), "dance_mirror": ("length", "h", "barre"), "window_nest": ("length",), "sensory_panel": ("style",), "pictogram": ("figure", "size", "mount"), "portal_frame": ("width", "height", "depth"), "wall_sign": ("text", "w", "h", "mount", "size", "blade"), "exit_sign": ("mount",), "safety_point": ("aed",),
           "ceiling_services": ("z_local", "ceiling", "device"), "amenity_tray": ("products",), "table_setting": ("carafe",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),

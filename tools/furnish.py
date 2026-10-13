@@ -89,29 +89,30 @@ put("baffle_screen", 18.6, 7.9, rot=0, zone="wc", width=2.2, height=2.4, note="m
 WARM = [1.0, 0.86, 0.7]
 COL = ["lingon", "cloud", "moss", "fjord", "heather"]
 def wc_room(stall_x, stall_rot, stall_y, n_stalls, van_x, van_rot, acc_cx, acc_pan, acc_door, store_cx, aisle_x, urinal_y=None, tag=""):
-    put("wc_cells", stall_x, stall_y, rot=stall_rot, zone="wc", n=n_stalls, w=1.1, depth=1.65, style="wc", note=f"{tag} WC cells: oak boxes with lids")
+    put("wc_cells", stall_x, stall_y, rot=stall_rot, zone="wc", n=n_stalls, w=1.1, depth=1.65, style="wc", occupied=[2] if n_stalls > 2 else [1],
+        note=f"{tag} WC cells: fluted oak boxes with lids, numbered, lit vacant/occupied signals")
     out = 1 if stall_rot == -90 else -1  # +x or -x into the room
     for k in range(n_stalls):
         cy = stall_y + (n_stalls / 2 - k - 0.5) * 1.1 * (1 if stall_rot == -90 else -1)
-        put("cell_light", stall_x + out * 0.85, cy, zone="wc", z_ceiling=2.6,
-            light={"type": "POINT", "energy": 18, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM}, note="light in the cell lid")
+        put("cell_light", stall_x + out * 0.85, cy, zone="wc", z_ceiling=2.73,
+            light={"type": "POINT", "energy": 18, "radius": 0.05, "offset": [0, 0, 2.6], "color": WARM}, note="light in the cell ceiling")
     put("wc_cells", acc_cx, 16.105, rot=180, zone="wc", n=1, w=2.5, depth=2.4, style="accessible", door_at=acc_door, pan_at=acc_pan,
         note=f"{tag} accessible WC: its own door, rails, basin, fold-down changing table")
-    put("cell_light", acc_cx, 14.9, zone="wc", z_ceiling=2.6, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.5], "color": WARM})
+    put("cell_light", acc_cx, 14.9, zone="wc", z_ceiling=2.73, light={"type": "POINT", "energy": 35, "radius": 0.05, "offset": [0, 0, 2.6], "color": WARM})
     put("wc_cells", store_cx, 16.105, rot=180, zone="wc", n=1, w=1.4, depth=1.0, style="store", note="cleaner's cupboard")
     put("vanity", van_x, 10.7, rot=van_rot, zone="wc", length=3.0, n=3, note=f"{tag} stone trough vanity, mirror, light")
     vin = 1 if van_rot == -90 else -1
     put("light_only", van_x + vin * 0.06, 10.7, zone="wc",
         light={"type": "AREA", "energy": 60, "size": 2.9, "size_y": 0.04, "offset": [0, 0, 2.2], "aim": [van_x + vin * 1.2, 10.7, 0.9], "color": WARM},
         note="linear light above the mirror (the fitting is part of the vanity)")
-    for y in (8.6, 11.0, 13.0):
-        put("downlight", aisle_x, y, zone="wc", z_ceiling=5.02,
-            light={"type": "SPOT", "energy": 200, "spot_deg": 60, "offset": [0, 0, 4.85], "aim": [aisle_x, y, 0.12], "color": WARM})
+    for y in (8.2, 9.9, 11.6, 13.2):  # recessed in the new 2.75 m slat ceiling
+        put("cell_light", aisle_x, y, zone="wc", z_ceiling=2.77,
+            light={"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.7], "aim": [aisle_x, y, 0.12], "color": WARM})
     if urinal_y is not None:
-        put("urinals", 20.655, urinal_y, rot=90, zone="wc", n=3, pitch=0.75, note="urinals with oak screens, one at child height")
+        put("urinals", 20.655, urinal_y, rot=90, zone="wc", n=3, pitch=0.85, note="splash-free Nautilus urinals with oak screens, one at child height")
 
 wc_room(12.22, -90, 11.25, 4, 16.305, 90, 13.5, 0.75, -0.6, 15.55, 14.8, tag="women's")
-wc_room(20.655, 90, 12.45, 2, 16.495, -90, 19.405, -0.745, 0.705, 17.25, 18.0, urinal_y=10.0, tag="men's")
+wc_room(20.655, 90, 12.45, 2, 16.495, -90, 19.405, -0.745, 0.705, 17.25, 18.0, urinal_y=9.9, tag="men's")
 
 # ---- daycare upper floor (VISION "Daycare: playful, still Nordic"): play and colour from the furniture, light shell
 DCART = {"forest": "docs/art/artdcforest_0.png", "lake": "docs/art/artdclake_0.png"}
@@ -420,7 +421,9 @@ def services(x0, x1, y0, y1, level, z, ceil, avoid=()):
                 z_local=round(z - floor, 3), ceiling=round(ceil - floor, 3))
             F[-1]["z"] = floor
             k += 1
-services(13.3, 30.4, -8.7, 16.0, "E1", 5.05, 5.62, avoid=((21.25, -1.35, 3.6), (15.4, -4.6, 2.0)))                  # cafe, reception, WCs
+services(13.3, 30.4, -8.7, 6.7, "E1", 5.05, 5.62, avoid=((21.25, -1.35, 3.6), (15.4, -4.6, 2.0)))
+services(24.2, 30.4, 6.9, 16.0, "E1", 5.05, 5.62)                                                    # reception
+services(13.0, 20.6, 8.4, 16.0, "E1", 2.74, 2.8)                                                     # WCs: in their 2.75 ceiling                  # cafe, reception, WCs
 services(13.1, 30.4, 17.0, 33.0, "E1", 5.05, 5.62, avoid=((25.2, 27.0, 3.2), (16.6, 25.0, 2.7)))   # daycare upper (crown has its own)
 services(13.1, 30.4, 17.0, 33.0, "E2", -0.6, -0.24, avoid=((16.6, 25.0, 2.7),))                    # daycare lower
 
