@@ -2077,6 +2077,207 @@ def magazines(P):
     P.box(M["lino_moss"], (0.05, 0.02, 0.035), (0.15, 0.22, 0.03), rz=-0.2)
 
 
+# ------------------------------------------------------------------ cafe rethink (Roman, 2026-10-12): pictograms, a lounge, a centrepiece
+def _circle(cx, cz, r, n=24):
+    return [(cx + r * math.cos(2 * math.pi * k / n), cz + r * math.sin(2 * math.pi * k / n)) for k in range(n)]
+
+
+def _rect(x0, z0, x1, z1):
+    return [(x0, z0), (x1, z0), (x1, z1), (x0, z1)]
+
+
+def pictogram(P, figure="woman", size=0.3, mount=1.6):
+    """Pictogram sign: a blackened-steel square plate (size, 6 mm) with the figure raised 3 mm in brass (the brass accent).
+    Kinds: woman, man, accessible, baby (changing), gym (dumbbell + arrow pointing local +x), child (daycare: a small figure
+    holding a big one's hand), lift (car with up/down arrows). Origin = wall face, plate centre at 'mount'."""
+    br = M["brass"]; s_ = size / 0.3; z = mount; kind = figure
+    P.box(M["steel"], (0, 0.003, z), (size, 0.006, size))
+    y0, y1 = 0.006, 0.009
+    f = lambda pts: P.prism(br, [(x * s_, z + zz * s_) for x, zz in pts], y0, y1)
+    def person(cx, sc=1.0, dress=False):
+        f(_circle(cx, 0.075 * sc, 0.022 * sc))
+        if dress:
+            f([(cx - 0.042 * sc, -0.035 * sc), (cx + 0.042 * sc, -0.035 * sc), (cx + 0.022 * sc, 0.045 * sc), (cx - 0.022 * sc, 0.045 * sc)])
+        else:
+            f(_rect(cx - 0.025 * sc, -0.02 * sc, cx + 0.025 * sc, 0.045 * sc))
+        for dx in (-0.012, 0.012):
+            f(_rect(cx + dx * sc - 0.008 * sc, -0.1 * sc, cx + dx * sc + 0.008 * sc, -0.02 * sc))
+    if kind == "woman":
+        person(0.0, 1.0, dress=True)
+    elif kind == "man":
+        person(0.0)
+    elif kind == "accessible":
+        f(_circle(-0.005, 0.085, 0.02))
+        f(_rect(-0.02, -0.01, 0.0, 0.06))                       # torso
+        f(_rect(-0.02, -0.01, 0.045, 0.008))                    # thigh
+        f(_rect(0.03, -0.075, 0.045, 0.008))                    # shin
+        for k in range(20):                                     # the wheel: an arc of small segments
+            a0, a1 = math.radians(60 + k * 12), math.radians(60 + (k + 1) * 12)
+            r0, r1 = 0.05, 0.062
+            f([(-0.01 + r0 * math.cos(a0), -0.04 + r0 * math.sin(a0)), (-0.01 + r1 * math.cos(a0), -0.04 + r1 * math.sin(a0)),
+               (-0.01 + r1 * math.cos(a1), -0.04 + r1 * math.sin(a1)), (-0.01 + r0 * math.cos(a1), -0.04 + r0 * math.sin(a1))])
+    elif kind == "baby":
+        f(_rect(-0.09, -0.06, 0.09, -0.045))                    # changing table
+        f(_circle(-0.06, -0.025, 0.018)); f(_rect(-0.04, -0.04, 0.06, -0.012))
+        person(0.03, 0.75)
+    elif kind == "gym":
+        f(_rect(-0.07, 0.035, 0.07, 0.045))
+        for x in (-0.06, 0.06):
+            f(_rect(x - 0.012, 0.01, x + 0.012, 0.07))
+        f(_rect(-0.06, -0.06, 0.04, -0.045))
+        f([(0.04, -0.08), (0.09, -0.0525), (0.04, -0.025)])
+    elif kind == "child":
+        person(-0.03, 1.0); person(0.045, 0.6)
+        f(_rect(-0.01, 0.0, 0.035, 0.008))
+    elif kind == "lift":
+        f(_rect(-0.05, -0.09, 0.05, 0.09)); P.box(M["steel"], (0, 0.0095, z), (0.07 * s_, 0.001, 0.15 * s_))
+        f([(-0.025, 0.01), (0.025, 0.01), (0.0, 0.05)]); f([(-0.025, -0.01), (0.025, -0.01), (0.0, -0.05)])
+
+
+def portal_frame(P, width=1.6, height=2.4, depth=0.25):
+    """Blackened-steel portal lining an opening: jambs + head as 10 mm plates the full wall depth, with a 40 mm face flange on the
+    front (+y) side, so the entrance reads as a crafted frame in the slat wall."""
+    st = M["steel"]
+    for x in (-width / 2, width / 2):
+        P.box(st, (x, -depth / 2, height / 2), (0.01, depth, height))
+        P.box(st, (x + (0.02 if x > 0 else -0.02), 0.004, height / 2), (0.05, 0.008, height + 0.05))
+    P.box(st, (0, -depth / 2, height), (width, depth, 0.01))
+    P.box(st, (0, 0.004, height + 0.02), (width + 0.09, 0.008, 0.05))
+
+
+def conversation_ring(P, r=2.0, gaps=((30.0, 32.0), (210.0, 32.0))):
+    """'Steinringen': a built-in curved banquette round the boulder, the cafe's centrepiece for meeting people. An oak plinth ring
+    (seat 0.42, 0.6 deep), oat wool seat cushions in segments, a raked oak backrest with wool back cushions, outward-facing
+    oak back skin with the slat language; open in two places (gaps = (angle, width deg))."""
+    seat_in, seat_out = r - 0.68, r - 0.08
+    def arcs():
+        cuts = sorted([(a - w / 2, a + w / 2) for a, w in gaps])
+        for (a0, a1), (b0, b1) in zip(cuts, cuts[1:] + [(cuts[0][0] + 360, 0)]):
+            yield a1, b0
+    for a0, a1 in arcs():
+        P.ring(M["oak"], (0, 0), seat_in, seat_out, 0.0, 0.32, a0, a1, seg=160)
+        P.ring(M["felt"], (0, 0), seat_in + 0.04, seat_out - 0.04, 0.0, 0.06, a0, a1, seg=160)
+        n = max(1, int((a1 - a0) / 18))
+        for k in range(n):  # cushion segments with 8 mm gaps
+            c0, c1 = a0 + (a1 - a0) * k / n + 0.3, a0 + (a1 - a0) * (k + 1) / n - 0.3
+            P.ring(M["boucle"], (0, 0), seat_in + 0.02, seat_out - 0.02, 0.32, 0.43, c0, c1, seg=48)
+            P.ring(M["boucle"], (0, 0), seat_out - 0.14, seat_out - 0.02, 0.45, 0.82, c0, c1, seg=48)  # back cushion
+        P.ring(M["oak"], (0, 0), seat_out, r, 0.0, 0.86, a0, a1, seg=160)  # backrest wall
+        P.ring(M["oak"], (0, 0), seat_out - 0.02, r + 0.02, 0.86, 0.9, a0, a1, seg=160)  # oak cap
+        ns = int(math.radians(a1 - a0) * (r + 0.01) / 0.065)
+        for k in range(ns):  # slats on the outside
+            a = math.radians(a0 + (a1 - a0) * (k + 0.5) / ns)
+            P.box(M["oak"], ((r + 0.012) * math.cos(a), (r + 0.012) * math.sin(a), 0.43), (0.022, 0.045, 0.82), rz=a)
+
+
+def _honed_granite(name="granite_honed"):
+    """Sawn + honed grey granite: a flat face (no bump), a fine salt-and-pepper of quartz, feldspar and mica crystals from two
+    Voronoi scales over a soft cloudy grey, a satin sheen."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
+    cloud = N.new("ShaderNodeTexNoise"); cloud.inputs["Scale"].default_value = 3.0; L.new(tc.outputs["Object"], cloud.inputs["Vector"])
+    v1 = N.new("ShaderNodeTexVoronoi"); v1.inputs["Scale"].default_value = 180.0; L.new(tc.outputs["Object"], v1.inputs["Vector"])
+    v2 = N.new("ShaderNodeTexVoronoi"); v2.inputs["Scale"].default_value = 520.0; L.new(tc.outputs["Object"], v2.inputs["Vector"])
+    r1 = N.new("ShaderNodeValToRGB"); L.new(v1.outputs["Color"], r1.inputs["Fac"])
+    e = r1.color_ramp.elements; e[0].position = 0.35; e[0].color = (0.05, 0.05, 0.055, 1); e[1].position = 0.55; e[1].color = (0.42, 0.41, 0.4, 1)
+    r2 = N.new("ShaderNodeValToRGB"); L.new(v2.outputs["Color"], r2.inputs["Fac"])
+    e = r2.color_ramp.elements; e[0].position = 0.6; e[0].color = (0.2, 0.2, 0.2, 1); e[1].position = 0.7; e[1].color = (0.75, 0.73, 0.7, 1)
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.inputs["Factor"].default_value = 0.35
+    L.new(r1.outputs["Color"], mx.inputs["A"]); L.new(r2.outputs["Color"], mx.inputs["B"])
+    mc = N.new("ShaderNodeMix"); mc.data_type = "RGBA"; mc.blend_type = "MULTIPLY"; mc.inputs["Factor"].default_value = 0.3
+    L.new(mx.outputs["Result"], mc.inputs["A"]); L.new(cloud.outputs["Color"], mc.inputs["B"])
+    L.new(mc.outputs["Result"], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = 0.28
+    return m
+
+
+def boulder_table(P, L=1.6, D=1.15, h=0.42, seed=7):
+    """'Flyttblokk': a glacial granite erratic as the table in the ring: a rounded, weathered boulder with its top sawn flat and
+    honed (a dark polished granite plane showing the crystals), the rest left raw. Mesh: a subdivided sphere scaled to the
+    boulder, displaced by low-frequency noise, cut flat at h (top) and 0 (floor)."""
+    rng = np.random.default_rng(seed)
+    b = P.bm(M.setdefault("granite_raw", bc.pbr_material("granite_raw", "dark_rock", 1.4, box=True, tint=(0.82, 0.8, 0.78), rough_add=0.25, piece_var=0.0, sat=0.45, val=1.9)))
+    g = bmesh.ops.create_icosphere(b, subdivisions=4, radius=1.0)["verts"]
+    waves = [(rng.normal(size=3), rng.uniform(0, 6.28), rng.uniform(0.03, 0.07)) for _ in range(7)]
+    for v in g:
+        p = Vector(v.co)
+        d = 1.0 + sum(a * math.sin(k_.dot(p) * 2.2 + ph) for k_, ph, a in waves)
+        p = p * d
+        v.co = (p.x * L / 2, p.y * D / 2, (p.z * 0.5 + 0.38) * h * 1.15)
+        v.co.z = min(max(v.co.z, 0.0), h)
+    bmesh.ops.remove_doubles(b, verts=g, dist=0.0005)
+    top = P.bm(M.setdefault("granite_tiled", bc.pbr_material("granite_tiled", "granite_tile", 0.6, box=True, tint=(0.75, 0.73, 0.72),
+                                                                rough_mul=0.35, rough_add=0.02, piece_var=0.0, sat=0.6, val=0.9)))  # Roman preferred the gridded top
+    # the sawn top: the outline of the boulder at h, as a flat honed face just proud of the raw mesh
+    pts = []
+    for k in range(64):
+        a = 2 * math.pi * k / 64; p = Vector((math.cos(a), math.sin(a), 0.62))
+        d = 1.0 + sum(am * math.sin(k_.dot(p) * 2.2 + ph) for k_, ph, am in waves)
+        pts.append((p.x * d * L / 2 * 0.86, p.y * d * D / 2 * 0.86))
+    vs = [top.verts.new((x, y, h + 0.001)) for x, y in pts]
+    top.faces.new(vs)
+
+
+def elva(P, pts=((0, 0), (2.2, -3.0), (5.6, -5.4), (9.8, -6.2), (13.0, -5.9)), n=230, base=2.75, ceiling=5.45):
+    """'Elva' (the river): a suspended sculpture tracing the Glomma through the room, seen from above. ~230 thin fins (14 x 140 mm,
+    0.6-1.0 m tall) hung on fine steel wires along a winding line, each turned to follow the current, lower edges rippling
+    between 2.75 and 3.2 m. Colour (Roman): the river's middle runs in lacquered glacier teal and deep fjord blue, the banks are
+    white-oiled oak; every fin has a polished brass edge at its tip (the accent catching the light) and nine mirror-polished steel
+    fish (trout + grayling) swim upstream through it. Origin = the first point of the line, at the floor."""
+    glacier = M.setdefault("lacquer_glacier", bc.material("lacquer_glacier", (0.33, 0.52, 0.55), 0.22))
+    fjord = M.setdefault("lacquer_fjord", bc.material("lacquer_fjord", (0.07, 0.15, 0.26), 0.22))
+    mist = M.setdefault("lacquer_mist", bc.material("lacquer_mist", (0.62, 0.72, 0.72), 0.25))
+    fishm = M.setdefault("polished_steel", bc.metal_material("polished_steel", (0.92, 0.92, 0.9), rough=(0.02, 0.06), brushed=False))
+    rng = np.random.default_rng(12)
+    P_ = [Vector((x, y, 0)) for x, y in pts]
+    def at(t):  # Catmull-Rom through the points, t in [0, 1]
+        segs = len(P_) - 1; u = min(t * segs, segs - 1e-6); i = int(u); f = u - i
+        p0, p1, p2, p3 = P_[max(i - 1, 0)], P_[i], P_[i + 1], P_[min(i + 2, segs)]
+        return 0.5 * ((2 * p1) + (-p0 + p2) * f + (2 * p0 - 5 * p1 + 4 * p2 - p3) * f * f + (-p0 + 3 * p1 - 3 * p2 + p3) * f ** 3)
+    def frame(t):
+        c = at(t); tg = (at(min(1.0, t + 0.002)) - at(max(0.0, t - 0.002))).normalized()
+        return c, tg, Vector((-tg.y, tg.x, 0))
+    def water(t):  # the colour down the river: mist at the source, glacier teal, deep fjord blue in the pools, back to teal
+        g = 0.5 + 0.5 * math.sin(t * math.pi * 3.0 - 1.0) + rng.normal(0, 0.12)
+        return fjord if g > 0.72 else (glacier if g > 0.3 else mist)
+    for k in range(n):
+        t = k / (n - 1)
+        c, tg, nrm = frame(t)
+        width = 0.3 + 0.4 * (0.5 + 0.5 * math.sin(t * math.pi * 3.0))  # the river widens + narrows
+        lanes = (-width / 2, 0.0, width / 2) if width > 0.45 else (-width / 2, width / 2)
+        for j, off in enumerate(lanes):
+            p = c + nrm * off
+            mat = M["oak"] if (j == len(lanes) - 1 and len(lanes) == 3 and k % 2) else water(t)  # coloured water, oak glints at the bank
+            hgt = 0.6 + 0.4 * (0.5 + 0.5 * math.sin(t * 17.0 + 2 * j))
+            z0 = base + 0.45 * (0.5 + 0.5 * math.sin(t * 9.0 + 1.3 * j))
+            rz = math.atan2(tg.y, tg.x) + math.pi / 2 + 0.3 * math.sin(t * 23 + j)  # fins stand ACROSS the current, like ripples
+            P.box(mat, (p.x, p.y, z0 + hgt / 2), (0.16, 0.014, hgt), rz=rz)
+            P.box(M["brass"], (p.x, p.y, z0 + 0.004), (0.162, 0.016, 0.008), rz=rz)   # brass tip
+            if k % 3 == 0:
+                P.rod(M["steel"], (p.x, p.y, z0 + hgt), (p.x, p.y, ceiling), 0.0012, seg=4)
+    for i in range(9):  # fish swimming upstream (against the line's direction), just under the fins
+        t = 0.08 + 0.1 * i + rng.uniform(-0.02, 0.02)
+        c, tg, nrm = frame(t)
+        p = c + nrm * rng.uniform(-0.15, 0.15)
+        z = base - 0.18 - rng.uniform(0.0, 0.25)
+        L = 0.42 if i % 3 == 0 else 0.3  # trout bigger, grayling smaller
+        body = [(L / 2 * math.cos(a), 0.11 * L * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 24, endpoint=False)]
+        tail = [(-L / 2 + 0.02, 0.0), (-L / 2 - 0.12 * L / 0.3, 0.06), (-L / 2 - 0.1 * L / 0.3, 0.0), (-L / 2 - 0.12 * L / 0.3, -0.06)]
+        ang = math.atan2(-tg.y, -tg.x)  # facing upstream
+        for shape in (body, tail):
+            b = P.bm(fishm)
+            v0 = [b.verts.new((p.x + x * math.cos(ang), p.y + x * math.sin(ang), z + zz)) for x, zz in shape]
+            off = Vector((-math.sin(ang), math.cos(ang), 0)) * 0.006
+            v1 = [b.verts.new(v.co + off) for v in v0]
+            b.faces.new(v0[::-1]); b.faces.new(v1)
+            for q in range(len(v0)):
+                r = (q + 1) % len(v0); b.faces.new((v0[q], v0[r], v1[r], v1[q]))
+        P.rod(M["steel"], (p.x, p.y, z + 0.03), (p.x, p.y, ceiling), 0.0008, seg=4)
+
+
 def light_only(P):
     """A light whose fitting belongs to another piece (e.g. the vanity's light channel): no geometry."""
 
@@ -2275,7 +2476,8 @@ BUILDERS = {
     "music_wall": music_wall, "dance_mirror": dance_mirror, "balance_trail": balance_trail,
     "felt_banner": felt_banner, "bunting": bunting, "staff_wc_fit": staff_wc_fit, "staff_lockers": staff_lockers,
     "canopy_crown": canopy_crown, "nest": nest, "pikler_arch": pikler_arch, "window_nest": window_nest, "sensory_panel": sensory_panel,
-    "toddler_table": toddler_table, "towel_station": towel_station, "sanitiser": sanitiser, "recycling": recycling,
+    "toddler_table": toddler_table, "pictogram": pictogram, "portal_frame": portal_frame,
+    "conversation_ring": conversation_ring, "boulder_table": boulder_table, "elva": elva, "towel_station": towel_station, "sanitiser": sanitiser, "recycling": recycling,
     "wall_sign": wall_sign, "exit_sign": exit_sign, "safety_point": safety_point, "ceiling_services": ceiling_services,
     "floor_drain": floor_drain, "amenity_tray": amenity_tray, "table_setting": table_setting, "water_station": water_station,
     "menu_board": menu_board, "high_chair": high_chair, "coat_rack": coat_rack, "floor_lamp": floor_lamp, "magazines": magazines,
@@ -2287,7 +2489,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image", "z0"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
           "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),
           "kid_wc_cells": ("n", "w", "depth"), "changing_unit": ("length",), "cubbies": ("length", "n"), "kid_table": ("colour",),
-          "kid_chair": ("colour", "seat"), "dance_mirror": ("length", "h", "barre"), "window_nest": ("length",), "sensory_panel": ("style",), "wall_sign": ("text", "w", "h", "mount", "size", "blade"), "exit_sign": ("mount",), "safety_point": ("aed",),
+          "kid_chair": ("colour", "seat"), "dance_mirror": ("length", "h", "barre"), "window_nest": ("length",), "sensory_panel": ("style",), "pictogram": ("figure", "size", "mount"), "portal_frame": ("width", "height", "depth"), "wall_sign": ("text", "w", "h", "mount", "size", "blade"), "exit_sign": ("mount",), "safety_point": ("aed",),
           "ceiling_services": ("z_local", "ceiling", "device"), "amenity_tray": ("products",), "table_setting": ("carafe",), "play_loft": ("length", "D", "deck"), "felt_cloud": ("colour", "s", "hang"), "low_shelf": ("length", "h"),
           "gate": ("width",), "story_wall": ("length",), "floor_cushion": ("colour", "r"), "rug_round": ("d", "colour"), "kitchenette": ("length",),
           "stair_guard": ("gap", "gaps", "gates", "r_in", "a0"), "felt_banner": ("motif", "colour", "h"), "staff_lockers": ("n",), "bunting": ("length", "sag"),

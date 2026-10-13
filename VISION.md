@@ -314,6 +314,16 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
     - two high chairs, and downlights over the tables
   - **Services:** sprinklers and smoke detectors in every ceiling (109 points across E1 and E2).
   - **Furniture joints:** stretchers and footrests are joined to the legs at their real height (the cafe chairs had floating stretchers).
+- **Cafe rethink (Roman, 2026-10-12: less "IKEA cafe", more meeting people and watching the view):**
+  - **Removed:** the 11 m window counter with its 15 stools, six of the eight dining tables, the communal table, and the bar stools on the side facing the lounge.
+  - **Steinringen, the centrepiece:** a built-in curved oak banquette with wool cushions (open in two places) around a flyttblokk, a glacial granite boulder with a sawn, gridded granite top.
+  - **Elva:** a suspended sculpture of the river overhead, about 230 fins standing across the current like ripples.
+    - The water runs glacier teal, mist and fjord blue, with oak glints at the bank.
+    - Every fin has a polished brass tip, and nine mirror-steel trout and grayling swim upstream.
+  - **View lounge along the south glass:** pairs of low lounge chairs with side tables on round rugs.
+  - **East glass:** two conversation groups (a sofa, two lounge chairs and a coffee table on a rug).
+  - **Kept:** the north-west sofa corner, and two tables for four for people who want to eat at a table.
+  - **WC wall:** oak slats like the core, blackened-steel portal frames, and pictograms (steel plates with brass figures) instead of text signs. The gym, daycare and lift signs are pictograms too.
 - **Sunken garden: no fence along the top** (Roman, 2026-10-12). The terraces run straight out into the forest.
 - **Lower floor (E2):** the active-play room opens onto the garden through a pair of glass doors. It has a bouldering wall with a crash mat, ribbevegg (wall bars), two felt nest swings hung from the beam, soft play and a balance beam. By the garden door there's a mudroom with a boot-wash trough, cubbies and drying cabinets.
 - **Sleep room (Roman: no bunks):** a wall-to-wall wool carpet with sleeping mats and blankets, so children sleep where they like. Spare mats live on a low shelf, and a fibre-optic star canopy hangs overhead.

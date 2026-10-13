@@ -134,8 +134,8 @@ def lining(wid, finish, side_sign, s_range=None, tag="", ext=(0.0, 0.0), z=None)
 
 lining("P-E1-2", P["feature"], -1, ext=(0.065, 0.0))   # core E east face -> reception; wraps the SE corner over the cafe-side slats
 lining("P-E1-0", P["feature"], -1)   # core E south face -> cafe
-lining("P-E1-4", P["plain"], 1)      # WC partitions facing the cafe
-lining("P-E1-5", P["plain"], 1)
+lining("P-E1-4", P["feature"], 1)    # WC block facing the cafe: oak slats like the core beside it (Roman: the plain wall was lame)
+lining("P-E1-5", P["feature"], 1)
 # interior face of the facade header bands round the hall (E + S facades)
 for wid, sign, rng_ in (("EN-header-G-E1-E", 1, (0.0, 25.7)), ("EN-header-G-E1-S", 1, None)):
     lining(wid, P["header"], sign, rng_)
