@@ -391,7 +391,16 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - **Ceiling:** oak acoustic slats along the bridge on black felt, stopping at each of the five glulam beams. No wave here, so the ladder reads.
   - **Header band** over the glass: dark inside, as in the cafe.
 - **Inside, only two benches:** backless walnut planks on blackened-steel sleds in the outer bays, one facing the falls and one the gorge downstream.
-- **Way out to the decks:** one lift-and-slide leaf per side is slid open behind its neighbour (the bay between the posts at x 5.0 to 7.2), on a flush inner track. The full fold-away system for opening the whole wall is still to be designed.
+- **The glass walls open fully (Roman: sliding, mechanically correct):** a frameless slide-and-turn system (as Sunflex SF25 / Solarlux SL 25).
+  - 20 panels per side of 10 mm toughened low-iron glass, about 0.91 x 2.72 m (~65 kg) each.
+  - Each panel rides on two stainless rollers in a drained floor track recessed flush in the oak, guided at the top by a blackened-steel beam.
+  - The posts stand in the old glass line, so the track runs just inside them and the panels pass them. Only the fixed clerestory (3.0 to 4.0 m) stays in the post line.
+  - The floor's 1:150 rise is followed by the track and the guide alike, parallel, so every panel is identical. The guide beam is level on top and tapers below.
+  - Downhill pull on a panel is about 8 N against about 25 N to break it away, so panels stay where they're left. Floor bolts lock them shut.
+  - To open, each panel slides to its end, swings 90° inward and parks: two stacks of ten in the corners, each about 0.45 m along the wall and 0.91 m into the room.
+  - The end panel at each corner is hinged to its jamb as the everyday door.
+  - Outside the track, a drained grating runs to the deck.
+  - `model.interior.bridge_walls` sets the state; the renders show the north side open and the south side shut.
 - **Decks:**
   - **Surface:** Kebony boards weathered silver, running east-west, on pedestals over a waterproofing membrane. The deck sits 15 mm below the bridge floor, with a slot drain along each threshold (level access).
   - **North deck (the falls view):** two outdoor versions of the cafe's sofa group, each with the sofa's back to the glass, a honed-granite low table (the boulder's stone) and two chairs. One group sits on the falls' axis. Three standing tables (oiled oak on steel, footrest ring, bag hook, tealight) stand at the balustrade between the groups.
@@ -399,6 +408,24 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - **Outdoor furniture:** the cafe's forms in oiled oak with oat outdoor canvas. Sheepskins, a wool pledd on each sofa arm and a basket of wool blankets by each sofa.
   - **Under the eave:** infrared heaters over the sofas, and downlights in the oak soffit.
 - **Services:** sprinklers and smoke detectors mid-bay in the slat ceiling, and lit exit signs hung from the end beams.
+
+### The gallery: where the bridge becomes the gym (2026-10-12, Roman: "be thoughtful to how the locker rooms will work ... as the bridge transitions it then becomes the gym, so proper gym flooring, different lighting, different vibe")
+
+- **Kilden (the spring) on the bridge axis:** walking off the bridge you used to look straight into the men's doorway. Now you look at Kilden.
+  - A 1.6 m niche in honed larvikite (Norway's national stone).
+  - A sheet of water runs from a stainless lip into a long trough, with a sensor bottle filler over a grate and a drinking spout (the locker list's water refill). "KILDEN" is in small brass letters.
+  - A light behind the top lip washes the water.
+  - The story runs through the building: Elva (the river) in the cafe, the salmon ladder on the bridge, the spring where the gym begins.
+  - The pump, filter and chiller sit in a box behind it, in the men's room.
+- **Locker entries, re-planned (tools/layout_v1.py + partitions.py `PLACE`):** two 1.5 m entries flank Kilden, mirror-symmetric about the bridge axis, each in a blackened-steel portal with its pictogram on the outer side.
+  - The women's entry falls on the men's frontage, so a 2.8 x 1.9 m vestibule taken from the men's room turns north into the women's room. It's private by its geometry.
+  - The men's entry has an oak baffle 2 m in.
+- **The gym begins at a blackened-steel threshold** on the facade line, where the bridge oak ends.
+  - **Floor:** premium interlocking impact tiles, as luxury and commercial gyms use (Roman). They are 30 mm thick, 1.0 x 1.0 m, with a dense EPDM wear layer, near-black with about 8 % grey and oat fleck, over an SBR base on hidden connectors (cf. SPORTEC Style at Third Space). Each tile has eased edges and a tight dark seam, on an acoustic underlay. They run through the gallery and the whole F1 hall.
+  - **Ceiling:** wood-wool acoustic panels (600 x 1200 x 35, natural) between the glulam beams.
+  - **Light:** recessed 3500 K linear lines in the ceiling, crisper than the bridge's 2700 K, plus a floor-recessed grazer at the foot of the oak slat wall (VISION: light recessed in ceilings and floors).
+  - **The wall:** the oak slats run to the beams' soffit (4.34), with warm plaster above.
+- **Still to do in the gallery and lockers:** the locker rooms themselves, and the F1 hall's equipment and lighting.
 
 ## Open questions
 

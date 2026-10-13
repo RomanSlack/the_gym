@@ -47,12 +47,15 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 - **Furniture:** two walnut benches inside, outdoor cafe sofa groups and standing tables on the decks.
 - **Rejected by Roman:** rugs on the bridge (out of place).
 - Anything on the bridge floor sits at `zf(x) = 0.12 * (x + 6.45) / 18.45`, and on the decks at `zf(x) - 0.015`.
-- **Still open on the bridge:**
-  - The full fold-away / slide-and-turn system so the glass walls really open fully. Today one leaf per side is slid open as the doorway to each deck.
-  - The gallery (`gallery`, F1, x -11.6..-6.45) where the bridge lands. It's still raw (white wall, dark doorways), and it's the first thing you see down the bridge.
+- **Glass walls:** slide-and-turn, fully opening (`slide_wall` in furniture.py; state in `model.interior.bridge_walls`).
+- **The gallery is done (VISION "The gallery"):**
+  - Kilden on the bridge axis, with the locker entries re-planned mirror-symmetric round it (layout_v1.py polygons + partitions.py `PLACE`).
+  - Impact-tile floor and wood-wool ceiling over the gallery + the F1 hall (interior.py).
+  - 3500 K linear lights and a floor grazer.
+  - Cameras `gal_*`; bridge + gallery cameras get +2.2 exposure, not +2.8.
 
 **Then:**
-1. the gallery (the bridge's landing), then the gym F1 hall: stretching, cardio, calisthenics, the locker rooms (wet-room rules already in VISION)
+1. the locker rooms (wet-room rules in VISION; the entries are fixed now), then the gym F1 hall: stretching, cardio, calisthenics (floor + ceiling done, equipment + lighting to do) (wet-room rules already in VISION)
 2. E2: garage, bike/moto parking, game room, lift lobby
 3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
