@@ -570,11 +570,20 @@ for lad, n_, e_ in ((lad_mid, 10, 45), (lad_side(1), 7, 30), (lad_side(-1), 7, 3
 # two benches and nothing else: backless walnut planks in the outer bays, facing the view (falls north, the gorge south)
 putb("bridge_bench", BAX, -8.45, rot=180, length=3.2, note="bench facing the gorge downstream")
 putb("bridge_bench", BAX, 5.75, rot=0, length=3.2, note="bench facing the falls")
-# the doorway to each deck: one lift-and-slide leaf per side slid open behind its neighbour (bay x 5.01-7.24, between the posts)
-for gid, yl, yin in (("EN-G-link-N-0", 6.8, 6.68), ("EN-G-link-S-0", -9.5, -9.38)):
-    by_id[gid]["openings"] = [{"s": [11.495, 13.655], "z": [F1, 3.0], "type": "door", "note": "lift-and-slide leaf, slid open: the way out to the deck"}]
-    putb("slide_panel", 4.0, yin, rot=0, w=2.23, h=2.93, note="lift-and-slide leaf, slid open on its inner track")
-    putb("floor_strip", 5.03, yin, length=4.34, w=0.02, note="recessed inner track, flush")
+# the glass walls open fully (Roman: sliding, mechanically correct): a frameless slide-and-turn system on a track just inside the
+# posts (construction/furniture.py slide_wall). The old glass line keeps only its fixed clerestory (3.0-4.0) and the posts.
+# Shown: the north wall (the falls) open and parked in the corners, the south wall shut. model.interior.bridge_walls sets it.
+BW = m.setdefault("interior", {}).setdefault("bridge_walls", {"N": "open", "S": "closed"})
+for gid, yt, x0_, x1_, sd in (("EN-G-link-N-0", 6.69, -6.39, 11.95, "N"), ("EN-G-link-S-0", -9.39, -6.39, 11.825, "S")):
+    g_ = by_id[gid]
+    g_["openings"] = [{"s": [0.0, 18.45], "z": [F1, 3.0], "type": "door", "note": "slide-and-turn glass wall: the panels run inside the posts"}]
+    Lw = round(x1_ - x0_, 3)
+    if sd == "N":  # local x east, +y outside (north)
+        putb("slide_wall", x0_, yt, rot=0, z=zf(x0_), length=Lw, rise=round(zf(x1_) - zf(x0_), 4), n=20, state=BW["N"], head=round(3.07 - zf(x0_), 4),
+             note="slide-and-turn glass wall (north): 20 frameless panels, parked in two stacks when open")
+    else:          # rot 180: local x runs west from the east end, +y outside (south)
+        putb("slide_wall", x1_, yt, rot=180, z=zf(x1_), length=Lw, rise=round(zf(x0_) - zf(x1_), 4), n=20, state=BW["S"], head=round(3.07 - zf(x1_), 4),
+             note="slide-and-turn glass wall (south)")
 # services: sprinklers + smoke detectors in the slat ceiling, mid-bay between the beams, clear of the ladder; exit signs at both ends
 k = 0
 for i in range(4):
@@ -589,10 +598,10 @@ putb("exit_sign", BEAMS[0], BAY + 0.9, rot=-90, z=F1, mount=2.75, hang_to=BEAM_B
 zd = lambda x: round(zf(x) - 0.015, 4)
 def putd(kind, x, y, rot=0.0, z=None, **kw):
     putb(kind, x, y, rot=rot, zone="deck", z=zd(x) if z is None else z, **kw)
-for yd, x1 in ((6.92, 11.8), (-9.62, 11.92)):
+for yd, x1 in ((6.8425, 11.95), (-9.5425, 11.825)):  # outside the glass walls' track to the deck boards: a drained grating (posts stand in it)
     xs_ = [-6.39 + 2.0 * i for i in range(int((x1 + 6.39) / 2.0) + 1)] + [x1]
     for xa, xb in zip(xs_, xs_[1:]):
-        putd("floor_strip", (xa + xb) / 2, yd, length=round(xb - xa, 3), w=0.12, style="grate", note="slot drain at the threshold")
+        putd("floor_strip", (xa + xb) / 2, yd, length=round(xb - xa, 3), w=0.275, style="grate", note="drained grating at the threshold")
 def group(xg, yb, face):  # the cafe's sofa group made for the deck: sofa with its back to the glass, a granite table, two chairs
     s_ = 1 if face == "N" else -1; r0 = 0 if face == "N" else 180
     putd("deck_sofa", xg, yb + s_ * 0.4, rot=r0, length=2.2, note="outdoor sofa (the cafe's, in oiled oak + canvas)")
@@ -619,6 +628,36 @@ for xt in (-4.0, 2.0, 3.7):
 for (x, y) in ((-2.4, 8.9), (2.9, 8.9), (8.6, 8.9), (-0.6, -11.0), (2.85, -11.0), (9.2, -11.0)):  # in the oak eave soffit
     putb("downlight", x, y, zone="deck", z=F1, z_ceiling=5.6, light={"type": "SPOT", "energy": 120, "spot_deg": 70, "blend": 1.0, "radius": 0.05,
          "offset": [0, 0, 5.42], "aim": [x, y, 0.0], "color": WARM})
+
+# ---- the gallery: where the bridge becomes the gym (Roman, 2026-10-12). Across from the bridge, on its axis: Kilden, the spring,
+# flanked mirror-symmetric by the two locker entries (tools/layout_v1.py), each in a blackened-steel portal with its pictogram on the
+# outer side; an oak baffle inside the men's entry (the women's turns through its own vestibule). The floor is the gym's rubber from a
+# steel threshold on the facade line; recessed 3500 K linear lights in the wood-wool ceiling, and a light slot in the floor grazing
+# the oak wall.
+WF = -11.6 + 0.075 + 0.065   # gallery face of the oak slats
+putb("kilden", WF, BAY, rot=-90, zone="gallery", z=F1, note="Kilden: the spring on the bridge axis, water wall, bottle filler, drinking spout")
+putb("light_only", WF - 0.3, BAY, rot=-90, zone="gallery", z=F1, light={"type": "AREA", "energy": 14, "size": 1.4, "size_y": 0.04, "offset": [0, 0, 2.44],
+     "aim": [WF - 0.56, BAY, 1.2], "color": [1.0, 0.86, 0.7]}, note="light washing Kilden's water wall")
+for yc, fig, yp in ((-3.145, "man", -4.55), (0.45, "woman", 1.85)):
+    putb("portal_frame", -11.6 + 0.075 + 0.065, yc, rot=-90, zone="gallery", z=F1, width=1.5, height=2.4, depth=0.215, note=f"{fig}'s locker entry, blackened steel")
+    putb("pictogram", WF, yp, rot=-90, zone="gallery", z=F1, figure=fig, size=0.36, mount=1.62, note=f"{fig}'s changing")
+putb("baffle_screen", -13.6, -3.06, rot=90, zone="gallery", z=F1, width=2.1, height=2.4, note="men's entry privacy baffle (oak slats both faces)")
+putb("floor_strip", -6.45, BAY, rot=90, zone="gallery", z=F1, length=16.3, w=0.04, note="blackened-steel threshold: the bridge oak ends, the gym begins")
+for ya, yb in ((-9.2, -4.0), (1.35, 12.0)):  # light slot at the foot of the oak wall, skipping the entries + Kilden
+    for k in range(int((yb - ya) / 2.6 + 0.999)):
+        a_, b_ = ya + (yb - ya) * k / int((yb - ya) / 2.6 + 0.999), ya + (yb - ya) * (k + 1) / int((yb - ya) / 2.6 + 0.999)
+        putb("floor_grazer", WF + 0.06, (a_ + b_) / 2, rot=90, zone="gallery", z=F1, length=round(b_ - a_ - 0.02, 3),
+             light={"type": "AREA", "energy": 30, "size": round(b_ - a_, 2), "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [WF - 0.3, (a_ + b_) / 2, 3.5],
+                    "color": [1.0, 0.85, 0.68]}, note="floor-recessed grazer up the oak wall")
+WB = sorted(e["from"][1] for e in m["elements"] if e["type"] == "beam" and e["id"].endswith("-RF-west"))
+for xl in (-10.1, -7.95):  # two recessed linear lines along the gallery, one run per bay between the beams
+    for ya, yb in ((-9.3, -3.3), (-3.3, 4.4), (4.4, 12.1)):
+        a_, b_ = ya + 0.45, yb - 0.45
+        putb("linear_light", xl, (a_ + b_) / 2, rot=90, zone="gallery", z=F1, length=round(b_ - a_, 3), z_ceiling=5.58,
+             light={"type": "AREA", "energy": round(18 * (b_ - a_)), "size": round(b_ - a_, 2), "size_y": 0.05, "offset": [0, 0, 5.5],
+                    "aim": [xl, (a_ + b_) / 2, 0.0], "color": [1.0, 0.92, 0.82]}, note="recessed linear light, 3500 K")
+put("exit_sign", -9.5, 12.35 - 0.125, rot=180, zone="gallery", level="F1", z=F1, mount=2.45, note="nødutgang: core W3 (north exit stair)")
+services(-10.9, -7.0, -8.6, 11.9, "F1", 5.48, 5.6)
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)

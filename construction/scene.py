@@ -229,7 +229,10 @@ for ph in range(1, STAGE + 1):
                     bc.oriented_box(f"{e['id']}_head{k}", P(sa), P(sb), fd, o_["z"][1], o_["z"][1] + fw, MAT["frame"], coll)
             for k, s_ in enumerate([0.0] + e["mullions"] + [WL]):
                 a_, b_ = max(0.0, s_ - fw / 2), min(WL, s_ + fw / 2)
-                if any(o["s"][0] + 0.01 < s_ < o["s"][1] - 0.01 for o in ops_):
+                o_ = next((o for o in ops_ if o["s"][0] + 0.01 < s_ < o["s"][1] - 0.01), None)
+                if o_ is not None:  # inside a door opening the mullion carries on above it only (the glass does too)
+                    if z1 - o_["z"][1] > 0.05:
+                        bc.oriented_box(f"{e['id']}_m{k}", P(a_), P(b_), fd, o_["z"][1], z1, MAT["frame"], coll)
                     continue
                 bc.oriented_box(f"{e['id']}_m{k}", P(a_), P(b_), fd, z0, z1, MAT["frame"], coll)
         elif e["type"] == "wall" and e.get("kind") == "clad":  # black board-on-board: the wall + a top board every 0.3 m (real geometry, arrayed)
@@ -500,6 +503,14 @@ CAMS = {
     "br_ladder": ((6.6, -4.3, 1.45), (2.6, -0.8, 3.95), 17),
     "br_to_deck": ((3.4, 0.6, 1.64), (6.4, 9.5, 1.3), 18),
     "deck_n": ((11.2, 10.7, 1.66), (-4.5, 8.4, 1.2), 18),
+    "br_open": ((6.2, -6.6, 1.66), (-1.5, 9.5, 1.3), 17),
+    "br_stack": ((8.6, 3.6, 1.6), (11.5, 6.3, 1.4), 22),
+    "br_track_s": ((6.2, -7.2, 1.1), (4.0, -9.45, 0.5), 24),
+    # the gallery: where the bridge becomes the gym
+    "gal_from_bridge": ((-2.6, -1.35, 1.66), (-11.6, -1.35, 1.5), 20),
+    "gal_kilden": ((-8.5, -0.5, 1.55), (-11.9, -1.35, 1.25), 24),
+    "gal_entries": ((-7.0, -7.4, 1.62), (-11.6, -0.4, 1.5), 18),
+    "gal_south": ((-8.9, 10.6, 1.66), (-9.6, -20.0, 1.3), 18),
     "deck_n_falls": ((0.3, 7.08, 1.7), (-3.0, 32.0, -1.0), 20),
     "deck_s": ((11.4, -12.15, 1.66), (-4.5, -10.4, 1.1), 18),
     "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
@@ -544,13 +555,13 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_", "br_")) else 0.0)  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

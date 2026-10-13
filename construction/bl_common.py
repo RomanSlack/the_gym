@@ -684,6 +684,7 @@ def interior_materials():
         "stone_light": pbr_material("stone_light", "smooth_concrete_floor", 2.0, tint=(1.0, 0.98, 0.95), box=True, rough_mul=0.6, rough_add=0.15, piece_var=0.05, sat=0.2, val=2.0),
         "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
         "ash_fin": pbr_material("ash_fin", "ash_veneer", 1.0, box=True, tint=(1.05, 1.02, 0.95), sat=0.45, val=1.75, piece_var=0.06),
+        "gym_rubber": gym_rubber(), "wood_wool": wood_wool(),
         # outdoor decking: Kebony, weathered to its silver grey (like the old boat houses), still warm in the grain
         "decking": pbr_material("decking_kebony", "ash_veneer", 1.0, box=True, tint=(0.78, 0.76, 0.73), sat=0.18, val=0.95, piece_var=0.1, rough_add=0.15),
         "impact_mat": material("impact_mat", (0.05, 0.05, 0.05), 0.9),
@@ -693,6 +694,51 @@ def interior_materials():
         "tile_glazed": glazed_tile(),
         "carpet_wool": pbr_material("carpet_wool", "poly_wool_herringbone", 0.27, tint=(1.0, 0.96, 0.9), sat=0.3, val=1.25, piece_var=0.0),
     }
+
+
+def gym_rubber(name="gym_rubber"):
+    """Sports rubber flooring (where the bridge becomes the gym): 10 mm vulcanised rubber on a shock pad, deep charcoal with ~12 %
+    EPDM flecks in grey and oat (2-4 mm granules), a fine matte grain, satin where it is walked."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
+    v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 330.0; L.new(tc.outputs["Object"], v.inputs["Vector"])
+    r = N.new("ShaderNodeValToRGB"); L.new(v.outputs["Color"], r.inputs["Fac"])
+    e = r.color_ramp.elements; e[0].position = 0.86; e[0].color = (0.014, 0.014, 0.015, 1); e[1].position = 0.88; e[1].color = (0.16, 0.155, 0.15, 1)
+    e2 = r.color_ramp.elements.new(0.95); e2.color = (0.3, 0.27, 0.22, 1)
+    L.new(r.outputs["Color"], b.inputs["Base Color"])
+    g = N.new("ShaderNodeTexNoise"); g.inputs["Scale"].default_value = 900.0; L.new(tc.outputs["Object"], g.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.15; bp.inputs["Distance"].default_value = 0.0005
+    L.new(g.outputs["Fac"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    rn = N.new("ShaderNodeTexNoise"); rn.inputs["Scale"].default_value = 1.5; L.new(tc.outputs["Object"], rn.inputs["Vector"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.55; rr.inputs["To Max"].default_value = 0.75
+    L.new(rn.outputs["Fac"], rr.inputs["Value"]); L.new(rr.outputs["Result"], b.inputs["Roughness"])
+    return m
+
+
+def wood_wool(name="wood_wool"):
+    """Wood-wool acoustic panels (the Nordic gym ceiling, Troldtekt-style): spruce strands ~1.5 mm bound in cement, natural pale
+    greige, a deep fibrous texture (strands at random angles) that soaks up sound."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.95; tc = N.new("ShaderNodeTexCoord")
+    n1 = N.new("ShaderNodeTexNoise"); n1.inputs["Scale"].default_value = 140.0; n1.inputs["Detail"].default_value = 6; n1.inputs["Distortion"].default_value = 6.0
+    L.new(tc.outputs["Object"], n1.inputs["Vector"])
+    w = N.new("ShaderNodeTexWave"); w.wave_type = "BANDS"; w.inputs["Scale"].default_value = 260.0; w.inputs["Distortion"].default_value = 18.0
+    w.inputs["Detail"].default_value = 4.0; L.new(tc.outputs["Object"], w.inputs["Vector"])
+    mx = N.new("ShaderNodeMath"); mx.operation = "MULTIPLY"; L.new(n1.outputs["Fac"], mx.inputs[0]); L.new(w.outputs["Fac"], mx.inputs[1])
+    r = N.new("ShaderNodeValToRGB"); L.new(mx.outputs[0], r.inputs["Fac"])
+    e = r.color_ramp.elements; e[0].position = 0.05; e[0].color = (0.2, 0.17, 0.13, 1); e[1].position = 0.45; e[1].color = (0.52, 0.46, 0.37, 1)
+    L.new(r.outputs["Color"], b.inputs["Base Color"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.6; bp.inputs["Distance"].default_value = 0.003
+    L.new(mx.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    return m
 
 
 def glazed_tile(name="tile_chalk", tones=((0.80, 0.78, 0.72), (0.76, 0.74, 0.68), (0.83, 0.81, 0.76), (0.73, 0.71, 0.66))):

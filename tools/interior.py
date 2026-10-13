@@ -225,7 +225,8 @@ add({"id": "IN-F1-bridge-screed", "type": "slab", "kind": "floor_finish", "mater
      "pattern": {"kind": "poured", "joint": 6.0}, "slope": SLOPE, "slope_top_only": True,
      "note": "screed with underfloor heating, laid to the 1:150 rise; its top under the oak; cut round the glass panels"})
 fb = FINISH[P["floor"]]
-add({"id": "IN-F1-bridge-floor", "type": "slab", "kind": "floor_finish", "material": fb["material"], "rect": BR, "z": [round(F1v - fb["t"], 3), F1v], "holes": GLASS,
+# the oak stops at the sliding glass walls' floor track, just inside the posts (tools/furnish.py); outside it a drained grating
+add({"id": "IN-F1-bridge-floor", "type": "slab", "kind": "floor_finish", "material": fb["material"], "rect": [BR[0], -9.375, BR[2], 6.675], "z": [round(F1v - fb["t"], 3), F1v], "holes": GLASS,
      "pattern": {**{k: v for k, v in fb.items() if k not in ("material", "t")}, "dir": "x"}, "slope": SLOPE,
      "note": "white-oiled oak boards running the length of the bridge (east-west, they lead on to the gym), rising 0.00 (gym) -> 0.12 "
              "(cafe) at 1:150: no step at either end; cut round the glass panels"})
@@ -253,6 +254,46 @@ for nm, (r, holes) in DECKS.items():
     add({"id": f"IN-F1-deck{nm}-boards", "type": "slab", "kind": "floor_finish", "material": "decking", "rect": r, "z": [round(F1v - 0.015 - 0.028, 3), round(F1v - 0.015, 3)],
          "holes": holes, "pattern": {"kind": "boards", "w": 0.126, "L": [3.0, 3.6, 4.2], "gap": 0.006, "dir": "x"}, "slope": SLOPE,
          "note": "28 x 120 Kebony decking, 6 mm gaps, on adjustable pedestals; top 15 mm below the bridge floor, rising with it at 1:150"})
+
+# ---- zone: the gallery + the F1 gym hall (Roman, 2026-10-12: as the bridge lands it becomes the gym: proper gym flooring, different
+# lighting, a different vibe). The oak ends at a blackened-steel threshold on the facade line (x -6.45); from there:
+#   - floor: 10 mm charcoal sports rubber with grey + oat EPDM flecks on a 15 mm shock pad, over impact mat + screed (UFH), in
+#     1.25 m rolls; through the gallery and the whole hall (equipment zones come with the hall)
+#   - ceiling: wood-wool acoustic panels (600 x 1200 x 35, natural) between the glulam beams, on battens under the CLT
+#   - the gallery wall across from the bridge: oak slats 45 @ 65 on black battens up to the beams' soffit (4.34), the locker entries
+#     and the Kilden niche cut through; warm plaster above
+GAL = [-11.6, -9.3, -6.45, 12.1]
+HALL = [-29.45, -34.1, -6.45, -9.3]
+_sp = next(st for st in m["stairs"] if st["id"] == "spiral_west")
+HALL_HOLES = [{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"},
+              {"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.85, -25.1], "note": "core W2"}]
+RUB = {"kind": "slabs", "w": 1.25, "L": [12.0], "gap": 0.001, "dir": "y", "bond": "stack"}
+for nm, r, holes in (("gallery", GAL, []), ("hall", HALL, HALL_HOLES)):
+    add({"id": f"IN-F1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
+    add({"id": f"IN-F1-{nm}-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": r, "z": [round(F1v - 0.08, 3), round(F1v - 0.025, 3)],
+         "holes": holes, "pattern": {"kind": "poured", "joint": 6.0}, "note": "screed with underfloor heating"})
+    add({"id": f"IN-F1-{nm}-pad", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.025, 3), round(F1v - 0.01, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "15 mm shock pad (sports floor)"})
+    add({"id": f"IN-F1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": "gym_rubber", "rect": r, "z": [round(F1v - 0.01, 3), F1v], "holes": holes,
+         "pattern": RUB, "note": "floor finish: 10 mm charcoal sports rubber, grey + oat EPDM flecks, in 1.25 m rolls"})
+WBEAMS = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith("-RF-west"))
+for nm, r in (("gallery", GAL), ("hall", [-29.45, -34.1, -6.45, -9.3])):
+    beam_cuts = [{"rect": [r[0], round(yb - 0.17, 3), r[2], round(yb + 0.17, 3)], "note": "glulam beam"} for yb in WBEAMS if r[1] - 0.2 < yb < r[3] + 0.2]
+    add({"id": f"IN-F1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": "wood_wool", "rect": r, "z": [round(RF - 0.06, 3), round(RF - 0.025, 3)],
+         "holes": beam_cuts + ([{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}] if nm == "hall" else []),
+         "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
+         "note": "wood-wool acoustic panels 600 x 1200 x 35, natural, on battens under the CLT, between the glulam beams"})
+# Kilden, the spring, on the bridge axis (y -1.35) between the two locker entries: a 1.6 m niche cut through the men's gallery wall
+# (its granite lining, water wall, trough and taps: tools/furnish.py)
+KW = next(e for e in by_id.values() if e["id"].startswith("P-F1-") and set(e.get("between", [])) == {"men-lockers", "gallery"})
+ks = lambda y: round(abs(y - KW["from"][1]), 3)
+KW["openings"].append({"s": sorted([ks(-2.15), ks(-0.55)]), "z": [F1v, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"})
+# the gallery wall across from the bridge (gallery faces of the locker partitions): oak slats to the beams, plaster above
+for e in [e for e in by_id.values() if e["id"].startswith("P-F1-") and "gallery" in e.get("between", [])]:
+    sg = 1 if (e["to"][1] - e["from"][1]) > 0 else -1  # the gallery is east (+x) of these walls
+    lining(e["id"], P["feature"], -sg, tag="-gal", z=[F1v, 4.34])
+    lining(e["id"], P["plain"], -sg, tag="-gal-top", z=[4.34, RF])
 
 # ---- the staff toilet: a small walled room in the staff room's south-east corner (Roman: not an odd booth), stud walls to 2.7 m with
 # a plastered lid (the staff room stays tall and open to its new forest window), tiled inside like every wet room

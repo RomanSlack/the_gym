@@ -2912,25 +2912,150 @@ def ir_heater(P, z_top=5.615, L=1.4):
         P.rod(M["steel"], (x, 0, z + 0.03), (x, 0, z_top), 0.008, seg=8)
 
 
-def slide_panel(P, w=2.23, h=3.0):
-    """A lift-and-slide glass leaf, slid open behind its neighbour (the doorway to the deck): 60 mm blackened-steel frame,
-    triple glazing, a long oak pull on both faces, on its own inner track (recessed flush in the floor)."""
-    fr = M["frame"]
-    P.box(M["glass"], (0, 0, h / 2), (w - 0.1, 0.03, h - 0.1))
-    for x in (-w / 2 + 0.03, w / 2 - 0.03):
-        P.box(fr, (x, 0, h / 2), (0.06, 0.07, h))
-    for z in (0.03, h - 0.03):
-        P.box(fr, (0, 0, z), (w, 0.07, 0.06))
-    for y in (-0.05, 0.05):
-        P.rod(M["oak"], (w / 2 - 0.12, y, 0.8), (w / 2 - 0.12, y, 1.9), 0.015)
-
-
 def gate_release(P):
     """Green emergency release (nødåpning) for the gates: a break-glass call point on the column, at 1.2 m."""
     g = M.setdefault("sign_green", bc.material("sign_green", (0.04, 0.4, 0.18), 0.5))
     P.box(g, (0, 0.025, 1.2), (0.09, 0.05, 0.09))
     P.box(M.setdefault("sign_white", bc.material("sign_white", (0.92, 0.92, 0.9), 0.5)), (0, 0.0505, 1.2), (0.05, 0.002, 0.05))
     P.box(M["glass"], (0, 0.053, 1.2), (0.07, 0.003, 0.07))
+
+
+def slide_wall(P, L=18.3, rise=0.12, n=20, state="closed", head=3.07):
+    """The bridge's glass walls, made to open fully: a frameless slide-and-turn system (as Sunflex SF25 / Solarlux SL 25):
+    20 panels of 10 mm toughened low-iron glass, ~0.91 x 2.72 m (~65 kg), each on two stainless rollers in a drained floor track
+    recessed flush in the oak and guided at the top in a blackened-steel guide beam. The bridge's slim posts stand in the old glass
+    line, so the track runs just inside them and the panels pass them. The floor rises 1:150 (gym -> cafe): track and guide both
+    follow it, parallel, so every panel is the same; the guide beam is level on top under the fixed clerestory and tapers with the
+    floor below (that is all the slope shows). Downhill pull on a panel ~8 N against ~25 N to break it away: it stays where it is
+    left, and floor bolts lock each one shut. To open, each panel slides to its end of the bridge, its leading roller drops out of
+    the guide at the turning point and it swings 90 degrees inward about the other, parking beside the last: two stacks of ten,
+    ~0.45 m along the wall, 0.91 m into the room, in the corners. The first panel at each end is hinged to its jamb: the everyday
+    door when the wall is shut. Local frame: x along the track from its start (floor height there = 0), +y = outside (the deck),
+    rise = floor rise over L; head = top of the guide beam (level). state 'closed' | 'open' (parked)."""
+    st, gl = M["steel"], M["glass"]
+    zf = lambda x: rise * x / L
+    P.prism(M["brushed"], [(0, -0.02), (L, rise - 0.02), (L, rise + 0.0005), (0, 0.0005)], -0.016, 0.016)       # floor track (stainless)
+    P.prism(M["felt"], [(0, -0.0005), (L, rise - 0.0005), (L, rise + 0.001), (0, 0.001)], -0.004, 0.004)          # its running slot
+    gb = 2.74                                                                                                     # guide beam underside above the floor
+    P.prism(st, [(0, gb), (L, rise + gb), (L, head), (0, head)], -0.05, 0.05)
+    P.prism(M["felt"], [(0, gb - 0.001), (L, rise + gb - 0.001), (L, rise + gb + 0.002), (0, gb + 0.002)], -0.008, 0.008)  # the guide slot
+    jw = 0.05
+    for x in (jw / 2, L - jw / 2):                                                                               # wall jambs (seal + door hinge side)
+        P.box(st, (x, 0, (zf(x) + head) / 2), (jw, 0.09, head - zf(x)))
+    pw = (L - 2 * jw) / n
+    hp = gb - 0.02 - 0.012                                                                                        # panel height (12 mm off the floor, 20 mm into the guide)
+    def panel(c, rz_, z0, door=False):
+        """one panel: glass + bottom roller profile + top guide profile, centred on c (its hinge-free centre), turned rz_"""
+        cx, cy = c
+        for zc, h_, mat, t in ((z0 + 0.02, 0.04, st, 0.03), (z0 + hp - 0.0175, 0.035, st, 0.03), (z0 + hp / 2, hp - 0.06, gl, 0.010)):
+            P.box(mat, (cx, cy, zc), (pw - 0.004, t, h_) if abs(rz_) < 1e-6 else (t, pw - 0.004, h_))
+        # a slim blackened-steel pull on the inside face, at the leading edge
+        if abs(rz_) < 1e-6:
+            P.box(st, (cx + pw / 2 - 0.08, -0.02, z0 + 1.05), (0.015, 0.02, 0.32))
+        else:
+            P.box(st, (cx - 0.02, cy - pw / 2 + 0.08, z0 + 1.05), (0.02, 0.015, 0.32))
+    half = n // 2
+    for k in range(n):
+        if state == "closed":
+            x0 = jw + k * pw
+            panel((x0 + pw / 2, 0.0), 0.0, max(zf(x0), zf(x0 + pw)) + 0.012)
+        else:  # parked: west half at the start, east half at the far end, each swung 90 deg inward about its end roller
+            j = k if k < half else n - 1 - k
+            xp = jw + 0.03 + j * 0.045 if k < half else L - jw - 0.03 - j * 0.045
+            panel((xp, -pw / 2), 90.0, zf(xp) + 0.012)
+    for k in range(n):  # floor bolt sockets (each panel locks shut here)
+        x = jw + (k + 0.85) * pw
+        P.cyl(M["brushed"], (x, -0.03, zf(x) - 0.002), 0.008, 0.0025, seg=12)
+
+
+def _larvikite(name="larvikite_honed"):
+    """Honed larvikite, Norway's national stone (from Larvik): near-black blue-grey with big feldspar crystals that flash
+    silver-blue (labradorescence) as you move; honed to a satin."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
+    v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 55.0; L.new(tc.outputs["Object"], v.inputs["Vector"])
+    r = N.new("ShaderNodeValToRGB"); L.new(v.outputs["Color"], r.inputs["Fac"])
+    e = r.color_ramp.elements; e[0].position = 0.3; e[0].color = (0.025, 0.028, 0.032, 1); e[1].position = 0.75; e[1].color = (0.11, 0.13, 0.16, 1)
+    e3 = r.color_ramp.elements.new(0.9); e3.color = (0.22, 0.27, 0.33, 1)
+    L.new(r.outputs["Color"], b.inputs["Base Color"])
+    mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.75; mr.inputs["From Max"].default_value = 0.95
+    mr.inputs["To Min"].default_value = 0.0; mr.inputs["To Max"].default_value = 0.6; L.new(v.outputs["Distance"], mr.inputs["Value"])
+    bw = N.new("ShaderNodeRGBToBW"); L.new(v.outputs["Color"], bw.inputs[0])
+    mt = N.new("ShaderNodeMapRange"); mt.inputs["From Min"].default_value = 0.8; mt.inputs["From Max"].default_value = 1.0
+    mt.inputs["To Min"].default_value = 0.0; mt.inputs["To Max"].default_value = 0.7; L.new(bw.outputs[0], mt.inputs["Value"])
+    L.new(mt.outputs["Result"], b.inputs["Metallic"])  # the feldspar flash
+    b.inputs["Roughness"].default_value = 0.22
+    return m
+
+
+def kilden(P):
+    """'Kilden' (the spring): where the gym begins, on the bridge axis between the two locker entries. A 1.6 m niche lined in
+    honed larvikite (Norway's national stone, near-black with blue-silver feldspar: it holds the axis against the light oak); a sheet of water slides down its back wall from a stainless lip into a long granite
+    trough; a sensor bottle filler on a blackened-steel grate on the left, a drinking spout on the right; 'KILDEN' in small brass
+    letters on the trough. A linear light behind the top lip washes the water. Elva (the river) runs through the cafe, the salmon
+    ladder climbs the bridge, and the spring is where they come from. Origin = niche centre on the gallery face of the wall
+    (the oak slats), +y = towards the gallery; the stud box behind houses pump, filter + chiller (service hatch from the men's room)."""
+    gr = _larvikite()
+    W, D, H, T = 1.6, 0.6, 2.5, 0.03
+    P.box(gr, (0, -D + T / 2, H / 2), (W, T, H))                               # back
+    for sx in (-1, 1):
+        P.box(gr, (sx * (W / 2 - T / 2), -D / 2, H / 2), (T, D, H))            # sides
+    P.box(gr, (0, -D / 2, H - T / 2), (W, D, T))                               # top
+    P.box(gr, (0, -D / 2, 0.01), (W, D, 0.02))                                 # floor of the niche
+    # the trough: a granite block 0.95 high, hollowed, the water in it
+    P.box(gr, (0, -0.33, 0.885), (W - 2 * T, 0.5, 0.13))
+    film = M.get("water_sheet")
+    if film is None:  # running water: clear and glossy, rippled in long vertical streaks
+        film = bc.material("water_sheet", (0.08, 0.1, 0.1), 0.02, alpha=0.55)
+        N_, L_ = film.node_tree.nodes, film.node_tree.links
+        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 45.0
+        wv.inputs["Distortion"].default_value = 9.0; wv.inputs["Detail"].default_value = 6.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.5; bp_.inputs["Distance"].default_value = 0.002
+        L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
+        M["water_sheet"] = film
+    P.box(film, (0, -0.33, 0.951), (W - 2 * T - 0.06, 0.44, 0.002))
+    P.box(gr, (0, -0.33, 0.4), (W - 2 * T - 0.2, 0.38, 0.8))                   # the block below (holds the tank's overflow + drain)
+    P.box(M["felt"], (0, -0.13, 0.04), (W - 2 * T - 0.2, 0.02, 0.06))          # shadow kick under the front
+    # the water wall: a stainless lip at 2.2, a thin sheet of water down the back into the trough
+    P.box(M["brushed"], (0, -D + T + 0.02, 2.2), (W - 2 * T - 0.1, 0.04, 0.012))
+    P.box(film, (0, -D + T + 0.004, (2.2 + 0.95) / 2), (W - 2 * T - 0.12, 0.004, 2.2 - 0.95))
+    # bottle filler (left): a blackened-steel spout block on the back wall over a grate, its sensor window
+    P.box(M["steel"], (-0.42, -D + T + 0.05, 1.32), (0.16, 0.1, 0.22))
+    P.box(M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08)), (-0.42, -D + T + 0.101, 1.36), (0.05, 0.002, 0.03))
+    P.cyl(M["brushed"], (-0.42, -D + T + 0.08, 1.19), 0.012, 0.025, seg=16)
+    for k in range(9):
+        P.box(M["steel"], (-0.62 + k * 0.05, -0.33, 0.955), (0.008, 0.42, 0.012))  # grate bars over the trough (bottles stand here)
+    # drinking spout (right): a gooseneck rising from the trough rim
+    P.rod(M["steel"], (0.45, -0.45, 0.95), (0.45, -0.45, 1.12), 0.012, seg=14)
+    P.rod(M["steel"], (0.45, -0.45, 1.12), (0.45, -0.36, 1.16), 0.012, seg=14)
+    P.box(M["steel"], (0.6, -0.09, 0.9), (0.06, 0.02, 0.03))                   # push button on the trough front
+    # the light: behind the top lip
+    P.box(M["opal"], (0, -D / 2, H - T - 0.012), (W - 2 * T - 0.1, 0.03, 0.006))
+    P.text(M["brass"], "KILDEN", (0, -0.0785, 0.885), 0.035, depth=0.002)
+    # the stud box behind (pump, filter, chiller), painted gypsum, from the wall's back face (y -0.215) into the men's room
+    box = M.setdefault("painted_gypsum_box", bc.material("painted_gypsum_box", (0.82, 0.8, 0.76), 0.85))
+    for x0_, x1_ in ((-0.9, -W / 2), (W / 2, 1.05)):                            # solid either side of the niche (the pier)
+        P.box(box, ((x0_ + x1_) / 2, -0.55, H / 2 + 0.25), (x1_ - x0_, 0.67, H + 0.5))
+    P.box(box, (0.075, -0.935, (H + 0.5) / 2), (1.95, 0.1, H + 0.5))
+    P.box(box, (0.075, -0.6, H + 0.5 - 0.05), (1.95, 0.77, 0.1))
+
+
+def linear_light(P, L=4.0, z_ceiling=5.58):
+    """Recessed linear light for the gym (3500 K, crisper than the lounge's 2700 K): a 50 mm blackened-aluminium channel set flush
+    into the wood-wool ceiling, a 35 mm opal diffuser."""
+    P.box(M["steel"], (0, 0, z_ceiling - 0.03), (L, 0.05, 0.06))
+    P.box(_led("opal_cool", (1.0, 0.92, 0.82), 8.0), (L / 2 * 0, 0, z_ceiling - 0.061), (L - 0.02, 0.035, 0.004))
+
+
+def floor_grazer(P, L=4.0):
+    """Floor-recessed linear grazer (VISION: light recessed in floors): a 50 mm slot along the foot of the oak wall, frosted glass
+    flush with the rubber, washing the slats from below."""
+    P.box(M["steel"], (0, 0, -0.03), (L, 0.06, 0.06))
+    P.box(_led("opal_warm_floor", (1.0, 0.85, 0.68), 5.0), (0, 0, -0.002), (L - 0.02, 0.04, 0.003))
 
 
 BUILDERS = {
@@ -2962,7 +3087,8 @@ BUILDERS = {
     "menu_board": menu_board, "high_chair": high_chair, "coat_rack": coat_rack, "floor_lamp": floor_lamp, "magazines": magazines,
     "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
     "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
-    "blanket_basket": blanket_basket, "ir_heater": ir_heater, "slide_panel": slide_panel, "gate_release": gate_release,
+    "blanket_basket": blanket_basket, "ir_heater": ir_heater, "gate_release": gate_release, "slide_wall": slide_wall, "kilden": kilden,
+    "linear_light": linear_light, "floor_grazer": floor_grazer,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -2982,7 +3108,8 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "terrace_slide": ("drop",), "stump": ("r", "h"),
           "laksetrappa": ("rails", "rungs", "cables", "fish"), "glass_floor": ("depth",), "speed_gates": ("cabs", "lanes", "open_"),
           "glass_fence": ("length",), "floor_strip": ("length", "w", "style"), "bridge_bench": ("length",), "deck_sofa": ("length",),
-          "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_panel": ("w", "h")}
+          "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_wall": ("length", "rise", "n", "state", "head"), "linear_light": ("length", "z_ceiling"),
+          "floor_grazer": ("length",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -3000,7 +3127,7 @@ def build_all(model, MAT, coll):
                 if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
                             "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
-                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa") and k == "length":
+                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"

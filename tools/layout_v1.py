@@ -48,9 +48,16 @@ for g, poly in LIFTS.items():
 # ---------------------------------------------------------------- F1 (gym wing) ±0.00
 # Locker block follows Gym V2's walls exactly (x -29.45..-11.6 (pushed 2 m east into the gallery for luxury space; gallery 5 m), y -9.3..12.1), split at y 1.5:
 # per room = changing room (middle) + wet zone (outer strip), full width to the gallery (Roman: wider, extend east)
-S("women-lockers", "F1", "wet", "Women's changing · lockers", R(-29.45, 1.5, -11.6, 7.65))
+# Roman (2026-10-12): be thoughtful about how the locker rooms work from the bridge. The bridge axis (y -1.35) used to land on the
+# men's doorway. Now 'Kilden' (the spring, tools/furnish.py) sits on the axis in the gallery wall, and the two entries flank it
+# mirror-symmetric. The women's entry falls on the men's frontage, so a 2.8 x 1.9 m vestibule from the men's room carries it
+# north into the women's room (private by its own turn); the men's room keeps the rest.
+VEST = [[-14.4, -0.375], [-11.6, -0.375], [-11.6, 1.5], [-14.4, 1.5]]
+S("women-lockers", "F1", "wet", "Women's changing · lockers", [[-29.45, 1.5], [-14.4, 1.5], [-14.4, -0.375], [-11.6, -0.375], [-11.6, 7.65], [-29.45, 7.65]],
+  "entered from the gallery through its own vestibule, south of the women's room, beside Kilden")
 S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, grooming", R(-29.45, 7.65, -11.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
-S("men-lockers", "F1", "wet", "Men's changing · lockers", R(-29.45, -4.2, -11.6, 1.5))
+S("men-lockers", "F1", "wet", "Men's changing · lockers", [[-29.45, -4.2], [-11.6, -4.2], [-11.6, -0.375], [-14.4, -0.375], [-14.4, 1.5], [-29.45, 1.5]],
+  "entered from the gallery south of Kilden, an oak baffle inside")
 S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, grooming", R(-29.45, -9.3, -11.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
 S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-11.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
 S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5),

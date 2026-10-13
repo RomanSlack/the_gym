@@ -57,6 +57,9 @@ PASSAGE = {  # (room, neighbour) -> opening type
 }
 WIDTH = {"door": 1.0, "opening": 1.8, "baffle": 1.6}
 COUNT = {("women-wet", "women-lockers"): 3, ("men-wet", "men-lockers"): 3}  # Roman: several open ways in, no bottleneck
+# entries placed by design (centre point on the wall, clear width): the locker entries flank Kilden on the bridge axis (y -1.35),
+# mirror-symmetric, 1.5 m clear each (tools/layout_v1.py)
+PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "gallery"): ((-11.6, -3.15), 1.5)}
 DOOR_W = 1.0
 
 spaces = m["spaces"]
@@ -132,14 +135,17 @@ for L in sorted({sp["level"] for sp in spaces}):
             cands = [w for w in walls if w["level"] == L and set(w["between"]) == {sp["id"], t}]
             if not cands:
                 continue
-            w = max(cands, key=lambda w: LineString([w["from"], w["to"]]).length)
+            from shapely.geometry import Point
+            place = PLACE.get((sp["id"], t))
+            w = max(cands, key=lambda w: LineString([w["from"], w["to"]]).length) if not place else \
+                min(cands, key=lambda w: LineString([w["from"], w["to"]]).distance(Point(place[0])))
             Lw = LineString([w["from"], w["to"]]).length
             otype = PASSAGE.get((sp["id"], t), "door")
-            width = min(WIDTH[otype], Lw - 0.3)
+            width = min(place[1] if place else WIDTH[otype], Lw - 0.3)
             if width < 0.9:
                 continue
             n_open = COUNT.get((sp["id"], t), 1)
-            centres = [Lw * (2 * i + 1) / (2 * n_open) for i in range(n_open)]
+            centres = [LineString([w["from"], w["to"]]).project(Point(place[0]))] if place else [Lw * (2 * i + 1) / (2 * n_open) for i in range(n_open)]
             # swing into the enclosed room: which side of the wall is it on?
             (x0, y0), (x1, y1) = w["from"], w["to"]
             nx, ny = -(y1 - y0) / Lw, (x1 - x0) / Lw
