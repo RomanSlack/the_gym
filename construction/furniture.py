@@ -766,6 +766,30 @@ def _leaf(P, hinge, L, hd, ang, occupied=False, inside=True):
     P.box(M["steel"], at(0.25, -0.03, hd - 0.04), (0.35, 0.02, 0.03), rz=ang)
 
 
+def _accessible_basin(P, x, top=0.8):
+    """Wall-hung accessible washbasin in white vitreous china (550 x 450, rim at 0.8, 120 mm thin body so a wheelchair rolls
+    under it): a rounded front, a real bowl (a sunken oval with a drain), a tap ledge at the back with a long-lever single
+    mixer (operable with a fist), the trap tucked against the wall."""
+    w, d, t = 0.55, 0.45, 0.12
+    b = P.bm(M["ceramic"]); n = 48
+    def oval(rx, ry, cy, z):
+        return [b.verts.new((x + rx * math.cos(2 * math.pi * k / n), cy + ry * math.sin(2 * math.pi * k / n), z)) for k in range(n)]
+    outer_t = oval(w / 2, d / 2, d / 2, top); outer_b = oval(w / 2 - 0.02, d / 2 - 0.02, d / 2, top - t)
+    inner_t = oval(0.2, 0.15, d / 2 + 0.03, top); inner_b = oval(0.15, 0.1, d / 2 + 0.03, top - 0.1)
+    for A, B in ((outer_b, outer_t), (inner_t, inner_b)):
+        for k in range(n):
+            b.faces.new((A[k], A[(k + 1) % n], B[(k + 1) % n], B[k]))
+    for k in range(n):  # the rim between the outer edge and the bowl
+        b.faces.new((outer_t[k], outer_t[(k + 1) % n], inner_t[(k + 1) % n], inner_t[k]))
+    b.faces.new(outer_b[::-1]); b.faces.new(inner_b[::-1])
+    P.box(M["ceramic"], (x, 0.03, top - 0.06), (w - 0.1, 0.06, t))                 # back: fixes to the wall
+    P.cyl(M["steel"], (x, d / 2 + 0.03, top - 0.099), 0.025, 0.002, seg=16)         # drain
+    P.cyl(M["steel"], (x, 0.07, top), 0.022, 0.12, seg=20)                          # mixer body on the ledge
+    P.rod(M["steel"], (x, 0.07, top + 0.11), (x, 0.17, top + 0.09), 0.01, seg=10)   # spout
+    P.rod(M["steel"], (x + 0.02, 0.07, top + 0.12), (x + 0.17, 0.09, top + 0.13), 0.007, seg=8)  # long lever
+    P.cyl(M["steel"], (x, 0.08, top - 0.32), 0.022, 0.2, seg=16)                    # trap, close to the wall
+
+
 def wc_run(P, cells=((1.1, "wc"),), depth=1.8, h=2.73, open_=(), occupied=(), pan_side=-1):
     """One continuous run of WC cells against a wall (Roman: flush to each other and to the walls, no slivers, doors all on one
     face, opening OUTWARD). Origin = wall face at the run's centre, cells along x, front towards +y. 30 mm oak panels at every
@@ -822,10 +846,8 @@ def wc_run(P, cells=((1.1, "wc"),), depth=1.8, h=2.73, open_=(), occupied=(), pa
             P.rod(M["steel"], (edge + d * 0.035, 0.25, 0.8), (edge + d * 0.035, 0.25, 1.5), 0.017, seg=12)  # + vertical
             fx = px + d * 0.35                                                                     # fold-up rail on the open side
             P.box(M["steel"], (fx, 0.03, 0.8), (0.07, 0.06, 0.16)); P.rod(M["steel"], (fx, 0.05, 0.8), (fx, 0.85, 0.8), 0.017, seg=12)
-            bx = edge + d * 1.95                                                                   # basin, knee space under it
-            P.box(M["stone"], (bx, 0.24, 0.8), (0.5, 0.45, 0.06))
-            P.box(M["ceramic"], (bx, 0.25, 0.775), (0.36, 0.3, 0.02))
-            P.rod(M["steel"], (bx, 0.0, 0.98), (bx, 0.16, 0.98), 0.012, seg=12)
+            bx = edge + d * 1.95                                                                   # accessible washbasin, knee space under it
+            _accessible_basin(P, bx)
             P.box(M["oak"], (bx, 0.012, 1.45), (0.54, 0.024, 0.84)); P.box(M["mirror"], (bx, 0.026, 1.45), (0.5, 0.004, 0.8))
             _soap(P, bx - d * 0.32, 0.0, 1.05)
             fp = edge + d * 2.385                                                                  # the far side panel's face
@@ -834,11 +856,17 @@ def wc_run(P, cells=((1.1, "wc"),), depth=1.8, h=2.73, open_=(), occupied=(), pa
             P.box(M["oak"], (fp - d * 0.06, 1.25, 0.95), (0.11, 0.8, 0.55))                        # fold-down changing table (folded)
             _brush(P, (edge + d * 0.15, 0.12))
             _pedal_bin(P, (edge + d * 1.05, 0.15), h=0.3, r=0.09)
-            P.box(M["steel"], (edge + d * 0.95, depth / 2, h - 0.02), (0.06, 0.06, 0.03))           # emergency pull cord (TEK17)
-            P.rod(M["lino_lingon"], (edge + d * 0.95, depth / 2, h - 0.03), (edge + d * 0.95, depth / 2, 0.1), 0.003, seg=4)
-            for z in (0.1, 0.8):
-                P.blob(M["lino_lingon"], (edge + d * 0.95, depth / 2, z), (0.02, 0.02, 0.02))
-            P.box(M["steel"], (edge + d * 1.25, 0.008, 0.9), (0.08, 0.016, 0.08))                 # alarm reset
+            # emergency alarm (TEK17): a pull switch high on the side wall beside the WC, its red cord running down the wall face
+            # (5 cm off it) with two red pull bangles, one within reach from the WC (0.9) and one near the floor (0.1) for a fall;
+            # the red reset/acknowledge button + a small amber 'alarm' light by the door inside
+            cxw, cyw = edge + d * 0.04, 1.2
+            P.box(M["ceramic"], (cxw, cyw, 2.3), (0.03, 0.08, 0.08))
+            P.rod(M["lino_lingon"], (cxw + d * 0.02, cyw, 2.26), (cxw + d * 0.02, cyw, 0.1), 0.0025, seg=6)
+            for z in (0.1, 0.9):
+                P.cyl(M["lino_lingon"], (cxw + d * 0.02, cyw, z - 0.02), 0.025, 0.04, seg=16)
+            P.box(M["ceramic"], (edge + d * 2.0, depth - 0.07, 1.0), (0.08, 0.02, 0.08))
+            b2 = P.bm(M["lino_lingon"]); g2 = bmesh.ops.create_cone(b2, cap_ends=True, segments=20, radius1=0.022, radius2=0.022, depth=0.01)["verts"]
+            bmesh.ops.rotate(b2, verts=g2, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b2, verts=g2, vec=(edge + d * 2.0, depth - 0.085, 1.0))
             P.rod(M["steel"], (fp, 1.5, 1.7), (fp - d * 0.08, 1.5, 1.72), 0.01, seg=8)             # coat hook
         else:  # cleaner's closet: slop sink, shelves, mops, bottles, a cart
             P.box(M["brushed"], (a + 0.35, 0.22, 0.3), (0.5, 0.4, 0.3))
