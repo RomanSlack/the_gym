@@ -39,26 +39,20 @@ Do a "does this make sense" pass per zone, and look at every render yourself bef
 
 Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet people, and views used well.
 
-**NEXT: the lounge bridge + its decks** (`model.spaces`):
-- `lounge` (F1, x -6.45..12.0, y -9.5..6.8): the enclosed bridge over the river, the only link from reception/cafe to the gym. VISION wants it wide, with a seating area for meeting people and sliding glass walls that open fully.
-- `deck-n` (y 6.8..11.3, the falls view) and `deck-s` (y -12.5..-9.5): outdoor decks cantilevered over the river.
-- **Structure (stage 3/4, already built):**
-  - `S-F1-link` slab and `S-RF-link` sod roof
-  - four dark steel girders and the tapered deck outriggers (`ST3-link-*`)
-  - glulam roof beams on slim posts
-  - glass `EN-G-link-N-0` / `EN-G-link-S-0` with their headers, and the glass balustrades `EN-balustrade-*`
-- **Floor levels (already solved):** the gym is at F1 = 0.00 and the cafe at E1 = 0.12, so the bridge's finished oak floor (`IN-F1-bridge-*` in interior.py, a sloped `pattern_floor` via `"slope"`) rises 120 mm over its 18.45 m (1:150, imperceptible). It's flush at both ends with no step. The black E2 facade band was lowered under the bridge so it no longer shows as a stripe at the join. Keep anything placed on the bridge floor at the floor's height there: `z = 0.12 * (x + 6.45) / 18.45`.
-- **Shell to do:** ceiling and linings in `tools/interior.py` (the floor is done). The decks are still raw.
-- **Furnish in `tools/furnish.py`:**
-  - the meeting/seating area
-  - the deck furniture (weatherproof: oiled oak / steel, sheepskins, blankets, heaters?)
-  - lighting and services
-  - the sliding-wall hardware made real
-- **Open question to put to Roman:** card-reader gates into the gym where the cafe meets the bridge (members' gym; it changes the cafe's circulation).
-- **The gallery** on the gym side (`gallery`, F1, x -11.6..-6.45) is where the bridge lands. Do it with the bridge or straight after.
+**The lounge bridge + decks: first pass done (2026-10-12, VISION "Lounge bridge + decks"; renders `stage_5_br_*`, `stage_5_deck_*`).**
+- **Gates:** members' phone-tap speed gates on the column line at the cafe mouth (x 12.0), with frameless glass to the walls. The cafe's NW sofa corner was removed for the landing.
+- **Ladders:** three Laksetrappa ladders of light. The middle one has the fish; the side pair is mirrored and converges into the gym. The shapes are `lad_mid` / `lad_side` + `ladder()` in furnish.py, with a beam-clearance guard.
+- **Glass floor:** 2 x 9 walk-on panels mid-bay between the girders, low-iron with an anti-reflective coating and no frit (Roman: see the river). The openings are cast in `S-F1-link` (structure_stage.py, holes flagged `glass_floor`); interior.py and furnish.py read them from there.
+- **Shell:** oak along the bridge, slat ceiling between the beams (`split_x`), Kebony decks with slot drains.
+- **Furniture:** two walnut benches inside, outdoor cafe sofa groups and standing tables on the decks.
+- **Rejected by Roman:** rugs on the bridge (out of place).
+- Anything on the bridge floor sits at `zf(x) = 0.12 * (x + 6.45) / 18.45`, and on the decks at `zf(x) - 0.015`.
+- **Still open on the bridge:**
+  - The full fold-away / slide-and-turn system so the glass walls really open fully. Today one leaf per side is slid open as the doorway to each deck.
+  - The gallery (`gallery`, F1, x -11.6..-6.45) where the bridge lands. It's still raw (white wall, dark doorways), and it's the first thing you see down the bridge.
 
 **Then:**
-1. the gym F1 hall: stretching, cardio, calisthenics, the gallery, the locker rooms (wet-room rules already in VISION)
+1. the gallery (the bridge's landing), then the gym F1 hall: stretching, cardio, calisthenics, the locker rooms (wet-room rules already in VISION)
 2. E2: garage, bike/moto parking, game room, lift lobby
 3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
@@ -82,7 +76,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
   - Stage 5 adds the interior and furniture.
   - Cameras are in the `CAMS` dict in `scene.py`; reception and cafe cameras are named `rec_*` / `cafe_*`.
 - **Drawings:** `cd blueprint && npx vite --port 5280` (H = replay, P = A1 sheets, D = dark). Re-export the PDF only when Roman asks: `node tools/export/export_pdf.js`.
-- **Cameras:** every zone's cameras are in `CAMS` in `construction/scene.py` (prefixes `rec_`, `cafe_`, `wc_`, `dc_`, `garden_`). Interiors get +2.8 exposure by prefix: add yours (e.g. `br_`) to that tuple in scene.py.
+- **Cameras:** every zone's cameras are in `CAMS` in `construction/scene.py` (prefixes `rec_`, `cafe_`, `wc_`, `dc_`, `garden_`, `br_`, `deck_`; deck cameras are outdoors and get no extra exposure). Interiors get +2.8 exposure by prefix: add yours (e.g. `br_`) to that tuple in scene.py.
 - **Component catalogue** (every designed piece alone in a studio, 4 angles, one sheet each + an overview): `nice -n 19 blender -b --factory-startup -t 12 --python construction/catalog.py -- [zone:daycare,garden] [only:kind1,kind2]` → `construction/renders/catalog/<kind>_vNNN.jpg`, every single view also kept in `construction/renders/catalog/views/<kind>_<angle>_vNNN.jpg` (composed by `tools/catalog_sheets.py`). **Roman treasures the catalogue: it is a permanent, versioned record; never delete or overwrite any of it.**
 - **New in this session:** `tools/partitions.py` splits L-shaped shared edges into straight legs (ids kept). Round slab openings are cut through the structural slabs too. The daycare stair's position + start angle live in `model.stairs` (`layout_v1.py`), and the opening, trimmer beam, floor/ceiling cuts, guards and tube follow from it. Sanitation + safety builders (`towel_station`, `safety_point`, `exit_sign`, `ceiling_services`, ...) are in `construction/furniture.py`.
 - **Art:** generated with gpt-image-2 via the imagegen skill into `docs/art/`. The reception painting is `artvalleyoil_0.png`.

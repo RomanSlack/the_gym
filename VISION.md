@@ -380,9 +380,11 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - about 50 rungs of opal light (2700 K) with thin brass collars, one every 0.3 m
   - three mirror-steel trout leap up it towards the gym: Elva's fish swim upstream to the bridge, and the ladder carries them on
   - hung on 1.5 mm steel wires from the glulam beams and through the slats to the CLT
+  - **Two side ladders (Roman: "draw you in", symmetric):** the same style, one shape mirrored either side. Each starts wide (1.2 m), high and flat over the outer bay at the cafe end, then sweeps in towards the middle one on the way to the gym, tapering to 0.3 m, dropping and rolling over (inner rail down). All three lines converge into the gym. A guard in `tools/furnish.py` checks that every ladder stays under the roof beams.
+  - **No rugs:** åkle-pattern rugs down the middle were tried and rejected (Roman: out of place). The oak runs clear.
 - **Glass in the floor:** two mirrored rows of nine 1.0 m walk-on glass panels running east-west, one each side of the walkway, at 1.6 m centres.
   - Each row sits mid-bay between two steel girders, so nothing structural crosses the view about 8.8 m down to the river.
-  - The openings are cast into the deck slab. Each panel has a 20 mm blackened-steel rim flush with the oak and laminated 3 x 12 mm glass plus an 8 mm top ply with an anti-slip ceramic frit.
+  - The openings are cast into the deck slab. Each panel has a 20 mm blackened-steel rim flush with the oak and laminated low-iron glass (3 x 12 mm plus an 8 mm top ply), fully clear with an anti-reflective coating. Roman wants to see the river, so there's no anti-slip frit (code doesn't matter here), and the AR coating stops the bright ceiling from mirroring over the dark gorge.
   - Below the glass, a blackened-steel sleeve lines the opening down to the soffit.
 - **Shell:**
   - **Floor:** white-oiled oak boards running east-west (they lead on to the gym), rising 1:150 from the gym (0.00) to the cafe (0.12). A blackened-steel threshold marks where the bridge oak meets the cafe oak.
