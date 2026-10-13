@@ -566,11 +566,7 @@ for lad, n_, e_ in ((lad_mid, 10, 45), (lad_side(1), 7, 30), (lad_side(-1), 7, 3
         x, yc, zc, _, _ = lad(0.12 + 0.76 * k / (n_ - 1))
         putb("light_only", x, BAY + yc, z=F1, light={"type": "AREA", "energy": e_, "size": 1.2, "size_y": 0.3, "offset": [0, 0, round(zc - 0.06, 3)],
              "aim": [x, BAY + yc, 0.0], "color": [1.0, 0.82, 0.6]}, note="light from the Laksetrappa rungs")
-# three woven rugs down the middle (Roman: geometric, modern colours that fit, tasteful), one under each inner beam: flatweave wool
-# after the Norwegian åkle, a sequence towards the gym (tools/rug_patterns.py): a lozenge lattice at the cafe end, one big concentric
-# lozenge in the middle, stepped chevrons pointing into the gym
-for xr, img in ((BEAMS[3], "rug_lattice_v2.png"), (BEAMS[2], "rug_lozenge_v1.png"), (BEAMS[1], "rug_chevrons_v2.png")):
-    putb("woven_rug", xr, BAY, image=str(ROOT / "docs" / "art" / img), size=[2.6, 4.0], note=f"flatweave wool rug ({img.split('_')[1]}), åkle patterns")
+# (rugs tried down the middle, 2026-10-12; Roman: out of place, removed. The oak runs clear from the cafe to the gym.)
 # two benches and nothing else: backless walnut planks in the outer bays, facing the view (falls north, the gorge south)
 putb("bridge_bench", BAX, -8.45, rot=180, length=3.2, note="bench facing the gorge downstream")
 putb("bridge_bench", BAX, 5.75, rot=0, length=3.2, note="bench facing the falls")
