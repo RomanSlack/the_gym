@@ -257,8 +257,10 @@ for nm, (r, holes) in DECKS.items():
 
 # ---- zone: the gallery + the F1 gym hall (Roman, 2026-10-12: as the bridge lands it becomes the gym: proper gym flooring, different
 # lighting, a different vibe). The oak ends at a blackened-steel threshold on the facade line (x -6.45); from there:
-#   - floor: 10 mm charcoal sports rubber with grey + oat EPDM flecks on a 15 mm shock pad, over impact mat + screed (UFH), in
-#     1.25 m rolls; through the gallery and the whole hall (equipment zones come with the hall)
+#   - floor (Roman: the high-grade impact tiles luxury + commercial gyms have, the tiles visible): 1.0 x 1.0 m interlocking rubber
+#     tiles, 30 mm (free-weight grade: a dense 3 mm EPDM wear layer in black with grey + oat fleck over a shock-absorbing SBR base,
+#     hidden connectors, as SPORTEC Style at Third Space), every tile its own piece with eased edges and a tight dark seam, on an
+#     acoustic underlay over the screed; through the gallery and the whole F1 hall (equipment zones come with the hall)
 #   - ceiling: wood-wool acoustic panels (600 x 1200 x 35, natural) between the glulam beams, on battens under the CLT
 #   - the gallery wall across from the bridge: oak slats 45 @ 65 on black battens up to the beams' soffit (4.34), the locker entries
 #     and the Kilden niche cut through; warm plaster above
@@ -267,16 +269,16 @@ HALL = [-29.45, -34.1, -6.45, -9.3]
 _sp = next(st for st in m["stairs"] if st["id"] == "spiral_west")
 HALL_HOLES = [{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"},
               {"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.85, -25.1], "note": "core W2"}]
-RUB = {"kind": "slabs", "w": 1.25, "L": [12.0], "gap": 0.001, "dir": "y", "bond": "stack"}
+RUB = {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003}
 for nm, r, holes in (("gallery", GAL, []), ("hall", HALL, HALL_HOLES)):
     add({"id": f"IN-F1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": holes,
          "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
-    add({"id": f"IN-F1-{nm}-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": r, "z": [round(F1v - 0.08, 3), round(F1v - 0.025, 3)],
+    add({"id": f"IN-F1-{nm}-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": r, "z": [round(F1v - 0.08, 3), round(F1v - 0.038, 3)],
          "holes": holes, "pattern": {"kind": "poured", "joint": 6.0}, "note": "screed with underfloor heating"})
-    add({"id": f"IN-F1-{nm}-pad", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.025, 3), round(F1v - 0.01, 3)], "holes": holes,
-         "pattern": {"kind": "poured", "joint": 30.0}, "note": "15 mm shock pad (sports floor)"})
-    add({"id": f"IN-F1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": "gym_rubber", "rect": r, "z": [round(F1v - 0.01, 3), F1v], "holes": holes,
-         "pattern": RUB, "note": "floor finish: 10 mm charcoal sports rubber, grey + oat EPDM flecks, in 1.25 m rolls"})
+    add({"id": f"IN-F1-{nm}-pad", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.038, 3), round(F1v - 0.03, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "8 mm acoustic underlay (the seams between the tiles read dark on it)"})
+    add({"id": f"IN-F1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": "gym_rubber", "rect": r, "z": [round(F1v - 0.03, 3), F1v], "holes": holes,
+         "pattern": RUB, "note": "floor finish: 30 mm interlocking rubber impact tiles 1.0 x 1.0, EPDM wear layer, black with grey + oat fleck"})
 WBEAMS = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith("-RF-west"))
 for nm, r in (("gallery", GAL), ("hall", [-29.45, -34.1, -6.45, -9.3])):
     beam_cuts = [{"rect": [r[0], round(yb - 0.17, 3), r[2], round(yb + 0.17, 3)], "note": "glulam beam"} for yb in WBEAMS if r[1] - 0.2 < yb < r[3] + 0.2]

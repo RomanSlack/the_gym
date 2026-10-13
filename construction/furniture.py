@@ -2979,13 +2979,13 @@ def _larvikite(name="larvikite_honed"):
     b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
     v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 55.0; L.new(tc.outputs["Object"], v.inputs["Vector"])
     r = N.new("ShaderNodeValToRGB"); L.new(v.outputs["Color"], r.inputs["Fac"])
-    e = r.color_ramp.elements; e[0].position = 0.3; e[0].color = (0.025, 0.028, 0.032, 1); e[1].position = 0.75; e[1].color = (0.11, 0.13, 0.16, 1)
-    e3 = r.color_ramp.elements.new(0.9); e3.color = (0.22, 0.27, 0.33, 1)
+    e = r.color_ramp.elements; e[0].position = 0.55; e[0].color = (0.018, 0.02, 0.023, 1); e[1].position = 0.8; e[1].color = (0.045, 0.05, 0.058, 1)
+    e3 = r.color_ramp.elements.new(0.95); e3.color = (0.1, 0.12, 0.15, 1)
     L.new(r.outputs["Color"], b.inputs["Base Color"])
     mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.75; mr.inputs["From Max"].default_value = 0.95
     mr.inputs["To Min"].default_value = 0.0; mr.inputs["To Max"].default_value = 0.6; L.new(v.outputs["Distance"], mr.inputs["Value"])
     bw = N.new("ShaderNodeRGBToBW"); L.new(v.outputs["Color"], bw.inputs[0])
-    mt = N.new("ShaderNodeMapRange"); mt.inputs["From Min"].default_value = 0.8; mt.inputs["From Max"].default_value = 1.0
+    mt = N.new("ShaderNodeMapRange"); mt.inputs["From Min"].default_value = 0.9; mt.inputs["From Max"].default_value = 1.0
     mt.inputs["To Min"].default_value = 0.0; mt.inputs["To Max"].default_value = 0.7; L.new(bw.outputs[0], mt.inputs["Value"])
     L.new(mt.outputs["Result"], b.inputs["Metallic"])  # the feldspar flash
     b.inputs["Roughness"].default_value = 0.22
@@ -3010,7 +3010,7 @@ def kilden(P):
     P.box(gr, (0, -0.33, 0.885), (W - 2 * T, 0.5, 0.13))
     film = M.get("water_sheet")
     if film is None:  # running water: clear and glossy, rippled in long vertical streaks
-        film = bc.material("water_sheet", (0.08, 0.1, 0.1), 0.02, alpha=0.55)
+        film = bc.material("water_sheet", (0.08, 0.1, 0.1), 0.02, alpha=0.22)
         N_, L_ = film.node_tree.nodes, film.node_tree.links
         tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 45.0
         wv.inputs["Distortion"].default_value = 9.0; wv.inputs["Detail"].default_value = 6.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])

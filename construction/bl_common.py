@@ -697,8 +697,8 @@ def interior_materials():
 
 
 def gym_rubber(name="gym_rubber"):
-    """Sports rubber flooring (where the bridge becomes the gym): 10 mm vulcanised rubber on a shock pad, deep charcoal with ~12 %
-    EPDM flecks in grey and oat (2-4 mm granules), a fine matte grain, satin where it is walked."""
+    """Gym impact tiles' wear layer (where the bridge becomes the gym): dense EPDM, near-black (Roman: darker) with ~8 % fleck in grey and a little oat
+    (2-4 mm granules), a fine matte grain, satin where it is walked; each tile a touch different in tone (its own batch)."""
     m = bpy.data.materials.get(name)
     if m:
         return m
@@ -707,14 +707,20 @@ def gym_rubber(name="gym_rubber"):
     b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
     v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 330.0; L.new(tc.outputs["Object"], v.inputs["Vector"])
     r = N.new("ShaderNodeValToRGB"); L.new(v.outputs["Color"], r.inputs["Fac"])
-    e = r.color_ramp.elements; e[0].position = 0.86; e[0].color = (0.014, 0.014, 0.015, 1); e[1].position = 0.88; e[1].color = (0.16, 0.155, 0.15, 1)
-    e2 = r.color_ramp.elements.new(0.95); e2.color = (0.3, 0.27, 0.22, 1)
-    L.new(r.outputs["Color"], b.inputs["Base Color"])
+    e = r.color_ramp.elements; e[0].position = 0.66; e[0].color = (0.008, 0.008, 0.009, 1); e[1].position = 0.67; e[1].color = (0.11, 0.11, 0.11, 1)
+    e2 = r.color_ramp.elements.new(0.71); e2.color = (0.11, 0.11, 0.11, 1)
+    e4 = r.color_ramp.elements.new(0.72); e4.color = (0.008, 0.008, 0.009, 1)
+    e5 = r.color_ramp.elements.new(0.92); e5.color = (0.008, 0.008, 0.009, 1)
+    e6 = r.color_ramp.elements.new(0.93); e6.color = (0.17, 0.15, 0.11, 1)
+    at = N.new("ShaderNodeAttribute"); at.attribute_name = "prand"
+    tv = N.new("ShaderNodeMapRange"); tv.inputs["To Min"].default_value = 0.85; tv.inputs["To Max"].default_value = 1.15; L.new(at.outputs["Fac"], tv.inputs["Value"])
+    tm = N.new("ShaderNodeVectorMath"); tm.operation = "SCALE"; L.new(r.outputs["Color"], tm.inputs[0]); L.new(tv.outputs["Result"], tm.inputs["Scale"])
+    L.new(tm.outputs[0], b.inputs["Base Color"])
     g = N.new("ShaderNodeTexNoise"); g.inputs["Scale"].default_value = 900.0; L.new(tc.outputs["Object"], g.inputs["Vector"])
     bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.15; bp.inputs["Distance"].default_value = 0.0005
     L.new(g.outputs["Fac"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
     rn = N.new("ShaderNodeTexNoise"); rn.inputs["Scale"].default_value = 1.5; L.new(tc.outputs["Object"], rn.inputs["Vector"])
-    rr = N.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.55; rr.inputs["To Max"].default_value = 0.75
+    rr = N.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.7; rr.inputs["To Max"].default_value = 0.88
     L.new(rn.outputs["Fac"], rr.inputs["Value"]); L.new(rr.outputs["Result"], b.inputs["Roughness"])
     return m
 

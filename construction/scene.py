@@ -177,7 +177,9 @@ for ph in range(1, STAGE + 1):
             mat = MAT["timber_clad"]
         z0, z1 = e["z"]
         if "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] in ("boards", "slabs", "poured"):
-            bc.pattern_floor(e, mat, coll, prng)
+            ob_ = bc.pattern_floor(e, mat, coll, prng)
+            if e["pattern"].get("bevel"):  # tiles with eased edges (the gym's impact tiles): the seams catch the light
+                bv = ob_.modifiers.new("eased", "BEVEL"); bv.width = e["pattern"]["bevel"]; bv.segments = 2; bv.limit_method = "ANGLE"
         elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "wave":
             bc.pattern_wave_ceiling(e, mat, coll, ROOF_BEAMS_E)
         elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "slats":
@@ -511,6 +513,7 @@ CAMS = {
     "gal_kilden": ((-8.5, -0.5, 1.55), (-11.9, -1.35, 1.25), 24),
     "gal_entries": ((-7.0, -7.4, 1.62), (-11.6, -0.4, 1.5), 18),
     "gal_south": ((-8.9, 10.6, 1.66), (-9.6, -20.0, 1.3), 18),
+    "gal_floor": ((-7.6, -5.6, 1.35), (-9.6, -8.6, 0.0), 24),
     "deck_n_falls": ((0.3, 7.08, 1.7), (-3.0, 32.0, -1.0), 20),
     "deck_s": ((11.4, -12.15, 1.66), (-4.5, -10.4, 1.1), 18),
     "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
@@ -555,7 +558,7 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south", "gal_floor"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
