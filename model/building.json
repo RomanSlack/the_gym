@@ -15254,7 +15254,16 @@
       "z_ceiling": 5.6,
       "light": {"type": "SPOT", "energy": 120, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 5.42], "aim": [9.2, -11.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
-    {"id": "kilden-622", "kind": "kilden", "level": "F1", "at": [-11.46, -1.35], "z": 0.0, "rot_deg": -90, "zone": "gallery", "note": "Kilden: the spring on the bridge axis, water wall, bottle filler, drinking spout"},
+    {
+      "id": "kilden-622",
+      "kind": "kilden",
+      "level": "F1",
+      "at": [-11.46, -1.35],
+      "z": 0.0,
+      "rot_deg": -90,
+      "zone": "gallery",
+      "note": "Kilden: the spring on the bridge axis, dry-stacked riven slate, water over the stones, a hewn granite trough"
+    },
     {
       "id": "light_only-623",
       "kind": "light_only",
@@ -15263,7 +15272,7 @@
       "z": 0.0,
       "rot_deg": -90,
       "zone": "gallery",
-      "light": {"type": "AREA", "energy": 14, "size": 1.4, "size_y": 0.04, "offset": [0, 0, 2.44], "aim": [-12.020000000000001, -1.35, 1.2], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 20, "size": 1.3, "size_y": 0.04, "offset": [0, 0, 2.34], "aim": [-12.020000000000001, -1.35, 1.2], "color": [1.0, 0.86, 0.7]},
       "note": "light washing Kilden's water wall"
     },
     {"id": "portal_frame-624", "kind": "portal_frame", "level": "F1", "at": [-11.46, -3.145], "z": 0.0, "rot_deg": -90, "zone": "gallery", "width": 1.5, "height": 2.4, "depth": 0.215, "note": "man's locker entry, blackened steel"},

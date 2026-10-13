@@ -412,9 +412,9 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
 ### The gallery: where the bridge becomes the gym (2026-10-12, Roman: "be thoughtful to how the locker rooms will work ... as the bridge transitions it then becomes the gym, so proper gym flooring, different lighting, different vibe")
 
 - **Kilden (the spring) on the bridge axis:** walking off the bridge you used to look straight into the men's doorway. Now you look at Kilden.
-  - A 1.6 m niche in honed larvikite (Norway's national stone).
-  - A sheet of water runs from a stainless lip into a long trough, with a sensor bottle filler over a grate and a drinking spout (the locker list's water refill). "KILDEN" is in small brass letters.
-  - A light behind the top lip washes the water.
+  - **Natural, rough stone** (Roman: not the synthetic look): a 1.6 m niche whose back and sides are dry-stacked riven slate (Norwegian tørrmur in a dark Otta-like blue-grey). Every slab is its own cleft piece, a little proud or shy of the next, with open dark joints, under a split granite lintel.
+  - The water comes out from under one projecting stone at 2.2 m and runs down the faces of the slabs into the trough. The trough is one hewn granite block with split faces outside; only its basin is honed.
+  - A sensor bottle filler over a steel grate and a drinking spout (the locker list's water refill). "KILDEN" is inlaid in brass, and a hidden light under the lintel grazes the wet stone.
   - The story runs through the building: Elva (the river) in the cafe, the salmon ladder on the bridge, the spring where the gym begins.
   - The pump, filter and chiller sit in a box behind it, in the men's room.
 - **Locker entries, re-planned (tools/layout_v1.py + partitions.py `PLACE`):** two 1.5 m entries flank Kilden, mirror-symmetric about the bridge axis, each in a blackened-steel portal with its pictogram on the outer side.

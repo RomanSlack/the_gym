@@ -2968,74 +2968,117 @@ def slide_wall(P, L=18.3, rise=0.12, n=20, state="closed", head=3.07):
         P.cyl(M["brushed"], (x, -0.03, zf(x) - 0.002), 0.008, 0.0025, seg=12)
 
 
-def _larvikite(name="larvikite_honed"):
-    """Honed larvikite, Norway's national stone (from Larvik): near-black blue-grey with big feldspar crystals that flash
-    silver-blue (labradorescence) as you move; honed to a satin."""
-    m = bpy.data.materials.get(name)
-    if m:
-        return m
-    m = bpy.data.materials.new(name); m.use_nodes = True
-    N, L = m.node_tree.nodes, m.node_tree.links
-    b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
-    v = N.new("ShaderNodeTexVoronoi"); v.inputs["Scale"].default_value = 55.0; L.new(tc.outputs["Object"], v.inputs["Vector"])
-    r = N.new("ShaderNodeValToRGB"); L.new(v.outputs["Color"], r.inputs["Fac"])
-    e = r.color_ramp.elements; e[0].position = 0.55; e[0].color = (0.018, 0.02, 0.023, 1); e[1].position = 0.8; e[1].color = (0.045, 0.05, 0.058, 1)
-    e3 = r.color_ramp.elements.new(0.95); e3.color = (0.1, 0.12, 0.15, 1)
-    L.new(r.outputs["Color"], b.inputs["Base Color"])
-    mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.75; mr.inputs["From Max"].default_value = 0.95
-    mr.inputs["To Min"].default_value = 0.0; mr.inputs["To Max"].default_value = 0.6; L.new(v.outputs["Distance"], mr.inputs["Value"])
-    bw = N.new("ShaderNodeRGBToBW"); L.new(v.outputs["Color"], bw.inputs[0])
-    mt = N.new("ShaderNodeMapRange"); mt.inputs["From Min"].default_value = 0.9; mt.inputs["From Max"].default_value = 1.0
-    mt.inputs["To Min"].default_value = 0.0; mt.inputs["To Max"].default_value = 0.7; L.new(bw.outputs[0], mt.inputs["Value"])
-    L.new(mt.outputs["Result"], b.inputs["Metallic"])  # the feldspar flash
-    b.inputs["Roughness"].default_value = 0.22
-    return m
+def _rough_block(P, mat, c, size, amp=0.006, seed=0, cuts=4, rz=0.0, rx=0.0, flat_top=False, front_amp=None):
+    """A piece of natural stone: a box subdivided and pushed in and out along its faces by noise (split, cleft, hand-hewn faces,
+    never machine-flat); flat_top keeps the upper face true (a basin rim), front_amp sets a quieter +y face (for an inscription)."""
+    from mathutils import noise
+    b = bmesh.new()  # each stone in its own mesh, then merged into the piece
+    bmesh.ops.create_cube(b, size=1.0)
+    bmesh.ops.subdivide_edges(b, edges=list(b.edges), cuts=cuts, use_grid_fill=True)
+    vs = list(b.verts)
+    sx, sy, sz = size
+    for v in vs:
+        x, y, z = v.co  # -0.5..0.5
+        ax = max(range(3), key=lambda i: abs(v.co[i]))  # the face this vertex belongs to most
+        n_ = noise.noise(Vector((x * sx * 9 + seed, y * sy * 9 + seed * 1.7, z * sz * 9 - seed))) + 0.5 * noise.noise(Vector((x * sx * 31, y * sy * 31 + seed, z * sz * 31)))
+        a_ = amp if not (front_amp is not None and ax == 1 and y > 0) else front_amp
+        if flat_top and ax == 2 and z > 0:
+            a_ = 0.0
+        d = [0.0, 0.0, 0.0]; d[ax] = (1 if v.co[ax] > 0 else -1) * a_ * n_
+        v.co = Vector((x * sx + d[0], y * sy + d[1], z * sz + d[2]))
+    R = Matrix.Rotation(rz, 3, "Z") @ Matrix.Rotation(rx, 3, "X")
+    bmesh.ops.rotate(b, verts=vs, cent=(0, 0, 0), matrix=R)
+    bmesh.ops.translate(b, verts=vs, vec=c)
+    me = bpy.data.meshes.new("stone"); b.to_mesh(me); b.free()
+    P.bm(mat).from_mesh(me); bpy.data.meshes.remove(me)
 
 
 def kilden(P):
-    """'Kilden' (the spring): where the gym begins, on the bridge axis between the two locker entries. A 1.6 m niche lined in
-    honed larvikite (Norway's national stone, near-black with blue-silver feldspar: it holds the axis against the light oak); a sheet of water slides down its back wall from a stainless lip into a long granite
-    trough; a sensor bottle filler on a blackened-steel grate on the left, a drinking spout on the right; 'KILDEN' in small brass
-    letters on the trough. A linear light behind the top lip washes the water. Elva (the river) runs through the cafe, the salmon
-    ladder climbs the bridge, and the spring is where they come from. Origin = niche centre on the gallery face of the wall
-    (the oak slats), +y = towards the gallery; the stud box behind houses pump, filter + chiller (service hatch from the men's room)."""
-    gr = _larvikite()
-    W, D, H, T = 1.6, 0.6, 2.5, 0.03
-    P.box(gr, (0, -D + T / 2, H / 2), (W, T, H))                               # back
-    for sx in (-1, 1):
-        P.box(gr, (sx * (W / 2 - T / 2), -D / 2, H / 2), (T, D, H))            # sides
-    P.box(gr, (0, -D / 2, H - T / 2), (W, D, T))                               # top
-    P.box(gr, (0, -D / 2, 0.01), (W, D, 0.02))                                 # floor of the niche
-    # the trough: a granite block 0.95 high, hollowed, the water in it
-    P.box(gr, (0, -0.33, 0.885), (W - 2 * T, 0.5, 0.13))
-    film = M.get("water_sheet")
-    if film is None:  # running water: clear and glossy, rippled in long vertical streaks
-        film = bc.material("water_sheet", (0.08, 0.1, 0.1), 0.02, alpha=0.22)
+    """'Kilden' (the spring): where the gym begins, on the bridge axis between the two locker entries. Natural stone, rough
+    (Roman: natural, not synthetic): a 1.6 m niche whose back and sides are dry-stacked riven slate (Norwegian tørrmur: thin
+    cleft slabs, each a little proud or shy of the next, joints dark and open), under a split granite lintel. The water comes
+    out from under one projecting stone at 2.2 m and runs down the face of the slabs, course by course, into a hewn granite
+    trough: one block, split faces outside, only its basin honed. A sensor bottle filler on the left over a blackened-steel grate,
+    a drinking spout on the right, 'KILDEN' inlaid in brass. A hidden light under the lintel grazes the wet stone. Elva (the river)
+    runs through the cafe, the salmon ladder climbs the bridge; the spring is where they come from. Origin = niche centre on the
+    gallery face of the oak slats, +y = the gallery; the stud box behind houses pump, filter + chiller."""
+    sl = M.setdefault("riven_slate_v2", bc.pbr_material("riven_slate_v2", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34,
+                                                   rough_add=0.12, piece_var=0.0))  # Otta-like: dark blue-grey
+    hg = M.setdefault("hewn_granite", bc.pbr_material("hewn_granite", "quarry_wall", 1.4, box=True, tint=(0.95, 0.94, 0.92), sat=0.35, val=0.85,
+                                                    rough_add=0.1, piece_var=0.0))
+    film = M.get("water_running")
+    if film is None:  # running water over stone: almost clear, its sheen in rivulets (long distorted vertical streaks)
+        film = bc.material("water_running", (0.05, 0.06, 0.06), 0.01, alpha=0.12)
         N_, L_ = film.node_tree.nodes, film.node_tree.links
-        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 45.0
-        wv.inputs["Distortion"].default_value = 9.0; wv.inputs["Detail"].default_value = 6.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
-        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.5; bp_.inputs["Distance"].default_value = 0.002
+        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 60.0
+        wv.inputs["Distortion"].default_value = 14.0; wv.inputs["Detail"].default_value = 8.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 1.0; bp_.inputs["Distance"].default_value = 0.004
         L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
-        M["water_sheet"] = film
-    P.box(film, (0, -0.33, 0.951), (W - 2 * T - 0.06, 0.44, 0.002))
-    P.box(gr, (0, -0.33, 0.4), (W - 2 * T - 0.2, 0.38, 0.8))                   # the block below (holds the tank's overflow + drain)
-    P.box(M["felt"], (0, -0.13, 0.04), (W - 2 * T - 0.2, 0.02, 0.06))          # shadow kick under the front
-    # the water wall: a stainless lip at 2.2, a thin sheet of water down the back into the trough
-    P.box(M["brushed"], (0, -D + T + 0.02, 2.2), (W - 2 * T - 0.1, 0.04, 0.012))
-    P.box(film, (0, -D + T + 0.004, (2.2 + 0.95) / 2), (W - 2 * T - 0.12, 0.004, 2.2 - 0.95))
-    # bottle filler (left): a blackened-steel spout block on the back wall over a grate, its sensor window
-    P.box(M["steel"], (-0.42, -D + T + 0.05, 1.32), (0.16, 0.1, 0.22))
-    P.box(M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08)), (-0.42, -D + T + 0.101, 1.36), (0.05, 0.002, 0.03))
-    P.cyl(M["brushed"], (-0.42, -D + T + 0.08, 1.19), 0.012, 0.025, seg=16)
-    for k in range(9):
-        P.box(M["steel"], (-0.62 + k * 0.05, -0.33, 0.955), (0.008, 0.42, 0.012))  # grate bars over the trough (bottles stand here)
-    # drinking spout (right): a gooseneck rising from the trough rim
-    P.rod(M["steel"], (0.45, -0.45, 0.95), (0.45, -0.45, 1.12), 0.012, seg=14)
-    P.rod(M["steel"], (0.45, -0.45, 1.12), (0.45, -0.36, 1.16), 0.012, seg=14)
-    P.box(M["steel"], (0.6, -0.09, 0.9), (0.06, 0.02, 0.03))                   # push button on the trough front
-    # the light: behind the top lip
-    P.box(M["opal"], (0, -D / 2, H - T - 0.012), (W - 2 * T - 0.1, 0.03, 0.006))
-    P.text(M["brass"], "KILDEN", (0, -0.0785, 0.885), 0.035, depth=0.002)
+        M["water_running"] = film
+    W, D, H = 1.6, 0.6, 2.5
+    rng = np.random.default_rng(31)
+    BACK = -D
+    P.box(M["felt"], (0, BACK + 0.01, H / 2), (W, 0.02, H))                       # dark behind the open joints
+    for sx in (-1, 1):
+        P.box(M["felt"], (sx * (W / 2 - 0.01), -D / 2, H / 2), (0.02, D, H))
+    # the back: courses of riven slate across the full width
+    z, k, src = 0.0, 0, None
+    water = []
+    LIN = 0.1                                                                    # the lintel's depth at the top
+    while z < H - LIN - 0.02:
+        h = float(rng.uniform(0.035, 0.085)); h = min(h, H - LIN - z)
+        x = -W / 2 + 0.02
+        while x < W / 2 - 0.03:
+            Ls = float(min(rng.uniform(0.22, 0.55), W / 2 - 0.02 - x))
+            if Ls < 0.06:
+                break
+            d = float(rng.uniform(0.07, 0.12))
+            spill = abs(z - 2.2) < h and x < 0 < x + Ls                          # the source: one stone stands out over the water
+            if spill:
+                d = 0.17; src = (z + h, BACK + d)
+            _rough_block(P, sl, (x + Ls / 2, BACK + 0.02 + d / 2, z + h / 2), (Ls - 0.006, d, h - 0.005), amp=0.004, seed=k * 1.3,
+                         cuts=3, rz=float(rng.uniform(-0.012, 0.012)))
+            if 0.95 < z + h and z < 2.2 and not spill:                            # the water runs down over this stone's face
+                xa, xb = max(x, -0.3), min(x + Ls, 0.3)
+                if xb - xa > 0.03:
+                    water.append(((xa + xb) / 2, BACK + 0.02 + d + 0.006, max(z, 0.95), min(z + h, 2.2), xb - xa))
+            x += Ls; k += 1
+        z += h
+    for (xc, yc, za, zb, w) in water:
+        P.box(film, (xc, yc, (za + zb) / 2), (w, 0.003, zb - za))
+    # the sides: the same slate, along the depth
+    for sx in (-1, 1):
+        z = 0.0
+        while z < H - LIN - 0.02:
+            h = float(rng.uniform(0.035, 0.085)); h = min(h, H - LIN - z); y = BACK + 0.02
+            while y < -0.02:
+                Ls = float(min(rng.uniform(0.2, 0.4), -0.02 - y))
+                if Ls < 0.05:
+                    break
+                d = float(rng.uniform(0.06, 0.1))
+                _rough_block(P, sl, (sx * (W / 2 - 0.02 - d / 2), y + Ls / 2, z + h / 2), (d, Ls - 0.006, h - 0.005), amp=0.004, seed=k * 0.7, cuts=3)
+                y += Ls; k += 1
+            z += h
+    # the lintel: one split granite slab across the top
+    _rough_block(P, hg, (0, -D / 2, H - LIN / 2), (W, D, LIN), amp=0.008, seed=5.5, cuts=5)
+    P.box(M["opal"], (0, -0.08, H - LIN - 0.004), (W - 0.3, 0.025, 0.006))       # hidden light under the lintel's front
+    # the trough: one hewn granite block to the floor, its basin honed
+    _rough_block(P, hg, (0, -0.3, 0.475), (1.42, 0.46, 0.95), amp=0.012, seed=2.0, cuts=6, flat_top=True, front_amp=0.004)
+    P.box(_honed_granite(), (0, -0.31, 0.951), (1.3, 0.36, 0.004))               # the honed basin rim + bed
+    P.box(film, (0.12, -0.31, 0.948), (1.0, 0.3, 0.004))                          # water standing in the basin
+    if src:
+        P.box(film, (-0.05, src[1] + 0.004, src[0] - 0.05), (0.5, 0.004, 0.1))    # the water appearing from under the source stone
+    # bottle filler (left): a blackened-steel spout out of the slate, over a grate
+    P.box(M["steel"], (-0.42, BACK + 0.16, 1.32), (0.15, 0.1, 0.2))
+    P.box(M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08)), (-0.42, BACK + 0.211, 1.36), (0.05, 0.002, 0.03))
+    P.cyl(M["brushed"], (-0.42, BACK + 0.19, 1.2), 0.012, 0.025, seg=16)
+    for k_ in range(8):
+        P.box(M["steel"], (-0.6 + k_ * 0.05, -0.31, 0.958), (0.008, 0.34, 0.012))
+    # drinking spout (right): a gooseneck from the rim
+    P.rod(M["steel"], (0.5, -0.42, 0.95), (0.5, -0.42, 1.12), 0.012, seg=14)
+    P.rod(M["steel"], (0.5, -0.42, 1.12), (0.5, -0.33, 1.16), 0.012, seg=14)
+    P.box(M["steel"], (0.6, -0.063, 0.88), (0.06, 0.012, 0.03))                   # push button on the trough front
+    P.text(M["brass"], "KILDEN", (-0.1, -0.062, 0.86), 0.035, depth=0.002)
     # the stud box behind (pump, filter, chiller), painted gypsum, from the wall's back face (y -0.215) into the men's room
     box = M.setdefault("painted_gypsum_box", bc.material("painted_gypsum_box", (0.82, 0.8, 0.76), 0.85))
     for x0_, x1_ in ((-0.9, -W / 2), (W / 2, 1.05)):                            # solid either side of the niche (the pier)

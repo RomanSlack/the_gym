@@ -635,8 +635,8 @@ for (x, y) in ((-2.4, 8.9), (2.9, 8.9), (8.6, 8.9), (-0.6, -11.0), (2.85, -11.0)
 # steel threshold on the facade line; recessed 3500 K linear lights in the wood-wool ceiling, and a light slot in the floor grazing
 # the oak wall.
 WF = -11.6 + 0.075 + 0.065   # gallery face of the oak slats
-putb("kilden", WF, BAY, rot=-90, zone="gallery", z=F1, note="Kilden: the spring on the bridge axis, water wall, bottle filler, drinking spout")
-putb("light_only", WF - 0.3, BAY, rot=-90, zone="gallery", z=F1, light={"type": "AREA", "energy": 14, "size": 1.4, "size_y": 0.04, "offset": [0, 0, 2.44],
+putb("kilden", WF, BAY, rot=-90, zone="gallery", z=F1, note="Kilden: the spring on the bridge axis, dry-stacked riven slate, water over the stones, a hewn granite trough")
+putb("light_only", WF - 0.3, BAY, rot=-90, zone="gallery", z=F1, light={"type": "AREA", "energy": 20, "size": 1.3, "size_y": 0.04, "offset": [0, 0, 2.34],
      "aim": [WF - 0.56, BAY, 1.2], "color": [1.0, 0.86, 0.7]}, note="light washing Kilden's water wall")
 for yc, fig, yp in ((-3.145, "man", -4.55), (0.45, "woman", 1.85)):
     putb("portal_frame", -11.6 + 0.075 + 0.065, yc, rot=-90, zone="gallery", z=F1, width=1.5, height=2.4, depth=0.215, note=f"{fig}'s locker entry, blackened steel")
