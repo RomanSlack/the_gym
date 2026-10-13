@@ -2680,24 +2680,26 @@ def _led(name, rgb, strength):
 
 
 def _frit():
-    """Anti-slip ceramic frit on the top ply of walk-on glass: fired white dots, Ø3.2 mm at 8 mm (about 12 % cover), clear between."""
+    """Anti-slip ceramic frit on the top ply of walk-on glass: fired translucent dots, Ø2 mm at 6 mm (about 9 % cover), clear between:
+    a faint satin haze from standing height, the river still clear through it."""
     m = bpy.data.materials.get("glass_frit")
     if m:
         return m
     m = bpy.data.materials.new("glass_frit"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     out = N["Material Output"]; N.remove(N["Principled BSDF"])
-    tc = N.new("ShaderNodeTexCoord"); sc = N.new("ShaderNodeVectorMath"); sc.operation = "SCALE"; sc.inputs["Scale"].default_value = 1 / 0.008
+    tc = N.new("ShaderNodeTexCoord"); sc = N.new("ShaderNodeVectorMath"); sc.operation = "SCALE"; sc.inputs["Scale"].default_value = 1 / 0.006
     L.new(tc.outputs["Object"], sc.inputs[0])
     fr = N.new("ShaderNodeVectorMath"); fr.operation = "FRACTION"; L.new(sc.outputs[0], fr.inputs[0])
     sx = N.new("ShaderNodeSeparateXYZ"); L.new(fr.outputs[0], sx.inputs[0])
     cx = N.new("ShaderNodeCombineXYZ"); L.new(sx.outputs[0], cx.inputs[0]); L.new(sx.outputs[1], cx.inputs[1])
     sub = N.new("ShaderNodeVectorMath"); sub.operation = "SUBTRACT"; sub.inputs[1].default_value = (0.5, 0.5, 0.0); L.new(cx.outputs[0], sub.inputs[0])
     ln = N.new("ShaderNodeVectorMath"); ln.operation = "LENGTH"; L.new(sub.outputs[0], ln.inputs[0])
-    lt = N.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.2; L.new(ln.outputs["Value"], lt.inputs[0])
+    lt = N.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.17; L.new(ln.outputs["Value"], lt.inputs[0])
     dot = N.new("ShaderNodeBsdfPrincipled"); dot.inputs["Base Color"].default_value = (0.8, 0.8, 0.78, 1); dot.inputs["Roughness"].default_value = 0.6
     tr = N.new("ShaderNodeBsdfTransparent")
-    mx = N.new("ShaderNodeMixShader"); L.new(lt.outputs[0], mx.inputs[0]); L.new(tr.outputs[0], mx.inputs[1]); L.new(dot.outputs[0], mx.inputs[2])
+    hz = N.new("ShaderNodeMath"); hz.operation = "MULTIPLY"; hz.inputs[1].default_value = 0.45; L.new(lt.outputs[0], hz.inputs[0])  # translucent ceramic
+    mx = N.new("ShaderNodeMixShader"); L.new(hz.outputs[0], mx.inputs[0]); L.new(tr.outputs[0], mx.inputs[1]); L.new(dot.outputs[0], mx.inputs[2])
     L.new(mx.outputs[0], out.inputs["Surface"])
     return m
 
@@ -2781,9 +2783,10 @@ def glass_floor(P, depth=0.42):
         P.box(st, (sx * (S / 2 + 0.004), sy * (S / 2 + 0.004), -0.055 - (depth - 0.055) / 2), (w, d, depth - 0.055))  # sleeve
 
 
-def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=1.0, wing=1.2):
-    """Members' speed gates (Roman: automatic, the phone is the key): slim blackened-steel cabinets with white-oiled oak tops, a
-    tap point for the phone (NFC / BLE) in each top with a brass ring and a soft light, glass swing wings to 1.2 m. Local x runs
+def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=0.98, wing=1.2):
+    """Members' speed gates (Roman: automatic, the phone is the key): slim cabinets in the room's light language, fluted
+    white-oiled oak like the reception desk front, a 12 mm blackened-steel top carrying the tap point for the phone (NFC / BLE) in a
+    brass ring with a soft light, glass swing wings to 1.2 m. Local x runs
     across the lanes, +y faces the cafe. Entry readers sit on the walker's right at the cafe end, exit readers at the gym end.
     Lane lights in the cabinet faces glow green while a lane is open. Wings fail safe: they swing open on a fire alarm (TEK17 escape
     route) and from the release by the gates. cabs = [[x, width]], lanes = [[x0, x1]], open_ = lane indices shown open."""
@@ -2791,9 +2794,16 @@ def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=1.0, wing=1.2):
     green, white = _led("led_green", (0.2, 1.0, 0.4), 6.0), M["opal"]
     sensor = M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08))
     for x, w in cabs:
-        P.box(st, (x, 0, 0.04 + (hc - 0.07) / 2), (w, Lc, hc - 0.07))
-        P.box(M["rubber"], (x, 0, 0.02), (w - 0.02, Lc - 0.02, 0.04))                  # shadow plinth
-        P.box(oak, (x, 0, hc - 0.015), (w + 0.01, Lc + 0.01, 0.03))                    # oak top
+        hb = hc - 0.012 - 0.04
+        P.box(oak, (x, 0, 0.04 + hb / 2), (w - 0.016, Lc - 0.016, hb))                  # oak-veneered body
+        for yy in np.arange(-Lc / 2 + 0.02, Lc / 2 - 0.01, 0.04):                       # flutes on both long faces
+            for sx in (-1, 1):
+                P.box(oak, (x + sx * (w / 2 - 0.009), yy, 0.04 + hb / 2), (0.018, 0.028, hb))
+        for sy in (-1, 1):                                                             # and round the ends
+            for xx in np.arange(x - w / 2 + 0.03, x + w / 2 - 0.01, 0.04):
+                P.box(oak, (xx, sy * (Lc / 2 - 0.009), 0.04 + hb / 2), (0.028, 0.018, hb))
+        P.box(M["rubber"], (x, 0, 0.02), (w - 0.03, Lc - 0.03, 0.04))                  # shadow plinth
+        P.box(st, (x, 0, hc - 0.006), (w + 0.006, Lc + 0.006, 0.012))                  # blackened-steel top
     def reader(x, y):
         P.ring(M["brass"], (x, y), 0.04, 0.046, hc, hc + 0.002, seg=48)
         P.cyl(white, (x, y, hc), 0.038, 0.0015, seg=48)
@@ -2807,10 +2817,11 @@ def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=1.0, wing=1.2):
         if right:
             reader(right[0], -Lc / 2 + 0.16)        # exit (walking from the gym)
         for xf, sg in ((x0, 1), (x1, -1)):           # lane light + safety sensors in both faces
-            P.box(green if is_open else white, (xf + sg * 0.002, 0, 0.84), (0.004, Lc - 0.36, 0.012))
+            P.box(st, (xf + sg * 0.002, 0, 0.84), (0.006, Lc - 0.3, 0.03))
+            P.box(green if is_open else white, (xf + sg * 0.005, 0, 0.84), (0.003, Lc - 0.36, 0.012))
             for yy in (-0.45, 0.45):
                 for zz in (0.35, 0.62):
-                    P.box(sensor, (xf + sg * 0.0015, yy, zz), (0.003, 0.05, 0.03))
+                    P.box(sensor, (xf + sg * 0.004, yy, zz), (0.004, 0.05, 0.03))
         wl = (x1 - x0) / 2 - 0.008
         for xp, sg in ((x0, 1), (x1, -1)):           # two glass wings, hubs on polished pivots in the cabinets
             P.cyl(M["brushed"], (xp + sg * 0.012, 0, 0.22), 0.016, wing - 0.2, seg=20)
