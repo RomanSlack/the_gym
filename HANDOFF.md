@@ -47,8 +47,8 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
   - four dark steel girders and the tapered deck outriggers (`ST3-link-*`)
   - glulam roof beams on slim posts
   - glass `EN-G-link-N-0` / `EN-G-link-S-0` with their headers, and the glass balustrades `EN-balustrade-*`
-- **Floor levels:** the bridge floor is F1 = 0.0, while the cafe is E1 = 0.12. Check the 120 mm step at the cafe end (x 12.0); it probably wants a gentle ramp or a flush threshold.
-- **Shell to do:** floor, ceiling and linings in `tools/interior.py`. There's no stage-5 finish on the bridge yet; it's still the raw slab.
+- **Floor levels (already solved):** the gym is at F1 = 0.00 and the cafe at E1 = 0.12, so the bridge's finished oak floor (`IN-F1-bridge-*` in interior.py, a sloped `pattern_floor` via `"slope"`) rises 120 mm over its 18.45 m (1:150, imperceptible). It's flush at both ends with no step. The black E2 facade band was lowered under the bridge so it no longer shows as a stripe at the join. Keep anything placed on the bridge floor at the floor's height there: `z = 0.12 * (x + 6.45) / 18.45`.
+- **Shell to do:** ceiling and linings in `tools/interior.py` (the floor is done). The decks are still raw.
 - **Furnish in `tools/furnish.py`:**
   - the meeting/seating area
   - the deck furniture (weatherproof: oiled oak / steel, sheepskins, blankets, heaters?)

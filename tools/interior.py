@@ -211,6 +211,20 @@ for wid, side, rng_, tag in (("P-E1-12", 1, (0.075, 5.0 - 0.075 - TD), "-dcwc"),
     lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E1, TILE_TOP])
     lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[TILE_TOP, w_["z"][1]])
 
+# ---- the lounge bridge floor (Roman: the floor dipped down to the bridge): the gym is at F1 0.00, the cafe at E1 0.12, so the
+# bridge's finished oak floor rises 120 mm over its 18.45 m (1:150, imperceptible): flush at both ends, no step, no ramp.
+# Build-up on the suspended link slab (top -0.10): impact mat, screed (falls with the floor), white-oiled oak boards.
+F1v = lv["F1"]; BR = [-6.45, -9.5, 12.0, 6.8]
+add({"id": "IN-F1-bridge-impact", "type": "slab", "material": "impact_mat", "rect": BR, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": [],
+     "note": "20 mm impact sound mat"})
+add({"id": "IN-F1-bridge-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": BR, "z": [round(F1v - 0.08, 3), round(F1v - 0.022, 3)], "holes": [],
+     "pattern": {"kind": "poured", "joint": 6.0}, "slope": [[-6.45, 0.0], [12.0, round(E1 - F1v, 3)]], "slope_top_only": True,
+     "note": "screed with underfloor heating, laid to the 1:150 rise; its top under the oak"})
+fb = FINISH[P["floor"]]
+add({"id": "IN-F1-bridge-floor", "type": "slab", "kind": "floor_finish", "material": fb["material"], "rect": BR, "z": [round(F1v - fb["t"], 3), F1v], "holes": [],
+     "pattern": {k: v for k, v in fb.items() if k not in ("material", "t")}, "slope": [[-6.45, 0.0], [12.0, round(E1 - F1v, 3)]],
+     "note": "white-oiled oak boards rising 0.00 (gym) -> 0.12 (cafe) at 1:150: no step at either end"})
+
 # ---- the staff toilet: a small walled room in the staff room's south-east corner (Roman: not an odd booth), stud walls to 2.7 m with
 # a plastered lid (the staff room stays tall and open to its new forest window), tiled inside like every wet room
 SW_ = [("IN-E1-staffwc-W", [15.3, 16.275], [15.3, 18.5], []),

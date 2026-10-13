@@ -153,8 +153,24 @@ for g in [e for e in els if e["type"] == "wall" and e["id"].startswith("G-") and
                  "z": [zc, z1], "mullions": mul, "transoms": [], "note": "high obscured clerestory: daylight without views in"})
     # header band from the glass head to the roof soffit (above grade only)
     if e2:
-        add({"id": f"EN-band-{g['id']}", "type": "wall", "kind": "clad", "material": "timber_clad", "from": a, "to": b, "size": [0.75, round(lv["E1"] - z1, 2)],
-             "z": [z1, lv["E1"]], "note": "black timber band over the E1 beam and slab edge"})
+        # where the lounge bridge lands on the cafe (x 12.0, y -9.5..6.8) the band stops under the floor build-ups: its top
+        # would otherwise show as a black stripe across the floor where the bridge meets the cafe (Roman spotted the dip there)
+        cuts = [(-9.5, 6.8)] if g["id"] == "G-E2-W" else []
+        segs, s0 = [], a[1] if abs(a[0] - b[0]) < 1e-6 else None
+        if cuts and s0 is not None:
+            ys = sorted([a[1], b[1]]); pts = [ys[0]]
+            for c0, c1 in cuts:
+                pts += [max(ys[0], c0), min(ys[1], c1)]
+            pts.append(ys[1])
+            for (y0_, y1_), low in zip(zip(pts, pts[1:]), [False, True, False]):
+                if y1_ - y0_ > 0.05:
+                    segs.append(((a[0], y0_), (a[0], y1_), -0.25 if low else lv["E1"]))
+        else:
+            segs = [(a, b, lv["E1"])]
+        for k_, (pa_, pb_, ztop) in enumerate(segs):
+            add({"id": f"EN-band-{g['id']}" + ("" if k_ == 0 else f"-{k_}"), "type": "wall", "kind": "clad", "material": "timber_clad", "from": list(pa_),
+                 "to": list(pb_), "size": [0.75, round(ztop - z1, 2)], "z": [z1, ztop],
+                 "note": "black timber band over the E1 beam and slab edge" + (" (stops under the bridge floor)" if ztop < 0 else "")})
     if lvl in ("F1", "E1"):
         add({"id": f"EN-header-{g['id']}", "type": "wall", "kind": "clad", "material": "timber_clad", "from": a, "to": b, "size": [0.4, round(lv["RF"] - z1, 2)],
              "z": [z1, lv["RF"]], "note": "black timber header band between the glass head and the roof; beam tails pass through"})

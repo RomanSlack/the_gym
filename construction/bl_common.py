@@ -504,6 +504,11 @@ def pattern_floor(e, mat, coll, rng):
             for j in range(ny_):
                 boxes.append(_box(x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, z0,
                                   x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015, z1))
+    if e.get("slope"):  # a floor that rises along x (the bridge: gym F1 0.00 -> cafe E1 0.12): each piece lifted by its centre's x
+        (xa, za), (xb, zb) = e["slope"]
+        top_only = e.get("slope_top_only")  # screed: thickens (its underside stays on the slab)
+        lift = lambda bx: za + (zb - za) * min(1, max(0, (sum(p_[0] for p_ in bx) / 8 - xa) / (xb - xa)))
+        boxes = [[(c[0], c[1], c[2] + (lift(bx) if (not top_only or abs(c[2] - z1) < 1e-6) else 0.0)) for c in bx] for bx in boxes]
     return _pieces_mesh(e["id"], boxes, mat, coll)
 
 
