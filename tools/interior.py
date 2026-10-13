@@ -297,6 +297,124 @@ for e in [e for e in by_id.values() if e["id"].startswith("P-F1-") and "gallery"
     lining(e["id"], P["feature"], -sg, tag="-gal", z=[F1v, 4.34])
     lining(e["id"], P["plain"], -sg, tag="-gal-top", z=[4.34, RF])
 
+# ---- zone: the F1 locker rooms, the shell (Roman, 2026-10-13: the actual interior first, then the facilities). Plan + rules in
+# model/layouts/lockers.json (tools/locker_layout.py, blueprint/layout.html) and VISION "Locker rooms: hygiene zoning".
+#   changing rooms (barefoot): white-oiled oak boards on UFH; warm plaster walls; riven slate courses to 1.0 m along the stream wall;
+#     an oak slat ceiling at 3.2 m on felt + a lid (extract plenum above), cut round for an oculus over each round locker room
+#   shoe zones (gallery -> WC room door): light honed stone
+#   wash zones (barefoot, clean): light honed stone 600 x 600, R11; tile to 2.6, plaster above; open to the clerestory, no ceiling
+#   WC rooms: their own floor (grey porcelain 300 x 300, photocatalytic), tile to a 2.75 m oak slat ceiling + lid (negative pressure)
+#   the stream (Bekken): a 350 mm slate channel cut 120 mm into the floor (furnish: the channel, pebbles, water)
+import json as _json
+from shapely.geometry import LineString as _LS, Polygon as _Poly, box as _box
+from shapely.ops import unary_union as _union
+LK = _json.loads((ROOT / "model" / "layouts" / "lockers.json").read_text())
+_sp = {s_["id"]: s_ for s_ in m["spaces"]}
+_wall_els = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and e["z"][0] <= F1v + 1.0 <= e["z"][1]
+             and min(e["from"][0], e["to"][0]) < -5 and max(e["from"][0], e["to"][0]) > -36 and min(e["from"][1], e["to"][1]) < 13 and max(e["from"][1], e["to"][1]) > -10]
+def _foot(e):
+    return _LS([e["from"], e["to"]]).buffer(e["size"][0] / 2, cap_style=2)
+_walls_u = _union([_foot(e) for e in _wall_els])
+def clear(room):
+    return _Poly(_sp[room]["poly"]).difference(_walls_u)
+def line_rooms(room, finish, z, tag, only=None, skip=()):
+    """Line every wall face of a room with a finish, each lining exactly between the faces of the walls it meets."""
+    cp = clear(room); f = FINISH[finish]; dep = f.get("depth", 0.015)
+    for e in _wall_els:
+        if e["id"] in skip or (only and e["id"] not in only):
+            continue
+        (ax, ay), (bx, by) = e["from"], e["to"]; L = math.hypot(bx - ax, by - ay)
+        if L < 0.2:
+            continue
+        ux, uy = (bx - ax) / L, (by - ay) / L
+        for sg in (1, -1):
+            nx, ny = -uy * sg, ux * sg; off = e["size"][0] / 2 + 0.004
+            ln = _LS([(ax + nx * off, ay + ny * off), (bx + nx * off, by + ny * off)]).intersection(cp.buffer(0.002))
+            for g in getattr(ln, "geoms", [ln]):
+                if g.is_empty or g.geom_type != "LineString" or g.length < 0.15:
+                    continue
+                ss = sorted(((c[0] - ax) * ux + (c[1] - ay) * uy) for c in g.coords)
+                s0, s1 = max(0.0, ss[0]), min(L, ss[-1])
+                if s1 - s0 > 0.15:
+                    lining(e["id"], finish, sg, (round(s0 + dep * 0 , 3), round(s1, 3)), tag=f"-{tag}-{sg}-{round(s0, 1)}", z=z)
+import math
+FINISH["slate_courses"] = {"kind": "courses", "h": [0.035, 0.05, 0.065, 0.08], "L": [0.3, 0.42, 0.55, 0.7], "gap": 0.004, "depth": 0.03, "material": "slate_riven"}
+FINISH["wc_tile_floor"] = {"kind": "slabs", "w": 0.3, "L": [0.3], "gap": 0.002, "dir": "y", "bond": "stack", "material": "porcelain_grey", "t": 0.012}
+# floors
+_streams = [i for i in LK["items"] if i["kind"] == "stream"]
+def _stream_holes(rect):
+    hs = []
+    for st in _streams:
+        w2 = st["width"] / 2 + 0.03
+        for (xa, ya), (xb, yb) in zip(st["pts"], st["pts"][1:]):
+            r_ = [min(xa, xb) - w2, min(ya, yb) - w2, max(xa, xb) + w2, max(ya, yb) + w2]
+            r_ = [max(r_[0], rect[0]), max(r_[1], rect[1]), min(r_[2], rect[2]), min(r_[3], rect[3])]
+            if r_[2] - r_[0] > 0.05 and r_[3] - r_[1] > 0.05:
+                hs.append({"rect": [round(v, 3) for v in r_], "note": "the stream's slate channel"})
+    return hs
+LIFT_M, LIFT_W = [-29.45, -4.1, -28.85, -1.7], [-29.45, 4.7, -28.85, 7.1]
+LKF = {  # name: rect, finish, extra holes
+    "mchg": ([-29.45, -4.2, -14.4, 1.5], "oak", [{"rect": LIFT_M}]), "wchg": ([-29.45, 1.5, -14.4, 7.65], "oak", [{"rect": LIFT_W}]),
+    "mshoe": ([-14.4, -4.2, -11.6, -0.375], "shoe", []), "wshoe": ([-14.4, -0.375, -11.6, 7.65], "shoe", []),
+    "mwash": ([-29.45, -9.3, -19.4, -4.2], "wet", []), "wwash": ([-29.45, 7.65, -19.4, 12.1], "wet", []),
+    "mwc": ([-19.4, -9.3, -11.6, -4.2], "wc", []), "wwc": ([-19.4, 7.65, -11.6, 12.1], "wc", []),
+    "lobby": ([-35.45, -1.5, -29.45, 4.5], "wet", []),
+}
+for nm, (r, fk, extra) in LKF.items():
+    f = {"oak": {**FINISH[P["floor"]], "dir": "x"}, "shoe": FINISH["stone_light"], "wet": wet, "wc": FINISH["wc_tile_floor"]}[fk]
+    holes = extra + _stream_holes(r)
+    add({"id": f"IN-F1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
+    add({"id": f"IN-F1-{nm}-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": r, "z": [round(F1v - 0.08, 3), round(F1v - f["t"], 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 6.0}, "note": "screed with underfloor heating" + ("" if fk in ("oak", "shoe") else " + liquid waterproofing, laid to the drains")})
+    add({"id": f"IN-F1-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": f["material"], "rect": r, "z": [round(F1v - f["t"], 3), F1v], "holes": holes,
+         "pattern": {k: v for k, v in f.items() if k not in ("material", "t")},
+         "note": {"oak": "white-oiled oak boards (barefoot)", "shoe": "light honed stone (the shoe zone)", "wet": "light honed stone 600 x 600, R11",
+                  "wc": "the WC room's own floor: grey porcelain 300 x 300, photocatalytic glaze, to falls"}[fk]})
+# walls
+for room in ("men-wet", "women-wet"):
+    line_rooms(room, "tile_wall", [F1v, 2.6], "lkw")
+    line_rooms(room, P["plain"], [2.6, 5.64], "lkwp", skip=[e["id"] for e in _wall_els if e.get("kind") == "clad"])
+for room in ("men-wc", "women-wc"):
+    line_rooms(room, "tile_wall", [F1v, 2.75], "lkt")
+for room in ("men-lockers", "women-lockers"):
+    wetwall = [e["id"] for e in _wall_els if set(e.get("between", [])) & {"men-wet", "women-wet", "men-wc", "women-wc"} and room in e.get("between", [])]
+    line_rooms(room, "slate_courses", [F1v, 1.0], "lks", only=wetwall)
+    line_rooms(room, P["plain"], [1.0, 3.2], "lkp", only=wetwall)
+    line_rooms(room, P["plain"], [F1v, 3.2], "lkp", skip=wetwall)
+line_rooms("sauna-lobby", P["plain"], [F1v, 2.9], "lkl")
+# the men's urinal room: tiled stud walls inside the WC room (from the layout)
+for it in [i for i in LK["items"] if i["kind"] == "partition"]:
+    rr = math.radians(it["rot"]); hx, hy = math.cos(rr) * it["w"] / 2, math.sin(rr) * it["w"] / 2
+    wid = f"IN-F1-{it['id']}"
+    w_ = {"id": wid, "type": "wall", "kind": "partition", "material": "timber_stud", "from": [round(it["x"] - hx, 3), round(it["y"] - hy, 3)],
+          "to": [round(it["x"] + hx, 3), round(it["y"] + hy, 3)], "size": [0.1, 2.75], "z": [F1v, 2.75], "openings": [], "note": it["label"]}
+    add(w_); by_id[wid] = w_
+    for sg in (1, -1):
+        lining(wid, "tile_wall", sg, (0.0, it["w"]), tag=f"-t{sg}", z=[F1v, 2.75])
+# ceilings: changing rooms at 3.2 with an oculus over each round locker room; WC rooms at 2.75
+for room, rect in (("men-lockers", [-29.375, -4.275, -11.675, 1.425]), ("women-lockers", [-29.375, 1.575, -11.675, 7.575])):
+    ocs = [{"circle": [r_["x"], r_["y"], 1.0], "note": "oculus over a round locker room"} for r_ in LK["items"] if r_["kind"] == "locker_ring" and r_["room"] == room]
+    nm = room.split("-")[0]
+    add({"id": f"IN-F1-ceiling-{nm}chg", "type": "slab", "kind": "ceiling", "material": "oak_slat", "rect": rect, "z": [3.18, 3.2], "holes": ocs,
+         "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x"}, "ignore_beams": True,
+         "note": "oak acoustic slats at 3.2 m on black felt, cut round the oculi over the round locker rooms"})
+    add({"id": f"IN-F1-ceiling-{nm}chg-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": rect, "z": [3.23, 3.24], "holes": ocs,
+         "pattern": {"kind": "poured", "joint": 0.25}, "note": "black acoustic felt behind the slats"})
+    add({"id": f"IN-F1-ceiling-{nm}chg-lid", "type": "slab", "kind": "ceiling", "material": "timber_stud", "rect": rect, "z": [3.24, 3.265], "holes": ocs,
+         "pattern": {"kind": "poured", "joint": 0.25}, "note": "plasterboard lid (extract + supply plenum above)"})
+add({"id": "IN-F1-ceiling-lobby", "type": "slab", "kind": "ceiling", "material": "clt_white", "rect": [-35.45, -1.5, -29.45, 4.5], "z": [2.996, 3.0], "holes": [],
+     "note": "the sauna lobby's CLT soffit, white-oiled"})
+for nm, rect in (("mwash", [-29.45, -9.3, -19.4, -4.2]), ("wwash", [-29.45, 7.65, -19.4, 12.1])):  # wash zones: open to the clerestory
+    add({"id": f"IN-F1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": "clt_white", "rect": rect, "z": [round(RF - 0.004, 3), RF], "holes": [],
+         "note": "the CLT soffit, white-oiled (moisture-tolerant finish; the wash zones stay tall and daylit)"})
+for room, rect in (("men-wc", [-19.325, -9.225, -11.675, -4.275]), ("women-wc", [-19.325, 7.725, -11.675, 11.9])):
+    nm = room.split("-")[0]
+    add({"id": f"IN-F1-ceiling-{nm}wc", "type": "slab", "kind": "ceiling", "material": "oak_slat", "rect": rect, "z": [2.73, 2.75], "holes": [],
+         "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "x"}, "ignore_beams": True, "note": "oak slat ceiling at 2.75 m"})
+    add({"id": f"IN-F1-ceiling-{nm}wc-lid", "type": "slab", "kind": "ceiling", "material": "timber_stud", "rect": rect, "z": [2.79, 2.815], "holes": [],
+         "note": "plasterboard lid: the WC room is a closed box at negative pressure (extract plenum above)"})
+
 # ---- the staff toilet: a small walled room in the staff room's south-east corner (Roman: not an odd booth), stud walls to 2.7 m with
 # a plastered lid (the staff room stays tall and open to its new forest window), tiled inside like every wet room
 SW_ = [("IN-E1-staffwc-W", [15.3, 16.275], [15.3, 18.5], []),

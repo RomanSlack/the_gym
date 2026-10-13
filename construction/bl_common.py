@@ -551,7 +551,13 @@ def pattern_ceiling(e, mat, coll, beam_lines):
     y = y0 + p["pitch"] / 2
     while y < y1:
         if e.get("ignore_beams") or all(abs(y - yb) > half + p["w"] / 2 for yb in beam_lines):
-            xs_ = [x0] + [v for c0, c1 in sorted(e.get("split_x", [])) for v in (c0, c1)] + [x1]  # beams crossing the slats (the bridge)
+            cuts_ = list(e.get("split_x", []))  # beams crossing the slats (the bridge) + round openings (the locker rooms' oculi)
+            for h in e.get("holes", []):
+                if "circle" in h:
+                    hx, hy, hr = h["circle"]
+                    if abs(y - hy) < hr:
+                        hh = math.sqrt(hr * hr - (y - hy) ** 2); cuts_.append([hx - hh, hx + hh])
+            xs_ = [x0] + [v for c0, c1 in sorted(cuts_) for v in (c0, c1)] + [x1]
             for xa, xb in zip(xs_[::2], xs_[1::2]):
                 if xb - xa > 0.02:
                     boxes.append(_box(max(x0, xa), y - p["w"] / 2, z0, min(x1, xb), y + p["w"] / 2, z1))
@@ -678,13 +684,18 @@ def interior_materials():
         "oak_slat": pbr_material("oak_slat", "oak_veneer_01", 1.83, box=True, rough_mul=0.9, rough_add=0.15, piece_var=0.07, tint=(1.05, 1.0, 0.9), sat=0.65, val=1.7),
         "stone_honed": pbr_material("stone_honed", "dark_rock", 2.4, tint=(0.62, 0.64, 0.66), box=True, rough_mul=0.55, rough_add=0.2, piece_var=0.08),
         "concrete_ground": pbr_material("concrete_ground", "smooth_concrete_floor", 2.0, tint=(0.95, 0.92, 0.86), rough_mul=0.7, rough_add=0.15, piece_var=0.04),
-        "clt_white": pbr_material("clt_white", "coated_pine_02", 1.05, tint=(1.25, 1.22, 1.15), box=True, piece_var=0.03),
+        "clt_white": pbr_material("clt_white_v2", "coated_pine_02", 1.05, tint=(1.1, 1.08, 1.04), box=True, piece_var=0.03, sat=0.28, val=1.55),  # white-oiled spruce: pale, the grain still there
         "clt_natural": pbr_material("clt_natural", "coated_pine_02", 1.05, tint=(1.05, 0.98, 0.85), box=True, piece_var=0.03),
         "lime_plaster": material("lime_plaster", (0.80, 0.77, 0.71), 0.9),   # smooth warm-white lime plaster
         "stone_light": pbr_material("stone_light", "smooth_concrete_floor", 2.0, tint=(1.0, 0.98, 0.95), box=True, rough_mul=0.6, rough_add=0.15, piece_var=0.05, sat=0.2, val=2.0),
         "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
         "ash_fin": pbr_material("ash_fin", "ash_veneer", 1.0, box=True, tint=(1.05, 1.02, 0.95), sat=0.45, val=1.75, piece_var=0.06),
         "gym_rubber": gym_rubber(), "wood_wool": wood_wool(),
+        # locker rooms: the WC rooms' own floor (a different, darker small-format porcelain: you see where the toilet floor ends),
+        # riven slate for the stream wall + channels (dark Otta-like blue-grey), the pebble bed of the stream
+        "porcelain_grey": pbr_material("porcelain_grey", "smooth_concrete_floor", 1.2, box=True, tint=(0.62, 0.62, 0.63), sat=0.1, val=0.85, rough_mul=0.6, rough_add=0.2, piece_var=0.05),
+        "slate_riven": pbr_material("slate_riven_wall", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34, rough_add=0.12, piece_var=0.12),
+        "pebbles": pbr_material("stream_pebbles", "river_small_rocks", 0.8, box=True, sat=0.7, val=0.75, piece_var=0.0),
         # outdoor decking: Kebony, weathered to its silver grey (like the old boat houses), still warm in the grain
         "decking": pbr_material("decking_kebony", "ash_veneer", 1.0, box=True, tint=(0.78, 0.76, 0.73), sat=0.18, val=0.95, piece_var=0.1, rough_add=0.15),
         "impact_mat": material("impact_mat", (0.05, 0.05, 0.05), 0.9),

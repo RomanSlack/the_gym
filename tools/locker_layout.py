@@ -197,8 +197,9 @@ def stream(room_c, room_w, s, ops):
     y = (-4.275 + 0.25) if s > 0 else (7.575 - 0.25)
     ye = -7.0 if s > 0 else 9.85
     xw = ops[0][0] + 0.17
-    pts_c = [[-15.3, y], [xw + 0.3, y], [xw, y - s * 0.3]]
-    pts_w = [[xw, y - s * 0.3], [xw, ye]]
+    yl = -4.2 if s > 0 else 7.65                     # the wall line: the channel passes through the opening there
+    pts_c = [[-15.3, y], [round(xw, 3), y], [round(xw, 3), yl]]
+    pts_w = [[round(xw, 3), yl], [round(xw, 3), ye]]
     put(room_c, "spring_basin", -15.0, y, 0.6, 0, d=0.6)
     items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.35})
     items.append({"id": f"{room_w}-stream", "room": room_w, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_w, "width": 0.35})

@@ -514,6 +514,14 @@ CAMS = {
     "gal_entries": ((-7.0, -7.4, 1.62), (-11.6, -0.4, 1.5), 18),
     "gal_south": ((-8.9, 10.6, 1.66), (-9.6, -20.0, 1.3), 18),
     "gal_floor": ((-7.6, -5.6, 1.35), (-9.6, -8.6, 0.0), 24),
+    # the F1 locker rooms (phase 1: the shell)
+    "lk_m_entry": ((-10.3, -3.15, 1.62), (-17.5, -3.2, 1.3), 18),
+    "lk_m_aisle": ((-14.9, -3.7, 1.62), (-28.5, -2.6, 1.6), 17),
+    "lk_m_wash": ((-20.2, -4.9, 1.62), (-29.0, -7.6, 1.5), 17),
+    "lk_m_wc": ((-13.4, -4.75, 1.62), (-19.0, -8.0, 1.2), 17),
+    "lk_w_aisle": ((-14.9, 6.9, 1.62), (-28.5, 5.6, 1.6), 17),
+    "lk_w_wash": ((-20.2, 8.1, 1.62), (-29.0, 10.6, 1.5), 17),
+    "lk_lobby": ((-30.2, 3.6, 1.62), (-35.0, -0.8, 1.2), 18),
     "deck_n_falls": ((0.3, 7.08, 1.7), (-3.0, 32.0, -1.0), 20),
     "deck_s": ((11.4, -12.15, 1.66), (-4.5, -10.4, 1.1), 18),
     "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
@@ -558,13 +566,13 @@ EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
-             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south", "gal_floor"],
+             5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south", "gal_floor", "lk_m_entry", "lk_m_aisle", "lk_m_wash", "lk_m_wc", "lk_w_aisle", "lk_w_wash", "lk_lobby"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (1.6 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

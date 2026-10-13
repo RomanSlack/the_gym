@@ -641,7 +641,6 @@ putb("light_only", WF - 0.3, BAY, rot=-90, zone="gallery", z=F1, light={"type": 
 for yc, fig, yp in ((-3.145, "man", -4.55), (0.45, "woman", 1.85)):
     putb("portal_frame", -11.6 + 0.075 + 0.065, yc, rot=-90, zone="gallery", z=F1, width=1.5, height=2.4, depth=0.215, note=f"{fig}'s locker entry, blackened steel")
     putb("pictogram", WF, yp, rot=-90, zone="gallery", z=F1, figure=fig, size=0.36, mount=1.62, note=f"{fig}'s changing")
-putb("baffle_screen", -13.6, -3.06, rot=90, zone="gallery", z=F1, width=2.1, height=2.4, note="men's entry privacy baffle (oak slats both faces)")
 putb("floor_strip", -6.45, BAY, rot=90, zone="gallery", z=F1, length=16.3, w=0.04, note="blackened-steel threshold: the bridge oak ends, the gym begins")
 for ya, yb in ((-9.2, -4.0), (1.35, 12.0)):  # light slot at the foot of the oak wall, skipping the entries + Kilden
     for k in range(int((yb - ya) / 2.6 + 0.999)):
@@ -658,6 +657,38 @@ for xl in (-10.1, -7.95):  # two recessed linear lines along the gallery, one ru
                     "aim": [xl, (a_ + b_) / 2, 0.0], "color": [1.0, 0.92, 0.82]}, note="recessed linear light, 3500 K")
 put("exit_sign", -9.5, 12.35 - 0.125, rot=180, zone="gallery", level="F1", z=F1, mount=2.45, note="nødutgang: core W3 (north exit stair)")
 services(-10.9, -7.0, -8.6, 11.9, "F1", 5.48, 5.6)
+
+# ---- the F1 locker rooms, phase 1: the shell's own pieces (the stream channels, the oculi) + the basic light; the facilities come
+# next (model/layouts/lockers.json)
+import json as _json
+LK = _json.loads((ROOT / "model" / "layouts" / "lockers.json").read_text())
+def putl(kind, x, y, rot=0.0, zone="lockers", **kw):
+    put(kind, x, y, rot=rot, zone=zone, level="F1", z=F1, **kw)
+for st in [i for i in LK["items"] if i["kind"] == "stream"]:
+    x0, y0 = st["pts"][0]
+    putl("stream_channel", x0, y0, pts=[[round(x - x0, 3), round(y - y0, 3)] for x, y in st["pts"]], width=st["width"], note="Bekken: the stream's slate channel")
+for r_ in [i for i in LK["items"] if i["kind"] == "locker_ring"]:
+    putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
+         "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.86, 0.7]}, note="oculus over a round locker room")
+for room, ya in (("men", -3.5), ("women", 6.3)):  # downlights along each changing room's aisle + the west lobby + the shoe zone
+    for x in (-28.0, -25.4, -22.8, -20.2, -17.6, -15.0, -12.9):
+        putl("cell_light", x, ya, z_ceiling=3.18, light={"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1],
+             "aim": [x, ya, 0.0], "color": WARM})
+    for y in ((-1.0, 0.3) if room == "men" else (2.6, 3.9)):
+        putl("cell_light", -28.0, y, z_ceiling=3.18, light={"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1],
+             "aim": [-28.0, y, 0.0], "color": WARM})
+for room, ys in (("men-wc", (-5.4, -7.6)), ("women-wc", (8.6, 10.6))):  # WC rooms: recessed in the 2.75 slat ceiling
+    for x in (-18.4, -15.8, -13.2):
+        for y in ys:
+            putl("cell_light", x, y, zone="wc", z_ceiling=2.73, light={"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05,
+                 "offset": [0, 0, 2.68], "aim": [x, y, 0.0], "color": WARM})
+for room, yw, rw in (("men-wet", -4.275 - 0.022, 180), ("women-wet", 7.725 + 0.022, 0)):  # wash zones: tall + daylit; slim wall lights on the tile
+    for x in (-28.6, -25.3, -20.3):
+        putl("wall_light", x, yw, rot=rw, zone="wash", light={"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None,
+             "color": WARM})
+for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
+    putl("cell_light", x, y, zone="lobby", z_ceiling=2.88, light={"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8],
+         "aim": [x, y, 0.0], "color": WARM})
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
