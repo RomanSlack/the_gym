@@ -34,7 +34,7 @@ GLASS_PAIRS = {frozenset(p) for p in [("dc-wc", "dc-kids"), ("dc-wc", "daycare-u
 OPEN_PAIRS = {frozenset(p) for p in [("pool-lobby", "pool-deck-w"), ("lobby", "reception")]}
 # explicit doors: room -> list of neighbours it opens to
 DOORS = {
-    "women-wet": ["women-lockers"], "men-wet": ["men-lockers"],
+    "women-wet": ["women-lockers"], "men-wet": ["men-lockers"], "women-wc": ["women-lockers"], "men-wc": ["men-lockers"],
     "women-lockers": ["gallery"], "men-lockers": ["gallery"],
     "sauna-lobby": ["women-lockers", "men-lockers"],
     "dc-wc": ["dc-kids"], "dc-staff": ["dc-kids"], "dc-wardrobe": ["daycare-up"],
@@ -56,10 +56,12 @@ PASSAGE = {  # (room, neighbour) -> opening type
     ("dc-wc", "dc-kids"): "opening", ("dc-wc-low", "daycare-low"): "opening",
 }
 WIDTH = {"door": 1.0, "opening": 1.8, "baffle": 1.6}
-COUNT = {("women-wet", "women-lockers"): 3, ("men-wet", "men-lockers"): 3}  # Roman: several open ways in, no bottleneck
+COUNT = {("women-wet", "women-lockers"): 2, ("men-wet", "men-lockers"): 2}  # Roman: several open ways in, no bottleneck
 # entries placed by design (centre point on the wall, clear width): the locker entries flank Kilden on the bridge axis (y -1.35),
 # mirror-symmetric, 1.5 m clear each (tools/layout_v1.py)
-PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "gallery"): ((-11.6, -3.15), 1.5)}
+PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "gallery"): ((-11.6, -3.15), 1.5),
+         # the WC rooms' doors (hands-free automatic sliding, hygiene): right off the arrival nooks, on the shoe side
+         ("men-wc", "men-lockers"): ((-13.5, -4.2), 1.0), ("women-wc", "women-lockers"): ((-13.5, 7.65), 1.0)}
 DOOR_W = 1.0
 
 spaces = m["spaces"]

@@ -2598,15 +2598,14 @@
       "kind": "partition",
       "material": "timber_stud",
       "from": [-29.45, 7.65],
-      "to": [-11.6, 7.65],
+      "to": [-19.4, 7.65],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["women-lockers", "women-wet"],
       "openings": [
-        {"s": [2.08, 3.88], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"},
-        {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"},
-        {"s": [13.97, 15.77], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wet zone ↔ Women's changing"}
+        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
+        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
       ],
       "phase": 5,
       "seq": 200,
@@ -2614,6 +2613,24 @@
     },
     {
       "id": "P-F1-35",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-19.4, 7.65],
+      "to": [-11.6, 7.65],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-lockers", "women-wc"],
+      "openings": [
+        {"s": [5.4, 6.4], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Women's WC room ↔ Women's changing"}
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-F1-36",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2629,7 +2646,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-35b",
+      "id": "P-F1-36b",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2645,7 +2662,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-35c",
+      "id": "P-F1-36c",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2661,7 +2678,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-36",
+      "id": "P-F1-37",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2679,7 +2696,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-37",
+      "id": "P-F1-38",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2697,7 +2714,23 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-38",
+      "id": "P-F1-39",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-19.4, 7.65],
+      "to": [-19.4, 12.1],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["women-wet", "women-wc"],
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-F1-40",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2706,34 +2739,51 @@
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
-      "between": ["women-wet", "gallery"],
+      "between": ["women-wc", "gallery"],
       "openings": [],
       "phase": 5,
       "seq": 200,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-39",
+      "id": "P-F1-41",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-11.6, -4.2],
+      "from": [-19.4, -4.2],
       "to": [-29.45, -4.2],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
       "between": ["men-lockers", "men-wet"],
       "openings": [
-        {"s": [2.08, 3.88], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"},
-        {"s": [8.03, 9.83], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"},
-        {"s": [13.97, 15.77], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wet zone ↔ Men's changing"}
+        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
+        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
       ],
       "phase": 5,
       "seq": 200,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-40",
+      "id": "P-F1-42",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-11.6, -4.2],
+      "to": [-19.4, -4.2],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-lockers", "men-wc"],
+      "openings": [
+        {"s": [1.4, 2.4], "z": [0.0, 2.1], "type": "door", "swing": 1, "note": "Men's WC room ↔ Men's changing"}
+      ],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-F1-43",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2752,7 +2802,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-41",
+      "id": "P-F1-44",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2770,23 +2820,23 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-42",
+      "id": "P-F1-45",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
-      "from": [-11.6, -9.3],
-      "to": [-11.6, -4.2],
+      "from": [-19.4, -9.3],
+      "to": [-19.4, -4.2],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
-      "between": ["men-wet", "gallery"],
+      "between": ["men-wet", "men-wc"],
       "openings": [],
       "phase": 5,
       "seq": 200,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-43",
+      "id": "P-F1-46",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2802,12 +2852,12 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-44",
+      "id": "P-F1-47",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
       "from": [-21.45, -9.3],
-      "to": [-14.45, -9.3],
+      "to": [-19.4, -9.3],
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
@@ -2818,7 +2868,39 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F1-45",
+      "id": "P-F1-48",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-11.6, -9.3],
+      "to": [-11.6, -4.2],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wc", "gallery"],
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-F1-49",
+      "type": "wall",
+      "kind": "partition",
+      "material": "timber_stud",
+      "from": [-19.4, -9.3],
+      "to": [-14.45, -9.3],
+      "size": [0.15, 5.64],
+      "z": [0.0, 5.64],
+      "level": "F1",
+      "between": ["men-wc", "spiral-F1"],
+      "openings": [],
+      "phase": 5,
+      "seq": 200,
+      "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
+    },
+    {
+      "id": "P-F1-50",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2827,14 +2909,14 @@
       "size": [0.15, 5.64],
       "z": [0.0, 5.64],
       "level": "F1",
-      "between": ["men-wet", "calisthenics"],
+      "between": ["men-wc", "calisthenics"],
       "openings": [],
       "phase": 5,
       "seq": 200,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F2-46",
+      "id": "P-F2-51",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2850,7 +2932,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F2-47",
+      "id": "P-F2-52",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2866,7 +2948,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F2-48",
+      "id": "P-F2-53",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2882,7 +2964,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-49",
+      "id": "P-F4-54",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2898,7 +2980,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-49b",
+      "id": "P-F4-54b",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2914,7 +2996,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-49c",
+      "id": "P-F4-54c",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2930,7 +3012,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-50",
+      "id": "P-F4-55",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2946,7 +3028,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-51",
+      "id": "P-F4-56",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2964,7 +3046,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-52",
+      "id": "P-F4-57",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2980,7 +3062,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-53",
+      "id": "P-F4-58",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -2996,7 +3078,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-54",
+      "id": "P-F4-59",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -3012,7 +3094,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-55",
+      "id": "P-F4-60",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -3028,7 +3110,7 @@
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
     },
     {
-      "id": "P-F4-56",
+      "id": "P-F4-61",
       "type": "wall",
       "kind": "partition",
       "material": "timber_stud",
@@ -5777,60 +5859,19 @@
       "seq": 200
     },
     {
-      "id": "EN-G-F1-A1-3-wall",
-      "type": "wall",
-      "kind": "clad",
-      "material": "timber_clad",
-      "from": [-29.45, -9.6],
-      "to": [-29.45, -9.3],
-      "size": [0.4, 2.6],
-      "z": [0.0, 2.6],
-      "note": "solid for privacy: black tarred board-on-board pine on a 0.40 m insulated timber frame",
-      "phase": 4,
-      "seq": 200
-    },
-    {
-      "id": "EN-G-F1-A1-3-clerestory",
+      "id": "EN-G-F1-A1-3",
       "type": "wall",
       "kind": "glazed",
-      "material": "glass_obscured",
+      "material": "glass",
       "from": [-29.45, -9.6],
-      "to": [-29.45, -9.3],
-      "size": [0.12, 1.74],
-      "z": [2.6, 4.34],
-      "mullions": [],
-      "transoms": [],
-      "note": "high obscured clerestory: daylight without views in",
-      "phase": 4,
-      "seq": 226
-    },
-    {
-      "id": "EN-G-F1-A1-4-wall",
-      "type": "wall",
-      "kind": "clad",
-      "material": "timber_clad",
-      "from": [-29.45, -9.3],
-      "to": [-29.45, -4.1],
-      "size": [0.4, 2.6],
-      "z": [0.0, 2.6],
-      "note": "solid for privacy: black tarred board-on-board pine on a 0.40 m insulated timber frame",
+      "to": [-29.45, -4.2],
+      "size": [0.12, 4.34],
+      "z": [0.0, 4.34],
+      "mullions": [1.08, 2.16, 3.24, 4.32],
+      "transoms": [3.0],
+      "note": "triple-glazed, dark aluminium frames; mullions on the column rhythm",
       "phase": 4,
       "seq": 200
-    },
-    {
-      "id": "EN-G-F1-A1-4-clerestory",
-      "type": "wall",
-      "kind": "glazed",
-      "material": "glass_obscured",
-      "from": [-29.45, -9.3],
-      "to": [-29.45, -4.1],
-      "size": [0.12, 1.74],
-      "z": [2.6, 4.34],
-      "mullions": [1.3, 2.6, 3.9],
-      "transoms": [],
-      "note": "high obscured clerestory: daylight without views in",
-      "phase": 4,
-      "seq": 226
     },
     {
       "id": "EN-G-F1-A1-6-wall",
@@ -5907,7 +5948,7 @@
       "kind": "clad",
       "material": "timber_clad",
       "from": [-29.45, 7.1],
-      "to": [-29.45, 12.1],
+      "to": [-29.45, 7.7],
       "size": [0.4, 2.6],
       "z": [0.0, 2.6],
       "note": "solid for privacy: black tarred board-on-board pine on a 0.40 m insulated timber frame",
@@ -5920,14 +5961,29 @@
       "kind": "glazed",
       "material": "glass_obscured",
       "from": [-29.45, 7.1],
-      "to": [-29.45, 12.1],
+      "to": [-29.45, 7.7],
       "size": [0.12, 1.74],
       "z": [2.6, 4.34],
-      "mullions": [1.25, 2.5, 3.75],
+      "mullions": [],
       "transoms": [],
       "note": "high obscured clerestory: daylight without views in",
       "phase": 4,
       "seq": 226
+    },
+    {
+      "id": "EN-G-F1-A2-3",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [-29.45, 7.7],
+      "to": [-29.45, 12.1],
+      "size": [0.12, 4.34],
+      "z": [0.0, 4.34],
+      "mullions": [1.1, 2.2, 3.3],
+      "transoms": [3.0],
+      "note": "triple-glazed, dark aluminium frames; mullions on the column rhythm",
+      "phase": 4,
+      "seq": 200
     },
     {
       "id": "EN-header-G-F1-A2",
@@ -5943,11 +5999,26 @@
       "seq": 243
     },
     {
-      "id": "EN-G-F1-N-0-wall",
+      "id": "EN-G-F1-N-0",
+      "type": "wall",
+      "kind": "glazed",
+      "material": "glass",
+      "from": [-29.45, 12.1],
+      "to": [-19.35, 12.1],
+      "size": [0.12, 4.34],
+      "z": [0.0, 4.34],
+      "mullions": [1.262, 2.525, 3.787, 5.05, 6.312, 7.575, 8.838],
+      "transoms": [3.0],
+      "note": "triple-glazed, dark aluminium frames; mullions on the column rhythm",
+      "phase": 4,
+      "seq": 200
+    },
+    {
+      "id": "EN-G-F1-N-1-wall",
       "type": "wall",
       "kind": "clad",
       "material": "timber_clad",
-      "from": [-29.45, 12.1],
+      "from": [-19.35, 12.1],
       "to": [-17.25, 12.1],
       "size": [0.4, 2.6],
       "z": [0.0, 2.6],
@@ -5956,22 +6027,22 @@
       "seq": 200
     },
     {
-      "id": "EN-G-F1-N-0-clerestory",
+      "id": "EN-G-F1-N-1-clerestory",
       "type": "wall",
       "kind": "glazed",
       "material": "glass_obscured",
-      "from": [-29.45, 12.1],
+      "from": [-19.35, 12.1],
       "to": [-17.25, 12.1],
       "size": [0.12, 1.74],
       "z": [2.6, 4.34],
-      "mullions": [1.22, 2.44, 3.66, 4.88, 6.1, 7.32, 8.54, 9.76, 10.98],
+      "mullions": [1.05],
       "transoms": [],
       "note": "high obscured clerestory: daylight without views in",
       "phase": 4,
       "seq": 226
     },
     {
-      "id": "EN-G-F1-N-1-over-W3",
+      "id": "EN-G-F1-N-2-over-W3",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -5986,7 +6057,7 @@
       "seq": 230
     },
     {
-      "id": "EN-G-F1-N-2",
+      "id": "EN-G-F1-N-3",
       "type": "wall",
       "kind": "glazed",
       "material": "glass",
@@ -8912,7 +8983,7 @@
       "seq": 256
     },
     {
-      "id": "IN-lining-P-F1-36-gal",
+      "id": "IN-lining-P-F1-37-gal",
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
@@ -8930,7 +9001,7 @@
       "seq": 200
     },
     {
-      "id": "IN-lining-P-F1-36-gal-top",
+      "id": "IN-lining-P-F1-37-gal-top",
       "type": "wall",
       "kind": "lining",
       "material": "lime_plaster",
@@ -8946,7 +9017,7 @@
       "seq": 243
     },
     {
-      "id": "IN-lining-P-F1-38-gal",
+      "id": "IN-lining-P-F1-40-gal",
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
@@ -8962,7 +9033,7 @@
       "seq": 200
     },
     {
-      "id": "IN-lining-P-F1-38-gal-top",
+      "id": "IN-lining-P-F1-40-gal-top",
       "type": "wall",
       "kind": "lining",
       "material": "lime_plaster",
@@ -8978,7 +9049,7 @@
       "seq": 243
     },
     {
-      "id": "IN-lining-P-F1-40-gal",
+      "id": "IN-lining-P-F1-43-gal",
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
@@ -8997,7 +9068,7 @@
       "seq": 200
     },
     {
-      "id": "IN-lining-P-F1-40-gal-top",
+      "id": "IN-lining-P-F1-43-gal-top",
       "type": "wall",
       "kind": "lining",
       "material": "lime_plaster",
@@ -9013,7 +9084,7 @@
       "seq": 243
     },
     {
-      "id": "IN-lining-P-F1-42-gal",
+      "id": "IN-lining-P-F1-48-gal",
       "type": "wall",
       "kind": "lining",
       "material": "oak_slat",
@@ -9029,7 +9100,7 @@
       "seq": 200
     },
     {
-      "id": "IN-lining-P-F1-42-gal-top",
+      "id": "IN-lining-P-F1-48-gal-top",
       "type": "wall",
       "kind": "lining",
       "material": "lime_plaster",
@@ -9607,7 +9678,7 @@
       "kind": "core",
       "name": "Core W1 · stair + elevator",
       "poly": [[-32.05, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-32.05, -9.55]],
-      "number": "F1.17"
+      "number": "F1.19"
     },
     {
       "id": "core-W2-F4",
@@ -9639,7 +9710,7 @@
       "kind": "core",
       "name": "Core W2 · exit stair",
       "poly": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]],
-      "number": "F1.18"
+      "number": "F1.20"
     },
     {
       "id": "core-W3-F4",
@@ -9671,7 +9742,7 @@
       "kind": "core",
       "name": "Core W3 · exit stair (north)",
       "poly": [[-17.2, 12.35], [-8.2, 12.35], [-8.2, 15.55], [-17.2, 15.55]],
-      "number": "F1.14"
+      "number": "F1.16"
     },
     {
       "id": "core-E-E2",
@@ -9723,7 +9794,7 @@
       "name": "Express lift · men",
       "poly": [[-31.25, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-31.25, -1.7]],
       "note": "men's locker room (F1) <-> pool lobby (F4), no stops between",
-      "number": "F1.16"
+      "number": "F1.18"
     },
     {
       "id": "lift-women-F4",
@@ -9759,7 +9830,7 @@
       "name": "Express lift · women",
       "poly": [[-31.25, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-31.25, 7.1]],
       "note": "women's locker room (F1) <-> pool lobby (F4), no stops between",
-      "number": "F1.15"
+      "number": "F1.17"
     },
     {
       "id": "women-lockers",
@@ -9768,16 +9839,25 @@
       "name": "Women's changing · lockers",
       "poly": [[-29.45, 7.65], [-11.6, 7.65], [-11.6, -0.375], [-14.4, -0.375], [-14.4, 1.5], [-29.45, 1.5], [-29.45, 4.7], [-28.85, 4.7], [-28.85, 7.1], [-29.45, 7.1]],
       "note": "entered from the gallery through its own vestibule, south of the women's room, beside Kilden",
-      "number": "F1.03"
+      "number": "F1.04"
     },
     {
       "id": "women-wet",
       "level": "F1",
       "kind": "wet",
-      "name": "Women's wet zone · showers, WCs, grooming",
-      "poly": [[-29.45, 7.65], [-11.6, 7.65], [-11.6, 12.1], [-29.45, 12.1]],
-      "note": "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)",
+      "name": "Women's wash zone · showers, Fossen, wash places, grooming",
+      "poly": [[-29.45, 7.65], [-19.4, 7.65], [-19.4, 12.1], [-29.45, 12.1]],
+      "note": "barefoot, clean: no toilets on this floor",
       "number": "F1.01"
+    },
+    {
+      "id": "women-wc",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Women's WC room",
+      "poly": [[-19.4, 7.65], [-11.6, 7.65], [-11.6, 12.1], [-19.4, 12.1]],
+      "note": "own floor, drain + extract; handwash inside; door off the arrival nook (shoe side)",
+      "number": "F1.02"
     },
     {
       "id": "men-lockers",
@@ -9786,16 +9866,25 @@
       "name": "Men's changing · lockers",
       "poly": [[-29.45, 1.5], [-14.4, 1.5], [-14.4, -0.375], [-11.6, -0.375], [-11.6, -4.2], [-29.45, -4.2], [-29.45, -4.1], [-28.85, -4.1], [-28.85, -1.7], [-29.45, -1.7]],
       "note": "entered from the gallery south of Kilden, an oak baffle inside",
-      "number": "F1.05"
+      "number": "F1.06"
     },
     {
       "id": "men-wet",
       "level": "F1",
       "kind": "wet",
-      "name": "Men's wet zone · showers, WCs, grooming",
-      "poly": [[-29.45, -9.3], [-11.6, -9.3], [-11.6, -4.2], [-29.45, -4.2]],
-      "note": "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)",
-      "number": "F1.08"
+      "name": "Men's wash zone · showers, Fossen, wash places, grooming",
+      "poly": [[-29.45, -9.3], [-19.4, -9.3], [-19.4, -4.2], [-29.45, -4.2]],
+      "note": "barefoot, clean: no toilets on this floor",
+      "number": "F1.09"
+    },
+    {
+      "id": "men-wc",
+      "level": "F1",
+      "kind": "wet",
+      "name": "Men's WC room · urinals enclosed",
+      "poly": [[-19.4, -9.3], [-11.6, -9.3], [-11.6, -4.2], [-19.4, -4.2]],
+      "note": "own floor, drain + extract; urinals in their own enclosed room; handwash inside; door off the arrival nook (shoe side)",
+      "number": "F1.10"
     },
     {
       "id": "gallery",
@@ -9804,7 +9893,7 @@
       "name": "Gallery · from the lounge bridge",
       "poly": [[-11.6, -9.3], [-6.45, -9.3], [-6.45, 12.1], [-11.6, 12.1]],
       "note": "the bridge lands here; both locker doors right off it",
-      "number": "F1.06"
+      "number": "F1.07"
     },
     {
       "id": "sauna-lobby",
@@ -9813,7 +9902,7 @@
       "name": "Sauna lobby (annex)",
       "poly": [[-35.45, -1.5], [-29.45, -1.5], [-29.45, 4.5], [-35.45, 4.5]],
       "note": "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path",
-      "number": "F1.04"
+      "number": "F1.05"
     },
     {
       "id": "stretching",
@@ -9821,7 +9910,7 @@
       "kind": "gym",
       "name": "Stretching & mobility",
       "poly": [[-29.45, -9.3], [-21.45, -9.3], [-21.45, -18.7], [-18.2, -18.7], [-18.2, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-29.45, -25.1], [-29.45, -18.55], [-28.85, -18.55], [-28.85, -9.55], [-29.45, -9.55]],
-      "number": "F1.12"
+      "number": "F1.14"
     },
     {
       "id": "spiral-F1",
@@ -9829,7 +9918,7 @@
       "kind": "circulation",
       "name": "Spiral stair",
       "poly": [[-21.45, -18.7], [-14.45, -18.7], [-14.45, -9.3], [-21.45, -9.3]],
-      "number": "F1.11"
+      "number": "F1.13"
     },
     {
       "id": "calisthenics",
@@ -9837,7 +9926,7 @@
       "kind": "gym",
       "name": "Calisthenics",
       "poly": [[-14.45, -18.7], [-6.45, -18.7], [-6.45, -9.3], [-14.45, -9.3]],
-      "number": "F1.09"
+      "number": "F1.11"
     },
     {
       "id": "cardio-F1",
@@ -9845,7 +9934,7 @@
       "kind": "gym",
       "name": "Cardio · river views",
       "poly": [[-18.2, -34.1], [-6.45, -34.1], [-6.45, -18.7], [-18.2, -18.7]],
-      "number": "F1.13"
+      "number": "F1.15"
     },
     {
       "id": "free-weights",
@@ -10050,7 +10139,7 @@
       "name": "Lounge bridge",
       "poly": [[-6.45, -9.5], [12.0, -9.5], [12.0, 6.8], [-6.45, 6.8]],
       "note": "sliding glass walls open fully onto the decks",
-      "number": "F1.07"
+      "number": "F1.08"
     },
     {
       "id": "deck-n",
@@ -10058,7 +10147,7 @@
       "kind": "outdoor",
       "name": "Deck · falls view",
       "poly": [[-6.45, 6.8], [12.0, 6.8], [12.0, 11.3], [-6.45, 11.3]],
-      "number": "F1.02"
+      "number": "F1.03"
     },
     {
       "id": "deck-s",
@@ -10066,7 +10155,7 @@
       "kind": "outdoor",
       "name": "Deck",
       "poly": [[-6.45, -12.5], [12.0, -12.5], [12.0, -9.5], [-6.45, -9.5]],
-      "number": "F1.10"
+      "number": "F1.12"
     },
     {
       "id": "cafe",

@@ -55,10 +55,16 @@ for g, poly in LIFTS.items():
 VEST = [[-14.4, -0.375], [-11.6, -0.375], [-11.6, 1.5], [-14.4, 1.5]]
 S("women-lockers", "F1", "wet", "Women's changing · lockers", [[-29.45, 1.5], [-14.4, 1.5], [-14.4, -0.375], [-11.6, -0.375], [-11.6, 7.65], [-29.45, 7.65]],
   "entered from the gallery through its own vestibule, south of the women's room, beside Kilden")
-S("women-wet", "F1", "wet", "Women's wet zone · showers, WCs, grooming", R(-29.45, 7.65, -11.6, 12.1), "floor-to-ceiling WC stalls, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
+# Roman (2026-10-12): toilets physically apart from the washing, never sharing a floor (the gym nightmare: wash floors mixing with
+# toilet floors). Each wet zone splits: the wash zone (showers, Fossen, onsen wash places, grooming) entered only from the changing
+# room, and a walled WC room at the east end with its own floor, drain, extract and handwash, entered from the arrival nook on the
+# shoe side of the shoes-off line (so gym users in shoes never step into the barefoot zone; toilet slippers for the barefoot).
+S("women-wet", "F1", "wet", "Women's wash zone · showers, Fossen, wash places, grooming", R(-29.45, 7.65, -19.4, 12.1), "barefoot, clean: no toilets on this floor")
+S("women-wc", "F1", "wet", "Women's WC room", R(-19.4, 7.65, -11.6, 12.1), "own floor, drain + extract; handwash inside; door off the arrival nook (shoe side)")
 S("men-lockers", "F1", "wet", "Men's changing · lockers", [[-29.45, -4.2], [-11.6, -4.2], [-11.6, -0.375], [-14.4, -0.375], [-14.4, 1.5], [-29.45, 1.5]],
   "entered from the gallery south of Kilden, an oak baffle inside")
-S("men-wet", "F1", "wet", "Men's wet zone · showers, WCs, grooming", R(-29.45, -9.3, -11.6, -4.2), "floor-to-ceiling WC stalls, urinals, private rainfall showers, grooming stations (sauna + steam moved to the F4 thermal suite)")
+S("men-wet", "F1", "wet", "Men's wash zone · showers, Fossen, wash places, grooming", R(-29.45, -9.3, -19.4, -4.2), "barefoot, clean: no toilets on this floor")
+S("men-wc", "F1", "wet", "Men's WC room · urinals enclosed", R(-19.4, -9.3, -11.6, -4.2), "own floor, drain + extract; urinals in their own enclosed room; handwash inside; door off the arrival nook (shoe side)")
 S("gallery", "F1", "circulation", "Gallery · from the lounge bridge", R(-11.6, -9.3, -6.45, 12.1), "the bridge lands here; both locker doors right off it")
 S("sauna-lobby", "F1", "wet", "Sauna lobby (annex)", R(-35.45, -1.5, -29.45, 4.5),
   "add-on outside the west wall, shared by both locker rooms; robes, towel warmer, sandals; door to the sauna path")

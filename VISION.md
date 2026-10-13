@@ -427,6 +427,18 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - **The wall:** the oak slats run to the beams' soffit (4.34), with warm plaster above.
 - **Still to do in the gallery and lockers:** the locker rooms themselves, and the F1 hall's equipment and lighting.
 
+### Locker rooms: hygiene zoning (2026-10-12, Roman: "my nightmare is for the washing areas to give off the vibe that the floor and space is mixing with the floor and germs of a bathroom, which so many gyms mess up")
+
+- **Toilets never share a floor with the washing.** Each wet zone is split in two:
+  - **The wash zone:** Fossen, showers, the onsen wash places, grooming and vanities. It is barefoot and clean, and entered only through its two openings from the changing room.
+  - **A walled WC room:** its own floor, drain and extract (at negative pressure), and handwash inside so you wash before you leave.
+- **The men's urinals** sit in their own enclosed urinal room with its own drain, inside the WC room.
+- **The WC room's door** opens off the arrival nook, in the stone shoe zone before the shoes-off line. Gym users in shoes reach a toilet without entering the barefoot zone.
+  - It's a hands-free automatic sliding door: hygiene is a reason a door is needed.
+  - Toilet slippers wait at the door (the onsen habit), so bare feet never touch the WC floor.
+- **Plumbing:** the WC rooms are stacked at the same position in both wings (x -19.4 .. -11.6), beside the wash zones' wet walls.
+- **Plan:** the 2D layout is in `blueprint/layout.html` / `model/layouts/lockers.json`.
+
 ## Open questions
 
 (Resolved: river depth vs floors. The ravine design puts the plunge pool at −8.77, about 1 m above F3, with the bed at −16.2, just below F4.)

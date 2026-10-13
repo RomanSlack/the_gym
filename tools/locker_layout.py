@@ -44,6 +44,9 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "spring_basin": {"label": "Spring basin: where the stream rises", "d": 0.6, "h": 0.5, "mat": "stone"},
     "bridge_slab": {"label": "Granite slab over the stream (flush)", "d": 0.6, "h": 0.0, "mat": "stone"},
     "wash_station": {"label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf", "d": 1.0, "h": 1.2, "clear": 0.6, "mat": "wet"},
+    "floor_zone": {"label": "Floor zone (its own floor)", "d": 1.0, "h": 0.0, "mat": "zone"},
+    "partition": {"label": "Partition, full height, tiled", "d": 0.1, "h": 2.6, "mat": "wall"},
+    "slipper_rack": {"label": "Toilet slippers (onsen habit: barefoot never on the WC floor)", "d": 0.35, "h": 0.4, "mat": "oak"},
     "fossen": {"label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)", "d": 2.1, "h": 2.6, "clear": 1.2, "mat": "wet_feature"},
     "shoe_bench": {"label": "Shoe bench + rack (shoes off)", "d": 0.4, "h": 0.45, "mat": "walnut"},
     "towels": {"label": "Fresh towels", "d": 0.45, "h": 1.8, "mat": "oak"},
@@ -106,6 +109,11 @@ def changing(room, s):
 
 nm, tip_m = changing("men-lockers", 1)
 nw, tip_w = changing("women-lockers", -1)
+# the shoe zones (Roman's hygiene rule): stone from the gallery to the WC room door; beyond the line (x -14.4) barefoot only
+put("men-lockers", "floor_zone", (-14.4 - 11.675) / 2, (-4.275 - 0.45) / 2, -11.675 + 14.4, 0, d=-0.45 + 4.275,
+    label="Shoe zone: stone, from the gallery to the WC room door; shoes off at the line (x -14.4)")
+put("women-lockers", "floor_zone", (-14.4 - 11.675) / 2, (-0.3 + 7.575) / 2, -11.675 + 14.4, 0, d=7.575 + 0.3,
+    label="Shoe zone: stone, from the gallery to the WC room door; shoes off at the line (x -14.4)")
 # arrival nooks: shoes off, fresh towels
 put("men-lockers", "shoe_bench", -13.5, -0.68, 1.6, 180)
 put("men-lockers", "towels", -14.15, -1.3, 1.0, -90, d=0.45)
@@ -113,56 +121,93 @@ put("women-lockers", "shoe_bench", -13.0, 1.8, 1.6, 0)
 put("women-lockers", "towels", -12.0, 3.8, 1.2, 90)
 put("women-lockers", "towels", -12.0, 5.2, 1.2, 90)
 
-# ---- wet zones
-def wet(room, s):
-    """s = +1 men (cells on the south wall, vanities on the north), -1 women (cells on the north facade, vanities on the south)."""
+# ---- wet zones (Roman: toilets physically apart from the washing, never sharing a floor; urinals enclosed). The wash zone
+# (barefoot, clean: Fossen, showers, onsen wash places, grooming) is entered only from the changing room through its two openings;
+# the WC room beside it has its own floor, drain, extract (negative pressure) and handwash, and its door opens off the arrival nook on
+# the shoe side, so gym users in shoes never step into the barefoot zone; toilet slippers at the door for the barefoot (onsen habit).
+import json as _json
+_m = _json.loads((ROOT / "model" / "building.json").read_text())
+def openings(a, b):
+    """x ranges of the wall openings between two rooms (from the generated partitions)."""
+    w = next(e for e in _m["elements"] if e["id"].startswith("P-F1-") and set(e.get("between", [])) == {a, b})
+    x0, sgn = w["from"][0], (1 if w["to"][0] > w["from"][0] else -1)
+    return sorted([sorted([round(x0 + sgn * o["s"][0], 3), round(x0 + sgn * o["s"][1], 3)]) for o in w["openings"]])
+WASH_X = (-29.25, -19.475)    # wash zone: west facade face .. the WC room wall
+WC_X = (-19.325, -11.675)     # WC room
+def wash(room, s):
     back = -9.225 if s > 0 else 11.9               # the wall the cells stand against
-    front = -4.275 if s > 0 else 7.725             # the changing-room wall (with the three openings)
-    r = 0 if s > 0 else 180                        # cells face away from their back wall
-    x = -11.675
-    put(room, "wc_acc", x - 1.0, back + s * 1.1, 2.0, r, d=2.2); x -= 2.0
-    nwc = 4 if s > 0 else 6
-    for _ in range(nwc):
-        put(room, "wc", x - 0.5, back + s * 0.9, 1.0, r, d=1.8); x -= 1.0
-    put(room, "shower_acc", x - 0.9, back + s * 1.05, 1.8, r); x -= 1.8
-    put(room, "fossen", -29.25 + 1.2, back + s * 1.05, 2.4, r)             # the experience shower at the west end, under the clerestory
-    n_sh = 7 if s > 0 else 5
-    w_sh = round((x - (-29.25 + 2.4)) / n_sh, 4)
-    for _ in range(n_sh):
-        put(room, "shower", x - w_sh / 2, back + s * 1.05, w_sh, r); x -= w_sh
-    rv = 180 if s > 0 else 0                        # vanities face into the zone, away from the changing-room wall
-    for xa, xb in ((-25.57, -21.42), (-19.62, -15.48)):
-        put(room, "vanity", (xa + xb) / 2, front - s * 0.3, 3.6, rv, n=4)
-    put(room, "grooming", (-29.25 - 27.37) / 2, front - s * 0.25, 1.6, rv)
-    put(room, "cleaner", (-13.68 - 11.675) / 2, front - s * 0.3, 1.0, rv)
-    if s > 0:  # urinals on the east wall, between the accessible WC and the changing-room wall
+    front = -4.275 if s > 0 else 7.725             # the changing-room wall (with the two openings)
+    r = 0 if s > 0 else 180
+    dsh = 2.1 if s > 0 else 1.9                    # shower + dry area (the women's zone is 0.8 m shallower)
+    put(room, "fossen", WASH_X[0] + 1.2, back + s * dsh / 2, 2.4, r, d=dsh)  # the experience shower, west end, under the clerestory
+    put(room, "shower_acc", WASH_X[1] - 0.9, back + s * dsh / 2, 1.8, r, d=dsh)
+    x0, x1 = WASH_X[0] + 2.4, WASH_X[1] - 1.8
+    n_sh = 5; w_sh = round((x1 - x0) / n_sh, 4)
+    for k in range(n_sh):
+        put(room, "shower", x0 + w_sh * (k + 0.5), back + s * dsh / 2, w_sh, r, d=dsh)
+    rv = 180 if s > 0 else 0
+    (o1a, o1b), (o2a, o2b) = openings(room.replace("wet", "lockers"), room)
+    put(room, "grooming", (WASH_X[0] + o1a) / 2 - 0.05, front - s * 0.25, round(o1a - WASH_X[0] - 0.2, 2), rv)
+    for k in range(3):
+        put(room, "wash_station", o1b + 0.1 + (o2a - o1b - 0.2) * (k + 0.5) / 3, front - s * 0.5, 0.95, rv, d=1.0)
+    put(room, "vanity", (o2b + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - o2b - 0.1, 2), rv, n=2)
+    return (o1a, o1b), (o2a, o2b)
+
+def wc_room(room, s):
+    back = -9.225 if s > 0 else 11.9
+    front = -4.275 if s > 0 else 7.725
+    r = 0 if s > 0 else 180; rv = 180 if s > 0 else 0
+    put(room, "floor_zone", sum(WC_X) / 2, (back + front) / 2, WC_X[1] - WC_X[0], 0, d=abs(front - back),
+        label="WC floor: own tile, drain + extract (negative pressure); slippers at the door")
+    door = openings(room.replace("wc", "lockers"), room)[0]
+    put(room, "wc_acc", WC_X[1] - 1.0, back + s * 1.1, 2.0, r, d=2.2)
+    if s > 0:   # men: 4 WC cells + the urinals in their own enclosed room at the west end
+        uw = -17.7
+        n_wc = 4; w_wc = round((WC_X[1] - 2.0 - (uw + 0.05)) / n_wc, 4)
+        for k in range(n_wc):
+            put(room, "wc", uw + 0.05 + w_wc * (k + 0.5), back + 0.9, w_wc, r, d=1.8)
+        ur_top = -6.3
+        put(room, "partition", uw, (back + ur_top) / 2, abs(ur_top - back), 90, d=0.1, label="Urinal room wall, full height, tiled")
+        put(room, "partition", (WC_X[0] + uw) / 2 + 0.45, ur_top, uw - WC_X[0] - 0.9, 0, d=0.1, label="Urinal room wall (entry gap at its west end)")
         for k in range(3):
-            put(room, "urinal", -11.675 - 0.225, -6.6 + k * 0.8, 0.6, -90 + 180)
-    put(room, "towel_return", -13.68 - 0.1 - 0.4, front - s * 0.25 if s > 0 else front - s * 0.25, 0.8, rv)
+            put(room, "urinal", WC_X[0] + 0.225, back + 0.55 + k * 0.8, 0.6, -90)
+        put(room, "floor_zone", (WC_X[0] + uw) / 2, (back + ur_top) / 2, uw - WC_X[0], 0, d=abs(ur_top - back), label="Urinal room: own drain")
+        put(room, "vanity", WC_X[1] - 0.3, (-7.025 + front) / 2, 2.2, 90, n=3, label="Handwash (before you leave)")  # on the gallery wall
+        put(room, "cleaner", -18.75, front - 0.3, 1.0, rv)
+        put(room, "slipper_rack", door[0] - 0.7, front - 0.2, 1.0, rv)
+    else:       # women: 6 WC cells
+        n_wc = 6; w_wc = round((WC_X[1] - 2.0 - WC_X[0]) / n_wc, 4)
+        for k in range(n_wc):
+            put(room, "wc", WC_X[0] + w_wc * (k + 0.5), back - 0.9, w_wc, r, d=1.8)
+        put(room, "vanity", -17.3, front + 0.3, 3.4, rv, n=4, label="Handwash (before you leave)")
+        put(room, "cleaner", (door[1] + WC_X[1]) / 2, front + 0.3, 1.0, rv)
+        put(room, "slipper_rack", door[0] - 0.7, front + 0.2, 1.0, rv)
 
-
-wet("men-wet", 1)
-wet("women-wet", -1)
-# onsen part, made Nordic: seated wash places replace the first vanity trough in each wet zone (the west one, near Fossen)
-for room in ("men-wet", "women-wet"):
-    v = next(i for i in items if i["room"] == room and i["kind"] == "vanity")
-    items.remove(v)
-    for k in range(4):
-        put(room, "wash_station", -25.57 + 0.15 + 0.5 + k * 0.95, v["y"] + (-0.2 if room == "men-wet" else 0.2), 0.9, v["rot"], d=1.0)
+ops_m = wash("men-wet", 1); wc_room("men-wc", 1)
+ops_w = wash("women-wet", -1); wc_room("women-wc", -1)
 
 # Bekken, the stream (Roman: rivers flowing round the edges, moving water; onsen x Nordic, more Nordic): it rises at a spring basin
-# by each entry, runs along the edge of the changing room's aisle at the foot of the wet-zone wall, turns through the westmost
-# opening into the wet zone and ends in Fossen. Granite slabs carry the floor over it at the openings.
-def stream(room_c, room_w, s, pts_c, pts_w):
-    put(room_c, "spring_basin", pts_c[0][0] + 0.35, pts_c[0][1], 0.6, 0, d=0.6)
+# just past the WC door, runs along the edge of the changing room's aisle at the foot of the wash-zone wall (granite slabs carry the
+# floor over it at the openings), turns down the west side of the westmost opening into the wash zone and ends in Fossen's front
+def stream(room_c, room_w, s, ops):
+    y = (-4.275 + 0.25) if s > 0 else (7.575 - 0.25)
+    ye = -7.0 if s > 0 else 9.85
+    xw = ops[0][0] + 0.17
+    pts_c = [[-15.3, y], [xw + 0.3, y], [xw, y - s * 0.3]]
+    pts_w = [[xw, y - s * 0.3], [xw, ye]]
+    put(room_c, "spring_basin", -15.0, y, 0.6, 0, d=0.6)
     items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.35})
     items.append({"id": f"{room_w}-stream", "room": room_w, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_w, "width": 0.35})
-    for xa, xb in ((-15.48, -13.68), (-21.42, -19.62), (-27.37, -25.57)):
-        put(room_c, "bridge_slab", (xa + xb) / 2, pts_c[0][1], xb - xa + 0.2, 0, d=0.6)
-ym = -4.275 + 0.25; yw = 7.575 - 0.25
-# into the wet zone down the west side of the westmost opening (x -27.2), straight into Fossen's front: no one crosses it there
-stream("men-lockers", "men-wet", 1, [[-14.2, ym], [-26.9, ym], [-27.2, -4.3]], [[-27.2, -4.3], [-27.2, -7.0]])
-stream("women-lockers", "women-wet", -1, [[-14.2, yw], [-26.9, yw], [-27.2, 7.7]], [[-27.2, 7.7], [-27.2, 9.6]])
+    for xa, xb in ops:
+        put(room_c, "bridge_slab", (xa + xb) / 2, y, xb - xa + 0.2, 0, d=0.6)
+stream("men-lockers", "men-wet", 1, ops_m)
+stream("women-lockers", "women-wet", -1, ops_w)
+# towel returns: slots in the oak block's aisle face, between the drums
+for room, s in (("men-lockers", 1), ("women-lockers", -1)):
+    blk = next(i for i in items if i["room"] == room and i["kind"] == "oak_block")
+    fy = blk["y"] - s * blk["d"] / 2
+    for xr in (-22.825, -18.65):
+        put(room, "towel_return", xr, fy - s * 0.02, 0.6, 180 if s > 0 else 0, d=0.04, label="Towel return slot in the oak block")
 
 # sauna lobby annex (shared): robes + sandals along the west wall, a towel warmer, a bench
 put("sauna-lobby", "robe_hooks", -35.325 + 0.175, 1.5, 4.2, -90)
@@ -171,7 +216,7 @@ put("sauna-lobby", "bench", -32.6, -1.375 + 0.3, 2.4, 0, d=0.45)
 
 data = {"note": "F1 locker rooms: the 2D layout (see tools/locker_layout.py for the rules). Edited in blueprint/layout.html; x, y = centre in "
                 "project metres, w along the piece, d front-to-back, rot = the way its front faces (0 = north).",
-        "rooms": ["men-lockers", "men-wet", "women-lockers", "women-wet", "sauna-lobby", "gallery"],
+        "rooms": ["men-lockers", "men-wet", "men-wc", "women-lockers", "women-wet", "women-wc", "sauna-lobby", "gallery"],
         "view": [-36.6, -13.4, 31.0, 23.6], "kinds": KINDS, "items": items}
 OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(data, indent=1))

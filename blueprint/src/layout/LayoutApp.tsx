@@ -26,11 +26,12 @@ const TAG: Record<string, string> = {
   lockers: "L", bench: "bench", shoe_bench: "shoes off", towels: "towels", towel_return: "towel return", shower: "SH", shower_acc: "SH ♿",
   wc: "WC", wc_acc: "WC ♿", urinal: "U", vanity: "vanity", grooming: "grooming", cleaner: "clean", robe_hooks: "robes + sandals",
   towel_warmer: "warmer", fossen: "FOSSEN", wash_station: "wash", spring_basin: "spring", bridge_slab: "", screen: "", oak_block: "",
+  slipper_rack: "slippers", partition: "", floor_zone: "",
 };
 const MAT: Record<string, [string, string]> = { // fill, stroke
   oak: ["#e4cfa8", "#8a6a3a"], oak_solid: ["#efe2c6", "#8a6a3a"], walnut: ["#9b6b45", "#4f3420"], mirror: ["#cfdde3", "#4a6b78"],
   steel: ["#4a4c50", "#1e1f22"], wet: ["#dfe9ee", "#5b8aa3"], wet_feature: ["#c6dbe5", "#2f6683"], wc: ["#f4f4f2", "#555"],
-  stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"],
+  stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"], zone: ["rgba(120, 110, 95, 0.10)", "rgba(120, 110, 95, 0.6)"], wall: ["#555", "#333"],
 };
 
 function rectPts(it: Item, w = it.w ?? 1, d = it.d ?? 1, dy = 0): Pt[] {
@@ -175,6 +176,15 @@ export default function LayoutApp() {
       );
     }
     if (it.kind === "round_seat") return <g key={it.id} className={cls} onMouseDown={grab}><circle cx={it.x} cy={-it.y!} r={(it.w ?? 0.8) / 2} style={{ fill, stroke }} /></g>;
+    if (it.kind === "floor_zone") {
+      const b = rectPts(it);
+      return (
+        <g key={it.id} className={cls} onMouseDown={grab}>
+          <path d={path(b)} style={{ fill: "url(#zonehatch)", stroke, strokeDasharray: "0.15 0.08" }} />
+          <text x={it.x} y={-(it.y! - (it.d ?? 0) / 2) - 0.12} className="zone-t">{it.label.split(":")[0]}</text>
+        </g>
+      );
+    }
     const body = rectPts(it);
     const fr = rectPts(it, it.w, 0.02, (it.d ?? 0) / 2 - 0.01); // the front edge
     const cl = k.clear ? rectPts(it, it.w, k.clear, (it.d ?? 0) / 2 + k.clear / 2) : null;
@@ -244,6 +254,9 @@ export default function LayoutApp() {
           }}
           onMouseUp={() => (drag.current = null)} onMouseLeave={() => (drag.current = null)}>
           <defs>
+            <pattern id="zonehatch" patternUnits="userSpaceOnUse" width="0.3" height="0.3" patternTransform="rotate(45)">
+              <rect width="0.3" height="0.3" fill="rgba(160, 140, 110, 0.10)" /><line x1="0" y1="0" x2="0" y2="0.3" stroke="rgba(120, 100, 70, 0.25)" strokeWidth="0.015" />
+            </pattern>
             <pattern id="oakblock" patternUnits="userSpaceOnUse" width="0.25" height="0.25" patternTransform="rotate(90)">
               <rect width="0.25" height="0.25" fill="#efe2c6" /><line x1="0" y1="0" x2="0" y2="0.25" stroke="#c9ab78" strokeWidth="0.02" />
             </pattern>
@@ -261,8 +274,9 @@ export default function LayoutApp() {
           {walls.map((w) => wallPolys(w).map((p, i) => <path key={w.id + i} d={path(p)} className={w.kind === "glazed" ? "wall glass" : w.kind === "partition" ? "wall part" : "wall"} />))}
           {cols.map((c) => <rect key={c.id} x={c.at![0] - c.size[0] / 2} y={-c.at![1] - c.size[1] / 2} width={c.size[0]} height={c.size[1]} className="col" />)}
           <Dims />
+          {data.items.filter((i) => i.kind === "floor_zone").map(renderItem)}
           {data.items.filter((i) => i.kind === "oak_block").map(renderItem)}
-          {data.items.filter((i) => i.kind !== "oak_block").map(renderItem)}
+          {data.items.filter((i) => i.kind !== "oak_block" && i.kind !== "floor_zone").map(renderItem)}
           {selIt && !selIt.pts && <SelDims it={selIt} />}
         </svg>
         <div className="lay-status mono">scroll zoom · drag empty space to pan · F fit · dims in metres to wall faces</div>
