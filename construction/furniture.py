@@ -3113,7 +3113,62 @@ def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
 
 
 # ------------------------------------------------------------------ locker rooms, phase 2: the changing rooms (Roman, 2026-10-13)
-def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth=1.2, n=18, slots=()):
+def _locker_inside(P, dx, r_in, a1, a2, depth=0.52, in_use=False, lit=False):
+    """The inside of one round-room locker (a wedge, wider at the back): an oak shell, a wool-felt back with a vent slot at the top,
+    a hat shelf at 1.72 with a warm LED strip under its front edge (on when the door opens), a front-to-back hanging rail with oak
+    hangers, a slatted oak shoe shelf at 0.32, two hooks on the back, a charging pad (Qi) on the shelf. in_use: a shirt on a hanger,
+    a folded towel on the shelf, a bag on the floor, trainers on the shoe shelf."""
+    oak, st = M["oak"], M["steel"]
+    wool = M.setdefault("locker_wool", bc.material("locker_wool", (0.36, 0.33, 0.3), 0.95))
+    am = (a1 + a2) / 2; c, s_ = math.cos(am), math.sin(am); rz = am + math.pi / 2; da = a2 - a1
+    def at(rho, z):
+        return (dx + rho * c, rho * s_, z)
+    def wid(rho):
+        return 2 * rho * math.sin(da / 2) - 0.02
+    rb = r_in + depth; rm = r_in + depth / 2
+    P.box(wool, at(rb, 1.075), (wid(rb), 0.012, 1.95), rz=rz)                                   # the back
+    P.box(M["felt"], at(rb - 0.008, 1.98), (wid(rb) - 0.06, 0.004, 0.025), rz=rz)                # its vent slot
+    for z in (0.11, 2.04):                                                                        # floor + top
+        P.box(oak, at(rm, z), (wid(rm), depth, 0.018), rz=rz)
+    P.box(oak, at(r_in + 0.24, 1.72), (wid(r_in + 0.24), 0.4, 0.018), rz=rz)                    # the hat shelf
+    if lit:
+        P.box(_led("locker_led", (1.0, 0.74, 0.46), 3.0), at(r_in + 0.06, 1.706), (wid(r_in + 0.06) - 0.03, 0.012, 0.004), rz=rz)
+    P.box(M["felt"], at(r_in + 0.3, 1.731), (0.1, 0.1, 0.004), rz=rz)                            # charging pad
+    P.box(M["brass"], at(r_in + 0.3, 1.734), (0.02, 0.004, 0.002), rz=rz)
+    P.rod(st, at(r_in + 0.04, 1.64), at(rb - 0.02, 1.64), 0.008, seg=8)                          # the rail, front to back
+    tx_, ty_ = math.cos(rz), math.sin(rz)
+    def att(rho, t, z):  # a point at radius rho, t along the door's width
+        x, y, _ = at(rho, z); return (x + tx_ * t, y + ty_ * t, z)
+    def hanger(rho):  # a slim oak hanger: two sloping arms + a bar, a steel hook over the rail
+        for sg in (-1, 1):
+            P.rod(oak, att(rho, 0, 1.6), att(rho, sg * 0.16, 1.53), 0.009, seg=8)
+        P.rod(oak, att(rho, -0.15, 1.535), att(rho, 0.15, 1.535), 0.004, seg=6)
+        P.rod(st, att(rho, 0, 1.6), att(rho, 0, 1.655), 0.0025, seg=6)
+    for f in ((0.3, 0.5, 0.7) if not in_use else (0.55, 0.75)):
+        hanger(r_in + depth * f)
+    for k in range(4):                                                                            # the slatted shoe shelf
+        rr = r_in + 0.08 + k * 0.12
+        P.box(oak, at(rr, 0.32), (wid(rr), 0.08, 0.018), rz=rz)
+    for sx in (-0.08, 0.08):                                                                      # hooks on the back
+        hx = dx + (rb - 0.01) * c + math.cos(rz) * sx; hy = (rb - 0.01) * s_ + math.sin(rz) * sx
+        P.rod(st, (hx, hy, 1.35), (hx - c * 0.05, hy - s_ * 0.05, 1.38), 0.006, seg=6)
+    if in_use:
+        shirt = M.setdefault("shirt_merino", bc.material("shirt_merino", (0.1, 0.12, 0.14), 0.9))
+        rs = r_in + depth * 0.3; hanger(rs)                                                       # a merino top on its hanger
+        P.rod(shirt, att(rs, 0, 1.56), att(rs, 0, 0.98), 0.11, seg=16)                            # the body, falling from the shoulders
+        for sg in (-1, 1):
+            P.rod(shirt, att(rs, sg * 0.14, 1.53), att(rs, sg * 0.16, 1.1), 0.035, seg=10)        # the sleeves
+        P.box(M.setdefault("towel_oat", bc.material("towel_oat", (0.82, 0.78, 0.7), 0.95)), at(r_in + 0.2, 1.77), (0.26, 0.2, 0.08), rz=rz)
+        bag = M.setdefault("bag_canvas", bc.material("bag_canvas", (0.16, 0.17, 0.14), 0.85))         # a duffel on the shoe shelf's slats
+        P.rod(bag, at(r_in + 0.06, 0.48), at(r_in + 0.46, 0.48), 0.14, seg=20)
+        P.rod(M["rubber"], att(r_in + 0.26, -0.03, 0.62), att(r_in + 0.26, 0.03, 0.62), 0.012, seg=8)
+        for sx in (-0.06, 0.06):                                                                  # trainers on the floor, under the shelf
+            tx = dx + (r_in + 0.26) * c + math.cos(rz) * sx; ty = (r_in + 0.26) * s_ + math.sin(rz) * sx
+            P.box(M["rubber"], (tx, ty, 0.135), (0.09, 0.27, 0.03), rz=rz)
+            P.box(M.setdefault("shoe_knit", bc.material("shoe_knit", (0.7, 0.7, 0.68), 0.8)), (tx, ty, 0.185), (0.085, 0.24, 0.07), rz=rz)
+
+
+def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth=1.2, n=18, slots=(), open_=((1, 4, False), (1, 12, True))):
     """The oak block of a changing room with three round locker rooms carved out of it. Outside: white-oiled oak flutes (35 @ 60) on
     black felt, a shadow plinth, floor to the ceiling. Each drum opens to the aisle through a full-height mouth with oak reveals; inside,
     18 full-height oak lockers on the curve (400 at the face), each with a finger-pull groove, a phone reader (the phone is the key,
@@ -3145,24 +3200,46 @@ def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth
     for sx_ in slots:  # towel returns: a slot in the aisle face, a black chute behind
         P.box(felt, (sx_, D / 2 + 0.03, 0.95), (0.6, 0.012, 0.16))
         P.box(M["brass"], (sx_, D / 2 + 0.032, 1.06), (0.12, 0.004, 0.012))
-    for dx in drums:
+    for di, dx in enumerate(drums):
         ym = math.sqrt(r_in * r_in - half * half)  # where the mouth meets the inner circle
         for sx in (-1, 1):  # the mouth's reveals
             P.box(oak, (dx + sx * (half + 0.01), (ym + D / 2) / 2, H / 2), (0.02, D / 2 - ym, H))
         a_m = mouth / r_in; a0 = math.pi / 2 + a_m / 2; span = 2 * math.pi - a_m
         da = span / n
+        opened = {k: use for (d_, k, use) in open_ if d_ == di}
+        for k in range(n + 1):  # the dividers between the lockers (radial oak boards)
+            ab = a0 + k * da; cb, sb = math.cos(ab), math.sin(ab); rr = r_in + 0.27
+            P.box(oak, (dx + rr * cb, rr * sb, 1.075), (0.018, 0.54, 1.95), rz=ab + math.pi / 2)
         for k in range(n):
             a1, a2 = a0 + k * da + 0.002, a0 + (k + 1) * da - 0.002
             am = (a1 + a2) / 2; c = math.cos(am); s_ = math.sin(am)
             w = 2 * r_in * math.sin((a2 - a1) / 2)
             cx, cy = dx + r_in * c, r_in * s_
             rz = am + math.pi / 2
+            _locker_inside(P, dx, r_in, a0 + k * da + 0.009, a0 + (k + 1) * da - 0.009, in_use=opened.get(k, False), lit=k in opened)
+            P.box(M["rubber"], (cx + c * 0.02, cy + s_ * 0.02, 0.05), (w + 0.004, 0.02, 0.1), rz=rz)          # shadow plinth
+            if k in opened:  # swung open 100 deg into the room on its hinge (the a2 edge); a mirror + a hook on its inside face
+                hx, hy = dx + (r_in - 0.01) * math.cos(a2), (r_in - 0.01) * math.sin(a2)
+                tx, ty = math.cos(a1) - math.cos(a2), math.sin(a1) - math.sin(a2); tl = math.hypot(tx, ty); tx, ty = tx / tl, ty / tl
+                for sg in (1, -1):
+                    th = sg * math.radians(100); ux, uy = tx * math.cos(th) - ty * math.sin(th), tx * math.sin(th) + ty * math.cos(th)
+                    if ux * -c + uy * -s_ > 0:
+                        break
+                drz = math.atan2(uy, ux); nx, ny = c * math.cos(th) - s_ * math.sin(th), c * math.sin(th) + s_ * math.cos(th)  # the inside face's normal
+                ox, oy = hx + ux * w / 2, hy + uy * w / 2
+                P.box(oak, (ox, oy, 0.1 + 1.9 / 2), (w, 0.02, 1.9), rz=drz)
+                P.box(M["mirror"], (ox + nx * 0.012, oy + ny * 0.012, 1.45), (0.22, 0.004, 0.42), rz=drz)
+                P.rod(M["steel"], (ox + nx * 0.011, oy + ny * 0.011, 1.15), (ox + nx * 0.05, oy + ny * 0.05, 1.18), 0.006, seg=6)
+                fx, fy = ox - nx * 0.011, oy - ny * 0.011
+                P.box(felt, (fx - ux * (w / 2 - 0.035), fy - uy * (w / 2 - 0.035), 1.1), (0.014, 0.004, 0.32), rz=drz)
+                P.box(sensor, (fx, fy, 1.42), (0.05, 0.004, 0.05), rz=drz)
+                P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=drz)
+                continue
             P.box(oak, (cx - c * 0.01, cy - s_ * 0.01, 0.1 + 1.9 / 2), (w, 0.02, 1.9), rz=rz)                 # the door
             fx, fy = cx - c * 0.021, cy - s_ * 0.021                                                           # the door's room-side face
             P.box(felt, (fx + math.cos(rz) * (w / 2 - 0.035), fy + math.sin(rz) * (w / 2 - 0.035), 1.1), (0.014, 0.004, 0.32), rz=rz)  # pull groove
             P.box(sensor, (fx, fy, 1.42), (0.05, 0.004, 0.05), rz=rz)                                          # the phone reader
             P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=rz)                                     # its number
-            P.box(M["rubber"], (cx + c * 0.02, cy + s_ * 0.02, 0.05), (w + 0.004, 0.02, 0.1), rz=rz)          # shadow plinth
         P.ring(oak, (dx, 0), r_in - 0.02, r_in + 0.01, 2.02, H, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
         P.ring(_led("plinth_glow", (1.0, 0.72, 0.42), 2.5), (dx, 0), r_in - 0.006, r_in + 0.004, 0.004, 0.012, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
 
