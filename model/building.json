@@ -2604,8 +2604,8 @@
       "level": "F1",
       "between": ["women-lockers", "women-wet"],
       "openings": [
-        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
-        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
+        {"s": [0.95, 2.75], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
+        {"s": [4.25, 6.05], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
       ],
       "phase": 5,
       "seq": 200,
@@ -2757,8 +2757,8 @@
       "level": "F1",
       "between": ["men-lockers", "men-wet"],
       "openings": [
-        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
-        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
+        {"s": [7.3, 9.1], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
+        {"s": [4.0, 5.8], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
       ],
       "phase": 5,
       "seq": 200,
@@ -9123,9 +9123,8 @@
       "z": [-0.1, -0.08],
       "holes": [
         {"rect": [-29.45, -4.1, -28.85, -1.7]},
-        {"rect": [-28.655, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -4.045], "note": "the stream's slate channel"}
+        {"rect": [-22.305, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
+        {"rect": [-23.08, -4.2, -22.12, -3.82], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
@@ -9141,9 +9140,8 @@
       "z": [-0.08, -0.022],
       "holes": [
         {"rect": [-29.45, -4.1, -28.85, -1.7]},
-        {"rect": [-28.655, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -4.045], "note": "the stream's slate channel"}
+        {"rect": [-22.305, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
+        {"rect": [-23.08, -4.2, -22.12, -3.82], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating",
@@ -9159,9 +9157,8 @@
       "z": [-0.022, 0.0],
       "holes": [
         {"rect": [-29.45, -4.1, -28.85, -1.7]},
-        {"rect": [-28.655, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -3.935], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -4.2, -28.345, -4.045], "note": "the stream's slate channel"}
+        {"rect": [-22.305, -4.2, -15.145, -3.935], "note": "the stream's slate channel"},
+        {"rect": [-23.08, -4.2, -22.12, -3.82], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "x"},
       "note": "white-oiled oak boards (barefoot)",
@@ -9176,9 +9173,8 @@
       "z": [-0.1, -0.08],
       "holes": [
         {"rect": [-29.45, 4.7, -28.85, 7.1]},
-        {"rect": [-28.655, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.235, -28.345, 7.65], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.495, -28.345, 7.65], "note": "the stream's slate channel"}
+        {"rect": [-22.305, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
+        {"rect": [-23.08, 7.12, -22.12, 7.6], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
@@ -9194,9 +9190,8 @@
       "z": [-0.08, -0.022],
       "holes": [
         {"rect": [-29.45, 4.7, -28.85, 7.1]},
-        {"rect": [-28.655, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.235, -28.345, 7.65], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.495, -28.345, 7.65], "note": "the stream's slate channel"}
+        {"rect": [-22.305, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
+        {"rect": [-23.08, 7.12, -22.12, 7.6], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating",
@@ -9212,9 +9207,8 @@
       "z": [-0.022, 0.0],
       "holes": [
         {"rect": [-29.45, 4.7, -28.85, 7.1]},
-        {"rect": [-28.655, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.235, -28.345, 7.65], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.495, -28.345, 7.65], "note": "the stream's slate channel"}
+        {"rect": [-22.305, 7.235, -15.145, 7.545], "note": "the stream's slate channel"},
+        {"rect": [-23.08, 7.12, -22.12, 7.6], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "x"},
       "note": "white-oiled oak boards (barefoot)",
@@ -9304,8 +9298,7 @@
       "rect": [-29.45, -9.3, -19.4, -4.2],
       "z": [-0.1, -0.08],
       "holes": [
-        {"rect": [-28.655, -4.355, -28.345, -4.2], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -7.155, -28.345, -4.2], "note": "the stream's slate channel"}
+        {"rect": [-23.08, -4.3, -22.12, -4.2], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
@@ -9320,8 +9313,7 @@
       "rect": [-29.45, -9.3, -19.4, -4.2],
       "z": [-0.08, -0.022],
       "holes": [
-        {"rect": [-28.655, -4.355, -28.345, -4.2], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -7.155, -28.345, -4.2], "note": "the stream's slate channel"}
+        {"rect": [-23.08, -4.3, -22.12, -4.2], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating + liquid waterproofing, laid to the drains",
@@ -9336,8 +9328,7 @@
       "rect": [-29.45, -9.3, -19.4, -4.2],
       "z": [-0.022, 0.0],
       "holes": [
-        {"rect": [-28.655, -4.355, -28.345, -4.2], "note": "the stream's slate channel"},
-        {"rect": [-28.655, -7.155, -28.345, -4.2], "note": "the stream's slate channel"}
+        {"rect": [-23.08, -4.3, -22.12, -4.2], "note": "the stream's pool"}
       ],
       "pattern": {"kind": "slabs", "w": 0.6, "L": [0.6], "gap": 0.003, "dir": "y", "bond": "stack"},
       "note": "light honed stone 600 x 600, R11",
@@ -9350,10 +9341,7 @@
       "material": "impact_mat",
       "rect": [-29.45, 7.65, -19.4, 12.1],
       "z": [-0.1, -0.08],
-      "holes": [
-        {"rect": [-28.655, 7.65, -28.345, 7.805], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.65, -28.345, 10.205], "note": "the stream's slate channel"}
-      ],
+      "holes": [],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
       "phase": 5,
@@ -9366,10 +9354,7 @@
       "material": "screed",
       "rect": [-29.45, 7.65, -19.4, 12.1],
       "z": [-0.08, -0.022],
-      "holes": [
-        {"rect": [-28.655, 7.65, -28.345, 7.805], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.65, -28.345, 10.205], "note": "the stream's slate channel"}
-      ],
+      "holes": [],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating + liquid waterproofing, laid to the drains",
       "phase": 5,
@@ -9382,10 +9367,7 @@
       "material": "stone_light",
       "rect": [-29.45, 7.65, -19.4, 12.1],
       "z": [-0.022, 0.0],
-      "holes": [
-        {"rect": [-28.655, 7.65, -28.345, 7.805], "note": "the stream's slate channel"},
-        {"rect": [-28.655, 7.65, -28.345, 10.205], "note": "the stream's slate channel"}
-      ],
+      "holes": [],
       "pattern": {"kind": "slabs", "w": 0.6, "L": [0.6], "gap": 0.003, "dir": "y", "bond": "stack"},
       "note": "light honed stone 600 x 600, R11",
       "phase": 5,
@@ -9516,8 +9498,8 @@
       "z": [0.0, 2.6],
       "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
       "openings": [
-        {"s": [1.54, 3.34], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
-        {"s": [6.57, 8.37], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
+        {"s": [7.23, 9.03], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
+        {"s": [3.93, 5.73], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
       ],
       "face_normal": [-0.0, -1.0],
       "note": "interior lining: tile_wall",
@@ -9679,8 +9661,8 @@
       "z": [0.0, 2.6],
       "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
       "openings": [
-        {"s": [1.55, 3.35], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
-        {"s": [6.58, 8.38], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
+        {"s": [0.89, 2.69], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
+        {"s": [4.19, 5.99], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
       ],
       "face_normal": [-0.0, 1.0],
       "note": "interior lining: tile_wall",
@@ -9958,8 +9940,8 @@
       "z": [0.0, 1.0],
       "pattern": {"kind": "courses", "h": [0.035, 0.05, 0.065, 0.08], "L": [0.3, 0.42, 0.55, 0.7], "gap": 0.004},
       "openings": [
-        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
-        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
+        {"s": [7.3, 9.1], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
+        {"s": [4.0, 5.8], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
       ],
       "face_normal": [0.0, 1.0],
       "note": "interior lining: slate_courses",
@@ -9995,8 +9977,8 @@
       "z": [1.0, 3.2],
       "pattern": {"kind": "skin"},
       "openings": [
-        {"s": [1.61, 3.41], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
-        {"s": [6.64, 8.44], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
+        {"s": [7.3, 9.1], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"},
+        {"s": [4.0, 5.8], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Men's wash zone ↔ Men's changing"}
       ],
       "face_normal": [0.0, 1.0],
       "note": "interior lining: lime_plaster",
@@ -10149,8 +10131,8 @@
       "z": [0.0, 1.0],
       "pattern": {"kind": "courses", "h": [0.035, 0.05, 0.065, 0.08], "L": [0.3, 0.42, 0.55, 0.7], "gap": 0.004},
       "openings": [
-        {"s": [1.41, 3.21], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
-        {"s": [6.44, 8.24], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
+        {"s": [0.75, 2.55], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
+        {"s": [4.05, 5.85], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
       ],
       "face_normal": [0.0, -1.0],
       "note": "interior lining: slate_courses",
@@ -10186,8 +10168,8 @@
       "z": [1.0, 3.2],
       "pattern": {"kind": "skin"},
       "openings": [
-        {"s": [1.41, 3.21], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
-        {"s": [6.44, 8.24], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
+        {"s": [0.75, 2.55], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"},
+        {"s": [4.05, 5.85], "z": [0.0, 2.4], "type": "opening", "swing": 1, "note": "Women's wash zone ↔ Women's changing"}
       ],
       "face_normal": [0.0, -1.0],
       "note": "interior lining: lime_plaster",
@@ -17242,7 +17224,7 @@
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "pts": [[0.0, 0.0], [-13.2, 0.0], [-13.2, -0.11]],
+      "pts": [[0.0, 0.0], [-6.85, 0.0]],
       "width": 0.25,
       "note": "Bekken: the stream's slate channel"
     },
@@ -17250,40 +17232,72 @@
       "id": "stream_channel-658",
       "kind": "stream_channel",
       "level": "F1",
-      "at": [-28.5, -4.2],
-      "z": 0.0,
-      "rot_deg": 0.0,
-      "zone": "lockers",
-      "pts": [[0.0, 0.0], [0.0, -2.8]],
-      "width": 0.25,
-      "note": "Bekken: the stream's slate channel"
-    },
-    {
-      "id": "stream_channel-659",
-      "kind": "stream_channel",
-      "level": "F1",
       "at": [-15.3, 7.39],
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "pts": [[0.0, 0.0], [-13.2, 0.0], [-13.2, 0.26]],
+      "pts": [[0.0, 0.0], [-6.85, 0.0]],
       "width": 0.25,
       "note": "Bekken: the stream's slate channel"
     },
+    {"id": "pool_basin-659", "kind": "pool_basin", "level": "F1", "at": [-22.6, -4.06], "z": 0.0, "rot_deg": 0.0, "zone": "lockers", "note": "Tjern: the stone pool the stream falls into (recirculates)"},
+    {"id": "pool_basin-660", "kind": "pool_basin", "level": "F1", "at": [-22.6, 7.36], "z": 0.0, "rot_deg": 0.0, "zone": "lockers", "note": "Tjern: the stone pool the stream falls into (recirculates)"},
     {
-      "id": "stream_channel-660",
-      "kind": "stream_channel",
+      "id": "portal_frame-661",
+      "kind": "portal_frame",
       "level": "F1",
-      "at": [-28.5, 7.65],
+      "at": [-27.6, 7.545],
       "z": 0.0,
-      "rot_deg": 0.0,
+      "rot_deg": 180,
       "zone": "lockers",
-      "pts": [[0.0, 0.0], [0.0, 2.4]],
-      "width": 0.25,
-      "note": "Bekken: the stream's slate channel"
+      "width": 1.8,
+      "height": 2.4,
+      "depth": 0.2,
+      "note": "blackened-steel portal: the way into the wash zone"
     },
     {
-      "id": "oculus-661",
+      "id": "portal_frame-662",
+      "kind": "portal_frame",
+      "level": "F1",
+      "at": [-24.3, 7.545],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "lockers",
+      "width": 1.8,
+      "height": 2.4,
+      "depth": 0.2,
+      "note": "blackened-steel portal: the way into the wash zone"
+    },
+    {"id": "portal_frame-663", "kind": "portal_frame", "level": "F1", "at": [-13.5, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "width": 1.0, "height": 2.1, "depth": 0.2, "note": "blackened-steel portal: the WC room door"},
+    {
+      "id": "portal_frame-664",
+      "kind": "portal_frame",
+      "level": "F1",
+      "at": [-27.6, -4.095],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "lockers",
+      "width": 1.8,
+      "height": 2.4,
+      "depth": 0.2,
+      "note": "blackened-steel portal: the way into the wash zone"
+    },
+    {
+      "id": "portal_frame-665",
+      "kind": "portal_frame",
+      "level": "F1",
+      "at": [-24.3, -4.095],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "lockers",
+      "width": 1.8,
+      "height": 2.4,
+      "depth": 0.2,
+      "note": "blackened-steel portal: the way into the wash zone"
+    },
+    {"id": "portal_frame-666", "kind": "portal_frame", "level": "F1", "at": [-13.5, -4.095], "z": 0.0, "rot_deg": 0, "zone": "lockers", "width": 1.0, "height": 2.1, "depth": 0.2, "note": "blackened-steel portal: the WC room door"},
+    {
+      "id": "oculus-667",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, -0.5],
@@ -17296,7 +17310,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "oculus-662",
+      "id": "oculus-668",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, -0.5],
@@ -17309,7 +17323,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "oculus-663",
+      "id": "oculus-669",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, -0.5],
@@ -17322,7 +17336,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "oculus-664",
+      "id": "oculus-670",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, 3.5],
@@ -17335,7 +17349,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "oculus-665",
+      "id": "oculus-671",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, 3.5],
@@ -17348,7 +17362,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "oculus-666",
+      "id": "oculus-672",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, 3.5],
@@ -17361,7 +17375,7 @@
       "note": "oculus over a round locker room"
     },
     {
-      "id": "cell_light-667",
+      "id": "cell_light-673",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -3.5],
@@ -17372,7 +17386,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-668",
+      "id": "cell_light-674",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, -3.5],
@@ -17383,7 +17397,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-669",
+      "id": "cell_light-675",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, -3.5],
@@ -17394,7 +17408,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-670",
+      "id": "cell_light-676",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, -3.5],
@@ -17405,7 +17419,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-671",
+      "id": "cell_light-677",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, -3.5],
@@ -17416,7 +17430,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-672",
+      "id": "cell_light-678",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, -3.5],
@@ -17427,7 +17441,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-673",
+      "id": "cell_light-679",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, -3.5],
@@ -17438,7 +17452,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-674",
+      "id": "cell_light-680",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -1.0],
@@ -17449,7 +17463,7 @@
       "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -1.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-675",
+      "id": "cell_light-681",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 0.3],
@@ -17460,7 +17474,7 @@
       "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 0.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-676",
+      "id": "cell_light-682",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 6.3],
@@ -17471,7 +17485,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-677",
+      "id": "cell_light-683",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, 6.3],
@@ -17482,7 +17496,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-678",
+      "id": "cell_light-684",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, 6.3],
@@ -17493,7 +17507,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-679",
+      "id": "cell_light-685",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, 6.3],
@@ -17504,7 +17518,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-680",
+      "id": "cell_light-686",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, 6.3],
@@ -17515,7 +17529,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-681",
+      "id": "cell_light-687",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, 6.3],
@@ -17526,7 +17540,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-682",
+      "id": "cell_light-688",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, 6.3],
@@ -17537,7 +17551,7 @@
       "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-683",
+      "id": "cell_light-689",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 2.6],
@@ -17548,7 +17562,7 @@
       "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 2.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-684",
+      "id": "cell_light-690",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 3.9],
@@ -17559,7 +17573,7 @@
       "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 3.9, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-685",
+      "id": "cell_light-691",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -5.4],
@@ -17570,7 +17584,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-686",
+      "id": "cell_light-692",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -7.6],
@@ -17581,7 +17595,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-687",
+      "id": "cell_light-693",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -5.4],
@@ -17592,7 +17606,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-688",
+      "id": "cell_light-694",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -7.6],
@@ -17603,7 +17617,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-689",
+      "id": "cell_light-695",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -5.4],
@@ -17614,7 +17628,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-690",
+      "id": "cell_light-696",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -7.6],
@@ -17625,7 +17639,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-691",
+      "id": "cell_light-697",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 8.6],
@@ -17636,7 +17650,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-692",
+      "id": "cell_light-698",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 10.6],
@@ -17647,7 +17661,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-693",
+      "id": "cell_light-699",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 8.6],
@@ -17658,7 +17672,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-694",
+      "id": "cell_light-700",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 10.6],
@@ -17669,7 +17683,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-695",
+      "id": "cell_light-701",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 8.6],
@@ -17680,7 +17694,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-696",
+      "id": "cell_light-702",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 10.6],
@@ -17691,7 +17705,7 @@
       "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-697",
+      "id": "wall_light-703",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, -4.297],
@@ -17701,7 +17715,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-698",
+      "id": "wall_light-704",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, -4.297],
@@ -17711,7 +17725,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-699",
+      "id": "wall_light-705",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, -4.297],
@@ -17721,7 +17735,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-700",
+      "id": "wall_light-706",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, 7.747],
@@ -17731,7 +17745,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-701",
+      "id": "wall_light-707",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, 7.747],
@@ -17741,7 +17755,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-702",
+      "id": "wall_light-708",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, 7.747],
@@ -17751,7 +17765,7 @@
       "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-703",
+      "id": "cell_light-709",
       "kind": "cell_light",
       "level": "F1",
       "at": [-33.5, 0.0],
@@ -17762,7 +17776,7 @@
       "light": {"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-33.5, 0.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-704",
+      "id": "cell_light-710",
       "kind": "cell_light",
       "level": "F1",
       "at": [-31.3, 3.0],

@@ -3142,6 +3142,23 @@ def stream_channel(P, pts=(), width=0.35, depth=0.12):
             P.box(sl, (xa, ya + dy * (w2 + t / 2), -depth / 2), (width + 2 * t, t, depth))
 
 
+def pool_basin(P, L=0.9, D=0.42, depth=0.1):
+    """Tjern: the small stone pool where the stream ends: the water slips off a slate lip into it and recirculates; slate-lined,
+    pebbles on the bottom, still dark water, within the floor build-up. Origin = its centre at the floor; the stream comes in
+    from the +x end."""
+    sl = M.setdefault("slate_riven_ch", bc.pbr_material("slate_riven_ch", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34, rough_add=0.12, piece_var=0.0))
+    peb = M.setdefault("pebbles_ch", bc.pbr_material("pebbles_ch", "river_small_rocks", 0.6, box=True, sat=0.75, val=0.8, piece_var=0.0))
+    wat = M.get("stream_water") or bc.material("stream_water", (0.04, 0.06, 0.06), 0.01, alpha=0.25)
+    t = 0.03
+    for sy in (-1, 1):
+        P.box(sl, (0, sy * (D / 2 + t / 2), -depth / 2), (L + 2 * t, t, depth))
+    for sx in (-1, 1):
+        P.box(sl, (sx * (L / 2 + t / 2), 0, -depth / 2), (t, D, depth))
+    P.box(peb, (0, 0, -depth + 0.02), (L, D, 0.04))             # pebbles, a hand's depth of still water over them
+    P.box(wat, (0, 0, -0.025), (L - 0.004, D - 0.004, 0.002))
+    P.box(sl, (L / 2 - 0.04, 0, -0.03), (0.08, 0.25, 0.012))     # the lip the stream slips off
+
+
 def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
     """The oculus over a round locker room: a light well r 1.0 through the slat ceiling, lined in warm plaster, an opal disc at its
     top glowing (a soft round sky over the room); a thin oak ring at the ceiling edge."""
@@ -3182,7 +3199,7 @@ BUILDERS = {
     "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
     "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
     "blanket_basket": blanket_basket, "ir_heater": ir_heater, "gate_release": gate_release, "slide_wall": slide_wall, "kilden": kilden,
-    "linear_light": linear_light, "floor_grazer": floor_grazer, "stream_channel": stream_channel, "oculus": oculus,
+    "linear_light": linear_light, "floor_grazer": floor_grazer, "stream_channel": stream_channel, "oculus": oculus, "pool_basin": pool_basin,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

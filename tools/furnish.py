@@ -667,6 +667,19 @@ def putl(kind, x, y, rot=0.0, zone="lockers", **kw):
 for st in [i for i in LK["items"] if i["kind"] == "stream"]:
     x0, y0 = st["pts"][0]
     putl("stream_channel", x0, y0, pts=[[round(x - x0, 3), round(y - y0, 3)] for x, y in st["pts"]], width=st["width"], note="Bekken: the stream's slate channel")
+for pb in [i for i in LK["items"] if i["kind"] == "pool_basin"]:
+    putl("pool_basin", pb["x"], pb["y"], note=pb["label"])
+# every doorway framed (Roman: the doorways were floating raw holes): blackened-steel portals through the wall + its linings,
+# on the changing-room side of the wash openings and the WC room doors (as the gallery entries)
+for e in [e for e in m["elements"] if e["id"].startswith("P-F1-") and set(e.get("between", [])) in
+          ({"men-lockers", "men-wet"}, {"women-lockers", "women-wet"}, {"men-lockers", "men-wc"}, {"women-lockers", "women-wc"})]:
+    men = "men-lockers" in e["between"]
+    x0, sg = e["from"][0], (1 if e["to"][0] > e["from"][0] else -1)
+    yf = e["from"][1] + (0.105 if men else -0.105)        # the changing-room face (partition 75 + slate 30)
+    for o in e["openings"]:
+        xa, xb = sorted([x0 + sg * o["s"][0], x0 + sg * o["s"][1]])
+        putl("portal_frame", (xa + xb) / 2, yf, rot=0 if men else 180, zone="lockers", width=round(xb - xa, 3), height=round(o["z"][1] - F1, 2), depth=0.2,
+             note="blackened-steel portal: " + ("the WC room door" if o["type"] == "door" else "the way into the wash zone"))
 for r_ in [i for i in LK["items"] if i["kind"] == "locker_ring"]:
     putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
          "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.86, 0.7]}, note="oculus over a round locker room")

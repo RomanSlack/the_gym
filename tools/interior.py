@@ -351,6 +351,11 @@ def _stream_holes(rect):
             r_ = [max(r_[0], rect[0]), max(r_[1], rect[1]), min(r_[2], rect[2]), min(r_[3], rect[3])]
             if r_[2] - r_[0] > 0.05 and r_[3] - r_[1] > 0.05:
                 hs.append({"rect": [round(v, 3) for v in r_], "note": "the stream's slate channel"})
+    for pb in [i for i in LK["items"] if i["kind"] == "pool_basin"]:
+        r_ = [pb["x"] - pb["w"] / 2 - 0.03, pb["y"] - pb["d"] / 2 - 0.03, pb["x"] + pb["w"] / 2 + 0.03, pb["y"] + pb["d"] / 2 + 0.03]
+        r_ = [max(r_[0], rect[0]), max(r_[1], rect[1]), min(r_[2], rect[2]), min(r_[3], rect[3])]
+        if r_[2] - r_[0] > 0.05 and r_[3] - r_[1] > 0.05:
+            hs.append({"rect": [round(v, 3) for v in r_], "note": "the stream's pool"})
     return hs
 LIFT_M, LIFT_W = [-29.45, -4.1, -28.85, -1.7], [-29.45, 4.7, -28.85, 7.1]
 LKF = {  # name: rect, finish, extra holes

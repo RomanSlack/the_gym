@@ -40,6 +40,7 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "oak_block": {"label": "Oak block (closed storage between the drums)", "d": 4.2, "h": 2.6, "mat": "oak_solid"},
     "locker_ring": {"label": "Round locker room", "d": 3.9, "h": 2.0, "mat": "oak"},
     "round_seat": {"label": "Round seat", "d": 0.8, "h": 0.45, "mat": "walnut"},
+    "pool_basin": {"label": "Tjern: stone pool at the stream's end", "d": 0.42, "h": -0.25, "mat": "water"},
     "stream": {"label": "Bekken: the stream (slate channel, pebble bed, moving water)", "d": 0.35, "h": -0.12, "mat": "water"},
     "spring_basin": {"label": "Spring basin: where the stream rises", "d": 0.6, "h": 0.5, "mat": "stone"},
     "bridge_slab": {"label": "Granite slab over the stream (flush)", "d": 0.6, "h": 0.0, "mat": "stone"},
@@ -163,11 +164,12 @@ def wash(room, s):
     rv = 180 if s > 0 else 0
     (o1a, o1b), (o2a, o2b) = openings(room.replace("wet", "lockers"), room)
     dw = 1.0 if s > 0 else 0.85                    # the women's zone is shallower: wash places 0.85 deep, the aisle stays >= 1.4
+    x0w = o2b + 0.1
     for k in range(3):
-        put(room, "wash_station", o1b + 0.1 + (o2a - o1b - 0.2) * (k + 0.5) / 3, front - s * dw / 2, 0.95, rv, d=dw)
-    # a stone bench in the strip between the facade and the stream, sitting by the water (onsen-style)
-    put(room, "stone_bench", WASH_X[0] + 0.3, (front + (back + s * dsh)) / 2, abs((back + s * dsh) - front) - 0.4, -90, d=0.45)
-    put(room, "vanity", (o2b + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - o2b - 0.1, 2), rv, n=2)
+        put(room, "wash_station", x0w + 0.45 + k * 0.92, front - s * dw / 2, 0.88, rv, d=dw)
+    put(room, "vanity", (x0w + 2.86 + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - x0w - 2.86 - 0.05, 2), rv, n=1)
+    # a stone bench on the wall between the two openings: sit and wait for a shower (onsen-style rest)
+    put(room, "stone_bench", (o1b + o2a) / 2, front - s * 0.225, round(o2a - o1b - 0.2, 2), rv, d=0.45)
     return (o1a, o1b), (o2a, o2b)
 
 def wc_room(room, s):
@@ -207,21 +209,17 @@ ops_w = wash("women-wet", -1); wc_room("women-wc", -1)
 # just past the WC door, runs along the edge of the changing room's aisle at the foot of the wash-zone wall (granite slabs carry the
 # floor over it at the openings), turns down the west side of the westmost opening into the wash zone and ends in Fossen's front
 def stream(room_c, room_w, s, ops):
-    """Roman: the water must not block doorways. A 250 mm channel tight to the foot of the slate wall; flush granite slabs carry the
-    floor over it across both openings (the water slips under them); it passes under the wall in a culvert at x -28.5, west of the
-    openings, and runs down the wash zone's west side straight into Fossen: no route crosses it in the open."""
+    """Roman: the water must never cut across a doorway (or run under a wall). Bekken rises at the spring basin by the entry, runs
+    west along the foot of the slate wall and falls into a stone pool (tjern) 0.35 m short of the first wash-zone opening; the
+    openings sit west of it. Fossen in the wash zone has its own water."""
     face = -4.275 if s > 0 else 7.575
     y = round(face + s * (0.03 + 0.155), 3)           # in front of the slate lining: lining 30, lip 30, half the channel 125
-    ye = -7.0 if s > 0 else 10.05
-    xw = -28.5
-    yl = -4.2 if s > 0 else 7.65
-    pts_c = [[-15.3, y], [xw, y], [xw, yl]]
-    pts_w = [[xw, yl], [xw, ye]]
+    east_open = max(b for a, b in ops)                 # the eastern jamb of the eastern opening
+    px = east_open + 0.35 + 0.45                       # the pool's centre (0.9 long)
+    pts_c = [[-15.3, y], [round(px + 0.45, 3), y]]
     put(room_c, "spring_basin", -15.0, y, 0.5, 0, d=0.32)  # flush with the channel line: it does not narrow the aisle
     items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.25})
-    items.append({"id": f"{room_w}-stream", "room": room_w, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_w, "width": 0.25})
-    for xa, xb in ops:
-        put(room_c, "bridge_slab", (xa + xb) / 2, y, xb - xa + 0.3, 0, d=0.42, label="Granite slab over the stream, flush: the opening stays clear")
+    put(room_c, "pool_basin", round(px, 3), round(y + s * 0.03, 3), 0.9, 0, d=0.42, label="Tjern: the stone pool the stream falls into (recirculates)")
 stream("men-lockers", "men-wet", 1, ops_m)
 stream("women-lockers", "women-wet", -1, ops_w)
 # towel returns: slots in the oak block's aisle face, between the drums
@@ -304,7 +302,7 @@ def check(room, a, b, label, need=1.5):
 for room, ys, ya, yb in (("men-lockers", -1, -4.3, -1.0), ("women-lockers", 1, 4.0, 7.6)):
     for x in (-25.6, -21.8, -17.6, -15.0):
         check(room, (x, ya), (x, yb), "main aisle")
-for x in (-25.6, -21.0, -20.0):
+for x in (-25.9, -22.4, -20.0):
     check("men-wet", (x, -9.3), (x, -4.2), "wash aisle", 1.2)
     check("women-wet", (x, 7.65), (x, 12.1), "wash aisle", 1.2)
 check("men-wc", (-15.8, -9.3), (-15.8, -4.2), "WC lobby", 1.5)
@@ -319,8 +317,8 @@ check("sauna-lobby", (-35.4, 1.5), (-29.4, 1.5), "sauna lobby", 1.5)
 for room, a, b, label in (("men-lockers", (-11.6, -3.895), (-11.6, -2.395), "entry from the gallery"), ("women-lockers", (-11.6, -0.3), (-11.6, 1.2), "entry from the gallery"),
                           ("men-wc", (-14.0, -4.2), (-13.0, -4.2), "WC room door"), ("women-wc", (-14.0, 7.65), (-13.0, 7.65), "WC room door")):
     check(room, a, b, label, 0.9)
-for room, y in (("men-wet", -4.2), ("women-wet", 7.65)):
-    for xa, xb in ((-27.84, -26.04), (-22.81, -21.01)):
+for room, y, ops in (("men-wet", -4.2, ops_m), ("women-wet", 7.65, ops_w)):
+    for xa, xb in ops:
         check(room, (xa, y), (xb, y), "wash zone opening", 0.9)
 for rg in [i for i in items if i["kind"] == "locker_ring"]:
     a0 = _mt.radians(rg["rot"] + 90); cx, cy = rg["x"] + _mt.cos(a0) * rg["r_in"], rg["y"] + _mt.sin(a0) * rg["r_in"]
@@ -343,7 +341,7 @@ for room, s_ in (("men", 1), ("women", -1)):
     route(rlk, [list(ent), [-13.5, ent[1] if s_ > 0 else 6.9], list(wcd)], "in shoes, straight to the WC room (shoe zone only)", "shoe")
     for xd in (-24.95, -20.74, -16.55):
         route(rlk, [[xd, aisle_y], [xd, aisle_y + (0.9 if s_ > 0 else -0.9)]], "into a round locker room", "branch")
-    for xo in (-26.94, -21.91):
+    for xo in [(a + b) / 2 for a, b in (ops_m if s_ > 0 else ops_w)]:
         route(rlk, [[xo, aisle_y], [xo, -5.6 if s_ > 0 else 9.0]], "to the wash zone (barefoot)", "wash")
     route(rlk, [[-27.6, aisle_y], [-28.2, -2.9 if s_ > 0 else 5.9]], "the express lift to the pool (F4)", "branch")
     route(rlk, [[-27.6, aisle_y], [-28.6, aisle_y], [-28.9, 0.0 if s_ > 0 else 3.0], [-30.2, 0.0 if s_ > 0 else 3.0]], "the sauna lobby", "branch")

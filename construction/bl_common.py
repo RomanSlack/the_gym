@@ -618,8 +618,13 @@ def pattern_lining(e, mat, coll, rng, backing_mat=None):
             h = min(float(rng.choice(p["h"])), z1 - z); s = -rng.uniform(0, max(p["L"]))
             while s < L:
                 ln = float(rng.choice(p["L"])); s0, s1 = max(s, 0), min(s + ln, L)
-                if s1 - s0 > 0.05 and not blocked(s0, s1, z, z + h):
-                    boxes.append(quad(s0 + p["gap"] / 2, s1 - p["gap"] / 2, z + p["gap"] / 2, z + h - p["gap"] / 2, base_t, base_t + d))
+                pieces = [(s0, s1)]
+                for o in ops:  # cut square at the jambs of an opening (the stones stop on one clean line)
+                    if o["z"][0] < z + h and o["z"][1] > z:
+                        pieces = [q for a_, b_ in pieces for q in ((a_, min(b_, o["s"][0])), (max(a_, o["s"][1]), b_)) if q[1] - q[0] > 0.0]
+                for a_, b_ in pieces:
+                    if b_ - a_ > 0.04:
+                        boxes.append(quad(a_ + p["gap"] / 2, b_ - p["gap"] / 2, z + p["gap"] / 2, z + h - p["gap"] / 2, base_t, base_t + d))
                 s += ln
             z += h
     else:  # plain skin, cut round openings

@@ -61,7 +61,9 @@ COUNT = {("women-wet", "women-lockers"): 2, ("men-wet", "men-lockers"): 2}  # Ro
 # mirror-symmetric, 1.5 m clear each (tools/layout_v1.py)
 PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "gallery"): ((-11.6, -3.15), 1.5),
          # the WC rooms' doors (hands-free automatic sliding, hygiene): right off the arrival nooks, on the shoe side
-         ("men-wc", "men-lockers"): ((-13.5, -4.2), 1.0), ("women-wc", "women-lockers"): ((-13.5, 7.65), 1.0)}
+         ("men-wc", "men-lockers"): ((-13.5, -4.2), 1.0), ("women-wc", "women-lockers"): ((-13.5, 7.65), 1.0),
+         # the wash zones' two openings at the west part of the wall (Roman: the stream must never cross a doorway; it runs east of them)
+         ("men-wet", "men-lockers"): ([(-27.6, -4.2), (-24.3, -4.2)], 1.8), ("women-wet", "women-lockers"): ([(-27.6, 7.65), (-24.3, 7.65)], 1.8)}
 DOOR_W = 1.0
 
 spaces = m["spaces"]
@@ -139,15 +141,16 @@ for L in sorted({sp["level"] for sp in spaces}):
                 continue
             from shapely.geometry import Point
             place = PLACE.get((sp["id"], t))
+            pts_ = ([place[0]] if place and not isinstance(place[0], list) else place[0]) if place else []
             w = max(cands, key=lambda w: LineString([w["from"], w["to"]]).length) if not place else \
-                min(cands, key=lambda w: LineString([w["from"], w["to"]]).distance(Point(place[0])))
+                min(cands, key=lambda w: LineString([w["from"], w["to"]]).distance(Point(pts_[0])))
             Lw = LineString([w["from"], w["to"]]).length
             otype = PASSAGE.get((sp["id"], t), "door")
             width = min(place[1] if place else WIDTH[otype], Lw - 0.3)
             if width < 0.9:
                 continue
             n_open = COUNT.get((sp["id"], t), 1)
-            centres = [LineString([w["from"], w["to"]]).project(Point(place[0]))] if place else [Lw * (2 * i + 1) / (2 * n_open) for i in range(n_open)]
+            centres = [LineString([w["from"], w["to"]]).project(Point(q)) for q in pts_] if place else [Lw * (2 * i + 1) / (2 * n_open) for i in range(n_open)]
             # swing into the enclosed room: which side of the wall is it on?
             (x0, y0), (x1, y1) = w["from"], w["to"]
             nx, ny = -(y1 - y0) / Lw, (x1 - x0) / Lw
