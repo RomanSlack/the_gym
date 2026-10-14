@@ -770,6 +770,12 @@ for it in LKs("sauna-lobby", "towel_warmer"):
 for it in LKs("sauna-lobby", "bench"):
     putl("bench", it["x"], it["y"], rot=it["rot"], zone="lobby", length=it["w"])
 putl("glass_door", -33.65, 4.5, rot=0, zone="lobby", width=1.0, height=2.2, note="out to the sauna path")
+putl("duckboard", -33.65, 3.85, zone="lobby", note="oak duckboard at the sauna door")
+putl("log_store", -30.35, -1.375, zone="lobby", note="birch for the sauna stove, ladle + bucket",
+     light={"type": "AREA", "energy": 15, "size": 1.0, "size_y": 0.05, "offset": [0, 0.4, 2.8], "aim": [-30.35, -1.2, 1.0], "color": ZEN})
+putl("water_station", -32.4, 4.375, rot=180, zone="lobby", note="water after the sauna")
+putl("water_station", -16.6, -4.095, zone="lockers", note="water in the men's changing room")
+putl("water_station", -16.6, 7.545, rot=180, zone="lockers", note="water in the women's changing room")
 for r_ in [i for i in LK["items"] if i["kind"] == "locker_ring"]:
     putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
          "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.78, 0.55]}, note="oculus over a round locker room (zen: a soft warm glow)")

@@ -17715,8 +17715,23 @@
     {"id": "towel_warmer-749", "kind": "towel_warmer", "level": "F1", "at": [-31.0, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "length": 1.2},
     {"id": "bench-750", "kind": "bench", "level": "F1", "at": [-32.6, -1.075], "z": 0.0, "rot_deg": 0, "zone": "lobby", "length": 2.4},
     {"id": "glass_door-751", "kind": "glass_door", "level": "F1", "at": [-33.65, 4.5], "z": 0.0, "rot_deg": 0, "zone": "lobby", "width": 1.0, "height": 2.2, "note": "out to the sauna path"},
+    {"id": "duckboard-752", "kind": "duckboard", "level": "F1", "at": [-33.65, 3.85], "z": 0.0, "rot_deg": 0.0, "zone": "lobby", "note": "oak duckboard at the sauna door"},
     {
-      "id": "oculus-752",
+      "id": "log_store-753",
+      "kind": "log_store",
+      "level": "F1",
+      "at": [-30.35, -1.375],
+      "z": 0.0,
+      "rot_deg": 0.0,
+      "zone": "lobby",
+      "note": "birch for the sauna stove, ladle + bucket",
+      "light": {"type": "AREA", "energy": 15, "size": 1.0, "size_y": 0.05, "offset": [0, 0.4, 2.8], "aim": [-30.35, -1.2, 1.0], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "water_station-754", "kind": "water_station", "level": "F1", "at": [-32.4, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "note": "water after the sauna"},
+    {"id": "water_station-755", "kind": "water_station", "level": "F1", "at": [-16.6, -4.095], "z": 0.0, "rot_deg": 0.0, "zone": "lockers", "note": "water in the men's changing room"},
+    {"id": "water_station-756", "kind": "water_station", "level": "F1", "at": [-16.6, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "note": "water in the women's changing room"},
+    {
+      "id": "oculus-757",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, -0.45],
@@ -17729,7 +17744,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-753",
+      "id": "oculus-758",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, -0.45],
@@ -17742,7 +17757,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-754",
+      "id": "oculus-759",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, -0.45],
@@ -17755,7 +17770,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-755",
+      "id": "oculus-760",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, 3.45],
@@ -17768,7 +17783,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-756",
+      "id": "oculus-761",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, 3.45],
@@ -17781,7 +17796,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-757",
+      "id": "oculus-762",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, 3.45],
@@ -17794,7 +17809,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "cell_light-758",
+      "id": "cell_light-763",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -3.5],
@@ -17805,7 +17820,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-759",
+      "id": "cell_light-764",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, -3.5],
@@ -17816,7 +17831,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-760",
+      "id": "cell_light-765",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, -3.5],
@@ -17827,7 +17842,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-761",
+      "id": "cell_light-766",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, -3.5],
@@ -17838,7 +17853,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-762",
+      "id": "cell_light-767",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, -3.5],
@@ -17849,7 +17864,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-763",
+      "id": "cell_light-768",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, -3.5],
@@ -17860,7 +17875,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-764",
+      "id": "cell_light-769",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, -3.5],
@@ -17871,7 +17886,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-765",
+      "id": "cell_light-770",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -1.0],
@@ -17882,7 +17897,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -1.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-766",
+      "id": "cell_light-771",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 0.3],
@@ -17893,7 +17908,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 0.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-767",
+      "id": "cell_light-772",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 6.3],
@@ -17904,7 +17919,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-768",
+      "id": "cell_light-773",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, 6.3],
@@ -17915,7 +17930,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-769",
+      "id": "cell_light-774",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, 6.3],
@@ -17926,7 +17941,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-770",
+      "id": "cell_light-775",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, 6.3],
@@ -17937,7 +17952,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-771",
+      "id": "cell_light-776",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, 6.3],
@@ -17948,7 +17963,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-772",
+      "id": "cell_light-777",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, 6.3],
@@ -17959,7 +17974,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-773",
+      "id": "cell_light-778",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, 6.3],
@@ -17970,7 +17985,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-774",
+      "id": "cell_light-779",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 2.6],
@@ -17981,7 +17996,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 2.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-775",
+      "id": "cell_light-780",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 3.9],
@@ -17992,7 +18007,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 3.9, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-776",
+      "id": "cell_light-781",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -5.4],
@@ -18003,7 +18018,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-777",
+      "id": "cell_light-782",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -7.6],
@@ -18014,7 +18029,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-778",
+      "id": "cell_light-783",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -5.4],
@@ -18025,7 +18040,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-779",
+      "id": "cell_light-784",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -7.6],
@@ -18036,7 +18051,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-780",
+      "id": "cell_light-785",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -5.4],
@@ -18047,7 +18062,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-781",
+      "id": "cell_light-786",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -7.6],
@@ -18058,7 +18073,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-782",
+      "id": "cell_light-787",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 8.6],
@@ -18069,7 +18084,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-783",
+      "id": "cell_light-788",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 10.6],
@@ -18080,7 +18095,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-784",
+      "id": "cell_light-789",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 8.6],
@@ -18091,7 +18106,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-785",
+      "id": "cell_light-790",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 10.6],
@@ -18102,7 +18117,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-786",
+      "id": "cell_light-791",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 8.6],
@@ -18113,7 +18128,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-787",
+      "id": "cell_light-792",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 10.6],
@@ -18124,7 +18139,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-788",
+      "id": "wall_light-793",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, -4.297],
@@ -18134,7 +18149,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-789",
+      "id": "wall_light-794",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, -4.297],
@@ -18144,7 +18159,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-790",
+      "id": "wall_light-795",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, -4.297],
@@ -18154,7 +18169,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-791",
+      "id": "wall_light-796",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, 7.747],
@@ -18164,7 +18179,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-792",
+      "id": "wall_light-797",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, 7.747],
@@ -18174,7 +18189,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-793",
+      "id": "wall_light-798",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, 7.747],
@@ -18184,7 +18199,7 @@
       "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-794",
+      "id": "cell_light-799",
       "kind": "cell_light",
       "level": "F1",
       "at": [-33.5, 0.0],
@@ -18195,7 +18210,7 @@
       "light": {"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-33.5, 0.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-795",
+      "id": "cell_light-800",
       "kind": "cell_light",
       "level": "F1",
       "at": [-31.3, 3.0],

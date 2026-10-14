@@ -3113,6 +3113,36 @@ def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
 
 
 # ------------------------------------------------------------------ locker rooms, phase 2: the changing rooms (Roman, 2026-10-13)
+DRUM_GLASS = (("multe", (0.92, 0.36, 0.03)), ("mose", (0.16, 0.4, 0.06)), ("fjord", (0.04, 0.17, 0.55)))  # cloudberry, moss, fjord
+
+
+def _drum_glass(rank):
+    """Each round locker room has its own colour (Roman: no numbers; colour, stained glass): three tints of it, light to deep."""
+    name, c = DRUM_GLASS[rank % 3]; out = []
+    for k, f in enumerate((1.0, 0.72, 0.5)):
+        cc = tuple(min(1.0, v * f) for v in c)
+        out.append(M.setdefault(f"stained2_{name}_{k}", bc.material(f"stained2_{name}_{k}", cc, 0.2, emit=(cc, 0.55 - 0.12 * k))))
+    return out
+
+
+def _stained_transom(P, glass, x, y, w, H, h=0.34, seed=0):
+    """A band of stained glass across the top of a drum's mouth: hand-cut pieces of the room's three tints in blackened-steel cames,
+    glowing softly (lit from the light well behind); seen down the aisle, the colour tells you which room is yours."""
+    st = M["steel"]; z0 = H - h
+    P.box(st, (x, y, z0 - 0.015), (w, 0.04, 0.03))                                         # the head of the opening
+    rng = np.random.default_rng(seed * 31 + 5)
+    for row, (za, zb) in enumerate(((z0, z0 + h * 0.45), (z0 + h * 0.45, H))):
+        xa = x - w / 2
+        while xa < x + w / 2 - 0.02:
+            pw = float(min(rng.uniform(0.07, 0.19), x + w / 2 - xa))
+            P.box(glass[int(rng.integers(0, 3))], (xa + pw / 2, y, (za + zb) / 2), (pw - 0.008, 0.012, zb - za - 0.008))
+            P.box(st, (xa + pw, y, (za + zb) / 2), (0.008, 0.02, zb - za))                  # a came
+            xa += pw
+        P.box(st, (x, y, zb), (w, 0.02, 0.008))
+    for sx in (-1, 1):
+        P.box(st, (x + sx * w / 2, y, z0 + h / 2), (0.012, 0.02, h))
+
+
 def _locker_inside(P, dx, r_in, a1, a2, depth=0.52, in_use=False, lit=False):
     """The inside of one round-room locker (a wedge, wider at the back): an oak shell, a wool-felt back with a vent slot at the top,
     a hat shelf at 1.72 with a warm LED strip under its front edge (on when the door opens), a front-to-back hanging rail with oak
@@ -3201,6 +3231,8 @@ def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth
         P.box(felt, (sx_, D / 2 + 0.03, 0.95), (0.6, 0.012, 0.16))
         P.box(M["brass"], (sx_, D / 2 + 0.032, 1.06), (0.12, 0.004, 0.012))
     for di, dx in enumerate(drums):
+        glass = _drum_glass(len(drums) - 1 - di)  # the drum nearest the entry is listed last in both rooms: it is Multe
+        _stained_transom(P, glass, dx, D / 2 - 0.01, mouth + 0.04, H, seed=di)
         ym = math.sqrt(r_in * r_in - half * half)  # where the mouth meets the inner circle
         for sx in (-1, 1):  # the mouth's reveals
             P.box(oak, (dx + sx * (half + 0.01), (ym + D / 2) / 2, H / 2), (0.02, D / 2 - ym, H))
@@ -3233,22 +3265,32 @@ def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth
                 fx, fy = ox - nx * 0.011, oy - ny * 0.011
                 P.box(felt, (fx - ux * (w / 2 - 0.035), fy - uy * (w / 2 - 0.035), 1.1), (0.014, 0.004, 0.32), rz=drz)
                 P.box(sensor, (fx, fy, 1.42), (0.05, 0.004, 0.05), rz=drz)
-                P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=drz)
+                P.box(glass[1], (fx, fy, 1.6), (0.03, 0.005, 0.03), rz=drz)
                 continue
             P.box(oak, (cx - c * 0.01, cy - s_ * 0.01, 0.1 + 1.9 / 2), (w, 0.02, 1.9), rz=rz)                 # the door
             fx, fy = cx - c * 0.021, cy - s_ * 0.021                                                           # the door's room-side face
             P.box(felt, (fx + math.cos(rz) * (w / 2 - 0.035), fy + math.sin(rz) * (w / 2 - 0.035), 1.1), (0.014, 0.004, 0.32), rz=rz)  # pull groove
             P.box(sensor, (fx, fy, 1.42), (0.05, 0.004, 0.05), rz=rz)                                          # the phone reader
-            P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=rz)                                     # its number
+            P.box(glass[1], (fx, fy, 1.6), (0.03, 0.005, 0.03), rz=rz)                                        # a chip of the room's glass
         P.ring(oak, (dx, 0), r_in - 0.02, r_in + 0.01, 2.02, H, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
         P.ring(_led("plinth_glow", (1.0, 0.72, 0.42), 2.5), (dx, 0), r_in - 0.006, r_in + 0.004, 0.004, 0.012, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
 
 
 def round_seat(P, d=0.6):
-    """The round seat in a locker room: a turned walnut drum, a thick oat wool cushion, seat height 0.45."""
-    P.cyl(M["walnut"], (0, 0, 0.02), d / 2 - 0.04, 0.34, seg=48)
-    P.cyl(M["rubber"], (0, 0, 0.0), d / 2 - 0.06, 0.02, seg=48)
-    P.cyl(M["boucle"], (0, 0, 0.36), d / 2, 0.09, seg=48)
+    """The round seat in a locker room: a turned walnut drum on a shadow plinth, a thick oat wool cushion with a soft bevelled edge,
+    stitched in eight segments to a leather button, seat height 0.45; a warm glow under the plinth (it floats like the lockers)."""
+    wool = M.setdefault("wool_oat_seat", bc.material("wool_oat_seat", (0.5, 0.43, 0.35), 0.95))
+    leather = M.setdefault("leather_cognac", bc.material("leather_cognac", (0.32, 0.15, 0.07), 0.45))
+    P.cyl(M["rubber"], (0, 0, 0.0), d / 2 - 0.08, 0.03, seg=48)
+    P.ring(_led("plinth_glow", (1.0, 0.72, 0.42), 2.5), (0, 0), d / 2 - 0.085, d / 2 - 0.075, 0.0, 0.004, seg=64)
+    P.cyl(M["walnut"], (0, 0, 0.03), d / 2 - 0.04, 0.32, seg=64)
+    P.ring(M["brass"], (0, 0), d / 2 - 0.042, d / 2 - 0.036, 0.345, 0.35, seg=64)            # a brass ring where wood meets wool
+    P.cyl(wool, (0, 0, 0.35), d / 2, 0.075, seg=64)
+    P.cyl(wool, (0, 0, 0.425), d / 2 - 0.018, 0.02, seg=64)                                 # the bevel
+    for k in range(8):                                                                       # stitched segments
+        a_ = k * math.pi / 4
+        P.box(leather, (math.cos(a_) * d / 4.4, math.sin(a_) * d / 4.4, 0.446), (d / 2.4, 0.004, 0.002), rz=a_)
+    P.cyl(leather, (0, 0, 0.443), 0.022, 0.008, seg=24)
 
 
 def wall_waterfall(P, L=1.6, d=0.3, h=3.18):
@@ -3290,21 +3332,44 @@ def wall_waterfall(P, L=1.6, d=0.3, h=3.18):
 
 
 def grooming_bar(P, L=2.4):
-    """The grooming bar on the dry side: a 40 mm oak counter at 0.86 on blackened-steel brackets, a full-width mirror in a slim oak
-    frame, two wall-holstered hair dryers, a brass shelf rail with tissues, sockets, a waste bin underneath."""
+    """The grooming bar on the dry side, three places: a 40 mm oak counter at 0.86 on blackened-steel brackets with a warm light
+    under its front edge; a full-width mirror floating 30 mm off the wall with a halo of warm light behind it; per place a slate tray
+    (amber-glass bottles with brass pumps: face wash, moisturiser, hair tonic; an oak comb; a stone cup of cotton pads), a hair dryer
+    standing in its steel wall holster with its cord to a recessed socket; a tissue box in oak; a walnut + leather stool per place;
+    a steel bin under the counter."""
     oak, st = M["oak"], M["steel"]
+    amber = M.setdefault("glass_amber", bc.material("glass_amber", (0.35, 0.12, 0.02), 0.08))
+    sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
     P.box(oak, (0, 0.25, 0.84), (L, 0.5, 0.04))
+    P.box(_led("counter_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.48, 0.817), (L - 0.1, 0.01, 0.004))
     for x in (-L / 2 + 0.2, 0.0, L / 2 - 0.2):
         P.box(st, (x, 0.2, 0.7), (0.03, 0.4, 0.24))
-    P.box(oak, (0, 0.02, 1.55), (L, 0.03, 1.2))
-    P.box(M["mirror"], (0, 0.037, 1.55), (L - 0.06, 0.004, 1.14))
-    P.rod(M["brass"], (-L / 2 + 0.1, 0.12, 0.95), (L / 2 - 0.1, 0.12, 0.95), 0.008, seg=10)
-    for x in (-L / 4, L / 4):
-        P.box(st, (x, 0.08, 1.1), (0.09, 0.09, 0.14))                                       # holster
-        P.rod(M["ceramic"], (x, 0.09, 1.17), (x, 0.2, 1.21), 0.035, seg=16)                 # the dryer
-        P.box(M["ceramic"], (x + 0.12, 0.04, 0.98), (0.08, 0.01, 0.05))                     # socket
-    P.box(M["ceramic"], (0, 0.14, 0.9), (0.24, 0.12, 0.08))                                 # tissues
-    P.cyl(st, (L / 2 - 0.3, 0.25, 0.0), 0.13, 0.42, seg=24)                                  # bin
+    P.box(_led("halo_warm", (1.0, 0.76, 0.5), 3.0), (0, 0.01, 1.55), (L - 0.02, 0.004, 1.14))  # the halo behind the mirror
+    P.box(st, (0, 0.025, 1.55), (L - 0.12, 0.03, 1.08))                                       # the mirror's standoff
+    P.box(M["mirror"], (0, 0.042, 1.55), (L - 0.06, 0.006, 1.14))
+    for k, x in enumerate((-L / 3, 0.0, L / 3)):
+        P.box(sl, (x - 0.12, 0.13, 0.866), (0.3, 0.13, 0.012))                               # the tray
+        for j, h_ in enumerate((0.15, 0.12, 0.13)):
+            bx = x - 0.22 + j * 0.07
+            P.cyl(amber, (bx, 0.13, 0.872), 0.025, h_, seg=16)
+            P.rod(M["brass"], (bx, 0.13, 0.872 + h_), (bx, 0.13, 0.872 + h_ + 0.03), 0.006, seg=8)
+            P.rod(M["brass"], (bx, 0.13, 0.872 + h_ + 0.03), (bx, 0.16, 0.872 + h_ + 0.03), 0.004, seg=6)
+        P.box(oak, (x + 0.02, 0.15, 0.876), (0.16, 0.035, 0.005))                            # comb
+        P.cyl(M["ceramic"], (x + 0.12, 0.3, 0.86), 0.04, 0.07, seg=20)                       # a stone cup of cotton pads
+        P.cyl(M.setdefault("cotton", bc.material("cotton", (0.92, 0.92, 0.9), 0.95)), (x + 0.12, 0.3, 0.925), 0.033, 0.01, seg=16)
+        hx = x + 0.3                                                                          # the dryer in its holster
+        P.ring(st, (hx, 0.09), 0.03, 0.038, 0.98, 1.08, seg=20)
+        P.box(st, (hx, 0.05, 1.03), (0.03, 0.05, 0.06))
+        dry = M.setdefault("dryer_matte", bc.material("dryer_matte", (0.08, 0.08, 0.085), 0.4))
+        P.rod(dry, (hx, 0.09, 0.95), (hx, 0.09, 1.2), 0.022, seg=16)                         # handle
+        P.rod(dry, (hx, 0.04, 1.24), (hx, 0.19, 1.24), 0.045, seg=24)                        # the head (a ring, air through it)
+        P.rod(M["rubber"], (hx, 0.09, 0.95), (hx + 0.06, 0.06, 0.9), 0.004, seg=6)            # its cord to the socket
+        P.box(st, (hx + 0.06, 0.012, 0.95), (0.06, 0.01, 0.06))
+        P.cyl(M["walnut"], (x, 0.78, 0.0), 0.17, 0.62, seg=32, r2=0.15)                     # stool
+        P.cyl(M.setdefault("leather_cognac", bc.material("leather_cognac", (0.32, 0.15, 0.07), 0.45)), (x, 0.78, 0.62), 0.17, 0.035, seg=32)
+    P.box(oak, (L / 2 - 0.2, 0.33, 0.9), (0.24, 0.12, 0.09))                                 # tissues in an oak box
+    P.box(M["felt"], (L / 2 - 0.2, 0.33, 0.946), (0.1, 0.02, 0.002))
+    P.cyl(st, (-L / 2 + 0.3, 0.25, 0.0), 0.13, 0.42, seg=24)                                 # bin
 
 
 def shoe_cubbies(P, L=2.0, h=1.6, d=0.35):
@@ -3319,11 +3384,15 @@ def shoe_cubbies(P, L=2.0, h=1.6, d=0.35):
     rng = np.random.default_rng(3)
     for i in range(nc):
         for j in range(nr):
-            if rng.random() < 0.4:
+            if rng.random() < 0.6:  # a pair: sole + upper + a heel counter
                 x0 = -L / 2 + (i + 0.5) * cw; z0 = j * h / nr + 0.01
                 c = M["felt_" + COLOURS[int(rng.integers(0, 5))]]
-                for sx in (-0.06, 0.06):
-                    P.box(c, (x0 + sx, d / 2 + 0.02, z0 + 0.04), (0.09, 0.26, 0.08))
+                for sx in (-0.055, 0.055):
+                    P.box(M["rubber"], (x0 + sx, d / 2 + 0.02, z0 + 0.012), (0.09, 0.27, 0.022))
+                    P.box(c, (x0 + sx, d / 2 + 0.04, z0 + 0.05), (0.085, 0.2, 0.06))
+                    P.box(c, (x0 + sx, d / 2 - 0.08, z0 + 0.06), (0.08, 0.06, 0.08))
+    P.rod(M["brass"], (L / 2 + 0.01, d - 0.05, 1.3), (L / 2 + 0.04, d - 0.05, 1.32), 0.005, seg=6)   # a long oak shoe horn on a hook
+    P.box(M["walnut"], (L / 2 + 0.045, d - 0.05, 0.92), (0.012, 0.05, 0.75))
 
 
 def towel_shelf(P, L=1.0, h=1.8):
@@ -3477,8 +3546,12 @@ def wash_place(P, w=0.9, d=1.0):
     P.cyl(oak, (0.05, 0.45, 0.0), 0.16, 0.34, seg=24, r2=0.15)                          # the stool
     P.cyl(oak, (-0.25, 0.4, 0.0), 0.13, 0.2, seg=24, r2=0.15)                           # the bucket
     P.ring(st, (-0.25, 0.4), 0.145, 0.152, 0.17, 0.19, seg=32)
-    for sx in (-1, 1):
-        P.box(oak, (sx * (w / 2 - 0.01), 0.35, 0.45), (0.02, 0.7, 0.9))
+    for sx in (-1, 1):  # a low slatted oak screen between places (seated privacy; light and air pass)
+        for k in range(7):
+            P.box(oak, (sx * (w / 2 - 0.01), 0.04 + k * 0.065, 0.55), (0.022, 0.035, 1.1))
+        P.box(oak, (sx * (w / 2 - 0.01), 0.235, 1.11), (0.03, 0.46, 0.025))
+    P.box(sl, (0, 0.012, 1.0), (w - 0.1, 0.02, 1.0))                                           # slate splashback
+    P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.2, 0.597), (w - 0.14, 0.01, 0.004))  # warm light under the shelf
     P.box(st, (0, 0.55, 0.002), (0.15, 0.15, 0.004))
 
 
@@ -3544,16 +3617,22 @@ def far_uvc(P, z_ceiling=2.73):
 
 
 def robe_wall(P, L=4.2):
-    """The sauna lobby's robe wall: an oak rail of steel hooks at 1.75 with robes hanging, an oak sandal rack below."""
+    """The sauna lobby's robe wall: an oak rail of steel hooks at 1.8 (for your robe while you are in), an oak shelf of fresh robes
+    rolled with their ends out and a linen band, an oak sandal rack below."""
     oak, st = M["oak"], M["steel"]
     P.box(oak, (0, 0.02, 1.8), (L, 0.04, 0.12))
     robe = M.setdefault("robe_linen", bc.pbr_material("robe_linen", "rough_linen", 0.27, box=True, tint=(0.95, 0.93, 0.88), sat=0.2, val=1.4, piece_var=0.03))
-    for k in range(int(L / 0.35)):
+    for k in range(int(L / 0.35)):                                                            # hooks, free for your own robe
         x = -L / 2 + 0.2 + k * 0.35
         P.rod(st, (x, 0.04, 1.8), (x, 0.12, 1.84), 0.008, seg=8)
-        if k % 3 != 2:  # a robe: narrow at the hook, falling wider to the hem, the collar folded over
-            P.cyl(robe, (x, 0.13, 0.72), 0.15, 1.02, seg=20, r2=0.12)
-            P.cyl(robe, (x, 0.13, 1.66), 0.08, 0.1, seg=16, r2=0.05)
+    P.box(oak, (0, 0.17, 1.15), (L, 0.32, 0.03))                                              # the robe shelf
+    for sx in (-1, 0, 1):
+        P.box(st, (sx * (L / 2 - 0.3), 0.12, 1.08), (0.025, 0.22, 0.12))
+    x = -L / 2 + 0.13
+    while x < L / 2 - 0.1:                                                                    # fresh robes, rolled, ends out
+        P.rod(robe, (x, 0.03, 1.257), (x, 0.31, 1.257), 0.09, seg=20)
+        P.rod(M.setdefault("robe_band", bc.material("robe_band", (0.55, 0.47, 0.37), 0.9)), (x, 0.15, 1.257), (x, 0.19, 1.257), 0.093, seg=20)  # a linen band
+        x += 0.195
     for z in (0.08, 0.3):
         P.box(oak, (0, 0.17, z), (L, 0.3, 0.025))
     for k in range(int(L / 0.3)):
@@ -3570,6 +3649,59 @@ def towel_warmer(P, L=1.2):
     P.box(M["glass"], (0, d + 0.022, h * 0.62), (L - 0.3, 0.004, 0.6))
     P.box(_led("warm_glow", (1.0, 0.7, 0.45), 1.5), (0, d - 0.03, h * 0.62), (L - 0.34, 0.01, 0.56))
 
+
+
+def water_station(P):
+    """A water station (drink before, during, after): a recessed panel of cleft slate in a blackened-steel frame, a steel spout
+    with a push plate (still, chilled, from the house filter), a slotted drain under it, an oak shelf of turned birch cups (kåsa),
+    no lettering. Origin = the wall at the centre, front +y."""
+    st, oak = M["steel"], M["oak"]
+    sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
+    P.box(st, (0, 0.02, 1.15), (0.66, 0.04, 1.06))
+    P.box(sl, (0, 0.035, 1.15), (0.6, 0.02, 1.0))
+    P.box(st, (0, 0.11, 1.32), (0.05, 0.16, 0.04)); P.rod(st, (0, 0.17, 1.32), (0, 0.17, 1.28), 0.008, seg=8)
+    P.box(M["brass"], (0.12, 0.048, 1.35), (0.07, 0.006, 0.07))                                # push plate
+    P.box(st, (0, 0.11, 0.92), (0.36, 0.16, 0.02))
+    for k in range(9):
+        P.box(M["felt"], (-0.16 + k * 0.04, 0.11, 0.931), (0.012, 0.13, 0.002))                 # the drain slots
+    P.box(oak, (0, 0.09, 1.6), (0.56, 0.12, 0.025))                                            # cup shelf
+    birch = M.setdefault("birch_turned", bc.material("birch_turned", (0.78, 0.66, 0.5), 0.45))
+    for k in range(4):
+        P.cyl(birch, (-0.2 + k * 0.13, 0.09, 1.613), 0.04, 0.06, seg=20, r2=0.03)
+    P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.06, 1.585), (0.5, 0.01, 0.004))
+
+
+def log_store(P, L=1.2, h=2.0, d=0.35):
+    """A birch log store for the sauna stove: an oak frame filled with split birch, ends out, white bark showing; a kindling basket
+    of felt on top, a steel ladle and a birch bucket (kjøkle + bøtte) on the shelf. Origin = the wall at the centre, front +y."""
+    oak, st = M["oak"], M["steel"]
+    for sx in (-1, 1):
+        P.box(oak, (sx * (L / 2 - 0.015), d / 2, h / 2), (0.03, d, h))
+    for z in (0.0, h - 0.4, h):
+        P.box(oak, (0, d / 2, z + 0.015), (L, d, 0.03))
+    bark = M.setdefault("birch_bark", bc.material("birch_bark", (0.86, 0.83, 0.77), 0.8))
+    end = M.setdefault("birch_end", bc.material("birch_end", (0.78, 0.62, 0.43), 0.85))
+    rng = np.random.default_rng(11); z = 0.09
+    while z < h - 0.45:
+        x = -L / 2 + 0.08
+        while x < L / 2 - 0.07:
+            r = float(rng.uniform(0.045, 0.065))
+            P.rod(bark, (x, 0.02, z), (x, d - 0.02, z), r, seg=10)
+            P.rod(end, (x, d - 0.021, z), (x, d - 0.017, z), r - 0.008, seg=10)                       # the cut end
+            x += 2 * r + 0.005
+        z += 0.11
+    P.cyl(oak, (-0.25, d / 2, h - 0.37), 0.12, 0.2, seg=24, r2=0.13)                           # the bucket
+    P.ring(st, (-0.25, d / 2), 0.125, 0.132, h - 0.3, h - 0.28, seg=32)
+    P.rod(oak, (0.15, d / 2, h - 0.36), (0.45, d / 2, h - 0.2), 0.012, seg=8)                  # the ladle
+    P.cyl(oak, (0.12, d / 2, h - 0.37), 0.04, 0.03, seg=16)
+
+
+def duckboard(P, w=1.2, d=0.8):
+    """An oak duckboard at the sauna door: slats on two battens, wet feet off the stone."""
+    for k in range(int(d / 0.06)):
+        P.box(M["oak"], (0, -d / 2 + 0.03 + k * 0.06, 0.03), (w, 0.045, 0.022))
+    for sx in (-1, 1):
+        P.box(M["rubber"], (sx * (w / 2 - 0.1), 0, 0.009), (0.05, d, 0.018))
 
 
 BUILDERS = {
@@ -3606,7 +3738,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "water_station": water_station, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

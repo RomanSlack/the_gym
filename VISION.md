@@ -457,9 +457,19 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - 300 mm deep in all; the men's aisle stays 1.52 m clear in front of them.
 - **The changing rooms (phase 2):**
   - **The oak block:** white-oiled oak flutes on black felt, floor to ceiling, with three full-height mouths into the round locker rooms.
-  - **Inside each round room:** 18 full-height oak lockers on the curve. Each has a finger-pull groove, a phone reader (the phone is the key, as at the gates) and a small brass number. An oak band runs above the lockers to the ceiling, the glowing oculus is overhead, and a walnut + wool round seat sits in the middle.
+  - **Inside each round room:** 18 full-height oak lockers on the curve. Each has a finger-pull groove, a phone reader (the phone is the key, as at the gates; it glows on your own door) and a small chip of the room's glass. An oak band runs above the lockers to the ceiling, the glowing oculus is overhead, and a walnut + wool round seat sits in the middle.
   - **Around the room:** towel-return slots in the block's aisle face; the oak screen on the shoes-off line, with the shoe bench and shoe cubbies beside the aisle mouth; fresh towels; the grooming bar (mirror, hair dryers, oak counter) on the block's west end.
   - **Floor and doors:** UV-C sole plates; the WC room's hands-free sliding oak door; the express-lift doors; the glass doors to the sauna lobby.
+- **No numbers, colour** (Roman: numbers are lame; colour, stained glass at the top):
+  - Each round room has its own colour: **Multe** (cloudberry amber, nearest the entry), **Mose** (moss), **Fjord** (blue). The app says "your locker is in Mose".
+  - A band of hand-cut stained glass in blackened-steel cames across the top of each mouth, softly glowing: seen down the aisle, the colour leads you to your room. The same glass as a chip on every door.
+- **Zen light** (Roman: not too bright, a zen vibe so you can lock in): low warm pools, the textures and water carry the room. The oculi are a soft glow, not a skylight; a warm line under every run of lockers and under each round seat (they float); the waterfalls are the brightest thing in a room.
+- **The lockers inside:** a wedge (wider at the back), oak dividers, a wool-felt back with a vent slot, a hat shelf with a warm LED strip that comes on when the door opens, a Qi pad, a front-to-back rail with slim oak hangers, a slatted shoe shelf, hooks; a mirror and a hook inside the door.
+- **Touches:**
+  - **Grooming bar:** a mirror floating on a halo of warm light, dryers standing in steel holsters, a slate tray per place (amber bottles with brass pumps, an oak comb, cotton pads), walnut and leather stools.
+  - **Onsen wash places:** low slatted oak screens (light and air pass), a slate splashback, a warm light under the shelf.
+  - **Water stations:** a slate panel in a steel frame, a chilled tap, birch cups (kåsa). One in each changing room and one in the sauna lobby.
+  - **Sauna lobby:** fresh robes rolled on an oak shelf, hooks free for your own robe; a birch log store with a bucket and ladle; an oak duckboard at the door out.
 
 ## Open questions
 
