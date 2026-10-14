@@ -55,7 +55,7 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
   - Cameras `gal_*`; bridge + gallery cameras get +2.2 exposure, not +2.8.
 
 **Then:**
-1. the locker rooms (wet-room rules in VISION; the entries are fixed now), then the gym F1 hall: stretching, cardio, calisthenics (floor + ceiling done, equipment + lighting to do) (wet-room rules already in VISION)
+1. the gym F1 hall: stretching, cardio, calisthenics (floor + ceiling done; equipment + lighting to do). The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
 3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
@@ -71,18 +71,25 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - It draws walls, openings, columns and rooms from building.json, and every element from `model/layouts/lockers.json`, at true size with dimensions.
 - Drag, R / [ ] to rotate, arrows to nudge, D to duplicate, Del, Ctrl Z, Ctrl S. Saving goes through the dev server's `/api/layout`. `?view=x0,y0,x1,y1` frames an area.
 - `tools/locker_layout.py` wrote the first proposal and won't overwrite it without `--force`. Once Roman edits it, the JSON is the source.
-- **Design so far:**
-  - three round oak locker rooms carved out of one oak block per changing room
-  - Bekken, a stream from a spring basin by the entry along the aisle edge into the wet zone, ending in Fossen (the experience shower)
-  - onsen-style seated wash places
-  - private showers with dry areas, WC runs plus an accessible WC and shower, urinals, vanity, grooming station
-  - arrival nooks (shoes off, towels)
-- **3D so far (2026-10-13):**
-  - Phase 1: the shell (interior.py).
-  - The floor water was replaced by **wall waterfalls**: three per dividing wall. The plants come at the very end, by Roman.
-  - Phase 2 started with the **changing rooms**: the oak block with its round locker rooms, round seats, screen, shoe bench + cubbies, towels, grooming bar, UV-C plates, the WC auto door, lift + sauna doors (furnish.py reads the layout JSON).
-- **Next:** the wash zones (Fossen, showers, onsen wash places, vanity, bench), then the WC rooms (cells, urinal room, handwash), the robots + docks, and the sauna lobby.
-- Watch out: the men's changing-side wall face is y -4.125 (the wash side is -4.275). The room is 5.55 m deep.
+- **The locker rooms: first full pass done (2026-10-13; VISION "Locker rooms: wall waterfalls + the changing rooms in 3D"; renders `stage_5_lk_*`).**
+  - **Changing rooms:**
+    - The oak block with three round locker rooms (18 lockers each, fully modelled inside, two open in each middle drum).
+    - **Room colours instead of numbers** (Roman: numbers are lame): Multe / Mose / Fjord, as a stained-glass band over each mouth and a glass chip on every door.
+    - Round seats, the shoes-off screen + shoe bench + cubbies, towels, the grooming bar, tap stations, UV-C plates, the WC auto door.
+  - **Wall waterfalls:** three per changing/wash wall, with empty planters. **The plants come at the very end, by Roman.**
+  - **Wash zones:**
+    - Fossen, a grotto carved into a stone west end wall.
+    - Private showers + an accessible one, onsen wash places with eyelid sconces, a vanity with a robot garage.
+    - An open oak slat canopy at 3.05 filtering the clerestory daylight.
+  - **WC rooms:** the fluted oak cell run with the accessible WC, the urinal room, handwash, the cleaner's cupboard, the UV-C slipper cabinet, far-UVC lamps.
+  - **Robots:** Vaskebjørn robots + docks, one per zone.
+  - **Sauna lobby:** rolled robes, a robe-hook rail, sandals, a birch log store, a towel warmer, a tap station, a duckboard at the door out.
+  - **Light (Roman: zen, not too bright, lock in):** low warm pools, warm lines under the lockers, seats and shower fronts. The waterfalls and Fossen's water are the brightest things. lk_ cameras get +0.8 exposure.
+- **Watch out:**
+  - The men's changing-side wall face is y -4.125 (the wash side is -4.275). The room is 5.55 m deep.
+  - Builder names in `furniture.py` BUILDERS must be unique. A second `water_station` once silently replaced the cafe's; the locker-room one is `tap_station`.
+  - Glow materials are emissive: a large disc at strength 9 (the old oculus) floods a room. Check emitters before blaming lamps.
+- **Still open in the locker rooms:** the plants at the waterfalls (last), and the sauna itself (outside).
 
 ## Commands
 - **Source of truth:** `model/building.json`. Rebuild everything derived with `terrain/.venv/bin/python tools/build_model.py`. It runs layout → structure → partitions → room numbers → foundations → stage-3 structure → stage-4 envelope → stage-5 interior → furnish → stage coverage check, and must end with `stage check ... OK`.
