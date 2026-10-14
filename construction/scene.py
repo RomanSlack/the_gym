@@ -525,6 +525,10 @@ CAMS = {
     "lk_m_open": ((-20.6, -2.7, 1.5), (-24.3, -4.6, 0.6), 20),
     "lk_m_open2": ((-24.3, -2.5, 1.6), (-24.3, -8.0, 0.8), 20),
     "lk_m_drum": ((-20.74, -1.55, 1.5), (-21.6, 0.4, 1.25), 15),
+    "lk_m_fossen": ((-27.4, -5.0, 1.6), (-28.3, -9.2, 1.25), 18),
+    "lk_m_urinal": ((-17.95, -6.55, 1.62), (-19.4, -8.6, 0.9), 14),
+    "lk_m_shower": ((-25.0, -6.0, 1.6), (-25.0, -9.2, 1.1), 18),
+    "lk_w_wc": ((-13.4, 8.2, 1.62), (-18.5, 11.0, 1.1), 17),
     "lk_w_drum": ((-20.74, 4.0, 1.5), (-21.6, 2.1, 1.25), 15),
     "lk_m_falls": ((-23.93, -2.55, 1.45), (-23.93, -4.3, 1.4), 20),
     "lk_m_shoe": ((-12.1, -3.6, 1.6), (-14.4, -1.0, 0.8), 19),
@@ -579,7 +583,7 @@ if RENDER:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (1.6 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

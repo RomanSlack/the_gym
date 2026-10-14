@@ -1562,7 +1562,22 @@
     },
     {"id": "S-P-floor", "type": "slab", "material": "concrete", "rect": [30.5, -9.5, 60.0, 24.0], "z": [-6.31, -6.01], "holes": [], "phase": 1, "seq": 70},
     {"id": "A-annex-W", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-35.45, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0], "phase": 3, "seq": 200, "finish": "black_stain"},
-    {"id": "A-annex-N", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, 4.5], "to": [-32.0, 4.5], "size": [0.25, 3.0], "z": [0.0, 3.0], "phase": 3, "seq": 200, "finish": "black_stain"},
+    {
+      "id": "A-annex-N",
+      "type": "wall",
+      "kind": "solid",
+      "material": "timber",
+      "from": [-35.45, 4.5],
+      "to": [-32.0, 4.5],
+      "size": [0.25, 3.0],
+      "z": [0.0, 3.0],
+      "phase": 3,
+      "seq": 200,
+      "finish": "black_stain",
+      "openings": [
+        {"s": [1.3, 2.3], "z": [0.0, 2.2], "type": "door", "note": "the sauna lobby's door out to the sauna path"}
+      ]
+    },
     {"id": "A-annex-S", "type": "wall", "kind": "solid", "material": "timber", "from": [-35.45, -1.5], "to": [-29.45, -1.5], "size": [0.25, 3.0], "z": [0.0, 3.0], "phase": 3, "seq": 200, "finish": "black_stain"},
     {"id": "W-east-S", "type": "wall", "kind": "retaining", "material": "concrete", "from": [12.0, -9.5], "to": [30.5, -9.5], "size": [0.4, 6.48], "z": [-6.61, -0.13], "phase": 1, "seq": 80},
     {"id": "W-east-E1", "type": "wall", "kind": "retaining", "material": "concrete", "from": [30.5, -9.5], "to": [30.5, -6.0], "size": [0.4, 6.48], "z": [-6.61, -0.13], "phase": 1, "seq": 80},
@@ -10350,7 +10365,9 @@
       "size": [0.015, 2.9],
       "z": [0.0, 2.9],
       "pattern": {"kind": "skin"},
-      "openings": [],
+      "openings": [
+        {"s": [1.18, 2.18], "z": [0.0, 2.2], "type": "door", "note": "the sauna lobby's door out to the sauna path"}
+      ],
       "face_normal": [0.0, -1.0],
       "note": "interior lining: lime_plaster",
       "phase": 5,
@@ -17394,7 +17411,312 @@
     {"id": "auto_door-696", "kind": "auto_door", "level": "F1", "at": [-13.5, -4.095], "z": 0.0, "rot_deg": 0, "zone": "lockers", "w": 1.0, "h": 2.1, "note": "the WC room door: hands-free automatic sliding"},
     {"id": "auto_door-697", "kind": "auto_door", "level": "F1", "at": [-13.5, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "w": 1.0, "h": 2.1, "note": "the WC room door: hands-free automatic sliding"},
     {
-      "id": "oculus-698",
+      "id": "fossen-698",
+      "kind": "fossen",
+      "level": "F1",
+      "at": [-28.05, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 2.4,
+      "d": 2.1,
+      "note": "Fossen: the experience shower",
+      "light": {"type": "AREA", "energy": 30, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-28.400000000000002, -9.075, 0.3], "color": [1.0, 0.76, 0.5]}
+    },
+    {
+      "id": "shower_cell-699",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-26.293, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 2.1,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-700",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-25.178, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 2.1,
+      "open_door": true,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-701",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-24.062, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 2.1,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-702",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-22.948, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 2.1,
+      "open_door": true,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-703",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-21.833, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 2.1,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-704",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-20.375, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "w": 1.8,
+      "d": 2.1,
+      "open_door": false,
+      "accessible": true,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower, accessible"
+    },
+    {"id": "wash_place-705", "kind": "wash_place", "level": "F1", "at": [-28.645, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {"id": "wash_place-706", "kind": "wash_place", "level": "F1", "at": [-27.435, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {"id": "wash_place-707", "kind": "wash_place", "level": "F1", "at": [-24.48, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {"id": "wash_place-708", "kind": "wash_place", "level": "F1", "at": [-23.38, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {"id": "vanity-709", "kind": "vanity", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
+    {"id": "robot_dock-710", "kind": "robot_dock", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
+    {"id": "vaskebjorn-711", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, -6.5], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {
+      "id": "fossen-712",
+      "kind": "fossen",
+      "level": "F1",
+      "at": [-28.05, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 2.4,
+      "d": 1.9,
+      "note": "Fossen: the experience shower",
+      "light": {"type": "AREA", "energy": 30, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-27.7, 11.75, 0.3], "color": [1.0, 0.76, 0.5]}
+    },
+    {
+      "id": "shower_cell-713",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-26.293, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 1.9,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-714",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-25.178, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 1.9,
+      "open_door": true,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-715",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-24.062, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 1.9,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-716",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-22.948, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 1.9,
+      "open_door": true,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-717",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-21.833, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.115,
+      "d": 1.9,
+      "open_door": false,
+      "accessible": false,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower"
+    },
+    {
+      "id": "shower_cell-718",
+      "kind": "shower_cell",
+      "level": "F1",
+      "at": [-20.375, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "w": 1.8,
+      "d": 1.9,
+      "open_door": false,
+      "accessible": true,
+      "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
+      "note": "private shower, accessible"
+    },
+    {"id": "wash_place-719", "kind": "wash_place", "level": "F1", "at": [-28.645, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {"id": "wash_place-720", "kind": "wash_place", "level": "F1", "at": [-27.435, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {"id": "wash_place-721", "kind": "wash_place", "level": "F1", "at": [-24.48, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {"id": "wash_place-722", "kind": "wash_place", "level": "F1", "at": [-23.38, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {"id": "vanity-723", "kind": "vanity", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
+    {"id": "robot_dock-724", "kind": "robot_dock", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
+    {"id": "vaskebjorn-725", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, 9.2], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {
+      "id": "wc_run-726",
+      "kind": "wc_run",
+      "level": "F1",
+      "at": [-14.662, -9.225],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wc",
+      "cells": [[0.994, "wc"], [0.994, "wc"], [0.994, "wc"], [0.994, "wc"], [2.0, "accessible"]],
+      "depth": 1.8,
+      "open_": [1],
+      "occupied": [2],
+      "note": "WC cells: fluted oak, outward doors, the accessible WC"
+    },
+    {
+      "id": "wc_run-727",
+      "kind": "wc_run",
+      "level": "F1",
+      "at": [-18.75, -4.275],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wc",
+      "cells": [[1.0, "store"]],
+      "depth": 0.6,
+      "note": "cleaner's cupboard"
+    },
+    {"id": "robot_dock-728", "kind": "robot_dock", "level": "F1", "at": [-18.0, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
+    {"id": "vanity-729", "kind": "vanity", "level": "F1", "at": [-11.675, -5.65], "z": 0.0, "rot_deg": 90, "zone": "wc", "length": 2.2, "n": 3, "note": "handwash, before you leave"},
+    {"id": "towel_station-730", "kind": "towel_station", "level": "F1", "at": [-11.675, -7.1], "z": 0.0, "rot_deg": 90, "zone": "wc"},
+    {"id": "slipper_cabinet-731", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
+    {"id": "far_uvc-732", "kind": "far_uvc", "level": "F1", "at": [-17.0, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "far_uvc-733", "kind": "far_uvc", "level": "F1", "at": [-13.2, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "vaskebjorn-734", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, -6.6], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
+    {"id": "urinals-735", "kind": "urinals", "level": "F1", "at": [-19.325, -7.875], "z": 0.0, "rot_deg": -90, "zone": "wc", "n": 3, "pitch": 0.8, "note": "the urinal room: Nautilus urinals + oak screens"},
+    {"id": "floor_drain-736", "kind": "floor_drain", "level": "F1", "at": [-18.5, -8.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "floor_drain-737", "kind": "floor_drain", "level": "F1", "at": [-15.8, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {
+      "id": "wc_run-738",
+      "kind": "wc_run",
+      "level": "F1",
+      "at": [-15.5, 11.9],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wc",
+      "cells": [[2.0, "accessible"], [0.942, "wc"], [0.942, "wc"], [0.942, "wc"], [0.942, "wc"], [0.942, "wc"], [0.942, "wc"]],
+      "depth": 1.8,
+      "open_": [1],
+      "occupied": [2],
+      "note": "WC cells: fluted oak, outward doors, the accessible WC"
+    },
+    {
+      "id": "wc_run-739",
+      "kind": "wc_run",
+      "level": "F1",
+      "at": [-12.338, 7.725],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wc",
+      "cells": [[1.0, "store"]],
+      "depth": 0.6,
+      "note": "cleaner's cupboard"
+    },
+    {"id": "robot_dock-740", "kind": "robot_dock", "level": "F1", "at": [-13.088, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
+    {"id": "vanity-741", "kind": "vanity", "level": "F1", "at": [-17.3, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 3.4, "n": 4, "note": "handwash, before you leave"},
+    {"id": "towel_station-742", "kind": "towel_station", "level": "F1", "at": [-15.25, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc"},
+    {"id": "slipper_cabinet-743", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
+    {"id": "far_uvc-744", "kind": "far_uvc", "level": "F1", "at": [-17.0, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "far_uvc-745", "kind": "far_uvc", "level": "F1", "at": [-13.2, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "vaskebjorn-746", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, 9.2], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
+    {"id": "floor_drain-747", "kind": "floor_drain", "level": "F1", "at": [-15.8, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {
+      "id": "robe_wall-748",
+      "kind": "robe_wall",
+      "level": "F1",
+      "at": [-35.325, 1.5],
+      "z": 0.0,
+      "rot_deg": -90,
+      "zone": "lobby",
+      "length": 4.2,
+      "note": "robes + sandals",
+      "light": {"type": "AREA", "energy": 25, "size": 0.05, "size_y": 4.2, "offset": [0, 0.35, 2.85], "aim": [-35.2, 1.5, 1.0], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "towel_warmer-749", "kind": "towel_warmer", "level": "F1", "at": [-31.0, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "length": 1.2},
+    {"id": "bench-750", "kind": "bench", "level": "F1", "at": [-32.6, -1.075], "z": 0.0, "rot_deg": 0, "zone": "lobby", "length": 2.4},
+    {"id": "glass_door-751", "kind": "glass_door", "level": "F1", "at": [-33.65, 4.5], "z": 0.0, "rot_deg": 0, "zone": "lobby", "width": 1.0, "height": 2.2, "note": "out to the sauna path"},
+    {
+      "id": "oculus-752",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, -0.45],
@@ -17403,11 +17725,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-24.913, -0.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-24.913, -0.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-699",
+      "id": "oculus-753",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, -0.45],
@@ -17416,11 +17738,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-20.738, -0.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-20.738, -0.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-700",
+      "id": "oculus-754",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, -0.45],
@@ -17429,11 +17751,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-16.562, -0.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-16.562, -0.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-701",
+      "id": "oculus-755",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, 3.45],
@@ -17442,11 +17764,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-24.913, 3.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-24.913, 3.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-702",
+      "id": "oculus-756",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, 3.45],
@@ -17455,11 +17777,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-20.738, 3.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-20.738, 3.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-703",
+      "id": "oculus-757",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, 3.45],
@@ -17468,11 +17790,11 @@
       "zone": "lockers",
       "r": 1.0,
       "z_ceiling": 3.2,
-      "light": {"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-16.562, 3.45, 0.0], "color": [1.0, 0.86, 0.7]},
-      "note": "oculus over a round locker room"
+      "light": {"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85], "aim": [-16.562, 3.45, 0.0], "color": [1.0, 0.78, 0.55]},
+      "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "cell_light-704",
+      "id": "cell_light-758",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -3.5],
@@ -17480,10 +17802,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-705",
+      "id": "cell_light-759",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, -3.5],
@@ -17491,10 +17813,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-706",
+      "id": "cell_light-760",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, -3.5],
@@ -17502,10 +17824,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-707",
+      "id": "cell_light-761",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, -3.5],
@@ -17513,10 +17835,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-708",
+      "id": "cell_light-762",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, -3.5],
@@ -17524,10 +17846,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-709",
+      "id": "cell_light-763",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, -3.5],
@@ -17535,10 +17857,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-710",
+      "id": "cell_light-764",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, -3.5],
@@ -17546,10 +17868,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-711",
+      "id": "cell_light-765",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -1.0],
@@ -17557,10 +17879,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -1.0, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -1.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-712",
+      "id": "cell_light-766",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 0.3],
@@ -17568,10 +17890,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 0.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 0.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-713",
+      "id": "cell_light-767",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 6.3],
@@ -17579,10 +17901,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-714",
+      "id": "cell_light-768",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, 6.3],
@@ -17590,10 +17912,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-715",
+      "id": "cell_light-769",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, 6.3],
@@ -17601,10 +17923,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-716",
+      "id": "cell_light-770",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, 6.3],
@@ -17612,10 +17934,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-717",
+      "id": "cell_light-771",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, 6.3],
@@ -17623,10 +17945,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-718",
+      "id": "cell_light-772",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, 6.3],
@@ -17634,10 +17956,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-719",
+      "id": "cell_light-773",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, 6.3],
@@ -17645,10 +17967,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-720",
+      "id": "cell_light-774",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 2.6],
@@ -17656,10 +17978,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 2.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 2.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-721",
+      "id": "cell_light-775",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 3.9],
@@ -17667,10 +17989,10 @@
       "rot_deg": 0.0,
       "zone": "lockers",
       "z_ceiling": 3.18,
-      "light": {"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 3.9, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 3.9, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-722",
+      "id": "cell_light-776",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -5.4],
@@ -17678,10 +18000,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-723",
+      "id": "cell_light-777",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -7.6],
@@ -17689,10 +18011,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-724",
+      "id": "cell_light-778",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -5.4],
@@ -17700,10 +18022,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-725",
+      "id": "cell_light-779",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -7.6],
@@ -17711,10 +18033,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-726",
+      "id": "cell_light-780",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -5.4],
@@ -17722,10 +18044,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-727",
+      "id": "cell_light-781",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -7.6],
@@ -17733,10 +18055,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-728",
+      "id": "cell_light-782",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 8.6],
@@ -17744,10 +18066,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-729",
+      "id": "cell_light-783",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 10.6],
@@ -17755,10 +18077,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-730",
+      "id": "cell_light-784",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 8.6],
@@ -17766,10 +18088,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-731",
+      "id": "cell_light-785",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 10.6],
@@ -17777,10 +18099,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-732",
+      "id": "cell_light-786",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 8.6],
@@ -17788,10 +18110,10 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-733",
+      "id": "cell_light-787",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 10.6],
@@ -17799,70 +18121,70 @@
       "rot_deg": 0.0,
       "zone": "wc",
       "z_ceiling": 2.73,
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-734",
+      "id": "wall_light-788",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-735",
+      "id": "wall_light-789",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-736",
+      "id": "wall_light-790",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-737",
+      "id": "wall_light-791",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-738",
+      "id": "wall_light-792",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-739",
+      "id": "wall_light-793",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-740",
+      "id": "cell_light-794",
       "kind": "cell_light",
       "level": "F1",
       "at": [-33.5, 0.0],
@@ -17870,10 +18192,10 @@
       "rot_deg": 0.0,
       "zone": "lobby",
       "z_ceiling": 2.88,
-      "light": {"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-33.5, 0.0, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-33.5, 0.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-741",
+      "id": "cell_light-795",
       "kind": "cell_light",
       "level": "F1",
       "at": [-31.3, 3.0],
@@ -17881,7 +18203,7 @@
       "rot_deg": 0.0,
       "zone": "lobby",
       "z_ceiling": 2.88,
-      "light": {"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-31.3, 3.0, 0.0], "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-31.3, 3.0, 0.0], "color": [1.0, 0.86, 0.7]}
     }
   ]
 }

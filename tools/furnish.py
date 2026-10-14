@@ -709,27 +709,88 @@ for room in ("men-lockers", "women-lockers"):
     putl("glass_door", -29.45, 0.0 if men else 3.0, rot=90, width=1.0, height=2.1, note="to the sauna lobby")
 for room, y, r in (("men-lockers", -4.095, 0), ("women-lockers", 7.545, 180)):
     putl("auto_door", -13.5, y, rot=r, w=1.0, h=2.1, note="the WC room door: hands-free automatic sliding")
+# ---- phase 2: the wash zones, the WC rooms, the robots, the sauna lobby
+ZEN = [1.0, 0.76, 0.5]
+for room in ("men-wet", "women-wet"):
+    men = room.startswith("men"); back = -9.225 if men else 11.9; front = -4.275 if men else 7.725; r0 = 0 if men else 180; rv = 180 if men else 0
+    for it in LKs(room, "fossen"):
+        putl("fossen", it["x"], back, rot=r0, zone="wash", w=it["w"], d=it["d"], note="Fossen: the experience shower",
+             light={"type": "AREA", "energy": 30, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [it["x"] + (-0.35 if men else 0.35), back + (0.15 if men else -0.15), 0.3], "color": ZEN})
+    showers = LKs(room, "shower") + LKs(room, "shower_acc")
+    for k, it in enumerate(sorted(showers, key=lambda i: i["x"])):
+        acc = it["kind"] == "shower_acc"
+        putl("shower_cell", it["x"], back, rot=r0, zone="wash", w=round(it["w"], 3), d=it["d"], open_door=(k in (1, 3)), accessible=acc,
+             light={"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, it["d"] * 0.45, 2.5], "color": ZEN}, note="private shower" + (", accessible" if acc else ""))
+    for it in LKs(room, "wash_station"):
+        putl("wash_place", it["x"], front, rot=rv, zone="wash", w=it["w"], d=it["d"], note="onsen wash place")
+    for it in LKs(room, "vanity"):
+        putl("vanity", it["x"], front, rot=rv, zone="wash", length=it["w"], n=1, note="vanity: a stone trough + mirror")
+        putl("robot_dock", it["x"], front, rot=rv, zone="wash", note="Vaskebjørn's garage under the vanity")
+    for it in LKs(room, "stone_bench"):
+        putl("stone_bench", it["x"], it["y"], rot=it["rot"], zone="wash", length=it["w"])
+    for it in LKs(room, "robot"):
+        putl("vaskebjorn", it["x"], it["y"], rot=it["rot"], zone="wash", ring="fjord", note="Vaskebjørn (wash zone)")
+for room in ("men-wc", "women-wc"):
+    men = room.startswith("men"); back = -9.225 if men else 11.9; front = -4.275 if men else 7.725; r0 = 0 if men else 180; rf = 180 if men else 0
+    wcs = sorted(LKs(room, "wc"), key=lambda i: i["x"])
+    acc = LKs(room, "wc_acc")[0]
+    x0 = min(i["x"] - i["w"] / 2 for i in wcs); x1 = acc["x"] + acc["w"] / 2
+    cells = ([[round(i["w"], 4), "wc"] for i in wcs] + [[acc["w"], "accessible"]]) if men else ([[acc["w"], "accessible"]] + [[round(i["w"], 4), "wc"] for i in reversed(wcs)])
+    putl("wc_run", (x0 + x1) / 2, back, rot=r0, zone="wc", cells=cells, depth=1.8, open_=[1], occupied=[2], note="WC cells: fluted oak, outward doors, the accessible WC")
+    for it in LKs(room, "cleaner"):
+        putl("wc_run", it["x"], front, rot=rf, zone="wc", cells=[[1.0, "store"]], depth=0.6, note="cleaner's cupboard")
+    for it in LKs(room, "robot_dock"):
+        putl("robot_dock", it["x"], front, rot=rf, zone="wc", note="Vaskebjørn's dock: a floor flap into the cleaner's cupboard")
+    for it in LKs(room, "vanity"):
+        if men:
+            putl("vanity", -11.675, it["y"], rot=90, zone="wc", length=it["w"], n=it["n"], note="handwash, before you leave")
+            putl("towel_station", -11.675, it["y"] - it["w"] / 2 - 0.35, rot=90, zone="wc")
+        else:
+            putl("vanity", it["x"], front, rot=0, zone="wc", length=it["w"], n=it["n"], note="handwash, before you leave")
+            putl("towel_station", it["x"] + it["w"] / 2 + 0.35, front, rot=0, zone="wc")
+    for it in LKs(room, "slipper_rack"):
+        putl("slipper_cabinet", it["x"], front, rot=rf, zone="wc", length=it["w"], note="toilet slippers in a UV-C cabinet")
+    for it in LKs(room, "far_uvc"):
+        putl("far_uvc", it["x"], it["y"], zone="wc")
+    for it in LKs(room, "robot"):
+        putl("vaskebjorn", it["x"], it["y"], rot=it["rot"], zone="wc", ring="lingon", note="Vaskebjørn (WC room)")
+    if men:
+        us = LKs(room, "urinal")
+        putl("urinals", -19.325, sum(u["y"] for u in us) / len(us), rot=-90, zone="wc", n=len(us), pitch=0.8, note="the urinal room: Nautilus urinals + oak screens")
+        for x, y in ((-18.5, -8.0), (-15.8, -6.4)):
+            putl("floor_drain", x, y, zone="wc")
+    else:
+        putl("floor_drain", -15.8, 9.0, zone="wc")
+# the sauna lobby
+for it in LKs("sauna-lobby", "robe_hooks"):
+    putl("robe_wall", -35.325, it["y"], rot=-90, zone="lobby", length=it["w"], note="robes + sandals",
+         light={"type": "AREA", "energy": 25, "size": 0.05, "size_y": round(it["w"], 2), "offset": [0, 0.35, 2.85], "aim": [-35.2, it["y"], 1.0], "color": ZEN})
+for it in LKs("sauna-lobby", "towel_warmer"):
+    putl("towel_warmer", it["x"], 4.375, rot=180, zone="lobby", length=it["w"])
+for it in LKs("sauna-lobby", "bench"):
+    putl("bench", it["x"], it["y"], rot=it["rot"], zone="lobby", length=it["w"])
+putl("glass_door", -33.65, 4.5, rot=0, zone="lobby", width=1.0, height=2.2, note="out to the sauna path")
 for r_ in [i for i in LK["items"] if i["kind"] == "locker_ring"]:
-    putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
-         "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.86, 0.7]}, note="oculus over a round locker room")
+    putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 6, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
+         "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.78, 0.55]}, note="oculus over a round locker room (zen: a soft warm glow)")
 for room, ya in (("men", -3.5), ("women", 6.3)):  # downlights along each changing room's aisle + the west lobby + the shoe zone
     for x in (-28.0, -25.4, -22.8, -20.2, -17.6, -15.0, -12.9):
-        putl("cell_light", x, ya, z_ceiling=3.18, light={"type": "SPOT", "energy": 25, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1],
+        putl("cell_light", x, ya, z_ceiling=3.18, light={"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1],
              "aim": [x, ya, 0.0], "color": WARM})
     for y in ((-1.0, 0.3) if room == "men" else (2.6, 3.9)):
-        putl("cell_light", -28.0, y, z_ceiling=3.18, light={"type": "SPOT", "energy": 80, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 3.1],
+        putl("cell_light", -28.0, y, z_ceiling=3.18, light={"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1],
              "aim": [-28.0, y, 0.0], "color": WARM})
 for room, ys in (("men-wc", (-5.4, -7.6)), ("women-wc", (8.6, 10.6))):  # WC rooms: recessed in the 2.75 slat ceiling
     for x in (-18.4, -15.8, -13.2):
         for y in ys:
-            putl("cell_light", x, y, zone="wc", z_ceiling=2.73, light={"type": "SPOT", "energy": 60, "spot_deg": 80, "blend": 1.0, "radius": 0.05,
+            putl("cell_light", x, y, zone="wc", z_ceiling=2.73, light={"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05,
                  "offset": [0, 0, 2.68], "aim": [x, y, 0.0], "color": WARM})
 for room, yw, rw in (("men-wet", -4.275 - 0.022, 180), ("women-wet", 7.725 + 0.022, 0)):  # wash zones: tall + daylit; slim wall lights on the tile
     for x in (-28.6, -25.3, -20.3):
-        putl("wall_light", x, yw, rot=rw, zone="wash", light={"type": "AREA", "energy": 40, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None,
+        putl("wall_light", x, yw, rot=rw, zone="wash", light={"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None,
              "color": WARM})
 for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
-    putl("cell_light", x, y, zone="lobby", z_ceiling=2.88, light={"type": "SPOT", "energy": 70, "spot_deg": 80, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8],
+    putl("cell_light", x, y, zone="lobby", z_ceiling=2.88, light={"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8],
          "aim": [x, y, 0.0], "color": WARM})
 
 m["furnishings"] = F

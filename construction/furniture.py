@@ -3107,7 +3107,7 @@ def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
     top glowing (a soft round sky over the room); a thin oak ring at the ceiling edge."""
     pl = M.setdefault("plaster_warm", bc.material("plaster_warm", (0.8, 0.77, 0.71), 0.9))
     P.ring(pl, (0, 0), r, r + 0.03, z_ceiling, z_ceiling + h, seg=96)
-    P.cyl(M["opal"], (0, 0, z_ceiling + h - 0.01), r, 0.01, seg=96)
+    P.cyl(M.setdefault("opal_oculus", _opal("opal_oculus", 1.3)), (0, 0, z_ceiling + h - 0.01), r, 0.01, seg=96)  # a soft glow, not a skylight (Roman: the round rooms too bright)
     P.ring(M["oak"], (0, 0), r - 0.005, r + 0.06, z_ceiling - 0.03, z_ceiling, seg=96)
 
 
@@ -3164,6 +3164,7 @@ def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth
             P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=rz)                                     # its number
             P.box(M["rubber"], (cx + c * 0.02, cy + s_ * 0.02, 0.05), (w + 0.004, 0.02, 0.1), rz=rz)          # shadow plinth
         P.ring(oak, (dx, 0), r_in - 0.02, r_in + 0.01, 2.02, H, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
+        P.ring(_led("plinth_glow", (1.0, 0.72, 0.42), 2.5), (dx, 0), r_in - 0.006, r_in + 0.004, 0.004, 0.012, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
 
 
 def round_seat(P, d=0.6):
@@ -3288,6 +3289,212 @@ def auto_door(P, w=1.0, h=2.1):
 
 
 
+# ------------------------------------------------------------------ locker rooms, phase 2: wash zones, WC rooms, robots, sauna lobby
+def _tile_mat():
+    return M.setdefault("tile_chalk_f", bc.glazed_tile("tile_chalk"))
+
+
+def _water_film():
+    film = M.get("water_running")
+    if film is None:
+        film = bc.material("water_running", (0.05, 0.06, 0.06), 0.01, alpha=0.12)
+        N_, L_ = film.node_tree.nodes, film.node_tree.links
+        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 60.0
+        wv.inputs["Distortion"].default_value = 14.0; wv.inputs["Detail"].default_value = 8.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 1.0; bp_.inputs["Distance"].default_value = 0.004
+        L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
+        M["water_running"] = film
+    return film
+
+
+def shower_cell(P, w=1.1, d=2.1, h=2.6, open_door=False, accessible=False):
+    """A private shower (VISION wet rooms: oak boxes in the tall room, with a lid): the shower at the back (1.2 deep), a frosted glass
+    screen, the dry part at the front with an oak bench, hooks and a towel ring; side walls tiled both faces, an oak lid at 2.6 with
+    its light, a fluted oak door with a shadow gap and a green/red thumb-turn (open: swung out). Rain head 300 + hand shower on a
+    rail, a blackened-steel thermostatic mixer, a niche for soap, a linear drain. Accessible: 1.8 wide, no screen, a fold-down seat,
+    grab rails, a wider (1.0) door. Origin = the back wall at the cell's centre, the front towards +y."""
+    oak, st, tile = M["oak"], M["steel"], _tile_mat()
+    for sx in (-1, 1):  # the side walls (shared with the neighbours: here each cell draws its own half)
+        P.box(tile, (sx * (w / 2 - 0.015), d / 2, h / 2), (0.03, d, h))
+    P.box(oak, (0, d / 2, h + 0.015), (w, d, 0.03))                                   # the lid
+    P.cyl(M["opal"], (0, d * 0.45, h - 0.012), 0.06, 0.008, seg=24)                     # its light
+    ws = 1.2
+    if not accessible:  # frosted screen between the shower and the dry part, an opening at one side
+        P.box(M.setdefault("glass_satin_s", bc.arch_glass("glass_satin_s", rough=0.35)), (-0.12, ws, 1.05), (w - 0.3, 0.01, 2.0))
+        P.box(st, (-0.12, ws, 2.06), (w - 0.3, 0.02, 0.02))                              # its top rail
+    P.box(st, (0, 0.04, 2.25), (0.3, 0.3, 0.012))                                       # rain head
+    P.rod(st, (0, 0.02, 2.4), (0, 0.04, 2.25), 0.012, seg=10)
+    P.box(st, (w / 2 - 0.2, 0.012, 1.05), (0.16, 0.024, 0.1))                           # mixer
+    P.rod(st, (w / 2 - 0.35, 0.02, 0.9), (w / 2 - 0.35, 0.02, 1.8), 0.01, seg=10)       # rail
+    P.rod(st, (w / 2 - 0.35, 0.05, 1.5), (w / 2 - 0.35, 0.06, 1.72), 0.018, seg=12)     # hand shower
+    P.box(M["felt"], (-w / 2 + 0.3, 0.004, 1.2), (0.3, 0.008, 0.25))                    # soap niche
+    P.box(st, (0, 0.12, 0.002), (w - 0.2, 0.05, 0.004))                                 # linear drain
+    yb = (ws + d) / 2
+    if accessible:
+        P.box(oak, (-w / 2 + 0.25, 0.5, 0.48), (0.45, 0.45, 0.04))                       # fold-down seat
+        P.rod(st, (w / 2 - 0.04, 0.3, 0.85), (w / 2 - 0.04, 1.6, 0.85), 0.016, seg=12)  # grab rails
+        P.rod(st, (-w / 2 + 0.04, 0.2, 0.85), (-w / 2 + 0.04, 0.2, 1.6), 0.016, seg=12)
+    else:
+        P.box(oak, (-w / 2 + 0.2, yb, 0.44), (0.35, d - ws - 0.15, 0.04))                # the bench in the dry part
+        for sy in (-1, 1):
+            P.rod(st, (-w / 2 + 0.2, yb + sy * 0.25, 0), (-w / 2 + 0.2, yb + sy * 0.25, 0.42), 0.015, seg=8)
+    for k in range(2):
+        P.rod(st, (w / 2 - 0.035, yb - 0.15 + k * 0.3, 1.65), (w / 2 - 0.09, yb - 0.15 + k * 0.3, 1.65), 0.008, seg=8)  # hooks
+    dw = 1.0 if accessible else 0.75
+    fz = d - 0.02
+    for xa_, xb_ in ((-w / 2 + 0.03, -dw / 2 - 0.003), (dw / 2 + 0.003, w / 2 - 0.03)):  # the oak front beside the door
+        if xb_ - xa_ > 0.02:
+            x = xa_ + 0.015
+            while x < xb_:
+                P.box(oak, (x, fz, h / 2), (0.028, 0.035, h)); x += 0.03
+    if open_door:
+        hx = -dw / 2
+        P.box(oak, (hx - 0.02, fz + dw / 2, h * 0.45), (0.04, dw, h * 0.9))
+    else:
+        x = -dw / 2 + 0.015
+        while x < dw / 2:
+            P.box(oak, (x, fz, h * 0.45), (0.028, 0.04, h * 0.9)); x += 0.03
+        P.box(M["felt"], (0, fz + 0.005, h * 0.9 + (h * 0.1) / 2), (dw, 0.03, h * 0.1))    # transom shadow
+        P.cyl(_led("led_green", (0.2, 1.0, 0.4), 6.0), (dw / 2 - 0.08, fz + 0.022, 1.05), 0.012, 0.004, seg=16)
+
+
+def fossen(P, w=2.4, d=2.1, h=2.6):
+    """Fossen (the falls): the walk-in experience shower at the west end, under the clerestory. A back wall of cleft dark slate,
+    a broad steel lip at 2.3 pouring a sheet of water, a 600 square rain head, a cold bucket (an oak pail on a steel arm, a pull
+    ring: after the sauna), a slate ledge to sit on, a linear drain; tiled side walls, open to the aisle. Origin = back wall centre."""
+    sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
+    st, tile = M["steel"], _tile_mat(); film = _water_film()
+    rng = np.random.default_rng(9); x = -w / 2 + 0.03
+    while x < w / 2 - 0.05:
+        ww = float(min(rng.uniform(0.18, 0.34), w / 2 - 0.03 - x))
+        _rough_block(P, sl, (x + ww / 2, 0.035, h / 2), (ww - 0.004, 0.05, h), amp=0.005, seed=x * 3, cuts=4)
+        x += ww
+    for sx in (-1, 1):  # a shallow recess: open to the aisle
+        P.box(tile, (sx * (w / 2 - 0.015), 0.65, h / 2), (0.03, 1.3, h))
+    P.box(st, (-0.35, 0.09, 2.3), (1.0, 0.12, 0.03))                                     # the pouring lip
+    P.box(film, (-0.35, 0.16, 1.2), (0.95, 0.004, 2.2))                                 # the sheet of water falling from it
+    P.box(st, (0.55, 0.9, 2.45), (0.6, 0.6, 0.02))                                      # rain head
+    P.rod(st, (0.55, 0.9, 2.46), (0.55, 0.9, h), 0.015, seg=10)
+    P.rod(st, (w / 2 - 0.05, 0.6, 2.35), (w / 2 - 0.45, 0.6, 2.35), 0.012, seg=10)        # the cold bucket's arm
+    P.cyl(M["oak"], (w / 2 - 0.45, 0.6, 2.1), 0.17, 0.22, seg=24, r2=0.19)              # the pail
+    P.ring(M["steel"], (w / 2 - 0.45, 0.6), 0.185, 0.195, 2.17, 2.2, seg=40)
+    P.rod(st, (w / 2 - 0.3, 0.6, 2.1), (w / 2 - 0.3, 0.6, 1.7), 0.004, seg=6)             # its pull
+    P.ring(M["brass"], (w / 2 - 0.3, 0.6), 0.025, 0.035, 1.68, 1.7, seg=24)
+    P.box(sl, (-w / 2 + 0.25, 1.0, 0.22), (0.45, 1.4, 0.44))                            # slate ledge to sit on
+    P.box(st, (0, 0.25, 0.002), (w - 0.2, 0.06, 0.004))                                 # linear drain
+    P.box(M["opal"], (-0.35, 0.2, 2.31), (0.9, 0.02, 0.006))                            # light under the lip on the falling water
+
+
+def wash_place(P, w=0.9, d=1.0):
+    """Onsen wash place, made Nordic: seated washing on a low oak stool, a slate shelf at 0.62 with soap + shampoo, a small round
+    mirror, a hand shower on a hose with its holder, a blackened-steel mixer, an oak bucket; low oak screens between the places; a
+    floor drain. Origin = the wall at the place's centre, front +y."""
+    sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
+    oak, st = M["oak"], M["steel"]
+    P.box(sl, (0, 0.11, 0.62), (w - 0.06, 0.22, 0.04))
+    P.box(M["mirror"], (0, 0.006, 1.15), (0.36, 0.004, 0.42))
+    P.box(st, (0.25, 0.015, 0.82), (0.12, 0.03, 0.08))
+    P.rod(st, (-0.25, 0.02, 0.85), (-0.25, 0.05, 1.0), 0.018, seg=12)
+    for k, c in enumerate(((0.5, 0.42, 0.3), (0.85, 0.83, 0.78))):
+        P.cyl(bc.material(f"bottle_{k}", c, 0.3), (-0.12 + k * 0.08, 0.12, 0.64), 0.025, 0.16, seg=12)
+    P.cyl(oak, (0.05, 0.45, 0.0), 0.16, 0.34, seg=24, r2=0.15)                          # the stool
+    P.cyl(oak, (-0.25, 0.4, 0.0), 0.13, 0.2, seg=24, r2=0.15)                           # the bucket
+    P.ring(st, (-0.25, 0.4), 0.145, 0.152, 0.17, 0.19, seg=32)
+    for sx in (-1, 1):
+        P.box(oak, (sx * (w / 2 - 0.01), 0.35, 0.45), (0.02, 0.7, 0.9))
+    P.box(st, (0, 0.55, 0.002), (0.15, 0.15, 0.004))
+
+
+def stone_bench(P, L=1.3):
+    """A stone bench: one honed granite slab on two granite blocks (onsen-style rest, sit and wait)."""
+    gr = _honed_granite()
+    P.box(gr, (0, 0, 0.42), (L, 0.42, 0.07))
+    for sx in (-1, 1):
+        P.box(gr, (sx * (L / 2 - 0.2), 0, 0.19), (0.2, 0.36, 0.38))
+
+
+def vaskebjorn(P, ring="fjord"):
+    """Vaskebjørn (the raccoon, 'wash bear'): the little cleaning robot. A 420 cube on four hidden wheels: oiled oak side panels, a
+    blackened-steel chassis + top, a grey rubber bumper skirt, a smoked-glass face band with two soft round LED eyes, a thin zone
+    ring (lingon = WC rooms, fjord = wash zones), a scrub pad + squeegee underneath."""
+    a = 0.42
+    P.box(M["rubber"], (0, 0, 0.03), (a + 0.02, a + 0.02, 0.06))
+    P.box(M["steel"], (0, 0, 0.07), (a, a, 0.02))
+    for sx, sy, rz in ((1, 0, 0), (-1, 0, 0), (0, 1, 1), (0, -1, 1)):
+        P.box(M["oak"], (sx * (a / 2 - 0.01), sy * (a / 2 - 0.01), 0.24), (0.02 if not rz else a - 0.04, a - 0.04 if not rz else 0.02, 0.32))
+    P.box(M["steel"], (0, 0, 0.41), (a, a, 0.02))
+    face = M.setdefault("robot_face", bc.material("robot_face", (0.01, 0.012, 0.014), 0.05))
+    P.box(face, (0, a / 2 + 0.002, 0.3), (a - 0.08, 0.006, 0.12))
+    eye = _led("robot_eye", (0.75, 0.9, 1.0), 6.0)
+    for sx in (-0.07, 0.07):
+        P.box(eye, (sx, a / 2 + 0.006, 0.3), (0.04, 0.003, 0.04))
+    P.box(M["lino_" + ring] if "lino_" + ring in M else M["felt"], (0, 0, 0.083), (a + 0.004, a + 0.004, 0.006))
+
+
+def robot_dock(P, w=0.5):
+    """A robot's dock: a 500 x 500 arch-topped recess at floor level with a blackened-steel frame, charging contacts, its own drain."""
+    st = M["steel"]
+    P.box(M["felt"], (0, 0.01, 0.25), (w - 0.04, 0.02, 0.5))
+    for sx in (-1, 1):
+        P.box(st, (sx * (w / 2 - 0.015), 0.02, 0.26), (0.03, 0.04, 0.52))
+    P.box(st, (0, 0.02, 0.51), (w, 0.04, 0.03))
+    for sx in (-0.08, 0.08):
+        P.box(M["brass"], (sx, 0.03, 0.1), (0.04, 0.01, 0.02))
+
+
+def slipper_cabinet(P, L=1.0):
+    """Toilet slippers in a UV-C cabinet (the onsen habit; sanitised between users): an oak cabinet with a glass front, a violet glow
+    inside, pairs of felt slippers on two shelves; a used-slippers drop slot beside it."""
+    oak = M["oak"]; d = 0.35; h = 0.9
+    P.box(oak, (0, d / 2, 0.02), (L, d, 0.04)); P.box(oak, (0, d / 2, h), (L, d, 0.03))
+    for sx in (-1, 1):
+        P.box(oak, (sx * (L / 2 - 0.01), d / 2, h / 2), (0.02, d, h))
+    P.box(oak, (0, 0.01, h / 2), (L, 0.02, h))
+    P.box(oak, (0, d / 2, 0.45), (L - 0.04, d - 0.02, 0.02))
+    P.box(M["glass"], (0, d - 0.005, h / 2), (L - 0.04, 0.008, h - 0.06))
+    P.box(M.setdefault("uvc_glow", bc.material("uvc_glow", (0.02, 0.01, 0.04), 0.1, emit=((0.4, 0.25, 1.0), 0.6))), (0, 0.03, h - 0.05), (L - 0.06, 0.02, 0.01))
+    for z in (0.05, 0.48):
+        for k in range(int(L / 0.24)):
+            x = -L / 2 + 0.14 + k * 0.24
+            for sx in (-0.04, 0.04):
+                P.box(M["felt_oat"] if "felt_oat" in M else M["felt"], (x + sx, d / 2, z + 0.02), (0.07, 0.24, 0.03))
+
+
+def far_uvc(P, z_ceiling=2.73):
+    """A far-UVC lamp (222 nm, safe with people present) recessed in the WC ceiling: a small blackened-steel square with a filter window."""
+    P.box(M["steel"], (0, 0, z_ceiling - 0.01), (0.22, 0.22, 0.02))
+    P.box(M.setdefault("uvc_glow", bc.material("uvc_glow", (0.02, 0.01, 0.04), 0.1, emit=((0.4, 0.25, 1.0), 0.6))), (0, 0, z_ceiling - 0.021), (0.14, 0.14, 0.002))
+
+
+def robe_wall(P, L=4.2):
+    """The sauna lobby's robe wall: an oak rail of steel hooks at 1.75 with robes hanging, an oak sandal rack below."""
+    oak, st = M["oak"], M["steel"]
+    P.box(oak, (0, 0.02, 1.8), (L, 0.04, 0.12))
+    robe = M.setdefault("robe_linen", bc.pbr_material("robe_linen", "rough_linen", 0.27, box=True, tint=(0.95, 0.93, 0.88), sat=0.2, val=1.4, piece_var=0.03))
+    for k in range(int(L / 0.35)):
+        x = -L / 2 + 0.2 + k * 0.35
+        P.rod(st, (x, 0.04, 1.8), (x, 0.12, 1.84), 0.008, seg=8)
+        if k % 3 != 2:  # a robe: narrow at the hook, falling wider to the hem, the collar folded over
+            P.cyl(robe, (x, 0.13, 0.72), 0.15, 1.02, seg=20, r2=0.12)
+            P.cyl(robe, (x, 0.13, 1.66), 0.08, 0.1, seg=16, r2=0.05)
+    for z in (0.08, 0.3):
+        P.box(oak, (0, 0.17, z), (L, 0.3, 0.025))
+    for k in range(int(L / 0.3)):
+        x = -L / 2 + 0.18 + k * 0.3
+        for sx in (-0.05, 0.05):
+            P.box(M["rubber"], (x + sx, 0.17, 0.11), (0.08, 0.26, 0.03))
+
+
+def towel_warmer(P, L=1.2):
+    """A towel warmer: a blackened-steel cabinet with an oak door + a glass window, warm towels inside, a soft glow."""
+    st = M["steel"]; d = 0.45; h = 1.6
+    P.box(st, (0, d / 2, h / 2), (L, d, h))
+    P.box(M["oak"], (0, d + 0.01, h / 2), (L - 0.04, 0.02, h - 0.04))
+    P.box(M["glass"], (0, d + 0.022, h * 0.62), (L - 0.3, 0.004, 0.6))
+    P.box(_led("warm_glow", (1.0, 0.7, 0.45), 1.5), (0, d - 0.03, h * 0.62), (L - 0.34, 0.01, 0.56))
+
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -3321,6 +3528,8 @@ BUILDERS = {
     "linear_light": linear_light, "floor_grazer": floor_grazer, "oculus": oculus,
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
+    "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
+    "robot_dock": robot_dock, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -3343,7 +3552,9 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_wall": ("length", "rise", "n", "state", "head"), "linear_light": ("length", "z_ceiling"),
           "floor_grazer": ("length",), "oculus": ("r", "z_ceiling"),
           "locker_hall": ("length", "D", "drums", "r_in", "r_out", "mouth", "n", "slots"), "round_seat": ("d",), "wall_waterfall": ("length", "d"),
-          "grooming_bar": ("length",), "shoe_cubbies": ("length",), "towel_shelf": ("length",), "uvc_plate": ("length", "D"), "auto_door": ("w", "h")}
+          "grooming_bar": ("length",), "shoe_cubbies": ("length",), "towel_shelf": ("length",), "uvc_plate": ("length", "D"), "auto_door": ("w", "h"),
+          "shower_cell": ("w", "d", "open_door", "accessible"), "fossen": ("w", "d"), "wash_place": ("w", "d"), "stone_bench": ("length",),
+          "vaskebjorn": ("ring",), "slipper_cabinet": ("length",), "robe_wall": ("length",), "towel_warmer": ("length",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -3362,7 +3573,8 @@ def build_all(model, MAT, coll):
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
                             "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
                             "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer",
-                            "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate") and k == "length":
+                            "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate", "stone_bench",
+                            "slipper_cabinet", "robe_wall", "towel_warmer") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"

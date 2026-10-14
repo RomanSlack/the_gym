@@ -372,6 +372,7 @@ for room in ("men-lockers", "women-lockers"):
     line_rooms(room, "slate_courses", [F1v, 1.0], "lks", only=wetwall)
     line_rooms(room, P["plain"], [1.0, 3.2], "lkp", only=wetwall)
     line_rooms(room, P["plain"], [F1v, 3.2], "lkp", skip=wetwall)
+by_id["A-annex-N"]["openings"] = [{"s": [1.3, 2.3], "z": [F1v, 2.2], "type": "door", "note": "the sauna lobby's door out to the sauna path"}]
 line_rooms("sauna-lobby", P["plain"], [F1v, 2.9], "lkl")
 # the men's urinal room: tiled stud walls inside the WC room (from the layout)
 for it in [i for i in LK["items"] if i["kind"] == "partition"]:

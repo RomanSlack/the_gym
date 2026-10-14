@@ -161,12 +161,11 @@ def wash(room, s):
     rv = 180 if s > 0 else 0
     (o1a, o1b), (o2a, o2b) = openings(room.replace("wet", "lockers"), room)
     dw = 1.0 if s > 0 else 0.85                    # the women's zone is shallower: wash places 0.85 deep, the aisle stays >= 1.4
-    x0w = o2b + 0.1
-    for k in range(3):
-        put(room, "wash_station", x0w + 0.45 + k * 0.92, front - s * dw / 2, 0.88, rv, d=dw)
-    put(room, "vanity", (x0w + 2.86 + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - x0w - 2.86 - 0.05, 2), rv, n=1)
-    # a stone bench on the wall between the two openings: sit and wait for a shower (onsen-style rest)
-    put(room, "stone_bench", (o1b + o2a) / 2, front - s * 0.225, round(o2a - o1b - 0.2, 2), rv, d=0.45)
+    # the wall between the changing room and the wash zone: west stretch | opening | middle stretch | opening | east stretch
+    for xa, xb in ((WASH_X[0], o1a), (o1b, o2a)):  # two onsen wash places on each of the two longer stretches
+        for k in range(2):
+            put(room, "wash_station", xa + (xb - xa) * (k + 0.5) / 2, front - s * dw / 2, 0.9, rv, d=dw)
+    put(room, "vanity", (o2b + WASH_X[1]) / 2, front - s * 0.3, round(WASH_X[1] - o2b - 0.25, 2), rv, n=1)
     return (o1a, o1b), (o2a, o2b)
 
 def wc_room(room, s):
