@@ -715,10 +715,10 @@ for room in ("men-wet", "women-wet"):
     men = room.startswith("men"); back = -9.225 if men else 11.9; front = -4.275 if men else 7.725; r0 = 0 if men else 180; rv = 180 if men else 0
     for it in LKs(room, "fossen"):
         putl("light_only", it["x"] + (0.35 if men else -0.35), back + (0.25 if men else -0.25), zone="wash", note="Fossen: a narrow light grazing down the slate",
-             light={"type": "SPOT", "energy": 60, "spot_deg": 28, "blend": 0.6, "radius": 0.02, "offset": [0, 0, 2.55],
+             light={"type": "SPOT", "energy": 22, "spot_deg": 22, "blend": 0.7, "radius": 0.02, "offset": [0, 0, 2.55],
                     "aim": [it["x"] + (0.35 if men else -0.35), back + (0.04 if men else -0.04), 0.0], "color": ZEN})
         putl("fossen", it["x"], back, rot=r0, zone="wash", w=it["w"], d=it["d"], note="Fossen: the experience shower",
-             light={"type": "AREA", "energy": 55, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [it["x"] + (-0.35 if men else 0.35), back + (0.15 if men else -0.15), 0.3], "color": ZEN})
+             light={"type": "AREA", "energy": 28, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [it["x"] + (-0.35 if men else 0.35), back + (0.15 if men else -0.15), 0.3], "color": ZEN})
     showers = LKs(room, "shower") + LKs(room, "shower_acc")
     for k, it in enumerate(sorted(showers, key=lambda i: i["x"])):
         acc = it["kind"] == "shower_acc"

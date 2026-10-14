@@ -17419,7 +17419,7 @@
       "rot_deg": 0.0,
       "zone": "wash",
       "note": "Fossen: a narrow light grazing down the slate",
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 28, "blend": 0.6, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-27.7, -9.185, 0.0], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "SPOT", "energy": 22, "spot_deg": 22, "blend": 0.7, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-27.7, -9.185, 0.0], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "fossen-699",
@@ -17432,7 +17432,7 @@
       "w": 2.4,
       "d": 2.1,
       "note": "Fossen: the experience shower",
-      "light": {"type": "AREA", "energy": 55, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-28.400000000000002, -9.075, 0.3], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 28, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-28.400000000000002, -9.075, 0.3], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "shower_cell-700",
@@ -17585,7 +17585,7 @@
       "rot_deg": 0.0,
       "zone": "wash",
       "note": "Fossen: a narrow light grazing down the slate",
-      "light": {"type": "SPOT", "energy": 60, "spot_deg": 28, "blend": 0.6, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-28.400000000000002, 11.860000000000001, 0.0], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "SPOT", "energy": 22, "spot_deg": 22, "blend": 0.7, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-28.400000000000002, 11.860000000000001, 0.0], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "fossen-719",
@@ -17598,7 +17598,7 @@
       "w": 2.4,
       "d": 1.9,
       "note": "Fossen: the experience shower",
-      "light": {"type": "AREA", "energy": 55, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-27.7, 11.75, 0.3], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 28, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-27.7, 11.75, 0.3], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "shower_cell-720",

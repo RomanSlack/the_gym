@@ -474,6 +474,11 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - A blackened-steel "eyelid" sconce over each onsen wash place, a warm pool on the shelf and the stool; general wall lights turned down.
   - A warm line at the foot of every shower front (the doors float, like the lockers).
   - Fossen: a narrow light grazing down the slate; the falling water is real water (clear, streaked, it bends the stone behind), and the floor is wet where it lands.
+- **Fossen as a grotto** (Roman: more stylised and zen, darker, earthier):
+  - The sides are lined in dark earthy stone stacked in rough horizontal courses, full height; the back stays vertical cleft slate, the face of the water.
+  - A low lid of walnut slats at 2.6, the rain head set into it; a blackened-steel frame at the mouth.
+  - Underfoot, dark honed slate with a flush band of wet river pebbles where the water lands; a hewn stone block to sit on.
+  - Light only on the water, low.
   - **Sauna lobby:** fresh robes rolled on an oak shelf, hooks free for your own robe; a birch log store with a bucket and ladle; an oak duckboard at the door out.
 
 ## Open questions

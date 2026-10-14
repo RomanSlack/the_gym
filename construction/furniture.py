@@ -3506,18 +3506,42 @@ def shower_cell(P, w=1.1, d=2.1, h=2.6, open_door=False, accessible=False):
 
 
 def fossen(P, w=2.4, d=2.1, h=2.6):
-    """Fossen (the falls): the walk-in experience shower at the west end, under the clerestory. A back wall of cleft dark slate,
-    a broad steel lip at 2.3 pouring a sheet of water, a 600 square rain head, a cold bucket (an oak pail on a steel arm, a pull
-    ring: after the sauna), a slate ledge to sit on, a linear drain; tiled side walls, open to the aisle. Origin = back wall centre."""
+    """Fossen (the falls): the walk-in experience shower at the west end, a grotto (Roman: more stylised, zen, darker, earthier).
+    Back: cleft dark slate, set vertical, the falling water's face. Sides: dark earthy stone stacked in rough horizontal courses,
+    full height. Overhead: a low lid of walnut slats at 2.6, the 600 rain head set into it. Underfoot: dark honed slate with a band
+    of wet river pebbles set flush where the water lands (nothing cut into the floor). A broad steel lip at 2.3 pours a sheet of
+    real water; a cold oak bucket on a steel arm (after the sauna); a hewn stone block to sit on; a blackened-steel frame at the
+    mouth. Light only where the water is. Origin = back wall centre, open to the aisle at +y (1.3 deep)."""
     sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
-    st, tile = M["steel"], _tile_mat(); film = _water_film()
-    rng = np.random.default_rng(9); x = -w / 2 + 0.03
-    while x < w / 2 - 0.05:
-        ww = float(min(rng.uniform(0.18, 0.34), w / 2 - 0.03 - x))
+    earth = M.setdefault("stone_earth", bc.pbr_material("stone_earth", "slate_floor_03", 0.6, box=True, tint=(0.82, 0.7, 0.58), sat=0.45, val=0.24, rough_add=0.1, piece_var=0.12))
+    st, film = M["steel"], _water_film(); D = 1.3
+    rng = np.random.default_rng(9); x = -w / 2 + 0.06
+    while x < w / 2 - 0.08:  # the back: vertical cleft slate
+        ww = float(min(rng.uniform(0.18, 0.34), w / 2 - 0.06 - x))
         _rough_block(P, sl, (x + ww / 2, 0.035, h / 2), (ww - 0.004, 0.05, h), amp=0.005, seed=x * 3, cuts=4)
         x += ww
-    for sx in (-1, 1):  # a shallow recess: open to the aisle
-        P.box(tile, (sx * (w / 2 - 0.015), 0.65, h / 2), (0.03, 1.3, h))
+    for sx in (-1, 1):  # the sides: stacked courses of earthy stone, each stone a little proud or shy
+        z = 0.0
+        while z < h - 0.02:
+            ch = float(min(rng.uniform(0.07, 0.15), h - z)); y = 0.0
+            while y < D - 0.02:
+                pl = float(min(rng.uniform(0.18, 0.46), D - y)); dd = float(rng.uniform(0.05, 0.064))
+                _rough_block(P, earth, (sx * (w / 2 - dd / 2), y + pl / 2, z + ch / 2), (dd, pl - 0.006, ch - 0.006), amp=0.006, seed=sx * 100 + y * 10 + z * 7, cuts=2)
+                y += pl
+            z += ch
+    for x in np.arange(-w / 2 + 0.035, w / 2, 0.07):  # the walnut lid, black felt behind the gaps
+        P.box(M["walnut"], (x, D / 2, h - 0.03), (0.05, D, 0.06))
+    P.box(M["felt"], (0, D / 2, h + 0.005), (w, D, 0.01))
+    for sx in (-1, 1):  # a blackened-steel frame at the mouth
+        P.box(st, (sx * (w / 2 - 0.03), D - 0.04, h / 2), (0.06, 0.08, h))
+    P.box(st, (0, D - 0.04, h - 0.04), (w, 0.08, 0.08))
+    slate_floor = M.setdefault("slate_honed_dark2", bc.material("slate_honed_dark2", (0.035, 0.034, 0.032), 0.6))
+    P.box(slate_floor, (0, D / 2, 0.003), (w - 0.1, D, 0.006))                          # dark honed slate underfoot
+    peb = M.setdefault("pebble_wet2", bc.material("pebble_wet2", (0.05, 0.047, 0.042), 0.4))
+    for px in np.arange(-0.85, 0.16, 0.075):                                              # wet river pebbles, set flush
+        for py in np.arange(0.17, 0.46, 0.065):
+            r_ = float(rng.uniform(0.026, 0.036))
+            P.blob(peb, (float(px + rng.uniform(-0.012, 0.012)), float(py + rng.uniform(-0.01, 0.01)), 0.006), (r_ * 1.25, r_, 0.012), seg=12, z_cut=0.006)
     P.box(st, (-0.35, 0.09, 2.3), (1.0, 0.12, 0.03))                                     # the pouring lip
     fall = M.get("water_fall2")
     if fall is None:  # real water: transmissive, IOR 1.33, streaked; it bends the slate behind it and catches the light
@@ -3532,17 +3556,16 @@ def fossen(P, w=2.4, d=2.1, h=2.6):
         bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.8
         L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
     P.box(fall, (-0.35, 0.16, 1.15), (0.95, 0.006, 2.3))                                 # the sheet of water falling from it
-    P.box(film, (-0.35, 0.2, 0.004), (1.0, 0.25, 0.002))                                 # where it lands, the floor is wet
-    P.box(st, (0.55, 0.9, 2.45), (0.6, 0.6, 0.02))                                      # rain head
-    P.rod(st, (0.55, 0.9, 2.46), (0.55, 0.9, h), 0.015, seg=10)
-    P.rod(st, (w / 2 - 0.05, 0.6, 2.35), (w / 2 - 0.45, 0.6, 2.35), 0.012, seg=10)        # the cold bucket's arm
+    P.box(film, (-0.35, 0.3, 0.008), (1.0, 0.3, 0.002))                                  # the pebbles are wet where it lands
+    P.box(st, (0.55, 0.9, 2.5), (0.6, 0.6, 0.02))                                       # rain head, set into the lid
+    P.rod(st, (w / 2 - 0.08, 0.6, 2.35), (w / 2 - 0.45, 0.6, 2.35), 0.012, seg=10)        # the cold bucket's arm
     P.cyl(M["oak"], (w / 2 - 0.45, 0.6, 2.1), 0.17, 0.22, seg=24, r2=0.19)              # the pail
     P.ring(M["steel"], (w / 2 - 0.45, 0.6), 0.185, 0.195, 2.17, 2.2, seg=40)
     P.rod(st, (w / 2 - 0.3, 0.6, 2.1), (w / 2 - 0.3, 0.6, 1.7), 0.004, seg=6)             # its pull
     P.ring(M["brass"], (w / 2 - 0.3, 0.6), 0.025, 0.035, 1.68, 1.7, seg=24)
-    P.box(sl, (-w / 2 + 0.25, 1.0, 0.22), (0.45, 1.4, 0.44))                            # slate ledge to sit on
-    P.box(st, (0, 0.25, 0.002), (w - 0.2, 0.06, 0.004))                                 # linear drain
-    P.box(M["opal"], (-0.35, 0.2, 2.31), (0.9, 0.02, 0.006))                            # light under the lip on the falling water
+    _rough_block(P, earth, (-w / 2 + 0.33, 0.72, 0.22), (0.42, 1.05, 0.44), amp=0.012, seed=77, cuts=4, flat_top=True)  # a hewn stone to sit on
+    P.box(st, (0, 0.25, 0.007), (w - 0.3, 0.05, 0.004))                                 # linear drain
+    P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (-0.35, 0.2, 2.284), (0.9, 0.02, 0.004))  # a low glow under the lip on the water
 
 
 def wash_place(P, w=0.9, d=1.0):
