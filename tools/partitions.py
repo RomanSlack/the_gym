@@ -62,8 +62,8 @@ COUNT = {("women-wet", "women-lockers"): 2, ("men-wet", "men-lockers"): 2}  # Ro
 PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "gallery"): ((-11.6, -3.15), 1.5),
          # the WC rooms' doors (hands-free automatic sliding, hygiene): right off the arrival nooks, on the shoe side
          ("men-wc", "men-lockers"): ((-13.5, -4.2), 1.0), ("women-wc", "women-lockers"): ((-13.5, 7.65), 1.0),
-         # the wash zones' two openings at the west part of the wall (Roman: the stream must never cross a doorway; it runs east of them)
-         ("men-wet", "men-lockers"): ([(-27.6, -4.2), (-24.3, -4.2)], 1.8), ("women-wet", "women-lockers"): ([(-27.6, 7.65), (-24.3, 7.65)], 1.8)}
+         # the wash zones' two openings, spaced so the wall reads water - door - water - door - water (Roman: wall waterfalls)
+         ("men-wet", "men-lockers"): ([(-25.925, -4.2), (-21.925, -4.2)], 1.8), ("women-wet", "women-lockers"): ([(-25.925, 7.65), (-21.925, 7.65)], 1.8)}
 DOOR_W = 1.0
 
 spaces = m["spaces"]

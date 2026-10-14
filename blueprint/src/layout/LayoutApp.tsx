@@ -306,7 +306,7 @@ function Dims() {
       <D a={-29.375} b={-11.675} off={-10.2} horiz label="17.70 (changing rooms, wall face to wall face)" />
       <D a={-29.25} b={-11.675} off={12.6} horiz label="17.58 (wet zones)" />
       <D a={-9.225} b={-4.275} off={-30.4} horiz={false} label="4.95 men's wet" />
-      <D a={-4.275} b={1.425} off={-30.4} horiz={false} label="5.70 men's changing" />
+      <D a={-4.125} b={1.425} off={-30.4} horiz={false} label="5.55 men's changing" />
       <D a={1.575} b={7.575} off={-30.4} horiz={false} label="6.00 women's changing" />
       <D a={7.725} b={11.9} off={-30.4} horiz={false} label="4.18 women's wet" />
       <D a={-35.325} b={-29.525} off={-1.9} horiz label="5.80" />

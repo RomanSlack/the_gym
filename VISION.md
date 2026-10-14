@@ -445,7 +445,21 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - **UV-C sole plates** (walk over them and the soles are sanitised) at both ways in from the gallery and outside each WC door.
   - **Toilet slippers** in a UV-C cabinet, sanitised between users.
   - **Far-UVC ceiling lamps** (222 nm, safe with people present) in the WC rooms, and self-cleaning photocatalytic tile laid to falls.
-- **Plan:** the 2D layout is in `blueprint/layout.html` / `model/layouts/lockers.json`.
+- **Plan:** the 2D layout is in `blueprint/layout.html` / `model/layouts/lockers.json`. (The floor stream described while planning was replaced by wall waterfalls, below.)
+
+### Locker rooms: wall waterfalls + the changing rooms in 3D (2026-10-13)
+
+- **No floor water** (Roman: it cut across the doorways). The stream, its spring basins, the pool and the bridge slabs are gone, and nothing is cut into the floors.
+- **Wall waterfalls instead** (Roman: water flowing over the surface of the wall from the ceiling, plants at the bottom; static for now).
+  - Three on each wall between a changing room and its wash zone, two flanking the openings and one between them: water - door - water - door - water. The openings were re-spaced for that.
+  - Each is a face of cleft dark slate in a blackened-steel frame. Water sheets down it from a slot in a steel head at the ceiling into a catch channel, with a light under the head grazing the water.
+  - At the foot, an empty honed-granite planter trough with its soil. **The plants come at the very end** (Roman wants to put real time into them).
+  - 300 mm deep in all; the men's aisle stays 1.52 m clear in front of them.
+- **The changing rooms (phase 2):**
+  - **The oak block:** white-oiled oak flutes on black felt, floor to ceiling, with three full-height mouths into the round locker rooms.
+  - **Inside each round room:** 18 full-height oak lockers on the curve. Each has a finger-pull groove, a phone reader (the phone is the key, as at the gates) and a small brass number. An oak band runs above the lockers to the ceiling, the glowing oculus is overhead, and a walnut + wool round seat sits in the middle.
+  - **Around the room:** towel-return slots in the block's aisle face; the oak screen on the shoes-off line, with the shoe bench and shoe cubbies beside the aisle mouth; fresh towels; the grooming bar (mirror, hair dryers, oak counter) on the block's west end.
+  - **Floor and doors:** UV-C sole plates; the WC room's hands-free sliding oak door; the express-lift doors; the glass doors to the sauna lobby.
 
 ## Open questions
 

@@ -304,7 +304,6 @@ for e in [e for e in by_id.values() if e["id"].startswith("P-F1-") and "gallery"
 #   shoe zones (gallery -> WC room door): light honed stone
 #   wash zones (barefoot, clean): light honed stone 600 x 600, R11; tile to 2.6, plaster above; open to the clerestory, no ceiling
 #   WC rooms: their own floor (grey porcelain 300 x 300, photocatalytic), tile to a 2.75 m oak slat ceiling + lid (negative pressure)
-#   the stream (Bekken): a 350 mm slate channel cut 120 mm into the floor (furnish: the channel, pebbles, water)
 import json as _json
 from shapely.geometry import LineString as _LS, Polygon as _Poly, box as _box
 from shapely.ops import unary_union as _union
@@ -341,22 +340,8 @@ import math
 FINISH["slate_courses"] = {"kind": "courses", "h": [0.035, 0.05, 0.065, 0.08], "L": [0.3, 0.42, 0.55, 0.7], "gap": 0.004, "depth": 0.03, "material": "slate_riven"}
 FINISH["wc_tile_floor"] = {"kind": "slabs", "w": 0.3, "L": [0.3], "gap": 0.002, "dir": "y", "bond": "stack", "material": "porcelain_grey", "t": 0.012}
 # floors
-_streams = [i for i in LK["items"] if i["kind"] == "stream"]
-def _stream_holes(rect):
-    hs = []
-    for st in _streams:
-        w2 = st["width"] / 2 + 0.03
-        for (xa, ya), (xb, yb) in zip(st["pts"], st["pts"][1:]):
-            r_ = [min(xa, xb) - w2, min(ya, yb) - w2, max(xa, xb) + w2, max(ya, yb) + w2]
-            r_ = [max(r_[0], rect[0]), max(r_[1], rect[1]), min(r_[2], rect[2]), min(r_[3], rect[3])]
-            if r_[2] - r_[0] > 0.05 and r_[3] - r_[1] > 0.05:
-                hs.append({"rect": [round(v, 3) for v in r_], "note": "the stream's slate channel"})
-    for pb in [i for i in LK["items"] if i["kind"] == "pool_basin"]:
-        r_ = [pb["x"] - pb["w"] / 2 - 0.03, pb["y"] - pb["d"] / 2 - 0.03, pb["x"] + pb["w"] / 2 + 0.03, pb["y"] + pb["d"] / 2 + 0.03]
-        r_ = [max(r_[0], rect[0]), max(r_[1], rect[1]), min(r_[2], rect[2]), min(r_[3], rect[3])]
-        if r_[2] - r_[0] > 0.05 and r_[3] - r_[1] > 0.05:
-            hs.append({"rect": [round(v, 3) for v in r_], "note": "the stream's pool"})
-    return hs
+def _stream_holes(rect):  # (the floor water was removed, 2026-10-13: wall waterfalls instead; nothing is cut into the floors)
+    return []
 LIFT_M, LIFT_W = [-29.45, -4.1, -28.85, -1.7], [-29.45, 4.7, -28.85, 7.1]
 LKF = {  # name: rect, finish, extra holes
     "mchg": ([-29.45, -4.2, -14.4, 1.5], "oak", [{"rect": LIFT_M}]), "wchg": ([-29.45, 1.5, -14.4, 7.65], "oak", [{"rect": LIFT_W}]),

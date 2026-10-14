@@ -664,11 +664,6 @@ import json as _json
 LK = _json.loads((ROOT / "model" / "layouts" / "lockers.json").read_text())
 def putl(kind, x, y, rot=0.0, zone="lockers", **kw):
     put(kind, x, y, rot=rot, zone=zone, level="F1", z=F1, **kw)
-for st in [i for i in LK["items"] if i["kind"] == "stream"]:
-    x0, y0 = st["pts"][0]
-    putl("stream_channel", x0, y0, pts=[[round(x - x0, 3), round(y - y0, 3)] for x, y in st["pts"]], width=st["width"], note="Bekken: the stream's slate channel")
-for pb in [i for i in LK["items"] if i["kind"] == "pool_basin"]:
-    putl("pool_basin", pb["x"], pb["y"], note=pb["label"])
 # every doorway framed (Roman: the doorways were floating raw holes): blackened-steel portals through the wall + its linings,
 # on the changing-room side of the wash openings and the WC room doors (as the gallery entries)
 for e in [e for e in m["elements"] if e["id"].startswith("P-F1-") and set(e.get("between", [])) in
@@ -680,6 +675,40 @@ for e in [e for e in m["elements"] if e["id"].startswith("P-F1-") and set(e.get(
         xa, xb = sorted([x0 + sg * o["s"][0], x0 + sg * o["s"][1]])
         putl("portal_frame", (xa + xb) / 2, yf, rot=0 if men else 180, zone="lockers", width=round(xb - xa, 3), height=round(o["z"][1] - F1, 2), depth=0.2,
              note="blackened-steel portal: " + ("the WC room door" if o["type"] == "door" else "the way into the wash zone"))
+# ---- phase 2, the changing rooms (Roman, 2026-10-13): the oak blocks with their round locker rooms, round seats, the screens, the
+# shoes-off benches + cubbies, towels, the grooming bars, the wall waterfalls, UV-C plates, the WC room doors, lift + sauna doors
+def LKs(room, kind):
+    return [i for i in LK["items"] if i["room"] == room and i["kind"] == kind]
+for room in ("men-lockers", "women-lockers"):
+    blk = LKs(room, "oak_block")[0]; men = room.startswith("men")
+    rot = 180 if men else 0; sg = -1 if men else 1                     # local +y = the aisle side; rot 180 also flips local x
+    rings = LKs(room, "locker_ring")
+    putl("locker_hall", blk["x"], blk["y"], rot=rot, length=blk["w"], D=blk["d"], drums=[round(sg * (r_["x"] - blk["x"]), 3) for r_ in rings],
+         r_in=rings[0]["r_in"], r_out=rings[0]["r_out"], mouth=rings[0]["mouth"], n=rings[0]["n"],
+         slots=[round(sg * (t["x"] - blk["x"]), 3) for t in LKs(room, "towel_return")], note="the oak block: three round locker rooms carved out")
+    for r_ in rings:
+        putl("round_seat", r_["x"], r_["y"], d=0.6, note="round seat: walnut + wool")
+    for it in LKs(room, "screen"):
+        putl("baffle_screen", it["x"], it["y"], rot=it["rot"], width=it["w"], height=3.18, note="oak screen on the shoes-off line")
+    for it in LKs(room, "shoe_bench"):
+        putl("boot_bench", it["x"], it["y"], rot=it["rot"], length=it["w"], note="shoes off here")
+    for it in LKs(room, "shoe_cubbies"):
+        putl("shoe_cubbies", it["x"], it["y"], rot=it["rot"], length=it["w"])
+    for it in LKs(room, "towels"):
+        putl("towel_shelf", it["x"], it["y"], rot=it["rot"], length=it["w"])
+    for it in LKs(room, "grooming"):
+        putl("grooming_bar", it["x"] + 0.25, it["y"], rot=it["rot"], length=it["w"])
+    for it in LKs(room, "uvc_plate"):
+        putl("uvc_plate", it["x"], it["y"], rot=it["rot"], length=it["w"], D=it["d"])
+    for it in LKs(room, "wall_waterfall"):
+        yw = it["y"] - (it["d"] / 2 if men else -it["d"] / 2)          # the wall face
+        putl("wall_waterfall", it["x"], it["y"], rot=it["rot"], length=it["w"], d=it["d"],
+             light={"type": "AREA", "energy": 22, "size": round(it["w"] - 0.2, 2), "size_y": 0.04, "offset": [0, -0.03, 3.02],
+                    "aim": [it["x"], yw + (0.05 if men else -0.05), 0.4], "color": [1.0, 0.88, 0.74]}, note=it["label"])
+    putl("lift_doors", -28.71, -2.9 if men else 5.9, rot=-90, width=1.1, height=2.3, note="express lift to the pool (F4)")
+    putl("glass_door", -29.45, 0.0 if men else 3.0, rot=90, width=1.0, height=2.1, note="to the sauna lobby")
+for room, y, r in (("men-lockers", -4.095, 0), ("women-lockers", 7.545, 180)):
+    putl("auto_door", -13.5, y, rot=r, w=1.0, h=2.1, note="the WC room door: hands-free automatic sliding")
 for r_ in [i for i in LK["items"] if i["kind"] == "locker_ring"]:
     putl("oculus", r_["x"], r_["y"], r=1.0, z_ceiling=3.2, light={"type": "AREA", "energy": 30, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 3.85],
          "aim": [r_["x"], r_["y"], 0.0], "color": [1.0, 0.86, 0.7]}, note="oculus over a round locker room")

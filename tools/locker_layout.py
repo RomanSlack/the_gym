@@ -40,10 +40,6 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "oak_block": {"label": "Oak block (closed storage between the drums)", "d": 4.2, "h": 2.6, "mat": "oak_solid"},
     "locker_ring": {"label": "Round locker room", "d": 3.9, "h": 2.0, "mat": "oak"},
     "round_seat": {"label": "Round seat", "d": 0.8, "h": 0.45, "mat": "walnut"},
-    "pool_basin": {"label": "Tjern: stone pool at the stream's end", "d": 0.42, "h": -0.25, "mat": "water"},
-    "stream": {"label": "Bekken: the stream (slate channel, pebble bed, moving water)", "d": 0.35, "h": -0.12, "mat": "water"},
-    "spring_basin": {"label": "Spring basin: where the stream rises", "d": 0.6, "h": 0.5, "mat": "stone"},
-    "bridge_slab": {"label": "Granite slab over the stream (flush)", "d": 0.6, "h": 0.0, "mat": "stone"},
     "wash_station": {"label": "Seated wash place (onsen): oak stool, hand shower, bucket, slate shelf", "d": 1.0, "h": 1.2, "clear": 0.6, "mat": "wet"},
     "floor_zone": {"label": "Floor zone (its own floor)", "d": 1.0, "h": 0.0, "mat": "zone"},
     "partition": {"label": "Partition, full height, tiled", "d": 0.1, "h": 2.6, "mat": "wall"},
@@ -52,11 +48,12 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "robot_dock": {"label": "Robot dock (charge, auto-empty + refill)", "d": 0.5, "h": 0.5, "mat": "steel"},
     "uvc_plate": {"label": "UV-C sole plate: walk over it, soles sanitised", "d": 0.9, "h": 0.0, "mat": "uvc"},
     "far_uvc": {"label": "Far-UVC lamp (222 nm, ceiling)", "d": 0.25, "h": 0.0, "mat": "uvc"},
+    "wall_waterfall": {"label": "Wall waterfall + planter (plants later)", "d": 0.3, "h": 3.2, "mat": "water"},
     "fossen": {"label": "Fossen: experience shower (tiered rain, cold bucket, stone wall)", "d": 2.1, "h": 2.6, "clear": 1.2, "mat": "wet_feature"},
     "shoe_bench": {"label": "Shoe bench + rack (shoes off)", "d": 0.4, "h": 0.45, "mat": "walnut"},
     "towels": {"label": "Fresh towels", "d": 0.45, "h": 1.8, "mat": "oak"},
     "shoe_cubbies": {"label": "Shoe cubbies (open oak shelves)", "d": 0.35, "h": 1.6, "mat": "oak"},
-    "stone_bench": {"label": "Stone bench by the stream (onsen-style rest)", "d": 0.45, "h": 0.45, "mat": "stone"},
+    "stone_bench": {"label": "Stone bench (onsen-style rest)", "d": 0.45, "h": 0.45, "mat": "stone"},
     "route": {"label": "Route (people flow)", "d": 0.0, "h": 0.0, "mat": "route"},
     "width_check": {"label": "Clear width at a pinch point", "d": 0.0, "h": 0.0, "mat": "route"},
     "towel_return": {"label": "Towel return", "d": 0.5, "h": 0.9, "mat": "steel"},
@@ -95,18 +92,18 @@ def changing(room, s):
     storage (linen, cleaning). The ring language of Steinringen + Kronen, made into rooms. s = +1 men (block off the north wall,
     aisle along the south), -1 women (mirrored)."""
     wall = 1.425 if s > 0 else 1.575                 # the shared M/W wall face
-    depth = 3.85                                     # the block, off the wall (Roman: the aisle was too narrow with the stream)
+    depth = 3.75                                     # the block, off the wall (keeps the main aisle >= 1.5 m with the waterfalls)
     front = wall - s * depth                         # its face on the aisle
     xs, xe = -27.0, -14.475
     put(room, "oak_block", (xs + xe) / 2, (wall + front) / 2, xe - xs, 0, d=depth, label="Oak block: three round locker rooms carved out")
-    R_out, R_in, mouth = 1.9, 1.35, 1.2
+    R_out, R_in, mouth = 1.85, 1.3, 1.2
     cy = (wall + front) / 2
     sp = (xe - xs) / 3
     n = 0
     for k in range(3):
         cx = xs + sp * (k + 0.5)
         ang = 2 * 3.141592653589793 * R_in
-        nl = int((ang - mouth) / 0.4)
+        nl = int((ang - mouth) / 0.385)                # 18 doors, 387 mm at the face
         put(room, "locker_ring", cx, cy, 2 * R_out, 0 if s < 0 else 180, d=2 * R_out, r_in=R_in, r_out=R_out, mouth=mouth, n=nl,
             label=f"Round locker room: {nl} lockers on the curve")
         put(room, "round_seat", cx, cy, 0.6, 0, d=0.6, label="Round seat (walnut + wool), 1.05 m clear to the locker faces")
@@ -205,23 +202,19 @@ def wc_room(room, s):
 ops_m = wash("men-wet", 1); wc_room("men-wc", 1)
 ops_w = wash("women-wet", -1); wc_room("women-wc", -1)
 
-# Bekken, the stream (Roman: rivers flowing round the edges, moving water; onsen x Nordic, more Nordic): it rises at a spring basin
-# just past the WC door, runs along the edge of the changing room's aisle at the foot of the wash-zone wall (granite slabs carry the
-# floor over it at the openings), turns down the west side of the westmost opening into the wash zone and ends in Fossen's front
-def stream(room_c, room_w, s, ops):
-    """Roman: the water must never cut across a doorway (or run under a wall). Bekken rises at the spring basin by the entry, runs
-    west along the foot of the slate wall and falls into a stone pool (tjern) 0.35 m short of the first wash-zone opening; the
-    openings sit west of it. Fossen in the wash zone has its own water."""
-    face = -4.275 if s > 0 else 7.575
-    y = round(face + s * (0.03 + 0.155), 3)           # in front of the slate lining: lining 30, lip 30, half the channel 125
-    east_open = max(b for a, b in ops)                 # the eastern jamb of the eastern opening
-    px = east_open + 0.35 + 0.45                       # the pool's centre (0.9 long)
-    pts_c = [[-15.3, y], [round(px + 0.45, 3), y]]
-    put(room_c, "spring_basin", -15.0, y, 0.5, 0, d=0.32)  # flush with the channel line: it does not narrow the aisle
-    items.append({"id": f"{room_c}-stream", "room": room_c, "kind": "stream", "label": KINDS["stream"]["label"], "pts": pts_c, "width": 0.25})
-    put(room_c, "pool_basin", round(px, 3), round(y + s * 0.03, 3), 0.9, 0, d=0.42, label="Tjern: the stone pool the stream falls into (recirculates)")
-stream("men-lockers", "men-wet", 1, ops_m)
-stream("women-lockers", "women-wet", -1, ops_w)
+# wall waterfalls (Roman, 2026-10-13: no floor water; water flowing over the face of the wall from the ceiling, plants at the
+# bottom, between the doors and on the sides of the wall between each changing room and its wash zone; static for now; leave space
+# for the plants, which come at the very end): a dark riven-stone face recessed in a blackened-steel frame, water sheeting down it
+# from a slot in the ceiling into a catch channel, and an empty planter trough in front of it at the foot. 260 mm deep in all.
+def waterfalls(room, s, ops):
+    face = -4.095 if s > 0 else 7.545                 # the changing-room face of the slate wainscot (wall face -4.125 / 7.575, slate 30)
+    (o1a, o1b), (o2a, o2b) = ops
+    segs = [(-28.575, o1a - 0.15), (o1b + 0.15, o2a - 0.15), (o2b + 0.15, o2b + 0.15 + (o1a - 0.15 + 28.575))]
+    for xa, xb in segs:
+        put(room, "wall_waterfall", (xa + xb) / 2, round(face + s * 0.13, 3), round(xb - xa, 3), 0 if s > 0 else 180, d=0.26,
+            label="Wall waterfall: water down a riven-stone face from the ceiling into a catch channel; a planter at its foot (plants later)")
+waterfalls("men-lockers", 1, ops_m)
+waterfalls("women-lockers", -1, ops_w)
 # towel returns: slots in the oak block's aisle face, between the drums
 for room, s in (("men-lockers", 1), ("women-lockers", -1)):
     blk = next(i for i in items if i["room"] == room and i["kind"] == "oak_block")
@@ -300,7 +293,7 @@ def check(room, a, b, label, need=1.5):
     items.append({"id": f"chk-{len(items)}", "room": room, "kind": "width_check", "label": f"{label}: {w:.2f} m (needs {need})",
                   "pts": [[round(c[0], 3), round(c[1], 3)] for c in g.coords], "width": w, "need": need, "status": st})
 for room, ys, ya, yb in (("men-lockers", -1, -4.3, -1.0), ("women-lockers", 1, 4.0, 7.6)):
-    for x in (-25.6, -21.8, -17.6, -15.0):
+    for x in (-27.6, -23.9, -20.0, -17.6, -15.0):
         check(room, (x, ya), (x, yb), "main aisle")
 for x in (-25.9, -22.4, -20.0):
     check("men-wet", (x, -9.3), (x, -4.2), "wash aisle", 1.2)

@@ -77,7 +77,12 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
   - onsen-style seated wash places
   - private showers with dry areas, WC runs plus an accessible WC and shower, urinals, vanity, grooming station
   - arrival nooks (shoes off, towels)
-- 3D comes after Roman signs off the plan.
+- **3D so far (2026-10-13):**
+  - Phase 1: the shell (interior.py).
+  - The floor water was replaced by **wall waterfalls**: three per dividing wall. The plants come at the very end, by Roman.
+  - Phase 2 started with the **changing rooms**: the oak block with its round locker rooms, round seats, screen, shoe bench + cubbies, towels, grooming bar, UV-C plates, the WC auto door, lift + sauna doors (furnish.py reads the layout JSON).
+- **Next:** the wash zones (Fossen, showers, onsen wash places, vanity, bench), then the WC rooms (cells, urinal room, handwash), the robots + docks, and the sauna lobby.
+- Watch out: the men's changing-side wall face is y -4.125 (the wash side is -4.275). The room is 5.55 m deep.
 
 ## Commands
 - **Source of truth:** `model/building.json`. Rebuild everything derived with `terrain/.venv/bin/python tools/build_model.py`. It runs layout → structure → partitions → room numbers → foundations → stage-3 structure → stage-4 envelope → stage-5 interior → furnish → stage coverage check, and must end with `stage check ... OK`.

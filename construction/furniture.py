@@ -3102,63 +3102,6 @@ def floor_grazer(P, L=4.0):
 
 
 # ------------------------------------------------------------------ locker rooms (Roman, 2026-10-13): shell pieces first
-def stream_channel(P, pts=(), width=0.35, depth=0.12):
-    """Bekken, the stream: a channel cut 120 mm into the floor, lined in riven slate (sides + a slate lip flush with the floor), a
-    bed of river pebbles, clear water running 80 mm deep over it. pts = the axis-aligned route, local to the piece's origin."""
-    sl = M.setdefault("slate_riven_ch", bc.pbr_material("slate_riven_ch", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34, rough_add=0.12, piece_var=0.0))
-    peb = M.setdefault("pebbles_ch", bc.pbr_material("pebbles_ch", "river_small_rocks", 0.6, box=True, sat=0.75, val=0.8, piece_var=0.0))
-    wat = M.get("stream_water")
-    if wat is None:  # moving water: clear, glossy, rippled along the flow
-        wat = bc.material("stream_water", (0.04, 0.06, 0.06), 0.01, alpha=0.25)
-        N_, L_ = wat.node_tree.nodes, wat.node_tree.links
-        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexNoise"); wv.inputs["Scale"].default_value = 18.0; wv.inputs["Distortion"].default_value = 3.0
-        L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
-        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.35; bp_.inputs["Distance"].default_value = 0.004
-        L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
-        M["stream_water"] = wat
-    w2, t = width / 2, 0.03
-    for (xa, ya), (xb, yb) in zip(pts, pts[1:]):
-        along_x = abs(xb - xa) >= abs(yb - ya)
-        x0, x1, y0, y1 = min(xa, xb), max(xa, xb), min(ya, yb), max(ya, yb)
-        if along_x:
-            x0 -= w2; x1 += w2
-            P.box(peb, ((x0 + x1) / 2, ya, -depth + 0.02), (x1 - x0, width, 0.04))
-            P.box(wat, ((x0 + x1) / 2, ya, -0.035), (x1 - x0, width - 0.004, 0.002))
-            for sy in (-1, 1):
-                P.box(sl, ((x0 + x1) / 2, ya + sy * (w2 + t / 2), -depth / 2), (x1 - x0 + 2 * t, t, depth))
-        else:
-            y0 -= w2; y1 += w2
-            P.box(peb, (xa, (y0 + y1) / 2, -depth + 0.02), (width, y1 - y0, 0.04))
-            P.box(wat, (xa, (y0 + y1) / 2, -0.035), (width - 0.004, y1 - y0, 0.002))
-            for sx in (-1, 1):
-                P.box(sl, (xa + sx * (w2 + t / 2), (y0 + y1) / 2, -depth / 2), (t, y1 - y0 + 2 * t, depth))
-    # end walls
-    for (xa, ya), (xb, yb), sgn in ((pts[0], pts[1], -1), (pts[-1], pts[-2], 1)):
-        if abs(xb - xa) >= abs(yb - ya):
-            dx = -1 if xb > xa else 1
-            P.box(sl, (xa + dx * (w2 + t / 2), ya, -depth / 2), (t, width + 2 * t, depth))
-        else:
-            dy = -1 if yb > ya else 1
-            P.box(sl, (xa, ya + dy * (w2 + t / 2), -depth / 2), (width + 2 * t, t, depth))
-
-
-def pool_basin(P, L=0.9, D=0.42, depth=0.1):
-    """Tjern: the small stone pool where the stream ends: the water slips off a slate lip into it and recirculates; slate-lined,
-    pebbles on the bottom, still dark water, within the floor build-up. Origin = its centre at the floor; the stream comes in
-    from the +x end."""
-    sl = M.setdefault("slate_riven_ch", bc.pbr_material("slate_riven_ch", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34, rough_add=0.12, piece_var=0.0))
-    peb = M.setdefault("pebbles_ch", bc.pbr_material("pebbles_ch", "river_small_rocks", 0.6, box=True, sat=0.75, val=0.8, piece_var=0.0))
-    wat = M.get("stream_water") or bc.material("stream_water", (0.04, 0.06, 0.06), 0.01, alpha=0.25)
-    t = 0.03
-    for sy in (-1, 1):
-        P.box(sl, (0, sy * (D / 2 + t / 2), -depth / 2), (L + 2 * t, t, depth))
-    for sx in (-1, 1):
-        P.box(sl, (sx * (L / 2 + t / 2), 0, -depth / 2), (t, D, depth))
-    P.box(peb, (0, 0, -depth + 0.02), (L, D, 0.04))             # pebbles, a hand's depth of still water over them
-    P.box(wat, (0, 0, -0.025), (L - 0.004, D - 0.004, 0.002))
-    P.box(sl, (L / 2 - 0.04, 0, -0.03), (0.08, 0.25, 0.012))     # the lip the stream slips off
-
-
 def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
     """The oculus over a round locker room: a light well r 1.0 through the slat ceiling, lined in warm plaster, an opal disc at its
     top glowing (a soft round sky over the room); a thin oak ring at the ceiling edge."""
@@ -3166,6 +3109,182 @@ def oculus(P, r=1.0, h=0.7, z_ceiling=3.2):
     P.ring(pl, (0, 0), r, r + 0.03, z_ceiling, z_ceiling + h, seg=96)
     P.cyl(M["opal"], (0, 0, z_ceiling + h - 0.01), r, 0.01, seg=96)
     P.ring(M["oak"], (0, 0), r - 0.005, r + 0.06, z_ceiling - 0.03, z_ceiling, seg=96)
+
+
+
+# ------------------------------------------------------------------ locker rooms, phase 2: the changing rooms (Roman, 2026-10-13)
+def locker_hall(P, L=12.5, D=3.85, H=3.18, drums=(), r_in=1.35, r_out=1.9, mouth=1.2, n=18, slots=()):
+    """The oak block of a changing room with three round locker rooms carved out of it. Outside: white-oiled oak flutes (35 @ 60) on
+    black felt, a shadow plinth, floor to the ceiling. Each drum opens to the aisle through a full-height mouth with oak reveals; inside,
+    18 full-height oak lockers on the curve (400 at the face), each with a finger-pull groove, a phone reader (the phone is the key,
+    as at the gates) and a small brass number; an oak band above the lockers to the ceiling, the oculus overhead. Towel-return slots in
+    the aisle face. Local: origin = the block's centre on the floor, +y = the aisle side, drums = their x along the block."""
+    oak, felt = M["oak"], M["felt"]
+    sensor = M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08))
+    half = mouth / 2
+    def flutes_x(x0, x1, y, sgn):  # a fluted face along x at y (sgn = which way it faces)
+        x = x0 + 0.03
+        while x < x1 - 0.02:
+            P.box(oak, (x, y + sgn * 0.0125, 0.1 + (H - 0.1) / 2), (0.035, 0.025, H - 0.1))
+            x += 0.06
+        P.box(felt, ((x0 + x1) / 2, y - sgn * 0.005, H / 2), (x1 - x0, 0.01, H))
+        P.box(M["rubber"], ((x0 + x1) / 2, y - sgn * 0.02, 0.05), (x1 - x0, 0.03, 0.1))
+    # the aisle face, cut at each mouth
+    cuts = sorted([(dx - half - 0.02, dx + half + 0.02) for dx in drums]); xa = -L / 2
+    for a_, b_ in cuts + [(L / 2, L / 2)]:
+        if a_ - xa > 0.05:
+            flutes_x(xa, a_, D / 2, 1)
+        xa = b_
+    # the end faces
+    for sx in (-1, 1):
+        y = -D / 2 + 0.03
+        while y < D / 2 - 0.02:
+            P.box(oak, (sx * (L / 2 + 0.0125), y, 0.1 + (H - 0.1) / 2), (0.025, 0.035, H - 0.1))
+            y += 0.06
+        P.box(felt, (sx * (L / 2 - 0.005), 0, H / 2), (0.01, D, H))
+    for sx_ in slots:  # towel returns: a slot in the aisle face, a black chute behind
+        P.box(felt, (sx_, D / 2 + 0.03, 0.95), (0.6, 0.012, 0.16))
+        P.box(M["brass"], (sx_, D / 2 + 0.032, 1.06), (0.12, 0.004, 0.012))
+    for dx in drums:
+        ym = math.sqrt(r_in * r_in - half * half)  # where the mouth meets the inner circle
+        for sx in (-1, 1):  # the mouth's reveals
+            P.box(oak, (dx + sx * (half + 0.01), (ym + D / 2) / 2, H / 2), (0.02, D / 2 - ym, H))
+        a_m = mouth / r_in; a0 = math.pi / 2 + a_m / 2; span = 2 * math.pi - a_m
+        da = span / n
+        for k in range(n):
+            a1, a2 = a0 + k * da + 0.002, a0 + (k + 1) * da - 0.002
+            am = (a1 + a2) / 2; c = math.cos(am); s_ = math.sin(am)
+            w = 2 * r_in * math.sin((a2 - a1) / 2)
+            cx, cy = dx + r_in * c, r_in * s_
+            rz = am + math.pi / 2
+            P.box(oak, (cx - c * 0.01, cy - s_ * 0.01, 0.1 + 1.9 / 2), (w, 0.02, 1.9), rz=rz)                 # the door
+            fx, fy = cx - c * 0.021, cy - s_ * 0.021                                                           # the door's room-side face
+            P.box(felt, (fx + math.cos(rz) * (w / 2 - 0.035), fy + math.sin(rz) * (w / 2 - 0.035), 1.1), (0.014, 0.004, 0.32), rz=rz)  # pull groove
+            P.box(sensor, (fx, fy, 1.42), (0.05, 0.004, 0.05), rz=rz)                                          # the phone reader
+            P.box(M["brass"], (fx, fy, 1.6), (0.045, 0.004, 0.028), rz=rz)                                     # its number
+            P.box(M["rubber"], (cx + c * 0.02, cy + s_ * 0.02, 0.05), (w + 0.004, 0.02, 0.1), rz=rz)          # shadow plinth
+        P.ring(oak, (dx, 0), r_in - 0.02, r_in + 0.01, 2.02, H, a0=math.degrees(a0), a1=math.degrees(a0 + span), seg=120)
+
+
+def round_seat(P, d=0.6):
+    """The round seat in a locker room: a turned walnut drum, a thick oat wool cushion, seat height 0.45."""
+    P.cyl(M["walnut"], (0, 0, 0.02), d / 2 - 0.04, 0.34, seg=48)
+    P.cyl(M["rubber"], (0, 0, 0.0), d / 2 - 0.06, 0.02, seg=48)
+    P.cyl(M["boucle"], (0, 0, 0.36), d / 2, 0.09, seg=48)
+
+
+def wall_waterfall(P, L=1.6, d=0.3, h=3.18):
+    """A wall waterfall (Roman: water flowing over the face of the wall from the ceiling, plants at the bottom; static for now): a
+    face of cleft dark slate in a blackened-steel frame, a sheet of water running down it from a slot in a steel head at the ceiling
+    into a catch channel at the foot; in front of the channel an empty planter trough of honed granite with its soil, waiting for the
+    plants (they come at the very end). Origin = the unit's centre on the floor, -y = the wall."""
+    sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
+    film = M.get("water_running")
+    if film is None:
+        film = bc.material("water_running", (0.05, 0.06, 0.06), 0.01, alpha=0.12)
+        N_, L_ = film.node_tree.nodes, film.node_tree.links
+        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 60.0
+        wv.inputs["Distortion"].default_value = 14.0; wv.inputs["Detail"].default_value = 8.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 1.0; bp_.inputs["Distance"].default_value = 0.004
+        L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
+        M["water_running"] = film
+    st = M["steel"]; yb = -d / 2
+    # the cleft slate face: vertical slabs, each a little proud or shy, full height
+    rng = np.random.default_rng(int(L * 1000))
+    x = -L / 2 + 0.04
+    while x < L / 2 - 0.05:
+        w = float(min(rng.uniform(0.16, 0.32), L / 2 - 0.04 - x))
+        dd = float(rng.uniform(0.03, 0.05))
+        _rough_block(P, sl, (x + w / 2, yb + 0.01 + dd / 2, 0.2 + (h - 0.3) / 2), (w - 0.004, dd, h - 0.3), amp=0.004, seed=x * 7, cuts=4)
+        x += w
+    P.box(film, (0, yb + 0.07, 0.2 + (h - 0.3) / 2), (L - 0.1, 0.003, h - 0.3))           # the water sheet over the stone
+    for sx in (-1, 1):
+        P.box(st, (sx * (L / 2 - 0.02), yb + 0.05, h / 2), (0.04, 0.1, h))                    # the frame
+    P.box(st, (0, yb + 0.06, h - 0.05), (L, 0.12, 0.1))                                     # the head, its slot at the ceiling
+    P.box(M["felt"], (0, yb + 0.115, h - 0.105), (L - 0.12, 0.012, 0.01))
+    P.box(st, (0, yb + 0.085, 0.09), (L - 0.08, 0.06, 0.18))                                # the catch channel
+    P.box(film, (0, yb + 0.085, 0.181), (L - 0.12, 0.04, 0.002))
+    gr = _honed_granite(); pd = d - 0.12                                                    # the planter (empty: plants later)
+    P.box(gr, (0, yb + 0.12 + pd / 2, 0.21), (L - 0.04, pd, 0.42))
+    soil = M.setdefault("planter_soil", bc.material("planter_soil", (0.05, 0.035, 0.025), 0.95))
+    P.box(soil, (0, yb + 0.12 + pd / 2, 0.405), (L - 0.1, pd - 0.05, 0.02))
+    P.box(M["opal"], (0, yb + 0.12, h - 0.115), (L - 0.12, 0.012, 0.006))                 # a light under the head grazing the water
+
+
+def grooming_bar(P, L=2.4):
+    """The grooming bar on the dry side: a 40 mm oak counter at 0.86 on blackened-steel brackets, a full-width mirror in a slim oak
+    frame, two wall-holstered hair dryers, a brass shelf rail with tissues, sockets, a waste bin underneath."""
+    oak, st = M["oak"], M["steel"]
+    P.box(oak, (0, 0.25, 0.84), (L, 0.5, 0.04))
+    for x in (-L / 2 + 0.2, 0.0, L / 2 - 0.2):
+        P.box(st, (x, 0.2, 0.7), (0.03, 0.4, 0.24))
+    P.box(oak, (0, 0.02, 1.55), (L, 0.03, 1.2))
+    P.box(M["mirror"], (0, 0.037, 1.55), (L - 0.06, 0.004, 1.14))
+    P.rod(M["brass"], (-L / 2 + 0.1, 0.12, 0.95), (L / 2 - 0.1, 0.12, 0.95), 0.008, seg=10)
+    for x in (-L / 4, L / 4):
+        P.box(st, (x, 0.08, 1.1), (0.09, 0.09, 0.14))                                       # holster
+        P.rod(M["ceramic"], (x, 0.09, 1.17), (x, 0.2, 1.21), 0.035, seg=16)                 # the dryer
+        P.box(M["ceramic"], (x + 0.12, 0.04, 0.98), (0.08, 0.01, 0.05))                     # socket
+    P.box(M["ceramic"], (0, 0.14, 0.9), (0.24, 0.12, 0.08))                                 # tissues
+    P.cyl(st, (L / 2 - 0.3, 0.25, 0.0), 0.13, 0.42, seg=24)                                  # bin
+
+
+def shoe_cubbies(P, L=2.0, h=1.6, d=0.35):
+    """Shoe cubbies at the shoes-off line: an open oak grid, cells 330 x 250, a few pairs of shoes in them."""
+    oak = M["oak"]
+    nc = max(1, int(L / 0.33)); cw = L / nc; nr = int(h / 0.25)
+    for i in range(nc + 1):
+        P.box(oak, (-L / 2 + i * cw, d / 2, h / 2), (0.018, d, h))
+    for j in range(nr + 1):
+        P.box(oak, (0, d / 2, j * h / nr), (L, d, 0.018))
+    P.box(oak, (0, 0.009, h / 2), (L, 0.018, h))
+    rng = np.random.default_rng(3)
+    for i in range(nc):
+        for j in range(nr):
+            if rng.random() < 0.4:
+                x0 = -L / 2 + (i + 0.5) * cw; z0 = j * h / nr + 0.01
+                c = M["felt_" + COLOURS[int(rng.integers(0, 5))]]
+                for sx in (-0.06, 0.06):
+                    P.box(c, (x0 + sx, d / 2 + 0.02, z0 + 0.04), (0.09, 0.26, 0.08))
+
+
+def towel_shelf(P, L=1.0, h=1.8):
+    """Fresh towels: an open oak shelf, stacks of folded white towels."""
+    oak = M["oak"]; d = 0.42
+    for x in (-L / 2, L / 2):
+        P.box(oak, (x, d / 2, h / 2), (0.022, d, h))
+    towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
+    for k in range(5):
+        z = 0.12 + k * 0.38
+        P.box(oak, (0, d / 2, z), (L, d, 0.022))
+        if k < 4:
+            for sx in (-0.25, 0.0, 0.25):
+                if abs(sx) < L / 2 - 0.1:
+                    P.box(towel, (sx, d / 2, z + 0.012 + 0.11), (0.24, 0.32, 0.22))
+
+
+def uvc_plate(P, L=1.5, D=0.9):
+    """UV-C sole plate: walk over it and your soles are sanitised; a blackened-steel frame flush with the floor, ribbed dark glass,
+    a faint violet glow (UV-C itself is invisible)."""
+    P.box(M["steel"], (0, 0, -0.004), (L, D, 0.008))
+    glow = M.setdefault("uvc_glow", bc.material("uvc_glow", (0.02, 0.01, 0.04), 0.1, emit=((0.4, 0.25, 1.0), 0.6)))
+    P.box(glow, (0, 0, 0.0005), (L - 0.06, D - 0.06, 0.002))
+    for k in range(int((L - 0.1) / 0.06)):
+        P.box(M["sensor_glass"] if "sensor_glass" in M else M["felt"], (-L / 2 + 0.06 + k * 0.06, 0, 0.0018), (0.012, D - 0.08, 0.001))
+
+
+def auto_door(P, w=1.0, h=2.1):
+    """The WC room's door: hands-free (hygiene), a 40 mm fluted oak leaf sliding in front of the wall on a concealed track, a
+    blackened-steel head box with the motion sensor; shut here."""
+    oak = M["oak"]
+    P.box(M["felt"], (0, 0.03, h / 2), (w + 0.06, 0.01, h))
+    x = -w / 2 - 0.03 + 0.03
+    while x < w / 2 + 0.03:
+        P.box(oak, (x, 0.05, h / 2), (0.035, 0.03, h - 0.01))
+        x += 0.05
+    P.box(M["steel"], (0, 0.06, h + 0.06), (w * 2 + 0.2, 0.08, 0.12))
+    P.box(M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08)), (0, 0.101, h + 0.05), (0.08, 0.003, 0.03))
+    P.box(M["brass"], (w / 2 - 0.08, 0.068, 1.05), (0.02, 0.008, 0.3))
 
 
 
@@ -3199,7 +3318,9 @@ BUILDERS = {
     "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
     "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
     "blanket_basket": blanket_basket, "ir_heater": ir_heater, "gate_release": gate_release, "slide_wall": slide_wall, "kilden": kilden,
-    "linear_light": linear_light, "floor_grazer": floor_grazer, "stream_channel": stream_channel, "oculus": oculus, "pool_basin": pool_basin,
+    "linear_light": linear_light, "floor_grazer": floor_grazer, "oculus": oculus,
+    "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
+    "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -3220,7 +3341,9 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "laksetrappa": ("rails", "rungs", "cables", "fish"), "glass_floor": ("depth",), "speed_gates": ("cabs", "lanes", "open_"),
           "glass_fence": ("length",), "floor_strip": ("length", "w", "style"), "bridge_bench": ("length",), "deck_sofa": ("length",),
           "deck_table": ("d", "h"), "ir_heater": ("z_top",), "slide_wall": ("length", "rise", "n", "state", "head"), "linear_light": ("length", "z_ceiling"),
-          "floor_grazer": ("length",), "stream_channel": ("pts", "width"), "oculus": ("r", "z_ceiling")}
+          "floor_grazer": ("length",), "oculus": ("r", "z_ceiling"),
+          "locker_hall": ("length", "D", "drums", "r_in", "r_out", "mouth", "n", "slots"), "round_seat": ("d",), "wall_waterfall": ("length", "d"),
+          "grooming_bar": ("length",), "shoe_cubbies": ("length",), "towel_shelf": ("length",), "uvc_plate": ("length", "D"), "auto_door": ("w", "h")}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -3238,7 +3361,8 @@ def build_all(model, MAT, coll):
                 if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
                             "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
                             "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
-                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer") and k == "length":
+                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer",
+                            "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"
