@@ -3488,6 +3488,7 @@ def shower_cell(P, w=1.1, d=2.1, h=2.6, open_door=False, accessible=False):
         P.rod(st, (w / 2 - 0.035, yb - 0.15 + k * 0.3, 1.65), (w / 2 - 0.09, yb - 0.15 + k * 0.3, 1.65), 0.008, seg=8)  # hooks
     dw = 1.0 if accessible else 0.75
     fz = d - 0.02
+    P.box(_led("plinth_glow", (1.0, 0.72, 0.42), 2.5), (0, fz + 0.03, 0.004), (w - 0.06, 0.012, 0.008))  # a warm line at the foot
     for xa_, xb_ in ((-w / 2 + 0.03, -dw / 2 - 0.003), (dw / 2 + 0.003, w / 2 - 0.03)):  # the oak front beside the door
         if xb_ - xa_ > 0.02:
             x = xa_ + 0.015
@@ -3518,7 +3519,20 @@ def fossen(P, w=2.4, d=2.1, h=2.6):
     for sx in (-1, 1):  # a shallow recess: open to the aisle
         P.box(tile, (sx * (w / 2 - 0.015), 0.65, h / 2), (0.03, 1.3, h))
     P.box(st, (-0.35, 0.09, 2.3), (1.0, 0.12, 0.03))                                     # the pouring lip
-    P.box(film, (-0.35, 0.16, 1.2), (0.95, 0.004, 2.2))                                 # the sheet of water falling from it
+    fall = M.get("water_fall2")
+    if fall is None:  # real water: transmissive, IOR 1.33, streaked; it bends the slate behind it and catches the light
+        fall = bc.material("water_fall2", (0.95, 0.97, 0.98), 0.03)
+        bsdf = fall.node_tree.nodes["Principled BSDF"]
+        bsdf.inputs["Transmission Weight"].default_value = 1.0; bsdf.inputs["IOR"].default_value = 1.33
+        M["water_fall2"] = fall
+    N_, L_ = fall.node_tree.nodes, fall.node_tree.links
+    if not any(n.type == "TEX_WAVE" for n in N_):  # streaks running down the sheet
+        tc_ = N_.new("ShaderNodeTexCoord"); wv = N_.new("ShaderNodeTexWave"); wv.bands_direction = "X"; wv.inputs["Scale"].default_value = 40.0
+        wv.inputs["Distortion"].default_value = 6.0; L_.new(tc_.outputs["Object"], wv.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.8
+        L_.new(wv.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
+    P.box(fall, (-0.35, 0.16, 1.15), (0.95, 0.006, 2.3))                                 # the sheet of water falling from it
+    P.box(film, (-0.35, 0.2, 0.004), (1.0, 0.25, 0.002))                                 # where it lands, the floor is wet
     P.box(st, (0.55, 0.9, 2.45), (0.6, 0.6, 0.02))                                      # rain head
     P.rod(st, (0.55, 0.9, 2.46), (0.55, 0.9, h), 0.015, seg=10)
     P.rod(st, (w / 2 - 0.05, 0.6, 2.35), (w / 2 - 0.45, 0.6, 2.35), 0.012, seg=10)        # the cold bucket's arm
@@ -3651,7 +3665,7 @@ def towel_warmer(P, L=1.2):
 
 
 
-def water_station(P):
+def tap_station(P):
     """A water station (drink before, during, after): a recessed panel of cleft slate in a blackened-steel frame, a steel spout
     with a push plate (still, chilled, from the house filter), a slotted drain under it, an oak shelf of turned birch cups (kåsa),
     no lettering. Origin = the wall at the centre, front +y."""
@@ -3704,6 +3718,32 @@ def duckboard(P, w=1.2, d=0.8):
         P.box(M["rubber"], (sx * (w / 2 - 0.1), 0, 0.009), (0.05, d, 0.018))
 
 
+def slat_canopy(P, L=9.7, W=4.9, z=3.05, pitch=0.12, hang=1.4):
+    """An open oak slat canopy over a wash zone: 40 x 60 white-oiled oak slats at 120 along the room, two-thirds open, on blackened-
+    steel cross bearers hung from the soffit. The clerestory daylight still comes in, but filtered and dappled (light through
+    trees), and the tall wet room gets an intimate height over the bathers. Origin = the room's centre on the floor."""
+    oak, st = M["oak"], M["steel"]
+    y = -W / 2 + pitch / 2
+    while y < W / 2:
+        P.box(oak, (0, y, z + 0.03), (L - 0.04, 0.04, 0.06)); y += pitch
+    nb = max(2, int(L / 1.8)) + 1
+    for k in range(nb):
+        x = -L / 2 + 0.3 + k * (L - 0.6) / (nb - 1)
+        P.box(st, (x, 0, z + 0.075), (0.04, W - 0.04, 0.03))
+        for sy in (-1, 1):
+            P.rod(st, (x, sy * (W / 2 - 0.4), z + 0.09), (x, sy * (W / 2 - 0.4), z + 0.09 + hang), 0.005, seg=6)
+
+
+def eyelid_sconce(P, z=1.95):
+    """A small blackened-steel 'eyelid' sconce over a wash place: a hooded half-cylinder on a wall plate at 1.95, its warm light
+    falling in a pool on the shelf and the stool; nothing glares at a seated bather."""
+    st = M["steel"]
+    P.box(st, (0, 0.006, z), (0.12, 0.012, 0.16))
+    P.rod(st, (-0.07, 0.07, z + 0.03), (0.07, 0.07, z + 0.03), 0.06, seg=16)
+    P.box(M["felt"], (0, 0.07, z - 0.01), (0.13, 0.11, 0.06))
+    P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.075, z - 0.041), (0.11, 0.07, 0.002))
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -3729,7 +3769,7 @@ BUILDERS = {
     "toddler_table": toddler_table, "pictogram": pictogram, "portal_frame": portal_frame,
     "conversation_ring": conversation_ring, "boulder_table": boulder_table, "elva": elva, "towel_station": towel_station, "sanitiser": sanitiser, "recycling": recycling,
     "wall_sign": wall_sign, "exit_sign": exit_sign, "safety_point": safety_point, "ceiling_services": ceiling_services,
-    "floor_drain": floor_drain, "amenity_tray": amenity_tray, "table_setting": table_setting, "water_station": water_station,
+    "floor_drain": floor_drain, "amenity_tray": amenity_tray, "table_setting": table_setting, "water_station": water_station, "slat_canopy": slat_canopy, "eyelid_sconce": eyelid_sconce,
     "menu_board": menu_board, "high_chair": high_chair, "coat_rack": coat_rack, "floor_lamp": floor_lamp, "magazines": magazines,
     "laksetrappa": laksetrappa, "glass_floor": glass_floor, "speed_gates": speed_gates, "glass_fence": glass_fence, "floor_strip": floor_strip,
     "bridge_bench": bridge_bench, "standing_table": standing_table, "deck_sofa": deck_sofa, "deck_chair": deck_chair, "deck_table": deck_table,
@@ -3738,7 +3778,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "water_station": water_station, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -3763,7 +3803,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "locker_hall": ("length", "D", "drums", "r_in", "r_out", "mouth", "n", "slots"), "round_seat": ("d",), "wall_waterfall": ("length", "d"),
           "grooming_bar": ("length",), "shoe_cubbies": ("length",), "towel_shelf": ("length",), "uvc_plate": ("length", "D"), "auto_door": ("w", "h"),
           "shower_cell": ("w", "d", "open_door", "accessible"), "fossen": ("w", "d"), "wash_place": ("w", "d"), "stone_bench": ("length",),
-          "vaskebjorn": ("ring",), "slipper_cabinet": ("length",), "robe_wall": ("length",), "towel_warmer": ("length",)}
+          "vaskebjorn": ("ring",), "slat_canopy": ("L", "W"), "slipper_cabinet": ("length",), "robe_wall": ("length",), "towel_warmer": ("length",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 

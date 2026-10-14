@@ -17411,7 +17411,18 @@
     {"id": "auto_door-696", "kind": "auto_door", "level": "F1", "at": [-13.5, -4.095], "z": 0.0, "rot_deg": 0, "zone": "lockers", "w": 1.0, "h": 2.1, "note": "the WC room door: hands-free automatic sliding"},
     {"id": "auto_door-697", "kind": "auto_door", "level": "F1", "at": [-13.5, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "w": 1.0, "h": 2.1, "note": "the WC room door: hands-free automatic sliding"},
     {
-      "id": "fossen-698",
+      "id": "light_only-698",
+      "kind": "light_only",
+      "level": "F1",
+      "at": [-27.7, -8.975],
+      "z": 0.0,
+      "rot_deg": 0.0,
+      "zone": "wash",
+      "note": "Fossen: a narrow light grazing down the slate",
+      "light": {"type": "SPOT", "energy": 60, "spot_deg": 28, "blend": 0.6, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-27.7, -9.185, 0.0], "color": [1.0, 0.76, 0.5]}
+    },
+    {
+      "id": "fossen-699",
       "kind": "fossen",
       "level": "F1",
       "at": [-28.05, -9.225],
@@ -17421,10 +17432,10 @@
       "w": 2.4,
       "d": 2.1,
       "note": "Fossen: the experience shower",
-      "light": {"type": "AREA", "energy": 30, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-28.400000000000002, -9.075, 0.3], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 55, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-28.400000000000002, -9.075, 0.3], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "shower_cell-699",
+      "id": "shower_cell-700",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-26.293, -9.225],
@@ -17439,7 +17450,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-700",
+      "id": "shower_cell-701",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-25.178, -9.225],
@@ -17454,7 +17465,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-701",
+      "id": "shower_cell-702",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-24.062, -9.225],
@@ -17469,7 +17480,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-702",
+      "id": "shower_cell-703",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-22.948, -9.225],
@@ -17484,7 +17495,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-703",
+      "id": "shower_cell-704",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-21.833, -9.225],
@@ -17499,7 +17510,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-704",
+      "id": "shower_cell-705",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-20.375, -9.225],
@@ -17513,15 +17524,71 @@
       "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.9450000000000001, 2.5], "color": [1.0, 0.76, 0.5]},
       "note": "private shower, accessible"
     },
-    {"id": "wash_place-705", "kind": "wash_place", "level": "F1", "at": [-28.645, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
-    {"id": "wash_place-706", "kind": "wash_place", "level": "F1", "at": [-27.435, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
-    {"id": "wash_place-707", "kind": "wash_place", "level": "F1", "at": [-24.48, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
-    {"id": "wash_place-708", "kind": "wash_place", "level": "F1", "at": [-23.38, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
-    {"id": "vanity-709", "kind": "vanity", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
-    {"id": "robot_dock-710", "kind": "robot_dock", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
-    {"id": "vaskebjorn-711", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, -6.5], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {"id": "wash_place-706", "kind": "wash_place", "level": "F1", "at": [-28.645, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
     {
-      "id": "fossen-712",
+      "id": "eyelid_sconce-707",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-28.645, -4.275],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-28.645, -4.7250000000000005, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-708", "kind": "wash_place", "level": "F1", "at": [-27.435, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-709",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-27.435, -4.275],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-27.435, -4.7250000000000005, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-710", "kind": "wash_place", "level": "F1", "at": [-24.48, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-711",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-24.48, -4.275],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-24.48, -4.7250000000000005, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-712", "kind": "wash_place", "level": "F1", "at": [-23.38, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "w": 0.9, "d": 1.0, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-713",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-23.38, -4.275],
+      "z": 0.0,
+      "rot_deg": 180,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-23.38, -4.7250000000000005, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "slat_canopy-714", "kind": "slat_canopy", "level": "F1", "at": [-24.363, -6.75], "z": 0.0, "rot_deg": 0.0, "zone": "wash", "L": 9.7, "W": 4.89, "note": "open oak canopy: filtered daylight"},
+    {"id": "vanity-715", "kind": "vanity", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
+    {"id": "robot_dock-716", "kind": "robot_dock", "level": "F1", "at": [-20.253, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
+    {"id": "vaskebjorn-717", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, -6.5], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {
+      "id": "light_only-718",
+      "kind": "light_only",
+      "level": "F1",
+      "at": [-28.4, 11.65],
+      "z": 0.0,
+      "rot_deg": 0.0,
+      "zone": "wash",
+      "note": "Fossen: a narrow light grazing down the slate",
+      "light": {"type": "SPOT", "energy": 60, "spot_deg": 28, "blend": 0.6, "radius": 0.02, "offset": [0, 0, 2.55], "aim": [-28.400000000000002, 11.860000000000001, 0.0], "color": [1.0, 0.76, 0.5]}
+    },
+    {
+      "id": "fossen-719",
       "kind": "fossen",
       "level": "F1",
       "at": [-28.05, 11.9],
@@ -17531,10 +17598,10 @@
       "w": 2.4,
       "d": 1.9,
       "note": "Fossen: the experience shower",
-      "light": {"type": "AREA", "energy": 30, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-27.7, 11.75, 0.3], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 55, "size": 0.9, "size_y": 0.05, "offset": [-0.35, 0.25, 2.28], "aim": [-27.7, 11.75, 0.3], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "shower_cell-713",
+      "id": "shower_cell-720",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-26.293, 11.9],
@@ -17549,7 +17616,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-714",
+      "id": "shower_cell-721",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-25.178, 11.9],
@@ -17564,7 +17631,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-715",
+      "id": "shower_cell-722",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-24.062, 11.9],
@@ -17579,7 +17646,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-716",
+      "id": "shower_cell-723",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-22.948, 11.9],
@@ -17594,7 +17661,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-717",
+      "id": "shower_cell-724",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-21.833, 11.9],
@@ -17609,7 +17676,7 @@
       "note": "private shower"
     },
     {
-      "id": "shower_cell-718",
+      "id": "shower_cell-725",
       "kind": "shower_cell",
       "level": "F1",
       "at": [-20.375, 11.9],
@@ -17623,15 +17690,60 @@
       "light": {"type": "POINT", "energy": 10, "radius": 0.05, "offset": [0, 0.855, 2.5], "color": [1.0, 0.76, 0.5]},
       "note": "private shower, accessible"
     },
-    {"id": "wash_place-719", "kind": "wash_place", "level": "F1", "at": [-28.645, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
-    {"id": "wash_place-720", "kind": "wash_place", "level": "F1", "at": [-27.435, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
-    {"id": "wash_place-721", "kind": "wash_place", "level": "F1", "at": [-24.48, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
-    {"id": "wash_place-722", "kind": "wash_place", "level": "F1", "at": [-23.38, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
-    {"id": "vanity-723", "kind": "vanity", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
-    {"id": "robot_dock-724", "kind": "robot_dock", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
-    {"id": "vaskebjorn-725", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, 9.2], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {"id": "wash_place-726", "kind": "wash_place", "level": "F1", "at": [-28.645, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
     {
-      "id": "wc_run-726",
+      "id": "eyelid_sconce-727",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-28.645, 7.725],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-28.645, 8.174999999999999, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-728", "kind": "wash_place", "level": "F1", "at": [-27.435, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-729",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-27.435, 7.725],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-27.435, 8.174999999999999, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-730", "kind": "wash_place", "level": "F1", "at": [-24.48, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-731",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-24.48, 7.725],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-24.48, 8.174999999999999, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "wash_place-732", "kind": "wash_place", "level": "F1", "at": [-23.38, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "w": 0.9, "d": 0.85, "note": "onsen wash place"},
+    {
+      "id": "eyelid_sconce-733",
+      "kind": "eyelid_sconce",
+      "level": "F1",
+      "at": [-23.38, 7.725],
+      "z": 0.0,
+      "rot_deg": 0,
+      "zone": "wash",
+      "note": "a pool of warm light on the wash place",
+      "light": {"type": "SPOT", "energy": 14, "spot_deg": 60, "blend": 0.8, "radius": 0.03, "offset": [0, 0.1, 1.9], "aim": [-23.38, 8.174999999999999, 0.4], "color": [1.0, 0.76, 0.5]}
+    },
+    {"id": "slat_canopy-734", "kind": "slat_canopy", "level": "F1", "at": [-24.363, 9.812], "z": 0.0, "rot_deg": 0.0, "zone": "wash", "L": 9.7, "W": 4.115, "note": "open oak canopy: filtered daylight"},
+    {"id": "vanity-735", "kind": "vanity", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "length": 1.3, "n": 1, "note": "vanity: a stone trough + mirror"},
+    {"id": "robot_dock-736", "kind": "robot_dock", "level": "F1", "at": [-20.253, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wash", "note": "Vaskebjørn's garage under the vanity"},
+    {"id": "vaskebjorn-737", "kind": "vaskebjorn", "level": "F1", "at": [-24.6, 9.2], "z": 0.0, "rot_deg": -20, "zone": "wash", "ring": "fjord", "note": "Vaskebjørn (wash zone)"},
+    {
+      "id": "wc_run-738",
       "kind": "wc_run",
       "level": "F1",
       "at": [-14.662, -9.225],
@@ -17645,7 +17757,7 @@
       "note": "WC cells: fluted oak, outward doors, the accessible WC"
     },
     {
-      "id": "wc_run-727",
+      "id": "wc_run-739",
       "kind": "wc_run",
       "level": "F1",
       "at": [-18.75, -4.275],
@@ -17656,18 +17768,18 @@
       "depth": 0.6,
       "note": "cleaner's cupboard"
     },
-    {"id": "robot_dock-728", "kind": "robot_dock", "level": "F1", "at": [-18.0, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
-    {"id": "vanity-729", "kind": "vanity", "level": "F1", "at": [-11.675, -5.65], "z": 0.0, "rot_deg": 90, "zone": "wc", "length": 2.2, "n": 3, "note": "handwash, before you leave"},
-    {"id": "towel_station-730", "kind": "towel_station", "level": "F1", "at": [-11.675, -7.1], "z": 0.0, "rot_deg": 90, "zone": "wc"},
-    {"id": "slipper_cabinet-731", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
-    {"id": "far_uvc-732", "kind": "far_uvc", "level": "F1", "at": [-17.0, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
-    {"id": "far_uvc-733", "kind": "far_uvc", "level": "F1", "at": [-13.2, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
-    {"id": "vaskebjorn-734", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, -6.6], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
-    {"id": "urinals-735", "kind": "urinals", "level": "F1", "at": [-19.325, -7.875], "z": 0.0, "rot_deg": -90, "zone": "wc", "n": 3, "pitch": 0.8, "note": "the urinal room: Nautilus urinals + oak screens"},
-    {"id": "floor_drain-736", "kind": "floor_drain", "level": "F1", "at": [-18.5, -8.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
-    {"id": "floor_drain-737", "kind": "floor_drain", "level": "F1", "at": [-15.8, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "robot_dock-740", "kind": "robot_dock", "level": "F1", "at": [-18.0, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
+    {"id": "vanity-741", "kind": "vanity", "level": "F1", "at": [-11.675, -5.65], "z": 0.0, "rot_deg": 90, "zone": "wc", "length": 2.2, "n": 3, "note": "handwash, before you leave"},
+    {"id": "towel_station-742", "kind": "towel_station", "level": "F1", "at": [-11.675, -7.1], "z": 0.0, "rot_deg": 90, "zone": "wc"},
+    {"id": "slipper_cabinet-743", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, -4.275], "z": 0.0, "rot_deg": 180, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
+    {"id": "far_uvc-744", "kind": "far_uvc", "level": "F1", "at": [-17.0, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "far_uvc-745", "kind": "far_uvc", "level": "F1", "at": [-13.2, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "vaskebjorn-746", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, -6.6], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
+    {"id": "urinals-747", "kind": "urinals", "level": "F1", "at": [-19.325, -7.875], "z": 0.0, "rot_deg": -90, "zone": "wc", "n": 3, "pitch": 0.8, "note": "the urinal room: Nautilus urinals + oak screens"},
+    {"id": "floor_drain-748", "kind": "floor_drain", "level": "F1", "at": [-18.5, -8.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "floor_drain-749", "kind": "floor_drain", "level": "F1", "at": [-15.8, -6.4], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
     {
-      "id": "wc_run-738",
+      "id": "wc_run-750",
       "kind": "wc_run",
       "level": "F1",
       "at": [-15.5, 11.9],
@@ -17681,7 +17793,7 @@
       "note": "WC cells: fluted oak, outward doors, the accessible WC"
     },
     {
-      "id": "wc_run-739",
+      "id": "wc_run-751",
       "kind": "wc_run",
       "level": "F1",
       "at": [-12.338, 7.725],
@@ -17692,16 +17804,16 @@
       "depth": 0.6,
       "note": "cleaner's cupboard"
     },
-    {"id": "robot_dock-740", "kind": "robot_dock", "level": "F1", "at": [-13.088, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
-    {"id": "vanity-741", "kind": "vanity", "level": "F1", "at": [-17.3, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 3.4, "n": 4, "note": "handwash, before you leave"},
-    {"id": "towel_station-742", "kind": "towel_station", "level": "F1", "at": [-15.25, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc"},
-    {"id": "slipper_cabinet-743", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
-    {"id": "far_uvc-744", "kind": "far_uvc", "level": "F1", "at": [-17.0, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
-    {"id": "far_uvc-745", "kind": "far_uvc", "level": "F1", "at": [-13.2, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
-    {"id": "vaskebjorn-746", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, 9.2], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
-    {"id": "floor_drain-747", "kind": "floor_drain", "level": "F1", "at": [-15.8, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "robot_dock-752", "kind": "robot_dock", "level": "F1", "at": [-13.088, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "note": "Vaskebjørn's dock: a floor flap into the cleaner's cupboard"},
+    {"id": "vanity-753", "kind": "vanity", "level": "F1", "at": [-17.3, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 3.4, "n": 4, "note": "handwash, before you leave"},
+    {"id": "towel_station-754", "kind": "towel_station", "level": "F1", "at": [-15.25, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc"},
+    {"id": "slipper_cabinet-755", "kind": "slipper_cabinet", "level": "F1", "at": [-14.7, 7.725], "z": 0.0, "rot_deg": 0, "zone": "wc", "length": 1.0, "note": "toilet slippers in a UV-C cabinet"},
+    {"id": "far_uvc-756", "kind": "far_uvc", "level": "F1", "at": [-17.0, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "far_uvc-757", "kind": "far_uvc", "level": "F1", "at": [-13.2, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
+    {"id": "vaskebjorn-758", "kind": "vaskebjorn", "level": "F1", "at": [-16.2, 9.2], "z": 0.0, "rot_deg": 30, "zone": "wc", "ring": "lingon", "note": "Vaskebjørn (WC room)"},
+    {"id": "floor_drain-759", "kind": "floor_drain", "level": "F1", "at": [-15.8, 9.0], "z": 0.0, "rot_deg": 0.0, "zone": "wc"},
     {
-      "id": "robe_wall-748",
+      "id": "robe_wall-760",
       "kind": "robe_wall",
       "level": "F1",
       "at": [-35.325, 1.5],
@@ -17712,12 +17824,12 @@
       "note": "robes + sandals",
       "light": {"type": "AREA", "energy": 25, "size": 0.05, "size_y": 4.2, "offset": [0, 0.35, 2.85], "aim": [-35.2, 1.5, 1.0], "color": [1.0, 0.76, 0.5]}
     },
-    {"id": "towel_warmer-749", "kind": "towel_warmer", "level": "F1", "at": [-31.0, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "length": 1.2},
-    {"id": "bench-750", "kind": "bench", "level": "F1", "at": [-32.6, -1.075], "z": 0.0, "rot_deg": 0, "zone": "lobby", "length": 2.4},
-    {"id": "glass_door-751", "kind": "glass_door", "level": "F1", "at": [-33.65, 4.5], "z": 0.0, "rot_deg": 0, "zone": "lobby", "width": 1.0, "height": 2.2, "note": "out to the sauna path"},
-    {"id": "duckboard-752", "kind": "duckboard", "level": "F1", "at": [-33.65, 3.85], "z": 0.0, "rot_deg": 0.0, "zone": "lobby", "note": "oak duckboard at the sauna door"},
+    {"id": "towel_warmer-761", "kind": "towel_warmer", "level": "F1", "at": [-31.0, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "length": 1.2},
+    {"id": "bench-762", "kind": "bench", "level": "F1", "at": [-32.6, -1.075], "z": 0.0, "rot_deg": 0, "zone": "lobby", "length": 2.4},
+    {"id": "glass_door-763", "kind": "glass_door", "level": "F1", "at": [-33.65, 4.5], "z": 0.0, "rot_deg": 0, "zone": "lobby", "width": 1.0, "height": 2.2, "note": "out to the sauna path"},
+    {"id": "duckboard-764", "kind": "duckboard", "level": "F1", "at": [-33.65, 3.85], "z": 0.0, "rot_deg": 0.0, "zone": "lobby", "note": "oak duckboard at the sauna door"},
     {
-      "id": "log_store-753",
+      "id": "log_store-765",
       "kind": "log_store",
       "level": "F1",
       "at": [-30.35, -1.375],
@@ -17727,11 +17839,11 @@
       "note": "birch for the sauna stove, ladle + bucket",
       "light": {"type": "AREA", "energy": 15, "size": 1.0, "size_y": 0.05, "offset": [0, 0.4, 2.8], "aim": [-30.35, -1.2, 1.0], "color": [1.0, 0.76, 0.5]}
     },
-    {"id": "water_station-754", "kind": "water_station", "level": "F1", "at": [-32.4, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "note": "water after the sauna"},
-    {"id": "water_station-755", "kind": "water_station", "level": "F1", "at": [-16.6, -4.095], "z": 0.0, "rot_deg": 0.0, "zone": "lockers", "note": "water in the men's changing room"},
-    {"id": "water_station-756", "kind": "water_station", "level": "F1", "at": [-16.6, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "note": "water in the women's changing room"},
+    {"id": "tap_station-766", "kind": "tap_station", "level": "F1", "at": [-32.4, 4.375], "z": 0.0, "rot_deg": 180, "zone": "lobby", "note": "water after the sauna"},
+    {"id": "tap_station-767", "kind": "tap_station", "level": "F1", "at": [-16.6, -4.095], "z": 0.0, "rot_deg": 0.0, "zone": "lockers", "note": "water in the men's changing room"},
+    {"id": "tap_station-768", "kind": "tap_station", "level": "F1", "at": [-16.6, 7.545], "z": 0.0, "rot_deg": 180, "zone": "lockers", "note": "water in the women's changing room"},
     {
-      "id": "oculus-757",
+      "id": "oculus-769",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, -0.45],
@@ -17744,7 +17856,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-758",
+      "id": "oculus-770",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, -0.45],
@@ -17757,7 +17869,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-759",
+      "id": "oculus-771",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, -0.45],
@@ -17770,7 +17882,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-760",
+      "id": "oculus-772",
       "kind": "oculus",
       "level": "F1",
       "at": [-24.913, 3.45],
@@ -17783,7 +17895,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-761",
+      "id": "oculus-773",
       "kind": "oculus",
       "level": "F1",
       "at": [-20.738, 3.45],
@@ -17796,7 +17908,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "oculus-762",
+      "id": "oculus-774",
       "kind": "oculus",
       "level": "F1",
       "at": [-16.562, 3.45],
@@ -17809,7 +17921,7 @@
       "note": "oculus over a round locker room (zen: a soft warm glow)"
     },
     {
-      "id": "cell_light-763",
+      "id": "cell_light-775",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -3.5],
@@ -17820,7 +17932,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-764",
+      "id": "cell_light-776",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, -3.5],
@@ -17831,7 +17943,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-765",
+      "id": "cell_light-777",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, -3.5],
@@ -17842,7 +17954,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-766",
+      "id": "cell_light-778",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, -3.5],
@@ -17853,7 +17965,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-767",
+      "id": "cell_light-779",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, -3.5],
@@ -17864,7 +17976,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-768",
+      "id": "cell_light-780",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, -3.5],
@@ -17875,7 +17987,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-769",
+      "id": "cell_light-781",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, -3.5],
@@ -17886,7 +17998,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, -3.5, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-770",
+      "id": "cell_light-782",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, -1.0],
@@ -17897,7 +18009,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, -1.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-771",
+      "id": "cell_light-783",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 0.3],
@@ -17908,7 +18020,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 0.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-772",
+      "id": "cell_light-784",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 6.3],
@@ -17919,7 +18031,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-773",
+      "id": "cell_light-785",
       "kind": "cell_light",
       "level": "F1",
       "at": [-25.4, 6.3],
@@ -17930,7 +18042,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-25.4, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-774",
+      "id": "cell_light-786",
       "kind": "cell_light",
       "level": "F1",
       "at": [-22.8, 6.3],
@@ -17941,7 +18053,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-22.8, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-775",
+      "id": "cell_light-787",
       "kind": "cell_light",
       "level": "F1",
       "at": [-20.2, 6.3],
@@ -17952,7 +18064,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-20.2, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-776",
+      "id": "cell_light-788",
       "kind": "cell_light",
       "level": "F1",
       "at": [-17.6, 6.3],
@@ -17963,7 +18075,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-17.6, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-777",
+      "id": "cell_light-789",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.0, 6.3],
@@ -17974,7 +18086,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-15.0, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-778",
+      "id": "cell_light-790",
       "kind": "cell_light",
       "level": "F1",
       "at": [-12.9, 6.3],
@@ -17985,7 +18097,7 @@
       "light": {"type": "SPOT", "energy": 5, "spot_deg": 45, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-12.9, 6.3, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-779",
+      "id": "cell_light-791",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 2.6],
@@ -17996,7 +18108,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 2.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-780",
+      "id": "cell_light-792",
       "kind": "cell_light",
       "level": "F1",
       "at": [-28.0, 3.9],
@@ -18007,7 +18119,7 @@
       "light": {"type": "SPOT", "energy": 9, "spot_deg": 50, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 3.1], "aim": [-28.0, 3.9, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-781",
+      "id": "cell_light-793",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -5.4],
@@ -18018,7 +18130,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-782",
+      "id": "cell_light-794",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, -7.6],
@@ -18029,7 +18141,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-783",
+      "id": "cell_light-795",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -5.4],
@@ -18040,7 +18152,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-784",
+      "id": "cell_light-796",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, -7.6],
@@ -18051,7 +18163,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-785",
+      "id": "cell_light-797",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -5.4],
@@ -18062,7 +18174,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -5.4, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-786",
+      "id": "cell_light-798",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, -7.6],
@@ -18073,7 +18185,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, -7.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-787",
+      "id": "cell_light-799",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 8.6],
@@ -18084,7 +18196,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-788",
+      "id": "cell_light-800",
       "kind": "cell_light",
       "level": "F1",
       "at": [-18.4, 10.6],
@@ -18095,7 +18207,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-18.4, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-789",
+      "id": "cell_light-801",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 8.6],
@@ -18106,7 +18218,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-790",
+      "id": "cell_light-802",
       "kind": "cell_light",
       "level": "F1",
       "at": [-15.8, 10.6],
@@ -18117,7 +18229,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-15.8, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-791",
+      "id": "cell_light-803",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 8.6],
@@ -18128,7 +18240,7 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 8.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-792",
+      "id": "cell_light-804",
       "kind": "cell_light",
       "level": "F1",
       "at": [-13.2, 10.6],
@@ -18139,67 +18251,67 @@
       "light": {"type": "SPOT", "energy": 30, "spot_deg": 70, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.68], "aim": [-13.2, 10.6, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-793",
+      "id": "wall_light-805",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-794",
+      "id": "wall_light-806",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-795",
+      "id": "wall_light-807",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, -4.297],
       "z": 0.0,
       "rot_deg": 180,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-796",
+      "id": "wall_light-808",
       "kind": "wall_light",
       "level": "F1",
       "at": [-28.6, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-797",
+      "id": "wall_light-809",
       "kind": "wall_light",
       "level": "F1",
       "at": [-25.3, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "wall_light-798",
+      "id": "wall_light-810",
       "kind": "wall_light",
       "level": "F1",
       "at": [-20.3, 7.747],
       "z": 0.0,
       "rot_deg": 0,
       "zone": "wash",
-      "light": {"type": "AREA", "energy": 16, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
+      "light": {"type": "AREA", "energy": 7, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": null, "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-799",
+      "id": "cell_light-811",
       "kind": "cell_light",
       "level": "F1",
       "at": [-33.5, 0.0],
@@ -18210,7 +18322,7 @@
       "light": {"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8], "aim": [-33.5, 0.0, 0.0], "color": [1.0, 0.86, 0.7]}
     },
     {
-      "id": "cell_light-800",
+      "id": "cell_light-812",
       "kind": "cell_light",
       "level": "F1",
       "at": [-31.3, 3.0],
