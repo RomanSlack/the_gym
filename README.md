@@ -1,53 +1,114 @@
-# The Gym
+<h1 align="center">The Gym</h1>
 
-![Floor 1 · A-101](docs/img/banner_a101.jpg)
+<p align="center"><b>A luxury Nordic gym built into a forest ravine in Elverum, Norway.<br>Designed entirely through conversation between a person and an AI.</b></p>
 
-**A luxury Nordic gym built into a forest ravine in Elverum, Norway, designed entirely by vibe coding.** Roman describes it; Claude builds it as data, drawings and 3D, then we iterate. The building is four floors stepping down a rock ravine to below the river surface. It has a waist-high river window, a pool with underwater windows, a lounge bridge over the water, a sod-roof sauna by the stream, a drop-in daycare with a sunken garden, and a 2-mile forest loop.
+<p align="center"><img src="docs/img/readme/hero_gorge.jpg" alt="The building bridging the gorge"></p>
 
-It's also an experiment: **can a person and an AI picture the same building and get it to real, buildable quality, purely through conversation?** Every step is recorded, so the weeks of iteration can be replayed with the prompt behind each decision.
+<p align="center">
+<b>4</b> floors stepping down a rock ravine &nbsp;·&nbsp; <b>0</b> interior columns &nbsp;·&nbsp; <b>155</b> pieces of furniture and fittings designed from scratch &nbsp;·&nbsp; <b>157</b> cameras &nbsp;·&nbsp; <b>1,490</b> render versions you can replay
+</p>
 
-| | |
-|---|---|
-| ![Horizon drone](docs/img/horizon_drone.jpg) | ![In the ravine](docs/img/reference_upstream.jpg) |
-| *The site: real Kartverket terrain, parametric ravine, GPU erosion* | *In the gorge, looking upstream at the building and falls* |
-| ![River window](docs/img/f3_river_window.jpg) | ![Arrival](docs/img/arrival_eye.jpg) |
-| *Floor 3: the river at waist height on the glass* | *Arrival: an entry meadow with stepping stones, no parking lot in sight* |
-| ![Sunken garden](docs/img/garden_to_daycare.jpg) | ![Trailhead](docs/img/trailhead_sign.jpg) |
-| *The daycare's sunken play garden* | *The trailhead, with a map panel made by gpt-image-2* |
+Roman describes it; Claude builds it as data, drawings and 3D; then we iterate. Four floors step down the ravine to below the river surface:
+- a waist-high river window and a pool with underwater windows
+- a lounge bridge over the water
+- a sod-roof sauna by the stream
+- a drop-in daycare with a sunken garden
+- a 2-mile forest loop
 
-**Drawings.** A real architectural drawing set generated from the model: site plan, 5 floor plans, roof plan, 4 elevations, 3 sections and schedules, as A1 sheets at 1:200. Download the PDF set: [`docs/drawings/THE_GYM_drawing_set.pdf`](docs/drawings/THE_GYM_drawing_set.pdf).
+It's also an experiment: **can a person and an AI picture the same building and get it to real, buildable quality, purely through conversation?** Every step is recorded, so the iteration can be replayed with the prompt behind each decision.
 
-| | |
-|---|---|
-| ![Section B-B](docs/img/section_b.jpg) | ![Floor 4, dark](docs/img/plan_f4_dark.jpg) |
+## Built like a construction crew
 
-**Replay.** Scrub through every version of the design. Each one shows the prompt that caused it.
+The model is built stage by stage, the way the real thing would be. Below is the same spot in the gorge at each stage:
+
+<p align="center"><img src="docs/img/readme/build_strip.jpg" alt="Stage 0 to stage 4 from the gorge"></p>
+
+<table>
+<tr><td width="50%"><img src="docs/img/readme/aerial.jpg" alt="Aerial"></td><td width="50%"><img src="docs/img/f3_river_window.jpg" alt="River window"></td></tr>
+<tr><td><i>Sod roofs in a forest grown from real Norwegian forest data</i></td><td><i>Floor 3: the river at waist height on the glass</i></td></tr>
+<tr><td><img src="docs/img/horizon_drone.jpg" alt="Site"></td><td><img src="docs/img/arrival_eye.jpg" alt="Arrival"></td></tr>
+<tr><td><i>The site: real Kartverket terrain, a parametric ravine, GPU erosion</i></td><td><i>Arrival: an entry meadow with stepping stones, no parking lot in sight</i></td></tr>
+</table>
+
+## Inside: stage 5, the interiors
+
+Every room starts with a calm, light Nordic palette (white-oiled oak, plaster, light stone). Metal is blackened steel; brass is kept to small accents. Each room then gets its own centrepiece.
+
+### Arrival, cafe, the bridge over the river
+
+<table>
+<tr><td width="50%"><img src="docs/img/readme/rec_desk.jpg" alt="Reception"></td><td width="50%"><img src="docs/img/readme/cafe_elva.jpg" alt="Elva"></td></tr>
+<tr><td><i>Reception: a slatted oak desk under a generated oil painting</i></td><td><i>Elva: a river sculpture suspended over the cafe</i></td></tr>
+<tr><td><img src="docs/img/readme/br_glass.jpg" alt="Glass floor"></td><td><img src="docs/img/readme/deck_falls.jpg" alt="Deck"></td></tr>
+<tr><td><i>The lounge bridge: walk-on glass straight down to the river</i></td><td><i>The decks: outdoor sofas over the falls</i></td></tr>
+<tr><td><img src="docs/img/readme/br_axis.jpg" alt="Laksetrappa"></td><td><img src="docs/img/readme/gal_kilden.jpg" alt="Kilden"></td></tr>
+<tr><td><i>Laksetrappa: three "salmon ladders" of light lead into the gym</i></td><td><i>Kilden: a spring of riven slate and hewn granite at the end of the bridge</i></td></tr>
+</table>
+
+### The daycare
+
+<table>
+<tr><td width="50%"><img src="docs/img/readme/dc_loft.jpg" alt="Play loft"></td><td width="50%"><img src="docs/img/readme/dc_toddler.jpg" alt="Toddler canopy"></td></tr>
+<tr><td><i>Two floors of play under a sod roof</i></td><td><i>Kronen: the toddler canopy and the nest</i></td></tr>
+<tr><td><img src="docs/img/readme/dc_story.jpg" alt="Story wall"></td><td><img src="docs/img/readme/dc_tube.jpg" alt="Tube slide"></td></tr>
+<tr><td><i>The story wall: a Nordic forest of animals to find</i></td><td><i>The tube slide, from the loft down to the lower floor</i></td></tr>
+</table>
+
+### The locker rooms (newest)
+
+Designed in 2D first, on an editable layout page with every pinch point measured. Then built in 3D in a zen key: low warm light, so you can lock in for your workout.
+
+<table>
+<tr><td width="50%"><img src="docs/img/readme/lk_aisle.jpg" alt="Changing room aisle"></td><td width="50%"><img src="docs/img/readme/lk_mouth.jpg" alt="A round locker room"></td></tr>
+<tr><td><i>No numbers: each round locker room has its own colour (cloudberry, moss, fjord), shown in a band of stained glass</i></td><td><i>Three round oak locker rooms carved out of one fluted oak block, a glowing oculus overhead</i></td></tr>
+<tr><td><img src="docs/img/readme/lk_locker.jpg" alt="Inside a locker"></td><td><img src="docs/img/readme/lk_fossen.jpg" alt="Fossen"></td></tr>
+<tr><td><i>Every locker is modelled inside: hat shelf with a light, rail and hangers, shoe shelf, mirror</i></td><td><i>Fossen: an experience shower, a grotto carved into a stone end wall</i></td></tr>
+<tr><td><img src="docs/img/readme/lk_wash.jpg" alt="Wash zone"></td><td><img src="docs/img/readme/lk_groom.jpg" alt="Grooming bar"></td></tr>
+<tr><td><i>The wash zone: private showers, onsen wash places, daylight filtered through an oak canopy</i></td><td><i>The grooming bar: a mirror floating on warm light</i></td></tr>
+<tr><td><img src="docs/img/readme/lk_wc.jpg" alt="WC room"></td><td><img src="docs/img/readme/lk_lobby.jpg" alt="Sauna lobby"></td></tr>
+<tr><td><i>WC rooms on their own floor and extract, with cleaning robots (Vaskebjørn) and far-UVC</i></td><td><i>The sauna lobby: rolled robes, birch for the stove</i></td></tr>
+</table>
+
+## Shaped by conversation
+
+Nothing here is a one-shot. Below are two rooms through their versions, captioned with Roman's words:
+
+<p align="center"><img src="docs/img/readme/evo_drum.jpg" alt="A round locker room through its versions"></p>
+<p align="center"><img src="docs/img/readme/evo_fossen.jpg" alt="Fossen through its versions"></p>
+
+The **render replay** has all of it: every version of every camera, with the prompt (and any message sent mid-turn) under each frame.
 
 ![Replay](docs/img/replay.jpg)
 
-*3D is placeholder geometry and materials. The focus so far is site, structure and layout.*
+## Every piece designed here
+
+There are no asset packs. Every piece of furniture, fixture and piece of equipment is generated in this project; only textures and HDRIs are downloaded. Each piece is also rendered on its own from four angles in a component catalogue (`construction/renders/catalog/`), currently 155 pieces.
+
+<p align="center"><img src="docs/img/readme/catalogue.jpg" alt="Component catalogue"></p>
+
+## Drawings
+
+A real architectural drawing set is generated from the model: a site plan, 5 floor plans, a roof plan, 4 elevations, 3 sections and schedules, as A1 sheets at 1:200. Download the PDF set: [`docs/drawings/THE_GYM_drawing_set.pdf`](docs/drawings/THE_GYM_drawing_set.pdf).
+
+<table>
+<tr><td width="50%"><img src="docs/img/section_b.jpg" alt="Section B-B"></td><td width="50%"><img src="docs/img/plan_f4_dark.jpg" alt="Floor 4"></td></tr>
+</table>
 
 ## Status
 
-Current phase: **building it like a construction crew**, stage by stage. Stages 0-4 are built; stage 5 (interiors) is finished for the whole east wing: reception, a lounge-style cafe with a suspended river sculpture and a boulder conversation ring, public WCs with splash-free urinals and a TEK17 accessible cell, and the two-floor daycare with its sunken garden, tube slide and toddler canopy. Next comes the lounge bridge over the river, then the gym zones. Every designed piece is also rendered alone from four angles in a component catalogue (`construction/renders/catalog/`). Interiors and furniture are designed here; the forest follows real Norwegian forest data (docs/ECOLOGY.md). See [CONSTRUCTION_PLAN.md](CONSTRUCTION_PLAN.md).
+Current phase: **stage 5, the interiors**, zone by zone. Stages 0 to 4 are built (site, excavation, the column-free structure, the envelope with sod roofs and dark tarred timber).
 
+| Zone | |
+|---|---|
+| Reception, cafe, public WCs | ✅ done |
+| Daycare (two floors) + sunken garden | ✅ done |
+| Lounge bridge + decks, the gallery | ✅ done (first pass) |
+| Locker rooms (changing, wash, WC, sauna lobby) | ✅ done (first pass); waterfall plants at the very end |
+| Gym hall F1: stretching, cardio, calisthenics | ⏭ next |
+| E2: garage, bike + moto parking, game room | to do |
+| F2, F3 (the darker "den"), F4 (pool, thermal, recovery) | to do |
 
-- [x] Document the original hand-made blockout (`reference/gym_v2_original/`, see [ORIGINAL_GYM_V2.md](ORIGINAL_GYM_V2.md))
-- [x] Capture Roman's vision as ground truth ([VISION.md](VISION.md))
-- [x] Recording: Stop hook checkpoints every turn (`tools/capture/checkpoint.py`, transcripts archived locally in `.capture/`)
-- [x] Gym V2 extracted to data (`tools/extract_gymv2.py` → `reference/gym_v2_original/gymv2_extract.json`)
-- [x] Model v0 (`model/building.json`): datum, levels, water level, section lines
-- [x] Blueprint viewer v0 (`blueprint/`): site plan, floor plans, sections, Gym V2 as grey underlay
-- [x] Site: real Elverum terrain (Kartverket), parametric ravine + falls + plunge pool, GPU erosion, road, garage ramp/tunnel, sunken daycare garden, sauna + pool + path (`terrain/`, every run versioned in `terrain/runs/`)
-- [x] First 3D site scene in Blender (`terrain/blender_scene.py`) with rock cliff walls, forest, Gym V2 massing
-- [x] Blueprint drawings on the new terrain, with site works (`model/site_terrain.json`)
-- [x] 2-mile trail loop (`terrain/route_trail.py`)
-- [x] Structure v2: no interior columns, wall-to-wall spans, grid + columns + beams drawn ([STRUCTURE.md](STRUCTURE.md))
-- [x] Layout v1: schematic plans for every level, cores, spiral, slabs, walls; new 3D building from the model (see [DECISIONS_PENDING.md](DECISIONS_PENDING.md))
-- [ ] Agree on specs (program, floors, dimensions, site, style, materials), resolving the open questions in VISION.md
-- [ ] Research (references, real gym/wellness building standards)
-- [ ] Decide build approach (script-driven vs. MCP live editing, repo layout)
-- [ ] Build
+The plan and its order are in [CONSTRUCTION_PLAN.md](CONSTRUCTION_PLAN.md) and [HANDOFF.md](HANDOFF.md). Roman's intent is captured in [VISION.md](VISION.md), and the hand-made blockout it all started from is in [ORIGINAL_GYM_V2.md](ORIGINAL_GYM_V2.md).
 
 ## How it fits together
 
