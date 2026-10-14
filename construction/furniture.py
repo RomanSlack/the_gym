@@ -2776,26 +2776,19 @@ def glass_floor(P, depth=0.42):
 
 
 def speed_gates(P, cabs=(), lanes=(), open_=(), Lc=1.5, hc=0.98, wing=1.2):
-    """Members' speed gates (Roman: automatic, the phone is the key): slim cabinets in the room's light language, fluted
-    white-oiled oak like the reception desk front, a 12 mm blackened-steel top carrying the tap point for the phone (NFC / BLE) in a
-    brass ring with a soft light, glass swing wings to 1.2 m. Local x runs
+    """Members' speed gates (Roman: automatic, the phone is the key): slim blackened-steel cabinets with white-oiled oak tops (Roman
+    preferred the metal to an all-oak version), the tap point for the phone (NFC / BLE) in each top in a brass ring with a soft
+    light, glass swing wings to 1.2 m. Local x runs
     across the lanes, +y faces the cafe. Entry readers sit on the walker's right at the cafe end, exit readers at the gym end.
     Lane lights in the cabinet faces glow green while a lane is open. Wings fail safe: they swing open on a fire alarm (TEK17 escape
     route) and from the release by the gates. cabs = [[x, width]], lanes = [[x0, x1]], open_ = lane indices shown open."""
     st, oak = M["steel"], M["oak"]
     green, white = _led("led_green", (0.2, 1.0, 0.4), 6.0), M["opal"]
     sensor = M.setdefault("sensor_glass", bc.material("sensor_glass", (0.01, 0.01, 0.012), 0.08))
-    for x, w in cabs:
-        hb = hc - 0.012 - 0.04
-        P.box(oak, (x, 0, 0.04 + hb / 2), (w - 0.016, Lc - 0.016, hb))                  # oak-veneered body
-        for yy in np.arange(-Lc / 2 + 0.02, Lc / 2 - 0.01, 0.04):                       # flutes on both long faces
-            for sx in (-1, 1):
-                P.box(oak, (x + sx * (w / 2 - 0.009), yy, 0.04 + hb / 2), (0.018, 0.028, hb))
-        for sy in (-1, 1):                                                             # and round the ends
-            for xx in np.arange(x - w / 2 + 0.03, x + w / 2 - 0.01, 0.04):
-                P.box(oak, (xx, sy * (Lc / 2 - 0.009), 0.04 + hb / 2), (0.028, 0.018, hb))
-        P.box(M["rubber"], (x, 0, 0.02), (w - 0.03, Lc - 0.03, 0.04))                  # shadow plinth
-        P.box(st, (x, 0, hc - 0.006), (w + 0.006, Lc + 0.006, 0.012))                  # blackened-steel top
+    for x, w in cabs:  # blackened-steel cabinets with white-oiled oak tops (Roman: back to the metal, he liked it)
+        P.box(st, (x, 0, 0.04 + (hc - 0.07) / 2), (w, Lc, hc - 0.07))
+        P.box(M["rubber"], (x, 0, 0.02), (w - 0.02, Lc - 0.02, 0.04))                  # shadow plinth
+        P.box(oak, (x, 0, hc - 0.015), (w + 0.01, Lc + 0.01, 0.03))                    # oak top
     def reader(x, y):
         P.ring(M["brass"], (x, y), 0.04, 0.046, hc, hc + 0.002, seg=48)
         P.cyl(white, (x, y, hc), 0.038, 0.0015, seg=48)
