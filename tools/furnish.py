@@ -713,6 +713,9 @@ for room, y, r in (("men-lockers", -4.095, 0), ("women-lockers", 7.545, 180)):
 ZEN = [1.0, 0.76, 0.5]
 for room in ("men-wet", "women-wet"):
     men = room.startswith("men"); back = -9.225 if men else 11.9; front = -4.275 if men else 7.725; r0 = 0 if men else 180; rv = 180 if men else 0
+    fd = LKs(room, "fossen")[0]["d"]
+    y0, y1 = (back + fd, front) if men else (front, back - fd)  # the west end wall, from Fossen's mouth to the changing-room wall
+    putl("stone_lining", -29.25, (y0 + y1) / 2, rot=-90, zone="wash", length=round(abs(y1 - y0), 3), note="the west end in Fossen's stone")
     for it in LKs(room, "fossen"):
         putl("light_only", it["x"] + (0.35 if men else -0.35), back + (0.25 if men else -0.25), zone="wash", note="Fossen: a narrow light grazing down the slate",
              light={"type": "SPOT", "energy": 22, "spot_deg": 22, "blend": 0.7, "radius": 0.02, "offset": [0, 0, 2.55],

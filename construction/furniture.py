@@ -3505,36 +3505,55 @@ def shower_cell(P, w=1.1, d=2.1, h=2.6, open_door=False, accessible=False):
         P.cyl(_led("led_green", (0.2, 1.0, 0.4), 6.0), (dw / 2 - 0.08, fz + 0.022, 1.05), 0.012, 0.004, seg=16)
 
 
-def fossen(P, w=2.4, d=2.1, h=2.6):
+def _stone_courses(P, mat, x0, x1, y, z0, z1, seed=0, d=(0.05, 0.064)):
+    """Stacked courses of rough stone on a face along x at y (front +y), from z0 to z1: each course 70-150 high, stones 180-460
+    long, each a little proud or shy."""
+    rng = np.random.default_rng(seed); z = z0
+    while z < z1 - 0.02:
+        ch = float(min(rng.uniform(0.07, 0.15), z1 - z)); x = x0
+        while x < x1 - 0.02:
+            pl = float(min(rng.uniform(0.18, 0.46), x1 - x)); dd = float(rng.uniform(*d))
+            _rough_block(P, mat, (x + pl / 2, y + dd / 2 - 0.03, z + ch / 2), (pl - 0.006, dd, ch - 0.006), amp=0.006, seed=seed * 1000 + x * 10 + z * 7, cuts=2)
+            x += pl
+        z += ch
+
+
+def stone_lining(P, L=3.6, H=3.05):
+    """The wash zone's west end wall in the earthy stone of Fossen, stacked in rough courses to the canopy line, so the grotto is
+    part of the room, not a box put into it. Origin = the wall face at the centre, front +y."""
+    earth = M.setdefault("stone_earth", bc.pbr_material("stone_earth", "slate_floor_03", 0.6, box=True, tint=(0.82, 0.7, 0.58), sat=0.45, val=0.24, rough_add=0.1, piece_var=0.12))
+    _stone_courses(P, earth, -L / 2, L / 2, 0.03, 0.0, H, seed=int(L * 100))
+
+
+def fossen(P, w=2.4, d=2.1, h=2.6, H=3.05):
     """Fossen (the falls): the walk-in experience shower at the west end, a grotto (Roman: more stylised, zen, darker, earthier).
     Back: cleft dark slate, set vertical, the falling water's face. Sides: dark earthy stone stacked in rough horizontal courses,
     full height. Overhead: a low lid of walnut slats at 2.6, the 600 rain head set into it. Underfoot: dark honed slate with a band
     of wet river pebbles set flush where the water lands (nothing cut into the floor). A broad steel lip at 2.3 pours a sheet of
-    real water; a cold oak bucket on a steel arm (after the sauna); a hewn stone block to sit on; a blackened-steel frame at the
-    mouth. Light only where the water is. Origin = back wall centre, open to the aisle at +y (1.3 deep)."""
+    real water; a cold oak bucket on a steel arm (after the sauna); a hewn stone block to sit on. No frame (Roman: it looked stuck
+    in, an asset): the sides rise to the canopy line with a stone lintel over the lid, and the same stone wraps the wash zone's west
+    end wall, so Fossen is a niche carved into a stone end of the room. Light only where the water is. Origin = back wall centre, open to the aisle at +y (2.1 deep)."""
     sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
     earth = M.setdefault("stone_earth", bc.pbr_material("stone_earth", "slate_floor_03", 0.6, box=True, tint=(0.82, 0.7, 0.58), sat=0.45, val=0.24, rough_add=0.1, piece_var=0.12))
-    st, film = M["steel"], _water_film(); D = 1.3
+    st, film = M["steel"], _water_film(); D = d  # the full depth: a short stone passage in, covering the first shower's side wall
     rng = np.random.default_rng(9); x = -w / 2 + 0.06
     while x < w / 2 - 0.08:  # the back: vertical cleft slate
         ww = float(min(rng.uniform(0.18, 0.34), w / 2 - 0.06 - x))
         _rough_block(P, sl, (x + ww / 2, 0.035, h / 2), (ww - 0.004, 0.05, h), amp=0.005, seed=x * 3, cuts=4)
         x += ww
-    for sx in (-1, 1):  # the sides: stacked courses of earthy stone, each stone a little proud or shy
+    for sx in (-1, 1):  # the sides: stacked courses of earthy stone up to the canopy line (the west end wall carries on in it)
         z = 0.0
-        while z < h - 0.02:
-            ch = float(min(rng.uniform(0.07, 0.15), h - z)); y = 0.0
+        while z < H - 0.02:
+            ch = float(min(rng.uniform(0.07, 0.15), H - z)); y = 0.0
             while y < D - 0.02:
                 pl = float(min(rng.uniform(0.18, 0.46), D - y)); dd = float(rng.uniform(0.05, 0.064))
                 _rough_block(P, earth, (sx * (w / 2 - dd / 2), y + pl / 2, z + ch / 2), (dd, pl - 0.006, ch - 0.006), amp=0.006, seed=sx * 100 + y * 10 + z * 7, cuts=2)
                 y += pl
             z += ch
+    _stone_courses(P, earth, -w / 2, w / 2, D - 0.03, h, H, seed=5)  # the lintel over the mouth: one mass of stone, cut open
     for x in np.arange(-w / 2 + 0.035, w / 2, 0.07):  # the walnut lid, black felt behind the gaps
         P.box(M["walnut"], (x, D / 2, h - 0.03), (0.05, D, 0.06))
     P.box(M["felt"], (0, D / 2, h + 0.005), (w, D, 0.01))
-    for sx in (-1, 1):  # a blackened-steel frame at the mouth
-        P.box(st, (sx * (w / 2 - 0.03), D - 0.04, h / 2), (0.06, 0.08, h))
-    P.box(st, (0, D - 0.04, h - 0.04), (w, 0.08, 0.08))
     slate_floor = M.setdefault("slate_honed_dark2", bc.material("slate_honed_dark2", (0.035, 0.034, 0.032), 0.6))
     P.box(slate_floor, (0, D / 2, 0.003), (w - 0.1, D, 0.006))                          # dark honed slate underfoot
     peb = M.setdefault("pebble_wet2", bc.material("pebble_wet2", (0.05, 0.047, 0.042), 0.4))
@@ -3801,7 +3820,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -3826,7 +3845,7 @@ PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length"
           "locker_hall": ("length", "D", "drums", "r_in", "r_out", "mouth", "n", "slots"), "round_seat": ("d",), "wall_waterfall": ("length", "d"),
           "grooming_bar": ("length",), "shoe_cubbies": ("length",), "towel_shelf": ("length",), "uvc_plate": ("length", "D"), "auto_door": ("w", "h"),
           "shower_cell": ("w", "d", "open_door", "accessible"), "fossen": ("w", "d"), "wash_place": ("w", "d"), "stone_bench": ("length",),
-          "vaskebjorn": ("ring",), "slat_canopy": ("L", "W"), "slipper_cabinet": ("length",), "robe_wall": ("length",), "towel_warmer": ("length",)}
+          "vaskebjorn": ("ring",), "slat_canopy": ("L", "W"), "stone_lining": ("length",), "slipper_cabinet": ("length",), "robe_wall": ("length",), "towel_warmer": ("length",)}
 ARGNAME = {"length": "L", "height": "h"}
 
 
@@ -3846,7 +3865,7 @@ def build_all(model, MAT, coll):
                             "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
                             "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer",
                             "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate", "stone_bench",
-                            "slipper_cabinet", "robe_wall", "towel_warmer") and k == "length":
+                            "slipper_cabinet", "robe_wall", "towel_warmer", "stone_lining") and k == "length":
                     name = "L"
                 if kind == "bar_stool" and k == "height":
                     name = "h"

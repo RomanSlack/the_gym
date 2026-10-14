@@ -479,6 +479,7 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
   - A low lid of walnut slats at 2.6, the rain head set into it; a blackened-steel frame at the mouth.
   - Underfoot, dark honed slate with a flush band of wet river pebbles where the water lands; a hewn stone block to sit on.
   - Light only on the water, low.
+  - **Built in, not an asset** (Roman: it felt stuck in there like an asset): no steel frame. The same stone wraps the whole west end wall of each wash zone up to the canopy line, Fossen's sides rise to that line with a stone lintel over its walnut lid, and it is its full 2.1 / 1.9 m deep (a short stone passage in). It reads as a niche carved into a stone end of the room.
   - **Sauna lobby:** fresh robes rolled on an oak shelf, hooks free for your own robe; a birch log store with a bucket and ladle; an oak duckboard at the door out.
 
 ## Open questions
