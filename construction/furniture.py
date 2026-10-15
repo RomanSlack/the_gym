@@ -175,6 +175,19 @@ class Part:
     def build(self, coll, bevel=0.004):
         obs = []
         for mat, b in self.bms.items():
+            if getattr(self, "vary", False):  # every separate piece (stave, slat, board) its own texture offset + tone
+                lay = b.verts.layers.float.new("prand"); rng_ = np.random.default_rng(len(b.verts)); seen = set()
+                for v0 in b.verts:
+                    if v0.index in seen:
+                        continue
+                    val, stack = float(rng_.random()), [v0]
+                    seen.add(v0.index)
+                    while stack:
+                        v = stack.pop(); v[lay] = val
+                        for e in v.link_edges:
+                            o = e.other_vert(v)
+                            if o.index not in seen:
+                                seen.add(o.index); stack.append(o)
             me = bpy.data.meshes.new(f"{self.name}_{mat.name}"); b.to_mesh(me); b.free()
             ob = bpy.data.objects.new(me.name, me); coll.objects.link(ob); ob.data.materials.append(mat)
             uv = me.uv_layers.new(name="UVMap")
@@ -4109,22 +4122,89 @@ def deck_door(P, width=0.9, height=2.05):
         P.rod(M["brass"], (width / 2 - 0.09, sy * 0.08, 1.05), (width / 2 - 0.22, sy * 0.08, 1.05), 0.009, seg=10)
 
 
+def _stamp_wood(top=1.08):
+    """The tub's thermo-spruce, weathered: every stave its own grain + tone; outside the wood greys in soft vertical streaks, the
+    top 20 cm stays dark and a little glossy where it is always wet, a damp darkening at the foot."""
+    if "stamp_wood" in M:
+        return M["stamp_wood"]
+    m = bc.pbr_material("stamp_wood", "coated_pine_02", 0.9, box=True, tint=(0.86, 0.74, 0.6), sat=0.55, val=0.7, piece_var=0.25, rough_add=0.12)
+    N, L = m.node_tree.nodes, m.node_tree.links; b = N["Principled BSDF"]
+    src = b.inputs["Base Color"].links[0].from_socket; rsrc = b.inputs["Roughness"].links[0].from_socket
+    tc = next(n for n in N if n.bl_idname == "ShaderNodeTexCoord")
+    sep = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sep.inputs[0])
+    mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (9.0, 9.0, 1.1); L.new(tc.outputs["Object"], mp.inputs["Vector"])
+    st = N.new("ShaderNodeTexNoise"); st.inputs["Scale"].default_value = 2.5; st.inputs["Detail"].default_value = 5.0; L.new(mp.outputs[0], st.inputs["Vector"])
+    wf = N.new("ShaderNodeMapRange"); wf.inputs[1].default_value = 0.35; wf.inputs[2].default_value = 0.75; wf.inputs[4].default_value = 0.75; L.new(st.outputs["Fac"], wf.inputs[0])
+    grey = N.new("ShaderNodeMix"); grey.data_type = "RGBA"; L.new(wf.outputs[0], grey.inputs["Factor"]); L.new(src, grey.inputs["A"]); grey.inputs["B"].default_value = (0.3, 0.28, 0.25, 1)
+    wet = N.new("ShaderNodeMapRange"); wet.inputs[1].default_value = top - 0.24; wet.inputs[2].default_value = top - 0.06; L.new(sep.outputs["Z"], wet.inputs[0])
+    foot = N.new("ShaderNodeMapRange"); foot.inputs[1].default_value = 0.25; foot.inputs[2].default_value = 0.05; foot.inputs[4].default_value = 0.6; L.new(sep.outputs["Z"], foot.inputs[0])
+    dmp = N.new("ShaderNodeMath"); dmp.operation = "MAXIMUM"; L.new(wet.outputs[0], dmp.inputs[0]); L.new(foot.outputs[0], dmp.inputs[1])
+    dark = N.new("ShaderNodeMix"); dark.data_type = "RGBA"; dark.blend_type = "MULTIPLY"; L.new(dmp.outputs[0], dark.inputs["Factor"])
+    L.new(grey.outputs["Result"], dark.inputs["A"]); dark.inputs["B"].default_value = (0.45, 0.4, 0.36, 1)
+    L.new(dark.outputs["Result"], b.inputs["Base Color"])
+    rr = N.new("ShaderNodeMix"); rr.data_type = "FLOAT"; L.new(wet.outputs[0], rr.inputs["Factor"]); L.new(rsrc, rr.inputs["A"]); rr.inputs["B"].default_value = 0.35
+    L.new(rr.outputs["Result"], b.inputs["Roughness"])
+    M["stamp_wood"] = m
+    return m
+
+
+def _tub_water():
+    if "tub_water" in M:
+        return M["tub_water"]
+    m = bpy.data.materials.new("tub_water"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links; b = N["Principled BSDF"]
+    b.inputs["Base Color"].default_value = (0.62, 0.72, 0.62, 1); b.inputs["Roughness"].default_value = 0.03; b.inputs["IOR"].default_value = 1.33
+    b.inputs["Transmission Weight"].default_value = 1.0
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 6.0; nz.inputs["Detail"].default_value = 3.0
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.12; L.new(nz.outputs["Fac"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    M["tub_water"] = m
+    return m
+
+
 def badestamp(P, d=2.0, h=1.0):
-    """Kulpen's badestamp: a wood-fired hot tub for eight. 44 thermo-aspen staves (45 thick) in two blackened-steel hoops, an aspen
-    bench ring inside at 0.45, the water 0.15 under the rim, three bearers under it on the deck. Heated by its own stove (hybrid:
-    the stove + an electric heater that keeps it warm in between). Origin = the tub's centre on the deck."""
-    _kulpen_mats(); a, st = M["aspen_thermo"], M["steel"]
-    r = d / 2; n = 44
+    """Kulpen's badestamp: a wood-fired hot tub for eight. 40 thermo-spruce staves (45 thick), each a little different in width,
+    height and tone, weathered grey outside, dark where it is always wet; two blackened-steel hoops drawn tight by a bolted lug;
+    a slatted bench ring inside at 0.45, a board floor, the water 0.15 under the rim with a couple of birch leaves on it, a towel
+    over the rim by the steps; three bearers under it on the deck. Heated by its own stove (hybrid: the stove + an electric
+    heater that keeps it warm in between). Origin = the tub's centre on the deck."""
+    _kulpen_mats(); P.vary = True
+    a, st, z0 = _stamp_wood(0.08 + h), M["steel"], 0.08
+    r = d / 2; n = 40; rng = np.random.default_rng(41)
+    w = rng.uniform(0.88, 1.12, n); w = w / w.sum() * 2 * math.pi
+    t0 = 0.0
     for k in range(n):
-        t = 2 * math.pi * k / n
-        P.box(a, ((r - 0.0225) * math.cos(t), (r - 0.0225) * math.sin(t), 0.08 + h / 2), (0.045, 2 * math.pi * r / n - 0.004, h), rz=t)
-    for z in (0.25, h - 0.12):
-        P.ring(st, (0, 0), r, r + 0.008, 0.08 + z, 0.08 + z + 0.05, seg=96)
-    P.cyl(a, (0, 0, 0.08), r - 0.04, 0.05, seg=48)
-    P.ring(a, (0, 0), r - 0.4, r - 0.045, 0.08 + 0.42, 0.08 + 0.46, seg=72)
+        t = t0 + w[k] / 2; t0 += w[k]
+        rr = r - 0.0225 + float(rng.uniform(-0.0015, 0.0015)); hh = h + float(rng.uniform(-0.007, 0.004))
+        P.box(a, (rr * math.cos(t), rr * math.sin(t), z0 + hh / 2), (0.045, 2 * r * math.sin(w[k] / 2) - 0.003, hh), rz=t)
+    lug = -math.pi / 2 + 0.6
+    for z in (0.25, h - 0.14):
+        P.ring(st, (0, 0), r + 0.001, r + 0.009, z0 + z, z0 + z + 0.05, seg=120)
+        cx, cy = (r + 0.03) * math.cos(lug), (r + 0.03) * math.sin(lug)
+        for s_ in (-1, 1):
+            P.box(st, (cx + s_ * 0.03 * -math.sin(lug), cy + s_ * 0.03 * math.cos(lug), z0 + z + 0.025), (0.04, 0.02, 0.06), rz=lug)
+        P.rod(st, (cx - 0.06 * -math.sin(lug), cy - 0.06 * math.cos(lug), z0 + z + 0.025), (cx + 0.06 * -math.sin(lug), cy + 0.06 * math.cos(lug), z0 + z + 0.025), 0.007, seg=8)
+    for k in range(int((2 * r - 0.12) / 0.11)):                                              # board floor
+        x = -r + 0.1 + k * 0.11; half = math.sqrt(max(0.0, (r - 0.045) ** 2 - x * x))
+        P.box(a, (x, 0, z0 + 0.025), (0.1, 2 * half, 0.05))
+    nb = 30                                                                                   # slatted bench ring
+    for k in range(nb):
+        t = 2 * math.pi * k / nb
+        P.box(a, ((r - 0.22) * math.cos(t), (r - 0.22) * math.sin(t), z0 + 0.44), (0.32, 2 * (r - 0.22) * math.sin(math.pi / nb) - 0.02, 0.03), rz=t)
     for t in np.linspace(0, 2 * math.pi, 9)[:-1]:
-        P.box(a, ((r - 0.22) * math.cos(t), (r - 0.22) * math.sin(t), 0.08 + 0.21), (0.35, 0.05, 0.42), rz=float(t))
-    P.cyl(M["water_bath"], (0, 0, 0.08 + h - 0.16), r - 0.046, 0.01, seg=72)
+        P.box(a, ((r - 0.22) * math.cos(t), (r - 0.22) * math.sin(t), z0 + 0.21), (0.3, 0.05, 0.42), rz=float(t))
+    P.cyl(_tub_water(), (0, 0, z0 + h - 0.16), r - 0.046, 0.008, seg=96)
+    leaf = M.setdefault("birch_leaf", bc.material("birch_leaf", (0.72, 0.52, 0.1), 0.6))
+    for (lx, ly, lr) in ((0.3, 0.25, 0.4), (-0.42, -0.1, 2.1), (0.05, -0.5, 1.2)):
+        P.blob(leaf, (lx, ly, z0 + h - 0.15), (0.028, 0.02, 0.002), seg=10)
+    ta = -math.pi / 2                                                                         # a towel over the rim, towards the steps
+    ux, uy = math.cos(ta), math.sin(ta)
+    tw = M["robe_terry"] if "robe_terry" in M else M["towel_white"]
+    for j in range(15):  # the towel follows the tub's curve in narrow strips, a soft sag in the hem, a fold at the rim
+        u = (j - 7) / 7; tt = ta + u * 0.24; cu, su = math.cos(tt), math.sin(tt); drop = 0.29 + 0.025 * math.cos(u * math.pi / 2)
+        ro = r + 0.014 + 0.003 * math.sin(j * 1.3)
+        P.box(tw, (ro * cu, ro * su, z0 + h - drop / 2 - 0.005), (0.012, 0.034, drop), rz=tt, ry=0.05)
+        P.box(tw, ((r - 0.018) * cu, (r - 0.018) * su, z0 + h + 0.008), (0.07, 0.034, 0.016), rz=tt)
+        P.box(tw, ((r - 0.056) * cu, (r - 0.056) * su, z0 + h - 0.05), (0.012, 0.034, 0.11), rz=tt, ry=-0.08)
     for x in (-0.6, 0.0, 0.6):
         P.box(a, (x, 0, 0.04), (0.1, d - 0.3, 0.08))
 
@@ -4146,8 +4226,9 @@ def stamp_stove(P):
 
 
 def stamp_steps(P, w=0.8):
-    """Oak steps up to the tub rim: two treads at 0.33 and 0.66 on cut stringers. Origin = floor centre, front +y (away from the tub)."""
-    oak = M["oak"]
+    """Steps up to the tub rim in the tub's weathered wood: two treads at 0.33 and 0.66 on cut stringers. Origin = floor centre,
+    front +y (away from the tub)."""
+    _kulpen_mats(); P.vary = True; oak = _stamp_wood()
     for k, (y, z) in enumerate(((0.12, 0.33), (-0.14, 0.66))):
         P.box(oak, (0, y, z - 0.02), (w, 0.28, 0.04))
     for sx in (-1, 1):
