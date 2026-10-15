@@ -7,6 +7,8 @@ Real sizes throughout (see tools/furnish.py). Pieces are built once per kind (+ 
 """
 import math
 
+from pathlib import Path
+
 import bmesh
 import bpy
 import numpy as np
@@ -4199,12 +4201,15 @@ def badestamp(P, d=2.0, h=1.0):
     ta = -math.pi / 2                                                                         # a towel over the rim, towards the steps
     ux, uy = math.cos(ta), math.sin(ta)
     tw = M["robe_terry"] if "robe_terry" in M else M["towel_white"]
-    for j in range(15):  # the towel follows the tub's curve in narrow strips, a soft sag in the hem, a fold at the rim
-        u = (j - 7) / 7; tt = ta + u * 0.24; cu, su = math.cos(tt), math.sin(tt); drop = 0.29 + 0.025 * math.cos(u * math.pi / 2)
-        ro = r + 0.014 + 0.003 * math.sin(j * 1.3)
-        P.box(tw, (ro * cu, ro * su, z0 + h - drop / 2 - 0.005), (0.012, 0.034, drop), rz=tt, ry=0.05)
-        P.box(tw, ((r - 0.018) * cu, (r - 0.018) * su, z0 + h + 0.008), (0.07, 0.034, 0.016), rz=tt)
-        P.box(tw, ((r - 0.056) * cu, (r - 0.056) * su, z0 + h - 0.05), (0.012, 0.034, 0.11), rz=tt, ry=-0.08)
+    td = Path(__file__).resolve().parent / "data" / "towel_badestamp.npz"     # the towel, draped by a cloth sim (construction/towel_sim.py)
+    if td.exists():
+        tdat = np.load(td); tb = bmesh.new()
+        tv = [tb.verts.new(tuple(map(float, v))) for v in tdat["verts"]]
+        for f in tdat["faces"]:
+            tb.faces.new([tv[i] for i in f])
+        bmesh.ops.solidify(tb, geom=tb.faces[:], thickness=0.005)
+        tme = bpy.data.meshes.new("towel_tmp"); tb.to_mesh(tme); tb.free()
+        P.bm(tw).from_mesh(tme); bpy.data.meshes.remove(tme)
     for x in (-0.6, 0.0, 0.6):
         P.box(a, (x, 0, 0.04), (0.1, d - 0.3, 0.08))
 
