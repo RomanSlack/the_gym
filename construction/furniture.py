@@ -3677,17 +3677,21 @@ def robe_wall(P, L=4.2):
     P.box(oak, (0, 0.17, 1.15), (L, 0.32, 0.03))                                              # the robe shelf
     for sx in (-1, 0, 1):
         P.box(st, (sx * (L / 2 - 0.3), 0.12, 1.08), (0.025, 0.22, 0.12))
+    _kulpen_mats(); rng = np.random.default_rng(31)
+    band = M.setdefault("robe_band", bc.material("robe_band", (0.55, 0.47, 0.37), 0.9))
     x = -L / 2 + 0.13
     while x < L / 2 - 0.1:                                                                    # fresh robes, rolled, ends out
-        P.rod(robe, (x, 0.03, 1.257), (x, 0.31, 1.257), 0.09, seg=20)
-        P.rod(M.setdefault("robe_band", bc.material("robe_band", (0.55, 0.47, 0.37), 0.9)), (x, 0.15, 1.257), (x, 0.19, 1.257), 0.093, seg=20)  # a linen band
-        x += 0.195
+        r = float(rng.uniform(0.078, 0.09)); sag = float(rng.uniform(0.82, 0.9)); y0 = 0.03 + float(rng.uniform(0, 0.025))
+        _robe_roll(P, M["robe_terry"], x, 1.165 + r * sag, y0, y0 + 0.27, r, sag)
+        P.prism(band, [(x + (r + 0.002) * math.cos(a), 1.165 + r * sag + (r + 0.002) * math.sin(a) * sag) for a in np.linspace(0, 2 * math.pi, 25)[:-1]], 0.15, 0.18)  # a linen band
+        x += 2 * r + 0.025
     for z in (0.08, 0.3):
         P.box(oak, (0, 0.17, z), (L, 0.3, 0.025))
-    for k in range(int(L / 0.3)):
+    for k in range(int(L / 0.3)):                                                             # sandals: a footbed + a felt strap
         x = -L / 2 + 0.18 + k * 0.3
         for sx in (-0.05, 0.05):
-            P.box(M["rubber"], (x + sx, 0.17, 0.11), (0.08, 0.26, 0.03))
+            P.blob(M["rubber"], (x + sx, 0.17, 0.11), (0.042, 0.13, 0.014), seg=20)
+            P.box(M["felt"], (x + sx, 0.12, 0.126), (0.085, 0.045, 0.012))
 
 
 def towel_warmer(P, L=1.2):
@@ -3791,10 +3795,86 @@ def _kulpen_mats():
     M.setdefault("slate_floor", bc.pbr_material("slate_floor", "slate_floor_03", 1.0, box=True, tint=(0.75, 0.78, 0.8), sat=0.4, val=0.42, rough_add=0.05, piece_var=0.1))
     M.setdefault("birch_bark", bc.material("birch_bark", (0.86, 0.83, 0.77), 0.8))
     M.setdefault("birch_end", bc.material("birch_end", (0.78, 0.62, 0.43), 0.85))
+    if "birch_bark_real" not in M:
+        M["birch_bark_real"] = _birch_bark()
+        M["birch_split"] = bc.pbr_material("birch_split", "ash_veneer", 0.5, box=True, tint=(1.02, 0.93, 0.76), sat=0.7, val=1.05, piece_var=0.12, rough_add=0.25)
+        M["birch_endgrain"] = bc.pbr_material("birch_endgrain", "ash_veneer", 0.25, box=True, rotate=1.2, tint=(1.0, 0.88, 0.68), sat=0.7, val=1.0, piece_var=0.15, rough_add=0.3)
+        M["robe_terry"] = _terry()
     M.setdefault("fire", bc.material("fire_glow", (1.0, 0.45, 0.12), 0.6, emit=((1.0, 0.42, 0.1), 18.0)))
     M.setdefault("water_bath", bc.arch_glass("water_bath", tint=(0.8, 0.9, 0.86)))
     M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
     return M
+
+
+def _birch_bark():
+    """Birch bark: chalk white with a faint warm cast, thin dark lenticel streaks running round the trunk (across the log), a few
+    dark rough patches; matte."""
+    m = bpy.data.materials.new("birch_bark_real"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links; b = N["Principled BSDF"]
+    tc = N.new("ShaderNodeTexCoord")
+    mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (2.0, 45.0, 2.0); L.new(tc.outputs["Object"], mp.inputs["Vector"])
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9.0; nz.inputs["Detail"].default_value = 2.0; L.new(mp.outputs[0], nz.inputs["Vector"])
+    lent = N.new("ShaderNodeMapRange"); lent.inputs[1].default_value = 0.6; lent.inputs[2].default_value = 0.68; L.new(nz.outputs["Fac"], lent.inputs[0])
+    pz = N.new("ShaderNodeTexNoise"); pz.inputs["Scale"].default_value = 7.0; pz.inputs["Detail"].default_value = 4.0; L.new(tc.outputs["Object"], pz.inputs["Vector"])
+    pat = N.new("ShaderNodeMapRange"); pat.inputs[1].default_value = 0.62; pat.inputs[2].default_value = 0.7; L.new(pz.outputs["Fac"], pat.inputs[0])
+    mx = N.new("ShaderNodeMath"); mx.operation = "MAXIMUM"; L.new(lent.outputs[0], mx.inputs[0]); L.new(pat.outputs[0], mx.inputs[1])
+    tone = N.new("ShaderNodeTexNoise"); tone.inputs["Scale"].default_value = 3.0; L.new(tc.outputs["Object"], tone.inputs["Vector"])
+    base = N.new("ShaderNodeValToRGB"); base.color_ramp.elements[0].color = (0.62, 0.6, 0.55, 1); base.color_ramp.elements[1].color = (0.8, 0.78, 0.72, 1)
+    L.new(tone.outputs["Fac"], base.inputs[0])
+    mix = N.new("ShaderNodeMix"); mix.data_type = "RGBA"; L.new(mx.outputs[0], mix.inputs["Factor"]); L.new(base.outputs[0], mix.inputs["A"])
+    mix.inputs["B"].default_value = (0.05, 0.045, 0.04, 1)
+    L.new(mix.outputs["Result"], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = 0.75
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.25; L.new(mx.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def _terry():
+    """Cotton terry towelling: warm off-white, matte, a fine looped pile (bump), a faint unevenness of tone."""
+    m = bpy.data.materials.new("robe_terry"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links; b = N["Principled BSDF"]
+    tc = N.new("ShaderNodeTexCoord")
+    tone = N.new("ShaderNodeTexNoise"); tone.inputs["Scale"].default_value = 12.0; L.new(tc.outputs["Object"], tone.inputs["Vector"])
+    rp = N.new("ShaderNodeValToRGB"); rp.color_ramp.elements[0].color = (0.7, 0.68, 0.63, 1); rp.color_ramp.elements[1].color = (0.8, 0.78, 0.73, 1)
+    L.new(tone.outputs["Fac"], rp.inputs[0]); L.new(rp.outputs[0], b.inputs["Base Color"])
+    b.inputs["Roughness"].default_value = 0.97
+    try:
+        b.inputs["Sheen Weight"].default_value = 0.4
+    except KeyError:
+        pass
+    pile = N.new("ShaderNodeTexVoronoi"); pile.inputs["Scale"].default_value = 450.0; L.new(tc.outputs["Object"], pile.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.6; bp.inputs["Distance"].default_value = 0.002
+    L.new(pile.outputs["Distance"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    return m
+
+
+def _split_piece(P, x, z, y0, y1, r, kind, rot):
+    """One piece of split birch lying along y: a half, a third, a quarter or a whole round; split faces pale, the bark only on the
+    outer arc, the front end a separate cut face (end grain)."""
+    span = {"half": math.pi, "third": 2 * math.pi / 3, "quarter": math.pi / 2, "round": 2 * math.pi}[kind]
+    n = 14 if kind == "round" else 9
+    arc = [rot + span * k / n for k in range(n + (0 if kind == "round" else 1))]
+    ri = r - 0.007
+    body = [(x + ri * math.cos(a), z + ri * math.sin(a)) for a in arc] + ([] if kind == "round" else [(x, z)])
+    P.prism(M["birch_split"], body, y0, y1 - 0.004)
+    P.prism(M["birch_endgrain"], body, y1 - 0.004, y1)
+    shell = [(x + r * math.cos(a), z + r * math.sin(a)) for a in arc] + [(x + ri * math.cos(a), z + ri * math.sin(a)) for a in reversed(arc)]
+    if kind == "round":
+        for a0, a1 in ((0, n // 2), (n // 2, n)):
+            seg = arc[a0:a1 + 1] if a1 < n else arc[a0:] + [arc[0] + 2 * math.pi]
+            P.prism(M["birch_bark_real"], [(x + r * math.cos(a), z + r * math.sin(a)) for a in seg] + [(x + ri * math.cos(a), z + ri * math.sin(a)) for a in reversed(seg)], y0, y1 - 0.004)
+    else:
+        P.prism(M["birch_bark_real"], shell, y0, y1 - 0.004)
+
+
+def _robe_roll(P, mat, x, z, y0, y1, r=0.085, sag=0.86):
+    """A robe rolled for the shelf: the towelling wound in a spiral you can see at the end, slightly flattened by its own weight."""
+    t, turns = 0.011, max(2.5, (r - 0.012) / 0.0135)
+    pts_o, pts_i = [], []
+    nseg = int(turns * 28)
+    for k in range(nseg + 1):
+        th = 2 * math.pi * turns * k / nseg; rr = 0.012 + (r - 0.012) * k / nseg
+        pts_o.append((x + rr * math.cos(th), z + rr * math.sin(th) * sag)); pts_i.append((x + (rr - t) * math.cos(th), z + (rr - t) * math.sin(th) * sag))
+    P.prism(mat, pts_o + pts_i[::-1], y0, y1)
 
 
 def _xprism(P, mat, pts_yz, x0, x1):
@@ -3905,20 +3985,34 @@ def kindling_basket(P):
 
 
 def firewood_stack(P, L=1.2, h=1.8, d=0.42):
-    """Birch for the heater and the tub, stacked under the porch eave against the granite wall: split logs ends out on two oak
-    sleepers, white bark showing. Origin = the wall at the centre, front +y."""
+    """Birch for the heater and the tub, stacked under the porch eave against the granite wall the way it is done: split halves,
+    thirds and quarters (some small rounds), 30-40 cm long, ends out and ragged, bark white with dark lenticels, the split faces
+    pale, the cut ends warmer; on two oak sleepers. Origin = the wall at the centre, front +y."""
     _kulpen_mats()
     for sx in (-1, 1):
         P.box(M["oak"], (sx * (L / 2 - 0.1), d / 2, 0.03), (0.08, d, 0.06))
-    rng = np.random.default_rng(23); z = 0.115
-    while z < h:
-        x = -L / 2 + 0.06
-        while x < L / 2 - 0.05:
-            r = float(rng.uniform(0.042, 0.06)); zz = z + float(rng.uniform(-0.008, 0.008))
-            P.rod(M["birch_bark"], (x, 0.02, zz), (x, d - 0.02 + float(rng.uniform(-0.02, 0.0)), zz), r, seg=9)
-            P.rod(M["birch_end"], (x, d - 0.02, zz), (x, d - 0.016, zz), r - 0.006, seg=9)
-            x += 2 * r + 0.004
-        z += 0.108
+    rng = np.random.default_rng(23); z = 0.06
+    kinds = ["half", "half", "third", "quarter", "quarter", "round"]
+    while z < h - 0.05:
+        x = -L / 2 + 0.02; row_h = 0.0
+        while x < L / 2 - 0.06:
+            kind = kinds[int(rng.integers(len(kinds)))]
+            r = float(rng.uniform(0.05, 0.075)) if kind != "round" else float(rng.uniform(0.03, 0.045))
+            w = 2 * r if kind in ("half", "round") else 1.6 * r
+            ln = float(rng.uniform(0.3, 0.4)); yf = d - 0.01 - float(rng.uniform(0, 0.05))
+            span = {"half": math.pi, "third": 2 * math.pi / 3, "quarter": math.pi / 2, "round": 2 * math.pi}[kind]
+            if kind == "half":   # flat face down or up
+                rot = float(rng.choice([0.0, math.pi])) + float(rng.uniform(-0.12, 0.12))
+            else:                # wedges point down, the bark arc on top (they nest into the row below)
+                rot = math.pi / 2 - span / 2 + float(rng.uniform(-0.25, 0.25))
+            arc = [rot + span * k / 12 for k in range(13)]
+            zs = [r * math.sin(a) for a in arc] + ([] if kind == "round" else [0.0])
+            xs_ = [r * math.cos(a) for a in arc] + ([] if kind == "round" else [0.0])
+            w = max(xs_) - min(xs_)
+            cz = z - min(zs) + float(rng.uniform(0, 0.006))
+            _split_piece(P, x - min(xs_), cz, yf - ln, yf, r, kind, rot)
+            x += w + float(rng.uniform(0.002, 0.012)); row_h = max(row_h, max(zs) - min(zs))
+        z += row_h * 0.88
 
 
 def peg_rail(P, L=2.0):
