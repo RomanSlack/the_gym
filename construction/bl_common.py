@@ -481,7 +481,7 @@ def _box(x0, y0, z0, x1, y1, z1):
 def pattern_floor(e, mat, coll, rng):
     x0, y0, x1, y1 = e["rect"]; z0, z1 = e["z"]; p = e["pattern"]
     boxes, groups = [], []
-    circles = [h["circle"] for h in e.get("holes", []) if "circle" in h]
+    circles = [tuple(h["circle"]) for h in e.get("holes", []) if "circle" in h]
     def near_circle(q):
         return any(q[0] < cx + r + 0.01 and q[2] > cx - r - 0.01 and q[1] < cy + r + 0.01 and q[3] > cy - r - 0.01 for cx, cy, r in circles)
     if p["kind"] in ("boards", "slabs"):
@@ -499,14 +499,12 @@ def pattern_floor(e, mat, coll, rng):
                     q = (c + gap / 2, s0 + gap / 2, c + cw - gap / 2, s1 - gap / 2)
                     q = (q[0], q[1], q[2], q[3]) if along_y else (q[1], q[0], q[3], q[2])
                     gid = ("t", round(c, 4), round(a, 4))                     # one id per tile
-                    if near_circle(q):  # cut to a round opening in 50 mm strips (one tile, one tone), not to the widest chord
-                        long_y = (q[3] - q[1]) >= (q[2] - q[0]); n_ = max(1, int(round(((q[2] - q[0]) if long_y else (q[3] - q[1])) / 0.05)))
-                        parts = [(q[0] + (q[2] - q[0]) * i / n_, q[1], q[0] + (q[2] - q[0]) * (i + 1) / n_, q[3]) if long_y else
-                                 (q[0], q[1] + (q[3] - q[1]) * i / n_, q[2], q[1] + (q[3] - q[1]) * (i + 1) / n_) for i in range(n_)]
-                    else:
-                        parts = [q]
-                    for qq in parts:
-                        for r_ in _minus_holes(qq, e.get("holes", [])):  # recesses (e.g. the entrance mat well): pieces cut round them
+                    rect_holes = [h for h in e.get("holes", []) if "circle" not in h]
+                    for r_ in _minus_holes(q, rect_holes):  # recesses (e.g. the entrance mat well): pieces cut round them
+                        if near_circle(r_):  # a tile at a round opening: cut along the real curve (thin trapezoids), one tile, one tone
+                            for poly in _cut_circles(r_, circles):
+                                boxes.append([(x_, y_, z0) for x_, y_ in poly] + [(x_, y_, z1) for x_, y_ in poly]); groups.append(gid)
+                        else:
                             boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1)); groups.append(gid)
                 a += L
             c += w; row += 1
@@ -524,6 +522,33 @@ def pattern_floor(e, mat, coll, rng):
         lift = lambda x_: za + (zb - za) * min(1, max(0, (x_ - xa) / (xb - xa)))  # per vertex: long boards tilt with the screed, no steps
         boxes = [[(c[0], c[1], c[2] + (lift(c[0]) if (not top_only or abs(c[2] - z1) < 1e-6) else 0.0)) for c in bx] for bx in boxes]
     return _pieces_mesh(e["id"], boxes, mat, coll, groups)
+
+
+def _cut_circles(q, circles, step=0.025):
+    """Rect q minus round openings, as 4-corner polygons (CCW) whose edge follows the circle: q sliced into thin strips across the
+    circle's span, each strip's piece bounded by the arc at both its edges (a 25 mm polyline on the curve)."""
+    pieces, out = [tuple(q)], []
+    for (cx, cy, r) in circles:
+        nxt = []
+        for (x0, y0, x1, y1) in pieces:
+            if x1 <= cx - r or x0 >= cx + r or y1 <= cy - r or y0 >= cy + r:
+                nxt.append((x0, y0, x1, y1)); continue
+            cuts = sorted({x0, x1, *[v for v in (cx - r, cx + r) if x0 < v < x1]})
+            for xa, xb in zip(cuts, cuts[1:]):
+                if xb <= cx - r or xa >= cx + r:
+                    nxt.append((xa, y0, xb, y1)); continue
+                n = max(1, int(math.ceil((xb - xa) / step)))
+                for i in range(n):
+                    sa, sb = xa + (xb - xa) * i / n, xa + (xb - xa) * (i + 1) / n
+                    ha, hb = math.sqrt(max(0.0, r * r - (sa - cx) ** 2)), math.sqrt(max(0.0, r * r - (sb - cx) ** 2))
+                    la, lb = min(y1, cy - ha), min(y1, cy - hb)   # the part below the circle
+                    if max(la, lb) > y0 + 0.002:
+                        out.append([(sa, y0), (sb, y0), (sb, max(y0, lb)), (sa, max(y0, la))])
+                    ua, ub = max(y0, cy + ha), max(y0, cy + hb)   # the part above it
+                    if min(ua, ub) < y1 - 0.002:
+                        out.append([(sa, min(y1, ua)), (sb, min(y1, ub)), (sb, y1), (sa, y1)])
+        pieces = nxt
+    return out + [[(x0, y0), (x1, y0), (x1, y1), (x0, y1)] for (x0, y0, x1, y1) in pieces]
 
 
 def _minus_holes(q, holes):
