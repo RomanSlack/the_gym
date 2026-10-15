@@ -5827,7 +5827,7 @@
       "z": [-9.77, 0.0],
       "risers": 56,
       "step_deg": 15,
-      "a0": 90,
+      "a0": 292.5,
       "note": "open helix, no centre post: inner + outer dark steel helical stringers, 56 solid oak treads (0.174 rise, 15 deg each)",
       "phase": 3,
       "seq": 102
@@ -12531,7 +12531,7 @@
     }
   ],
   "stairs": [
-    {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1", "note": "open, sculptural; moved from Gym V2 (-19.5,-13.6) Ø7.9 to fit between beam lines 4 and 5"},
+    {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1", "a0": 292.5, "note": "open, sculptural; moved from Gym V2 (-19.5,-13.6) Ø7.9 to fit between beam lines 4 and 5"},
     {"id": "north_f3_f4", "kind": "straight", "rect": [-21.45, 7.1, -15.45, 12.1], "from": "F4", "to": "F3", "run": "north"},
     {
       "id": "daycare_round",
@@ -20546,9 +20546,9 @@
       "rise": 9.77,
       "risers": 56,
       "step_deg": 15,
-      "a0": 90,
-      "gap_k": [27, 27],
-      "note": "the spiral's guards: steel bars, oak handrail outside, steel inside"
+      "a0": 292.5,
+      "gaps": [[26.33, 28.67], [54.33, 56]],
+      "note": "the spiral's guards: steel bars, oak handrail outside, steel inside; open where the floor guards open"
     },
     {
       "id": "ring_guard-940",
@@ -20559,8 +20559,8 @@
       "rot_deg": 0.0,
       "zone": "gym-stair",
       "r": 3.5,
-      "gap_a": 125,
-      "gap_b": 160,
+      "gap_a": 327.5,
+      "gap_b": 362.5,
       "h": 1.1,
       "band": 0.39,
       "note": "the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off"
@@ -20574,8 +20574,8 @@
       "rot_deg": 0.0,
       "zone": "gym-stair",
       "r": 3.5,
-      "gap_a": 185,
-      "gap_b": 220,
+      "gap_a": 27.5,
+      "gap_b": 62.5,
       "h": 1.1,
       "band": 0.39,
       "note": "the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off"

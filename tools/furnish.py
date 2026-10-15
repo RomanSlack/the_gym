@@ -859,8 +859,11 @@ _spe = next(e for e in m["elements"] if e["id"] == "ST3-spiral_west")
 _sri, _sro = _spe["r"]; _sz0, _sz1 = _spe["z"]; _srs = _spe["risers"]; _sst = _spe["step_deg"]; _sa0 = _spe["a0"]
 _rr = (_sz1 - _sz0) / _srs
 _kF2 = round((lv["F2"] - _sz0) / _rr) - 1                      # the tread level with F2 (you step off there)
+_gaps = []                                                    # the floor guards' openings, also in treads from the foot
+for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
+    _gaps.append([round(k - 10 / _sst, 2), round(min(_srs, k + 1 + 10 / _sst), 2)])
 put("spiral_balustrade", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, ri=_sri, ro=_sro, rise=round(_sz1 - _sz0, 3), risers=_srs,
-    step_deg=_sst, a0=_sa0, gap_k=[_kF2, _kF2], note="the spiral's guards: steel bars, oak handrail outside, steel inside")
+    step_deg=_sst, a0=_sa0, gaps=_gaps, note="the spiral's guards: steel bars, oak handrail outside, steel inside; open where the floor guards open")
 for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
     ga, gb = _sa0 + _sst * k - 10, _sa0 + _sst * (k + 1) + 10
     ga, gb = ga % 360, (ga % 360) + (gb - ga)

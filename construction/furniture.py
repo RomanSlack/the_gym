@@ -4321,11 +4321,12 @@ def ring_guard(P, r=3.5, gap_a=135.0, gap_b=160.0, h=1.1, band=0.39):
         P.box(st, ((r + 0.04) * math.cos(t), (r + 0.04) * math.sin(t), h / 2), (0.05, 0.05, h), rz=t)
 
 
-def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gap_k=(27, 27)):
+def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gaps=((26.33, 28.67),)):
     """The spiral's guards, side-mounted on the stringers (nothing stands on a tread): 14 mm blackened-steel bars at <= 110 mm
     (child-safe), each held off the stringer's face by a small steel shoe, carried at the top by a 40 x 12 steel flat rail; on the
     outside a 50 mm oiled-oak handrail sits on it, on the well side a 40 mm steel one. 0.95 over the nosing line. The outer guard
-    opens at gap_k (the tread level with a floor you step off onto), closed by two heavier end bars.
+    opens over each gap (in treads from the foot: where a floor's guard opens, so the two always line up), closed by heavier end
+    bars.
     Origin = the stair's centre at its foot."""
     st, oak = M["steel"], M["oak"]
     rr = rise / risers; H = 0.95
@@ -4333,7 +4334,7 @@ def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a
     zn = lambda a: rr * (span_k(a) + 0.5)                       # the nosing line
     def pt(r, a, z):
         t = math.radians(a); return (r * math.cos(t), r * math.sin(t), z)
-    gap = lambda a: gap_k[0] - 0.15 <= span_k(a) <= gap_k[1] + 1.15
+    gap = lambda a: any(g0 <= span_k(a) <= g1 for g0, g1 in gaps)
     B = {"bar": ([], []), "shoe": ([], []), "top": ([], []), "oak": ([], []), "inner": ([], [])}
     def add(key, a_, b_):
         B[key][0].append(a_); B[key][1].append(b_)
@@ -4361,7 +4362,7 @@ def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a
                 add("inner", pt(r_bar, aa, zn(aa) + H - 0.015), pt(r_bar, ab, zn(ab) + H - 0.015))
     for key, mat_, rad, sg in (("bar", st, 0.007, 8), ("shoe", st, 0.009, 8), ("top", st, 0.011, 8), ("oak", oak, 0.025, 14), ("inner", st, 0.02, 12)):
         P.rods(mat_, B[key][0], B[key][1], rad, seg=sg)
-    for kk in (gap_k[0] - 0.15, gap_k[1] + 1.15):               # heavier end bars at the opening
+    for kk in [v for g in gaps for v in g if v < risers - 0.01]:      # heavier end bars at the openings
         a = a0 + step_deg * kk
         P.rod(st, pt(ro + 0.03, a, zn(a) - 0.3), pt(ro + 0.03, a, zn(a) + H + 0.02), 0.014, seg=12)
 
@@ -4450,7 +4451,7 @@ BUILDERS = {
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gap_k"),
+PARAMS = {"ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
@@ -4501,7 +4502,7 @@ def build_all(model, MAT, coll):
                     name = "h"
                 if kind == "gate" and k == "width":
                     name = "w"
-                kw[name] = tuple(f[k]) if isinstance(f[k], list) else f[k]
+                kw[name] = tuple(tuple(v) if isinstance(v, list) else v for v in f[k]) if isinstance(f[k], list) else f[k]
         key = kind + "|" + "|".join(f"{k}={v}" for k, v in sorted(kw.items()))
         if key not in PROTO:
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")

@@ -184,7 +184,7 @@ m["spaces"] = spaces
 
 # ---------------------------------------------------------------- stairs
 m["stairs"] = [
-    {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1",
+    {"id": "spiral_west", "kind": "spiral", "center": [-17.95, -14.85], "diameter": 7.0, "from": "F3", "to": "F1", "a0": 292.5,
      "note": "open, sculptural; moved from Gym V2 (-19.5,-13.6) Ø7.9 to fit between beam lines 4 and 5"},
     {"id": "north_f3_f4", "kind": "straight", "rect": [-21.45, 7.1, -15.45, 12.1], "from": "F4", "to": "F3", "run": "north"},
     {"id": "daycare_round", "kind": "spiral", "center": [16.6, 25.0], "diameter": 5.1, "from": "E2", "to": "E1", "a0": 292.5,
