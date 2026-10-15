@@ -116,8 +116,9 @@ def ground_patch(H, GM, DX0, DY0, TM, coll, res=0.25):
     w = np.clip(lift / 0.5, 0, 1)
     nz = 0.5 + 0.25 * np.sin(X * 1.7 + Y * 0.6) * np.sin(Y * 1.3 - X * 0.4) + 0.25 * np.sin(X * 4.1 + 1.3) * np.sin(Y * 3.7 + 0.4)
     attrs = {k_: bil(v, DX0 + 0.5, DY0 + 0.5).astype(np.float32) for k_, v in GM.items()}
-    attrs["lawn"] = np.maximum(attrs["lawn"], w * (0.35 + 0.65 * nz)).astype(np.float32)
-    attrs["clear"] = np.maximum(attrs["clear"], w * 0.8).astype(np.float32)
+    attrs["lawn"] = np.maximum(attrs["lawn"], w * (0.6 + 0.4 * nz)).astype(np.float32)
+    attrs["clear"] = np.maximum(attrs["clear"], w * 0.5 * (1 - nz)).astype(np.float32)
+    attrs["path"] = (attrs["path"] * (1 - np.clip(w * 3, 0, 1))).astype(np.float32)   # the old trail line does not run over the mound
     attrs["meadow"] = np.clip(w * 1.3 + 0.25 * (lift > 0.02), 0, 1).astype(np.float32)
     ob = bc.grid_mesh("terrain_kulpen", Z.astype(np.float32), PATCH[0], PATCH[1], res, attrs, coll=coll)
     ob.data.materials.append(TM)
@@ -184,9 +185,9 @@ def add_grass(protos):
     """Grass on the mound (the ground patch, where 'meadow' says) and on the sod roof."""
     pa = bpy.data.objects.get("terrain_kulpen")
     if pa:
-        md = pa.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_berm", protos, 70, attr="meadow", seed=11)
+        md = pa.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_berm", protos, 170, attr="meadow", seed=11)
     for o in [o for o in bpy.data.objects if o.name.startswith("KU-sodroof")]:
-        md = o.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_roof", protos, 70, seed=12)
+        md = o.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_roof", protos, 150, seed=12)
 
 
 def keep_trees(x, y):
@@ -332,12 +333,15 @@ def build(MAT, H, coll):
         y_ = yb_ if sg < 0 else ya_
         while (y_ > ya_ + 0.05) if sg < 0 else (y_ < yb_ - 0.05):
             ln = min(float(rng.uniform(0.35, 0.7)), abs((ya_ if sg < 0 else yb_) - y_)); yy0, yy1 = sorted((y_, y_ + sg * ln))
-            zt = berm_z(xl, (yy0 + yy1) / 2) or 0.0
+            z0t, z1t = (berm_z(xl, yy0) or 0.0) + 0.04, (berm_z(xl, yy1) or 0.0) + 0.04
             z = min(_hb(H, (xa_ + xb_) / 2, yy0), _hb(H, (xa_ + xb_) / 2, yy1)) - 0.25
-            while z < zt:
-                hgt = float(rng.uniform(0.15, 0.24)); top = min(z + hgt, zt + 0.05)
-                if top - z > 0.06:
-                    _zbox(Pe, gran, xa_ + float(rng.uniform(0, 0.03)), yy0 + 0.004, z, xb_ - float(rng.uniform(0, 0.03)), yy1 - 0.004, top - 0.006)
+            while z < max(z0t, z1t) - 0.02:
+                hgt = float(rng.uniform(0.15, 0.24)); i_ = float(rng.uniform(0, 0.03)); j_ = float(rng.uniform(0, 0.03))
+                if z + hgt < min(z0t, z1t):
+                    _zbox(Pe, gran, xa_ + i_, yy0 + 0.004, z, xb_ - j_, yy1 - 0.004, z + hgt - 0.006)
+                else:  # the top course follows the slope of the mound
+                    fu._xprism(Pe, gran, [(yy0 + 0.004, z), (yy1 - 0.004, z), (yy1 - 0.004, max(z + 0.03, z1t)), (yy0 + 0.004, max(z + 0.03, z0t))], xa_ + i_, xb_ - j_)
+                    break
                 z += hgt
             y_ += sg * ln
     # the granite chimney: dry-laid courses from inside the roof to 0.8 over the ridge, a slate cap, the steel flue tip
