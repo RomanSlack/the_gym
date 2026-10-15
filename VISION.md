@@ -196,6 +196,20 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
     - **Sod roof (torvtak)** and dark tarred timber.
     - Set partly into the bank: a low mound from the trail, opening to the stream with a window and a small deck over the pool.
   - **Mixed, swimwear on** (the Norwegian norm).
+  - **Kulpen ("the pool"), the design (Roman, 2026-10-14):**
+    - **From the trail (west)** it barely reads as a building: set into the bank, the sod roof runs down into the forest floor on the berm side; a dry-stacked granite chimney comes out of the grassy hump.
+    - **To the water (east)** it opens: dark tarred board-on-board (style B), one big divided window at bench height looking at the pool and down to the weir.
+    - **Porch** under a deep eave at the entry: robe hooks, sandal rack, firewood stacked against the wall.
+    - **Deck** over the pool in Kebony (like the bridge decks), about 0.9 m above the water; granite slab steps down into the pool (no ladder), one blackened-steel handrail.
+    - **Cold shower:** a split-log timber flume brings stream water to a tipping bucket at the deck edge (an echo of F3's nagashi-sōmen).
+    - **Badestamp:** a wood-fired hot tub on the deck by the pool (Roman: "sure add the wood fired hot tub why not"). Hybrid like the sauna: its own wood stove, plus an electric heater that keeps it warm in between.
+    - **Sequence inside:** porch, a small changing room (bench, hooks, towel shelf), the hot room, out onto the deck and into the pool.
+    - **Hot room for 10–12:** U-shaped benches on two tiers all facing the window, the upper tier at window height, so everyone looks at the water.
+    - **Heater: wood-fired but hybrid (Roman).** A big soapstone (kleberstein) mass heater, fired from the changing-room side (no ash or smoke in the hot room), with a small fire window glowing into the hot room. Electric elements in the same stone mass keep it hot for the 24/7, unstaffed hours; the wood fire is the ritual when someone lights it.
+    - **Materials:** thermo-aspen walls and benches (warm honey-brown, a step darker than the main building, the earthy Fossen direction); slate floor with a drain and oak duckboards; an oak bucket and ladle with a brass rim; a blackened-steel heater guard.
+    - **Light:** almost none. A warm line under each bench tier, the fire window, the daylight off the water.
+    - **Size:** 5 × 8 m holds it: hot room ~4.4 × 3.8 inside, changing ~4.4 × 2.4, the porch under the eave.
+    - **Process:** 2D layout first (like the locker rooms), then built like a stage-6 outbuilding: foundation, frame, envelope, interior.
 - **Locker room back door:** a shared **sauna lobby** between the men's and women's locker rooms (F1, north side of the west wing), with robe hooks, a towel warmer, sandal racks and a key-card door.
 - **Sauna path:** a lit stone path, about 2 m wide, with low bollards. The first stretch has **snow-melt heating**, so robes and sandals work in winter.
 - **Indoor saunas too:** a men's and a women's sauna inside the locker rooms (plus the steam rooms). That's the quick everyday sauna; the badstue is the social, ritual one.
