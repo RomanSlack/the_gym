@@ -61,6 +61,9 @@ if STAGE >= 4:  # backfilled against the walls + final grading: the finished sit
     # backfilled terrain + the enclosed volumes cut out of it (written by tools/envelope.py)
     H = np.load(OUT / "finished_1m.npy")
     VOIDS = json.loads((OUT / "voids.json").read_text())
+if STAGE >= 6:  # stage 6 earthworks: Kulpen's decks (the ground taken down clear of the joists)
+    import sauna  # noqa: E402  (construction/sauna.py)
+    H = sauna.grade(H)
 
 site0 = bc.collection("0 · site")
 if STAGE >= 4:  # a local patch round the building gets the volumes cut out exactly; the rest stays one plain grid
@@ -304,7 +307,10 @@ for ph in range(1, STAGE + 1):
 # ---------------------------------------------------------------- furniture, fixtures, doors (stage 5: reception + cafe first)
 if STAGE >= 5 and model.get("furnishings"):
     import furniture  # noqa: E402  (construction/furniture.py)
-    print("furnishings:", furniture.build_all(model, MAT, bc.collection("5b · furniture + fixtures")))
+    print("furnishings:", furniture.build_all({**model, "furnishings": [f for f in model["furnishings"] if f.get("phase", 5) <= STAGE]}, MAT,
+                                              bc.collection("5b · furniture + fixtures")))
+if STAGE >= 6:  # Kulpen, the outdoor sauna: foundation, frame, envelope, inside, decks (construction/sauna.py)
+    print("Kulpen:", sauna.build(MAT, H, bc.collection("6 · Kulpen")), "parts")
 
 # ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
 if STAGE >= 4:
@@ -540,6 +546,15 @@ CAMS = {
     "lk_m_shoe": ((-12.1, -3.6, 1.6), (-14.4, -1.0, 0.8), 19),
     "lk_m_groom": ((-28.3, -3.0, 1.6), (-27.0, -0.4, 1.3), 18),
     "deck_n_falls": ((0.3, 7.08, 1.7), (-3.0, 32.0, -1.0), 20),
+    # Kulpen, the outdoor sauna (stage 6): from the path, across the pool, from the north (the mound), on the deck, the porch, inside
+    "ku_path": ((-27.5, 83.5, 2.0), (-22.6, 95.0, 2.3), 24),
+    "ku_pool": ((1.5, 89.0, 0.6), (-20.0, 96.0, 1.4), 26),
+    "ku_north": ((-34.0, 113.0, 3.2), (-23.0, 96.0, 2.4), 24),
+    "ku_deck": ((-14.9, 92.6, 1.35), (-20.0, 97.6, 1.1), 18),
+    "ku_porch": ((-21.0, 90.9, 2.1), (-24.6, 93.3, 1.3), 20),
+    "ku_hot": ((-21.25, 96.45, 2.15), (-24.8, 99.4, 1.25), 15),
+    "ku_hot_view": ((-24.95, 98.3, 2.35), (-20.5, 97.3, 1.65), 17),
+    "ku_changing": ((-24.4, 93.9, 2.2), (-22.6, 96.05, 1.0), 15),
     "deck_s": ((11.4, -12.15, 1.66), (-4.5, -10.4, 1.1), 18),
     "dc_staff": ((16.3, 20.6, 1.62), (12.4, 18.0, 1.4), 16),
     "dc_staff_wc": ((15.9, 20.6, 1.62), (16.2, 17.2, 1.0), 18),
@@ -584,12 +599,13 @@ if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
              3: ["frame_overview", "frame_east", "frame_gorge", "roof_eaves", "lounge_deck", "hall_f1", "spiral", "daycare_garden", "site_top"],
              5: ["rec_art", "rec_art_close", "rec_entry", "rec_desk", "rec_vestibule", "rec_from_cafe", "cafe_bar", "cafe_bridge", "cafe_window", "wc_w_aisle", "wc_w_vanity", "wc_m_aisle", "wc_acc", "dc_kids", "dc_loft", "dc_story", "dc_toddler", "dc_wardrobe", "dc_wc", "dc_story_close", "dc_lake_close", "dc_low_play", "dc_low_climb", "dc_low_sleep", "dc_low_store", "dc_low_mudroom", "garden_from_door", "garden_from_top", "garden_slide", "dc_low_wc", "dc_low_tube", "dc_low_fort", "dc_low_wheels", "dc_tube_top", "dc_low_track", "dc_low_music", "dc_low_banners", "dc_staff", "dc_staff_wc", "dc_staff_door", "dc_gate", "dc_nest", "dc_crown", "dc_window_nest", "dc_mirror", "wc_w_sanit", "wc_cell_in", "dc_changing", "rec_desk_staff", "rec_nook", "cafe_tables", "cafe_station", "cafe_menu", "wc_signs", "wc_acc_cord", "cafe_ring", "cafe_elva", "cafe_elva_close", "cafe_boulder", "cafe_view", "cafe_east", "cafe_wcwall", "wc_w_doors", "wc_m_urinal", "wc_w_open", "wc_m_open", "wc_cell_open", "wc_m_cell_open", "wc_acc_in", "wc_acc_basin", "br_join", "br_from_cafe", "br_gates", "br_axis", "br_to_cafe", "br_glass", "br_glass_down", "br_ladder", "br_to_deck", "deck_n", "deck_n_falls", "deck_s", "lounge_deck", "br_open", "br_stack", "br_track_s", "gal_from_bridge", "gal_kilden", "gal_entries", "gal_south", "gal_floor", "lk_m_entry", "lk_m_aisle", "lk_m_wash", "lk_m_wc", "lk_w_aisle", "lk_w_wash", "lk_lobby"],
+             6: ["ku_path", "ku_pool", "ku_north", "ku_deck", "ku_porch", "ku_hot", "ku_hot_view", "ku_changing"],
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (1.6 if n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

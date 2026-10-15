@@ -3779,6 +3779,303 @@ def eyelid_sconce(P, z=1.95):
     P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.075, z - 0.041), (0.11, 0.07, 0.002))
 
 
+
+# ------------------------------------------------------------------ Kulpen, the outdoor sauna (VISION "Kulpen", Roman 2026-10-14)
+def _kulpen_mats():
+    """Thermo-aspen (heat-treated: honey-brown all through, no resin, cool to sit on), light aspen, soapstone (kleberstein), split
+    granite, birch bark, the fire, the bathing water."""
+    M.setdefault("aspen_thermo", bc.pbr_material("aspen_thermo", "ash_veneer", 1.0, box=True, tint=(1.0, 0.74, 0.5), sat=0.95, val=0.78, piece_var=0.08, rough_add=0.1))
+    M.setdefault("aspen", bc.pbr_material("aspen_light", "ash_veneer", 1.0, box=True, tint=(1.05, 1.0, 0.9), sat=0.4, val=1.55, piece_var=0.06))
+    M.setdefault("soapstone", bc.pbr_material("soapstone", "dark_rock", 1.6, box=True, tint=(0.78, 0.86, 0.82), sat=0.35, val=0.72, rough_mul=0.55, rough_add=0.15, piece_var=0.05))
+    M.setdefault("granite_split", bc.pbr_material("granite_split", "quarry_wall", 1.4, box=True, tint=(0.95, 0.95, 0.95), sat=0.25, val=0.8, piece_var=0.12))
+    M.setdefault("slate_floor", bc.pbr_material("slate_floor", "slate_floor_03", 1.0, box=True, tint=(0.75, 0.78, 0.8), sat=0.4, val=0.42, rough_add=0.05, piece_var=0.1))
+    M.setdefault("birch_bark", bc.material("birch_bark", (0.86, 0.83, 0.77), 0.8))
+    M.setdefault("birch_end", bc.material("birch_end", (0.78, 0.62, 0.43), 0.85))
+    M.setdefault("fire", bc.material("fire_glow", (1.0, 0.45, 0.12), 0.6, emit=((1.0, 0.42, 0.1), 18.0)))
+    M.setdefault("water_bath", bc.arch_glass("water_bath", tint=(0.8, 0.9, 0.86)))
+    M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
+    return M
+
+
+def _xprism(P, mat, pts_yz, x0, x1):
+    """A profile in the y-z plane extruded along x (half logs, sloped stringers)."""
+    b = P.bm(mat)
+    v0 = [b.verts.new((x0, y, z)) for y, z in pts_yz]; v1 = [b.verts.new((x1, y, z)) for y, z in pts_yz]
+    b.faces.new(v0[::-1]); b.faces.new(v1)
+    n = len(pts_yz)
+    for i in range(n):
+        j = (i + 1) % n
+        b.faces.new((v0[i], v0[j], v1[j], v1[i]))
+    bmesh.ops.recalc_face_normals(b, faces=b.faces[-(n + 2):])
+
+
+def sauna_tier(P, L=3.0, d=0.6, seat=1.0, back=False):
+    """A tier of Kulpen's benches in thermo-aspen: seat slats 28 thick along the run with 12 mm gaps, on bearers at <= 600, a wall
+    cleat and front legs; under the front edge a warm LED line that lights the slatted skirt below (the only light in the hot
+    room besides the fire and the window). back=True: a raked three-slat backrest on brackets against the wall.
+    Origin = the bench's centre on the floor, front +y."""
+    _kulpen_mats(); a = M["aspen_thermo"]
+    n = max(3, int(round(d / 0.1))); p = d / n
+    for k in range(n):
+        P.box(a, (0, -d / 2 + p * (k + 0.5), seat - 0.014), (L - 0.004, p - 0.012, 0.028))
+    nb = max(2, math.ceil(L / 0.6) + 1)
+    for k in range(nb):
+        u = -L / 2 + 0.03 + k * (L - 0.06) / (nb - 1)
+        P.box(a, (u, 0, seat - 0.063), (0.045, d - 0.02, 0.07))
+    P.box(a, (0, -d / 2 + 0.0225, seat - 0.063), (L, 0.045, 0.07))                       # wall cleat
+    P.box(a, (0, d / 2 - 0.0425, seat - 0.063), (L, 0.045, 0.07))                        # front rail
+    nl = max(2, math.ceil(L / 1.2) + 1)
+    for k in range(nl):
+        u = -L / 2 + 0.05 + k * (L - 0.1) / (nl - 1)
+        P.box(a, (u, d / 2 - 0.09, (seat - 0.098) / 2), (0.068, 0.068, seat - 0.098))
+    z0 = 0.6 if seat > 0.8 else 0.07                                                       # the skirt: above the lower tier's seat / off the floor
+    u = -L / 2 + 0.04
+    while u < L / 2 - 0.03:
+        P.box(a, (u, d / 2 - 0.13, (z0 + seat - 0.1) / 2), (0.07, 0.02, seat - 0.1 - z0)); u += 0.085
+    P.box(_led("bench_line", (1.0, 0.7, 0.42), 3.0), (0, d / 2 - 0.075, seat - 0.1), (L - 0.1, 0.012, 0.005))
+    if back:
+        for k, z in enumerate((0.25, 0.42, 0.59)):
+            P.box(a, (0, -d / 2 + 0.06 + 0.035 * k, seat + z), (L - 0.02, 0.022, 0.09), rx=math.radians(-12))
+        for k in range(nb):
+            uu = -L / 2 + 0.03 + k * (L - 0.06) / (nb - 1)
+            P.box(a, (uu, -d / 2 + 0.03, seat + 0.42), (0.04, 0.05, 0.5))
+
+
+def sauna_heater(P):
+    """Kulpen's heater: a soapstone (kleberstein) mass heater, hybrid. Four courses of 300 mm soapstone on a slate plinth hold the
+    heat for hours; a steel basket of stones on top for the löyly; a small fire window into the hot room; electric elements in the
+    same mass keep it hot in the unstaffed hours. It is fired from the changing room: a neck through the wall, a soapstone face
+    there with a cast door, an ash door, a slate hearth in front. A blackened-steel guard rail round the hot-room sides; the flue
+    rises to the granite chimney. Origin = the body's centre on the floor (hot room side), front +y (into the hot room)."""
+    _kulpen_mats(); ss, st, sl = M["soapstone"], M["steel"], M["slate_floor"]
+    W, D = 0.9, 0.75
+    P.box(sl, (0, 0, 0.025), (W + 0.06, D + 0.06, 0.05))
+    for k, (z0, z1) in enumerate(((0.05, 0.36), (0.36, 0.67), (0.67, 0.98), (0.98, 1.25))):
+        i = 0.02 if k == 3 else 0.0
+        P.box(ss, (0, 0, (z0 + z1) / 2), (W - 2 * i, D - 2 * i, z1 - z0 - 0.004))
+    for sx in (-1, 1):                                                                     # the stone basket
+        P.box(st, (sx * 0.42, 0, 1.36), (0.008, 0.69, 0.22)); P.box(st, (0, sx * 0.345, 1.36), (0.84, 0.008, 0.22))
+    rng = np.random.default_rng(7)
+    stone = M.setdefault("sauna_stones", bc.pbr_material("sauna_stones", "dark_rock", 0.6, box=True, tint=(0.75, 0.75, 0.75), sat=0.3, val=0.6, piece_var=0.15))
+    for z in (1.29, 1.36, 1.43):
+        for _ in range(26):
+            r = float(rng.uniform(0.045, 0.07))
+            P.blob(stone, (float(rng.uniform(-0.36, 0.36)), float(rng.uniform(-0.28, 0.28)), z), (r, r * float(rng.uniform(0.8, 1.1)), r * 0.7), seg=12)
+    P.box(st, (0, D / 2 + 0.006, 0.55), (0.4, 0.012, 0.32))                                # the fire window (hot room)
+    P.box(M["fire"], (0, D / 2 + 0.008, 0.55), (0.3, 0.012, 0.22))
+    P.box(M["glass"], (0, D / 2 + 0.016, 0.55), (0.32, 0.006, 0.24))
+    P.box(ss, (0, -D / 2 - 0.1, 0.525), (0.5, 0.2, 0.45))                                  # the neck through the wall
+    yF = -D / 2 - 0.2 - 0.06                                                               # the face in the changing room
+    P.box(ss, (0, yF, 0.5), (0.9, 0.12, 0.9))
+    P.box(st, (0, yF - 0.07, 0.5), (0.38, 0.02, 0.32)); P.box(M["fire"], (0, yF - 0.075, 0.5), (0.24, 0.012, 0.18))
+    P.box(M["glass"], (0, yF - 0.083, 0.5), (0.26, 0.006, 0.2))
+    P.rod(st, (0.15, yF - 0.08, 0.5), (0.15, yF - 0.14, 0.5), 0.01, seg=8); P.rod(st, (0.15, yF - 0.14, 0.44), (0.15, yF - 0.14, 0.56), 0.012, seg=8)
+    P.box(st, (0, yF - 0.07, 0.17), (0.3, 0.02, 0.09))                                     # ash door
+    P.box(sl, (0, yF - 0.06 - 0.3, 0.01), (0.9, 0.6, 0.02))                                # slate hearth
+    P.cyl(st, (0, -0.18, 1.25), 0.08, 1.1, seg=24)                                          # flue to the chimney
+    for sx in (-1, 1):                                                                     # guard
+        for yy in (-0.3, 0.5):
+            P.rod(st, (sx * 0.58, yy, 0.0), (sx * 0.58, yy, 0.9), 0.012, seg=10)
+        for z in (0.45, 0.88):
+            P.rod(st, (sx * 0.58, -0.3, z), (sx * 0.58, 0.5, z), 0.01, seg=10)
+    for z in (0.45, 0.88):
+        P.rod(st, (-0.58, 0.5, z), (0.58, 0.5, z), 0.01, seg=10)
+
+
+def sauna_bucket(P):
+    """An oak löyly bucket with brass hoops and a long-handled oak ladle across it (the brass is the accent). Origin = floor, front +y."""
+    _kulpen_mats(); oak = M["oak"]
+    P.cyl(oak, (0, 0, 0.0), 0.13, 0.03, seg=28)
+    P.ring(oak, (0, 0), 0.125, 0.145, 0.0, 0.26, seg=48)
+    for z in (0.05, 0.2):
+        P.ring(M["brass"], (0, 0), 0.145, 0.151, z, z + 0.015, seg=48)
+    P.cyl(M["water_bath"], (0, 0, 0.17), 0.126, 0.005, seg=28)
+    P.rod(oak, (-0.1, 0.0, 0.27), (0.42, 0.04, 0.33), 0.011, seg=8)
+    P.cyl(oak, (-0.06, 0.0, 0.2), 0.045, 0.06, seg=18)
+
+
+def kindling_basket(P):
+    """A birch-bark basket of kindling by the firebox. Origin = floor, front +y."""
+    _kulpen_mats(); bark = M["birch_bark"]
+    P.ring(bark, (0, 0), 0.15, 0.165, 0.0, 0.32, seg=40); P.cyl(bark, (0, 0, 0.0), 0.16, 0.02, seg=28)
+    rng = np.random.default_rng(5)
+    for _ in range(14):
+        x, y = rng.uniform(-0.1, 0.1, 2)
+        P.rod(M["birch_end"], (float(x), float(y), 0.03), (float(x) + float(rng.uniform(-0.04, 0.04)), float(y), 0.42), 0.012, seg=6)
+
+
+def firewood_stack(P, L=1.2, h=1.8, d=0.42):
+    """Birch for the heater and the tub, stacked under the porch eave against the granite wall: split logs ends out on two oak
+    sleepers, white bark showing. Origin = the wall at the centre, front +y."""
+    _kulpen_mats()
+    for sx in (-1, 1):
+        P.box(M["oak"], (sx * (L / 2 - 0.1), d / 2, 0.03), (0.08, d, 0.06))
+    rng = np.random.default_rng(23); z = 0.115
+    while z < h:
+        x = -L / 2 + 0.06
+        while x < L / 2 - 0.05:
+            r = float(rng.uniform(0.042, 0.06)); zz = z + float(rng.uniform(-0.008, 0.008))
+            P.rod(M["birch_bark"], (x, 0.02, zz), (x, d - 0.02 + float(rng.uniform(-0.02, 0.0)), zz), r, seg=9)
+            P.rod(M["birch_end"], (x, d - 0.02, zz), (x, d - 0.016, zz), r - 0.006, seg=9)
+            x += 2 * r + 0.004
+        z += 0.108
+
+
+def peg_rail(P, L=2.0):
+    """Changing-room pegs: an oak rail at 1.65 with oak pegs at 200, two towels hanging. Origin = the wall, front +y."""
+    _kulpen_mats(); oak = M["oak"]
+    P.box(oak, (0, 0.012, 1.65), (L, 0.024, 0.1))
+    n = int(L / 0.2)
+    for k in range(n):
+        x = -L / 2 + 0.1 + k * 0.2
+        P.rod(oak, (x, 0.02, 1.65), (x, 0.1, 1.68), 0.012, seg=10)
+    for x in (-L / 2 + 0.3, -L / 2 + 0.9):
+        P.box(M["towel_white"], (x, 0.085, 1.4), (0.3, 0.025, 0.5))
+
+
+def sauna_gauges(P):
+    """A thermometer + hygrometer (brass rims) and a sand timer on an aspen board at eye height. Origin = the wall, front +y."""
+    _kulpen_mats()
+    P.box(M["aspen_thermo"], (0, 0.01, 1.7), (0.32, 0.02, 0.18))
+    for x in (-0.08, 0.04):
+        P.cyl(M["brass"], (x, 0.03, 1.7), 0.045, 0.012, seg=28); P.cyl(M["ceramic"], (x, 0.037, 1.7), 0.04, 0.006, seg=28)
+    P.box(M["aspen_thermo"], (0.12, 0.05, 1.63), (0.06, 0.05, 0.012)); P.box(M["aspen_thermo"], (0.12, 0.05, 1.77), (0.06, 0.05, 0.012))
+    P.cyl(M["glass"], (0.12, 0.05, 1.64), 0.022, 0.12, seg=16)
+
+
+def split_log_bench(P, L=1.4):
+    """The porch bench: a half pine log, flat side up, on two split granite blocks. Origin = floor, front +y."""
+    _kulpen_mats()
+    for sx in (-1, 1):
+        P.box(M["granite_split"], (sx * (L / 2 - 0.25), 0, 0.15), (0.34, 0.3, 0.3))
+    r = 0.17
+    prof = [(r * math.cos(a), 0.47 - r * math.sin(a)) for a in np.linspace(0, math.pi, 13)]
+    _xprism(P, M["log"], [(y, z) for y, z in prof], -L / 2, L / 2)
+    P.box(M["oak"], (0, 0, 0.475), (L, 2 * r - 0.01, 0.01))
+
+
+def porch_lantern(P, z=2.0):
+    """A blackened-steel porch lantern: an open frame round an opal cylinder, a cap, a wall arm. Origin = the wall, front +y."""
+    st = M["steel"]
+    P.box(st, (0, 0.006, z + 0.1), (0.1, 0.012, 0.16)); P.box(st, (0, 0.08, z + 0.15), (0.03, 0.15, 0.02))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            P.box(st, (sx * 0.07, 0.16 + sy * 0.07, z), (0.012, 0.012, 0.26))
+    P.box(st, (0, 0.16, z + 0.14), (0.18, 0.18, 0.02)); P.box(st, (0, 0.16, z - 0.13), (0.16, 0.16, 0.012))
+    P.cyl(M["opal"], (0, 0.16, z - 0.11), 0.045, 0.2, seg=20)
+
+
+def plank_door(P, width=0.9, height=2.05):
+    """Kulpen's front door: tarred vertical planks (120, V-jointed) on ledges and a brace, a hand-forged steel latch and a brass
+    ring pull (the accent), in a tarred casing. Origin = the opening's centre on the floor, front +y (the porch)."""
+    _kulpen_mats(); tar, st = M["tar"], M["steel"]
+    n = int(width / 0.12)
+    for k in range(n):
+        x = -width / 2 + (k + 0.5) * width / n
+        P.box(tar, (x, 0.0, height / 2), (width / n - 0.006, 0.04, height - 0.01))
+    for z in (0.25, height - 0.25):
+        P.box(tar, (0, -0.035, z), (width - 0.06, 0.03, 0.12))
+    for sx in (-1, 1):
+        P.box(tar, (sx * (width / 2 + 0.04), 0.03, height / 2 + 0.04), (0.08, 0.025, height + 0.08))
+    P.box(tar, (0, 0.03, height + 0.04), (width + 0.16, 0.025, 0.08))
+    P.box(st, (width / 2 - 0.13, 0.025, 1.05), (0.06, 0.01, 0.16))
+    P.ring(M["brass"], (width / 2 - 0.13, 0.03), 0.032, 0.04, 0.95, 0.958, seg=24)
+    for z in (0.3, height - 0.3):
+        P.box(st, (-width / 2 + 0.2, 0.024, z), (0.38, 0.006, 0.04))                        # strap hinges
+
+
+def sauna_glass_door(P, width=0.75, height=1.9):
+    """The hot-room door: one leaf of 8 mm bronze-tinted toughened glass in a thermo-aspen frame, aspen pull bars both sides,
+    opens out (no lock, never). Origin = the opening's centre on the floor, front +y."""
+    _kulpen_mats(); a = M["aspen_thermo"]
+    for sx in (-1, 1):
+        P.box(a, (sx * (width / 2 - 0.03), 0, height / 2), (0.06, 0.07, height))
+    for z in (0.04, height - 0.04):
+        P.box(a, (0, 0, z), (width, 0.07, 0.08))
+    tint = M.setdefault("glass_bronze", bc.arch_glass("glass_bronze", tint=(0.86, 0.74, 0.58)))
+    P.box(tint, (0, 0, height / 2), (width - 0.12, 0.008, height - 0.16))
+    for sy in (-1, 1):
+        P.box(a, (width / 2 - 0.12, sy * 0.06, 1.0), (0.035, 0.03, 0.42))
+        for z in (0.82, 1.18):
+            P.box(a, (width / 2 - 0.12, sy * 0.04, z), (0.03, 0.03, 0.03))
+
+
+def deck_door(P, width=0.9, height=2.05):
+    """The door out to the deck: a blackened-steel framed glass leaf (like the windows), an oak kick plate and a brass lever.
+    Origin = the opening's centre on the floor, front +y (outside)."""
+    fr = M["frame"]
+    for sx in (-1, 1):
+        P.box(fr, (sx * (width / 2 - 0.03), 0, height / 2), (0.06, 0.06, height))
+    for z in (0.03, 0.3, height - 0.03):
+        P.box(fr, (0, 0, z), (width, 0.06, 0.06))
+    P.box(M["glass"], (0, 0, (0.33 + height - 0.06) / 2), (width - 0.12, 0.024, height - 0.39))
+    P.box(M["oak"], (0, 0, 0.165), (width - 0.12, 0.03, 0.24))
+    for sy in (-1, 1):
+        P.rod(M["brass"], (width / 2 - 0.09, sy * 0.03, 1.05), (width / 2 - 0.09, sy * 0.08, 1.05), 0.009, seg=10)
+        P.rod(M["brass"], (width / 2 - 0.09, sy * 0.08, 1.05), (width / 2 - 0.22, sy * 0.08, 1.05), 0.009, seg=10)
+
+
+def badestamp(P, d=2.0, h=1.0):
+    """Kulpen's badestamp: a wood-fired hot tub for eight. 44 thermo-aspen staves (45 thick) in two blackened-steel hoops, an aspen
+    bench ring inside at 0.45, the water 0.15 under the rim, three bearers under it on the deck. Heated by its own stove (hybrid:
+    the stove + an electric heater that keeps it warm in between). Origin = the tub's centre on the deck."""
+    _kulpen_mats(); a, st = M["aspen_thermo"], M["steel"]
+    r = d / 2; n = 44
+    for k in range(n):
+        t = 2 * math.pi * k / n
+        P.box(a, ((r - 0.0225) * math.cos(t), (r - 0.0225) * math.sin(t), 0.08 + h / 2), (0.045, 2 * math.pi * r / n - 0.004, h), rz=t)
+    for z in (0.25, h - 0.12):
+        P.ring(st, (0, 0), r, r + 0.008, 0.08 + z, 0.08 + z + 0.05, seg=96)
+    P.cyl(a, (0, 0, 0.08), r - 0.04, 0.05, seg=48)
+    P.ring(a, (0, 0), r - 0.4, r - 0.045, 0.08 + 0.42, 0.08 + 0.46, seg=72)
+    for t in np.linspace(0, 2 * math.pi, 9)[:-1]:
+        P.box(a, ((r - 0.22) * math.cos(t), (r - 0.22) * math.sin(t), 0.08 + 0.21), (0.35, 0.05, 0.42), rz=float(t))
+    P.cyl(M["water_bath"], (0, 0, 0.08 + h - 0.16), r - 0.046, 0.01, seg=72)
+    for x in (-0.6, 0.0, 0.6):
+        P.box(a, (x, 0, 0.04), (0.1, d - 0.3, 0.08))
+
+
+def stamp_stove(P):
+    """The tub's stove: a blackened-steel firebox on legs beside the tub, two pipes into the staves (the water circulates through
+    it), a glowing door on its side, a 120 chimney with a rain cap. Origin = floor, front +y (towards the tub)."""
+    _kulpen_mats(); st = M["steel"]
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            P.box(st, (sx * 0.2, sy * 0.2, 0.1), (0.03, 0.03, 0.2))
+    P.box(st, (0, 0, 0.55), (0.5, 0.5, 0.7))
+    P.box(st, (0.255, 0, 0.45), (0.012, 0.26, 0.22)); P.box(M["fire"], (0.262, 0, 0.45), (0.004, 0.18, 0.14))
+    for z in (0.35, 0.75):
+        P.rod(st, (0, 0.25, z), (0, 0.55, z), 0.035, seg=12)
+    P.cyl(st, (-0.1, -0.1, 0.9), 0.06, 1.9, seg=16)
+    P.cyl(st, (-0.1, -0.1, 2.85), 0.12, 0.08, seg=16, r2=0.02)
+    P.box(M["birch_bark"], (0, -0.36, 0.06), (0.4, 0.2, 0.12))
+
+
+def stamp_steps(P, w=0.8):
+    """Oak steps up to the tub rim: two treads at 0.33 and 0.66 on cut stringers. Origin = floor centre, front +y (away from the tub)."""
+    oak = M["oak"]
+    for k, (y, z) in enumerate(((0.12, 0.33), (-0.14, 0.66))):
+        P.box(oak, (0, y, z - 0.02), (w, 0.28, 0.04))
+    for sx in (-1, 1):
+        _xprism(P, oak, [(0.26, 0.0), (0.26, 0.31), (-0.02, 0.31), (-0.02, 0.64), (-0.28, 0.64), (-0.28, 0.0)], sx * (w / 2 - 0.03) - 0.02, sx * (w / 2 - 0.03) + 0.02)
+
+
+def tip_bucket(P):
+    """The cold shower: a tipping oak bucket (300 l a minute of pool water, pumped up the flume) on a steel axle between two peeled
+    pine posts, a rope pull with an oak toggle. Origin = the deck under it, front +y."""
+    _kulpen_mats(); lg, st, oak = M["log"], M["steel"], M["oak"]
+    for sx in (-1, 1):
+        P.rod(lg, (sx * 0.5, 0, 0), (sx * 0.5, 0, 2.62), 0.07, 0.065, seg=14)
+    P.rod(lg, (-0.58, 0, 2.55), (0.58, 0, 2.55), 0.06, seg=14)
+    P.rod(st, (-0.45, 0, 2.15), (0.45, 0, 2.15), 0.012, seg=10)
+    tl = math.radians(14)
+    c = Vector((0, 0.02, 2.05)); ax = Vector((0, math.sin(tl), math.cos(tl)))
+    P.rod(oak, tuple(c - ax * 0.18), tuple(c + ax * 0.2), 0.21, 0.23, seg=28)
+    for t in (-0.1, 0.12):
+        P.rod(st, tuple(c + ax * (t - 0.012)), tuple(c + ax * (t + 0.012)), 0.237, seg=28)
+    P.rod(M["rope"], (0.2, 0.2, 2.2), (0.2, 0.25, 1.45), 0.008, seg=6)
+    P.rod(oak, (0.2, 0.25, 1.46), (0.2, 0.25, 1.36), 0.016, seg=8)
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -3813,9 +4110,10 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
+PARAMS = {"duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
+          "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
           "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),

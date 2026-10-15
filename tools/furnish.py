@@ -811,6 +811,67 @@ for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
     putl("cell_light", x, y, zone="lobby", z_ceiling=2.88, light={"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8],
          "aim": [x, y, 0.0], "color": WARM})
 
+# ---- Kulpen, the outdoor sauna (stage 6; VISION "Kulpen", Roman 2026-10-14): placed from model/layouts/sauna.json; the shell is
+# construction/sauna.py. phase 6: built only from stage 6 on.
+KU = _json.loads((ROOT / "model" / "layouts" / "sauna.json").read_text())
+KFL, KDECK = KU["levels"]["floor"], KU["levels"]["deck"]
+FIRE = [1.0, 0.5, 0.2]
+def putk(kind, x, y, rot=0.0, z=None, **kw):
+    put(kind, x, y, rot=rot, zone="sauna", level="KULPEN", z=KFL if z is None else z, phase=6, **kw)
+def KUs(kind):
+    return [i for i in KU["items"] if i["kind"] == kind]
+def _w(x, y, rot, u, v):  # a piece's local (u, v) in the world
+    r = math.radians(rot); return [round(x + u * math.cos(r) - v * math.sin(r), 3), round(y + u * math.sin(r) + v * math.cos(r), 3)]
+for it in KUs("bench_upper") + KUs("bench_lower"):
+    up = it["kind"] == "bench_upper"; seat = 1.0 if up else 0.55
+    ax, ay = _w(it["x"], it["y"], it["rot"], 0, it["d"] / 2 - 0.1)
+    putk("sauna_tier", it["x"], it["y"], rot=it["rot"], L=it["w"], d=it["d"], seat=seat, back=up, note="thermo-aspen tier, " + ("upper (the hot one)" if up else "lower"),
+         light={"type": "AREA", "energy": round(2.2 * it["w"], 1), "size": round(it["w"] - 0.1, 2), "size_y": 0.03, "offset": [0, it["d"] / 2 - 0.08, seat - 0.11],
+                "aim": [ax, ay, KFL - 1.0], "color": ZEN})
+for it in KUs("heater"):
+    putk("sauna_heater", it["x"], it["y"], rot=it["rot"], note="soapstone mass heater, hybrid (wood from the changing room + electric)",
+         light={"type": "POINT", "energy": 18, "radius": 0.1, "offset": [0, 0.55, 0.55], "color": FIRE})
+    putk("light_only", it["x"], it["y"] - 1.25, note="the firebox glow in the changing room", light={"type": "POINT", "energy": 10, "radius": 0.08, "offset": [0, 0, 0.5], "color": FIRE})
+for it in KUs("water_bucket"):
+    putk("sauna_bucket", it["x"], it["y"], note="löyly bucket + ladle")
+for it in KUs("duckboard"):
+    putk("duckboard", it["x"], it["y"], w=round(it["w"], 2), d=round(it["d"], 2), note="oak duckboards in the hot room")
+for it in KUs("kindling"):
+    putk("kindling_basket", it["x"], it["y"], note="kindling by the firebox")
+for it in KUs("bench"):
+    putk("bench", it["x"], it["y"], rot=it["rot"], length=it["w"], note="changing-room bench")
+for it in KUs("peg_rail"):
+    putk("peg_rail", -25.25 + 0.016, it["y"], rot=-90, L=it["w"], note="pegs over the bench")
+for it in KUs("towels"):
+    putk("towel_shelf", it["x"], 93.65 + 0.016, rot=0, length=it["w"], note="fresh towels")
+for it in KUs("tap_station"):
+    putk("tap_station", it["x"], 93.65 + 0.016, rot=0, note="water after the heat")
+for it in KUs("firewood"):
+    putk("firewood_stack", -25.25 + 0.1, it["y"], rot=-90, L=round(it["w"], 2), h=1.8, d=0.42, note="birch under the porch eave")
+for it in KUs("sandals"):
+    putk("robe_wall", it["x"], 93.4 - 0.022, rot=180, length=it["w"], note="robes + sandals on the porch")
+for it in KUs("porch_bench"):
+    putk("split_log_bench", it["x"], it["y"], rot=180, L=it["w"], note="split-log bench on the porch")
+putk("porch_lantern", -23.45, 93.4 - 0.022, rot=180, z=KFL, note="porch lantern",
+     light={"type": "POINT", "energy": 14, "radius": 0.05, "offset": [0, 0.16, 1.92], "color": ZEN})
+putk("plank_door", -24.15, 93.45, rot=180, width=0.9, height=2.05, note="the front door")
+putk("deck_door", -20.58, 94.75, rot=-90, width=0.9, height=2.05, note="out to the deck")
+putk("sauna_glass_door", -21.375, 96.125, rot=180, width=0.75, height=1.9, note="the hot-room door, opens out")
+putk("sauna_gauges", -20.75 + 0.016, 96.4, rot=90, note="thermometer, hygrometer, sand timer")
+for x in (-23.6, -21.9):
+    putk("cell_light", x, 94.85, z_ceiling=2.4, light={"type": "SPOT", "energy": 10, "spot_deg": 60, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.35],
+         "aim": [x, 94.85, KFL - 1.0], "color": WARM}, note="changing-room downlight")
+for it in KUs("badestamp"):
+    putk("badestamp", it["x"], it["y"], z=KDECK, d=it["w"], h=1.0, note="badestamp: wood-fired hot tub, hybrid")
+    t = math.radians(25); rr = it["w"] / 2 + 0.55
+    sx, sy = it["x"] + rr * math.cos(t), it["y"] + rr * math.sin(t)
+    putk("stamp_stove", sx, sy, rot=round(math.degrees(t) + 90, 1), z=KDECK, note="the tub's stove",
+         light={"type": "POINT", "energy": 8, "radius": 0.05, "offset": [0.4, 0, 0.45], "color": FIRE})
+for it in KUs("stamp_steps"):
+    putk("stamp_steps", it["x"], it["y"], rot=it["rot"], z=KDECK, w=it["w"], note="steps up to the tub")
+for it in KUs("tip_bucket"):
+    putk("tip_bucket", it["x"], it["y"], rot=it["rot"], z=KDECK, note="tipping bucket, cold pool water")
+
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
 for f in m.get("fixtures", []):
