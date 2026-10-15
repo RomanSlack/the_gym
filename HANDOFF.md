@@ -56,8 +56,10 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 
 **Kulpen, the outdoor sauna (2026-10-14, Roman: work on it now):** VISION "Kulpen". 2D first (`model/layouts/sauna.json`, `tools/sauna_layout.py`, `blueprint/layout.html?name=sauna`), then 3D as the first stage-6 build: the shell is `construction/sauna.py` (foundation, frame, envelope, sod roof + berm, chimney, inside, decks, pool steps, flume; `grade()` lowers the ground under the decks; `keep_trees()` keeps the forest off); the pieces are furnishings with `phase: 6` (`tools/furnish.py` section "Kulpen"; scene.py only builds furnishings whose phase <= the stage). Render: `scene.py -- 6 render` (cameras `ku_*`; the hot room + changing room get +1.6 exposure).
 
+**Gym floors finished + lit (2026-10-14):** F2 + F3 finishes in `tools/interior.py` (zone 'the gym floors'), the light in `tools/furnish.py` ('the gym floors' light': `gym_line`, `wall_washer`); cameras `gym_*`. Watch out: an emissive diffuser inside a solid box is invisible (the first renders looked switched off).
+
 **Then:**
-1. the gym F1 hall: stretching, cardio, calisthenics (floor + ceiling done; equipment + lighting to do). The locker rooms are done (first full pass).
+1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
 3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
 
