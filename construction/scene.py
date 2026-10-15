@@ -21,6 +21,11 @@ import bl_common as bc  # noqa: E402
 args = sys.argv[sys.argv.index("--") + 1:]
 STAGE = int(args[0]) if args else 0
 RENDER = "render" in args
+DRAFT = "draft" in args  # quick looks: 48 samples (denoised) at 1280 x 720
+import time as _time
+_T0 = _time.time()
+def _tick(what):
+    print(f"[time] {what}: {_time.time() - _T0:.0f} s", flush=True)
 OUT = ROOT / "construction" / "out"; OUT.mkdir(parents=True, exist_ok=True)
 RV, SITE = ROOT / "terrain" / "out" / "ravine", ROOT / "terrain" / "out" / "site"
 model = json.loads((ROOT / "model" / "building.json").read_text())
@@ -32,7 +37,9 @@ scene = bpy.context.scene
 bc.world_and_render(scene)
 if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop stays responsive
     scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
-    scene.cycles.samples = 128 if STAGE >= 5 else 64; scene.cycles.use_denoising = True
+    scene.cycles.samples = 48 if DRAFT else 128 if STAGE >= 5 else 64; scene.cycles.use_denoising = True
+    if DRAFT:
+        scene.render.resolution_percentage = 80
     _pr = bpy.context.preferences.addons["cycles"].preferences
     for _dev in ("OPTIX", "CUDA"):
         try:
@@ -308,6 +315,7 @@ for ph in range(1, STAGE + 1):
                 cc.objects.unlink(o)
             coll.objects.link(o)
 
+_tick("terrain + structure")
 # ---------------------------------------------------------------- furniture, fixtures, doors (stage 5: reception + cafe first)
 if STAGE >= 5 and model.get("furnishings"):
     import furniture  # noqa: E402  (construction/furniture.py)
@@ -316,6 +324,7 @@ if STAGE >= 5 and model.get("furnishings"):
 if STAGE >= 6:  # Kulpen, the outdoor sauna: foundation, frame, envelope, inside, decks (construction/sauna.py)
     print("Kulpen:", sauna.build(MAT, H, bc.collection("6 · Kulpen")), "parts")
 
+_tick("furniture")
 # ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
 if STAGE >= 4:
     gcoll = bc.collection("6 · grass")
@@ -613,7 +622,9 @@ for o in bpy.data.objects:  # grass on the sod roofs lives as modifiers on the r
     for md_ in o.modifiers:
         if md_.type == "NODES" and md_.node_group and md_.node_group.name.startswith(("GN_grass", "GN_forest")):
             md_.show_viewport = False
+_tick("grass + forest + bevels")
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
+_tick("saved .blend")
 EXPO = scene.view_settings.exposure
 if RENDER:
     shots = {0: ["site_aerial", "ravine_upstream", "site_top"], 1: ["pit_overview", "pit_east", "cofferdam", "pit_floor", "daycare_garden", "site_top"],
@@ -640,5 +651,5 @@ if RENDER:
         sc_.render.image_settings.file_format = ff; sc_.render.image_settings.quality = q_
         vs_.view_transform, vs_.look, vs_.exposure = keep_
         bpy.data.images.remove(img_)
-        print("kept", f"stage_{STAGE}_{n}_v{v:03d}.jpg")
+        print("kept", f"stage_{STAGE}_{n}_v{v:03d}.jpg"); _tick(f"rendered {n}")
 print("stage", STAGE, "done")
