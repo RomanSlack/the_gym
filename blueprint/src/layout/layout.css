@@ -47,3 +47,8 @@ html, body, #root { margin: 0; height: 100%; }
 .zone-t { font-size: 0.17px; fill: #6a5a42; text-anchor: middle; pointer-events: none; font-style: italic; }
 .w-t { font-size: 0.2px; font-family: "IBM Plex Mono", monospace; font-weight: 600; pointer-events: none; }
 .flow-layer { pointer-events: none; }
+.site-water { fill: rgba(120, 170, 195, 0.35); stroke: #5b8aa3; stroke-width: 0.02px; }
+.contour { fill: none; stroke: rgba(120, 100, 70, 0.35); stroke-width: 0.012px; }
+.contour.major { stroke: rgba(120, 100, 70, 0.6); stroke-width: 0.02px; }
+.contour-t { font-size: 0.2px; fill: #8a7a5a; font-family: "IBM Plex Mono", monospace; }
+.win { stroke: #5b8aa3; stroke-width: 0.06px; }

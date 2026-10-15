@@ -1,4 +1,4 @@
-// Layouts · F1 locker rooms (Roman, 2026-10-12): the rooms top-down in 2D, exact dimensions, every element at true size, before any
+// Layouts · F1 locker rooms (Roman, 2026-10-12) + Kulpen, the outdoor sauna (?name=sauna; its walls, rooms, dims + site contours are in its own JSON): the rooms top-down in 2D, exact dimensions, every element at true size, before any
 // 3D. Walls / openings / columns / rooms come from model/building.json; the elements from model/layouts/lockers.json (written by
 // tools/locker_layout.py, then edited here and saved back through the dev server's /api/layout).
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -11,13 +11,18 @@ interface Item {
   r_in?: number; r_out?: number; mouth?: number;
   pts?: Pt[]; width?: number; cls?: string; status?: string; need?: number;
 }
-interface Kind { label: string; d: number; h: number; unit?: number; clear?: number; mat: string }
-interface Layout { note: string; rooms: string[]; view: [number, number, number, number]; kinds: Record<string, Kind>; items: Item[] }
+interface Kind { label: string; d: number; h: number; unit?: number; clear?: number; mat: string; shape?: string }
+interface Dim { a: number; b: number; off: number; horiz: boolean; label?: string }
+interface Layout {
+  note: string; rooms: string[]; view: [number, number, number, number]; kinds: Record<string, Kind>; items: Item[];
+  title?: string; cut?: number; spaces?: Space[]; walls?: Wall[]; dims?: Dim[]; summary?: string[]; site?: { contours: { z: number; pts: Pt[] }[]; water: Pt[][] };
+}
 interface Wall { id: string; type: string; kind?: string; material: string; from: Pt; to: Pt; size: [number, number]; z: [number, number]; openings?: { s: [number, number]; z: [number, number]; type: string }[] }
 interface Space { id: string; level: string; name: string; poly: Pt[] }
 
 const model = modelJson as unknown as { elements: (Wall & { at?: Pt })[]; spaces: Space[] };
 const CUT = 1.0; // plan cut height above F1
+const NAME = (new URLSearchParams(location.search).get("name") || "lockers").replace(/[^a-z0-9_-]/gi, "");
 const SNAP = 0.025;
 const snap = (v: number, on: boolean) => (on ? Math.round(v / SNAP) * SNAP : Math.round(v * 1000) / 1000);
 const f2 = (v: number) => v.toFixed(2);
@@ -25,6 +30,7 @@ const f2 = (v: number) => v.toFixed(2);
 const TAG: Record<string, string> = {
   lockers: "L", bench: "bench", shoe_bench: "shoes off", towels: "towels", towel_return: "towel return", shower: "SH", shower_acc: "SH ♿",
   wc: "WC", wc_acc: "WC ♿", urinal: "U", vanity: "vanity", grooming: "grooming", cleaner: "clean", robe_hooks: "robes + sandals",
+  peg_rail: "pegs", heater: "HEATER", badestamp: "BADESTAMP", tip_bucket: "bucket", firewood: "wood", stamp_stove: "stove", firebox: "fire",
   towel_warmer: "warmer", fossen: "FOSSEN", wash_station: "wash", spring_basin: "spring", bridge_slab: "", screen: "", oak_block: "",
   slipper_rack: "slippers UV", partition: "", floor_zone: "", robot: "🤖", robot_dock: "dock", uvc_plate: "UV-C", far_uvc: "UVC",
 };
@@ -32,6 +38,8 @@ const MAT: Record<string, [string, string]> = { // fill, stroke
   oak: ["#e4cfa8", "#8a6a3a"], oak_solid: ["#efe2c6", "#8a6a3a"], walnut: ["#9b6b45", "#4f3420"], mirror: ["#cfdde3", "#4a6b78"],
   steel: ["#4a4c50", "#1e1f22"], wet: ["#dfe9ee", "#5b8aa3"], wet_feature: ["#c6dbe5", "#2f6683"], wc: ["#f4f4f2", "#555"],
   stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"], zone: ["rgba(120, 110, 95, 0.10)", "rgba(120, 110, 95, 0.6)"], wall: ["#555", "#333"], robot: ["#d6b98a", "#2a2a2a"], uvc: ["rgba(140, 110, 220, 0.25)", "#6b4fc4"],
+  aspen: ["#c99a63", "#6b4a26"], aspen_low: ["#dcb685", "#6b4a26"], soapstone: ["#7d8580", "#2f3532"], wood: ["#a98a64", "#5a4128"],
+  deck: ["#8c7a66", "#3e3428"], deck_step: ["#a8957e", "#3e3428"], tub: ["#6f5a44", "#2a2118"],
 };
 
 function rectPts(it: Item, w = it.w ?? 1, d = it.d ?? 1, dy = 0): Pt[] {
@@ -67,18 +75,18 @@ export default function LayoutApp() {
   const drag = useRef<{ kind: "item" | "pan"; x: number; y: number; ox: number; oy: number; vb: typeof vb; pts?: Pt[] } | null>(null);
 
   useEffect(() => {
-    fetch("/api/layout?name=lockers").then((r) => r.json()).then((d: Layout) => {
+    fetch(`/api/layout?name=${NAME}`).then((r) => r.json()).then((d: Layout) => {
       setData(d);
       const q = new URLSearchParams(location.search).get("view");  // ?view=x0,y0,x1,y1 in project metres (y north)
       if (q) { const [x0, y0, x1, y1] = q.split(",").map(Number); setVb([x0, -y1, x1 - x0, y1 - y0]); } else setVb(d.view);
     });
   }, []);
 
-  const rooms = useMemo(() => (data ? model.spaces.filter((s) => s.level === "F1" && (data.rooms.includes(s.id) || s.id.startsWith("lift-") && s.id.endsWith("F1"))) : []), [data]);
+  const rooms = useMemo(() => (data?.spaces ? data.spaces : data ? model.spaces.filter((s) => s.level === "F1" && (data.rooms.includes(s.id) || s.id.startsWith("lift-") && s.id.endsWith("F1"))) : []), [data]);
   const bbox = useMemo(() => { const [x, y, w, h] = vb; return { x0: x - 2, x1: x + w + 2, y0: -(y + h) - 2, y1: -y + 2 }; }, [vb]);
-  const walls = useMemo(() => model.elements.filter((e) => e.type === "wall" && e.z[0] <= CUT && e.z[1] >= CUT && e.from && e.to &&
-    Math.max(e.from[0], e.to[0]) > -40 && Math.min(e.from[0], e.to[0]) < -4 && Math.max(e.from[1], e.to[1]) > -14 && Math.min(e.from[1], e.to[1]) < 16 && e.kind !== "lining"), []);
-  const cols = useMemo(() => model.elements.filter((e) => e.type === "column" && e.at && e.z[0] <= CUT && e.z[1] >= CUT && e.at[0] > -40 && e.at[0] < -4 && e.at[1] > -14 && e.at[1] < 16), []);
+  const walls = useMemo(() => data?.walls ? data.walls.filter((e) => e.z[0] <= data.cut! && e.z[1] >= data.cut!).map((w) => ({ ...w, openings: (w.openings ?? []).map((o) => ({ ...o, z: o.type === "window" ? [CUT, CUT] as [number, number] : o.z })) })) : model.elements.filter((e) => e.type === "wall" && e.z[0] <= CUT && e.z[1] >= CUT && e.from && e.to &&
+    Math.max(e.from[0], e.to[0]) > -40 && Math.min(e.from[0], e.to[0]) < -4 && Math.max(e.from[1], e.to[1]) > -14 && Math.min(e.from[1], e.to[1]) < 16 && e.kind !== "lining"), [data?.walls, data?.cut]);
+  const cols = useMemo(() => data?.walls ? [] : model.elements.filter((e) => e.type === "column" && e.at && e.z[0] <= CUT && e.z[1] >= CUT && e.at[0] > -40 && e.at[0] < -4 && e.at[1] > -14 && e.at[1] < 16), [data?.walls]);
   void bbox;
 
   const commit = useCallback((fn: (d: Layout) => Layout) => {
@@ -87,7 +95,7 @@ export default function LayoutApp() {
   }, []);
   const save = useCallback(async () => {
     if (!data) return;
-    await fetch("/api/layout?name=lockers", { method: "POST", body: JSON.stringify(data, null, 1) });
+    await fetch(`/api/layout?name=${NAME}`, { method: "POST", body: JSON.stringify(data, null, 1) });
     setDirty(false); setMsg("saved " + new Date().toLocaleTimeString());
   }, [data]);
   const upd = (id: string, patch: Partial<Item>) => commit((d) => ({ ...d, items: d.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) }));
@@ -177,6 +185,13 @@ export default function LayoutApp() {
         </g>
       );
     }
+    if (it.pts && it.kind === "flume") return <g key={it.id} className={cls} onMouseDown={grab}><path d={path(it.pts, false)} style={{ stroke: "#8a6a3a", strokeWidth: it.width ?? 0.2, fill: "none" }} /><path d={path(it.pts, false)} style={{ stroke: "#9fc7d9", strokeWidth: (it.width ?? 0.2) * 0.4, fill: "none" }} /></g>;
+    if (it.pts) {  // decks, steps: polygons in the item's own colour
+      const xs = it.pts.map((p) => p[0]), ys = it.pts.map((p) => p[1]);
+      return <g key={it.id} className={cls} onMouseDown={grab}><path d={path(it.pts)} style={{ fill, stroke, opacity: 0.85 }} />
+        {(it.kind === "steps" || it.kind === "stone_steps") && <text x={(Math.min(...xs) + Math.max(...xs)) / 2} y={-(Math.min(...ys) + Math.max(...ys)) / 2} className="tag">{it.kind === "steps" ? "steps ↓" : "into the pool ↓"}</text>}<title>{it.label}</title></g>;
+    }
+    if (k.shape === "circle") return <g key={it.id} className={cls} onMouseDown={grab}>{showClear && <circle cx={it.x} cy={-it.y!} r={(it.w ?? 1) / 2 + 0.6} className="clear" />}<circle cx={it.x} cy={-it.y!} r={(it.w ?? 1) / 2} style={{ fill, stroke }} /><circle cx={it.x} cy={-it.y!} r={(it.w ?? 1) / 2 - 0.08} style={{ fill: "#9fc7d9", stroke }} /><text x={it.x} y={-it.y! + 0.07} className="tag">{TAG[it.kind] ?? ""}</text><title>{it.label}</title></g>;
     if (it.kind === "round_seat") return <g key={it.id} className={cls} onMouseDown={grab}><circle cx={it.x} cy={-it.y!} r={(it.w ?? 0.8) / 2} style={{ fill, stroke }} /></g>;
     if (it.kind === "floor_zone") {
       const b = rectPts(it);
@@ -210,8 +225,8 @@ export default function LayoutApp() {
   return (
     <div className="lay">
       <aside className="lay-side">
-        <div className="proj"><div className="proj-name">THE GYM</div><div className="proj-sub">Layouts · F1 locker rooms · 2D</div></div>
-        <a className="lay-link" href="/">← drawing set</a>
+        <div className="proj"><div className="proj-name">THE GYM</div><div className="proj-sub">{data.title ?? "Layouts · F1 locker rooms · 2D"}</div></div>
+        <a className="lay-link" href="/">← drawing set</a> · <a className="lay-link" href={NAME === "sauna" ? "?name=lockers" : "?name=sauna"}>{NAME === "sauna" ? "locker rooms" : "Kulpen (sauna)"}</a>
         <div className="lay-btns">
           <button onClick={save} className={dirty ? "hot" : ""}>{dirty ? "● Save (Ctrl S)" : "Saved"}</button>
           <button onClick={() => { const u = undo.current.pop(); if (u) { setData(JSON.parse(u)); setDirty(true); } }}>Undo (Ctrl Z)</button>
@@ -220,10 +235,11 @@ export default function LayoutApp() {
           <label><input type="checkbox" checked={showFlow} onChange={() => setShowFlow((v) => !v)} /> people flow + widths</label>
         </div>
         <div className="lay-msg mono">{msg}</div>
-        <div className="lay-sec">
+        {data.summary && <div className="lay-sec">{data.summary.map((t) => <div key={t} className="mono" style={{ fontSize: 11.5 }}>{t}</div>)}</div>}
+        {Object.keys(counts).length > 0 && <div className="lay-sec">
           <div className="lay-h">Lockers</div>
           {Object.entries(counts).map(([r, n]) => <div key={r} className="mono">{r.replace("-lockers", "")}: {n}</div>)}
-        </div>
+        </div>}
         {selIt ? (
           <div className="lay-sec">
             <div className="lay-h">{selIt.label}</div>
@@ -264,6 +280,9 @@ export default function LayoutApp() {
               <rect width="0.25" height="0.25" fill="#efe2c6" /><line x1="0" y1="0" x2="0" y2="0.25" stroke="#c9ab78" strokeWidth="0.02" />
             </pattern>
           </defs>
+          {data.site && data.site.water.map((p, i) => <path key={"w" + i} d={path(p)} className="site-water" />)}
+          {data.site && data.site.contours.map((c, i) => <g key={"c" + i}><path d={path(c.pts, false)} className={Math.abs(c.z % 1) < 0.01 ? "contour major" : "contour"} />
+            {Math.abs(c.z % 1) < 0.01 && c.pts.length > 6 && <text x={c.pts[Math.floor(c.pts.length / 2)][0]} y={-c.pts[Math.floor(c.pts.length / 2)][1]} className="contour-t">{c.z > 0 ? "+" : ""}{c.z.toFixed(1)}</text>}</g>)}
           {rooms.map((s) => {
             const xs = s.poly.map((p) => p[0]), ys = s.poly.map((p) => p[1]);
             const cx = (Math.min(...xs) + Math.max(...xs)) / 2, top = Math.max(...ys);
@@ -276,7 +295,11 @@ export default function LayoutApp() {
           })}
           {walls.map((w) => wallPolys(w).map((p, i) => <path key={w.id + i} d={path(p)} className={w.kind === "glazed" ? "wall glass" : w.kind === "partition" ? "wall part" : "wall"} />))}
           {cols.map((c) => <rect key={c.id} x={c.at![0] - c.size[0] / 2} y={-c.at![1] - c.size[1] / 2} width={c.size[0]} height={c.size[1]} className="col" />)}
-          <Dims />
+          {data.dims ? <DimList dims={data.dims} /> : <Dims />}
+          {data.walls && data.walls.flatMap((w) => (w.openings ?? []).filter((o) => o.type === "window").map((o, k) => {
+            const [ax, ay] = w.from, [bx, by] = w.to, L = Math.hypot(bx - ax, by - ay), ux = (bx - ax) / L, uy = (by - ay) / L;
+            return <line key={w.id + "win" + k} x1={ax + ux * o.s[0]} y1={-(ay + uy * o.s[0])} x2={ax + ux * o.s[1]} y2={-(ay + uy * o.s[1])} className="win" />;
+          }))}
           {data.items.filter((i) => i.kind === "floor_zone").map(renderItem)}
           {data.items.filter((i) => i.kind === "oak_block").map(renderItem)}
           {data.items.filter((i) => i.kind !== "oak_block" && i.kind !== "floor_zone").map(renderItem)}
@@ -289,9 +312,7 @@ export default function LayoutApp() {
   );
 }
 
-/** Exact clear dimensions of each room (to the wall FACES), as dimension strings. */
-function Dims() {
-  const D = ({ a, b, off, horiz, label }: { a: number; b: number; off: number; horiz: boolean; label?: string }) => {
+const D = ({ a, b, off, horiz, label }: { a: number; b: number; off: number; horiz: boolean; label?: string }) => {
     const t = label ?? f2(Math.abs(b - a));
     return horiz ? (
       <g className="dim"><line x1={a} x2={b} y1={-off} y2={-off} /><line x1={a} x2={a} y1={-off - 0.12} y2={-off + 0.12} /><line x1={b} x2={b} y1={-off - 0.12} y2={-off + 0.12} />
@@ -300,7 +321,11 @@ function Dims() {
       <g className="dim"><line y1={-a} y2={-b} x1={off} x2={off} /><line y1={-a} y2={-a} x1={off - 0.12} x2={off + 0.12} /><line y1={-b} y2={-b} x1={off - 0.12} x2={off + 0.12} />
         <text x={off - 0.1} y={-(a + b) / 2} className="dim-t" transform={`rotate(-90 ${off - 0.1} ${-(a + b) / 2})`}>{t}</text></g>
     );
-  };
+};
+function DimList({ dims }: { dims: Dim[] }) { return <g>{dims.map((d, i) => <D key={i} {...d} />)}</g>; }
+
+/** Exact clear dimensions of each room (to the wall FACES), as dimension strings. */
+function Dims() {
   return (
     <g>
       <D a={-29.375} b={-11.675} off={-10.2} horiz label="17.70 (changing rooms, wall face to wall face)" />
