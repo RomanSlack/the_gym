@@ -430,6 +430,13 @@ CAMS = {
     "roof_eaves": ((-48, -52, 9), (-28, -32, 4), 24),
     "lounge_deck": ((3, -24, 1.7), (3, 2, 3.2), 18),
     "hall_f1": ((-9, -32, 1.7), (-24, 8, 3.8), 16),
+    # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
+    # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
+    "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),
+    "gym_f2_cable": ((-17.4, 0.2, -3.25), (-7.5, -10.5, -3.5), 16),
+    "gym_f2_across": ((-28.6, -10.6, -2.9), (-7.0, -22.0, -3.6), 14),
+    "gym_f1_hall": ((-7.6, -33.2, 1.65), (-22.0, -10.0, 1.4), 16),
+    "gym_f3_floor": ((-13.2, -33.4, -8.1), (-16.5, 10.0, -8.5), 16),
     "spiral": ((-12.5, -22, -8.0), (-17.95, -14.85, -4.5), 16),
     "daycare_garden": ((46, 82, 24), (22, 38, -5), 26),
     "style_gorge": ((3, -88, -1.0), (-1, 0, -1.5), 24),      # compare docs/style/bdarksod_gorge.jpg
@@ -613,7 +620,7 @@ if RENDER:
         scene.camera = bpy.data.objects[f"cam_{n}"]
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (1.6 if n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (1.6 if n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
