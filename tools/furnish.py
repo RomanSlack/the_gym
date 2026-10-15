@@ -853,6 +853,27 @@ for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "40
             light={"type": "AREA", "energy": round(wpm * 0.9 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, zc - 0.06],
                    "aim": [-29.45, (a_ + b_) / 2, zl + 1.2], "color": GYM_C[temp]}, note="wall-washer down the west wall")
 
+# ---- the spiral's ring + guards, the water stations, the wipes stations (Roman 2026-10-14: clean round the ring of the stairs, add the
+# railing, the water stations, the round wipes dispenser + bin in brushed stainless; a few at scale, repositioned with the equipment)
+_spe = next(e for e in m["elements"] if e["id"] == "ST3-spiral_west")
+_sri, _sro = _spe["r"]; _sz0, _sz1 = _spe["z"]; _srs = _spe["risers"]; _sst = _spe["step_deg"]; _sa0 = _spe["a0"]
+_rr = (_sz1 - _sz0) / _srs
+_kF2 = round((lv["F2"] - _sz0) / _rr) - 1                      # the tread level with F2 (you step off there)
+put("spiral_balustrade", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, ri=_sri, ro=_sro, rise=round(_sz1 - _sz0, 3), risers=_srs,
+    step_deg=_sst, a0=_sa0, gap_k=[_kF2, _kF2], note="the spiral's guards: steel bars, oak handrail outside, steel inside")
+for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
+    ga, gb = _sa0 + _sst * k - 10, _sa0 + _sst * (k + 1) + 10
+    ga, gb = ga % 360, (ga % 360) + (gb - ga)
+    put("ring_guard", *_spe["center"], zone="gym-stair", level=lvl, z=lv[lvl], r=_sro, gap_a=round(ga, 1), gap_b=round(gb, 1), h=1.1, band=0.39,
+        note="the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off")
+for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -9.0, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
+    y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)
+    put("tap_station", x, y, rot=rot, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl], note="water station: chilled tap, birch cups")
+for lvl, x, y in (("F2", -13.4, -11.6), ("F2", -27.6, -21.0), ("F2", -8.0, -29.5), ("F2", -8.0, 4.5), ("F3", -15.2, -20.5), ("F3", -27.6, -6.0),
+                  ("F3", -20.5, 5.5), ("F1", -12.8, -30.5), ("F1", -27.6, -27.0)):
+    put("wipe_station", x, y, rot=90 if x < -25 else -90 if x > -10 else 0, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl],
+        note="wipes + bin (placeholder spot: repositioned with the equipment)")
+
 # ---- Kulpen, the outdoor sauna (stage 6; VISION "Kulpen", Roman 2026-10-14): placed from model/layouts/sauna.json; the shell is
 # construction/sauna.py. phase 6: built only from stage 6 on.
 KU = _json.loads((ROOT / "model" / "layouts" / "sauna.json").read_text())

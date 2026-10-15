@@ -20538,7 +20538,67 @@
       "note": "wall-washer down the west wall"
     },
     {
-      "id": "sauna_tier-939",
+      "id": "spiral_balustrade-939",
+      "kind": "spiral_balustrade",
+      "level": "F3",
+      "at": [-17.95, -14.85],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-stair",
+      "ri": 1.26,
+      "ro": 3.5,
+      "rise": 9.77,
+      "risers": 56,
+      "step_deg": 15,
+      "a0": 90,
+      "gap_k": [27, 27],
+      "note": "the spiral's guards: steel bars, oak handrail outside, steel inside"
+    },
+    {
+      "id": "ring_guard-940",
+      "kind": "ring_guard",
+      "level": "F2",
+      "at": [-17.95, -14.85],
+      "z": -4.91,
+      "rot_deg": 0.0,
+      "zone": "gym-stair",
+      "r": 3.5,
+      "gap_a": 125,
+      "gap_b": 160,
+      "h": 1.1,
+      "band": 0.39,
+      "note": "the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off"
+    },
+    {
+      "id": "ring_guard-941",
+      "kind": "ring_guard",
+      "level": "F1",
+      "at": [-17.95, -14.85],
+      "z": 0.0,
+      "rot_deg": 0.0,
+      "zone": "gym-stair",
+      "r": 3.5,
+      "gap_a": 185,
+      "gap_b": 220,
+      "h": 1.1,
+      "band": 0.39,
+      "note": "the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off"
+    },
+    {"id": "tap_station-942", "kind": "tap_station", "level": "F2", "at": [-24.0, 11.785], "z": -4.91, "rot_deg": 180, "zone": "gym-f2", "note": "water station: chilled tap, birch cups"},
+    {"id": "tap_station-943", "kind": "tap_station", "level": "F2", "at": [-9.0, -33.785], "z": -4.91, "rot_deg": 0, "zone": "gym-f2", "note": "water station: chilled tap, birch cups"},
+    {"id": "tap_station-944", "kind": "tap_station", "level": "F3", "at": [-11.0, 11.785], "z": -9.77, "rot_deg": 180, "zone": "gym-f3", "note": "water station: chilled tap, birch cups"},
+    {"id": "tap_station-945", "kind": "tap_station", "level": "F3", "at": [-26.0, -33.785], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "water station: chilled tap, birch cups"},
+    {"id": "wipe_station-946", "kind": "wipe_station", "level": "F2", "at": [-13.4, -11.6], "z": -4.91, "rot_deg": 0, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-947", "kind": "wipe_station", "level": "F2", "at": [-27.6, -21.0], "z": -4.91, "rot_deg": 90, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-948", "kind": "wipe_station", "level": "F2", "at": [-8.0, -29.5], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-949", "kind": "wipe_station", "level": "F2", "at": [-8.0, 4.5], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-950", "kind": "wipe_station", "level": "F3", "at": [-15.2, -20.5], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-951", "kind": "wipe_station", "level": "F3", "at": [-27.6, -6.0], "z": -9.77, "rot_deg": 90, "zone": "gym-f3", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-952", "kind": "wipe_station", "level": "F3", "at": [-20.5, 5.5], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-953", "kind": "wipe_station", "level": "F1", "at": [-12.8, -30.5], "z": 0.0, "rot_deg": 0, "zone": "gym-f1", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {"id": "wipe_station-954", "kind": "wipe_station", "level": "F1", "at": [-27.6, -27.0], "z": 0.0, "rot_deg": 90, "zone": "gym-f1", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
+    {
+      "id": "sauna_tier-955",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-24.95, 97.975],
@@ -20554,7 +20614,7 @@
       "light": {"type": "AREA", "energy": 2.8, "size": 3.45, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-24.75, 97.975, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-940",
+      "id": "sauna_tier-956",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-22.7, 99.45],
@@ -20570,7 +20630,7 @@
       "light": {"type": "AREA", "energy": 3.1, "size": 3.8, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-22.7, 99.25, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-941",
+      "id": "sauna_tier-957",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-24.4, 97.675],
@@ -20586,7 +20646,7 @@
       "light": {"type": "AREA", "energy": 2.4, "size": 2.85, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-24.25, 97.675, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-942",
+      "id": "sauna_tier-958",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-22.45, 98.9],
@@ -20602,7 +20662,7 @@
       "light": {"type": "AREA", "energy": 2.7, "size": 3.3, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-22.45, 98.75, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_heater-943",
+      "id": "sauna_heater-959",
       "kind": "sauna_heater",
       "level": "KULPEN",
       "at": [-23.35, 96.625],
@@ -20614,7 +20674,7 @@
       "light": {"type": "POINT", "energy": 18, "radius": 0.1, "offset": [0, 0.55, 0.55], "color": [1.0, 0.5, 0.2]}
     },
     {
-      "id": "light_only-944",
+      "id": "light_only-960",
       "kind": "light_only",
       "level": "KULPEN",
       "at": [-23.35, 95.375],
@@ -20625,18 +20685,18 @@
       "note": "the firebox glow in the changing room",
       "light": {"type": "POINT", "energy": 10, "radius": 0.08, "offset": [0, 0, 0.5], "color": [1.0, 0.5, 0.2]}
     },
-    {"id": "sauna_bucket-945", "kind": "sauna_bucket", "level": "KULPEN", "at": [-22.6, 96.65], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "löyly bucket + ladle"},
-    {"id": "duckboard-946", "kind": "duckboard", "level": "KULPEN", "at": [-22.6, 97.875], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "w": 2.6, "d": 1.55, "note": "oak duckboards in the hot room"},
-    {"id": "kindling_basket-947", "kind": "kindling_basket", "level": "KULPEN", "at": [-22.6, 95.85], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "kindling by the firebox"},
-    {"id": "bench-948", "kind": "bench", "level": "KULPEN", "at": [-25.025, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "length": 2.0, "note": "changing-room bench"},
-    {"id": "peg_rail-949", "kind": "peg_rail", "level": "KULPEN", "at": [-25.234, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 2.0, "note": "pegs over the bench"},
-    {"id": "towel_shelf-950", "kind": "towel_shelf", "level": "KULPEN", "at": [-22.2, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "length": 1.2, "note": "fresh towels"},
-    {"id": "tap_station-951", "kind": "tap_station", "level": "KULPEN", "at": [-21.15, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "water after the heat"},
-    {"id": "firewood_stack-952", "kind": "firewood_stack", "level": "KULPEN", "at": [-25.15, 92.7], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 1.2, "h": 1.8, "d": 0.42, "note": "birch under the porch eave"},
-    {"id": "robe_wall-953", "kind": "robe_wall", "level": "KULPEN", "at": [-22.3, 93.378], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "length": 2.6, "note": "robes + sandals on the porch"},
-    {"id": "split_log_bench-954", "kind": "split_log_bench", "level": "KULPEN", "at": [-23.6, 92.4], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "L": 1.4, "note": "split-log bench on the porch"},
+    {"id": "sauna_bucket-961", "kind": "sauna_bucket", "level": "KULPEN", "at": [-22.6, 96.65], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "löyly bucket + ladle"},
+    {"id": "duckboard-962", "kind": "duckboard", "level": "KULPEN", "at": [-22.6, 97.875], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "w": 2.6, "d": 1.55, "note": "oak duckboards in the hot room"},
+    {"id": "kindling_basket-963", "kind": "kindling_basket", "level": "KULPEN", "at": [-22.6, 95.85], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "kindling by the firebox"},
+    {"id": "bench-964", "kind": "bench", "level": "KULPEN", "at": [-25.025, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "length": 2.0, "note": "changing-room bench"},
+    {"id": "peg_rail-965", "kind": "peg_rail", "level": "KULPEN", "at": [-25.234, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 2.0, "note": "pegs over the bench"},
+    {"id": "towel_shelf-966", "kind": "towel_shelf", "level": "KULPEN", "at": [-22.2, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "length": 1.2, "note": "fresh towels"},
+    {"id": "tap_station-967", "kind": "tap_station", "level": "KULPEN", "at": [-21.15, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "water after the heat"},
+    {"id": "firewood_stack-968", "kind": "firewood_stack", "level": "KULPEN", "at": [-25.15, 92.7], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 1.2, "h": 1.8, "d": 0.42, "note": "birch under the porch eave"},
+    {"id": "robe_wall-969", "kind": "robe_wall", "level": "KULPEN", "at": [-22.3, 93.378], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "length": 2.6, "note": "robes + sandals on the porch"},
+    {"id": "split_log_bench-970", "kind": "split_log_bench", "level": "KULPEN", "at": [-23.6, 92.4], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "L": 1.4, "note": "split-log bench on the porch"},
     {
-      "id": "porch_lantern-955",
+      "id": "porch_lantern-971",
       "kind": "porch_lantern",
       "level": "KULPEN",
       "at": [-23.45, 93.378],
@@ -20647,12 +20707,12 @@
       "note": "porch lantern",
       "light": {"type": "POINT", "energy": 14, "radius": 0.05, "offset": [0, 0.16, 1.92], "color": [1.0, 0.76, 0.5]}
     },
-    {"id": "plank_door-956", "kind": "plank_door", "level": "KULPEN", "at": [-24.15, 93.45], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "the front door"},
-    {"id": "deck_door-957", "kind": "deck_door", "level": "KULPEN", "at": [-20.58, 94.75], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "out to the deck"},
-    {"id": "sauna_glass_door-958", "kind": "sauna_glass_door", "level": "KULPEN", "at": [-21.375, 96.125], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.75, "height": 1.9, "note": "the hot-room door, opens out"},
-    {"id": "sauna_gauges-959", "kind": "sauna_gauges", "level": "KULPEN", "at": [-20.734, 96.4], "z": 0.6, "rot_deg": 90, "zone": "sauna", "phase": 6, "note": "thermometer, hygrometer, sand timer"},
+    {"id": "plank_door-972", "kind": "plank_door", "level": "KULPEN", "at": [-24.15, 93.45], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "the front door"},
+    {"id": "deck_door-973", "kind": "deck_door", "level": "KULPEN", "at": [-20.58, 94.75], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "out to the deck"},
+    {"id": "sauna_glass_door-974", "kind": "sauna_glass_door", "level": "KULPEN", "at": [-21.375, 96.125], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.75, "height": 1.9, "note": "the hot-room door, opens out"},
+    {"id": "sauna_gauges-975", "kind": "sauna_gauges", "level": "KULPEN", "at": [-20.734, 96.4], "z": 0.6, "rot_deg": 90, "zone": "sauna", "phase": 6, "note": "thermometer, hygrometer, sand timer"},
     {
-      "id": "cell_light-960",
+      "id": "cell_light-976",
       "kind": "cell_light",
       "level": "KULPEN",
       "at": [-23.6, 94.85],
@@ -20665,7 +20725,7 @@
       "note": "changing-room downlight"
     },
     {
-      "id": "cell_light-961",
+      "id": "cell_light-977",
       "kind": "cell_light",
       "level": "KULPEN",
       "at": [-21.9, 94.85],
@@ -20677,9 +20737,9 @@
       "light": {"type": "SPOT", "energy": 10, "spot_deg": 60, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.35], "aim": [-21.9, 94.85, -0.4], "color": [1.0, 0.86, 0.7]},
       "note": "changing-room downlight"
     },
-    {"id": "badestamp-962", "kind": "badestamp", "level": "KULPEN", "at": [-16.35, 97.3], "z": -0.25, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "d": 2.0, "h": 1.0, "note": "badestamp: wood-fired hot tub, hybrid"},
+    {"id": "badestamp-978", "kind": "badestamp", "level": "KULPEN", "at": [-16.35, 97.3], "z": -0.25, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "d": 2.0, "h": 1.0, "note": "badestamp: wood-fired hot tub, hybrid"},
     {
-      "id": "stamp_stove-963",
+      "id": "stamp_stove-979",
       "kind": "stamp_stove",
       "level": "KULPEN",
       "at": [-14.945, 97.955],
@@ -20690,7 +20750,7 @@
       "note": "the tub's stove",
       "light": {"type": "POINT", "energy": 8, "radius": 0.05, "offset": [0.4, 0, 0.45], "color": [1.0, 0.5, 0.2]}
     },
-    {"id": "stamp_steps-964", "kind": "stamp_steps", "level": "KULPEN", "at": [-16.35, 95.95], "z": -0.25, "rot_deg": 180, "zone": "sauna", "phase": 6, "w": 0.8, "note": "steps up to the tub"},
-    {"id": "tip_bucket-965", "kind": "tip_bucket", "level": "KULPEN", "at": [-15.3, 92.55], "z": -0.25, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "tipping bucket, cold pool water"}
+    {"id": "stamp_steps-980", "kind": "stamp_steps", "level": "KULPEN", "at": [-16.35, 95.95], "z": -0.25, "rot_deg": 180, "zone": "sauna", "phase": 6, "w": 0.8, "note": "steps up to the tub"},
+    {"id": "tip_bucket-981", "kind": "tip_bucket", "level": "KULPEN", "at": [-15.3, 92.55], "z": -0.25, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "tipping bucket, cold pool water"}
   ]
 }

@@ -4278,6 +4278,74 @@ def wall_washer(P, L=6.0, z_ceiling=4.56, temp="4000"):
     P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 6.0), (0, 0.02, z_ceiling - 0.075), (L - 0.02, 0.03, 0.003), rx=-0.5)
 
 
+
+def ring_guard(P, r=3.5, gap_a=135.0, gap_b=160.0, h=1.1, band=0.39):
+    """The edge of a round stair opening, cleaned up: a blackened-steel fascia band wrapping the slab edge (it hides the cut floor
+    layers + the raw concrete, and reads as one clean ring from below), and a frameless glass guard on the slab in a steel base
+    shoe with an oak cap rail, open only where you step on and off the stair (gap_a..gap_b, degrees). Origin = the opening's centre
+    at floor level."""
+    st, oak = M["steel"], M["oak"]
+    P.ring(st, (0, 0), r - 0.012, r, -band, 0.012, seg=180)
+    a0, a1 = gap_b, gap_a + 360.0
+    P.ring(st, (0, 0), r + 0.005, r + 0.075, 0.0, 0.11, a0=a0, a1=a1, seg=180)
+    P.ring(M["glass"], (0, 0), r + 0.034, r + 0.046, 0.09, h - 0.045, a0=a0, a1=a1, seg=180)
+    P.ring(oak, (0, 0), r + 0.005, r + 0.075, h - 0.05, h, a0=a0, a1=a1, seg=180)
+    P.ring(st, (0, 0), r + 0.036, r + 0.044, h - 0.065, h - 0.05, a0=a0, a1=a1, seg=180)
+    for a in (a0, a1):  # end posts at the opening
+        t = math.radians(a)
+        P.box(st, ((r + 0.04) * math.cos(t), (r + 0.04) * math.sin(t), h / 2), (0.05, 0.05, h), rz=t)
+
+
+def spiral_balustrade(P, ri=1.26, ro=3.5, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gap_k=(27, 27)):
+    """The spiral's guards: slim blackened-steel bars (12 mm, two a tread) on both edges of the helix, an oak handrail on the outside,
+    a steel one on the inside (the well drops the full height), 0.95 over the nosings; the outer guard opens at gap_k (the treads
+    level with a floor you step off onto). Origin = the stair's centre at its foot."""
+    st, oak = M["steel"], M["oak"]
+    rr = rise / risers; H = 0.95
+    ro_, ri_ = ro - 0.07, ri + 0.05
+    def pt(r, a, z):
+        t = math.radians(a); return (r * math.cos(t), r * math.sin(t), z)
+    for k in range(risers):
+        zt = rr * (k + 1)
+        for f in (0.25, 0.75):
+            a = a0 + step_deg * (k + f)
+            if not (gap_k[0] - 1 <= k <= gap_k[1] + 1):
+                P.rod(st, pt(ro_, a, zt), pt(ro_, a, zt + H + rr * (f - 0.5)), 0.006, seg=6)
+            P.rod(st, pt(ri_, a, zt), pt(ri_, a, zt + H + rr * (f - 0.5)), 0.006, seg=6)
+    n = risers * 4
+    for j in range(n):
+        ka, kb = j / 4, (j + 1) / 4
+        za, zb = rr * (ka + 0.5) + H, rr * (kb + 0.5) + H
+        aa, ab = a0 + step_deg * ka, a0 + step_deg * kb
+        if not (gap_k[0] - 1 <= ka <= gap_k[1] + 1.75):
+            P.rod(oak, pt(ro_, aa, za + 0.02), pt(ro_, ab, zb + 0.02), 0.024, seg=10)
+        P.rod(st, pt(ri_, aa, za + 0.012), pt(ri_, ab, zb + 0.012), 0.016, seg=8)
+
+
+def wipe_station(P):
+    """Wipes + bin for the training floors (Roman's reference: a round brushed-stainless stand): a 320 mm drum, 920 tall, brushed
+    stainless; the satin lid with a grommet and a wipe pulled up through it (the roll inside); a soft-cornered opening at 0.45-0.62
+    for used wipes into a black liner; a slim oiled-oak band under the lid (the flair) and a black rubber foot. Origin = floor, front +y."""
+    bs, oak = M["brushed"], M["oak"]
+    r, h = 0.16, 0.92
+    P.cyl(M["rubber"], (0, 0, 0.0), r + 0.002, 0.012, seg=48)
+    P.ring(bs, (0, 0), r - 0.002, r, 0.012, 0.45, seg=64)
+    P.ring(bs, (0, 0), r - 0.002, r, 0.45, 0.62, a0=90 + 38, a1=90 - 38 + 360, seg=64)  # the opening faces +y
+    P.ring(bs, (0, 0), r - 0.002, r, 0.62, h - 0.06, seg=64)
+    P.ring(oak, (0, 0), r - 0.004, r + 0.001, h - 0.06, h - 0.025, seg=64)
+    P.cyl(bs, (0, 0, h - 0.025), r + 0.004, 0.02, seg=64)                       # the lid with a rolled rim
+    P.cyl(bs, (0, 0, h - 0.005), r - 0.01, 0.004, seg=64)
+    P.cyl(M["rubber"], (0, 0, h - 0.002), 0.022, 0.004, seg=24)                    # the grommet
+    P.blob(M.setdefault("wipe", bc.material("wipe_sheet", (0.92, 0.92, 0.9), 0.85)), (0.004, 0.0, h + 0.035), (0.03, 0.02, 0.045), seg=12)
+    P.ring(M["felt"], (0, 0), r - 0.012, r - 0.004, 0.02, 0.86, seg=48)           # the liner, seen through the opening
+    P.cyl(M["felt"], (0, 0, 0.02), r - 0.01, 0.4, seg=48)                         # used wipes sit on the bag's floor (inside: dark)
+    t0, t1 = math.radians(90 - 38), math.radians(90 + 38)
+    for t in (t0, t1):                                                               # rolled edges of the opening
+        P.box(bs, (r * math.cos(t), r * math.sin(t), 0.535), (0.006, 0.012, 0.17), rz=t)
+    P.ring(bs, (0, 0), r - 0.004, r + 0.002, 0.444, 0.452, a0=90 - 38, a1=90 + 38, seg=24)
+    P.ring(bs, (0, 0), r - 0.004, r + 0.002, 0.618, 0.626, a0=90 - 38, a1=90 + 38, seg=24)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4312,9 +4380,10 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
+PARAMS = {"ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gap_k"),
+          "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
