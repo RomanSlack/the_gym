@@ -105,6 +105,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - **Construction scenes:** `nice -n 19 blender -b --factory-startup -t 12 --python construction/scene.py -- <stage> render [only:cam1,cam2]`.
   - Stage 4+ renders in Cycles (GPU, small tiles).
   - Stage 5 adds the interior and furniture.
+  - **Quick looks: add `draft`** (48 samples, 80 %: Roman found renders slow). With `only:` the scene builds just the furnishings within 45 m of those cameras and does not overwrite the saved full .blend. `[time]` lines in the log show where the time goes (2026-10-14: furniture 72 s -> 21 s after `Part.box` was built directly and `Part.rods` batches bars; a draft frame ~40 s).
   - Cameras are in the `CAMS` dict in `scene.py`; reception and cafe cameras are named `rec_*` / `cafe_*`.
 - **Drawings:** `cd blueprint && npx vite --port 5280` (H = replay, P = A1 sheets, D = dark). Re-export the PDF only when Roman asks: `node tools/export/export_pdf.js`.
 - **Cameras:** every zone's cameras are in `CAMS` in `construction/scene.py` (prefixes `rec_`, `cafe_`, `wc_`, `dc_`, `garden_`, `br_`, `deck_`; deck cameras are outdoors and get no extra exposure). Interiors get +2.8 exposure by prefix: add yours (e.g. `br_`) to that tuple in scene.py.
