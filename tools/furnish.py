@@ -923,6 +923,18 @@ for lvl, zc in (("F1", 5.58), ("F2", round(-0.385 - lv["F2"], 3)), ("F3", round(
                     z_local=round(zc - 0.12, 3), ceiling=zc)
                 k_ += 1
 
+# ---- Bekken i hulen, the den's river (VISION; construction/furniture.py den_stream + DEN): the piece is built in the den's own
+# coordinates; its light: the warm line grazing the water (in runs), a soft spot on the step-down stones + the basin
+put("den_stream", 0.0, 0.0, zone="gym-f3", level="F3", z=lv["F3"], note="the den's river: flume, step-down stones, floor basin")
+for ya in range(-30, 10, 4):
+    yb = min(ya + 4, 10.6)
+    put("light_only", -7.05, (ya + yb) / 2, zone="gym-f3", level="F3", z=lv["F3"], note="the warm line on the water",
+        light={"type": "AREA", "energy": 7, "size": 0.04, "size_y": round(yb - ya, 2), "offset": [0, 0, 1.02], "aim": [-6.92, (ya + yb) / 2, lv["F3"] + 0.6],
+               "color": [1.0, 0.8, 0.55]})
+put("light_only", -7.6, -31.6, zone="gym-f3", level="F3", z=lv["F3"], note="a soft spot on the stones + basin",
+    light={"type": "SPOT", "energy": 60, "spot_deg": 40, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 4.3], "aim": [-7.4, -31.6, lv["F3"]],
+           "color": [1.0, 0.82, 0.6]})
+
 # ---- Kulpen, the outdoor sauna (stage 6; VISION "Kulpen", Roman 2026-10-14): placed from model/layouts/sauna.json; the shell is
 # construction/sauna.py. phase 6: built only from stage 6 on.
 KU = _json.loads((ROOT / "model" / "layouts" / "sauna.json").read_text())

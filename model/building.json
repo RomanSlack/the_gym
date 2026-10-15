@@ -9223,7 +9223,8 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"}
+        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-8.9, -33.65, -6.745, -31.0], "note": "the den river's basin"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
@@ -9243,7 +9244,8 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"}
+        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-8.9, -33.65, -6.745, -31.0], "note": "the den river's basin"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating",
@@ -9262,7 +9264,8 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"}
+        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-8.9, -33.65, -6.745, -31.0], "note": "the den river's basin"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "8 mm acoustic underlay",
@@ -9282,7 +9285,8 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"}
+        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-8.9, -33.65, -6.745, -31.0], "note": "the den river's basin"}
       ],
       "pattern": {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003},
       "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the F1 hall)",
@@ -9348,6 +9352,316 @@
     {"id": "IN-F3-beam-paint-6-124", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.822, -6.45, 12.378], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
     {"id": "IN-F3-beam-paint-6-125", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.821, -6.45, 11.825], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
     {"id": "IN-F3-beam-paint-6-126", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 12.375, -6.45, 12.379], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {
+      "id": "IN-F3-pilaster-paint-C-C2-F4-127",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.704, 4.096, -6.7, 4.704],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {"id": "IN-F3-pilaster-paint-C-C2-F4-128", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.096, -6.45, 4.1], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
+    {"id": "IN-F3-pilaster-paint-C-C2-F4-129", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.7, -6.45, 4.704], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F4-130",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.704, -3.604, -6.7, -2.996],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F4-131",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -3.604, -6.45, -3.6],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F4-132",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -3.0, -6.45, -2.996],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F4-133",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.704, -11.304, -6.7, -10.696],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F4-134",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -11.304, -6.45, -11.3],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F4-135",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -10.7, -6.45, -10.696],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F4-136",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.704, -19.004, -6.7, -18.396],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F4-137",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -19.004, -6.45, -19.0],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F4-138",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -18.4, -6.45, -18.396],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F4-139",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.704, -26.704, -6.7, -26.096],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F4-140",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -26.704, -6.45, -26.7],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F4-141",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.7, -26.1, -6.45, -26.096],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C2-F1-142",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.654, 4.096, -6.65, 4.704],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C2-F1-143",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, 4.096, -6.45, 4.1],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C2-F1-144",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, 4.7, -6.45, 4.704],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F1-145",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.654, -3.604, -6.65, -2.996],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F1-146",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -3.604, -6.45, -3.6],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C3-F1-147",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -3.0, -6.45, -2.996],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F1-148",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.654, -11.304, -6.65, -10.696],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F1-149",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -11.304, -6.45, -11.3],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C4-F1-150",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -10.7, -6.45, -10.696],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F1-151",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.654, -19.004, -6.65, -18.396],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F1-152",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -19.004, -6.45, -19.0],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C5-F1-153",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -18.4, -6.45, -18.396],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F1-154",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.654, -26.704, -6.65, -26.096],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F1-155",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -26.704, -6.45, -26.7],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-pilaster-paint-C-C6-F1-156",
+      "type": "slab",
+      "material": "paint_charcoal",
+      "rect": [-6.65, -26.1, -6.45, -26.096],
+      "z": [-9.77, -5.295],
+      "holes": [],
+      "note": "pilaster painted charcoal (the den)",
+      "phase": 5,
+      "seq": 102
+    },
     {
       "id": "IN-lining-W-west-A-F3-skirt",
       "type": "wall",
@@ -20942,8 +21256,130 @@
     {"id": "ceiling_services-1182", "kind": "ceiling_services", "level": "F3", "at": [-15.2, 9.45], "z": -9.77, "rot_deg": 0.0, "zone": "services", "device": "sprinkler", "z_local": 4.355, "ceiling": 4.475},
     {"id": "ceiling_services-1183", "kind": "ceiling_services", "level": "F3", "at": [-12.1, 9.45], "z": -9.77, "rot_deg": 0.0, "zone": "services", "device": "smoke", "z_local": 4.355, "ceiling": 4.475},
     {"id": "ceiling_services-1184", "kind": "ceiling_services", "level": "F3", "at": [-9.0, 9.45], "z": -9.77, "rot_deg": 0.0, "zone": "services", "device": "sprinkler", "z_local": 4.355, "ceiling": 4.475},
+    {"id": "den_stream-1185", "kind": "den_stream", "level": "F3", "at": [0.0, 0.0], "z": -9.77, "rot_deg": 0.0, "zone": "gym-f3", "note": "the den's river: flume, step-down stones, floor basin"},
     {
-      "id": "sauna_tier-1185",
+      "id": "light_only-1186",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -28.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -28.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1187",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -24.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -24.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1188",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -20.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -20.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1189",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -16.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -16.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1190",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -12.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -12.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1191",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -8.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -8.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1192",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, -4.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, -4.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1193",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, 0.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, 0.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1194",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, 4.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, 4.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1195",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.05, 8.0],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "the warm line on the water",
+      "light": {"type": "AREA", "energy": 7, "size": 0.04, "size_y": 4, "offset": [0, 0, 1.02], "aim": [-6.92, 8.0, -9.17], "color": [1.0, 0.8, 0.55]}
+    },
+    {
+      "id": "light_only-1196",
+      "kind": "light_only",
+      "level": "F3",
+      "at": [-7.6, -31.6],
+      "z": -9.77,
+      "rot_deg": 0.0,
+      "zone": "gym-f3",
+      "note": "a soft spot on the stones + basin",
+      "light": {"type": "SPOT", "energy": 60, "spot_deg": 40, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 4.3], "aim": [-7.4, -31.6, -9.77], "color": [1.0, 0.82, 0.6]}
+    },
+    {
+      "id": "sauna_tier-1197",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-24.95, 97.975],
@@ -20959,7 +21395,7 @@
       "light": {"type": "AREA", "energy": 2.8, "size": 3.45, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-24.75, 97.975, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-1186",
+      "id": "sauna_tier-1198",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-22.7, 99.45],
@@ -20975,7 +21411,7 @@
       "light": {"type": "AREA", "energy": 3.1, "size": 3.8, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-22.7, 99.25, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-1187",
+      "id": "sauna_tier-1199",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-24.4, 97.675],
@@ -20991,7 +21427,7 @@
       "light": {"type": "AREA", "energy": 2.4, "size": 2.85, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-24.25, 97.675, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_tier-1188",
+      "id": "sauna_tier-1200",
       "kind": "sauna_tier",
       "level": "KULPEN",
       "at": [-22.45, 98.9],
@@ -21007,7 +21443,7 @@
       "light": {"type": "AREA", "energy": 2.7, "size": 3.3, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-22.45, 98.75, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
-      "id": "sauna_heater-1189",
+      "id": "sauna_heater-1201",
       "kind": "sauna_heater",
       "level": "KULPEN",
       "at": [-23.35, 96.625],
@@ -21019,7 +21455,7 @@
       "light": {"type": "POINT", "energy": 18, "radius": 0.1, "offset": [0, 0.55, 0.55], "color": [1.0, 0.5, 0.2]}
     },
     {
-      "id": "light_only-1190",
+      "id": "light_only-1202",
       "kind": "light_only",
       "level": "KULPEN",
       "at": [-23.35, 95.375],
@@ -21030,18 +21466,18 @@
       "note": "the firebox glow in the changing room",
       "light": {"type": "POINT", "energy": 10, "radius": 0.08, "offset": [0, 0, 0.5], "color": [1.0, 0.5, 0.2]}
     },
-    {"id": "sauna_bucket-1191", "kind": "sauna_bucket", "level": "KULPEN", "at": [-22.6, 96.65], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "löyly bucket + ladle"},
-    {"id": "duckboard-1192", "kind": "duckboard", "level": "KULPEN", "at": [-22.6, 97.875], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "w": 2.6, "d": 1.55, "note": "oak duckboards in the hot room"},
-    {"id": "kindling_basket-1193", "kind": "kindling_basket", "level": "KULPEN", "at": [-22.6, 95.85], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "kindling by the firebox"},
-    {"id": "bench-1194", "kind": "bench", "level": "KULPEN", "at": [-25.025, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "length": 2.0, "note": "changing-room bench"},
-    {"id": "peg_rail-1195", "kind": "peg_rail", "level": "KULPEN", "at": [-25.234, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 2.0, "note": "pegs over the bench"},
-    {"id": "towel_shelf-1196", "kind": "towel_shelf", "level": "KULPEN", "at": [-22.2, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "length": 1.2, "note": "fresh towels"},
-    {"id": "tap_station-1197", "kind": "tap_station", "level": "KULPEN", "at": [-21.15, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "water after the heat"},
-    {"id": "firewood_stack-1198", "kind": "firewood_stack", "level": "KULPEN", "at": [-25.15, 92.7], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 1.2, "h": 1.8, "d": 0.42, "note": "birch under the porch eave"},
-    {"id": "robe_wall-1199", "kind": "robe_wall", "level": "KULPEN", "at": [-22.3, 93.378], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "length": 2.6, "note": "robes + sandals on the porch"},
-    {"id": "split_log_bench-1200", "kind": "split_log_bench", "level": "KULPEN", "at": [-23.6, 92.4], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "L": 1.4, "note": "split-log bench on the porch"},
+    {"id": "sauna_bucket-1203", "kind": "sauna_bucket", "level": "KULPEN", "at": [-22.6, 96.65], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "löyly bucket + ladle"},
+    {"id": "duckboard-1204", "kind": "duckboard", "level": "KULPEN", "at": [-22.6, 97.875], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "w": 2.6, "d": 1.55, "note": "oak duckboards in the hot room"},
+    {"id": "kindling_basket-1205", "kind": "kindling_basket", "level": "KULPEN", "at": [-22.6, 95.85], "z": 0.6, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "note": "kindling by the firebox"},
+    {"id": "bench-1206", "kind": "bench", "level": "KULPEN", "at": [-25.025, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "length": 2.0, "note": "changing-room bench"},
+    {"id": "peg_rail-1207", "kind": "peg_rail", "level": "KULPEN", "at": [-25.234, 94.85], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 2.0, "note": "pegs over the bench"},
+    {"id": "towel_shelf-1208", "kind": "towel_shelf", "level": "KULPEN", "at": [-22.2, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "length": 1.2, "note": "fresh towels"},
+    {"id": "tap_station-1209", "kind": "tap_station", "level": "KULPEN", "at": [-21.15, 93.666], "z": 0.6, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "water after the heat"},
+    {"id": "firewood_stack-1210", "kind": "firewood_stack", "level": "KULPEN", "at": [-25.15, 92.7], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "L": 1.2, "h": 1.8, "d": 0.42, "note": "birch under the porch eave"},
+    {"id": "robe_wall-1211", "kind": "robe_wall", "level": "KULPEN", "at": [-22.3, 93.378], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "length": 2.6, "note": "robes + sandals on the porch"},
+    {"id": "split_log_bench-1212", "kind": "split_log_bench", "level": "KULPEN", "at": [-23.6, 92.4], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "L": 1.4, "note": "split-log bench on the porch"},
     {
-      "id": "porch_lantern-1201",
+      "id": "porch_lantern-1213",
       "kind": "porch_lantern",
       "level": "KULPEN",
       "at": [-23.45, 93.378],
@@ -21052,12 +21488,12 @@
       "note": "porch lantern",
       "light": {"type": "POINT", "energy": 14, "radius": 0.05, "offset": [0, 0.16, 1.92], "color": [1.0, 0.76, 0.5]}
     },
-    {"id": "plank_door-1202", "kind": "plank_door", "level": "KULPEN", "at": [-24.15, 93.45], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "the front door"},
-    {"id": "deck_door-1203", "kind": "deck_door", "level": "KULPEN", "at": [-20.58, 94.75], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "out to the deck"},
-    {"id": "sauna_glass_door-1204", "kind": "sauna_glass_door", "level": "KULPEN", "at": [-21.375, 96.125], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.75, "height": 1.9, "note": "the hot-room door, opens out"},
-    {"id": "sauna_gauges-1205", "kind": "sauna_gauges", "level": "KULPEN", "at": [-20.734, 96.4], "z": 0.6, "rot_deg": 90, "zone": "sauna", "phase": 6, "note": "thermometer, hygrometer, sand timer"},
+    {"id": "plank_door-1214", "kind": "plank_door", "level": "KULPEN", "at": [-24.15, 93.45], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "the front door"},
+    {"id": "deck_door-1215", "kind": "deck_door", "level": "KULPEN", "at": [-20.58, 94.75], "z": 0.6, "rot_deg": -90, "zone": "sauna", "phase": 6, "width": 0.9, "height": 2.05, "note": "out to the deck"},
+    {"id": "sauna_glass_door-1216", "kind": "sauna_glass_door", "level": "KULPEN", "at": [-21.375, 96.125], "z": 0.6, "rot_deg": 180, "zone": "sauna", "phase": 6, "width": 0.75, "height": 1.9, "note": "the hot-room door, opens out"},
+    {"id": "sauna_gauges-1217", "kind": "sauna_gauges", "level": "KULPEN", "at": [-20.734, 96.4], "z": 0.6, "rot_deg": 90, "zone": "sauna", "phase": 6, "note": "thermometer, hygrometer, sand timer"},
     {
-      "id": "cell_light-1206",
+      "id": "cell_light-1218",
       "kind": "cell_light",
       "level": "KULPEN",
       "at": [-23.6, 94.85],
@@ -21070,7 +21506,7 @@
       "note": "changing-room downlight"
     },
     {
-      "id": "cell_light-1207",
+      "id": "cell_light-1219",
       "kind": "cell_light",
       "level": "KULPEN",
       "at": [-21.9, 94.85],
@@ -21082,9 +21518,9 @@
       "light": {"type": "SPOT", "energy": 10, "spot_deg": 60, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.35], "aim": [-21.9, 94.85, -0.4], "color": [1.0, 0.86, 0.7]},
       "note": "changing-room downlight"
     },
-    {"id": "badestamp-1208", "kind": "badestamp", "level": "KULPEN", "at": [-16.35, 97.3], "z": -0.25, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "d": 2.0, "h": 1.0, "note": "badestamp: wood-fired hot tub, hybrid"},
+    {"id": "badestamp-1220", "kind": "badestamp", "level": "KULPEN", "at": [-16.35, 97.3], "z": -0.25, "rot_deg": 0.0, "zone": "sauna", "phase": 6, "d": 2.0, "h": 1.0, "note": "badestamp: wood-fired hot tub, hybrid"},
     {
-      "id": "stamp_stove-1209",
+      "id": "stamp_stove-1221",
       "kind": "stamp_stove",
       "level": "KULPEN",
       "at": [-14.945, 97.955],
@@ -21095,7 +21531,7 @@
       "note": "the tub's stove",
       "light": {"type": "POINT", "energy": 8, "radius": 0.05, "offset": [0.4, 0, 0.45], "color": [1.0, 0.5, 0.2]}
     },
-    {"id": "stamp_steps-1210", "kind": "stamp_steps", "level": "KULPEN", "at": [-16.35, 95.95], "z": -0.25, "rot_deg": 180, "zone": "sauna", "phase": 6, "w": 0.8, "note": "steps up to the tub"},
-    {"id": "tip_bucket-1211", "kind": "tip_bucket", "level": "KULPEN", "at": [-15.3, 92.55], "z": -0.25, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "tipping bucket, cold pool water"}
+    {"id": "stamp_steps-1222", "kind": "stamp_steps", "level": "KULPEN", "at": [-16.35, 95.95], "z": -0.25, "rot_deg": 180, "zone": "sauna", "phase": 6, "w": 0.8, "note": "steps up to the tub"},
+    {"id": "tip_bucket-1223", "kind": "tip_bucket", "level": "KULPEN", "at": [-15.3, 92.55], "z": -0.25, "rot_deg": 0, "zone": "sauna", "phase": 6, "note": "tipping bucket, cold pool water"}
   ]
 }

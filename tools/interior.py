@@ -308,7 +308,7 @@ LANE = [-14.4, -34.1, -12.0, 12.1]
 for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
                                                              ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
     zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
-    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}] if dark else [])
+    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}, {"rect": [-8.9, -33.65, -6.745, -31.0], "note": "the den river's basin"}] if dark else [])
     add({"id": f"IN-{lvl}-gym-impact", "type": "slab", "material": "impact_mat", "rect": GH, "z": [round(zf - 0.10, 3), round(zf - 0.08, 3)], "holes": holes,
          "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
     add({"id": f"IN-{lvl}-gym-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": GH, "z": [round(zf - 0.08, 3), round(zf - 0.038, 3)],
@@ -334,6 +334,14 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
                 add({"id": f"IN-{lvl}-beam-paint-{k}-{len(new)}", "type": "slab", "material": "paint_charcoal", "rect": [round(v, 3) for v in rr],
                      "z": [round(zz[0], 3), round(zz[1], 3)], "holes": [], "note": "PT beam painted charcoal (the den)"})
     zt = round(zs - 0.035, 3)
+    if dark:  # the river wall's pilasters painted out charcoal like the beams (raw white concrete jarred in the den)
+        for e in by_id.values():
+            if e["type"] == "column" and e["id"].startswith("C-C") and abs(e["at"][0] + 6.45) < 0.01 and -34.0 < e["at"][1] < 12.0:
+                (cx, cy), (w_, d_) = e["at"], e["size"]; xf = cx - w_ / 2
+                for rr in ([xf - 0.004, cy - d_ / 2 - 0.004, xf, cy + d_ / 2 + 0.004], [xf, cy - d_ / 2 - 0.004, cx, cy - d_ / 2],
+                           [xf, cy + d_ / 2, cx, cy + d_ / 2 + 0.004]):
+                    add({"id": f"IN-{lvl}-pilaster-paint-{e['id']}-{len(new)}", "type": "slab", "material": "paint_charcoal", "rect": [round(v, 3) for v in rr],
+                         "z": [zf, zt], "holes": [], "note": "pilaster painted charcoal (the den)"})
     # walls: west (mirrors), north + south (slats), the river wall (plaster round its windows)
     if not dark:
         lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + 0.15, 3)])

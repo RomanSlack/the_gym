@@ -4470,6 +4470,123 @@ def core_door(P, width=1.2, height=2.3, finish="oak", exit_=False):
         P.box(M["brass"], (width / 2 - 0.1, 0.05, 1.26), (0.024, 0.024, 0.012))
 
 
+
+# ------------------------------------------------------------------ Bekken i hulen, the den's river (VISION, Roman 2026-10-14)
+DEN = {"xg": -6.665, "gap": 0.08, "w": 0.36, "y_n": 10.8, "y_s": -30.4, "z_lip": 1.04, "z_bot": 0.80, "w_n": 0.975, "w_s": 0.895,
+       "basin": (-8.9, -33.65, -6.745, -31.0)}
+
+
+def den_stream(P):
+    """The den's river: the pool outside comes in through the north end of the river wall (a steel spout under a sluice wheel, river
+    stones in the head) and runs 41 m south in a waist-high flume of dark honed granite on blackened-steel trestles, 80 mm off the
+    river glass, its water level with the river outside (falling 80 mm); a warm line under the steel lip grazes the water. At the
+    south end it films down over three flat river stones into a shallow floor-level basin of pebbles, which drains by gravity under
+    the floor to the river below the rock sill. Built in the den's own coordinates (place at the origin, z = F3)."""
+    st = M["steel"]; d = DEN
+    gr = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
+                                                          val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
+    rs = M.setdefault("river_stone", bc.pbr_material("river_stone", "dark_rock", 0.7, box=True, tint=(0.8, 0.8, 0.78), sat=0.4, val=0.62,
+                                                   rough_mul=0.55, piece_var=0.15))
+    pb = M.setdefault("pebbles_dark", bc.pbr_material("pebbles_dark", "river_small_rocks", 0.6, box=True, sat=0.6, val=0.55, piece_var=0.0))
+    if "water_den" not in M:  # clear, a faint tea tint (it is the river), a gentle ripple along the flow: the stone + pebbles show through
+        wm = bc.arch_glass("water_den", tint=(0.9, 0.88, 0.78))
+        N_, L_ = wm.node_tree.nodes, wm.node_tree.links
+        bsdf = next((n_ for n_ in N_ if n_.bl_idname == "ShaderNodeBsdfPrincipled"), None)
+        if bsdf is not None:
+            tc_ = N_.new("ShaderNodeTexCoord"); mp_ = N_.new("ShaderNodeMapping"); mp_.inputs["Scale"].default_value = (6.0, 1.2, 6.0)
+            L_.new(tc_.outputs["Object"], mp_.inputs["Vector"])
+            nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 4.0; nz_.inputs["Detail"].default_value = 4.0; L_.new(mp_.outputs[0], nz_.inputs["Vector"])
+            bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.25; bp_.inputs["Distance"].default_value = 0.004
+            L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], bsdf.inputs["Normal"])
+        M["water_den"] = wm
+    wat = M["water_den"]; film = M.get("water_running") or wat
+    P.vary = True
+    xo = d["xg"] - d["gap"]; xi = xo - d["w"]                        # glass side, room side of the trough
+    zw = lambda y: d["w_s"] + (d["w_n"] - d["w_s"]) * (y - d["y_s"]) / (d["y_n"] - d["y_s"])
+    # the flume, in 2.4 m stones with hairline joints
+    ys = list(np.arange(d["y_s"], d["y_n"], 2.4)) + [d["y_n"]]
+    for ya, yb in zip(ys, ys[1:]):
+        a, b_ = ya + 0.002, yb - 0.002
+        P.box(gr, ((xi + xo) / 2, (a + b_) / 2, d["z_bot"] + 0.03), (xo - xi + 0.1, b_ - a, 0.06))                                # the bottom
+        zl = zw((a + b_) / 2) + 0.025                                                                # the lip follows the water
+        P.box(gr, (xo + 0.02, (a + b_) / 2, (d["z_bot"] + zl) / 2), (0.04, b_ - a, zl - d["z_bot"]))      # glass-side wall
+        P.box(gr, (xi - 0.03, (a + b_) / 2, (d["z_bot"] + zl) / 2), (0.06, b_ - a, zl - d["z_bot"]))      # room-side wall
+        P.box(st, (xi - 0.03, (a + b_) / 2, zl + 0.006), (0.09, b_ - a + 0.004, 0.012))                      # the steel lip
+        P.box(wat, ((xi + xo) / 2, (a + b_) / 2, zw((a + b_) / 2) - 0.004), (xo - xi - 0.002, b_ - a, 0.008))  # the water
+        P.box(M.setdefault("led_den", _led("den_water_line", (1.0, 0.8, 0.55), 2.2)), (xi + 0.012, (a + b_) / 2, zl - 0.012), (0.01, b_ - a - 0.02, 0.006))
+    P.box(gr, ((xi + xo) / 2, d["y_n"] + 0.03, (d["z_bot"] + zw(d["y_n"]) + 0.025) / 2), (xo - xi + 0.1, 0.06, zw(d["y_n"]) + 0.025 - d["z_bot"]))  # head end
+    # trestles every 2.4 m
+    for y in np.arange(d["y_s"] + 1.2, d["y_n"] - 0.5, 2.4):
+        for x in (xi - 0.01, xo - 0.03):
+            P.box(st, (x, float(y), d["z_bot"] / 2), (0.012, 0.06, d["z_bot"]))
+        P.box(st, ((xi + xo) / 2, float(y), d["z_bot"] - 0.03), (xo - xi + 0.02, 0.06, 0.012))
+        P.box(st, ((xi + xo) / 2, float(y), 0.006), (xo - xi + 0.06, 0.08, 0.012))
+    # the intake: a steel spout out of the river wall into the head, a little fall, river stones; the sluice wheel above it
+    yi = d["y_n"] - 0.35
+    P.box(st, ((d["xg"] + xo) / 2 - 0.08, yi, zw(yi) + 0.035), (0.24, 0.26, 0.03))
+    P.box(film, (xo - 0.1, yi, zw(yi) + 0.005), (0.006, 0.22, 0.05))
+    rng = np.random.default_rng(5)
+    for k in range(7):
+        r = float(rng.uniform(0.04, 0.07))
+        P.blob(rs, (float(rng.uniform(xi + 0.06, xo - 0.06)), float(yi - 0.1 - rng.uniform(0, 0.5)), zw(yi) - 0.02), (r * 1.3, r, r * 0.6), seg=12)
+    P.rod(st, (d["xg"], yi, 1.45), (d["xg"] - 0.08, yi, 1.45), 0.012, seg=8)
+    for t in np.linspace(0, 2 * math.pi, 7)[:-1]:
+        P.rod(st, (d["xg"] - 0.08, yi, 1.45), (d["xg"] - 0.08, yi + 0.13 * math.cos(t), 1.45 + 0.13 * math.sin(t)), 0.006, seg=6)
+    for k in range(48):
+        t0, t1 = 2 * math.pi * k / 48, 2 * math.pi * (k + 1) / 48
+        P.rod(st, (d["xg"] - 0.08, yi + 0.14 * math.cos(t0), 1.45 + 0.14 * math.sin(t0)), (d["xg"] - 0.08, yi + 0.14 * math.cos(t1), 1.45 + 0.14 * math.sin(t1)), 0.01, seg=6)
+    # the step-down: over the end lip, down three flat river stones, into the basin
+    x0b, y0b, x1b, y1b = d["basin"]
+    P.box(film, ((xi + xo) / 2, d["y_s"] - 0.004, (zw(d["y_s"]) + 0.62) / 2), (xo - xi - 0.02, 0.006, zw(d["y_s"]) - 0.62))
+    # the step-down: three slabs of riven slate (the same stone as Kilden upstairs), each with its own irregular outline and
+    # thickness, slightly turned, resting on and overlapping the one below; the water films over their tops and spills off the front
+    sl = M.setdefault("riven_slate_v2", bc.pbr_material("riven_slate_v2", "slate_floor_03", 0.7, box=True, tint=(0.72, 0.78, 0.84), sat=0.45, val=0.34,
+                                                       rough_add=0.12, piece_var=0.0))
+    def slab(cx, cy, top, rx, ry, th, turn, seed):
+        rg = np.random.default_rng(seed); n = 11
+        pts = []
+        for i in range(n):
+            t = 2 * math.pi * i / n + float(rg.uniform(-0.12, 0.12)); f = float(rg.uniform(0.82, 1.08))
+            x_, y_ = rx * f * math.cos(t), ry * f * math.sin(t)
+            pts.append((cx + x_ * math.cos(turn) - y_ * math.sin(turn), cy + x_ * math.sin(turn) + y_ * math.cos(turn)))
+        b_ = P.bm(sl)
+        topv = [b_.verts.new((x, y, top + float(rg.uniform(-0.008, 0.008)))) for x, y in pts]
+        botv = [b_.verts.new((x, y, top - th)) for x, y in pts]
+        b_.faces.new(topv); b_.faces.new(botv[::-1])
+        for i in range(n):
+            j = (i + 1) % n
+            b_.faces.new((topv[i], botv[i], botv[j], topv[j]))
+        bmesh.ops.recalc_face_normals(b_, faces=b_.faces[-(n + 2):])
+        return pts
+    xc = (xi + xo) / 2
+    steps = [(xc - 0.02, d["y_s"] - 0.26, 0.66, 0.30, 0.26, 0.30, 0.15), (xc - 0.10, d["y_s"] - 0.60, 0.41, 0.36, 0.28, 0.30, -0.22),
+             (xc - 0.20, d["y_s"] - 0.96, 0.17, 0.42, 0.32, 0.30, 0.1)]                       # (x, y, top, rx, ry, thickness, turn)
+    for k, (sx, sy, top, rx, ry, th, turn) in enumerate(steps):
+        slab(sx, sy, top, rx, ry, th, turn, 70 + k)
+        P.blob(film, (sx, sy, top + 0.004), (rx * 0.75, ry * 0.65, 0.008), seg=18)                 # a film of water on its top
+        ny_ = sy - ry * 0.85
+        ntop = steps[k + 1][2] if k < 2 else 0.0
+        P.box(film, (sx, ny_, (top + ntop) / 2), (rx * 0.8, 0.006, top - ntop))                   # spilling off its front edge
+    # the basin, flush with the floor: honed rim, pebbles under 60 mm of still water, a slot to the return
+    P.box(gr, ((x0b + x1b) / 2, (y0b + y1b) / 2, -0.095), (x1b - x0b, y1b - y0b, 0.01))
+    for (a_, b_, c_, e_) in ((x0b, y0b, x1b, y0b + 0.12), (x0b, y1b - 0.12, x1b, y1b), (x0b, y0b, x0b + 0.12, y1b), (x1b - 0.12, y0b, x1b, y1b)):
+        P.box(gr, ((a_ + c_) / 2, (b_ + e_) / 2, -0.05), (c_ - a_, e_ - b_, 0.1))
+    for k in range(260):
+        r = float(rng.uniform(0.018, 0.04))
+        P.blob(pb if k % 3 else rs, (float(rng.uniform(x0b + 0.15, x1b - 0.15)), float(rng.uniform(y0b + 0.15, y1b - 0.15)), -0.085), (r, r * 0.8, r * 0.45), seg=8)
+    P.box(wat, ((x0b + x1b) / 2, (y0b + y1b) / 2, -0.03), (x1b - x0b - 0.24, y1b - y0b - 0.24, 0.006))
+    P.box(st, (x0b + 0.4, y0b + 0.06, -0.003), (0.5, 0.04, 0.006))                                    # the return slot
+    # a bench by the basin: a dark honed granite block with a smoked-oak seat of three boards (not a light stone, in the den)
+    sm = M.setdefault("smoked_oak", bc.pbr_material("oak_slat_smoked", "oak_veneer_01", 1.83, box=True, tint=(0.55, 0.42, 0.32), sat=0.7, val=0.45,
+                                                     piece_var=0.08, rough_add=0.1))
+    bx_, by_ = x0b - 0.75, (y0b + y1b) / 2
+    for dy in (-0.6, 0.6):
+        P.box(gr, (bx_, by_ + dy, 0.2), (0.42, 0.28, 0.4))
+    for k in range(3):
+        P.box(sm, (bx_ - 0.14 + k * 0.14, by_, 0.42), (0.13, 1.8, 0.04))
+
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4504,7 +4621,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
