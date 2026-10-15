@@ -696,6 +696,13 @@ def interior_materials():
         "felt_black": material("felt_black", (0.012, 0.012, 0.013), 0.95),
         "ash_fin": pbr_material("ash_fin", "ash_veneer", 1.0, box=True, tint=(1.05, 1.02, 0.95), sat=0.45, val=1.75, piece_var=0.06),
         "gym_rubber": gym_rubber(), "wood_wool": wood_wool(),
+        # the gym floors (F2 + F3, Roman 2026-10-14): mirror walls, the den's charcoal + smoked oak, the sled lane's turf
+        "wood_wool_charcoal": wood_wool("wood_wool_charcoal", dark=True),
+        "mirror": material("mirror_wall", (0.9, 0.9, 0.88), 0.02, metal=1.0),
+        "paint_charcoal": material("paint_charcoal", (0.03, 0.03, 0.032), 0.88),
+        "plaster_charcoal": pbr_material("plaster_charcoal", "white_plaster_02", 2.0, box=True, tint=(0.22, 0.21, 0.2), sat=0.3, val=0.32, piece_var=0.03),
+        "oak_slat_smoked": pbr_material("oak_slat_smoked", "oak_veneer_01", 1.83, box=True, tint=(0.55, 0.42, 0.32), sat=0.7, val=0.45, piece_var=0.08, rough_add=0.1),
+        "turf_sled": pbr_material("turf_sled", "sparse_grass", 0.8, box=True, tint=(0.25, 0.32, 0.2), sat=0.5, val=0.35, piece_var=0.0, rough_add=0.2),
         # locker rooms: the WC rooms' own floor (a different, darker small-format porcelain: you see where the toilet floor ends),
         # riven slate for the stream wall + channels (dark Otta-like blue-grey), the pebble bed of the stream
         "porcelain_grey": pbr_material("porcelain_grey", "smooth_concrete_floor", 1.2, box=True, tint=(0.62, 0.62, 0.63), sat=0.1, val=0.85, rough_mul=0.6, rough_add=0.2, piece_var=0.05),
@@ -741,7 +748,7 @@ def gym_rubber(name="gym_rubber"):
     return m
 
 
-def wood_wool(name="wood_wool"):
+def wood_wool(name="wood_wool", dark=False):
     """Wood-wool acoustic panels (the Nordic gym ceiling, Troldtekt-style): spruce strands ~1.5 mm bound in cement, natural pale
     greige, a deep fibrous texture (strands at random angles) that soaks up sound."""
     m = bpy.data.materials.get(name)
@@ -757,6 +764,8 @@ def wood_wool(name="wood_wool"):
     mx = N.new("ShaderNodeMath"); mx.operation = "MULTIPLY"; L.new(n1.outputs["Fac"], mx.inputs[0]); L.new(w.outputs["Fac"], mx.inputs[1])
     r = N.new("ShaderNodeValToRGB"); L.new(mx.outputs[0], r.inputs["Fac"])
     e = r.color_ramp.elements; e[0].position = 0.05; e[0].color = (0.2, 0.17, 0.13, 1); e[1].position = 0.45; e[1].color = (0.52, 0.46, 0.37, 1)
+    if dark:  # the den: the same panels factory-stained charcoal, the strands still catching the light
+        e[0].color = (0.012, 0.012, 0.013, 1); e[1].color = (0.075, 0.072, 0.07, 1)
     L.new(r.outputs["Color"], b.inputs["Base Color"])
     bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.6; bp.inputs["Distance"].default_value = 0.003
     L.new(mx.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])

@@ -35,6 +35,11 @@ FINISH = {  # pattern + material per finish kind
     "stone_wet": {"kind": "slabs", "w": 0.6, "L": [0.6], "gap": 0.003, "dir": "y", "bond": "stack", "material": "stone_light", "t": 0.022},
     "tile_wall": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012, "depth": 0.02, "material": "tile_glazed"},
     "black_lining": {"kind": "skin", "depth": 0.022, "material": "timber_clad"},
+    # the gym floors (F2 + F3)
+    "mirror": {"kind": "skin", "depth": 0.012, "material": "mirror"},
+    "steel_skirting": {"kind": "skin", "depth": 0.016, "material": "frame"},
+    "plaster_charcoal": {"kind": "skin", "depth": 0.015, "material": "plaster_charcoal"},
+    "oak_slats_smoked": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z", "depth": 0.065, "material": "oak_slat_smoked"},
 }
 
 m = modelio.load()
@@ -286,6 +291,66 @@ for nm, r in (("gallery", GAL), ("hall", [-29.45, -34.1, -6.45, -9.3])):
          "holes": beam_cuts + ([{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}] if nm == "hall" else []),
          "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
          "note": "wood-wool acoustic panels 600 x 1200 x 35, natural, on battens under the CLT, between the glulam beams"})
+# ---- zone: the gym floors F2 + F3 (Roman, 2026-10-14: the general styling + finishing, then the light; serious gyms, not commercial).
+#   F2 (machines, plate-loaded + cable, free weights, olympic, cardio on the river glass): the F1 hall's impact tiles on the same
+#     build-up, wood-wool acoustic panels on the soffit between the 1.1 m PT beams (fair-faced concrete, left honest), a mirror band
+#     0.15-2.6 m along the whole west wall on a blackened-steel skirting with oak slats above it to the soffit, oak slats on the
+#     north + south walls, warm lime plaster round the river windows
+#   F3, the den: the same tiles, near-black; a dark turf sled lane (2.4 m) down the east side; charcoal wood wool between beams painted
+#     out in charcoal; floor-to-ceiling mirror on the west wall's free-weight 3/4 (smoked oak slats on the strongman quarter), smoked
+#     oak slats north + south (the grip wall goes on the south), charcoal plaster round the river window
+GH = [-29.45, -34.1, -6.45, 12.1]
+G_CORES = [{"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.85, -25.1], "note": "core W2"},
+           {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"}, {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"}]
+SPIRAL = {"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}
+NSTAIR = {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"}
+LANE = [-14.4, -34.1, -12.0, 12.1]
+for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
+                                                             ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
+    zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
+    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}] if dark else [])
+    add({"id": f"IN-{lvl}-gym-impact", "type": "slab", "material": "impact_mat", "rect": GH, "z": [round(zf - 0.10, 3), round(zf - 0.08, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
+    add({"id": f"IN-{lvl}-gym-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": GH, "z": [round(zf - 0.08, 3), round(zf - 0.038, 3)],
+         "holes": holes, "pattern": {"kind": "poured", "joint": 6.0}, "note": "screed with underfloor heating"})
+    add({"id": f"IN-{lvl}-gym-pad", "type": "slab", "material": "impact_mat", "rect": GH, "z": [round(zf - 0.038, 3), round(zf - 0.03, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "8 mm acoustic underlay"})
+    add({"id": f"IN-{lvl}-gym-floor", "type": "slab", "kind": "floor_finish", "material": "gym_rubber", "rect": GH, "z": [round(zf - 0.03, 3), zf], "holes": holes,
+         "pattern": RUB, "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the F1 hall)"})
+    if dark:
+        add({"id": f"IN-{lvl}-sled-lane", "type": "slab", "kind": "floor_finish", "material": "turf_sled", "rect": LANE, "z": [round(zf - 0.08, 3), zf],
+             "holes": [], "note": "the sled lane: 46 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
+    beams = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith(beam_tag))
+    cuts = [{"rect": [GH[0], round(yb - 0.29, 3), GH[2], round(yb + 0.29, 3)], "note": "PT beam"} for yb in beams]
+    add({"id": f"IN-{lvl}-gym-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal" if dark else "wood_wool", "rect": GH,
+         "z": [round(zs - 0.035, 3), zs], "holes": cuts + G_CORES + ce_holes,
+         "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
+         "note": "wood-wool acoustic panels 600 x 1200 x 35 on the soffit between the beams" + (", stained charcoal (the den)" if dark else "")})
+    if dark:  # the den's beams painted out: underside + both sides
+        bz0 = next(e["z"][0] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith(beam_tag))
+        for k, yb in enumerate(beams):
+            for rr, zz in (([GH[0], yb - 0.278, GH[2], yb + 0.278], [bz0 - 0.004, bz0]), ([GH[0], yb - 0.279, GH[2], yb - 0.275], [bz0, zs]),
+                           ([GH[0], yb + 0.275, GH[2], yb + 0.279], [bz0, zs])):
+                add({"id": f"IN-{lvl}-beam-paint-{k}-{len(new)}", "type": "slab", "material": "paint_charcoal", "rect": [round(v, 3) for v in rr],
+                     "z": [round(zz[0], 3), round(zz[1], 3)], "holes": [], "note": "PT beam painted charcoal (the den)"})
+    zt = round(zs - 0.035, 3)
+    # walls: west (mirrors), north + south (slats), the river wall (plaster round its windows)
+    if not dark:
+        lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + 0.15, 3)])
+        lining("W-west-A", "mirror", -1, tag=f"-{lvl}-mirror", z=[round(zf + 0.15, 3), round(zf + 2.6, 3)])
+        lining("W-west-A", "oak_slats_wall", -1, tag=f"-{lvl}-slats", z=[round(zf + 2.6, 3), zt])
+        for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
+            lining(wid, "oak_slats_wall", sg, tag=f"-{lvl}", z=[zf, zt])
+        lining("W-west-C", "lime_plaster", 1, tag=f"-{lvl}", z=[zf, zt])
+    else:
+        L_A = 46.2; s34 = round(L_A * 0.75, 2)  # mirror on the free-weight 3/4 from the south, smoked oak on the strongman quarter
+        lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + 0.15, 3)])
+        lining("W-west-A", "mirror", -1, s_range=(0.0, s34), tag=f"-{lvl}-mirror", z=[round(zf + 0.15, 3), zt])
+        lining("W-west-A", "oak_slats_smoked", -1, s_range=(s34, L_A), tag=f"-{lvl}-slats", z=[round(zf + 0.15, 3), zt])
+        for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
+            lining(wid, "oak_slats_smoked", sg, tag=f"-{lvl}", z=[zf, zt])
+        lining("W-west-C", "plaster_charcoal", 1, tag=f"-{lvl}", z=[zf, zt])
+
 # Kilden, the spring, on the bridge axis (y -1.35) between the two locker entries: a 1.6 m niche cut through the men's gallery wall
 # (its granite lining, water wall, trough and taps: tools/furnish.py)
 KW = next(e for e in by_id.values() if e["id"].startswith("P-F1-") and set(e.get("between", [])) == {"men-lockers", "gallery"})

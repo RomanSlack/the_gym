@@ -4267,8 +4267,8 @@ def gym_line(P, L=6.0, z_ceiling=4.56, temp="4000"):
     slot, not a source). 4000 K / CRI 90+ on F2, 3500 K in the F1 hall, 3000 K in the den. Origin = under its centre on the floor."""
     st = M["steel"]
     P.box(st, (0, 0, z_ceiling - 0.045), (L, 0.06, 0.09))
-    P.box(M["felt"], (0, 0, z_ceiling - 0.089), (L - 0.01, 0.05, 0.002))
-    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 6.0), (0, 0, z_ceiling - 0.04), (L - 0.02, 0.04, 0.003))
+    P.box(M["felt"], (0, 0, z_ceiling - 0.012), (L - 0.01, 0.05, 0.002))                      # black inside the profile, above the diffuser
+    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 14.0), (0, 0, z_ceiling - 0.04), (L - 0.02, 0.04, 0.003))
     for k in range(int(L / 0.08)):
         P.box(st, (-L / 2 + 0.04 + k * 0.08, 0, z_ceiling - 0.065), (0.003, 0.05, 0.045))
 
