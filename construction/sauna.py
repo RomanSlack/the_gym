@@ -50,19 +50,143 @@ def zroof(x, y):
 
 
 def _hb(H, x, y):
-    """Finished ground, bilinear on the 1 m grid (index = 1000 + metres)."""
-    fx, fy = x + 1000, y + 1000; i, j = int(math.floor(fy)), int(math.floor(fx)); ty, tx = fy - i, fx - j
+    """Finished ground, bilinear on the 1 m grid (H[r, c] sits at x = c - 999.5, y = r - 999.5)."""
+    fx, fy = x + 999.5, y + 999.5; i, j = int(math.floor(fy)), int(math.floor(fx)); ty, tx = fy - i, fx - j
     return float(H[i, j] * (1 - tx) * (1 - ty) + H[i, j + 1] * tx * (1 - ty) + H[i + 1, j] * (1 - tx) * ty + H[i + 1, j + 1] * tx * ty)
 
 
 def grade(H):
-    """Stage 6 earthworks: the ground under the decks taken down clear of the joists (the piles go on to the rock)."""
+    """Stage 6 earthworks: the ground under the decks taken down just clear of the beams (the piles go on to the rock)."""
     H = H.copy()
     for x0, y0, x1, y1, top in DECKS + [(-18.6, 92.6, -17.4, 95.0, DECK)]:
-        for i in range(int(math.floor(y0)) - 1, int(math.ceil(y1)) + 2):
-            for j in range(int(math.floor(x0)) - 1, int(math.ceil(x1)) + 2):
-                H[1000 + i, 1000 + j] = min(H[1000 + i, 1000 + j], top - 0.5)
+        for r in range(int(math.floor(y0 + 999.5)), int(math.ceil(y1 + 999.5)) + 1):
+            for c in range(int(math.floor(x0 + 999.5)), int(math.ceil(x1 + 999.5)) + 1):
+                H[r, c] = min(H[r, c], top - 0.42)
     return H
+
+
+def berm_z(x, y):
+    """The mound: the roof's west + north planes carried on past the walls and eased down at 1:1.6. West of the west wall (south of
+    the porch only behind the wing wall), north of the north wall up to the east wall's line; None elsewhere."""
+    if y < Y0 and x > X0 - 0.4:
+        return None
+    if not (x <= X0 + 1e-6 or (y >= Y1 - 1e-6 and x <= X1 + 1e-6)):
+        return None
+    xc, yc = min(max(x, X0), X1), min(max(y, Y0), Y1)
+    return zroof(xc, yc) - math.hypot(x - xc, y - yc) * BERM
+
+
+def wing_walls(H):
+    """The two granite wing walls where the mound ends open: (x0, x1, y0, y1, berm-side x) each, as far as the berm stands above
+    the ground."""
+    out = []
+    for xa, xb, ys, sg, xl in ((X0 - 0.4, X0, Y0, -1, X0 - 0.4), (X1, X1 + 0.4, Y1, 1, X1)):
+        y = ys
+        while abs(y - ys) < 9:
+            zt = berm_z(xl, y + sg * 0.1)
+            if zt is None or zt < _hb(H, (xa + xb) / 2, y + sg * 0.1) + 0.05:
+                break
+            y += sg * 0.1
+        out.append((xa, xb, min(ys, y), max(ys, y), xl, sg))
+    return out
+
+
+PATCH = (-37.5, 83.5, -7.5, 110.5)   # the fine ground round Kulpen (on the 1 m grid's lines)
+
+
+def patch_slices(DX0, DY0):
+    """The 1 m terrain quads the fine patch replaces: (rows, cols) into the cropped grid's quads."""
+    return slice(int(PATCH[1] - DY0 - 0.5), int(PATCH[3] - DY0 - 0.5)), slice(int(PATCH[0] - DX0 - 0.5), int(PATCH[2] - DX0 - 0.5))
+
+
+def ground_patch(H, GM, DX0, DY0, TM, coll, res=0.25):
+    """The ground round Kulpen at 0.25 m with the mound grown out of it (no separate sheet): the finished ground, raised to the
+    berm with a soft toe, the site's own ground masks (+ meadow on the mound, patchy), cut exactly round the enclosed sauna and
+    the wing walls."""
+    xs = np.arange(PATCH[0], PATCH[2] + 1e-6, res); ys = np.arange(PATCH[1], PATCH[3] + 1e-6, res)
+    X, Y = np.meshgrid(xs, ys)
+    def bil(A, ox, oy):
+        fx, fy = X - ox, Y - oy; j, i = np.floor(fx).astype(int), np.floor(fy).astype(int); tx, ty = fx - j, fy - i
+        return A[i, j] * (1 - tx) * (1 - ty) + A[i, j + 1] * tx * (1 - ty) + A[i + 1, j] * (1 - tx) * ty + A[i + 1, j + 1] * tx * ty
+    g = bil(H, -999.5, -999.5)
+    b = np.vectorize(lambda x, y: np.nan if berm_z(x, y) is None else berm_z(x, y))(X, Y)
+    k = 0.22
+    lift = np.where(np.isnan(b), 0.0, k * np.logaddexp(0, (np.nan_to_num(b, nan=-99) - g) / k))
+    Z = g + lift
+    w = np.clip(lift / 0.5, 0, 1)
+    nz = 0.5 + 0.25 * np.sin(X * 1.7 + Y * 0.6) * np.sin(Y * 1.3 - X * 0.4) + 0.25 * np.sin(X * 4.1 + 1.3) * np.sin(Y * 3.7 + 0.4)
+    attrs = {k_: bil(v, DX0 + 0.5, DY0 + 0.5).astype(np.float32) for k_, v in GM.items()}
+    attrs["lawn"] = np.maximum(attrs["lawn"], w * (0.35 + 0.65 * nz)).astype(np.float32)
+    attrs["clear"] = np.maximum(attrs["clear"], w * 0.8).astype(np.float32)
+    attrs["meadow"] = np.clip(w * 1.3 + 0.25 * (lift > 0.02), 0, 1).astype(np.float32)
+    ob = bc.grid_mesh("terrain_kulpen", Z.astype(np.float32), PATCH[0], PATCH[1], res, attrs, coll=coll)
+    ob.data.materials.append(TM)
+    vs, fs = [], []
+    boxes = [(X0, YP, X1, Y1), (X0, Y0, X0 + T + 0.1, YP)] + [(xa, ya, xb, yb) for xa, xb, ya, yb, _, _ in wing_walls(H)]
+    for x0_, y0_, x1_, y1_ in boxes:
+        q = len(vs)
+        vs += [(x0_, y0_, -4), (x1_, y0_, -4), (x1_, y1_, -4), (x0_, y1_, -4), (x0_, y0_, 9), (x1_, y0_, 9), (x1_, y1_, 9), (x0_, y1_, 9)]
+        fs += [(q, q + 3, q + 2, q + 1), (q + 4, q + 5, q + 6, q + 7), (q, q + 1, q + 5, q + 4), (q + 1, q + 2, q + 6, q + 5), (q + 2, q + 3, q + 7, q + 6), (q + 3, q, q + 4, q + 7)]
+    cut = bc.mesh_from("kulpen_voids", vs, fs, smooth=False, coll=coll); cut.hide_render = True; cut.hide_viewport = True
+    md = ob.modifiers.new("voids", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cut; md.solver = "EXACT"
+    for a_ in ("use_hole_tolerant", "use_self"):
+        try:
+            setattr(md, a_, True)
+        except AttributeError:
+            pass
+    ob.data.polygons.foreach_set("use_smooth", np.ones(len(ob.data.polygons), bool))
+    return ob
+
+
+def meadow_nodes(name, protos, density, attr=None, seed=0):
+    """Natural grass: patchy (density from a noise field, x the named attribute), three kinds of tuft mixed, sizes 0.45-1.4, each
+    leaning a little; never the even carpet of a lawn."""
+    ng = bpy.data.node_groups.new(name, "GeometryNodeTree")
+    ng.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry")
+    ng.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+    N, L = ng.nodes, ng.links
+    gi, go = N.new("NodeGroupInput"), N.new("NodeGroupOutput")
+    dp = N.new("GeometryNodeDistributePointsOnFaces"); dp.inputs["Seed"].default_value = seed
+    L.new(gi.outputs[0], dp.inputs["Mesh"])
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 0.55; nz.inputs["Detail"].default_value = 3.0
+    nz2 = N.new("ShaderNodeTexNoise"); nz2.inputs["Scale"].default_value = 3.0
+    mr = N.new("ShaderNodeMapRange"); mr.inputs[1].default_value = 0.38; mr.inputs[2].default_value = 0.66; mr.inputs[3].default_value = 0.08; mr.inputs[4].default_value = 1.0
+    L.new(nz.outputs["Fac"], mr.inputs[0])
+    m2 = N.new("ShaderNodeMath"); m2.operation = "MULTIPLY_ADD"; L.new(nz2.outputs["Fac"], m2.inputs[0]); m2.inputs[1].default_value = 0.8; m2.inputs[2].default_value = 0.6
+    d = N.new("ShaderNodeMath"); d.operation = "MULTIPLY"; L.new(mr.outputs[0], d.inputs[0]); L.new(m2.outputs[0], d.inputs[1])
+    d2 = N.new("ShaderNodeMath"); d2.operation = "MULTIPLY"; L.new(d.outputs[0], d2.inputs[0]); d2.inputs[1].default_value = density
+    dens = d2.outputs[0]
+    if attr:
+        na = N.new("GeometryNodeInputNamedAttribute"); na.data_type = "FLOAT"; na.inputs["Name"].default_value = attr
+        d3 = N.new("ShaderNodeMath"); d3.operation = "MULTIPLY"; L.new(dens, d3.inputs[0]); L.new(na.outputs["Attribute"], d3.inputs[1]); dens = d3.outputs[0]
+    L.new(dens, dp.inputs["Density"])
+    nrm = N.new("GeometryNodeInputNormal"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sep.inputs[0])
+    cmp = N.new("FunctionNodeCompare"); cmp.data_type = "FLOAT"; cmp.operation = "GREATER_THAN"; cmp.inputs["B"].default_value = 0.5
+    L.new(sep.outputs["Z"], cmp.inputs["A"]); L.new(cmp.outputs[0], dp.inputs["Selection"])
+    jn = N.new("GeometryNodeGeometryToInstance")
+    for p in protos:
+        oi = N.new("GeometryNodeObjectInfo"); oi.inputs[0].default_value = p; oi.transform_space = "ORIGINAL"; L.new(oi.outputs["Geometry"], jn.inputs[0])
+    ip = N.new("GeometryNodeInstanceOnPoints"); ip.inputs["Pick Instance"].default_value = True
+    rnd = N.new("FunctionNodeRandomValue"); rnd.data_type = "INT"; rnd.inputs["Max"].default_value = len(protos) - 1; rnd.inputs["Seed"].default_value = seed + 3
+    L.new(rnd.outputs["Value"], ip.inputs["Instance Index"])
+    rot = N.new("FunctionNodeRandomValue"); rot.data_type = "FLOAT_VECTOR"; rot.inputs["Min"].default_value = (-0.22, -0.22, 0); rot.inputs["Max"].default_value = (0.22, 0.22, 6.283)
+    rot.inputs["Seed"].default_value = seed + 5
+    sc = N.new("FunctionNodeRandomValue"); sc.data_type = "FLOAT"; sc.inputs["Min"].default_value = 0.45; sc.inputs["Max"].default_value = 1.4; sc.inputs["Seed"].default_value = seed + 7
+    e2r = N.new("FunctionNodeEulerToRotation"); L.new(rot.outputs["Value"], e2r.inputs[0]); L.new(e2r.outputs[0], ip.inputs["Rotation"])
+    L.new(sc.outputs["Value"], ip.inputs["Scale"])
+    L.new(dp.outputs["Points"], ip.inputs["Points"]); L.new(jn.outputs[0], ip.inputs["Instance"])
+    jo = N.new("GeometryNodeJoinGeometry"); L.new(gi.outputs[0], jo.inputs[0]); L.new(ip.outputs[0], jo.inputs[0])
+    L.new(jo.outputs[0], go.inputs[0])
+    return ng
+
+
+def add_grass(protos):
+    """Grass on the mound (the ground patch, where 'meadow' says) and on the sod roof."""
+    pa = bpy.data.objects.get("terrain_kulpen")
+    if pa:
+        md = pa.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_berm", protos, 70, attr="meadow", seed=11)
+    for o in [o for o in bpy.data.objects if o.name.startswith("KU-sodroof")]:
+        md = o.modifiers.new("grass", "NODES"); md.node_group = meadow_nodes("GN_grass_kulpen_roof", protos, 70, seed=12)
 
 
 def keep_trees(x, y):
@@ -187,7 +311,8 @@ def build(MAT, H, coll):
         _zbox(Pi, oak, XI1, yy, FL, X1 - 0.03, yy + sg * 0.02, FL + 2.05)
     _zbox(Pi, oak, XI1, 94.3, FL + 2.05, X1 - 0.03, 95.2, FL + 2.07)
     # sarking (oak: the porch soffit + the east eave are seen from below) + the sod in three planes; grass grows on EN-sod-*
-    Ps = fu.Part("EN-sod-kulpen")
+    Ps = fu.Part("KU-sodroof")
+    sod = bc.pbr_material("sod_natural", "sparse_grass", 1.6, box=True, tint=(0.72, 0.85, 0.55), sat=0.9, val=0.85, piece_var=0.0)
     W_ = [(X0, Y0 - GABLE), (XR, Y0 - GABLE), (XR, YHIP), (X0, Y1)]
     E_ = [(XR, Y0 - GABLE), (XE, Y0 - GABLE), (XE, Y1), (X1, Y1), (XR, YHIP)]
     N_ = [(X0, Y1), (XR, YHIP), (X1, Y1)]
@@ -201,43 +326,18 @@ def build(MAT, H, coll):
     for xa, xb in ((X0, XR), (XR, XE)):                                                            # barge boards on the gable
         Pe.prism(tar, [(xa, zroof(xa, 92) - 0.04), (xb, zroof(xb, 92) - 0.04), (xb, zroof(xb, 92) - SOD - SARK - 0.06), (xa, zroof(xa, 92) - SOD - SARK - 0.06)],
                  Y0 - GABLE - 0.03, Y0 - GABLE)
-    # the berm: the roof's west + north planes carried on past the walls, eased down to the ground at 1:1.6
-    res = 0.25; xs = np.arange(-34.0, -16.0 + 1e-6, res); ys = np.arange(87.0, 108.0 + 1e-6, res)
-    def bz(x, y):  # west of the west wall, or north of the north wall up to the east wall's line (granite wing walls hold the open ends)
-        if not (x <= X0 + 1e-6 or (y >= Y1 - 1e-6 and x <= X1 + 1e-6)):
-            return None
-        xc, yc = min(max(x, X0), X1), min(max(y, Y0 - GABLE), Y1)
-        return zroof(xc, yc) - math.hypot(x - xc, y - yc) * BERM
-    V, F, idx = [], [], {}
-    for i, y in enumerate(ys):
-        for j, x in enumerate(xs):
-            z = bz(x, y)
-            if z is None:
-                continue
-            g = _hb(H, x, y)
-            idx[i, j] = (len(V), z > g); V.append((x, y, z if z > g else g - 0.12))
-    for i in range(len(ys) - 1):
-        for j in range(len(xs) - 1):
-            q = [idx.get(k) for k in ((i, j), (i, j + 1), (i + 1, j + 1), (i + 1, j))]
-            if all(q) and any(v[1] for v in q):
-                F.append(tuple(v[0] for v in q))
-    berm = bc.mesh_from("EN-sod-kulpen-berm", V, F, smooth=False, coll=coll); berm.data.materials.append(sod)
     # two dry-laid granite wing walls where the mound ends open (south of the porch on the west line, north of the east wall),
     # stepping down with the berm until it meets the ground
-    for xa_, xb_, y_start, sg in ((X0 - 0.4, X0, Y0 - GABLE, -1), (X1, X1 + 0.4, Y1, 1)):
-        xl = X0 - 0.001 if sg < 0 else X1
-        y_ = y_start; blocks = []
-        while True:
-            zt = bz(xl, y_ + sg * 0.3)
-            g = _hb(H, (xa_ + xb_) / 2, y_ + sg * 0.3)
-            if zt is None or zt < g + 0.05 or abs(y_ - y_start) > 9:
-                break
-            ln = float(rng.uniform(0.35, 0.7)); ya, yb = sorted((y_, y_ + sg * ln))
-            z = min(g, _hb(H, (xa_ + xb_) / 2, y_)) - 0.25
+    for xa_, xb_, ya_, yb_, xl, sg in wing_walls(H):
+        y_ = yb_ if sg < 0 else ya_
+        while (y_ > ya_ + 0.05) if sg < 0 else (y_ < yb_ - 0.05):
+            ln = min(float(rng.uniform(0.35, 0.7)), abs((ya_ if sg < 0 else yb_) - y_)); yy0, yy1 = sorted((y_, y_ + sg * ln))
+            zt = berm_z(xl, (yy0 + yy1) / 2) or 0.0
+            z = min(_hb(H, (xa_ + xb_) / 2, yy0), _hb(H, (xa_ + xb_) / 2, yy1)) - 0.25
             while z < zt:
-                hgt = float(rng.uniform(0.15, 0.24)); top = min(z + hgt, zt + 0.04)
+                hgt = float(rng.uniform(0.15, 0.24)); top = min(z + hgt, zt + 0.05)
                 if top - z > 0.06:
-                    _zbox(Pe, gran, xa_ + float(rng.uniform(0, 0.03)), ya + 0.004, z, xb_ - float(rng.uniform(0, 0.03)), yb - 0.004, top - 0.006)
+                    _zbox(Pe, gran, xa_ + float(rng.uniform(0, 0.03)), yy0 + 0.004, z, xb_ - float(rng.uniform(0, 0.03)), yy1 - 0.004, top - 0.006)
                 z += hgt
             y_ += sg * ln
     # the granite chimney: dry-laid courses from inside the roof to 0.8 over the ridge, a slate cap, the steel flue tip
@@ -315,6 +415,20 @@ def build(MAT, H, coll):
         for x_, sg in ((x0, -1), (x1, 1)):
             if not (top == LANDING and x_ in (XI0, X1)):
                 _zbox(Pd, deck, x_, y0, top - 0.2, x_ + sg * 0.022, y1, top - 0.03)
+    # skirts: Kebony slats from the porch + landing edge down into the ground (the deck sits on the ground, it does not hover)
+    for (xa, ya, xb, yb, nx, ny) in ((XI0, Y0, -18.6, Y0, 0, -1), (X1, 95.6, -18.6, 95.6, 0, 1), (-18.6, Y0, -18.6, 92.6, 1, 0), (-18.6, 95.0, -18.6, 95.6, 1, 0)):
+        L_ = math.hypot(xb - xa, yb - ya); n = max(1, int(L_ / 0.09))
+        for k in range(n):
+            t = (k + 0.5) / n; x, y = xa + (xb - xa) * t, ya + (yb - ya) * t
+            gz = _hb(H, x + nx * 0.3, y + ny * 0.3) - 0.08
+            if LANDING - 0.03 - gz > 0.03:
+                ex, ey = (0.035, 0.011) if ny else (0.011, 0.035)
+                cx_, cy_ = x + nx * 0.011, y + ny * 0.011
+                _zbox(Pd, deck, cx_ - ex, cy_ - ey, gz, cx_ + ex, cy_ + ey, LANDING - 0.03)
+    # a few mossy boulders half sunk at the mound's foot and by the path
+    for (bx, by, r_) in ((-30.4, 93.5, 0.55), (-29.6, 99.8, 0.7), (-26.8, 104.6, 0.5), (-21.9, 90.6, 0.35), (-27.4, 90.3, 0.6), (-18.6, 102.8, 0.45)):
+        Pd.blob(M.setdefault("pool_boulders", bc.pbr_material("pool_boulders", "mossy_rock", 1.6, box=True, sat=0.6, val=0.75, piece_var=0.1)),
+                (bx, by, _hb(H, bx, by) - r_ * 0.35), (r_ * 1.25, r_, r_ * 0.7), seg=16)
     # steps from the landing down to the lower deck: 5 risers on three steel stringers
     rise = (LANDING - DECK) / 5
     for k in range(1, 5):

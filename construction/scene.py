@@ -73,6 +73,8 @@ if STAGE >= 4:  # a local patch round the building gets the volumes cut out exac
     GM["cut"] = Cc
     r0, r1, c0, c1 = -50 - DY0, 50 - DY0, -50 - DX0, 70 - DX0  # patch rows / cols in the cropped grid
     keep = np.ones((Hc.shape[0] - 1, Hc.shape[1] - 1), bool); keep[r0:r1, c0:c1] = False
+    if STAGE >= 6:  # Kulpen's ground: a fine patch with the mound grown out of it (construction/sauna.py)
+        keep[sauna.patch_slices(DX0, DY0)] = False
     terr = bc.grid_mesh("terrain_detail", Hc, DX0 + 0.5, DY0 + 0.5, 1.0, GM, coll=site0, keep=keep)
     bc.terrain_material()  # still used by the far context ring
     TM = ground.terrain_material_v2()
@@ -80,6 +82,8 @@ if STAGE >= 4:  # a local patch round the building gets the volumes cut out exac
     patch = bc.grid_mesh("terrain_building", Hc[r0:r1 + 1, c0:c1 + 1], DX0 + 0.5 + c0, DY0 + 0.5 + r0, 1.0,
                          {k: v[r0:r1 + 1, c0:c1 + 1] for k, v in GM.items()}, coll=site0)
     patch.data.materials.append(TM)
+    if STAGE >= 6:
+        sauna.ground_patch(H, GM, DX0, DY0, TM, site0)
     vs, fs = [], []
     for (x0_, y0_, x1_, y1_), zb, zt in VOIDS:
         b = len(vs)
@@ -358,6 +362,8 @@ if STAGE >= 4:
         lawn_ob = bc.mesh_from("lawn_ground", vv, ff, smooth=False, coll=gcoll)
         lawn_ob.data.materials.append(TM)
         md_ = lawn_ob.modifiers.new("grass", "NODES"); md_.node_group = ground.grass_nodes("GN_grass_lawn", protos_lawn, density=40, seed=2)
+        if STAGE >= 6:
+            sauna.add_grass(protos_meadow + protos_lawn)
         print("grass: lawn", len(ff), "m2; sod roofs", sum(1 for o in bpy.data.objects if o.name.startswith("EN-sod-")))
 
 # ---------------------------------------------------------------- forest (stage 4+: the site is landscaped round the finished building)
