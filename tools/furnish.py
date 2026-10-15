@@ -881,6 +881,48 @@ for lvl, x, y in (("F2", -13.4, -11.6), ("F2", -27.6, -21.0), ("F2", -8.0, -29.5
     put("wipe_station", x, y, rot=90 if x < -25 else -90 if x > -10 else 0, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl],
         note="wipes + bin (placeholder spot: repositioned with the equipment)")
 
+# ---- the gym floors' doors + baseline fixtures (Roman 2026-10-14: proper doors where needed and the other fixtures, every area):
+# flush doors faced to their wall (mirror on the mirror walls, oak / smoked oak on the slat walls) with push bars on the exits,
+# framed glass for the pods + the altitude airlock, the lift doors, exit signs over every exit, a safety point (AED, extinguisher,
+# first aid) a floor, sprinklers + smoke detectors between the beams
+XW, YS, YN = -29.45 + 0.25 + 0.025, -34.1 + 0.25 + 0.025, 12.1 - 0.25 - 0.025
+for lvl, slat in (("F2", "oak"), ("F3", "smoked")):
+    z_ = lv[lvl]; zn_ = f"gym-{lvl.lower()}"
+    for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)"), (-22.4, 1.4, False, "the WC annex")):
+        put("core_door", XW, y, rot=-90, zone=zn_, level=lvl, z=z_, width=w, height=2.3, finish="mirror", exit_=ex, note=f"{note}: mirror-clad in the mirror wall")
+        if ex:
+            put("exit_sign", XW - 0.02, y, rot=-90, zone=zn_, level=lvl, z=z_, mount=2.55, note=f"nødutgang: {note}")
+    put("lift_doors", XW - 0.01, -10.8, rot=-90, zone=zn_, level=lvl, z=z_, width=1.1, height=2.3, note="core W1 lift")
+    put("pictogram", XW - 0.015, -9.95, rot=-90, zone=zn_, level=lvl, z=z_, figure="lift", size=0.24, mount=1.55, note="lift")
+    for k_, fig in enumerate(("woman", "man", "accessible")):
+        put("pictogram", XW - 0.015, -21.35 + 0.0 - k_ * 0.0, rot=-90, zone=zn_, level=lvl, z=z_, figure=fig, size=0.17, mount=1.85 - k_ * 0.21, note=f"WC annex: {fig}")
+    put("core_door", -9.05, YN, rot=180, zone=zn_, level=lvl, z=z_, width=1.2, height=2.3, finish=slat, exit_=True, note="core W3, the north exit stair")
+    put("exit_sign", -9.05, YN + 0.02, rot=180, zone=zn_, level=lvl, z=z_, mount=2.55, note="nødutgang: core W3")
+    put("safety_point", XW - 0.01, -16.2, rot=-90, zone=zn_, level=lvl, z=z_, note="AED, extinguisher, first aid")
+put("core_door", -26.35, YS, rot=0, zone="gym-f2", level="F2", z=lv["F2"], width=1.2, height=2.3, finish="oak", note="the posing room")
+for x in (-19.85, -14.45, -9.05):
+    put("glass_door", x, YS, rot=0, zone="gym-f2", level="F2", z=lv["F2"], width=1.2, height=2.3, note="a private training pod")
+put("glass_door", -22.45, YS, rot=0, zone="gym-f3", level="F3", z=lv["F3"], width=2.0, height=2.3, note="the altitude room's airlock")
+XF1 = -28.85 + 0.125 + 0.025
+for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")):
+    put("core_door", XF1, y, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], width=w, height=2.3, finish="oak", exit_=ex, note=note)
+    put("exit_sign", XF1 - 0.02, y, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], mount=2.55, note=f"nødutgang: {note}")
+put("lift_doors", XF1 - 0.01, -10.8, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], width=1.1, height=2.3, note="core W1 lift")
+put("safety_point", XF1 - 0.01, -29.6, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], note="AED, extinguisher, first aid")
+for lvl, zc in (("F1", 5.58), ("F2", round(-0.385 - lv["F2"], 3)), ("F3", round(-5.295 - lv["F3"], 3))):
+    yb0, yb1 = (-34.1, -11.0) if lvl == "F1" else (-34.1, 12.1)
+    k_ = 0
+    for ya, yb in zip(BAYS, BAYS[1:]):
+        if ya < yb0 - 0.01 or yb > yb1 + 0.01:
+            continue
+        for y in ((ya + yb) / 2 - 1.2, (ya + yb) / 2 + 1.2):           # between the light lines, clear of the beams
+            for x in [-27.6 + i * 3.1 for i in range(7)]:
+                if math.hypot(x - SPX, y - SPY) < SPR + 0.3:
+                    continue
+                put("ceiling_services", round(x, 2), round(y, 2), zone="services", level=lvl, z=lv[lvl], device="smoke" if k_ % 4 == 0 else "sprinkler",
+                    z_local=round(zc - 0.12, 3), ceiling=zc)
+                k_ += 1
+
 # ---- Kulpen, the outdoor sauna (stage 6; VISION "Kulpen", Roman 2026-10-14): placed from model/layouts/sauna.json; the shell is
 # construction/sauna.py. phase 6: built only from stage 6 on.
 KU = _json.loads((ROOT / "model" / "layouts" / "sauna.json").read_text())

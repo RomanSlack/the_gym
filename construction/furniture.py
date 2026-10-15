@@ -4442,6 +4442,34 @@ def stair_landing(P, r_in=1.26, r_out=3.5, a_from=52.5, a_to=97.5, h=1.1, t=0.25
         P.box(st, (r_ * ux - off * -uy, r_ * uy - off * ux, h / 2), (0.05, 0.05, h), rz=te)
 
 
+
+def core_door(P, width=1.2, height=2.3, finish="oak", exit_=False):
+    """A flush door for the gym floors in a slim (40 mm) blackened-steel frame, its leaf faced to match the wall it sits in:
+    'mirror' on the mirror walls (it disappears into them), 'oak' on oak walls, 'smoked' in the den, 'steel'. Exit doors (the stair
+    cores) carry a blackened-steel push bar; the others a slim pull with a brass collar (the accent). A concealed closer line at the
+    head. Origin = the opening's centre on the floor, front +y (the room side)."""
+    st = M["steel"]
+    face = {"mirror": M["mirror"], "oak": M["oak"], "steel": st,
+            "smoked": M.setdefault("smoked_oak", bc.pbr_material("oak_slat_smoked", "oak_veneer_01", 1.83, box=True, tint=(0.55, 0.42, 0.32),
+                                                                 sat=0.7, val=0.45, piece_var=0.08, rough_add=0.1))}[finish]
+    for sx in (-1, 1):
+        P.box(st, (sx * (width / 2 + 0.02), 0.0, height / 2 + 0.02), (0.04, 0.07, height + 0.04))
+    P.box(st, (0, 0.0, height + 0.02), (width + 0.08, 0.07, 0.04))
+    P.box(st if finish == "mirror" else face, (0, -0.005, height / 2), (width - 0.006, 0.05, height - 0.006))   # the leaf
+    if finish == "mirror":
+        P.box(face, (0, 0.0215, height / 2), (width - 0.03, 0.002, height - 0.03))
+    P.box(st, (0, 0.022, height - 0.05), (width - 0.1, 0.004, 0.02))                                             # closer line
+    if exit_:
+        P.box(st, (0, 0.07, 1.0), (width - 0.2, 0.03, 0.05))
+        for sx in (-1, 1):
+            P.box(st, (sx * (width / 2 - 0.12), 0.045, 1.0), (0.04, 0.05, 0.08))
+    else:
+        P.box(st, (width / 2 - 0.1, 0.05, 1.05), (0.022, 0.022, 0.42))
+        for z in (0.9, 1.2):
+            P.box(st, (width / 2 - 0.1, 0.035, z), (0.016, 0.03, 0.016))
+        P.box(M["brass"], (width / 2 - 0.1, 0.05, 1.26), (0.024, 0.024, 0.012))
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4476,9 +4504,9 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
