@@ -4256,6 +4256,32 @@ def tip_bucket(P):
     P.rod(M["rope"], (0.2, 0.2, 2.2), (0.2, 0.25, 1.45), 0.008, seg=6)
     P.rod(oak, (0.2, 0.25, 1.46), (0.2, 0.25, 1.36), 0.016, seg=8)
 
+
+# ------------------------------------------------------------------ the gym floors' light (Roman 2026-10-14: serious gyms, not commercial)
+GYM_LED = {"4000": (1.0, 0.96, 0.9), "3500": (1.0, 0.92, 0.82), "3000": (1.0, 0.86, 0.7)}
+
+
+def gym_line(P, L=6.0, z_ceiling=4.56, temp="4000"):
+    """The training floors' light: a continuous 60 x 90 blackened-aluminium profile on the soffit between the beams, the
+    microprismatic diffuser set 50 mm up inside it behind black cross-baffles (UGR < 16: someone on a bench looking up sees a dark
+    slot, not a source). 4000 K / CRI 90+ on F2, 3500 K in the F1 hall, 3000 K in the den. Origin = under its centre on the floor."""
+    st = M["steel"]
+    P.box(st, (0, 0, z_ceiling - 0.045), (L, 0.06, 0.09))
+    P.box(M["felt"], (0, 0, z_ceiling - 0.089), (L - 0.01, 0.05, 0.002))
+    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 6.0), (0, 0, z_ceiling - 0.04), (L - 0.02, 0.04, 0.003))
+    for k in range(int(L / 0.08)):
+        P.box(st, (-L / 2 + 0.04 + k * 0.08, 0, z_ceiling - 0.065), (0.003, 0.05, 0.045))
+
+
+def wall_washer(P, L=6.0, z_ceiling=4.56, temp="4000"):
+    """A recessed wall-washer line 0.6 m off a wall: an asymmetric reflector throws an even sheet of light down the mirror / back
+    wall, so the room reads lit and deep (vertical brightness: the premium look, not flat commercial light). Origin = under it
+    on the floor, front +y = towards the wall."""
+    st = M["steel"]
+    P.box(st, (0, 0, z_ceiling - 0.04), (L, 0.09, 0.08))
+    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 6.0), (0, 0.02, z_ceiling - 0.075), (L - 0.02, 0.03, 0.003), rx=-0.5)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4290,9 +4316,9 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
+PARAMS = {"gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),

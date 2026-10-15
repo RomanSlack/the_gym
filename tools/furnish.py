@@ -811,6 +811,48 @@ for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
     putl("cell_light", x, y, zone="lobby", z_ceiling=2.88, light={"type": "SPOT", "energy": 45, "spot_deg": 65, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 2.8],
          "aim": [x, y, 0.0], "color": WARM})
 
+# ---- the gym floors' light (Roman 2026-10-14: "the gym style perfect lighting that everyone loves ... serious gyms not commercial").
+# Continuous linear lines on the soffit between the 1.1 m PT beams (the beams shield them: no glare for a lifter on a bench), three per
+# 7.7 m bay, in runs that stop short of the spiral's opening; wall-washers down the long west walls (mirrors / free weights) so the
+# room reads lit and deep. F2 (machines, free weights, olympic, cardio): 4000 K, ~450 lux. F1 hall (stretching, cardio,
+# calisthenics): 3500 K like the gallery, under the wood wool. F3, the den: 3000 K, a low ambient (the pools over the rig, racks and
+# sled lane come with the equipment).
+GYM_C = {"4000": [1.0, 0.95, 0.88], "3500": [1.0, 0.92, 0.82], "3000": [1.0, 0.85, 0.68]}
+SPX, SPY, SPR = -17.95, -14.85, 3.5 + 0.6
+def gym_runs(y):
+    """x runs of a line at y (east-west, wall to wall less 0.55), split in three, minus the spiral's opening."""
+    out = []
+    for xa, xb in ((-28.9, -21.6), (-21.3, -14.6), (-14.3, -7.0)):
+        if abs(y - SPY) < SPR and xa < SPX + SPR and xb > SPX - SPR:
+            dx = math.sqrt(max(0.0, SPR ** 2 - (y - SPY) ** 2))
+            for a_, b_ in ((xa, min(xb, SPX - dx)), (max(xa, SPX + dx), xb)):
+                if b_ - a_ > 1.2:
+                    out.append((a_, b_))
+        else:
+            out.append((xa, xb))
+    return out
+BAYS = [-34.1, -26.4, -18.7, -11.0, -3.3, 4.4, 12.1]
+for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.35 - lv["F2"], 2), "4000", 30, -34.1, 12.1, "gym-f2"),
+                                         ("F1", 5.58, "3500", 26, -34.1, -11.0, "gym-f1"),
+                                         ("F3", round(-5.26 - lv["F3"], 2), "3000", 11, -34.1, 12.1, "gym-f3")):
+    zl = lv[lvl]
+    for ya, yb in zip(BAYS, BAYS[1:]):
+        if ya < y0 - 0.01 or yb > y1 + 0.01:
+            continue
+        for y in (((ya + yb) / 2 - 2.4, (ya + yb) / 2, (ya + yb) / 2 + 2.4) if lvl != "F3" else ((ya + yb) / 2 - 1.9, (ya + yb) / 2 + 1.9)):
+            for xa, xb in gym_runs(y):
+                L_ = round(xb - xa, 2)
+                put("gym_line", (xa + xb) / 2, y, rot=0, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,
+                    light={"type": "AREA", "energy": round(wpm * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, zc - 0.06],
+                           "aim": [(xa + xb) / 2, y, zl - 1.0], "color": GYM_C[temp]}, note=f"linear line {temp} K between the beams")
+    for ya, yb in zip(BAYS, BAYS[1:]):  # wall-washers down the west wall (mirrors, free weights, the den's grip wall), one per bay
+        if ya < y0 - 0.01 or yb > y1 + 0.01:
+            continue
+        a_, b_ = ya + 0.6, yb - 0.6; L_ = round(b_ - a_, 2)
+        put("wall_washer", -29.45 + 0.6, (a_ + b_) / 2, rot=90, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,
+            light={"type": "AREA", "energy": round(wpm * 0.9 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, zc - 0.06],
+                   "aim": [-29.45, (a_ + b_) / 2, zl + 1.2], "color": GYM_C[temp]}, note="wall-washer down the west wall")
+
 # ---- Kulpen, the outdoor sauna (stage 6; VISION "Kulpen", Roman 2026-10-14): placed from model/layouts/sauna.json; the shell is
 # construction/sauna.py. phase 6: built only from stage 6 on.
 KU = _json.loads((ROOT / "model" / "layouts" / "sauna.json").read_text())
