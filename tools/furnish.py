@@ -864,8 +864,12 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
     _gaps.append([round(k - 10 / _sst, 2), round(min(_srs, k + 1 + 10 / _sst), 2)])
 put("spiral_balustrade", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, ri=_sri, ro=_sro, rise=round(_sz1 - _sz0, 3), risers=_srs,
     step_deg=_sst, a0=_sa0, gaps=_gaps, note="the spiral's guards: steel bars, oak handrail outside, steel inside; open where the floor guards open")
+_R_open = next(st_["diameter"] / 2 for st_ in m["stairs"] if st_["id"] == "spiral_west")
+_land = (_sa0 + _sst * _srs, _sa0 + _sst * _srs + 45.0)      # the top landing: the top tread carried on 45 deg, level with F1
+put("stair_landing", *_spe["center"], zone="gym-stair", level="F1", z=lv["F1"], r_in=_sri, r_out=_R_open, a_from=round(_land[0] % 360, 2),
+    a_to=round(_land[0] % 360 + 45.0, 2), h=1.1, t=0.25, note="the spiral's top landing: oak, level with the floor, glass guards on its open edges")
 for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
-    ga, gb = _sa0 + _sst * k - 10, _sa0 + _sst * (k + 1) + 10
+    ga, gb = _sa0 + _sst * k - 10, (_sa0 + _sst * (k + 1) + 10) if lvl == "F2" else _land[1]   # at F1 the ring opens across the landing
     ga, gb = ga % 360, (ga % 360) + (gb - ga)
     put("ring_guard", *_spe["center"], zone="gym-stair", level=lvl, z=lv[lvl], r=next(st_["diameter"] / 2 for st_ in m["stairs"] if st_["id"] == "spiral_west"), gap_a=round(ga, 1), gap_b=round(gb, 1), h=1.1, band=0.39,
         note="the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off")

@@ -4415,6 +4415,33 @@ def wipe_station(P):
     P.cyl(M["felt"], (0, 0, 0.02), r - 0.01, 0.4, seg=48)                         # used wipes sit on the bag's floor (inside: dark)
 
 
+
+def stair_landing(P, r_in=1.26, r_out=3.5, a_from=52.5, a_to=97.5, h=1.1, t=0.25):
+    """The spiral's top landing (Roman: a death drop to the right of the top step): the top tread carried on round as a platform
+    level with the floor, so nothing is open beside you as you step on. Oiled oak on a steel plate (like the treads), a blackened-
+    steel fascia on its inner + far edges (as the ring), and the ring's glass guard (steel shoe, oak cap) along both edges, meeting
+    the stair's inner guard and the floor ring guard. Origin = the stair's centre at floor level; angles in degrees."""
+    st, oak = M["steel"], M["oak"]
+    n = max(8, int((a_to - a_from) / 2.5))
+    P.ring(oak, (0, 0), r_in, r_out, -0.045, 0.0, a0=a_from, a1=a_to, seg=int(n * 360 / (a_to - a_from)))
+    P.ring(st, (0, 0), r_in, r_out, -t, -0.045, a0=a_from, a1=a_to, seg=int(n * 360 / (a_to - a_from)))
+    P.ring(st, (0, 0), r_in - 0.012, r_in, -t - 0.02, 0.012, a0=a_from, a1=a_to, seg=int(n * 360 / (a_to - a_from)))  # inner fascia
+    te = math.radians(a_to); ux, uy = math.cos(te), math.sin(te)
+    rm = (r_in + r_out) / 2; L = r_out - r_in
+    P.box(st, (rm * ux - 0.006 * -uy, rm * uy - 0.006 * ux, -t / 2 + 0.006), (L, 0.012, t + 0.012), rz=te)                # far-edge fascia
+    # guards: along the inner arc (the well) and across the far edge
+    a0_, a1_ = a_from - 2.0, a_to
+    P.ring(st, (0, 0), r_in + 0.005, r_in + 0.075, 0.0, 0.11, a0=a0_, a1=a1_, seg=96)
+    P.ring(M["glass"], (0, 0), r_in + 0.034, r_in + 0.046, 0.09, h - 0.045, a0=a0_, a1=a1_, seg=96)
+    P.ring(oak, (0, 0), r_in + 0.005, r_in + 0.075, h - 0.05, h, a0=a0_, a1=a1_, seg=96)
+    off = 0.04; cx_, cy_ = rm * ux + off * uy, rm * uy - off * ux                           # just inside the landing's far edge
+    P.box(st, (cx_, cy_, 0.055), (L, 0.07, 0.11), rz=te)
+    P.box(M["glass"], (cx_, cy_, (0.09 + h - 0.045) / 2), (L - 0.02, 0.012, h - 0.135), rz=te)
+    P.box(oak, (cx_, cy_, h - 0.025), (L + 0.02, 0.07, 0.05), rz=te)
+    for r_ in (r_in + 0.04, r_out + 0.04):                                                 # posts where the guards meet
+        P.box(st, (r_ * ux - off * -uy, r_ * uy - off * ux, h / 2), (0.05, 0.05, h), rz=te)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4449,9 +4476,9 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
