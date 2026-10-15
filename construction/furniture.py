@@ -3832,7 +3832,7 @@ def sauna_tier(P, L=3.0, d=0.6, seat=1.0, back=False):
     u = -L / 2 + 0.04
     while u < L / 2 - 0.03:
         P.box(a, (u, d / 2 - 0.13, (z0 + seat - 0.1) / 2), (0.07, 0.02, seat - 0.1 - z0)); u += 0.085
-    P.box(_led("bench_line", (1.0, 0.7, 0.42), 3.0), (0, d / 2 - 0.075, seat - 0.1), (L - 0.1, 0.012, 0.005))
+    P.box(_led("bench_line", (1.0, 0.7, 0.42), 0.8), (0, d / 2 - 0.075, seat - 0.1), (L - 0.1, 0.012, 0.005))
     if back:
         for k, z in enumerate((0.25, 0.42, 0.59)):
             P.box(a, (0, -d / 2 + 0.06 + 0.035 * k, seat + z), (L - 0.02, 0.022, 0.09), rx=math.radians(-12))

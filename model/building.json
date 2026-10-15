@@ -18348,7 +18348,7 @@
       "seat": 1.0,
       "back": true,
       "note": "thermo-aspen tier, upper (the hot one)",
-      "light": {"type": "AREA", "energy": 7.8, "size": 3.45, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-24.75, 97.975, -0.4], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 2.8, "size": 3.45, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-24.75, 97.975, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "sauna_tier-816",
@@ -18364,7 +18364,7 @@
       "seat": 1.0,
       "back": true,
       "note": "thermo-aspen tier, upper (the hot one)",
-      "light": {"type": "AREA", "energy": 8.6, "size": 3.8, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-22.7, 99.25, -0.4], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 3.1, "size": 3.8, "size_y": 0.03, "offset": [0, 0.21999999999999997, 0.89], "aim": [-22.7, 99.25, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "sauna_tier-817",
@@ -18380,7 +18380,7 @@
       "seat": 0.55,
       "back": false,
       "note": "thermo-aspen tier, lower",
-      "light": {"type": "AREA", "energy": 6.5, "size": 2.85, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-24.25, 97.675, -0.4], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 2.4, "size": 2.85, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-24.25, 97.675, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "sauna_tier-818",
@@ -18396,7 +18396,7 @@
       "seat": 0.55,
       "back": false,
       "note": "thermo-aspen tier, lower",
-      "light": {"type": "AREA", "energy": 7.5, "size": 3.3, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-22.45, 98.75, -0.4], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 2.7, "size": 3.3, "size_y": 0.03, "offset": [0, 0.16999999999999998, 0.44000000000000006], "aim": [-22.45, 98.75, -0.4], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "sauna_heater-819",

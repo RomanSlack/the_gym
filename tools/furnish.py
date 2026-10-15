@@ -826,7 +826,7 @@ for it in KUs("bench_upper") + KUs("bench_lower"):
     up = it["kind"] == "bench_upper"; seat = 1.0 if up else 0.55
     ax, ay = _w(it["x"], it["y"], it["rot"], 0, it["d"] / 2 - 0.1)
     putk("sauna_tier", it["x"], it["y"], rot=it["rot"], L=it["w"], d=it["d"], seat=seat, back=up, note="thermo-aspen tier, " + ("upper (the hot one)" if up else "lower"),
-         light={"type": "AREA", "energy": round(2.2 * it["w"], 1), "size": round(it["w"] - 0.1, 2), "size_y": 0.03, "offset": [0, it["d"] / 2 - 0.08, seat - 0.11],
+         light={"type": "AREA", "energy": round(0.8 * it["w"], 1), "size": round(it["w"] - 0.1, 2), "size_y": 0.03, "offset": [0, it["d"] / 2 - 0.08, seat - 0.11],
                 "aim": [ax, ay, KFL - 1.0], "color": ZEN})
 for it in KUs("heater"):
     putk("sauna_heater", it["x"], it["y"], rot=it["rot"], note="soapstone mass heater, hybrid (wood from the changing room + electric)",

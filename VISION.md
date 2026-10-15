@@ -210,6 +210,13 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
     - **Light:** almost none. A warm line under each bench tier, the fire window, the daylight off the water.
     - **Size:** 5 × 8 m holds it: hot room ~4.4 × 3.8 inside, changing ~4.4 × 2.4, the porch under the eave.
     - **Process:** 2D layout first (like the locker rooms), then built like a stage-6 outbuilding: foundation, frame, envelope, interior.
+    - **As built (first pass, 2026-10-14; renders `stage_6_ku_*`):**
+      - 2D: `model/layouts/sauna.json` (`tools/sauna_layout.py`, the layout page `?name=sauna`). Floor +0.60, landing +0.58, lower deck −0.25, pool −1.42.
+      - The west and north walls are concrete retaining walls (the berm leans on them); the east and porch walls are timber.
+      - Roof: 27° torvtak, a gable over the porch, a hip to the north; the west + north planes carry on into the berm (1:1.6 past the walls). A tarred fascia and a torvvol log at the east eave, oak sarking seen from below.
+      - Two dry-laid granite wing walls hold the mound's open ends (south of the porch, north of the east wall), stepping down with it.
+      - Hot room: 12 seats on the upper tier, 10 on the lower; low warm lines under the seat fronts.
+      - The forest is kept off the building, berm and decks (`sauna.keep_trees`).
 - **Locker room back door:** a shared **sauna lobby** between the men's and women's locker rooms (F1, north side of the west wing), with robe hooks, a towel warmer, sandal racks and a key-card door.
 - **Sauna path:** a lit stone path, about 2 m wide, with low bollards. The first stretch has **snow-melt heating**, so robes and sandals work in winter.
 - **Indoor saunas too:** a men's and a women's sauna inside the locker rooms (plus the steam rooms). That's the quick everyday sauna; the badstue is the social, ritual one.

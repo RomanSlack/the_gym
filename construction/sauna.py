@@ -65,6 +65,11 @@ def grade(H):
     return H
 
 
+def keep_trees(x, y):
+    """Forest points that stay: none whose trunk or crown (~4 m) would reach into the building, the berm or the decks."""
+    return ~((x > X0 - 5.5) & (x < -12.0) & (y > Y0 - 3.0) & (y < Y1 + 5.0))
+
+
 def _vprism(P, mat, pts, ztop, thick):
     """A plan polygon (CCW) with a sloped top (ztop(x, y)), extruded straight down by thick."""
     b = P.bm(mat)
@@ -126,7 +131,7 @@ def build(MAT, H, coll):
     _zbox(Pf, memb, X0 - 0.01, Y0, FL - 0.42, X0, Y1 + 0.01, PLATE)
     _zbox(Pf, memb, X0 - 0.01, Y1, FL - 0.42, X1, Y1 + 0.01, PLATE)
     for x, y in ((-25.0, 91.85), (-20.62, 91.8)):                              # pad under the porch post / the wall end
-        _zbox(Pf, conc, x - 0.25, y - 0.25, FL - 0.8, x + 0.25, y + 0.25, FL - 0.15)
+        _zbox(Pf, conc, x - 0.25, y - 0.25, FL - 1.2, x + 0.25, y + 0.25, FL - 0.62)
     # granite plinth where the slab edge shows (east + the porch wall), dry-laid, 150 deep
     for (x0, y0, x1, y1) in ((X1 - 0.05, YP, X1 + 0.1, Y1), (XI0, YP - 0.15, X1 + 0.1, YP)):
         _zbox(Pf, gran, x0, y0, FL - 0.5, x1, y1, FL - 0.03)
@@ -138,7 +143,7 @@ def build(MAT, H, coll):
     _zbox(Pr, glulam, X1 - 0.23, Y0 - GABLE, PLATE - 0.09, X1 - 0.05, Y1 - T, PLATE)             # east plate (on to the porch post)
     _zbox(Pr, glulam, X0, Y0 - GABLE, PLATE - 0.09, X0 + T, Y1, PLATE)                          # sill plate on the west wall
     _zbox(Pr, glulam, X0 + T, Y0 - 0.25, PLATE - 0.3, X1 - 0.23, Y0 - 0.15, PLATE)               # porch header (warm glulam)
-    Pr.rod(M["tar"], (-20.62, 91.8, LANDING), (-20.62, 91.8, PLATE - 0.09), 0.1, 0.09, seg=16)  # the porch post: a tarred round log
+    Pr.rod(M["tar"], (-20.62, 91.8, FL - 0.62), (-20.62, 91.8, PLATE - 0.09), 0.1, 0.09, seg=16)  # the porch post: a tarred round log
     rt = R - SOD - SARK                                                                           # rafter tops at the ridge
     _zbox(Pr, glulam, XR - 0.06, Y0 - GABLE, rt - 0.36, XR + 0.06, YHIP + 0.1, rt)                # ridge beam
     zr = lambda x, y: zroof(x, y) - SOD - SARK
@@ -190,9 +195,11 @@ def build(MAT, H, coll):
         _vprism(Ps, sod, pl, zroof, SOD)
         _vprism(Pe, oak, pl, lambda x, y: zroof(x, y) - SOD, SARK)
         _vprism(Pe, memb, pl, lambda x, y: zroof(x, y) - SOD + 0.004, 0.004)
-    Pe.rod(M["log"], (XE - 0.08, Y0 - GABLE, zroof(XE, 95) - SOD + 0.07), (XE - 0.08, Y1, zroof(XE, 95) - SOD + 0.07), 0.075, seg=14)  # torvvol
+    ze = zroof(XE, 95)
+    Pe.rod(M["log"], (XE - 0.09, Y0 - GABLE, ze - 0.1), (XE - 0.09, Y1, ze - 0.1), 0.075, seg=14)                 # torvvol, holds the sod
+    _zbox(Pe, tar, XE, Y0 - GABLE - 0.03, ze - SOD - SARK - 0.06, XE + 0.03, Y1, ze - 0.06)                    # fascia over the edge
     for xa, xb in ((X0, XR), (XR, XE)):                                                            # barge boards on the gable
-        Pe.prism(tar, [(xa, zroof(xa, 92) + 0.05), (xb, zroof(xb, 92) + 0.05), (xb, zroof(xb, 92) - SOD - SARK - 0.12), (xa, zroof(xa, 92) - SOD - SARK - 0.12)],
+        Pe.prism(tar, [(xa, zroof(xa, 92) - 0.04), (xb, zroof(xb, 92) - 0.04), (xb, zroof(xb, 92) - SOD - SARK - 0.06), (xa, zroof(xa, 92) - SOD - SARK - 0.06)],
                  Y0 - GABLE - 0.03, Y0 - GABLE)
     # the berm: the roof's west + north planes carried on past the walls, eased down to the ground at 1:1.6
     res = 0.25; xs = np.arange(-34.0, -16.0 + 1e-6, res); ys = np.arange(87.0, 108.0 + 1e-6, res)

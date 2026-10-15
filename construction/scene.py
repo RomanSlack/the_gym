@@ -367,6 +367,8 @@ if STAGE >= 4 and (OUT / "tree_lib.blend").exists() and (OUT / "forest_points.np
         dst.collections = ["tree_lib"]
     lib = dst.collections[0]
     fp = np.load(OUT / "forest_points.npz")
+    if STAGE >= 6:  # no trunk or crown in Kulpen, its berm or its decks
+        fp = {k_: v_[sauna.keep_trees(fp["x"], fp["y"])] for k_, v_ in fp.items()}
     forest_coll = bc.collection("6 · forest")
     pv = np.stack([fp["x"], fp["y"], fp["z"]], 1)
     me = bpy.data.meshes.new("forest_points"); me.vertices.add(len(pv)); me.vertices.foreach_set("co", pv.astype(np.float32).ravel())
@@ -549,7 +551,7 @@ CAMS = {
     # Kulpen, the outdoor sauna (stage 6): from the path, across the pool, from the north (the mound), on the deck, the porch, inside
     "ku_path": ((-27.5, 83.5, 2.0), (-22.6, 95.0, 2.3), 24),
     "ku_pool": ((1.5, 89.0, 0.6), (-20.0, 96.0, 1.4), 26),
-    "ku_north": ((-34.0, 113.0, 3.2), (-23.0, 96.0, 2.4), 24),
+    "ku_north": ((-31.5, 107.5, 3.6), (-23.0, 97.0, 3.0), 22),
     "ku_deck": ((-14.9, 92.6, 1.35), (-20.0, 97.6, 1.1), 18),
     "ku_porch": ((-21.0, 90.9, 2.1), (-24.6, 93.3, 1.3), 20),
     "ku_hot": ((-21.25, 96.45, 2.15), (-24.8, 99.4, 1.25), 15),

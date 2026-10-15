@@ -54,6 +54,8 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
   - 3500 K linear lights and a floor grazer.
   - Cameras `gal_*`; bridge + gallery cameras get +2.2 exposure, not +2.8.
 
+**Kulpen, the outdoor sauna (2026-10-14, Roman: work on it now):** VISION "Kulpen". 2D first (`model/layouts/sauna.json`, `tools/sauna_layout.py`, `blueprint/layout.html?name=sauna`), then 3D as the first stage-6 build: the shell is `construction/sauna.py` (foundation, frame, envelope, sod roof + berm, chimney, inside, decks, pool steps, flume; `grade()` lowers the ground under the decks; `keep_trees()` keeps the forest off); the pieces are furnishings with `phase: 6` (`tools/furnish.py` section "Kulpen"; scene.py only builds furnishings whose phase <= the stage). Render: `scene.py -- 6 render` (cameras `ku_*`; the hot room + changing room get +1.6 exposure).
+
 **Then:**
 1. the gym F1 hall: stretching, cardio, calisthenics (floor + ceiling done; equipment + lighting to do). The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
@@ -151,6 +153,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - **3D renders:** `.capture/renders/replay.html`, rebuilt every turn by `tools/replay/render_history.py`. Any camera, every version, with its prompts.
 
 ## Known open items
+- **The trail runs through Kulpen.** `site.features.trail` was routed before the sauna grew a berm: it passes the porch and under the west berm (keep_out is the old 6 x 9 m box). Re-route it west round the mound (bigger keep_out in `terrain/route_trail.py`, then the features raster in `terrain/ravine.py`) when stage 6 does the trail.
 - **Entrance stone strip** inside the doors reads dark. With the vestibule now outside it could become oak plus a recessed mat; offered, not decided.
 - **West-garden camera** sits inside the forest; there's a small ground dip at the foot of the W2 tower.
 - **Forest species:** birch and grey alder aren't generated yet (the forest is spruce, pine and regrowth), and there are no shrubs.
