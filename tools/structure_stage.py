@@ -227,7 +227,9 @@ for st in m["stairs"]:
         continue
     zlo, zhi = lv[st["from"]], lv[st["to"]]; n = round((zhi - zlo) / RISE)
     R = st["diameter"] / 2
-    r_in = 1.45 if st["id"] == "daycare_round" else round(R * 0.36, 2)  # daycare: a wider eye holds the tube slide (Roman), treads 1.1 m
+    r_in = 1.45 if st["id"] == "daycare_round" else round(R * 0.36, 2)
+    if st["id"] == "spiral_west":  # the helix stands 100 mm clear of the slab edges it passes (it ran through them at R = the opening)
+        R = round(R - 0.10, 2)  # daycare: a wider eye holds the tube slide (Roman), treads 1.1 m
     add({"id": f"ST3-{st['id']}", "type": "spiral_stair", "material": "steel_dark", "center": st["center"], "r": [r_in, R],
          "z": [zlo, zhi], "risers": n, "step_deg": 15, "a0": st.get("a0", 90),
          "note": f"open helix, no centre post: inner + outer dark steel helical stringers, {n} solid oak treads ({(zhi - zlo) / n:.3f} rise, 15 deg each)"})

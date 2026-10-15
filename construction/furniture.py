@@ -4296,30 +4296,44 @@ def ring_guard(P, r=3.5, gap_a=135.0, gap_b=160.0, h=1.1, band=0.39):
         P.box(st, ((r + 0.04) * math.cos(t), (r + 0.04) * math.sin(t), h / 2), (0.05, 0.05, h), rz=t)
 
 
-def spiral_balustrade(P, ri=1.26, ro=3.5, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gap_k=(27, 27)):
-    """The spiral's guards: slim blackened-steel bars (12 mm, two a tread) on both edges of the helix, an oak handrail on the outside,
-    a steel one on the inside (the well drops the full height), 0.95 over the nosings; the outer guard opens at gap_k (the treads
-    level with a floor you step off onto). Origin = the stair's centre at its foot."""
+def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gap_k=(27, 27)):
+    """The spiral's guards, side-mounted on the stringers (nothing stands on a tread): 14 mm blackened-steel bars at <= 110 mm
+    (child-safe), each held off the stringer's face by a small steel shoe, carried at the top by a 40 x 12 steel flat rail; on the
+    outside a 50 mm oiled-oak handrail sits on it, on the well side a 40 mm steel one. 0.95 over the nosing line. The outer guard
+    opens at gap_k (the tread level with a floor you step off onto), closed by two heavier end bars.
+    Origin = the stair's centre at its foot."""
     st, oak = M["steel"], M["oak"]
     rr = rise / risers; H = 0.95
-    ro_, ri_ = ro - 0.07, ri + 0.05
+    span_k = lambda a: (a - a0) / step_deg                     # treads from the foot at angle a
+    zn = lambda a: rr * (span_k(a) + 0.5)                       # the nosing line
     def pt(r, a, z):
         t = math.radians(a); return (r * math.cos(t), r * math.sin(t), z)
-    for k in range(risers):
-        zt = rr * (k + 1)
-        for f in (0.25, 0.75):
-            a = a0 + step_deg * (k + f)
-            if not (gap_k[0] - 1 <= k <= gap_k[1] + 1):
-                P.rod(st, pt(ro_, a, zt), pt(ro_, a, zt + H + rr * (f - 0.5)), 0.006, seg=6)
-            P.rod(st, pt(ri_, a, zt), pt(ri_, a, zt + H + rr * (f - 0.5)), 0.006, seg=6)
-    n = risers * 4
-    for j in range(n):
-        ka, kb = j / 4, (j + 1) / 4
-        za, zb = rr * (ka + 0.5) + H, rr * (kb + 0.5) + H
-        aa, ab = a0 + step_deg * ka, a0 + step_deg * kb
-        if not (gap_k[0] - 1 <= ka <= gap_k[1] + 1.75):
-            P.rod(oak, pt(ro_, aa, za + 0.02), pt(ro_, ab, zb + 0.02), 0.024, seg=10)
-        P.rod(st, pt(ri_, aa, za + 0.012), pt(ri_, ab, zb + 0.012), 0.016, seg=8)
+    gap = lambda a: gap_k[0] - 0.15 <= span_k(a) <= gap_k[1] + 1.15
+    for r_bar, r_face, outer in ((ro + 0.03, ro + 0.0125, True), (ri - 0.03, ri - 0.0125, False)):
+        arc_tread = math.radians(step_deg) * r_bar
+        nb = max(2, math.ceil(arc_tread / 0.11))
+        for k in range(risers):
+            for i in range(nb):
+                a = a0 + step_deg * (k + (i + 0.5) / nb)
+                if outer and gap(a):
+                    continue
+                zb = zn(a) - 0.28
+                Pt0, Pt1 = pt(r_bar, a, zb), pt(r_bar, a, zn(a) + H - 0.05)
+                P.rod(st, Pt0, Pt1, 0.007, seg=8)
+                P.rod(st, pt(r_face, a, zb + 0.04), pt(r_bar, a, zb + 0.04), 0.009, seg=8)       # the shoe off the stringer
+        n = risers * 6
+        for j in range(n):
+            aa, ab = a0 + step_deg * risers * j / n, a0 + step_deg * risers * (j + 1) / n
+            if outer and (gap(aa) or gap(ab)):
+                continue
+            P.rod(st, pt(r_bar, aa, zn(aa) + H - 0.05), pt(r_bar, ab, zn(ab) + H - 0.05), 0.011, seg=8)       # the top rail
+            if outer:
+                P.rod(oak, pt(r_bar, aa, zn(aa) + H - 0.008), pt(r_bar, ab, zn(ab) + H - 0.008), 0.025, seg=14)  # oak handrail
+            else:
+                P.rod(st, pt(r_bar, aa, zn(aa) + H - 0.015), pt(r_bar, ab, zn(ab) + H - 0.015), 0.02, seg=12)
+    for kk in (gap_k[0] - 0.15, gap_k[1] + 1.15):               # heavier end bars at the opening
+        a = a0 + step_deg * kk
+        P.rod(st, pt(ro + 0.03, a, zn(a) - 0.3), pt(ro + 0.03, a, zn(a) + H + 0.02), 0.014, seg=12)
 
 
 def wipe_station(P):

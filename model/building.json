@@ -2810,8 +2810,6 @@
       "between": ["men-lockers", "gallery"],
       "openings": [
         {"s": [2.02, 3.52], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
-        {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
-        {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],
       "phase": 5,
@@ -5825,7 +5823,7 @@
       "type": "spiral_stair",
       "material": "steel_dark",
       "center": [-17.95, -14.85],
-      "r": [1.26, 3.5],
+      "r": [1.26, 3.4],
       "z": [-9.77, 0.0],
       "risers": 56,
       "step_deg": 15,
@@ -9540,8 +9538,6 @@
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
         {"s": [2.02, 3.52], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
-        {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
-        {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],
       "face_normal": [1.0, 0.0],
@@ -10559,8 +10555,6 @@
       "pattern": {"kind": "skin"},
       "openings": [
         {"s": [1.95, 3.45], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
-        {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
-        {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],
       "face_normal": [-1.0, -0.0],
@@ -20548,7 +20542,7 @@
       "rot_deg": 0.0,
       "zone": "gym-stair",
       "ri": 1.26,
-      "ro": 3.5,
+      "ro": 3.4,
       "rise": 9.77,
       "risers": 56,
       "step_deg": 15,

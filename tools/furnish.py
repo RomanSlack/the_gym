@@ -864,7 +864,7 @@ put("spiral_balustrade", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, 
 for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
     ga, gb = _sa0 + _sst * k - 10, _sa0 + _sst * (k + 1) + 10
     ga, gb = ga % 360, (ga % 360) + (gb - ga)
-    put("ring_guard", *_spe["center"], zone="gym-stair", level=lvl, z=lv[lvl], r=_sro, gap_a=round(ga, 1), gap_b=round(gb, 1), h=1.1, band=0.39,
+    put("ring_guard", *_spe["center"], zone="gym-stair", level=lvl, z=lv[lvl], r=next(st_["diameter"] / 2 for st_ in m["stairs"] if st_["id"] == "spiral_west"), gap_a=round(ga, 1), gap_b=round(gb, 1), h=1.1, band=0.39,
         note="the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off")
 for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -9.0, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
     y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)
