@@ -459,12 +459,14 @@ def fallen_blocks(H, rock, x0, y0, exclude, rng, coll=None, n=140):
 
 
 # ------------------------------------------------------------------ interior finishes (stage 5): real pieces, real sizes
-def _pieces_mesh(name, boxes, mat, coll):
-    """boxes: list of (8 corner verts) ; every piece gets a random 'prand' (texture offset / tint per board, slat, slab)."""
+def _pieces_mesh(name, boxes, mat, coll, groups=None):
+    """boxes: list of (8 corner verts) ; every piece gets a random 'prand' (texture offset / tint per board, slat, slab); pieces sharing
+    a group id (strips of one tile cut round a circle) share it."""
     vs, fs, pr = [], [], []
-    rng_ = np.random.default_rng(abs(hash(name)) % 2**32)
-    for corners in boxes:
-        b = len(vs); vs += corners; r = float(rng_.random())
+    rng_ = np.random.default_rng(abs(hash(name)) % 2**32); gr = {}
+    for k_, corners in enumerate(boxes):
+        b = len(vs); vs += corners
+        r = gr.setdefault(groups[k_], float(rng_.random())) if groups is not None else float(rng_.random())
         fs += [(b, b + 3, b + 2, b + 1), (b + 4, b + 5, b + 6, b + 7), (b, b + 1, b + 5, b + 4), (b + 1, b + 2, b + 6, b + 5), (b + 2, b + 3, b + 7, b + 6), (b + 3, b, b + 4, b + 7)]
         pr += [r] * 8
     ob = mesh_from(name, vs, fs, {"prand": np.array(pr)}, smooth=False, coll=coll)
@@ -478,7 +480,10 @@ def _box(x0, y0, z0, x1, y1, z1):
 
 def pattern_floor(e, mat, coll, rng):
     x0, y0, x1, y1 = e["rect"]; z0, z1 = e["z"]; p = e["pattern"]
-    boxes = []
+    boxes, groups = [], []
+    circles = [h["circle"] for h in e.get("holes", []) if "circle" in h]
+    def near_circle(q):
+        return any(q[0] < cx + r + 0.01 and q[2] > cx - r - 0.01 and q[1] < cy + r + 0.01 and q[3] > cy - r - 0.01 for cx, cy, r in circles)
     if p["kind"] in ("boards", "slabs"):
         w, gap = p["w"], p["gap"]
         along_y = p.get("dir", "y") == "y"
@@ -493,8 +498,16 @@ def pattern_floor(e, mat, coll, rng):
                 if s1 - s0 > 0.05:
                     q = (c + gap / 2, s0 + gap / 2, c + cw - gap / 2, s1 - gap / 2)
                     q = (q[0], q[1], q[2], q[3]) if along_y else (q[1], q[0], q[3], q[2])
-                    for r_ in _minus_holes(q, e.get("holes", [])):  # recesses (e.g. the entrance mat well): pieces cut round them
-                        boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1))
+                    gid = ("t", round(c, 4), round(a, 4))                     # one id per tile
+                    if near_circle(q):  # cut to a round opening in 50 mm strips (one tile, one tone), not to the widest chord
+                        long_y = (q[3] - q[1]) >= (q[2] - q[0]); n_ = max(1, int(round(((q[2] - q[0]) if long_y else (q[3] - q[1])) / 0.05)))
+                        parts = [(q[0] + (q[2] - q[0]) * i / n_, q[1], q[0] + (q[2] - q[0]) * (i + 1) / n_, q[3]) if long_y else
+                                 (q[0], q[1] + (q[3] - q[1]) * i / n_, q[2], q[1] + (q[3] - q[1]) * (i + 1) / n_) for i in range(n_)]
+                    else:
+                        parts = [q]
+                    for qq in parts:
+                        for r_ in _minus_holes(qq, e.get("holes", [])):  # recesses (e.g. the entrance mat well): pieces cut round them
+                            boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1)); groups.append(gid)
                 a += L
             c += w; row += 1
     else:  # poured: panels between saw cuts
@@ -504,13 +517,13 @@ def pattern_floor(e, mat, coll, rng):
             for j in range(ny_):
                 q = (x0 + (x1 - x0) * i / nx_ + 0.0015, y0 + (y1 - y0) * j / ny_ + 0.0015, x0 + (x1 - x0) * (i + 1) / nx_ - 0.0015, y0 + (y1 - y0) * (j + 1) / ny_ - 0.0015)
                 for r_ in _minus_holes(q, e.get("holes", [])):
-                    boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1))
+                    boxes.append(_box(r_[0], r_[1], z0, r_[2], r_[3], z1)); groups.append(("p", i, j))
     if e.get("slope"):  # a floor that rises along x (the bridge: gym F1 0.00 -> cafe E1 0.12): each piece lifted by its centre's x
         (xa, za), (xb, zb) = e["slope"]
         top_only = e.get("slope_top_only")  # screed: thickens (its underside stays on the slab)
         lift = lambda x_: za + (zb - za) * min(1, max(0, (x_ - xa) / (xb - xa)))  # per vertex: long boards tilt with the screed, no steps
         boxes = [[(c[0], c[1], c[2] + (lift(c[0]) if (not top_only or abs(c[2] - z1) < 1e-6) else 0.0)) for c in bx] for bx in boxes]
-    return _pieces_mesh(e["id"], boxes, mat, coll)
+    return _pieces_mesh(e["id"], boxes, mat, coll, groups)
 
 
 def _minus_holes(q, holes):

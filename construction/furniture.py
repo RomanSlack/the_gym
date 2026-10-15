@@ -4326,7 +4326,13 @@ def wipe_station(P):
     """Wipes + bin for the training floors (Roman's reference: a round brushed-stainless stand): a 320 mm drum, 920 tall, brushed
     stainless; the satin lid with a grommet and a wipe pulled up through it (the roll inside); a soft-cornered opening at 0.45-0.62
     for used wipes into a black liner; a slim oiled-oak band under the lid (the flair) and a black rubber foot. Origin = floor, front +y."""
-    bs, oak = M["brushed"], M["oak"]
+    if "stainless_satin" not in M:  # bright satin stainless, brushed up and down the drum (the reference's look)
+        ms = bc.metal_material("stainless_satin", (0.86, 0.86, 0.84), rough=(0.1, 0.18))
+        for n_ in ms.node_tree.nodes:
+            if n_.bl_idname == "ShaderNodeMapping" and tuple(n_.inputs["Scale"].default_value) == (400.0, 4.0, 400.0):
+                n_.inputs["Scale"].default_value = (400.0, 400.0, 4.0)
+        M["stainless_satin"] = ms
+    bs, oak = M["stainless_satin"], M["oak"]
     r, h = 0.16, 0.92
     P.cyl(M["rubber"], (0, 0, 0.0), r + 0.002, 0.012, seg=48)
     P.ring(bs, (0, 0), r - 0.002, r, 0.012, 0.45, seg=64)
