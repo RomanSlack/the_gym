@@ -4262,15 +4262,11 @@ GYM_LED = {"4000": (1.0, 0.96, 0.9), "3500": (1.0, 0.92, 0.82), "3000": (1.0, 0.
 
 
 def gym_line(P, L=6.0, z_ceiling=4.56, temp="4000"):
-    """The training floors' light: a continuous 60 x 90 blackened-aluminium profile on the soffit between the beams, the
-    microprismatic diffuser set 50 mm up inside it behind black cross-baffles (UGR < 16: someone on a bench looking up sees a dark
-    slot, not a source). 4000 K / CRI 90+ on F2, 3500 K in the F1 hall, 3000 K in the den. Origin = under its centre on the floor."""
+    """The training floors' light: a continuous 60 x 90 blackened-aluminium profile on the soffit between the beams with a flush
+    microprismatic opal (a clean glowing line; the 1.1 m beams shield it from a lifter on a bench across the bay). 4000 K / CRI 90+ on F2, 3500 K in the F1 hall, 3000 K in the den. Origin = under its centre on the floor."""
     st = M["steel"]
     P.box(st, (0, 0, z_ceiling - 0.045), (L, 0.06, 0.09))
-    P.box(M["felt"], (0, 0, z_ceiling - 0.012), (L - 0.01, 0.05, 0.002))                      # black inside the profile, above the diffuser
-    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 14.0), (0, 0, z_ceiling - 0.04), (L - 0.02, 0.04, 0.003))
-    for k in range(int(L / 0.08)):
-        P.box(st, (-L / 2 + 0.04 + k * 0.08, 0, z_ceiling - 0.065), (0.003, 0.05, 0.045))
+    P.box(_led(f"gym_line_{temp}", GYM_LED[temp], 10.0), (0, 0, z_ceiling - 0.0905), (L - 0.02, 0.044, 0.003))  # flush opal: every line glows
 
 
 def wall_washer(P, L=6.0, z_ceiling=4.56, temp="4000"):

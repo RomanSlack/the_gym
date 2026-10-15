@@ -18812,7 +18812,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18826,7 +18826,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18840,7 +18840,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18854,7 +18854,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18868,7 +18868,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18882,7 +18882,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -30.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18896,7 +18896,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18910,7 +18910,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18924,7 +18924,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -27.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18938,7 +18938,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18952,7 +18952,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18966,7 +18966,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -24.949999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18980,7 +18980,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -18994,7 +18994,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19008,7 +19008,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -22.549999999999997, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19022,7 +19022,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19036,7 +19036,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19050,7 +19050,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19064,7 +19064,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -17.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -17.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19078,7 +19078,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -17.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -17.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19092,7 +19092,7 @@
       "L": 6.85,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.474999999999998, -14.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.474999999999998, -14.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19106,7 +19106,7 @@
       "L": 6.85,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.425, -14.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.425, -14.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19120,7 +19120,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19134,7 +19134,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19148,7 +19148,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19162,7 +19162,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19176,7 +19176,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19190,7 +19190,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19204,7 +19204,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19218,7 +19218,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19232,7 +19232,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19246,7 +19246,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19260,7 +19260,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19274,7 +19274,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19288,7 +19288,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19302,7 +19302,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -1.8499999999999996, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19316,7 +19316,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19330,7 +19330,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19344,7 +19344,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 0.5500000000000003, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19358,7 +19358,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19372,7 +19372,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19386,7 +19386,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19400,7 +19400,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19414,7 +19414,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19428,7 +19428,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19442,7 +19442,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19456,7 +19456,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19470,7 +19470,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19484,7 +19484,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19498,7 +19498,7 @@
       "L": 6.7,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19512,7 +19512,7 @@
       "L": 7.3,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
       "note": "linear line 4000 K between the beams"
     },
     {
@@ -19526,7 +19526,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -30.25, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -30.25, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19540,7 +19540,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -22.549999999999997, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -22.549999999999997, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19554,7 +19554,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -14.849999999999998, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -14.849999999999998, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19568,7 +19568,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -7.15, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -7.15, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19582,7 +19582,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 0.5500000000000003, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 0.5500000000000003, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19596,7 +19596,7 @@
       "L": 6.5,
       "z_ceiling": 4.525,
       "temp": "4000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 8.25, -3.71], "color": [1.0, 0.95, 0.88]},
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 8.25, -3.71], "color": [1.0, 0.95, 0.88]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19610,7 +19610,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19624,7 +19624,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19638,7 +19638,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19652,7 +19652,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19666,7 +19666,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19680,7 +19680,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19694,7 +19694,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19708,7 +19708,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19722,7 +19722,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19736,7 +19736,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19750,7 +19750,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19764,7 +19764,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -24.949999999999996, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19778,7 +19778,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19792,7 +19792,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19806,7 +19806,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -22.549999999999997, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19820,7 +19820,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19834,7 +19834,7 @@
       "L": 6.7,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 174, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19848,7 +19848,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19862,7 +19862,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19876,7 +19876,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19890,7 +19890,7 @@
       "L": 6.85,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 178, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.474999999999998, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.474999999999998, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19904,7 +19904,7 @@
       "L": 6.85,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 178, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.425, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.425, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19918,7 +19918,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19932,7 +19932,7 @@
       "L": 7.3,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 190, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
       "note": "linear line 3500 K between the beams"
     },
     {
@@ -19946,7 +19946,7 @@
       "L": 6.5,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 152, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -30.25, 1.2], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -30.25, 1.2], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19960,7 +19960,7 @@
       "L": 6.5,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 152, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -22.549999999999997, 1.2], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -22.549999999999997, 1.2], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19974,7 +19974,7 @@
       "L": 6.5,
       "z_ceiling": 5.58,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 152, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -14.849999999999998, 1.2], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -14.849999999999998, 1.2], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -19988,7 +19988,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20002,7 +20002,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20016,7 +20016,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -32.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20030,7 +20030,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20044,7 +20044,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20058,7 +20058,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -28.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20072,7 +20072,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20086,7 +20086,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20100,7 +20100,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -24.449999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20114,7 +20114,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20128,7 +20128,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20142,7 +20142,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -20.65, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20156,7 +20156,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -16.75, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -16.75, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20170,7 +20170,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -16.75, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -16.75, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20184,7 +20184,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -12.95, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -12.95, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20198,7 +20198,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -12.95, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -12.95, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20212,7 +20212,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20226,7 +20226,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20240,7 +20240,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -9.05, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20254,7 +20254,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20268,7 +20268,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20282,7 +20282,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -5.25, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20296,7 +20296,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20310,7 +20310,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20324,7 +20324,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -1.3499999999999996, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20338,7 +20338,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20352,7 +20352,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20366,7 +20366,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 2.45, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20380,7 +20380,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20394,7 +20394,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20408,7 +20408,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 6.35, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20422,7 +20422,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20436,7 +20436,7 @@
       "L": 6.7,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 74, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20450,7 +20450,7 @@
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 80, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 10.15, -10.77], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K between the beams"
     },
     {
@@ -20464,7 +20464,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -30.25, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -30.25, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -20478,7 +20478,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -22.549999999999997, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -22.549999999999997, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -20492,7 +20492,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -14.849999999999998, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -14.849999999999998, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -20506,7 +20506,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -7.15, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -7.15, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -20520,7 +20520,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 0.5500000000000003, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 0.5500000000000003, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -20534,7 +20534,7 @@
       "L": 6.5,
       "z_ceiling": 4.475,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 64, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 8.25, -8.57], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 8.25, -8.57], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {

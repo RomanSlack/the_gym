@@ -832,9 +832,9 @@ def gym_runs(y):
             out.append((xa, xb))
     return out
 BAYS = [-34.1, -26.4, -18.7, -11.0, -3.3, 4.4, 12.1]
-for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "4000", 30, -34.1, 12.1, "gym-f2"),
-                                         ("F1", 5.58, "3500", 26, -34.1, -11.0, "gym-f1"),
-                                         ("F3", round(-5.295 - lv["F3"], 3), "3000", 11, -34.1, 12.1, "gym-f3")):
+for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "4000", 75, -34.1, 12.1, "gym-f2"),
+                                         ("F1", 5.58, "3500", 60, -34.1, -11.0, "gym-f1"),
+                                         ("F3", round(-5.295 - lv["F3"], 3), "3000", 30, -34.1, 12.1, "gym-f3")):
     zl = lv[lvl]
     for ya, yb in zip(BAYS, BAYS[1:]):
         if ya < y0 - 0.01 or yb > y1 + 0.01:
