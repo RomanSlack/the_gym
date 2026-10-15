@@ -288,7 +288,7 @@ WBEAMS = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and 
 for nm, r in (("gallery", GAL), ("hall", [-29.45, -34.1, -6.45, -9.3])):
     beam_cuts = [{"rect": [r[0], round(yb - 0.17, 3), r[2], round(yb + 0.17, 3)], "note": "glulam beam"} for yb in WBEAMS if r[1] - 0.2 < yb < r[3] + 0.2]
     add({"id": f"IN-F1-ceiling-{nm}", "type": "slab", "kind": "ceiling", "material": "wood_wool", "rect": r, "z": [round(RF - 0.06, 3), round(RF - 0.025, 3)],
-         "holes": beam_cuts + ([{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}] if nm == "hall" else []),
+         "holes": beam_cuts,  # the spiral ends at F1: no opening in the roof ceiling
          "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
          "note": "wood-wool acoustic panels 600 x 1200 x 35, natural, on battens under the CLT, between the glulam beams"})
 # ---- zone: the gym floors F2 + F3 (Roman, 2026-10-14: the general styling + finishing, then the light; serious gyms, not commercial).

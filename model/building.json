@@ -2811,6 +2811,7 @@
       "openings": [
         {"s": [2.02, 3.52], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
         {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
+        {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.175, 1.775], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],
       "phase": 5,
@@ -8990,8 +8991,7 @@
         {"rect": [-29.45, -34.27, -6.45, -33.93], "note": "glulam beam"},
         {"rect": [-29.45, -26.57, -6.45, -26.23], "note": "glulam beam"},
         {"rect": [-29.45, -18.87, -6.45, -18.53], "note": "glulam beam"},
-        {"rect": [-29.45, -11.17, -6.45, -10.83], "note": "glulam beam"},
-        {"circle": [-17.95, -14.85, 3.5], "note": "spiral stair"}
+        {"rect": [-29.45, -11.17, -6.45, -10.83], "note": "glulam beam"}
       ],
       "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
       "note": "wood-wool acoustic panels 600 x 1200 x 35, natural, on battens under the CLT, between the glulam beams",
@@ -9540,6 +9540,7 @@
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
         {"s": [2.02, 3.52], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
+        {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.17, 1.77], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],
@@ -10558,6 +10559,7 @@
       "pattern": {"kind": "skin"},
       "openings": [
         {"s": [1.95, 3.45], "z": [0.0, 2.4], "type": "baffle", "swing": -1, "note": "Men's changing ↔ Gallery"},
+        {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"},
         {"s": [0.1, 1.7], "z": [0.0, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}
       ],

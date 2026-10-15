@@ -4335,9 +4335,32 @@ def wipe_station(P):
     bs, oak = M["stainless_satin"], M["oak"]
     r, h = 0.16, 0.92
     P.cyl(M["rubber"], (0, 0, 0.0), r + 0.002, 0.012, seg=48)
-    P.ring(bs, (0, 0), r - 0.002, r, 0.012, 0.45, seg=64)
-    P.ring(bs, (0, 0), r - 0.002, r, 0.45, 0.62, a0=90 + 38, a1=90 - 38 + 360, seg=64)  # the opening faces +y
-    P.ring(bs, (0, 0), r - 0.002, r, 0.62, h - 0.06, seg=64)
+    # the drum: ONE continuous shell (outer + inner skin, 1.2 mm) with the opening cut in it, so no seams anywhere
+    b_ = P.bm(bs); n_ = 72; zs_ = [0.012, 0.45, 0.62, h - 0.06]; t_ = 0.0012
+    open_ = lambda k: abs(((360.0 * (k + 0.5) / n_) - 90 + 180) % 360 - 180) < 38      # segment k inside the opening's arc (front +y)
+    ring_v = [[[b_.verts.new(((r - t_ * j) * math.cos(2 * math.pi * k / n_), (r - t_ * j) * math.sin(2 * math.pi * k / n_), z)) for k in range(n_)]
+               for z in zs_] for j in (0, 1)]
+    for j in (0, 1):
+        for zi in range(3):
+            for k in range(n_):
+                if zi == 1 and open_(k):
+                    continue
+                q_ = (ring_v[j][zi][k], ring_v[j][zi][(k + 1) % n_], ring_v[j][zi + 1][(k + 1) % n_], ring_v[j][zi + 1][k])
+                b_.faces.new(q_ if j == 0 else q_[::-1])
+    for zi in (0, 3):                                                                # top + bottom edges of the shell
+        for k in range(n_):
+            b_.faces.new((ring_v[0][zi][k], ring_v[1][zi][k], ring_v[1][zi][(k + 1) % n_], ring_v[0][zi][(k + 1) % n_]))
+    for k in range(n_):                                                              # the opening's edges, skin to skin
+        if open_(k):
+            for zi in (1, 2):
+                b_.faces.new((ring_v[0][zi][k], ring_v[0][zi][(k + 1) % n_], ring_v[1][zi][(k + 1) % n_], ring_v[1][zi][k]))
+        elif open_((k + 1) % n_) or open_((k - 1) % n_):
+            kk = (k + 1) % n_ if open_((k + 1) % n_) else k
+            try:
+                b_.faces.new((ring_v[0][1][kk], ring_v[0][2][kk], ring_v[1][2][kk], ring_v[1][1][kk]))
+            except ValueError:
+                pass
+    bmesh.ops.recalc_face_normals(b_, faces=b_.faces[:])
     P.ring(oak, (0, 0), r - 0.004, r + 0.001, h - 0.06, h - 0.025, seg=64)
     P.cyl(bs, (0, 0, h - 0.025), r + 0.004, 0.02, seg=64)                       # the lid with a rolled rim
     P.cyl(bs, (0, 0, h - 0.005), r - 0.01, 0.004, seg=64)
@@ -4345,11 +4368,6 @@ def wipe_station(P):
     P.blob(M.setdefault("wipe", bc.material("wipe_sheet", (0.92, 0.92, 0.9), 0.85)), (0.004, 0.0, h + 0.035), (0.03, 0.02, 0.045), seg=12)
     P.ring(M["felt"], (0, 0), r - 0.012, r - 0.004, 0.02, 0.86, seg=48)           # the liner, seen through the opening
     P.cyl(M["felt"], (0, 0, 0.02), r - 0.01, 0.4, seg=48)                         # used wipes sit on the bag's floor (inside: dark)
-    t0, t1 = math.radians(90 - 38), math.radians(90 + 38)
-    for t in (t0, t1):                                                               # rolled edges of the opening
-        P.box(bs, (r * math.cos(t), r * math.sin(t), 0.535), (0.006, 0.012, 0.17), rz=t)
-    P.ring(bs, (0, 0), r - 0.004, r + 0.002, 0.444, 0.452, a0=90 - 38, a1=90 + 38, seg=24)
-    P.ring(bs, (0, 0), r - 0.004, r + 0.002, 0.618, 0.626, a0=90 - 38, a1=90 + 38, seg=24)
 
 
 BUILDERS = {
@@ -4445,7 +4463,7 @@ def build_all(model, MAT, coll):
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")
             P = Part(pc.name)
             BUILDERS[kind](P, **kw)
-            P.build(pc, bevel={"rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(kind, 0.004))
+            P.build(pc, bevel={"wipe_station": 0.0, "rug": 0.0, "rug_round": 0.0, "soft_play": 0.03, "floor_cushion": 0.0, "foam_fortress": 0.04, "floor_track": 0.0, "hopscotch": 0.0}.get(kind, 0.004))
             PROTO[key] = pc
         e = bpy.data.objects.new(f["id"], None)
         e.instance_type = "COLLECTION"; e.instance_collection = PROTO[key]
