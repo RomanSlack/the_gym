@@ -151,6 +151,11 @@ for k in range(1, 8):
         bm_["to"] = [-8.25, bm_["to"][1]]
     add({"id": f"ST3-F3-den-tank-beam-{k}", "type": "beam", "material": "concrete", "from": [-8.25, bm_["from"][1]], "to": [-6.45, bm_["from"][1]],
          "size": bm_["size"], "z": [bm_["z"][0], round(f3["z"][1] - 0.35, 3)], "note": "PT beam under the den river's tank (its top dropped with the tank)"})
+# F4 partitions that run up into the slab stop under the tank where they reach the strip (they would poke up into the pool)
+for e in by_id.values():
+    if e["type"] == "wall" and e.get("from") and e["z"][0] < f3["z"][0] < e["z"][1] + 0.001 and max(e["from"][0], e["to"][0]) > -8.25 \
+            and -33.82 < e["from"][1] < 12.1:
+        e["z"] = [e["z"][0], min(e["z"][1], round(f3["z"][1] - 0.35, 3))]
 add({"id": "ST3-link-ledge-E","type": "beam", "material": "concrete", "from": [12.0, -9.5], "to": [12.0, 7.62], "size": [0.5, 0.6],
      "z": [round(DECK_Z[0] - 1.6, 2), round(DECK_Z[0] - 1.0, 2)], "note": "concrete bearing ledge between columns D13-D11 for the lounge girders"})
 for k, x in enumerate(np.linspace(LINK[0] + 0.45, LINK[2] - 0.45, 7)):
