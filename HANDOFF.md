@@ -67,6 +67,8 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 - **Every iteration of every piece is kept (Roman, 2026-10-17):** each modelling pass = one version number with its renders `equipment/models/<item>/<item>_<view>_vNNN.jpg` AND its geometry `<item>_vNNN.glb`, never overwritten (`equipment/tools/versions.py`: `v = next_version(item)`, `path(item, view, v)`, `model_path(item, v)`); the builder code is in git. Equipment renders go here, not only in the furniture catalogue. Commit each pass on its own so the replay gets the Prompt trailer per version.
 - Next: model each piece from its refs.
 
+**The glass lifts (2026-10-17, VISION "The glass lifts"):** `glass_lift` in furniture.py, one per shaft, placed in tools/furnish.py ("the glass lifts"); stops = (z, glass height, reveal, lintel[, proud]). Openings + the removed A3/A4 columns in tools/structure_stage.py (`lift_front`). Cameras `gym_lift_f3`, `gym_lift_f3_close`, `gym_lift_f1`, `lk_lift_men`, `rec_lift`. Watch out: a new builder's kwargs only reach it if the kind is in `PARAMS` (furniture.py), otherwise it silently builds with its defaults. F4 (pool lobby) and the E2 lift lobby have no interiors yet, so those stops stand in raw rooms.
+
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby

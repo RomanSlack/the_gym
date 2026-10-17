@@ -60,11 +60,12 @@ put("boot_bench", (VX0 + VX1) / 2, VY0 + 0.32, rot=0, zone="entrance", length=1.
 put("reception_desk", 25.7, 11.3, rot=-90, length=4.6, note="desk faces the doors (east); staff side to the slatted core wall")
 ART = {"valley": "docs/art/artvalleyoil_0.png", "abstract": "docs/art/artabstracthills_0.png", "mist": "docs/art/artmistforest_0.png"}
 art_pick = m.get("interior", {}).get("reception_art", "valley")
-put("canvas_art", 24.22, 11.3, rot=-90, width=6.0, height=2.9, image=str(ROOT / ART[art_pick]),
+put("canvas_art", 24.22, 11.0, rot=-90, width=4.8, height=2.32,  # 4.8 m, clear of the lift portal (it was 6 m)
+    image=str(ROOT / ART[art_pick]),
     note=f"painting behind the desk ({art_pick}), generated with gpt-image-2, stretched canvas in an oak float frame")
 # desk + painting lighting (Roman: the pendants blocked the painting): slim wall lights either side of the canvas,
 # downlights in the ceiling over the desk, two gallery spots washing the painting. All in blackened steel.
-for y in (8.17, 14.47):  # in the gaps between the canvas (8.3-14.3) and the stair door / lift frames
+for y in (8.45, 13.49):  # either side of the canvas (8.6-13.4), clear of the stair door + the lift portal
     put("wall_light", 24.22, y, rot=-90, light={"type": "AREA", "energy": 35, "size": 0.05, "size_y": 0.8, "offset": [0, 0.06, 2.75], "aim": None, "color": [1.0, 0.82, 0.62]},
         note="slim vertical wall light, 60 x 900, glows up and down along the slats")
 for y in (9.9, 11.3, 12.7):

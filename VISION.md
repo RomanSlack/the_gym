@@ -263,6 +263,13 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
 - **Public WCs** (reception): open, airport-style baffled entry with no door, full-height stalls inside, and an accessible WC with its own door.
 - **Daycare toilets:** glass wall + open doorway, so staff have line of sight from the play space (safeguarding best practice rather than a strict code line); low stall screens for the kids.
 
+- **The glass lifts: natural stone columns + glass (Roman, 2026-10-17: "natural stone columns with glass elevators, even though it is subterranean I have always liked that aesthetic"; all the lifts there are, rough split granite; "do not add another elevator ... we don't want one going through the middle of the floors"):**
+  - The four lifts that exist get it: core W1 in the gym's west wall (F4, F3, F2, F1), the two express lifts from the locker rooms (F1) to the pool lobby (F4), core E from the garage (E2) to reception (E1). No new lift.
+  - Every stop is a stone portal: two columns of split near-black granite (the den river's stone) in tall stacked blocks, floor up to a split granite lintel, wrapping the reveal and standing 140 mm proud of the wall. Between them a glass front: low-iron glass in slim blackened steel, centre-opening glass landing doors under a steel operator head, a honed granite threshold, brass call buttons on the column.
+  - Behind the glass the shaft is lined in split granite from the pit to the top, grazed by warm light lines in its front corners and a light at every stop. The cab is glass on three sides in a blackened steel sling (stiles + crosshead), a honed granite floor, an opal ceiling, a brass handrail, glass car doors; T-rails, the counterweight (steel filler plates in a frame) on one side, the ropes up to a gearless machine with a brass ring. You see the cab and the counterweight pass.
+  - The express lifts stay solid where they pass the gym floors (people in robes): glass only where they stop.
+  - **Reception stays minimal** (Roman: "really doesn't need to be that grand ... just the entry of the door to the elevator, not the whole thing spilling out"): there it is only the door, a door-height glass entry in a slim stone frame barely proud of the slats, the slat wall above untouched. The painting behind the desk shrank to 4.8 m to clear it.
+
 ## Exterior style: LOCKED (2026-10-11, stage 2)
 
 **Direction B: dark tarred timber + sod roofs.** Roman picked it ("really clean").
