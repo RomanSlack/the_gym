@@ -4473,22 +4473,20 @@ def core_door(P, width=1.2, height=2.3, finish="oak", exit_=False):
 
 # ------------------------------------------------------------------ Bekken i hulen, the den's river (VISION, Roman 2026-10-14/17)
 DEN = {"xg": -6.665, "xr": -7.93, "cope": 0.12, "y_n": 12.0, "y_s": -32.95, "zw_n": -0.035, "zw_s": -0.055, "z_bot": -0.30,
-       "fall": (6.9, 9.5), "z_slit": 0.93, "rock": (4.95, 12.05)}
+       "slit": (-32.1, 10.1), "z_slit": 0.95, "lean": 0.42}
 
 
 def den_stream(P):
-    """The den's river (Roman 2026-10-17: a slit in the glass, it spills down a darker stone wall as if from the actual cliffs, into
-    a pool the length of the wall that flows south and goes under the floor in a slit). In the north bay the river glass has a slit
-    at the waterline outside; the river skims through it and films down a water-worn slab of dark cliff granite, framed by jointed
-    blocks in horizontal sheets like the ravine's own cliffs, stepping up into the north corner. The pool is sunk flush along the
-    foot of the glass for the whole 45 m (1.27 m of water, 40-60 mm under a flush dark granite coping, dark river stones on the
-    bottom) and drifts south, where it drops into a slit across the floor. Built in the den's own coordinates (origin, z = F3)."""
+    """The den's river (Roman 2026-10-17: much more minimal; the rocks form the base right under the glass, the slit runs the whole
+    width at the water level, one super long slow waterfall). The river glass now stands on a low base of dark water-worn rock that
+    runs the full length of the den; between the two a slit the length of the window, exactly at the river's surface outside, lets
+    the river skim in, and it slides down the rock's long leaning face in one slow sheet into a pool sunk flush along its foot (1.27 m
+    of water, 40-60 mm under a flush dark granite coping, dark river stones on the bottom). The pool drifts south, where it slides
+    over a steel lip into a slit across the floor. Built in the den's own coordinates (origin, z = F3)."""
     from mathutils import noise
     st = M["steel"]; d = DEN
     gr = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
                                                           val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
-    cliff = M.setdefault("cliff_dark", bc.pbr_material("cliff_dark", "dark_rock", 1.6, box=True, tint=(0.85, 0.86, 0.88), sat=0.4, val=0.42,
-                                                     rough_mul=0.7, piece_var=0.12))
     worn = M.setdefault("cliff_worn", bc.pbr_material("cliff_worn", "dark_rock", 2.4, box=True, tint=(0.8, 0.8, 0.82), sat=0.35, val=0.3,
                                                     rough_mul=0.35, piece_var=0.0))
     rs = M.setdefault("river_stone", bc.pbr_material("river_stone", "dark_rock", 0.7, box=True, tint=(0.8, 0.8, 0.78), sat=0.4, val=0.62,
@@ -4506,114 +4504,73 @@ def den_stream(P):
             L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], bsdf.inputs["Normal"])
         M["water_den"] = wm
     wat = M["water_den"]
-    if "water_sheet" not in M:  # the falling film: clear with a silver sheen, streaked down the fall, whiter where it breaks
-        ws = bc.material("water_sheet", (0.75, 0.78, 0.78), 0.06, alpha=0.32)
+    if "water_sheet" not in M:  # the slow film: clear with a silver sheen, faint streaks down the fall
+        ws = bc.material("water_sheet", (0.04, 0.05, 0.05), 0.02, alpha=0.2)
         N_, L_ = ws.node_tree.nodes, ws.node_tree.links
-        tc_ = N_.new("ShaderNodeTexCoord"); mp_ = N_.new("ShaderNodeMapping"); mp_.inputs["Scale"].default_value = (30.0, 30.0, 3.0)
+        tc_ = N_.new("ShaderNodeTexCoord"); mp_ = N_.new("ShaderNodeMapping"); mp_.inputs["Scale"].default_value = (20.0, 20.0, 2.0)
         L_.new(tc_.outputs["Object"], mp_.inputs["Vector"])
         nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 3.0; nz_.inputs["Detail"].default_value = 8.0; L_.new(mp_.outputs[0], nz_.inputs["Vector"])
-        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.8; bp_.inputs["Distance"].default_value = 0.006
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.5; bp_.inputs["Distance"].default_value = 0.004
         L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
         M["water_sheet"] = ws
     sheet = M["water_sheet"]
-    foam = M.setdefault("water_foam", bc.material("water_foam", (0.82, 0.84, 0.84), 0.4, alpha=0.4))
     P.vary = True
     xg, xr, c = d["xg"], d["xr"], d["cope"]
     zw = lambda y: d["zw_s"] + (d["zw_n"] - d["zw_s"]) * (y - d["y_s"]) / (d["y_n"] - d["y_s"])
     rng = np.random.default_rng(17)
 
-    # ---- the pool: honed dark granite walls + coping flush with the floor, a pebble bed with dark river stones, still-moving water
+    # ---- the pool: honed dark granite coping + wall flush with the floor, a pebble bed with dark river stones, the water
     ys = list(np.arange(d["y_s"], d["y_n"], 1.2)) + [d["y_n"]]
     for ya, yb in zip(ys, ys[1:]):
         a, b_ = ya + 0.002, yb - 0.002
-        P.box(gr, (xr - c / 2, (a + b_) / 2, (d["z_bot"]) / 2), (c, b_ - a, -d["z_bot"]))                 # coping + room-side wall
+        P.box(gr, (xr - c / 2, (a + b_) / 2, d["z_bot"] / 2), (c, b_ - a, -d["z_bot"]))
     P.box(gr, ((xr - c + xg) / 2, d["y_s"] - 0.273, d["z_bot"] / 2), (xg - xr + c, 0.354, -d["z_bot"]))  # the south end, past the slit
-    P.box(pb, ((xr + xg) / 2, (d["y_s"] + d["y_n"]) / 2, d["z_bot"] + 0.02), (xg - xr, d["y_n"] - d["y_s"], 0.04))  # pebble bed
-    for k in range(900):
-        r = float(rng.uniform(0.03, 0.09)); y = float(rng.uniform(d["y_s"] + 0.2, d["y_n"] - 0.1))
-        P.blob(rs, (float(rng.uniform(xr + 0.08, xg - 0.06)), y, d["z_bot"] + 0.04 + r * 0.25), (r * 1.4, r, r * 0.5), seg=10)
+    P.box(pb, ((xr + xg) / 2, (d["y_s"] + d["y_n"]) / 2, d["z_bot"] + 0.02), (xg - xr, d["y_n"] - d["y_s"], 0.04))
+    for k in range(700):
+        r = float(rng.uniform(0.03, 0.08)); y = float(rng.uniform(d["y_s"] + 0.2, d["y_n"] - 0.1))
+        P.blob(rs, (float(rng.uniform(xr + 0.08, xg - d["lean"] - 0.08)), y, d["z_bot"] + 0.04 + r * 0.25), (r * 1.4, r, r * 0.5), seg=10)
     yw = list(np.linspace(d["y_s"], d["y_n"], 16))
-    for ya, yb in zip(yw, yw[1:]):                                                                     # the water, falling gently south
+    for ya, yb in zip(yw, yw[1:]):
         P.box(wat, ((xr + xg) / 2, (ya + yb) / 2, zw((ya + yb) / 2) - 0.004), (xg - xr, yb - ya + 0.001, 0.008))
     P.box(_led("den_pool_line", (1.0, 0.8, 0.55), 1.6), (xr + 0.006, (d["y_s"] + d["y_n"]) / 2, -0.07), (0.008, d["y_n"] - d["y_s"] - 0.1, 0.01))
 
-    # ---- the outfall: the water slides over a steel lip into an open slit across the floor and is gone (the return to the river)
+    # ---- the outfall: over a steel lip into an open slit across the floor, and gone (the return to the river)
     ysl = d["y_s"]
-    P.box(M["felt"], ((xr + xg) / 2, ysl - 0.04, -0.2), (xg - xr, 0.08, 0.4))                         # the dark slot
-    P.box(st, ((xr + xg) / 2, ysl + 0.008, (d["z_bot"] + zw(ysl) - 0.012) / 2), (xg - xr, 0.016, zw(ysl) - 0.012 - d["z_bot"]))  # the weir plate
-    P.box(sheet, ((xr + xg) / 2, ysl - 0.005, zw(ysl) - 0.16), (xg - xr - 0.01, 0.008, 0.3), rx=-0.12)  # the water going over, down the slot
-    P.box(st, ((xr + xg) / 2, ysl - 0.088, -0.006), (xg - xr + 0.02, 0.016, 0.012))                    # the far edge, flush
+    P.box(M["felt"], ((xr + xg) / 2, ysl - 0.04, -0.2), (xg - xr, 0.08, 0.4))
+    P.box(st, ((xr + xg) / 2, ysl + 0.008, (d["z_bot"] + zw(ysl) - 0.012) / 2), (xg - xr, 0.016, zw(ysl) - 0.012 - d["z_bot"]))
+    P.box(sheet, ((xr + xg) / 2, ysl - 0.005, zw(ysl) - 0.16), (xg - xr - 0.01, 0.008, 0.3), rx=-0.12)
+    P.box(st, ((xr + xg) / 2, ysl - 0.088, -0.006), (xg - xr + 0.02, 0.016, 0.012))
 
-    # ---- the slit in the glass: a dark cut at the waterline outside, the river skimming through it
-    y0, y1 = d["fall"]; zs = d["z_slit"]
-    P.box(M["felt"], (xg + 0.004, (y0 + y1) / 2, zs + 0.03), (0.012, y1 - y0, 0.05))                   # the cut, seen through
-    P.box(st, (xg - 0.006, (y0 + y1) / 2, zs + 0.062), (0.012, y1 - y0 + 0.04, 0.014))                # a slim steel lip above it
-    P.box(sheet, (xg - 0.03, (y0 + y1) / 2, zs + 0.012), (0.06, y1 - y0 - 0.02, 0.024))                # the water coming through
-
-    # ---- the water-worn chute: a dished slab of dark granite, from the slit out and down into the pool, the film over it
-    zt, zb = zs, d["z_bot"] + 0.02
-    def xch(z, y):  # the slab's face: steep, convex, dished in the middle of the fall, a little irregular
+    # ---- the rock base: one long leaning face of dark water-worn stone under the glass, end to end, in faint horizontal strata
+    # (the ravine's sheets, smoothed by the water); the film over it wherever the slit is, the ends dry
+    zt, zb = d["z_slit"], d["z_bot"] + 0.02
+    def xface(y, z):
         t = (zt - z) / (zt - zb)
-        u = (y - y0) / (y1 - y0)
-        dish = 0.06 * math.sin(math.pi * u)
-        return xg - 0.02 - 0.55 * t ** 0.65 + dish + 0.012 * noise.noise(Vector((y * 3.0, z * 3.0, 1.3)))
-    ny_, nz_ = 28, 26
-    for mat, off in ((worn, 0.0), (sheet, -0.012)):
+        layer = 0.012 * math.floor((zt - z) / 0.19)                                     # each sheet a hair further out
+        return (xg - 0.015 - d["lean"] * t ** 0.8 - layer * (0.5 + 0.5 * noise.noise(Vector((y * 0.15, math.floor((zt - z) / 0.19), 0.7))))
+                + 0.01 * noise.noise(Vector((y * 1.1, z * 4.0, 2.1))))
+    yy = list(np.arange(d["y_s"], d["y_n"], 0.2)) + [d["y_n"]]
+    nz_ = 24
+    zz = [zt - (zt - zb) * j / nz_ for j in range(nz_ + 1)]
+    s0, s1 = d["slit"]
+    for mat, off, rows in ((worn, 0.0, yy), (sheet, -0.01, [y for y in yy if s0 <= y <= s1])):
         b = P.bm(mat)
-        V = [[b.verts.new((xch(zt - (zt - zb) * j / nz_, y0 + (y1 - y0) * i / ny_) + off, y0 + (y1 - y0) * i / ny_, zt - (zt - zb) * j / nz_))
-              for i in range(ny_ + 1)] for j in range(nz_ + 1)]
+        V = [[b.verts.new((xface(y, z) + off, y, z)) for y in rows] for z in zz]
         for j in range(nz_):
-            for i in range(ny_):
-                f = b.faces.new((V[j][i], V[j + 1][i], V[j + 1][i + 1], V[j][i + 1]))
-        if mat is worn:  # close it back to the glass so it reads solid from the side
-            for i in range(ny_):
-                b.faces.new((V[0][i], V[0][i + 1], b.verts.new((xg - 0.005, V[0][i + 1].co.y, zt)), b.verts.new((xg - 0.005, V[0][i].co.y, zt))))
-    for k in range(5):                                                                                 # where it breaks into the pool
-        P.blob(foam, (xch(zb, 0) - 0.1 - float(rng.uniform(0, 0.25)), float(rng.uniform(y0 + 0.3, y1 - 0.3)), zw(8.0) + 0.002),
-               (float(rng.uniform(0.25, 0.45)), float(rng.uniform(0.3, 0.6)), 0.008), seg=16)
+            for i in range(len(rows) - 1):
+                b.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
+        if mat is worn:  # its top back to the glass, and the two ends closed, so it reads solid
+            n = len(rows)
+            T = [b.verts.new((xg - 0.002, y, zt)) for y in rows]
+            for i in range(n - 1):
+                b.faces.new((V[0][i + 1], V[0][i], T[i], T[i + 1]))
+            for i_, sgn in ((0, 1), (n - 1, -1)):
+                pts = [V[j][i_] for j in range(nz_ + 1)] + [b.verts.new((xg - 0.002, rows[i_], zb)), T[i_]]
+                b.faces.new(pts if sgn < 0 else pts[::-1])
 
-    # ---- the cliff: jointed blocks in horizontal sheets either side of the chute, stepping up into the north corner (the solid end
-    # of the river wall, past the glass) the way the ravine's cliffs do; each block its own depth, corners split off
-    def block(cx, cy, cz, w, dp, h, seed):
-        g = np.random.default_rng(seed)
-        tmp = bmesh.new(); bmesh.ops.create_cube(tmp, size=1.0)
-        bmesh.ops.scale(tmp, vec=(dp, w, h), verts=tmp.verts)
-        for _ in range(3):
-            nv = Vector((float(g.normal()) * 0.6 - 0.8, float(g.normal()), float(g.normal()) * 0.7)).normalized()
-            bmesh.ops.bisect_plane(tmp, geom=tmp.verts[:] + tmp.edges[:] + tmp.faces[:], plane_co=nv * float(g.uniform(0.3, 0.46)) * min(dp, w, h) * 1.5,
-                                   plane_no=nv, clear_outer=True)
-            bmesh.ops.contextual_create(tmp, geom=[e for e in tmp.edges if e.is_boundary])
-        bmesh.ops.translate(tmp, verts=tmp.verts, vec=(cx, cy, cz))
-        me = bpy.data.meshes.new("blk"); tmp.to_mesh(me); tmp.free(); P.bm(cliff).from_mesh(me); bpy.data.meshes.remove(me)
-    def top(y):  # the cliff's crest: just under the slit beside the fall, rising past the glass end (y 10.1) to the corner
-        if y < y0:
-            return zs - 0.05 - 0.35 * (y0 - y) / (y0 - d["rock"][0]) ** 1.0
-        if y < 10.0:
-            return zs + 0.02
-        return zs + 0.02 + 1.6 * min(1.0, (y - 10.0) / 1.6)
-    seed = 300
-    for side, (ya, yb) in (("s", (d["rock"][0], y0 + 0.12)), ("n", (y1 - 0.12, d["rock"][1]))):
-        z = d["z_bot"]
-        while True:
-            h = float(rng.uniform(0.16, 0.34))
-            y = ya
-            while y < yb - 0.05:
-                w = float(min(rng.uniform(0.35, 0.9), yb - y))
-                ym = y + w / 2
-                if z + h * 0.5 < top(ym):
-                    t = max(0.0, (zt - (z + h / 2)) / (zt - zb))
-                    reach = 0.12 + 0.5 * t ** 0.65 + float(rng.uniform(-0.06, 0.12))   # follows the chute's lean, each block in or out
-                    if ym > 10.05:
-                        reach = min(reach, 0.45) * 0.8 + 0.1
-                    dp = reach + 0.06
-                    block(xg - 0.01 - dp / 2, ym, z + h / 2, w + 0.02, dp, h + 0.015, seed)
-                seed += 1; y += w
-            z += h
-            if z > max(top(ya), top(yb)) + 0.1:
-                break
-    # the corner where the rock meets the north wall + the solid wall: a few tall riven slabs to the crest, so no plaster shows
-    for k, yy in enumerate(np.arange(10.15, 12.0, 0.45)):
-        block(xg - 0.06, float(yy) + 0.2, (top(float(yy)) + d["z_bot"]) / 2, 0.47, 0.12, top(float(yy)) - d["z_bot"], 900 + k)
+    # ---- the slit: a dark cut between the glass and the rock the length of the window, the river skimming through it
+    P.box(M["felt"], (xg + 0.004, (s0 + s1) / 2, zt + 0.025), (0.012, s1 - s0, 0.045))
+    P.box(sheet, (xg - 0.022, (s0 + s1) / 2, zt + 0.008), (0.04, s1 - s0, 0.016))
 
 
 

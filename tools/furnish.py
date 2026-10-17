@@ -924,20 +924,14 @@ for lvl, zc in (("F1", 5.58), ("F2", round(-0.385 - lv["F2"], 3)), ("F3", round(
                 k_ += 1
 
 # ---- Bekken i hulen, the den's river (VISION; construction/furniture.py den_stream + DEN): the piece is built in the den's own
-# coordinates; its light: a warm glow off the coping's lip across the pool (in runs), a spot raking the fall + the cliff, a soft one
-# on the outfall slit
-put("den_stream", 0.0, 0.0, zone="gym-f3", level="F3", z=lv["F3"], note="the den's river: the slit in the glass, the fall down the cliff, the pool, the outfall slit")
+# coordinates; its light: a warm line in the coping's lip across the pool (in the piece), a concealed grazer in each bay of the
+# soffit washing down the wet rock face (in runs), a soft spot on the outfall slit
+put("den_stream", 0.0, 0.0, zone="gym-f3", level="F3", z=lv["F3"], note="the den's river: the rock base under the glass, the slit its whole length, the slow fall, the pool, the outfall slit")
 for ya in range(-33, 12, 4):
     yb = min(ya + 4, 12.0)
-    put("light_only", -7.86, (ya + yb) / 2, zone="gym-f3", level="F3", z=lv["F3"], note="the glow across the pool",
-        light={"type": "AREA", "energy": 5, "size": 0.03, "size_y": round(yb - ya, 2), "offset": [0, 0, -0.02], "aim": [-6.7, (ya + yb) / 2, lv["F3"] - 0.25],
+    put("light_only", -7.25, (ya + yb) / 2, zone="gym-f3", level="F3", z=lv["F3"], note="the grazer on the wet rock",
+        light={"type": "AREA", "energy": 30, "size": 0.04, "size_y": round(yb - ya, 2), "offset": [0, 0, 4.1], "aim": [-6.9, (ya + yb) / 2, lv["F3"] + 0.35],
                "color": [1.0, 0.8, 0.55]})
-put("light_only", -8.6, 8.2, zone="gym-f3", level="F3", z=lv["F3"], note="a spot raking the fall",
-    light={"type": "SPOT", "energy": 160, "spot_deg": 38, "blend": 0.9, "radius": 0.05, "offset": [0, 0, 4.2], "aim": [-6.9, 8.2, lv["F3"] + 0.3],
-           "color": [1.0, 0.82, 0.6]})
-put("light_only", -8.4, 11.0, zone="gym-f3", level="F3", z=lv["F3"], note="a spot grazing the cliff in the corner",
-    light={"type": "SPOT", "energy": 70, "spot_deg": 30, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 4.2], "aim": [-6.8, 11.0, lv["F3"] + 1.2],
-           "color": [1.0, 0.82, 0.6]})
 put("light_only", -7.8, -32.6, zone="gym-f3", level="F3", z=lv["F3"], note="a soft spot on the outfall slit",
     light={"type": "SPOT", "energy": 45, "spot_deg": 40, "blend": 1.0, "radius": 0.05, "offset": [0, 0, 4.2], "aim": [-7.3, -32.95, lv["F3"]],
            "color": [1.0, 0.82, 0.6]})
