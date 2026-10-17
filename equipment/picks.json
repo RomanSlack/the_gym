@@ -731,6 +731,42 @@
     }
    ],
    "skipped": false
+  },
+  "stair-climber": {
+   "links": [
+    {
+     "url": "https://totalbodyexperts.com/products/stairmaster-8gx-stepmill-w-led?utm_source=adwords&utm_medium=cpc&utm_campaign=%7Bcampaignname%7D&utm_adgroup=198873786227&utm_content=806473815011&utm_term=new+stairmaster+8gx&utm_source=adwords&utm_medium=cpc&utm_campaign=%7Bcampaignname%7D&utm_adgroup=198873786227&utm_content=806473815011&utm_term=new+stairmaster+8gx&gad_source=1&gad_campaignid=23776157514&gbraid=0AAAAADqsakdhAJJUN15EKb7JGpB0N765u&gclid=CjwKCAjwuczWBhA9EiwAYGgEoal7qw4pkKqsZu8PslMH7kBzqgG-48PfQzCySR5QCIquwJaEYeU1zBoCw-oQAvD_BwE",
+     "added": "2026-10-17T23:17:07+00:00",
+     "title": "StairMaster 8GX Stepmill w/ LED - New for 2026 - Total Body Experts",
+     "image": "http://totalbodyexperts.com/cdn/shop/files/8gx1.png?v=1748140502",
+     "ref": "refs/stair-climber/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "vertical-climber": {
+   "links": [
+    {
+     "url": "https://www.recoveryforathletes.com/products/versaclimber-ts-magnetic-model?currency=USD&country=US&variant=44664782029051&utm_source=google&utm_medium=cpc&utm_campaign=Google%20Shopping&stkn=edf95533230b&utm_term=&utm_campaign=!A+Level+Low+Priority+Product+Names&utm_source=adwords&utm_medium=ppc&hsa_acc=3418114956&hsa_cam=1599350824&hsa_grp=133929821228&hsa_ad=536289430071&hsa_src=g&hsa_tgt=pla-2161150226877&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=1599350824&gbraid=0AAAAAC7vsqgNfG9qTLEjM_Wk6KSJkghdm&gclid=CjwKCAjwuczWBhA9EiwAYGgEocmVrGmZVsMNemjlSfMzDsG1MDNiepUwbbkyxbQfvLv-j2qla2w1ihoCb_kQAvD_BwE",
+     "added": "2026-10-17T23:17:45+00:00",
+     "title": "VersaClimber TS-Magnetic ModelBlack / Floor Mount - Bolted To Ground (+$500)",
+     "image": "https://www.recoveryforathletes.com/cdn/shop/files/TSM-Regular-Black_1200x1200.jpg?v=1755721045",
+     "ref": "refs/vertical-climber/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "curved-treadmill": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-hd-tread?variant=41346021589189&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoTilLU0ZWHOui2sK5MX4Cl-gPYs76nLHdSPp-mbFZEbD8hqbRO5_6hoC1y0QAvD_BwE",
+     "added": "2026-10-17T23:18:09+00:00",
+     "title": "Hammer Strength HD Tread",
+     "image": "http://shop.lifefitness.com/cdn/shop/products/hammer-strength-hd-tread-main-1000x1000_1200x1200.jpg?v=1748945272",
+     "ref": "refs/curved-treadmill/ref_01.jpg"
+    }
+   ],
+   "skipped": false
   }
  },
  "custom": []

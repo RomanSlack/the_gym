@@ -1,0 +1,28 @@
+{
+ "id": "atlantis-olympic-flat-decline-bench-press-with-pivot-p339",
+ "brand": "Atlantis",
+ "model": "Olympic flat / Decline bench press (with pivot) (P339)",
+ "title": "Olympic flat / Decline bench press (with pivot) (P339) - Atlantis",
+ "url": "https://atlantisstrength.com/gym-equipment/p339",
+ "items": [
+  "bench-press-decline"
+ ],
+ "item_names": [
+  "Olympic decline bench press station"
+ ],
+ "picked": "2026-10-17T22:39:48+00:00",
+ "source": "Roman's pick",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:25:44+00:00",
+  "how": "page"
+ }
+}

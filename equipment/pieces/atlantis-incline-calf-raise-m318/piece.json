@@ -1,0 +1,28 @@
+{
+ "id": "atlantis-incline-calf-raise-m318",
+ "brand": "Atlantis",
+ "model": "Incline calf raise (M318)",
+ "title": "Incline calf raise (M318) - Atlantis",
+ "url": "https://atlantisstrength.com/gym-equipment/m318",
+ "items": [
+  "standing-calf"
+ ],
+ "item_names": [
+  "Standing calf raise"
+ ],
+ "picked": "2026-10-17T23:08:44+00:00",
+ "source": "Roman's pick",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:25:28+00:00",
+  "how": "page"
+ }
+}

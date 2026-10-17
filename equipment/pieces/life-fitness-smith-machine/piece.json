@@ -1,0 +1,19 @@
+{
+ "id": "life-fitness-smith-machine",
+ "brand": "Life Fitness",
+ "model": "Life Fitness Smith Machine",
+ "title": "Life Fitness Smith Machine",
+ "url": "https://shop.lifefitness.com/products/life-fitness-smith-machine",
+ "items": [
+  "smith"
+ ],
+ "item_names": [
+  "Smith machine"
+ ],
+ "picked": "2026-10-17T23:04:13+00:00",
+ "source": "Roman's pick",
+ "price": null,
+ "refs": [],
+ "status": "picked",
+ "notes": ""
+}

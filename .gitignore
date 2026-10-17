@@ -21,3 +21,5 @@ construction/out/
 equipment/refs/
 equipment/picks.tmp
 equipment/replay/out/
+equipment/pieces/*/refs/
+equipment/.cache/

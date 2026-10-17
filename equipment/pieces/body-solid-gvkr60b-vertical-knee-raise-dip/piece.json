@@ -1,0 +1,57 @@
+{
+ "id": "body-solid-gvkr60b-vertical-knee-raise-dip",
+ "brand": "Body-Solid",
+ "model": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+ "title": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+ "url": "https://selectfitness.com/products/body-solid-gvkr60b-vertical-knee-raise-dip",
+ "items": [
+  "knee-raise"
+ ],
+ "item_names": [
+  "Vertical knee raise / dip tower (captain's chair)"
+ ],
+ "picked": "2026-10-17T22:50:50+00:00",
+ "source": "Roman's pick",
+ "price": {
+  "amount": 550.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:26:15+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/GVKR60B-Vertical-Knee-Raise-Machine-Isolated-View.jpg?v=1720081149"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/Body-Solid-GVKR60B-Vertical-Knee-Raise-Dip-Station-Profile.jpg?v=1772876429"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/Body-Solid-Vertical-Knee-Raise-Dip-Setup-Wide-Angle.jpg?v=1772836264"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/GVKR60B-Vertical-Knee-Raise-Dip-Machine-Angled-View.jpg?v=1772874856"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/Body-Solid-GVKR60B-Exercise-Demonstration.jpg?v=1772874993"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/Body-Solid-GVKR60B-Workout-Routine.jpg?v=1772875080"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0564/2607/0148/files/GVKR60B-Knee-Raise-Workout-Action.jpg?v=1772875677"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:26:15+00:00",
+  "how": "shopify json"
+ }
+}

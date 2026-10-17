@@ -1,0 +1,28 @@
+{
+ "id": "atlantis-olympic-flat-bench-press-with-pivot-p337",
+ "brand": "Atlantis",
+ "model": "Olympic flat bench press (with pivot) (P337)",
+ "title": "Olympic flat bench press (with pivot) (P337) - Atlantis",
+ "url": "https://atlantisstrength.com/gym-equipment/p337",
+ "items": [
+  "bench-press-flat"
+ ],
+ "item_names": [
+  "Olympic flat bench press station"
+ ],
+ "picked": "2026-10-17T22:37:48+00:00",
+ "source": "Roman's pick",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:25:36+00:00",
+  "how": "page"
+ }
+}

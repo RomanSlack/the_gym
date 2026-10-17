@@ -43,6 +43,8 @@ h3{font:600 12px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:u
 .find .im{aspect-ratio:4/3;background:#f4f2ee center/contain no-repeat}.find .im.ph{background:#0f0e0d}
 .find .t{padding:7px 9px;font-size:12.5px}.find a{color:var(--ink);text-decoration:none}.find a:hover{color:var(--oak)}
 .find .d{color:var(--mute);font-size:11.5px}
+#ptabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 8px}#ptabs button.on{border-color:var(--oak);color:var(--ink)}
+#prefs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}#prefs img{height:120px;border-radius:4px;background:#f4f2ee}
 #vbar{display:flex;gap:10px;align-items:center}#vbar input{flex:1}
 .views{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:10px}
 .views figure{margin:0}.views img{width:100%;display:block;border-radius:4px;background:#0f0e0d}
@@ -78,7 +80,7 @@ body.video::before{content:'The Gym · equipment';display:block;font:600 22px ui
 <section class="view" id="v-piece">
   <div id="ptop"><select id="psel"></select></div>
   <div id="pname"></div><div id="pmeta"></div>
-  <h3>Found</h3><div class="finds" id="finds"></div>
+  <h3>Found</h3><div class="finds" id="finds"></div><div id="ptabs"></div><div id="prefs"></div>
   <h3>Modelled</h3><div id="vbar"><button id="vprev">◀</button><button id="vplay">▶</button><button id="vnext">▶|</button><input type="range" id="vt" min="0" value="0"><span id="vn"></span></div>
   <div class="views" id="views"></div><div id="vcap"></div>
 </section>
@@ -165,11 +167,17 @@ function pieceOptions() {
   const opts = [...items].filter(i => !(F[i.id]?.removed)).sort((a, b) => rank(a) - rank(b));
   $('#psel').innerHTML = opts.map(i => `<option value="${i.id}">${D.models[i.id] ? '● ' : F[i.id]?.links.length ? '○ ' : '   '}${esc(i.name)}</option>`).join('');
 }
-let pv = 0, pplay = null;
+let pv = 0, pi = 0, pplay = null;
+const curVs = () => { const ps = (D.pieces || {})[$('#psel').value] || []; return ps.length ? (ps[Math.min(pi, ps.length - 1)].versions || []) : curVs() };
+$('#ptabs').onclick = e => { const b = e.target.closest('button'); if (!b) return; pi = +b.dataset.k; pv = 0; drawPiece() };
 function drawPiece() {
-  const id = $('#psel').value, i = ITEM[id], s = finalState()[id] || {links: []}, vs = D.models[id] || [];
+  const id = $('#psel').value, i = ITEM[id], s = finalState()[id] || {links: []}, ps = (D.pieces || {})[id] || [];
+  pi = Math.min(pi, Math.max(0, ps.length - 1));
+  const P = ps[pi], vs = curVs();
+  $('#ptabs').innerHTML = ps.length > 1 ? ps.map((p, k) => `<button data-k="${k}" class="${k === pi ? 'on' : ''}">${esc(p.model)}</button>`).join('') : '';
+  $('#prefs').innerHTML = P ? P.refs.map(r => `<img src="${esc(r)}" loading="lazy">`).join('') : '';
   $('#pname').textContent = i.name;
-  $('#pmeta').textContent = `${i.cat} · ×${i.qty}${i.zone ? ' · ' + i.zone : ''}${s.skipped ? ' · skipped' : ''}`;
+  $('#pmeta').textContent = `${i.cat} · ×${i.qty}${i.zone ? ' · ' + i.zone : ''}${s.skipped ? ' · skipped' : ''}${P ? ' · ' + P.model + (P.price ? ' · ' + P.price.currency + ' ' + Math.round(P.price.amount).toLocaleString('en-US') : '') : ''}`;
   $('#finds').innerHTML = s.links.length ? s.links.map(l => `<div class="find"><div class="im ${l.ref ? '' : 'ph'}" ${l.ref ? `style="background-image:url('${esc(l.ref)}')"` : ''}></div>
      <div class="t"><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title || l.url)}</a><div class="d">${esc(host(l.url))}</div></div></div>`).join('')
     : '<div class="empty">Not found yet.</div>';
@@ -181,15 +189,15 @@ function drawPiece() {
   $('#views').innerHTML = Object.entries(v.views).map(([k, src]) => `<figure><img src="${esc(src)}"><figcaption>${esc(k.replace(/_/g, ' '))}</figcaption></figure>`).join('');
   $('#vcap').innerHTML = `${v.date ? '<b>' + esc(v.date) + '</b> · ' : ''}${esc(v.subject)}${v.prompt ? '<br><b>Prompt:</b> ' + esc(v.prompt) : ''}${(v.also || []).map(a => '<div class="also">also: ' + esc(a) + '</div>').join('')}`;
 }
-const step = d => { const n = (D.models[$('#psel').value] || []).length; if (!n) return; pv = Math.max(0, Math.min(n - 1, pv + d)); drawPiece() };
-$('#psel').onchange = () => { pv = 0; drawPiece(); history.replaceState(null, '', '#piece=' + $('#psel').value) };
+const step = d => { const n = curVs().length; if (!n) return; pv = Math.max(0, Math.min(n - 1, pv + d)); drawPiece() };
+$('#psel').onchange = () => { pv = 0; pi = 0; drawPiece(); history.replaceState(null, '', '#piece=' + $('#psel').value) };
 $('#vt').oninput = () => { pv = +$('#vt').value; drawPiece() };
 $('#vprev').onclick = () => step(-1); $('#vnext').onclick = () => step(1);
 function playPiece() {
   if (pplay) { clearInterval(pplay); pplay = null; return }
-  const n = (D.models[$('#psel').value] || []).length; if (!n) return;
+  const n = curVs().length; if (!n) return;
   if (pv >= n - 1) pv = 0; drawPiece();
-  pplay = setInterval(() => { if (pv >= (D.models[$('#psel').value] || []).length - 1) { clearInterval(pplay); pplay = null; return } step(1) }, 1400);
+  pplay = setInterval(() => { if (pv >= curVs().length - 1) { clearInterval(pplay); pplay = null; return } step(1) }, 1400);
 }
 $('#vplay').onclick = playPiece;
 

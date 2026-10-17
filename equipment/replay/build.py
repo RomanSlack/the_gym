@@ -3,7 +3,8 @@
     python3 equipment/replay/build.py [equipment_dir]    then open equipment/replay/out/index.html
 
 Reads list.json + picks.json, the curation log (history/curation.jsonl: every click on the shopping page, timed),
-the product photos fetched into refs/, and the model renders in models/<item>/<item>_<view>_vNNN.jpg with the
+the product photos fetched into refs/, the pieces (pieces/<piece>/piece.json: one per real product picked, with its
+photos in refs/) and their model renders in pieces/<piece>/models/<piece>_<view>_vNNN.jpg with the
 prompt behind each version from git (Prompt / Also-Prompt trailers, like tools/replay/render_history.py).
 One static page, three views: Curation (the list filling up over time), Piece (one item: its finds, then every model
 version), Overview (product beside model). V = video mode for screen recording.
@@ -76,9 +77,9 @@ def git(*a):
 models = {}
 pat = re.compile(r"^(.+?)_(.+)_v(\d{3})$")
 def add_render(f, meta):
-    item = f.parent.name
+    item = f.parent.parent.name  # the piece
     m = pat.match(f.stem)
-    if not m or m.group(1) != item:
+    if f.parent.name != "models" or not m or m.group(1) != item:
         return
     vs = models.setdefault(item, {})
     v = vs.setdefault(int(m.group(3)), {"v": int(m.group(3)), "views": {}, **meta})
@@ -89,21 +90,36 @@ def add_render(f, meta):
 top = git("rev-parse", "--show-toplevel").strip()
 if top:
     recs = git("log", "--reverse", "--format=%H%x1f%ad%x1f%s%x1f%(trailers:key=Prompt,valueonly)%x1f%(trailers:key=Also-Prompt,valueonly)%x1e",
-               "--date=format:%Y-%m-%d %H:%M", "--", "models/")
+               "--date=format:%Y-%m-%d %H:%M", "--", "pieces/")
     for rec in recs.split("\x1e"):
         if not rec.strip():
             continue
         h, date, subj, prompt, also = (rec.strip("\n").split("\x1f") + [""] * 5)[:5]
         for n in git("diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=A", h).split():
             f = Path(top) / n
-            if f.suffix == ".jpg" and f.exists() and EQ / "models" in f.parents:
+            if f.suffix == ".jpg" and f.exists() and EQ / "pieces" in f.parents:
                 add_render(f, {"date": date, "commit": h[:8], "subject": subj, "prompt": prompt.strip(),
                                "also": [a.strip() for a in also.splitlines() if a.strip()]})
-for f in sorted((EQ / "models").glob("*/*.jpg")) if (EQ / "models").exists() else []:
+for f in sorted((EQ / "pieces").glob("*/models/*.jpg")) if (EQ / "pieces").exists() else []:
     add_render(f, {"date": "", "commit": "", "subject": "(not committed yet)", "prompt": "", "also": []})
 models = {k: [vs[v] for v in sorted(vs)] for k, vs in models.items()}
 
-data = json.dumps({"cats": cats, "events": events, "models": models}, ensure_ascii=False).replace("</", "<\\/")
+# pieces per list item (four leg extensions = four pieces under 'leg-extension'); models per item = all its pieces' versions
+pieces, by_item = {}, {}
+for f in sorted((EQ / "pieces").glob("*/piece.json")) if (EQ / "pieces").exists() else []:
+    pc = jload(f, None)
+    if not pc:
+        continue
+    refs = [rel(f.parent / r["file"]) for r in pc.get("refs", []) if (f.parent / r["file"]).exists()]
+    info = {k: pc.get(k) for k in ("id", "brand", "model", "url", "price", "status")}
+    info.update(refs=refs, versions=[dict(v, piece=pc["id"]) for v in models.get(pc["id"], [])])
+    for it in pc.get("items", []):
+        by_item.setdefault(it, []).append(info)
+models = {it: sorted([v for p in ps for v in p["versions"]], key=lambda v: v.get("date") or "~") for it, ps in by_item.items()}
+models = {k: v for k, v in models.items() if v}
+pieces = by_item
+
+data = json.dumps({"cats": cats, "events": events, "models": models, "pieces": pieces}, ensure_ascii=False).replace("</", "<\\/")
 html = (Path(__file__).with_name("template.html")).read_text().replace("/*DATA*/null", data)
 (OUT / "index.html").write_text(html)
 n = sum(len(c["items"]) for c in cats)

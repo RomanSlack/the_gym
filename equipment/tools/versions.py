@@ -1,20 +1,22 @@
-"""Where a piece's model renders go: equipment/models/<item>/<item>_<view>_vNNN.jpg, never overwritten.
+"""Where a piece's model renders go: equipment/pieces/<piece>/models/<piece>_<view>_vNNN.jpg, never overwritten.
+
+A piece = one real product Roman picked (equipment/pieces/<piece>/piece.json); four leg extensions = four pieces.
 
 One modelling pass = one version number across all its views:
-    v = next_version("power-rack")
+    v = next_version("hammer-strength-select-leg-extension")
     for view in ("front", "three_quarter", "side", "detail"):
-        render_to(path("power-rack", view, v))
-    export_glb(model_path("power-rack", v))   # the 3D geometry of that pass, kept too
+        render_to(path("hammer-strength-select-leg-extension", view, v))
+    export_glb(model_path("hammer-strength-select-leg-extension", v))   # the 3D geometry of that pass, kept too
 next_path(item, view) is the shortcut for a single new view.
 """
 import re
 from pathlib import Path
 
-MODELS = Path(__file__).resolve().parents[1] / "models"
+PIECES = Path(__file__).resolve().parents[1] / "pieces"
 
 
 def versions(item):
-    d = MODELS / item
+    d = PIECES / item / "models"
     pat = re.compile(rf"^{re.escape(item)}_(.+)_v(\d{{3}})$")
     out = []
     for f in sorted(d.glob("*.jpg")) if d.exists() else []:
@@ -29,7 +31,7 @@ def next_version(item):
 
 
 def path(item, view, v):
-    p = MODELS / item / f"{item}_{view}_v{v:03d}.jpg"
+    p = PIECES / item / "models" / f"{item}_{view}_v{v:03d}.jpg"
     if p.exists():
         raise FileExistsError(f"{p} exists: renders are never overwritten")
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -41,8 +43,8 @@ def next_path(item, view):
 
 
 def model_path(item, v):
-    """The pass's geometry (equipment/models/<item>/<item>_vNNN.glb), never overwritten, so every iteration can be reopened."""
-    p = MODELS / item / f"{item}_v{v:03d}.glb"
+    """The pass's geometry (equipment/pieces/<piece>/models/<piece>_vNNN.glb), never overwritten, so every iteration can be reopened."""
+    p = PIECES / item / "models" / f"{item}_v{v:03d}.glb"
     if p.exists():
         raise FileExistsError(f"{p} exists: models are never overwritten")
     p.parent.mkdir(parents=True, exist_ok=True)

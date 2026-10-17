@@ -1,0 +1,33 @@
+{
+ "id": "abmat-pulling-blocks",
+ "brand": "AbMat",
+ "model": "AbMat Pulling Blocks",
+ "title": "AbMat Pulling Blocks | Foam Lifting Blocks for Weightlifting & Powerlifting",
+ "url": "https://www.roguefitness.com/abmat-pulling-blocks?sku=AB0042",
+ "items": [
+  "pulling-blocks"
+ ],
+ "item_names": [
+  "Pulling / deadlift blocks (pair, stackable)"
+ ],
+ "picked": "2026-10-17T22:43:15+00:00",
+ "source": "Roman's pick",
+ "price": {
+  "amount": 315.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:25:17+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/AB0040/AB0040-Web3_judysr.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:25:17+00:00",
+  "how": "page"
+ }
+}
