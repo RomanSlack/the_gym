@@ -16,3 +16,7 @@ imagegen-outputs/
 *.blend
 !reference/gym_v2_original/*.blend
 construction/out/
+
+# Equipment list: product photos fetched from shop links (they belong to the shops)
+equipment/refs/
+equipment/picks.tmp

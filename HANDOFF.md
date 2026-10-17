@@ -60,6 +60,11 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 
 **Bekken i hulen, the den's river (reworked 2026-10-17, VISION; Roman: done):** a base of split dark granite in eight thin strata under the F3 river glass, wall to wall; a slit the window's length at the river's surface; the water steps down the ledges into a flush pool on black sand under ~14000 generated near-black stones (`_pebbles` in furniture.py; they stay black only if glossy, matte ones go grey under the soffit grazers), out through a slit across the floor at the south end. The pool is 0.3 m deep, so `tools/structure_stage.py` drops the F3 slab there (`ST3-F3-den-tank`), lowers the floor beams under it and clips F4 partitions that ran up into the slab. Cameras `gym_den_river`, `gym_den_fall`, `gym_den_slit`, `gym_den_outfall`, `gym_den_glass`. Note: the `river_small_rocks` texture never fully downloaded (only ao.jpg in the cache), so don't use it.
 
+**The gym equipment (2026-10-17, Roman: he shops for real high-end equipment himself, we model it):** a system of its own in `equipment/`, separate from the building pipeline so it has fewer ways to fail.
+- `equipment/list.json`: the master list (~200 types, from the old wishlist + FIT_STUDY + VISION; `maybe` = beyond the fit study, Roman decides).
+- `python3 equipment/serve.py` → http://localhost:5290: Roman pastes a product link per item (it checks off), skips maybes, adds items. Every click is one line in `equipment/history/curation.jsonl` (the curation replay) and is folded into `equipment/picks.json`. The server fetches each link's title + og:image into `equipment/refs/` (git-ignored: shop photos).
+- Next: model each piece from its refs, with its own replay (curation, then the 3D versions) for the YouTube section.
+
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
