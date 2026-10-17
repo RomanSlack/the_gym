@@ -4,6 +4,7 @@ One modelling pass = one version number across all its views:
     v = next_version("power-rack")
     for view in ("front", "three_quarter", "side", "detail"):
         render_to(path("power-rack", view, v))
+    export_glb(model_path("power-rack", v))   # the 3D geometry of that pass, kept too
 next_path(item, view) is the shortcut for a single new view.
 """
 import re
@@ -37,3 +38,12 @@ def path(item, view, v):
 
 def next_path(item, view):
     return path(item, view, max((v for v, w, _ in versions(item) if w == view), default=0) + 1)
+
+
+def model_path(item, v):
+    """The pass's geometry (equipment/models/<item>/<item>_vNNN.glb), never overwritten, so every iteration can be reopened."""
+    p = MODELS / item / f"{item}_v{v:03d}.glb"
+    if p.exists():
+        raise FileExistsError(f"{p} exists: models are never overwritten")
+    p.parent.mkdir(parents=True, exist_ok=True)
+    return p
