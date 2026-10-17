@@ -9224,7 +9224,7 @@
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
-        {"rect": [-8.05, -33.4, -6.45, 12.1], "note": "the den river's pool, cliff + outfall slit"}
+        {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "20 mm impact sound mat",
@@ -9245,7 +9245,7 @@
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
-        {"rect": [-8.05, -33.4, -6.45, 12.1], "note": "the den river's pool, cliff + outfall slit"}
+        {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
       "note": "screed with underfloor heating",
@@ -9265,7 +9265,7 @@
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
-        {"rect": [-8.05, -33.4, -6.45, 12.1], "note": "the den river's pool, cliff + outfall slit"}
+        {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
       "note": "8 mm acoustic underlay",
@@ -9286,7 +9286,7 @@
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
-        {"rect": [-8.05, -33.4, -6.45, 12.1], "note": "the den river's pool, cliff + outfall slit"}
+        {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003},
       "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the F1 hall)",

@@ -308,7 +308,7 @@ LANE = [-14.4, -34.1, -12.0, 12.1]
 for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
                                                              ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
     zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
-    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}, {"rect": [-8.05, -33.4, -6.45, 12.1], "note": "the den river's pool, cliff + outfall slit"}] if dark else [])
+    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}, {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}] if dark else [])
     add({"id": f"IN-{lvl}-gym-impact", "type": "slab", "material": "impact_mat", "rect": GH, "z": [round(zf - 0.10, 3), round(zf - 0.08, 3)], "holes": holes,
          "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
     add({"id": f"IN-{lvl}-gym-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": GH, "z": [round(zf - 0.08, 3), round(zf - 0.038, 3)],
