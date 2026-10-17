@@ -4632,11 +4632,11 @@ def _granite_face(P, mat, axis, u0, u1, z0, z1, plane, depth, rng, seed, hmin=0.
         z += h
 
 
-def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0, 0.46),), pit=-1.2, top=6.0, cab=0.0, cw=-1, name="lift"):
+def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0, 0.46, 0.5),), pit=-1.2, top=6.0, cab=0.0, cw=-1, name="lift"):
     """A glass lift in a shaft of split granite (Roman 2026-10-17: natural stone columns with glass lifts, all the lifts there are,
     nothing new through the middle of the floors). Local frame: +y = the room, y = 0 the glass plane of the landing fronts, x across.
-    shaft = (x0, x1, back y) its inside; front = the two columns' centres (the wall opening's edges); stops = (z, clear height,
-    reveal = room face in front of the glass). At every stop two columns of split granite stand floor to ceiling, wrapping the reveal,
+    shaft = (x0, x1, back y) its inside; front = the two columns' centres (the wall opening's edges); stops = (z, glass height,
+    reveal = room face in front of the glass, lintel = a split granite lintel over the glass on the columns, up to the ceiling). At every stop two columns of split granite stand floor to ceiling, wrapping the reveal,
     with a full-height glass front between them: low-iron glass in slim blackened steel, centre-opening glass landing doors under a
     steel operator head, a granite threshold. Behind it the shaft is lined in split granite from the pit to the top, grazed by light
     lines in its front corners; the cab is glass on three sides in a blackened steel sling with a granite floor, an opal ceiling,
@@ -4645,7 +4645,7 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
     split = _split_granite()
     honed = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
                                                                val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
-    glow = _led("lift_shaft_line", (1.0, 0.86, 0.7), 14.0)
+    glow = _led("lift_shaft_line", (1.0, 0.86, 0.7), 40.0)
     opal = _led("lift_cab_opal", (1.0, 0.93, 0.84), 6.0)
     x0, x1, yb = shaft; f0, f1 = front
     k_ = sum(map(ord, name)); rng = np.random.default_rng(k_); seed = (k_ % 97) * 1.3
@@ -4727,8 +4727,11 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
     # ---- every stop: two stone columns, the glass front, landing doors, a granite threshold
     pw = 0.42
     lx = ccx                                                                                       # landing doors line up with the car's
-    for zs, h, rv in stops:
-        dep = rv + 0.14
+    for zs, h, rv, lin, *pr in stops:
+        dep = rv + (pr[0] if pr else 0.14)
+        if lin > 0.05:                                                                            # the stone lintel over the glass, on the columns
+            _rough_block(P, split, ((f0 + f1) / 2, dep / 2 - 0.002, zs + h + lin / 2), (f1 - f0 + pw + 0.02, dep + 0.02, lin - 0.006), amp=0.009,
+                         seed=seed + zs * 3, cuts=4)
         for xc in (f0, f1):                                                                       # the columns, floor to ceiling
             _granite_face(P, split, "x", xc - pw / 2, xc + pw / 2, zs, zs + h, -0.002, dep, rng, seed + zs * 5 + xc * 13, hmin=0.24, hmax=0.52, lmin=pw, lmax=pw, jog=0.018)
         g0, g1 = f0 + pw / 2, f1 - pw / 2
@@ -4786,7 +4789,7 @@ BUILDERS = {
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

@@ -244,19 +244,35 @@ for wid, z in (("P-E1-2", lv["E1"]), ("P-E2-19", lv["E2"])):
 # the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts): every lift stop opens floor to ceiling between two
 # split granite columns (construction/furniture.py glass_lift); these replace the old 1.1 m lift doors
 def lift_front(wid, s, zz, note, match=None):
-    w = by_id[wid]
+    w = by_id.get(wid) or next(e for e in new if e["id"] == wid)
     w["openings"] = [o for o in w.get("openings", []) if not (match and match in o.get("note", ""))] + \
         [{"s": s, "z": [round(a, 3), round(b, 3)], "type": "opening", "note": note} for a, b in zz]
 
 
-lift_front("W-west-A", [22.2, 24.4], [(lv["F4"], lv["F4"] + 3.0), (lv["F3"], -5.295), (lv["F2"], -0.385)], "core W1 glass lift")
-lift_front("P-F1-30b", [6.65, 8.85], [(lv["F1"], 5.58)], "core W1 glass lift")
+lift_front("W-west-A", [22.2, 24.4], [(lv["F4"], lv["F4"] + 3.0), (lv["F3"], -6.11), (lv["F2"], -1.2)], "core W1 glass lift")
+lift_front("P-F1-30b", [6.65, 8.85], [(lv["F1"], 4.34)], "core W1 glass lift")
 lift_front("W-west-A", [30.125, 32.275], [(lv["F4"], lv["F4"] + 3.0)], "men's express lift (glass)", "men's express lift")
 lift_front("W-west-A", [38.925, 41.075], [(lv["F4"], lv["F4"] + 3.0)], "women's express lift (glass)", "women's express lift")
 lift_front("P-F1-32b", [0.125, 2.275], [(lv["F1"], 3.18)], "men's express lift (glass)")
 lift_front("P-F1-33b", [0.125, 2.275], [(lv["F1"], 3.18)], "women's express lift (glass)")
-lift_front("P-E1-2", [6.725, 9.19], [(lv["E1"], 5.32)], "core E glass lift")
-lift_front("P-E2-19", [6.6, 9.065], [(lv["E2"], lv["E2"] + 3.0)], "core E glass lift")
+lift_front("P-E1-2", [7.108, 8.808], [(lv["E1"], lv["E1"] + 2.4)], "core E glass lift (door height: Roman, reception stays minimal)")
+lift_front("P-E2-19", [6.983, 8.683], [(lv["E2"], lv["E2"] + 3.0)], "core E glass lift")
+lift_front("ST3-core-E-E", [6.983, 8.683], [(lv["E2"], lv["E2"] + 3.0), (lv["E1"], lv["E1"] + 2.4)], "core E glass lift")
+# grid columns A3 + A4 stood in the W1 + men's lift fronts (A3 even inside the men's shaft on F1): they go, the concrete wall over
+# each opening is the lintel the beams B-3 / B-4 bear on (the glass stops at the beam line under it); on F1 the roof beams move
+# their bearing 0.6 m east onto the core wall's lintel over the opening (P-F1-30b / 32b)
+# wall A's waterproofing + drainage gravel ran down its back through the W1 core and the express shafts (no soil there): open at the lifts
+for e in els:
+    if e["id"].startswith(("FDN-membrane-W-west-A", "FDN-gravel-W-west-A")):
+        (ax_, ay_), (bx_, by_) = e["from"], e["to"]; L_ = math.hypot(bx_ - ax_, by_ - ay_); uy_ = (by_ - ay_) / L_
+        for y0_, y1_ in ((-11.9, -9.7), (-3.975, -1.825), (4.825, 6.975)):
+            sa, sb = sorted(((y0_ - ay_) / uy_, (y1_ - ay_) / uy_)) if abs(uy_) > 0.5 else (None, None)
+            if sa is not None and sb > 0 and sa < L_:
+                e.setdefault("openings", []).append({"s": [round(max(0.0, sa), 3), round(min(L_, sb), 3)], "z": list(e["z"]), "type": "opening",
+                                                     "note": "lift shaft (no soil behind the wall here)"})
+els[:] = [e for e in els if e["id"] not in ("C-A3-F4", "C-A3-F1", "C-A4-F4", "C-A4-F1")]
+for b_ in ("B-3-RF-west", "B-4-RF-west"):
+    by_id[b_]["from"][0] = -28.85
 
 for st in m["stairs"]:
     if st["kind"] != "spiral":

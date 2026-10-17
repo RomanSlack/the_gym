@@ -1409,8 +1409,8 @@
         {"s": [7.55, 8.75], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door (floor landing)"},
         {"s": [22.2, 24.4], "z": [-15.39, -12.39], "type": "opening", "note": "core W1 glass lift"},
-        {"s": [22.2, 24.4], "z": [-9.77, -5.295], "type": "opening", "note": "core W1 glass lift"},
-        {"s": [22.2, 24.4], "z": [-4.91, -0.385], "type": "opening", "note": "core W1 glass lift"},
+        {"s": [22.2, 24.4], "z": [-9.77, -6.11], "type": "opening", "note": "core W1 glass lift"},
+        {"s": [22.2, 24.4], "z": [-4.91, -1.2], "type": "opening", "note": "core W1 glass lift"},
         {"s": [30.125, 32.275], "z": [-15.39, -12.39], "type": "opening", "note": "men's express lift (glass)"},
         {"s": [38.925, 41.075], "z": [-15.39, -12.39], "type": "opening", "note": "women's express lift (glass)"}
       ],
@@ -1609,8 +1609,6 @@
     },
     {"id": "C-A1-F4", "type": "column", "material": "concrete", "at": [-29.45, 12.1], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A2-F4", "type": "column", "material": "concrete", "at": [-29.45, 4.4], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
-    {"id": "C-A3-F4", "type": "column", "material": "concrete", "at": [-29.45, -3.3], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
-    {"id": "C-A4-F4", "type": "column", "material": "concrete", "at": [-29.45, -11.0], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A5-F4", "type": "column", "material": "concrete", "at": [-29.45, -18.7], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A6-F4", "type": "column", "material": "concrete", "at": [-29.45, -26.4], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A7-F4", "type": "column", "material": "concrete", "at": [-29.45, -34.1], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
@@ -1623,8 +1621,6 @@
     {"id": "C-C7-F4", "type": "column", "material": "concrete", "at": [-6.45, -34.1], "size": [0.5, 0.6], "z": [-15.39, -1.1], "phase": 3, "seq": 46},
     {"id": "C-A1-F1", "type": "column", "material": "glulam", "at": [-29.45, 12.1], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
     {"id": "C-A2-F1", "type": "column", "material": "glulam", "at": [-29.45, 4.4], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
-    {"id": "C-A3-F1", "type": "column", "material": "glulam", "at": [-29.45, -3.3], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
-    {"id": "C-A4-F1", "type": "column", "material": "glulam", "at": [-29.45, -11.0], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
     {"id": "C-A5-F1", "type": "column", "material": "glulam", "at": [-29.45, -18.7], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
     {"id": "C-A6-F1", "type": "column", "material": "glulam", "at": [-29.45, -26.4], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
     {"id": "C-A7-F1", "type": "column", "material": "glulam", "at": [-29.45, -34.1], "size": [0.4, 0.6], "z": [0.0, 4.34], "phase": 3, "seq": 200, "finish": "black_stain"},
@@ -1688,7 +1684,7 @@
       "id": "B-3-RF-west",
       "type": "beam",
       "material": "glulam",
-      "from": [-29.45, -3.3],
+      "from": [-28.85, -3.3],
       "to": [-6.45, -3.3],
       "size": [0.3, 1.3],
       "z": [4.34, 5.64],
@@ -1702,7 +1698,7 @@
       "id": "B-4-RF-west",
       "type": "beam",
       "material": "glulam",
-      "from": [-29.45, -11.0],
+      "from": [-28.85, -11.0],
       "to": [-6.45, -11.0],
       "size": [0.3, 1.3],
       "z": [4.34, 5.64],
@@ -1926,7 +1922,7 @@
       "between": ["core-E-E1", "reception"],
       "openings": [
         {"s": [0.25, 1.25], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [6.725, 9.19], "z": [0.12, 5.32], "type": "opening", "note": "core E glass lift"}
+        {"s": [7.108, 8.808], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift (door height: Roman, reception stays minimal)"}
       ],
       "phase": 3,
       "seq": 201,
@@ -2239,7 +2235,7 @@
       "between": ["core-E-E2", "lift-lobby-e2"],
       "openings": [
         {"s": [0.25, 1.25], "z": [-6.01, -3.71], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [6.6, 9.065], "z": [-6.01, -3.01], "type": "opening", "note": "core E glass lift"}
+        {"s": [6.983, 8.683], "z": [-6.01, -3.01], "type": "opening", "note": "core E glass lift"}
       ],
       "phase": 3,
       "seq": 140,
@@ -2450,7 +2446,7 @@
       "between": ["core-W1-F1", "stretching"],
       "openings": [
         {"s": [5.05, 6.25], "z": [0.0, 2.3], "type": "door", "note": "core W1 door (floor landing)"},
-        {"s": [6.65, 8.85], "z": [0.0, 5.58], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [6.65, 8.85], "z": [0.0, 4.34], "type": "opening", "note": "core W1 glass lift"}
       ],
       "phase": 3,
       "seq": 200,
@@ -3694,7 +3690,11 @@
       "z": [-15.99, -0.5],
       "note": "bentonite / bituminous waterproofing membrane",
       "phase": 1,
-      "seq": 85
+      "seq": 85,
+      "openings": [
+        {"s": [5.489, 7.689], "z": [-15.99, -0.5], "type": "opening", "note": "lift shaft (no soil behind the wall here)"},
+        {"s": [13.414, 15.564], "z": [-15.99, -0.5], "type": "opening", "note": "lift shaft (no soil behind the wall here)"}
+      ]
     },
     {
       "id": "FDN-membrane-W-west-A-7",
@@ -3706,13 +3706,32 @@
       "z": [-15.99, -0.25],
       "note": "bentonite / bituminous waterproofing membrane",
       "phase": 1,
-      "seq": 85
+      "seq": 85,
+      "openings": [
+        {"s": [3.538, 5.688], "z": [-15.99, -0.25], "type": "opening", "note": "lift shaft (no soil behind the wall here)"}
+      ]
     },
     {"id": "FDN-gravel-W-west-A-0", "type": "drain_layer", "material": "gravel", "from": [-29.87, -34.1], "to": [-29.87, -33.117], "size": [0.3, 0], "z": [-15.99, -2.5], "note": "0.3 m free-draining gravel", "phase": 1, "seq": 90},
     {"id": "FDN-gravel-W-west-A-1", "type": "drain_layer", "material": "gravel", "from": [-29.87, -33.117], "to": [-29.87, -32.134], "size": [0.3, 0], "z": [-15.99, -2.0], "note": "0.3 m free-draining gravel", "phase": 1, "seq": 90},
     {"id": "FDN-gravel-W-west-A-2", "type": "drain_layer", "material": "gravel", "from": [-29.87, -32.134], "to": [-29.87, -31.151], "size": [0.3, 0], "z": [-15.99, -1.5], "note": "0.3 m free-draining gravel", "phase": 1, "seq": 90},
     {"id": "FDN-gravel-W-west-A-3", "type": "drain_layer", "material": "gravel", "from": [-29.87, -31.151], "to": [-29.87, -28.202], "size": [0.3, 0], "z": [-15.99, -1.25], "note": "0.3 m free-draining gravel", "phase": 1, "seq": 90},
-    {"id": "FDN-gravel-W-west-A-4", "type": "drain_layer", "material": "gravel", "from": [-29.87, -28.202], "to": [-29.87, 12.1], "size": [0.3, 0], "z": [-15.99, -1.0], "note": "0.3 m free-draining gravel", "phase": 1, "seq": 90},
+    {
+      "id": "FDN-gravel-W-west-A-4",
+      "type": "drain_layer",
+      "material": "gravel",
+      "from": [-29.87, -28.202],
+      "to": [-29.87, 12.1],
+      "size": [0.3, 0],
+      "z": [-15.99, -1.0],
+      "note": "0.3 m free-draining gravel",
+      "phase": 1,
+      "seq": 90,
+      "openings": [
+        {"s": [16.302, 18.502], "z": [-15.99, -1.0], "type": "opening", "note": "lift shaft (no soil behind the wall here)"},
+        {"s": [24.227, 26.377], "z": [-15.99, -1.0], "type": "opening", "note": "lift shaft (no soil behind the wall here)"},
+        {"s": [33.027, 35.177], "z": [-15.99, -1.0], "type": "opening", "note": "lift shaft (no soil behind the wall here)"}
+      ]
+    },
     {
       "id": "FDN-drain-W-west-A",
       "type": "drain_pipe",
@@ -5580,7 +5599,23 @@
       "seq": 199
     },
     {"id": "ST3-core-E-W", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 6.8], "to": [20.8, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
-    {"id": "ST3-core-E-E", "type": "wall", "kind": "core", "material": "concrete", "from": [24.0, 6.8], "to": [24.0, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
+    {
+      "id": "ST3-core-E-E",
+      "type": "wall",
+      "kind": "core",
+      "material": "concrete",
+      "from": [24.0, 6.8],
+      "to": [24.0, 16.2],
+      "size": [0.25, 0],
+      "z": [-6.01, 5.64],
+      "note": "250 mm concrete core wall",
+      "phase": 3,
+      "seq": 140,
+      "openings": [
+        {"s": [6.983, 8.683], "z": [-6.01, -3.01], "type": "opening", "note": "core E glass lift"},
+        {"s": [6.983, 8.683], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift"}
+      ]
+    },
     {"id": "ST3-core-E-S", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 6.8], "to": [24.0, 6.8], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
     {"id": "ST3-core-E-N", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 16.2], "to": [24.0, 16.2], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
     {
@@ -6673,8 +6708,8 @@
         {"s": [7.55, 8.75], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door (floor landing)"},
         {"s": [22.2, 24.4], "z": [-15.39, -12.39], "type": "opening", "note": "core W1 glass lift"},
-        {"s": [22.2, 24.4], "z": [-9.77, -5.295], "type": "opening", "note": "core W1 glass lift"},
-        {"s": [22.2, 24.4], "z": [-4.91, -0.385], "type": "opening", "note": "core W1 glass lift"},
+        {"s": [22.2, 24.4], "z": [-9.77, -6.11], "type": "opening", "note": "core W1 glass lift"},
+        {"s": [22.2, 24.4], "z": [-4.91, -1.2], "type": "opening", "note": "core W1 glass lift"},
         {"s": [30.125, 32.275], "z": [-15.39, -12.39], "type": "opening", "note": "men's express lift (glass)"},
         {"s": [38.925, 41.075], "z": [-15.39, -12.39], "type": "opening", "note": "women's express lift (glass)"}
       ],
@@ -8053,7 +8088,7 @@
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
         {"s": [0.32, 1.31], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [6.79, 9.25], "z": [0.12, 5.32], "type": "opening", "note": "core E glass lift"}
+        {"s": [7.17, 8.87], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift (door height: Roman, reception stays minimal)"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: oak_slats_wall",
@@ -9214,7 +9249,7 @@
         {"s": [11.0, 12.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
         {"s": [20.6, 21.8], "z": [-4.91, -2.61], "type": "door", "note": "core W1 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door (floor landing)"},
-        {"s": [22.2, 24.4], "z": [-4.91, -0.385], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [22.2, 24.4], "z": [-4.91, -1.2], "type": "opening", "note": "core W1 glass lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: steel_skirting",
@@ -9235,7 +9270,7 @@
         {"s": [11.0, 12.4], "z": [-4.91, -2.61], "type": "door", "note": "core WC annex door"},
         {"s": [20.6, 21.8], "z": [-4.91, -2.61], "type": "door", "note": "core W1 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-4.91, -2.61], "type": "door", "note": "core W2 door (floor landing)"},
-        {"s": [22.2, 24.4], "z": [-4.91, -0.385], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [22.2, 24.4], "z": [-4.91, -1.2], "type": "opening", "note": "core W1 glass lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: mirror",
@@ -9253,7 +9288,7 @@
       "z": [-2.31, -0.385],
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
-        {"s": [22.2, 24.4], "z": [-4.91, -0.385], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [22.2, 24.4], "z": [-4.91, -1.2], "type": "opening", "note": "core W1 glass lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: oak_slats_wall",
@@ -9782,7 +9817,7 @@
         {"s": [11.0, 12.4], "z": [-9.77, -7.47], "type": "door", "note": "core WC annex door"},
         {"s": [20.6, 21.8], "z": [-9.77, -7.47], "type": "door", "note": "core W1 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door (floor landing)"},
-        {"s": [22.2, 24.4], "z": [-9.77, -5.295], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [22.2, 24.4], "z": [-9.77, -6.11], "type": "opening", "note": "core W1 glass lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: steel_skirting",
@@ -9803,7 +9838,7 @@
         {"s": [11.0, 12.4], "z": [-9.77, -7.47], "type": "door", "note": "core WC annex door"},
         {"s": [20.6, 21.8], "z": [-9.77, -7.47], "type": "door", "note": "core W1 door (floor landing)"},
         {"s": [7.55, 8.75], "z": [-9.77, -7.47], "type": "door", "note": "core W2 door (floor landing)"},
-        {"s": [22.2, 24.4], "z": [-9.77, -5.295], "type": "opening", "note": "core W1 glass lift"}
+        {"s": [22.2, 24.4], "z": [-9.77, -6.11], "type": "opening", "note": "core W1 glass lift"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: mirror",
@@ -21437,7 +21472,7 @@
       "zone": "gym-f3",
       "shaft": [-1.1, 1.1, -2.24],
       "front": [-1.1, 1.1],
-      "stops": [[0.0, 3.0, 0.46], [5.620000000000001, 4.475, 0.5], [10.48, 4.525, 0.5], [15.39, 5.58, 0.94]],
+      "stops": [[0.0, 3.0, 0.46, 0.5], [5.620000000000001, 3.6599999999999993, 0.5, 0.815], [10.48, 3.71, 0.5, 0.815], [15.39, 4.34, 0.94, 1.24]],
       "pit": -1.2,
       "top": 20.99,
       "cab": 5.62,
@@ -21452,7 +21487,7 @@
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 40, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.8, -10.8, -15.09], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.8, -10.8, -15.09], "color": [1.0, 0.86, 0.7]},
       "note": "lift W1: grazes the shaft's stone"
     },
     {
@@ -21463,7 +21498,7 @@
       "z": -9.77,
       "rot_deg": 0.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 40, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, -9.47], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, -9.47], "color": [1.0, 0.86, 0.7]},
       "note": "lift W1: grazes the shaft's stone"
     },
     {
@@ -21474,7 +21509,7 @@
       "z": -4.91,
       "rot_deg": 0.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 40, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, -4.61], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, -4.61], "color": [1.0, 0.86, 0.7]},
       "note": "lift W1: grazes the shaft's stone"
     },
     {
@@ -21485,7 +21520,7 @@
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 40, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, 0.3], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.7, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [-31.8, -10.8, 0.3], "color": [1.0, 0.86, 0.7]},
       "note": "lift W1: grazes the shaft's stone"
     },
     {
@@ -21496,7 +21531,7 @@
       "z": -9.77,
       "rot_deg": 0.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.78, -10.8, -10.77], "color": [1.0, 0.93, 0.84]},
+      "light": {"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.78, -10.8, -10.77], "color": [1.0, 0.93, 0.84]},
       "note": "lift W1: the cab's opal ceiling"
     },
     {
@@ -21509,7 +21544,7 @@
       "zone": "lockers",
       "shaft": [-1.075, 1.075, -1.465],
       "front": [-1.075, 1.075],
-      "stops": [[0.0, 3.0, 0.46], [15.39, 3.18, 0.94]],
+      "stops": [[0.0, 3.0, 0.46, 0.5], [15.39, 3.18, 0.94, 0.0]],
       "pit": -1.2,
       "top": 21.59,
       "cab": 15.39,
@@ -21524,7 +21559,7 @@
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 40, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.025, -2.9, -15.09], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.025, -2.9, -15.09], "color": [1.0, 0.86, 0.7]},
       "note": "lift men: grazes the shaft's stone"
     },
     {
@@ -21535,7 +21570,7 @@
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 40, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 3.08], "aim": [-31.025, -2.9, 0.3], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 3.08], "aim": [-31.025, -2.9, 0.3], "color": [1.0, 0.86, 0.7]},
       "note": "lift men: grazes the shaft's stone"
     },
     {
@@ -21546,7 +21581,7 @@
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.392500000000002, -2.9, -1.0], "color": [1.0, 0.93, 0.84]},
+      "light": {"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.392500000000002, -2.9, -1.0], "color": [1.0, 0.93, 0.84]},
       "note": "lift men: the cab's opal ceiling"
     },
     {
@@ -21559,7 +21594,7 @@
       "zone": "lockers",
       "shaft": [-1.075, 1.075, -1.465],
       "front": [-1.075, 1.075],
-      "stops": [[0.0, 3.0, 0.46], [15.39, 3.18, 0.94]],
+      "stops": [[0.0, 3.0, 0.46, 0.5], [15.39, 3.18, 0.94, 0.0]],
       "pit": -1.2,
       "top": 21.59,
       "cab": 0.0,
@@ -21574,7 +21609,7 @@
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 40, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.025, 5.9, -15.09], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [-31.025, 5.9, -15.09], "color": [1.0, 0.86, 0.7]},
       "note": "lift women: grazes the shaft's stone"
     },
     {
@@ -21585,7 +21620,7 @@
       "z": 0.0,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 40, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 3.08], "aim": [-31.025, 5.9, 0.3], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.65, "size_y": 0.05, "offset": [0, 0, 3.08], "aim": [-31.025, 5.9, 0.3], "color": [1.0, 0.86, 0.7]},
       "note": "lift women: grazes the shaft's stone"
     },
     {
@@ -21596,7 +21631,7 @@
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "lockers",
-      "light": {"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.392500000000002, 5.9, -16.39], "color": [1.0, 0.93, 0.84]},
+      "light": {"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [-30.392500000000002, 5.9, -16.39], "color": [1.0, 0.93, 0.84]},
       "note": "lift women: the cab's opal ceiling"
     },
     {
@@ -21608,8 +21643,8 @@
       "rot_deg": -90,
       "zone": "reception",
       "shaft": [-1.4425, 1.0325, -2.975],
-      "front": [-1.2325, 1.2325],
-      "stops": [[0.0, 3.0, 0.225], [6.13, 5.2, 0.29]],
+      "front": [-0.85, 0.85],
+      "stops": [[0.0, 3.0, 0.225, 0.5], [6.13, 2.4, 0.29, 0.32, 0.03]],
       "pit": -1.2,
       "top": 11.61,
       "cab": 6.13,
@@ -21624,7 +21659,7 @@
       "z": -6.01,
       "rot_deg": 0.0,
       "zone": "reception",
-      "light": {"type": "AREA", "energy": 40, "size": 1.96, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [21.025, 14.6325, -5.71], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.2, "size_y": 0.05, "offset": [0, 0, 2.9], "aim": [21.025, 14.6325, -5.71], "color": [1.0, 0.86, 0.7]},
       "note": "lift E: grazes the shaft's stone"
     },
     {
@@ -21635,7 +21670,7 @@
       "z": 0.1200000000000001,
       "rot_deg": 0.0,
       "zone": "reception",
-      "light": {"type": "AREA", "energy": 40, "size": 1.96, "size_y": 0.05, "offset": [0, 0, 3.3], "aim": [21.025, 14.6325, 0.42], "color": [1.0, 0.86, 0.7]},
+      "light": {"type": "AREA", "energy": 160, "size": 1.2, "size_y": 0.05, "offset": [0, 0, 2.3], "aim": [21.025, 14.6325, 0.42], "color": [1.0, 0.86, 0.7]},
       "note": "lift E: grazes the shaft's stone"
     },
     {
@@ -21646,7 +21681,7 @@
       "z": 0.1200000000000001,
       "rot_deg": 0.0,
       "zone": "reception",
-      "light": {"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [22.412499999999998, 14.6325, -0.8799999999999999], "color": [1.0, 0.93, 0.84]},
+      "light": {"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [22.412499999999998, 14.6325, -0.8799999999999999], "color": [1.0, 0.93, 0.84]},
       "note": "lift E: the cab's opal ceiling"
     }
   ]

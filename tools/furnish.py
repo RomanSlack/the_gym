@@ -993,28 +993,31 @@ for it in KUs("tip_bucket"):
 
 # ---- the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts; only the lifts there are: core W1 in the gym's west
 # wall, the two express lifts from the locker rooms to the pool lobby, core E from the garage to reception). Each shaft is one piece
-# (construction/furniture.py glass_lift) in its own frame: +y = the room (east), y = 0 the glass plane, z from the lowest stop.
+# (construction/furniture.py glass_lift) in its own frame: +y = the room (east), y = 0 the glass plane, z from the lowest stop;
+# a stop = (z, glass height, reveal, stone lintel over the glass[, how proud the stone stands of the wall, 0.14]). Reception is just
+# the door (Roman: not that grand there, only the entry to the lift, not the whole thing spilling out).
 # The express lifts stay solid where they pass the gym floors (robes, privacy): glass only where they stop.
 LIFT_WARM = [1.0, 0.86, 0.7]
 for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
         ("W1", -29.66, -10.8, "F4", lv["F4"], (-1.1, 1.1, -2.24), (-1.1, 1.1),
-         ((0.0, 3.0, 0.46), (lv["F3"] - lv["F4"], -5.295 - lv["F3"], 0.5), (lv["F2"] - lv["F4"], -0.385 - lv["F2"], 0.5), (lv["F1"] - lv["F4"], 5.58, 0.94)),
+         ((0.0, 3.0, 0.46, 0.5), (lv["F3"] - lv["F4"], -6.11 - lv["F3"], 0.5, 0.815), (lv["F2"] - lv["F4"], -1.2 - lv["F2"], 0.5, 0.815),
+          (lv["F1"] - lv["F4"], 4.34, 0.94, 1.24)),
          5.6 - lv["F4"], lv["F3"] - lv["F4"], "gym-f3"),
-        ("men", -29.66, -2.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46), (lv["F1"] - lv["F4"], 3.18, 0.94)),
+        ("men", -29.66, -2.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46, 0.5), (lv["F1"] - lv["F4"], 3.18, 0.94, 0.0)),
          6.2 - lv["F4"], lv["F1"] - lv["F4"], "lockers"),
-        ("women", -29.66, 5.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46), (lv["F1"] - lv["F4"], 3.18, 0.94)),
+        ("women", -29.66, 5.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46, 0.5), (lv["F1"] - lv["F4"], 3.18, 0.94, 0.0)),
          6.2 - lv["F4"], 0.0, "lockers"),
-        ("E", 23.9, 14.6325, "E2", lv["E2"], (-1.4425, 1.0325, -2.975), (-1.2325, 1.2325), ((0.0, 3.0, 0.225), (lv["E1"] - lv["E2"], 5.2, 0.29)),
+        ("E", 23.9, 14.6325, "E2", lv["E2"], (-1.4425, 1.0325, -2.975), (-0.85, 0.85), ((0.0, 3.0, 0.225, 0.5), (lv["E1"] - lv["E2"], 2.4, 0.29, 0.32, 0.03)),
          5.6 - lv["E2"], lv["E1"] - lv["E2"], "reception")):
     put("glass_lift", ox, oy, rot=-90, zone=zone, level=lvl, z=z0, shaft=list(shaft), front=list(front), stops=[list(s_) for s_ in stops],
         pit=-1.2, top=round(top, 3), cab=round(cab, 3), name=f"lift_{nm}", note=f"glass lift {nm}: split granite shaft + columns, glass cab")
     xb = ox + shaft[2]                                                       # the shaft's back wall (world x)
-    for zs, h, rv in stops:                                                  # each stop: the stone back wall grazed from the front head
+    for zs, h, rv, *_ in stops:                                               # each stop: the stone back wall grazed from the front head
         put("light_only", ox - 0.15, oy, zone=zone, level=lvl, z=z0 + zs,
-            light={"type": "AREA", "energy": 40, "size": round(front[1] - front[0] - 0.5, 2), "size_y": 0.05, "offset": [0, 0, round(min(h, 3.4) - 0.1, 3)],
+            light={"type": "AREA", "energy": 160, "size": round(front[1] - front[0] - 0.5, 2), "size_y": 0.05, "offset": [0, 0, round(min(h, 3.4) - 0.1, 3)],
                    "aim": [round(xb + 0.1, 3), oy, round(z0 + zs + 0.3, 3)], "color": LIFT_WARM}, note=f"lift {nm}: grazes the shaft's stone")
     put("light_only", ox + (shaft[2] + 0.0) / 2, oy, zone=zone, level=lvl, z=z0 + cab,
-        light={"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [ox + shaft[2] / 2, oy, z0 + cab - 1.0],
+        light={"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [ox + shaft[2] / 2, oy, z0 + cab - 1.0],
                "color": [1.0, 0.93, 0.84]}, note=f"lift {nm}: the cab's opal ceiling")
 
 m["furnishings"] = F
