@@ -773,6 +773,14 @@ def interior_materials():
         "timber_stud": material("painted_gypsum", (0.82, 0.8, 0.76), 0.85),
         "glass_partition": material("glass", (0.05, 0.07, 0.08), 0.05, alpha=0.28),
         "tile_glazed": glazed_tile(),
+        # F4, the pool hall (Roman 2026-10-17: blueish dark marble or tile, black tile + marble, white only as accent; bright enough but moody)
+        "marble_nero": marble("marble_nero", (0.010, 0.010, 0.012), (0.012, 0.012, 0.015), (0.78, 0.77, 0.74), 0.16, veins=0.55),
+        "marble_nero_honed": marble("marble_nero_honed", (0.012, 0.012, 0.014), (0.014, 0.014, 0.017), (0.62, 0.61, 0.59), 0.38, veins=0.55),
+        "marble_blue": marble("marble_blue", (0.030, 0.042, 0.060), (0.050, 0.066, 0.088), (0.20, 0.25, 0.30), 0.40, veins=0.35),
+        "marble_white": marble("marble_white", (0.80, 0.80, 0.78), (0.74, 0.74, 0.73), (0.42, 0.42, 0.43), 0.2, veins=0.5),
+        "tile_ink": glazed_tile("tile_ink", ((0.018, 0.036, 0.062), (0.026, 0.050, 0.082), (0.014, 0.028, 0.048), (0.034, 0.058, 0.086))),
+        "pool_mosaic": pool_mosaic(),
+        "pool_mosaic_black": pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020)),
         "carpet_wool": pbr_material("carpet_wool", "poly_wool_herringbone", 0.27, tint=(1.0, 0.96, 0.9), sat=0.3, val=1.25, piece_var=0.0),
     }
 
@@ -829,6 +837,75 @@ def wood_wool(name="wood_wool", dark=False):
     L.new(mx.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
     return m
 
+
+
+def marble(name, base, base2, vein, rough, veins=0.5):
+    """Procedural marble for the pool hall: a mottled ground (two tones through soft noise), long distorted veins (a wave field bent by
+    noise) plus a fine secondary network; every slab ('prand') reads a different part of the stone, so no two slabs repeat."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]
+    tc = N.new("ShaderNodeTexCoord"); pr = N.new("ShaderNodeAttribute"); pr.attribute_name = "prand"
+    off = N.new("ShaderNodeVectorMath"); off.operation = "MULTIPLY"; off.inputs[1].default_value = (37.0, 23.0, 11.0)
+    L.new(pr.outputs["Fac"], off.inputs[0])
+    co = N.new("ShaderNodeVectorMath"); co.operation = "ADD"; L.new(tc.outputs["Object"], co.inputs[0]); L.new(off.outputs[0], co.inputs[1])
+    warp = N.new("ShaderNodeTexNoise"); warp.inputs["Scale"].default_value = 0.9; warp.inputs["Detail"].default_value = 6.0
+    L.new(co.outputs[0], warp.inputs["Vector"])
+    wv = N.new("ShaderNodeVectorMath"); wv.operation = "SCALE"; wv.inputs["Scale"].default_value = 1.4; L.new(warp.outputs["Color"], wv.inputs[0])
+    co2 = N.new("ShaderNodeVectorMath"); co2.operation = "ADD"; L.new(co.outputs[0], co2.inputs[0]); L.new(wv.outputs[0], co2.inputs[1])
+    wave = N.new("ShaderNodeTexWave"); wave.wave_type = "BANDS"; wave.bands_direction = "DIAGONAL"
+    wave.inputs["Scale"].default_value = 0.55; wave.inputs["Distortion"].default_value = 6.0; wave.inputs["Detail"].default_value = 8.0
+    L.new(co2.outputs[0], wave.inputs["Vector"])
+    vr = N.new("ShaderNodeValToRGB"); e = vr.color_ramp.elements
+    e[0].position = 0.0; e[0].color = (0, 0, 0, 1); e[1].position = 1.0; e[1].color = (0, 0, 0, 1)
+    for p_, v_ in ((0.90, 0.0), (0.955, veins), (0.975, 1.0), (0.99, 0.0)):
+        x_ = e.new(p_); x_.color = (v_, v_, v_, 1)
+    L.new(wave.outputs["Fac"], vr.inputs["Fac"])
+    fine = N.new("ShaderNodeTexVoronoi"); fine.feature = "DISTANCE_TO_EDGE"; fine.inputs["Scale"].default_value = 3.0
+    L.new(co2.outputs[0], fine.inputs["Vector"])
+    fr = N.new("ShaderNodeMapRange"); fr.inputs[1].default_value = 0.0; fr.inputs[2].default_value = 0.012; fr.inputs[3].default_value = veins * 0.35; fr.inputs[4].default_value = 0.0
+    L.new(fine.outputs["Distance"], fr.inputs[0])
+    vm = N.new("ShaderNodeMath"); vm.operation = "MAXIMUM"; vm.use_clamp = True; L.new(vr.outputs["Color"], vm.inputs[0]); L.new(fr.outputs[0], vm.inputs[1])
+    mot = N.new("ShaderNodeTexNoise"); mot.inputs["Scale"].default_value = 2.2; mot.inputs["Detail"].default_value = 4.0; L.new(co.outputs[0], mot.inputs["Vector"])
+    g = N.new("ShaderNodeMix"); g.data_type = "RGBA"; g.inputs["A"].default_value = (*base, 1); g.inputs["B"].default_value = (*base2, 1)
+    L.new(mot.outputs["Fac"], g.inputs["Factor"])
+    c = N.new("ShaderNodeMix"); c.data_type = "RGBA"; c.inputs["B"].default_value = (*vein, 1)
+    L.new(vm.outputs[0], c.inputs["Factor"]); L.new(g.outputs["Result"], c.inputs["A"])
+    L.new(c.outputs["Result"], b.inputs["Base Color"])
+    b.inputs["Roughness"].default_value = rough
+    for k_, v_ in (("Coat Weight", 0.25 if rough < 0.25 else 0.0), ("Coat Roughness", 0.02)):
+        if k_ in b.inputs:
+            b.inputs[k_].default_value = v_
+    return m
+
+
+def pool_mosaic(name="pool_mosaic", c1=(0.010, 0.030, 0.060), c2=(0.020, 0.052, 0.090)):
+    """The basin's glass mosaic: 25 mm tiles (a brick texture in stack bond), each tile its own deep blue, dark grout, glossy."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
+    sep = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sep.inputs[0])
+    comb = N.new("ShaderNodeCombineXYZ")  # every face shows tiles: x + y along the floor, y + z / x + z on the walls
+    ad = N.new("ShaderNodeMath"); ad.operation = "ADD"; L.new(sep.outputs["X"], ad.inputs[0]); L.new(sep.outputs["Z"], ad.inputs[1])
+    ad2 = N.new("ShaderNodeMath"); ad2.operation = "ADD"; L.new(sep.outputs["Y"], ad2.inputs[0]); L.new(sep.outputs["Z"], ad2.inputs[1])
+    L.new(ad.outputs[0], comb.inputs["X"]); L.new(ad2.outputs[0], comb.inputs["Y"])
+    br = N.new("ShaderNodeTexBrick"); br.offset = 0.0; br.squash = 1.0
+    br.inputs["Scale"].default_value = 1.0; br.inputs["Brick Width"].default_value = 0.025; br.inputs["Row Height"].default_value = 0.025
+    br.inputs["Mortar Size"].default_value = 0.0018; br.inputs["Bias"].default_value = 0.0
+    br.inputs["Color1"].default_value = (*c1, 1); br.inputs["Color2"].default_value = (*c2, 1); br.inputs["Mortar"].default_value = (0.006, 0.007, 0.009, 1)
+    L.new(comb.outputs[0], br.inputs["Vector"])
+    L.new(br.outputs["Color"], b.inputs["Base Color"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.08; rr.inputs[4].default_value = 0.6
+    L.new(br.outputs["Fac"], rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
+    bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.3; bump.inputs["Distance"].default_value = 0.001; bump.invert = True
+    L.new(br.outputs["Fac"], bump.inputs["Height"]); L.new(bump.outputs["Normal"], b.inputs["Normal"])
+    return m
 
 def glazed_tile(name="tile_chalk", tones=((0.80, 0.78, 0.72), (0.76, 0.74, 0.68), (0.83, 0.81, 0.76), (0.73, 0.71, 0.66))):
     """Handmade-look glazed tile: every tile ('prand') picks its own glaze tone, the glaze pools and waves a little
