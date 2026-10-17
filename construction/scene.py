@@ -90,6 +90,10 @@ CAMS = {
     "gym_lift_f1": ((-23.5, -14.5, 1.65), (-28.9, -10.8, 2.4), 18),
     "lk_lift_men": ((-25.2, -2.6, 1.55), (-28.9, -2.9, 1.5), 16),
     "rec_lift": ((29.2, 12.2, 1.65), (24.0, 14.7, 2.2), 18),
+    "gym_cab_w1": ((-31.16, -11.65, -8.17), (-28.16, -10.5, -8.4), 12),      # inside the cabs, from a back corner, wide (Roman)
+    "lk_cab_men": ((-30.86, -3.7, 1.6), (-28.16, -2.6, 1.37), 12),
+    "lk_cab_women": ((-30.86, 5.1, -13.79), (-28.16, 6.2, -14.02), 12),
+    "rec_cab_e": ((22.4, 13.88, 1.72), (25.4, 15.03, 1.49), 12),
     "gym_den_across": ((-23.0, -4.0, -8.1), (-7.0, -6.0, -9.0), 16),
     "gym_den_across_s": ((-21.0, -28.5, -8.15), (-7.0, -3.0, -9.1), 16),
     "gym_den_stair_low": ((-15.2, -16.2, -7.7), (-7.0, -8.0, -9.3), 16),
@@ -662,7 +666,7 @@ if RENDER:
         n = n + "_night" if NIGHT else n
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

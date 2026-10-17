@@ -114,6 +114,9 @@ for e in els:
         continue
     nx, ny = -(by - ay) / L, (bx - ax) / L
     mx, my = (ax + bx) / 2, (ay + by) / 2
+    if e["id"].startswith(("CS-W", "LS-")):  # a core / lift shaft: away from its own centre (the building's put the S walls' layers inside)
+        grp = [g for g in els if g.get("phase") == 1 and g["type"] == "wall" and g["id"].rsplit("-", 1)[0] == e["id"].rsplit("-", 1)[0]]
+        cen = (sum((g["from"][0] + g["to"][0]) / 2 for g in grp) / len(grp), sum((g["from"][1] + g["to"][1]) / 2 for g in grp) / len(grp))
     if (cen[0] - mx) * nx + (cen[1] - my) * ny > 0:  # point the normal away from the building
         nx, ny = -nx, -ny
     t = e["size"][0] / 2
