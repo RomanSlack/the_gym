@@ -255,9 +255,10 @@ lift_front("W-west-A", [30.125, 32.275], [(lv["F4"], lv["F4"] + 3.0)], "men's ex
 lift_front("W-west-A", [38.925, 41.075], [(lv["F4"], lv["F4"] + 3.0)], "women's express lift (glass)", "women's express lift")
 lift_front("P-F1-32b", [0.125, 2.275], [(lv["F1"], 3.18)], "men's express lift (glass)")
 lift_front("P-F1-33b", [0.125, 2.275], [(lv["F1"], 3.18)], "women's express lift (glass)")
-lift_front("P-E1-2", [7.108, 8.808], [(lv["E1"], lv["E1"] + 2.4)], "core E glass lift (door height: Roman, reception stays minimal)")
+lift_front("P-E1-2", [7.383, 8.583], [(lv["E1"], lv["E1"] + 2.4)], "core E lift door (Roman: reception minimal, a clean steel outline)")
 lift_front("P-E2-19", [6.983, 8.683], [(lv["E2"], lv["E2"] + 3.0)], "core E glass lift")
-lift_front("ST3-core-E-E", [6.983, 8.683], [(lv["E2"], lv["E2"] + 3.0), (lv["E1"], lv["E1"] + 2.4)], "core E glass lift")
+lift_front("ST3-core-E-E", [6.983, 8.683], [(lv["E2"], lv["E2"] + 3.0)], "core E glass lift")
+lift_front("ST3-core-E-E", [7.258, 8.458], [(lv["E1"], lv["E1"] + 2.4)], "core E lift door")
 # grid columns A3 + A4 stood in the W1 + men's lift fronts (A3 even inside the men's shaft on F1): they go, the concrete wall over
 # each opening is the lintel the beams B-3 / B-4 bear on (the glass stops at the beam line under it); on F1 the roof beams move
 # their bearing 0.6 m east onto the core wall's lintel over the opening (P-F1-30b / 32b)

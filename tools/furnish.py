@@ -995,8 +995,8 @@ for it in KUs("tip_bucket"):
 # ---- the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts; only the lifts there are: core W1 in the gym's west
 # wall, the two express lifts from the locker rooms to the pool lobby, core E from the garage to reception). Each shaft is one piece
 # (construction/furniture.py glass_lift) in its own frame: +y = the room (east), y = 0 the glass plane, z from the lowest stop;
-# a stop = (z, glass height, reveal, stone lintel over the glass[, how proud the stone stands of the wall, 0.14]). Reception is just
-# the door (Roman: not that grand there, only the entry to the lift, not the whole thing spilling out).
+# a stop = (z, glass height, reveal, stone lintel over the glass[, how proud the stone stands of the wall, 0.14][, 'frame']). Reception
+# is just the door in a slim steel outline, no stone (Roman: not that grand; no big blocks, a clean minimal edge round the entrance).
 # The express lifts stay solid where they pass the gym floors (robes, privacy): glass only where they stop.
 LIFT_WARM = [1.0, 0.86, 0.7]
 for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
@@ -1008,7 +1008,7 @@ for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
          6.2 - lv["F4"], lv["F1"] - lv["F4"], "lockers"),
         ("women", -29.66, 5.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46, 0.5), (lv["F1"] - lv["F4"], 3.18, 0.94, 0.0)),
          6.2 - lv["F4"], 0.0, "lockers"),
-        ("E", 23.9, 14.6325, "E2", lv["E2"], (-1.4425, 1.0325, -2.975), (-0.85, 0.85), ((0.0, 3.0, 0.225, 0.5), (lv["E1"] - lv["E2"], 2.4, 0.29, 0.32, 0.03)),
+        ("E", 23.9, 14.6325, "E2", lv["E2"], (-1.4425, 1.0325, -2.975), (-0.85, 0.85), ((0.0, 3.0, 0.225, 0.5), (lv["E1"] - lv["E2"], 2.4, 0.29, 0.0, 0.0, "frame")),
          5.6 - lv["E2"], lv["E1"] - lv["E2"], "reception")):
     put("glass_lift", ox, oy, rot=-90, zone=zone, level=lvl, z=z0, shaft=list(shaft), front=list(front), stops=[list(s_) for s_ in stops],
         pit=-1.2, top=round(top, 3), cab=round(cab, 3), name=f"lift_{nm}", note=f"glass lift {nm}: split granite shaft + columns, glass cab")

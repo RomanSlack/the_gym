@@ -1,0 +1,306 @@
+{
+ "items": {
+  "power-rack": {
+   "links": [
+    {
+     "url": "https://repfitness.com/products/pr-5000-rack-builder?variant=51940128653678&country=US&currency=USD&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&srsltid=AU7gw4VL4HFf0rkk3XiVqa6rQplUlRniNx5yNVHTqQ0rLJ2n_4yganXFrLQ",
+     "added": "2026-10-17T22:32:36+00:00",
+     "title": "PR-5000 Rack Builder | REP Fitness | Home Gym Equipment",
+     "image": "https://repfitness.com/cdn/shop/products/PR-5000-Thumbnail.jpg?v=1667837512&width=1200",
+     "ref": "refs/power-rack/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "half-rack": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-half-racks?sku=RF0791-BLACK-MG&utm_source=google&utm_campaign=24034815494&gad_source=1&gad_campaignid=24034815494&gbraid=0AAAAAD3l4FXN3nwxsr4HI2hTdxZ62oViP&gclid=CjwKCAjwuczWBhA9EiwAYGgEocl-sCe8-1erbbMDvCEcjZ9ncGQERV-91diyN27tbcoYjDUaiHDEgRoCZvMQAvD_BwE",
+     "added": "2026-10-17T22:34:09+00:00",
+     "title": "Rogue Monster Half Rack - Space-Saving Rack",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Power%20Racks%20/Monster%20Racks/MONSHALFRACK/MONSHALFRACK-h1_dklcjc_tfehjo.png",
+     "ref": "refs/half-rack/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "pod-rack": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-lite-half-rack?sku=RF0914-24-BLACK-MG&utm_source=google&utm_campaign=24034815494&gad_source=1&gad_campaignid=24034815494&gbraid=0AAAAAD3l4FXN3nwxsr4HI2hTdxZ62oViP&gclid=CjwKCAjwuczWBhA9EiwAYGgEobC1M80ApjqnRXdPAnPQge8PSHH6kotsAOaReR447eoOGkdyqXco-RoCMpkQAvD_BwE",
+     "added": "2026-10-17T22:35:01+00:00",
+     "title": "Monster Lite Half Rack",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Power%20Racks%20/Monster%20Lite%20Racks/MLHR-GROUP/ML-Half-Rack-H_hult04.png",
+     "ref": "refs/pod-rack/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "bench-press-flat": {
+   "links": [
+    {
+     "url": "https://atlantisstrength.com/gym-equipment/p337",
+     "added": "2026-10-17T22:37:48+00:00",
+     "title": "Olympic flat bench press (with pivot) (P337) - Atlantis",
+     "image": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png",
+     "ref": "refs/bench-press-flat/ref_01.png"
+    },
+    {
+     "url": "https://shop.lifefitness.com//products/signature-series-olympic-flat-bench?variant=44654102053061&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoX8VQqlYQSvvF8JX8PAiopy5SgL36Tv2wwoGClR9FWaNsaEEPt071BoCPaoQAvD_BwE",
+     "added": "2026-10-17T22:38:39+00:00",
+     "title": "Life Fitness Olympic Flat Bench",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/signature-seriesolympic-flat-bench-charcoal-black-1000x1000_1200x1200.jpg?v=1748945298",
+     "ref": "refs/bench-press-flat/ref_02.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "bench-press-incline": {
+   "links": [
+    {
+     "url": "https://atlantisstrength.com/gym-equipment/p338",
+     "added": "2026-10-17T22:39:39+00:00",
+     "title": "Olympic incline bench press (with pivot) (P338) - Atlantis",
+     "image": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png",
+     "ref": "refs/bench-press-incline/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "bench-press-decline": {
+   "links": [
+    {
+     "url": "https://atlantisstrength.com/gym-equipment/p339",
+     "added": "2026-10-17T22:39:48+00:00",
+     "title": "Olympic flat / Decline bench press (with pivot) (P339) - Atlantis",
+     "image": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png",
+     "ref": "refs/bench-press-decline/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "lifting-platform": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-impact-suppression-platform?variant=46369491288261&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoZxU28-ArONWeHIENKMOeMhZippttWTaE6wM3WlXlnYS1NoWJe0XehoCSQsQAvD_BwE",
+     "added": "2026-10-17T22:40:20+00:00",
+     "title": "Hammer Strength Impact Suppression Platform",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/296-819-hs-lifting-platform-45-left-v2_1200x1200.jpg?v=1781632206",
+     "ref": "refs/lifting-platform/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "rack-platform": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-deadlift-platform?sku=RF0252&utm_source=google&utm_campaign=17674524131&gad_source=1&gad_campaignid=17665340611&gbraid=0AAAAAD3l4FWOeMSZJDpqh6s4c3NJMuMKc&gclid=CjwKCAjwuczWBhA9EiwAYGgEoVx_ez-M8fGN_X18hfHtetkHTehYZVLolx-wasYoelsUuE_BY7TvqhoCmboQAvD_BwE",
+     "added": "2026-10-17T22:40:58+00:00",
+     "title": "Rogue Deadlift Platform",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Platforms/XX2715/XX2715-H_h9tdac.png",
+     "ref": "refs/rack-platform/ref_01.png"
+    },
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-rubber-platform?variant=46369618100421&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEodkarFfppVId53tnkrEvhqkl7sSAw7NTCG1UcZWc4IKTwp5FmJbAsxoC6ygQAvD_BwE",
+     "added": "2026-10-17T22:41:18+00:00",
+     "title": "Hammer Strength Rubber Platform",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/rack-rubber-platform-L_1200x1200.jpg?v=1781630364",
+     "ref": "refs/rack-platform/ref_02.jpg"
+    },
+    {
+     "url": "https://titan.fitness/products/titan-series-power-rack-lifting-platform?variant=48799870484757&gad_source=1&gad_campaignid=24063069766&gbraid=0AAAAADlSi82b5LP5aB43SlBaGkXoS4U9C&gclid=CjwKCAjwuczWBhA9EiwAYGgEoaf8RO0n9XNE2YZorXRP6b71eWjttbCt-nhlPJ2oXWhEZz-hOXYnxRoC8JAQAvD_BwE",
+     "added": "2026-10-17T22:41:36+00:00",
+     "title": "TITAN Series Power Rack Lifting Platform | Titan Fitness",
+     "image": "http://titan.fitness/cdn/shop/files/401976_01.jpg?v=1741963518",
+     "ref": "refs/rack-platform/ref_03.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "jerk-blocks": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-stackable-plyo-box?variant=43979554521285&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoRhILu5Xraibr5IobbBI4IWt225ibhkZ_ttxFDvWlcZUeKAKN7rqFxoCRYUQAvD_BwE",
+     "added": "2026-10-17T22:42:06+00:00",
+     "title": "Hammer Strength Stackable Plyo Box",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/hammer-strength-stackable-plyo-box-stacked-1000x1000_1200x1200.jpg?v=1748945193",
+     "ref": "refs/jerk-blocks/ref_01.jpg"
+    },
+    {
+     "url": "https://www.roguefitness.com/rogue-wood-jerk-blocks?sku=RF0465&utm_source=google&utm_campaign=19630023756&gad_source=1&gad_campaignid=19630023756&gbraid=0AAAAAD3l4FXcgO4YhNopIGv2T15c4Ad4M&gclid=CjwKCAjwuczWBhA9EiwAYGgEoeljyX3OmuOvWFBRkHTHKCpqP4_qQvbKH7xNZxnQlCYT8qydLR3qEhoCIJIQAvD_BwE",
+     "added": "2026-10-17T22:42:16+00:00",
+     "title": "Rogue Wood Jerk Blocks - American-Made Jerk Boxes",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Jerk%20Blocks/XX6795/XX6795-H_rndcae.png",
+     "ref": "refs/jerk-blocks/ref_02.png"
+    }
+   ],
+   "skipped": false
+  },
+  "pulling-blocks": {
+   "links": [
+    {
+     "url": "https://titan.fitness/products/pair-deadlift-pulling-blocks?variant=47321690571029&gad_source=1&gad_campaignid=21570030369&gbraid=0AAAAADlSi81OR81yfUOBq0DjF5_zit7if&gclid=CjwKCAjwuczWBhA9EiwAYGgEoZMyhk4l0lua_BpsnRoKvoovTlWFXFJWDZK2Im2o9dsNloO-cx_zLhoCNPIQAvD_BwE",
+     "added": "2026-10-17T22:43:09+00:00",
+     "title": "Deadlift Pulling Blocks - Pair | Titan Fitness",
+     "image": "http://titan.fitness/cdn/shop/files/412316_01.jpg?v=1769784772",
+     "ref": "refs/pulling-blocks/ref_01.jpg"
+    },
+    {
+     "url": "https://www.roguefitness.com/abmat-pulling-blocks?sku=AB0042&utm_source=google&utm_campaign=19630023756&gad_source=1&gad_campaignid=19630023756&gbraid=0AAAAAD3l4FXcgO4YhNopIGv2T15c4Ad4M&gclid=CjwKCAjwuczWBhA9EiwAYGgEoWHMQKx_3Y7VpT_WaL1dBjl3xV9xnW8rG1V1xFsXcWjzsbPZS2faWRoCQ4EQAvD_BwE",
+     "added": "2026-10-17T22:43:15+00:00",
+     "title": "AbMat Pulling Blocks | Foam Lifting Blocks for Weightlifting & Powerlifting",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/AB0040/AB0040-Web3_judysr.png",
+     "ref": "refs/pulling-blocks/ref_02.png"
+    }
+   ],
+   "skipped": false
+  },
+  "deadlift-pads": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/crash-cushion-pair?utm_source=google&utm_campaign=17674524131&gad_source=1&gad_campaignid=17665340611&gbraid=0AAAAAD3l4FWOeMSZJDpqh6s4c3NJMuMKc&gclid=CjwKCAjwuczWBhA9EiwAYGgEoZ14QxV1GewPEFpcyvq6JGA_-Ja1alHPqhz95VmHKE1vYI85bB0kvRoCo8cQAvD_BwE",
+     "added": "2026-10-17T22:43:27+00:00",
+     "title": "Crash Cushion™",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Jerk%20Blocks/AB0012/AB0012-H_oq8xtj.png",
+     "ref": "refs/deadlift-pads/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "adjustable-bench": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-adjustable-bench-3-0?sku=RF0959-BLACK-MG-SS-FP&utm_source=google&utm_campaign=23867384826&gad_source=1&gad_campaignid=23867384826&gbraid=0AAAAAD3l4FXhGkKs88OlU0_4tHNfJ3OUl&gclid=CjwKCAjwuczWBhA9EiwAYGgEoRfOWeZcgGuoq5c6N5zzlCCTN8Siww9BhUyVx9RVUUWeJTnWahGgURoCoCYQAvD_BwE",
+     "added": "2026-10-17T22:44:04+00:00",
+     "title": "Rogue Adjustable Bench 3.0",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Adjustable%20:%20Incline%20Benches/RF0935/Headers/RF0935-Black-Black_lnnwlu.png",
+     "ref": "refs/adjustable-bench/ref_01.png"
+    },
+    {
+     "url": "https://www.roguefitness.com/rogue-manta-ray-adjustable-bench?sku=RF0983-BLACK-TXT",
+     "added": "2026-10-17T22:45:47+00:00",
+     "title": "Rogue Manta Ray Adjustable Bench",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Adjustable%20:%20Incline%20Benches/RF0983-BLACK-MG/2024%20MG%20colors/RF0983-BLACK-MG-Red-H_yetdt4.png",
+     "ref": "refs/adjustable-bench/ref_02.png"
+    }
+   ],
+   "skipped": false
+  },
+  "flat-bench": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-flat-utility-bench-2-0",
+     "added": "2026-10-17T22:46:23+00:00",
+     "title": "Rogue Flat Utility Bench 2.0",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Flat%20Utility%20Benches/RA1362/RA1362-Textured-Pad-H_r6qelt.png",
+     "ref": "refs/flat-bench/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "preacher-bench": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-seated-arm-curl?variant=44466681086149&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEodHspCpPMOsTKfB87Q-R2vIPkdMad4Ksdns3ERPvxuSXhz1N3Uw3LxoCQYYQAvD_BwE",
+     "added": "2026-10-17T22:47:02+00:00",
+     "title": "Hammer Strength Seated Arm Curl",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/hammer-strength-arm-curl-bench-charcoal-black-1000x1000_1200x1200.jpg?v=1748945172",
+     "ref": "refs/preacher-bench/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "ab-bench": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-manta-ray-adjustable-bench?sku=RF0983-BLACK-TXT-FC&utm_source=google&utm_campaign=23867384826&gad_source=1&gad_campaignid=23867384826&gbraid=0AAAAAD3l4FXhGkKs88OlU0_4tHNfJ3OUl&gclid=CjwKCAjwuczWBhA9EiwAYGgEodU6EqBkKoCQ1us3ixCpkxsV_xRargqU1vRGYzmQqhd2Mbmow4ec7RoCuXgQAvD_BwE",
+     "added": "2026-10-17T22:47:21+00:00",
+     "title": "Rogue Manta Ray Adjustable Bench",
+     "image": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Adjustable%20:%20Incline%20Benches/RF0983-BLACK-MG/2024%20MG%20colors/RF0983-BLACK-MG-Red-H_yetdt4.png",
+     "ref": "refs/ab-bench/ref_01.png"
+    }
+   ],
+   "skipped": false
+  },
+  "back-extension": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-back-extension?variant=44660663550149&utm_source=google&utm_medium=cpc&utm_campaign=24342125751&gad_source=1&gad_campaignid=24342125751&gbraid=0AAAAAD_h8npaRauifGGcYmxIJmS0oHtd9&gclid=CjwKCAjwuczWBhA9EiwAYGgEofB9FoDEVzu8hYbVNU5JZ5dB3hplZ3fuH7Gz1iqC-Jjk_VGzgkB0ZRoC6K4QAvD_BwE",
+     "added": "2026-10-17T22:47:47+00:00",
+     "title": "Hammer Strength Back Extension",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/hammer-strength-back-extensions-charcoal-black-1000x1000_1200x1200.jpg?v=1748945081",
+     "ref": "refs/back-extension/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "ghd": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-fixed-pad-glute-ham-bench?variant=44660757004485&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoZlbR_ZBSvdsPCtDd-mCJJfQyN-A8xPJKSHZffdP8j6Cb11iseiARxoC0_oQAvD_BwE",
+     "added": "2026-10-17T22:48:31+00:00",
+     "title": "Hammer Strength Fixed Pad Glute/Ham",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/glute-ham-bodyweight-charcoal-black-1000x1000_1200x1200.jpg?v=1748945080",
+     "ref": "refs/ghd/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "nordic-bench": {
+   "links": [
+    {
+     "url": "https://www.hamiltonhomefitness.com/the-abs-company-the-nordic-curl?gad_source=1&gad_campaignid=22495493910&gbraid=0AAAAAppvyUNxEijWPdvsN5yEukUgnDMj7&gclid=CjwKCAjwuczWBhA9EiwAYGgEod7rCeaVRiEzFoCHUCI8OFr00Q4-FzTjP-XuHwAg2MtvTVzxGca9hBoCiTEQAvD_BwE",
+     "added": "2026-10-17T22:49:07+00:00",
+     "title": "The abs Company The Nordic Curl™",
+     "image": "https://www.hamiltonhomefitness.com/images/products/edited44.png",
+     "ref": "refs/nordic-bench/ref_01.png"
+    },
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-assisted-nordic-ham?variant=44626733727941&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoUM3T7VS4PaRXq-4GjqQN0nxPiK8hIhS9ONp8HeBccjClacNisjA9BoCrtAQAvD_BwE",
+     "added": "2026-10-17T22:49:17+00:00",
+     "title": "Hammer Strength Assisted Nordic Ham",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/Strength-PlateLoaded-AssistedNordicHam-black-black-1000x1000_1200x1200.jpg?v=1748945099",
+     "ref": "refs/nordic-bench/ref_02.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "hip-thrust-bench": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com//products/hammer-strength-plate-loaded-glute-drive?variant=44495408922821&utm_source=google&utm_medium=cpc&utm_campaign=high_margin_pmax&gad_source=1&gad_campaignid=22850817767&gbraid=0AAAAAD_h8nrfzL4ahsGe26DbvVC8WjS-H&gclid=CjwKCAjwuczWBhA9EiwAYGgEoZ-Wt4FeRSGbTMrRr6DrTQe9j47sSAYRxJWReJc1Tfcz1Dm7ieCSXxoCdFAQAvD_BwE",
+     "added": "2026-10-17T22:49:54+00:00",
+     "title": "Hammer Strength Plate Loaded Glute Drive",
+     "image": "http://shop.lifefitness.com/cdn/shop/files/HS_GLUTE_360_0057_charcoalframe_blackuph_1000x1000_965d0bdc-12be-4762-a055-821aa5673f25_1200x1200.jpg?v=1748945148",
+     "ref": "refs/hip-thrust-bench/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "seal-row-bench": {
+   "links": [
+    {
+     "url": "https://gmwdfitness.com/products/seal-row-bench-sr05?currency=USD&country=US&variant=49712337912083&stkn=8eb19aa0fd49&utm_source=Google&campaign_id=22088914726&ad_id=&utm_medium=cpc&utm_campaign=SR03&RM00&utm_content=&utm_term=&gclid=CjwKCAjwuczWBhA9EiwAYGgEoRcxpUcouvMsXs2n3_ugQd0crVAdxqjiJ1LEMak2sQR0c7vRADQkQhoC4MUQAvD_BwE&gad_source=1&gad_campaignid=22088915680&gbraid=0AAAAAqszWVEB2tDrdcbBHH_TyqLOTBX-9",
+     "added": "2026-10-17T22:50:11+00:00",
+     "title": "Multi-functional Seal Row Bench SR05",
+     "image": "http://gmwdfitness.com/cdn/shop/files/gmwd-seal-row-bench-sr05-main-1_ee790fbb-9edc-45be-aea8-0419d7392c94.jpg?v=1739524956&width=2048",
+     "ref": "refs/seal-row-bench/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  },
+  "knee-raise": {
+   "links": [
+    {
+     "url": "https://selectfitness.com/products/body-solid-gvkr60b-vertical-knee-raise-dip?currency=USD&country=US&stkn=c7cc6d324c49&utm_source=google&utm_medium=cpc&utm_campaign=21101473809&utm_content=158672297223_$693980771276&utm_term=&hsa_acc=5668049746&hsa_cam=21101473809&hsa_grp=158672297223&hsa_ad=693980771276&hsa_src=g&hsa_tgt=pla-2370816533647&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=21101473809&gbraid=0AAAAAobgoaNtdBVekuSrTiCXsYbj7ZFFO&gclid=CjwKCAjwuczWBhA9EiwAYGgEoTKCjNTAxn9_ViHZFOHAt9d6iAgeJ_7fBNRP_xXMjJwQXJWCm7KpMhoCB1oQAvD_BwE",
+     "added": "2026-10-17T22:50:50+00:00",
+     "title": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+     "image": "https://selectfitness.com/cdn/shop/files/GVKR60B-Vertical-Knee-Raise-Machine-Isolated-View_1200x1200.jpg?v=1720081149",
+     "ref": "refs/knee-raise/ref_01.jpg"
+    }
+   ],
+   "skipped": false
+  }
+ },
+ "custom": []
+}

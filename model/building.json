@@ -1922,7 +1922,7 @@
       "between": ["core-E-E1", "reception"],
       "openings": [
         {"s": [0.25, 1.25], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [7.108, 8.808], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift (door height: Roman, reception stays minimal)"}
+        {"s": [7.383, 8.583], "z": [0.12, 2.52], "type": "opening", "note": "core E lift door (Roman: reception minimal, a clean steel outline)"}
       ],
       "phase": 3,
       "seq": 201,
@@ -5613,7 +5613,7 @@
       "seq": 140,
       "openings": [
         {"s": [6.983, 8.683], "z": [-6.01, -3.01], "type": "opening", "note": "core E glass lift"},
-        {"s": [6.983, 8.683], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift"}
+        {"s": [7.258, 8.458], "z": [0.12, 2.52], "type": "opening", "note": "core E lift door"}
       ]
     },
     {"id": "ST3-core-E-S", "type": "wall", "kind": "core", "material": "concrete", "from": [20.8, 6.8], "to": [24.0, 6.8], "size": [0.25, 0], "z": [-6.01, 5.64], "note": "250 mm concrete core wall", "phase": 3, "seq": 140},
@@ -8088,7 +8088,7 @@
       "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z"},
       "openings": [
         {"s": [0.32, 1.31], "z": [0.12, 2.42], "type": "door", "note": "core E stair (floor landing)"},
-        {"s": [7.17, 8.87], "z": [0.12, 2.52], "type": "opening", "note": "core E glass lift (door height: Roman, reception stays minimal)"}
+        {"s": [7.45, 8.65], "z": [0.12, 2.52], "type": "opening", "note": "core E lift door (Roman: reception minimal, a clean steel outline)"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: oak_slats_wall",
@@ -21644,7 +21644,7 @@
       "zone": "reception",
       "shaft": [-1.4425, 1.0325, -2.975],
       "front": [-0.85, 0.85],
-      "stops": [[0.0, 3.0, 0.225, 0.5], [6.13, 2.4, 0.29, 0.32, 0.03]],
+      "stops": [[0.0, 3.0, 0.225, 0.5], [6.13, 2.4, 0.29, 0.0, 0.0, "frame"]],
       "pit": -1.2,
       "top": 11.61,
       "cab": 6.13,

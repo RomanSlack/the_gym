@@ -4636,7 +4636,8 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
     """A glass lift in a shaft of split granite (Roman 2026-10-17: natural stone columns with glass lifts, all the lifts there are,
     nothing new through the middle of the floors). Local frame: +y = the room, y = 0 the glass plane of the landing fronts, x across.
     shaft = (x0, x1, back y) its inside; front = the two columns' centres (the wall opening's edges); stops = (z, glass height,
-    reveal = room face in front of the glass, lintel = a split granite lintel over the glass on the columns, up to the ceiling). At every stop two columns of split granite stand floor to ceiling, wrapping the reveal,
+    reveal = room face in front of the glass, lintel = a split granite lintel over the glass on the columns, up to the ceiling[, proud,
+    'frame' = no stone, only the door in a slim blackened steel outline]). At every stop two columns of split granite stand floor to ceiling, wrapping the reveal,
     with a full-height glass front between them: low-iron glass in slim blackened steel, centre-opening glass landing doors under a
     steel operator head, a granite threshold. Behind it the shaft is lined in split granite from the pit to the top, grazed by light
     lines in its front corners; the cab is glass on three sides in a blackened steel sling with a granite floor, an opal ceiling,
@@ -4729,6 +4730,23 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
     lx = ccx                                                                                       # landing doors line up with the car's
     for zs, h, rv, lin, *pr in stops:
         dep = rv + (pr[0] if pr else 0.14)
+        if pr[1:] == ["frame"]:                                                                   # just the door in a slim steel outline
+            hw = dw / 2 + 0.05                                                                    # the opening: the doors + 50 mm jambs
+            for s_ in (-1, 1):
+                P.box(st, (lx + s_ * (hw - 0.01), rv / 2, zs + h / 2), (0.02, rv + 0.004, h))      # jamb linings
+                P.box(st, (lx + s_ * (hw + 0.012), rv + 0.005, zs + h / 2 + 0.012), (0.024, 0.01, h + 0.024))  # the outline on the wall
+            P.box(st, (lx, rv / 2, zs + h - 0.045), (2 * hw, rv + 0.004, 0.09))                   # head lining
+            P.box(st, (lx, rv + 0.005, zs + h + 0.012), (2 * hw + 0.048, 0.01, 0.024))
+            P.box(honed, (lx, rv / 2 + 0.02, zs - 0.05), (2 * hw, rv + 0.04, 0.1))                # threshold
+            P.box(st, (lx, 0.03, zs + 0.003), (dw + 0.06, 0.09, 0.006))
+            for s_ in (-1, 1):
+                P.box(gl, (lx + s_ * dw / 4, 0.03, zs + 1.08), (dw / 2 - 0.006, 0.012, 2.14))
+                P.box(st, (lx + s_ * (dw / 2 - 0.012), 0.03, zs + 1.08), (0.022, 0.024, 2.16))
+            P.box(st, (lx, 0.04, zs + 2.24), (dw + 0.1, 0.07, 0.14))
+            P.box(st, (lx + hw + 0.16, rv + 0.006, zs + 1.1), (0.07, 0.012, 0.14))               # call plate on the slats
+            for dz in (0.03, -0.03):
+                P.rod(br, (lx + hw + 0.16, rv + 0.012, zs + 1.1 + dz), (lx + hw + 0.16, rv + 0.022, zs + 1.1 + dz), 0.014, seg=20)
+            continue
         if lin > 0.05:                                                                            # the stone lintel over the glass, on the columns
             _rough_block(P, split, ((f0 + f1) / 2, dep / 2 - 0.002, zs + h + lin / 2), (f1 - f0 + pw + 0.02, dep + 0.02, lin - 0.006), amp=0.009,
                          seed=seed + zs * 3, cuts=4)
