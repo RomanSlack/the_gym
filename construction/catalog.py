@@ -30,15 +30,7 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
 scene.cycles.samples = 48; scene.cycles.use_denoising = True
-pr = bpy.context.preferences.addons["cycles"].preferences
-for dev in ("OPTIX", "CUDA"):
-    try:
-        pr.compute_device_type = dev; pr.get_devices()
-        for d in pr.devices:
-            d.use = True
-        break
-    except Exception:
-        continue
+bc.gpu_or_stop()
 scene.render.resolution_x, scene.render.resolution_y = 900, 700
 scene.view_settings.view_transform = "AgX"; scene.view_settings.exposure = 0.0
 w = bpy.data.worlds.new("studio"); scene.world = w; w.use_nodes = True

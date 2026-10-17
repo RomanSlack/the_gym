@@ -16,6 +16,7 @@ You've lost context on The Gym (a luxury Nordic gym in an Elverum ravine, design
    - column-free
    - Gym V2 is his intent reference
    - no PDF re-export unless asked
+   - renders run on the GPU or not at all: every render script calls `bc.gpu_or_stop()`, which quits with code 3 and a `!! NO GPU` message if Cycles can't reach the NVIDIA GPU. If you see that, stop and tell Roman (usually a driver update without a reboot, `nvidia-smi` says Driver/library version mismatch); never work around it on the CPU. Check `nvidia-smi` now and report it if it fails
    - nothing designed gets skipped by the construction stages: run `terrain/.venv/bin/python tools/stage_check.py` and report any `!` lines
 4. Check the replay/recording is intact:
    - every commit carries a `Prompt:` trailer (`tools/capture/`)

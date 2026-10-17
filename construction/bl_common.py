@@ -190,6 +190,26 @@ def hdri_world(scene, fname=HDRI_DEFAULT, sun_azimuth_deg=220.0, strength=1.0):
     return True
 
 
+def gpu_or_stop():
+    """Cycles on the GPU or not at all (Roman: never quietly render on the CPU). Without a usable GPU, say so and quit with code 3;
+    the usual cause is an NVIDIA driver update without a reboot (nvidia-smi: Driver/library version mismatch)."""
+    pr = bpy.context.preferences.addons["cycles"].preferences
+    for dev in ("OPTIX", "CUDA"):
+        try:
+            pr.compute_device_type = dev; pr.get_devices()
+        except Exception:
+            continue
+        gpus = [d for d in pr.devices if d.type == dev]
+        if gpus:
+            for d in pr.devices:
+                d.use = d.type == dev
+            return
+    import os
+    print("\n!! NO GPU: Cycles cannot reach the NVIDIA GPU, stopping instead of rendering on the CPU.\n"
+          "!! Usual cause: a driver update without a reboot (`nvidia-smi` says Driver/library version mismatch). Reboot, then rerun.\n", flush=True)
+    os._exit(3)
+
+
 def world_and_render(scene):
     if hdri_world(scene):
         for eng in ("BLENDER_EEVEE", "BLENDER_EEVEE_NEXT"):

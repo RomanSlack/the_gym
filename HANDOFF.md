@@ -105,7 +105,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
   - forest points: `terrain/.venv/bin/python tools/forest_scatter.py`
   - real forest data: `tools/forest_data.py` (see `docs/ECOLOGY.md`)
 - **Construction scenes:** `nice -n 19 blender -b --factory-startup -t 12 --python construction/scene.py -- <stage> render [only:cam1,cam2]`.
-  - Stage 4+ renders in Cycles (GPU, small tiles).
+  - Stage 4+ renders in Cycles (GPU, small tiles). **GPU or nothing** (Roman 2026-10-17: never grind on the CPU): `bc.gpu_or_stop()` in every render script quits with exit 3 and `!! NO GPU` when CUDA/OptiX is unreachable. Then tell Roman to fix it (so far: an NVIDIA driver update without a reboot, `nvidia-smi` showing Driver/library version mismatch); don't render on the CPU instead. A GPU draft frame should take seconds to tens of seconds, not minutes.
   - Stage 5 adds the interior and furniture.
   - **Quick looks: add `draft`** (48 samples, 80 %: Roman found renders slow). With `only:` the scene builds just the furnishings within 45 m of those cameras and does not overwrite the saved full .blend. `[time]` lines in the log show where the time goes (2026-10-14: furniture 72 s -> 21 s after `Part.box` was built directly and `Part.rods` batches bars; a draft frame ~40 s).
   - Cameras are in the `CAMS` dict in `scene.py`; reception and cafe cameras are named `rec_*` / `cafe_*`.

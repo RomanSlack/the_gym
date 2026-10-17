@@ -40,15 +40,8 @@ if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop 
     scene.cycles.samples = 48 if DRAFT else 128 if STAGE >= 5 else 64; scene.cycles.use_denoising = True
     if DRAFT:
         scene.render.resolution_percentage = 80
-    _pr = bpy.context.preferences.addons["cycles"].preferences
-    for _dev in ("OPTIX", "CUDA"):
-        try:
-            _pr.compute_device_type = _dev; _pr.get_devices()
-            for _d in _pr.devices:
-                _d.use = True
-            break
-        except Exception:
-            continue
+    if RENDER:
+        bc.gpu_or_stop()
 ONLY = next((a_.split(":", 1)[1].split(",") for a_ in args if a_.startswith("only:")), None)  # e.g. only:style_gorge,style_aerial
 CAMS = {
     "site_aerial": ((150, -170, 110), (0, 0, -8), 30),

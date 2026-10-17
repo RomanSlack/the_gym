@@ -60,15 +60,7 @@ sun.rotation_euler = (math.radians(90 - 24), 0, math.radians(205 - 180))
 
 scene.render.engine = "CYCLES"
 scene.cycles.device = "GPU"
-prefs = bpy.context.preferences.addons["cycles"].preferences
-for dev in ("OPTIX", "CUDA"):
-    try:
-        prefs.compute_device_type = dev; prefs.get_devices()
-        for d in prefs.devices:
-            d.use = True
-        break
-    except Exception:
-        continue
+bc.gpu_or_stop()
 scene.cycles.samples = 160; scene.cycles.use_denoising = True
 scene.cycles.tile_size = 256  # short GPU kernels: the display GPU stays responsive
 scene.render.resolution_x, scene.render.resolution_y = 1400, 1000

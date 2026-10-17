@@ -30,15 +30,7 @@ def build():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     sc.render.engine = "CYCLES"; sc.cycles.device = "GPU"; sc.cycles.tile_size = 256
-    prefs = bpy.context.preferences.addons["cycles"].preferences
-    for dev in ("OPTIX", "CUDA"):
-        try:
-            prefs.compute_device_type = dev; prefs.get_devices()
-            for d in prefs.devices:
-                d.use = True
-            break
-        except Exception:
-            continue
+    bc.gpu_or_stop()
     lib = bc.collection("tree_lib")
     work = bc.collection("work")
     meta = []
