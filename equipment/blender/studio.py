@@ -1,0 +1,135 @@
+"""Render one equipment piece in the studio and keep the pass: its views + its geometry, never overwritten.
+
+Run through the runner (it picks the version number and composes the comparison sheet):
+    python3 equipment/tools/model.py <piece> [draft]
+Directly: nice -n 19 blender -b --factory-startup -t 12 --python equipment/blender/studio.py -- <piece> <version> [draft]
+
+Builds equipment/pieces/<piece>/model.py (def build(k)), exports pieces/<piece>/models/<piece>_vNNN.glb, then renders
+the studio views to pieces/<piece>/models/<piece>_<view>_vNNN.jpg. A model.py may define VIEWS (extra or replaced
+views: name -> (azimuth deg, 0 = from the front, +90 = from the user's right; elevation deg; zoom)) and
+DETAILS (name -> (eye, target, lens mm)). Cycles on the GPU or not at all.
+"""
+import importlib.util
+import math
+import os
+import sys
+from pathlib import Path
+
+import bpy
+from mathutils import Vector
+
+EQ = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(EQ / "blender"))
+sys.path.insert(0, str(EQ / "tools"))
+import kit  # noqa: E402
+import versions  # noqa: E402
+
+args = sys.argv[sys.argv.index("--") + 1:]
+PIECE, V = args[0], int(args[1])
+DRAFT = "draft" in args
+
+
+def gpu_or_stop():
+    """Same rule as the building's renders (construction/bl_common.py): GPU or quit with code 3, never the CPU."""
+    pr = bpy.context.preferences.addons["cycles"].preferences
+    for dev in ("OPTIX", "CUDA"):
+        try:
+            pr.compute_device_type = dev; pr.get_devices()
+        except Exception:
+            continue
+        if [d for d in pr.devices if d.type == dev]:
+            for d in pr.devices:
+                d.use = d.type == dev
+            return
+    print("\n!! NO GPU: Cycles cannot reach the NVIDIA GPU, stopping instead of rendering on the CPU.\n"
+          "!! Usual cause: a driver update without a reboot (`nvidia-smi` says Driver/library version mismatch). Reboot, then rerun.\n", flush=True)
+    os._exit(3)
+
+
+bpy.ops.wm.read_factory_settings(use_empty=True)
+scene = bpy.context.scene
+scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
+gpu_or_stop()
+scene.cycles.samples = 48 if DRAFT else 160; scene.cycles.use_denoising = True
+scene.render.resolution_x, scene.render.resolution_y = (1200, 900)
+scene.render.resolution_percentage = 70 if DRAFT else 100
+scene.view_settings.view_transform = "AgX"; scene.view_settings.look = "AgX - Medium High Contrast"
+scene.render.image_settings.file_format = "JPEG"; scene.render.image_settings.quality = 92
+
+# ---- the piece
+spec = importlib.util.spec_from_file_location("piece_model", EQ / "pieces" / PIECE / "model.py")
+pm = importlib.util.module_from_spec(spec); spec.loader.exec_module(pm)
+coll = bpy.data.collections.new(PIECE); scene.collection.children.link(coll)
+k = kit.Kit(PIECE, coll, getattr(pm, "LOOK", None))
+pm.build(k)
+obs = k.finish()
+bpy.context.view_layer.update()
+
+glb = versions.model_path(PIECE, V)
+for o in bpy.data.objects:
+    o.select_set(o.name in coll.all_objects)
+bpy.ops.export_scene.gltf(filepath=str(glb), export_format="GLB", use_selection=True, export_apply=True)
+print("geometry:", glb)
+
+lo = Vector((min(c[i] for o in obs for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
+hi = Vector((max(c[i] for o in obs for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
+centre, size = (lo + hi) / 2, hi - lo
+print(f"bounding box: {size.x:.3f} x {size.y:.3f} x {size.z:.3f} m (w x d x h)")
+
+# ---- the studio: a seamless mid-grey sweep, big soft lights
+w = bpy.data.worlds.new("studio"); scene.world = w; w.use_nodes = True
+w.node_tree.nodes["Background"].inputs["Color"].default_value = (0.6, 0.6, 0.62, 1)
+w.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.25
+floor = bpy.data.materials.new("sweep"); floor.use_nodes = True
+fb = floor.node_tree.nodes["Principled BSDF"]; fb.inputs["Base Color"].default_value = (0.32, 0.32, 0.33, 1); fb.inputs["Roughness"].default_value = 0.6
+import bmesh  # noqa: E402
+bm = bmesh.new()
+R, back = 2.0, 6.0  # floor runs to a curved wall behind the piece (cyclorama)
+prof = [(-12.0, 0.0)] + [(back - R + R * math.sin(a * math.pi / 2 / 12), R - R * math.cos(a * math.pi / 2 / 12)) for a in range(13)] + [(back, 8.0)]
+rows = []
+for x in (-14, 14):
+    rows.append([bm.verts.new((x, y, z)) for y, z in prof])
+for i in range(len(prof) - 1):
+    bm.faces.new((rows[0][i], rows[0][i + 1], rows[1][i + 1], rows[1][i]))
+me = bpy.data.meshes.new("sweep"); bm.to_mesh(me); bm.free()
+sw = bpy.data.objects.new("sweep", me); scene.collection.objects.link(sw); me.materials.append(floor)
+for p in me.polygons:
+    p.use_smooth = True
+
+
+def area(name, loc, energy, size, target):
+    L = bpy.data.objects.new(name, bpy.data.lights.new(name, "AREA"))
+    L.data.energy = energy; L.data.size = size; L.location = loc
+    L.rotation_euler = (Vector(target) - Vector(loc)).to_track_quat("-Z", "Y").to_euler()
+    scene.collection.objects.link(L)
+
+
+c = centre
+area("key", c + Vector((-2.6, -3.0, 2.8)), 900, 2.5, c)
+area("fill", c + Vector((3.2, -2.2, 1.4)), 300, 3.0, c)
+area("rim", c + Vector((1.5, 3.2, 3.0)), 500, 2.0, c)
+area("top", c + Vector((0, 0, 3.5)), 250, 3.0, c)
+
+# ---- views
+cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam")); scene.collection.objects.link(cam); scene.camera = cam
+cam.data.lens = 50; cam.data.sensor_width = 36
+VIEWS = {"three_quarter": (-38, 14, 1.0), "front": (0, 6, 1.0), "side": (90, 6, 1.0), "back_three_quarter": (150, 18, 1.0)}
+VIEWS.update(getattr(pm, "VIEWS", {}))
+rad = 0.5 * size.length
+fov = 2 * math.atan(18 / cam.data.lens) * (900 / 1200)  # the narrower (vertical) angle
+for name, (az, el, zoom) in VIEWS.items():
+    a, e = math.radians(az), math.radians(el)
+    d = Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+    dist = rad / math.sin(fov / 2) * 1.02 / zoom
+    cam.location = c + d * dist
+    cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
+    scene.render.filepath = str(versions.path(PIECE, name, V))
+    bpy.ops.render.render(write_still=True)
+    print("view:", scene.render.filepath, flush=True)
+for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
+    cam.location = Vector(eye); cam.rotation_euler = (Vector(target) - Vector(eye)).to_track_quat("-Z", "Y").to_euler()
+    cam.data.lens = lens
+    scene.render.filepath = str(versions.path(PIECE, name, V))
+    bpy.ops.render.render(write_still=True)
+    print("view:", scene.render.filepath, flush=True)
+    cam.data.lens = 50
