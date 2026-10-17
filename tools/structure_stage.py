@@ -134,6 +134,16 @@ for yr in ((GIRDER_Y[0] + GIRDER_Y[1]) / 2, (GIRDER_Y[2] + GIRDER_Y[3]) / 2):
         xg = (LINK[0] + LINK[2]) / 2 + 1.6 * k
         deck["holes"].append({"rect": [[round(xg - 0.55, 3), round(yr - 0.55, 3)], [round(xg + 0.55, 3), round(yr + 0.55, 3)]], "glass_floor": [round(xg, 3), round(yr, 3)],
                               "note": "cast opening for a 1.0 m walk-on glass panel (steel sleeve, laminated glass)"})
+# the den's river (VISION "Bekken i hulen", 2026-10-17): the pool along the river wall is 0.3 m deep, deeper than the floor build-up,
+# so the F3 slab is dropped there: an opening in S-F3-west over the strip and a 150 mm tank slab under it (a 100 mm downstand at the
+# F4 ceiling, along the river wall). The pool, the rock base + the outfall: tools/furnish.py ("den_stream").
+f3 = by_id["S-F3-west"]
+f3["holes"] = [h for h in f3.get("holes", []) if not h.get("den_river")]
+f3["holes"].append({"rect": [[-8.25, -33.82], [-6.45, -33.82], [-6.45, 12.1], [-8.25, 12.1]], "den_river": True,
+                    "note": "dropped for the den river's pool (the tank slab below)"})
+add({"id": "ST3-F3-den-tank", "type": "slab", "material": "concrete", "rect": [-8.25, -33.82, -6.45, 12.1],
+     "z": [round(f3["z"][1] - 0.35, 3), round(f3["z"][1] - 0.2, 3)], "holes": [],
+     "note": "the den river's tank: a 150 mm dropped slab, waterproofed, tied into the river wall + the F3 slab"})
 add({"id": "ST3-link-ledge-E","type": "beam", "material": "concrete", "from": [12.0, -9.5], "to": [12.0, 7.62], "size": [0.5, 0.6],
      "z": [round(DECK_Z[0] - 1.6, 2), round(DECK_Z[0] - 1.0, 2)], "note": "concrete bearing ledge between columns D13-D11 for the lounge girders"})
 for k, x in enumerate(np.linspace(LINK[0] + 0.45, LINK[2] - 0.45, 7)):

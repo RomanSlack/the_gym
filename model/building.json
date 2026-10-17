@@ -1164,6 +1164,11 @@
         },
         {
           "rect": [[-32.05, -34.1], [-28.85, -34.1], [-28.85, -25.1], [-32.05, -25.1]]
+        },
+        {
+          "rect": [[-8.25, -33.82], [-6.45, -33.82], [-6.45, 12.1], [-8.25, 12.1]],
+          "den_river": true,
+          "note": "dropped for the den river's pool (the tank slab below)"
         }
       ],
       "phase": 3,
@@ -5100,6 +5105,17 @@
       "note": "steel box girder 0.45 x 1.0, 18.5 m wing to wing; west end in a pocket in the river wall, east end on the ledge",
       "phase": 3,
       "seq": 186
+    },
+    {
+      "id": "ST3-F3-den-tank",
+      "type": "slab",
+      "material": "concrete",
+      "rect": [-8.25, -33.82, -6.45, 12.1],
+      "z": [-10.22, -10.07],
+      "holes": [],
+      "note": "the den river's tank: a 150 mm dropped slab, waterproofed, tied into the river wall + the F3 slab",
+      "phase": 3,
+      "seq": 98
     },
     {
       "id": "ST3-link-ledge-E",

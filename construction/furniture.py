@@ -4473,7 +4473,7 @@ def core_door(P, width=1.2, height=2.3, finish="oak", exit_=False):
 
 # ------------------------------------------------------------------ Bekken i hulen, the den's river (VISION, Roman 2026-10-14/17)
 DEN = {"xg": -6.665, "xs": -6.715, "xr": -8.13, "cope": 0.12, "y_n": 11.78, "y_s": -32.95, "y_w": -33.78, "zw_n": -0.035, "zw_s": -0.055,
-       "z_bot": -0.30, "slit": (-32.1, 10.1), "z_slit": 0.95, "courses": (0.30, 0.26, 0.25, 0.23, 0.21), "step": 0.085, "top_d": 0.11}
+       "z_bot": -0.30, "slit": (-32.1, 10.1), "z_slit": 0.95, "courses": (0.2, 0.17, 0.12, 0.18, 0.14, 0.11, 0.16, 0.17), "step": 0.05, "top_d": 0.1}
 
 
 def _pebbles(P, mats, pts, radii, rng, seg=8):
@@ -4528,12 +4528,13 @@ def den_stream(P):
         M["water_den"] = bc.arch_glass("water_den", tint=(0.9, 0.88, 0.78))
     wat = M["water_den"]
     if "water_sheet" not in M:  # the thin running sheet: clear, a silver sheen, faint streaks down the fall
-        ws = bc.material("water_sheet", (0.04, 0.05, 0.05), 0.02, alpha=0.2)
+        ws = bc.material("water_sheet", (0.9, 0.92, 0.9), 0.02)
         N_, L_ = ws.node_tree.nodes, ws.node_tree.links
+        b_ = N_["Principled BSDF"]; b_.inputs["Transmission Weight"].default_value = 1.0; b_.inputs["IOR"].default_value = 1.33
         tc_ = N_.new("ShaderNodeTexCoord"); mp_ = N_.new("ShaderNodeMapping"); mp_.inputs["Scale"].default_value = (20.0, 20.0, 2.0)
         L_.new(tc_.outputs["Object"], mp_.inputs["Vector"])
         nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 3.0; nz_.inputs["Detail"].default_value = 8.0; L_.new(mp_.outputs[0], nz_.inputs["Vector"])
-        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.5; bp_.inputs["Distance"].default_value = 0.004
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.9; bp_.inputs["Distance"].default_value = 0.004
         L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
         M["water_sheet"] = ws
     sheet = M["water_sheet"]
@@ -4551,7 +4552,7 @@ def den_stream(P):
             L_ = float(min(rng.uniform(1.4, 3.2), yn - y))
             if yn - y - L_ < 0.6:
                 L_ = yn - y
-            dx = float(rng.uniform(-0.006, 0.006))
+            dx = float(rng.uniform(-0.014, 0.014))
             _rough_block(P, split, ((front[k] + dx + xs) / 2, y + L_ / 2, z0s[k] + H[k] / 2), (xs - front[k] - dx, L_ - 0.005, H[k] - 0.004),
                          amp=0.005, seed=seed + y, cuts=6, flat_top=True)
             y += L_
