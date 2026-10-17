@@ -4518,8 +4518,7 @@ def den_stream(P):
     st = M["steel"]; d = DEN
     gr = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
                                                           val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
-    split = M.setdefault("granite_split_dark", bc.pbr_material("granite_split_dark", "quarry_wall", 1.8, box=True, tint=(0.8, 0.82, 0.85), sat=0.2,
-                                                             val=0.12, rough_mul=0.5, piece_var=0.1))
+    split = _split_granite()
     stones = [M.setdefault(f"river_pebble_{k}", bc.pbr_material(f"river_pebble_{k}", "dark_rock", 0.35, box=True, tint=t, sat=0.15, val=v_, rough_add=0.0,
                                                                 rough_mul=0.3, piece_var=0.2))
               for k, (t, v_) in enumerate((((0.8, 0.8, 0.82), 0.06), ((0.82, 0.82, 0.8), 0.1), ((0.78, 0.8, 0.82), 0.035), ((0.8, 0.8, 0.8), 0.15)))]
@@ -4601,6 +4600,156 @@ def den_stream(P):
 
 
 
+# ---------------------------------------------------------------- the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts)
+def _split_granite():
+    """The split near-black granite of the den's river base, shared by the lifts' shafts and columns."""
+    return M.setdefault("granite_split_dark", bc.pbr_material("granite_split_dark", "quarry_wall", 1.8, box=True, tint=(0.8, 0.82, 0.85), sat=0.2,
+                                                            val=0.12, rough_mul=0.5, piece_var=0.1))
+
+
+def _granite_face(P, mat, axis, u0, u1, z0, z1, plane, depth, rng, seed, hmin=0.16, hmax=0.38, lmin=0.5, lmax=1.3, jog=0.012):
+    """A face of split granite laid in courses: blocks of their own length and height, each a touch proud or shy. axis 'x' runs the
+    face along x at y = plane (depth toward -y if depth < 0); axis 'y' runs it along y at x = plane."""
+    z = z0
+    while z < z1 - 0.02:
+        h = float(min(rng.uniform(hmin, hmax), z1 - z))
+        if z1 - z - h < hmin * 0.6:
+            h = z1 - z
+        u = u0
+        first = True
+        while u < u1 - 0.01:
+            L = float(min(rng.uniform(lmin, lmax) * (0.6 if first else 1.0), u1 - u))
+            if u1 - u - L < lmin * 0.5:
+                L = u1 - u
+            first = False
+            d = abs(depth) + float(rng.uniform(-jog, jog)); sgn = 1 if depth > 0 else -1
+            c_d = plane + sgn * d / 2
+            if axis == "x":
+                _rough_block(P, mat, (u + L / 2, c_d, z + h / 2), (L - 0.006, d, h - 0.006), amp=0.006, seed=seed + u * 7 + z * 3, cuts=2)
+            else:
+                _rough_block(P, mat, (c_d, u + L / 2, z + h / 2), (d, L - 0.006, h - 0.006), amp=0.006, seed=seed + u * 7 + z * 3, cuts=2)
+            u += L
+        z += h
+
+
+def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0, 0.46),), pit=-1.2, top=6.0, cab=0.0, cw=-1, name="lift"):
+    """A glass lift in a shaft of split granite (Roman 2026-10-17: natural stone columns with glass lifts, all the lifts there are,
+    nothing new through the middle of the floors). Local frame: +y = the room, y = 0 the glass plane of the landing fronts, x across.
+    shaft = (x0, x1, back y) its inside; front = the two columns' centres (the wall opening's edges); stops = (z, clear height,
+    reveal = room face in front of the glass). At every stop two columns of split granite stand floor to ceiling, wrapping the reveal,
+    with a full-height glass front between them: low-iron glass in slim blackened steel, centre-opening glass landing doors under a
+    steel operator head, a granite threshold. Behind it the shaft is lined in split granite from the pit to the top, grazed by light
+    lines in its front corners; the cab is glass on three sides in a blackened steel sling with a granite floor, an opal ceiling,
+    a brass handrail; T-rails, the counterweight (filler plates in a steel frame) on one side, the ropes up to a gearless machine."""
+    st, gl, br = M["steel"], M["glass"], M["brass"]
+    split = _split_granite()
+    honed = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
+                                                               val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
+    glow = _led("lift_shaft_line", (1.0, 0.86, 0.7), 14.0)
+    opal = _led("lift_cab_opal", (1.0, 0.93, 0.84), 6.0)
+    x0, x1, yb = shaft; f0, f1 = front
+    k_ = sum(map(ord, name)); rng = np.random.default_rng(k_); seed = (k_ % 97) * 1.3
+
+    # ---- the cab's place: the counterweight on one side, the car in the rest
+    cww = 0.36
+    cx0, cx1 = (x0 + cww + 0.1, x1 - 0.1) if cw < 0 else (x0 + 0.1, x1 - cww - 0.1)
+    cw_x = x0 + 0.06 + cww / 2 if cw < 0 else x1 - 0.06 - cww / 2
+    cy0, cy1 = max(yb + 0.14, -1.62), -0.035                       # car depth: back glass .. front sill
+    ccx, ccy = (cx0 + cx1) / 2, (cy0 + cy1) / 2
+
+    # ---- the shaft: split granite on the back + both sides, pit to top
+    sk = 0.07
+    _granite_face(P, split, "x", x0, x1, pit, top, yb, sk, rng, seed)                         # back wall (stone grows into the shaft)
+    _granite_face(P, split, "y", yb + sk, 0.0, pit, top, x0, sk, rng, seed + 11)               # side walls
+    _granite_face(P, split, "y", yb + sk, 0.0, pit, top, x1, -sk, rng, seed + 23)
+    P.box(M["felt"], ((x0 + x1) / 2, (yb + 0.0) / 2, pit - 0.03), (x1 - x0, -yb, 0.06))         # the pit floor
+    for xs_ in (x0 + sk + 0.015, x1 - sk - 0.015):                                              # light lines in the front corners
+        P.box(glow, (xs_, -0.06, (pit + top) / 2), (0.012, 0.012, top - pit - 0.2))
+    P.box(st, ((x0 + x1) / 2, (yb + 0.0) / 2, top - 0.03), (x1 - x0, -yb, 0.06))                # the shaft head
+    # gearless machine on its bedplate at the top, ropes down to the car and the counterweight
+    P.box(st, ((x0 + x1) / 2, (yb + cy1) / 2, top - 0.25), (x1 - x0 - 0.2, 0.18, 0.16))
+    P.ring(st, ((cx0 + cx1) / 2, (yb + cy1) / 2 + 0.2), 0.05, 0.22, top - 0.62, top - 0.36, seg=48)
+    P.ring(br, ((cx0 + cx1) / 2, (yb + cy1) / 2 + 0.2), 0.22, 0.225, top - 0.6, top - 0.38, seg=48)  # its brass name ring
+
+    # ---- rails: the car's T-rails on its sides, the counterweight's pair, brackets every 2.5 m
+    ry = ccy
+    for xr_ in (cx0 - 0.045, cx1 + 0.045):
+        P.box(st, (xr_, ry, (pit + top) / 2), (0.016, 0.09, top - pit))
+        P.box(st, (xr_ + (0.03 if xr_ > ccx else -0.03), ry, (pit + top) / 2), (0.045, 0.012, top - pit))
+    for yr_ in (ry - 0.3, ry + 0.3):
+        P.box(st, (cw_x, yr_, (pit + top) / 2), (0.07, 0.012, top - pit))
+    for zb in np.arange(pit + 0.6, top, 2.5):
+        for xr_ in (cx0 - 0.045, cx1 + 0.045):
+            xw = x0 + sk if xr_ < ccx else x1 - sk
+            P.box(st, ((xr_ + xw) / 2, ry, float(zb)), (abs(xw - xr_), 0.12, 0.08))
+
+    # ---- the counterweight: opposite the car (high when the car is low)
+    cwh = 2.2
+    cwz = min(top - 0.9 - cwh, max(pit + 0.6, top - 0.9 - cwh - (cab - pit)))
+    for yr_ in (ry - 0.27, ry + 0.27):
+        P.box(st, (cw_x, yr_, cwz + cwh / 2), (0.1, 0.04, cwh))
+    for k in range(int((cwh - 0.2) / 0.05)):
+        P.box(st, (cw_x, ry, cwz + 0.1 + k * 0.05 + 0.024), (0.09, 0.5, 0.044))
+    P.box(st, (cw_x, ry, cwz + 0.05), (0.12, 0.6, 0.1)); P.box(st, (cw_x, ry, cwz + cwh - 0.05), (0.12, 0.6, 0.1))
+    P.rods(st, [(cw_x + dx, ry, cwz + cwh) for dx in (-0.02, 0.02)], [(cw_x + dx, ry, top - 0.3) for dx in (-0.02, 0.02)], 0.005, seg=6)
+
+    # ---- the cab
+    z = cab; ch = 2.35
+    P.box(st, (ccx, ccy, z - 0.07), (cx1 - cx0, cy1 - cy0, 0.14))                               # platform frame
+    P.box(honed, (ccx, ccy, z - 0.012), (cx1 - cx0 - 0.04, cy1 - cy0 - 0.04, 0.024))             # granite floor
+    P.box(st, (ccx, cy1 - 0.2, z - 0.42), (cx1 - cx0, 0.012, 0.56))                              # toe guard under the sill
+    P.box(st, (ccx, ccy, z + ch + 0.05), (cx1 - cx0 + 0.02, cy1 - cy0 + 0.02, 0.1))              # canopy
+    P.box(opal, (ccx, ccy, z + ch - 0.002), (cx1 - cx0 - 0.3, cy1 - cy0 - 0.3, 0.004))           # opal light
+    for xx in (cx0 + 0.012, cx1 - 0.012):                                                         # glass sides + back, corner posts
+        P.box(gl, (xx, ccy, z + ch / 2), (0.012, cy1 - cy0 - 0.05, ch - 0.02))
+    P.box(gl, (ccx, cy0 + 0.012, z + ch / 2), (cx1 - cx0 - 0.05, 0.012, ch - 0.02))
+    for xx in (cx0 + 0.015, cx1 - 0.015):
+        for yy in (cy0 + 0.015, cy1 - 0.015):
+            P.box(st, (xx, yy, z + ch / 2), (0.03, 0.03, ch))
+    for xs_ in (cx0 - 0.02, cx1 + 0.02):                                                         # the sling: stiles + crosshead
+        P.box(st, (xs_, ccy, z + ch / 2 + 0.1), (0.04, 0.1, ch + 0.5))
+    P.box(st, (ccx, ccy, z + ch + 0.33), (cx1 - cx0 + 0.08, 0.12, 0.14))
+    P.rods(st, [(ccx + dx, ccy, z + ch + 0.4) for dx in (-0.06, -0.02, 0.02, 0.06)], [(ccx + dx, ccy, top - 0.3) for dx in (-0.06, -0.02, 0.02, 0.06)], 0.005, seg=6)
+    P.rods(br, [(cx0 + 0.06, cy0 + 0.07, z + 0.92)], [(cx1 - 0.06, cy0 + 0.07, z + 0.92)], 0.018, seg=16)   # brass handrail
+    P.rods(br, [(x_, cy0 + 0.024, z + 0.92) for x_ in (cx0 + 0.15, cx1 - 0.15)], [(x_, cy0 + 0.07, z + 0.92) for x_ in (cx0 + 0.15, cx1 - 0.15)], 0.008)
+    dw = min(1.1, cx1 - cx0 - 0.3)
+    for s_ in (-1, 1):                                                                            # car doors: glass leaves
+        P.box(gl, (ccx + s_ * dw / 4, cy1 - 0.01, z + 1.08), (dw / 2 - 0.006, 0.012, 2.14))
+        P.box(st, (ccx + s_ * (dw / 2 - 0.012), cy1 - 0.01, z + 1.08), (0.022, 0.024, 2.16))
+    for s_ in (-1, 1):                                                                            # front returns + the panel
+        P.box(st, (ccx + s_ * (dw / 2 + (cx1 - cx0 - dw) / 4), cy1 - 0.02, z + ch / 2), ((cx1 - cx0 - dw) / 2, 0.03, ch))
+    px = ccx + dw / 2 + (cx1 - cx0 - dw) / 4
+    for k in range(4):
+        P.rod(br, (px, cy1 - 0.036, z + 1.0 + k * 0.09), (px, cy1 - 0.044, z + 1.0 + k * 0.09), 0.013, seg=16)
+    P.box(_led("lift_display", (1.0, 0.9, 0.7), 4.0), (px, cy1 - 0.037, z + 1.45), (0.05, 0.003, 0.02))
+    P.box(st, (ccx, cy1 - 0.02, z + 2.2), (dw + 0.04, 0.05, 0.08))                              # door head
+
+    # ---- every stop: two stone columns, the glass front, landing doors, a granite threshold
+    pw = 0.42
+    lx = ccx                                                                                       # landing doors line up with the car's
+    for zs, h, rv in stops:
+        dep = rv + 0.14
+        for xc in (f0, f1):                                                                       # the columns, floor to ceiling
+            _granite_face(P, split, "x", xc - pw / 2, xc + pw / 2, zs, zs + h, -0.002, dep, rng, seed + zs * 5 + xc * 13, hmin=0.24, hmax=0.52, lmin=pw, lmax=pw, jog=0.018)
+        g0, g1 = f0 + pw / 2, f1 - pw / 2
+        P.box(honed, ((g0 + g1) / 2, rv / 2 + 0.02, zs - 0.05), (g1 - g0, rv + 0.04, 0.1))       # threshold, flush with the floor
+        P.box(st, (lx, 0.03, zs + 0.003), (dw + 0.06, 0.09, 0.006))                               # door sill
+        for s_ in (-1, 1):                                                                        # landing door leaves
+            P.box(gl, (lx + s_ * dw / 4, 0.03, zs + 1.08), (dw / 2 - 0.006, 0.012, 2.14))
+            P.box(st, (lx + s_ * (dw / 2 - 0.012), 0.03, zs + 1.08), (0.022, 0.024, 2.16))
+        P.box(st, (lx, 0.04, zs + 2.24), (dw + 0.1, 0.07, 0.14))                                  # operator head
+        for a, b in ((g0, lx - dw / 2 - 0.05), (lx + dw / 2 + 0.05, g1)):                         # fixed glass beside the doors
+            if b - a > 0.03:
+                P.box(gl, ((a + b) / 2, 0.03, zs + 1.155), (b - a, 0.012, 2.29))
+        P.box(gl, ((g0 + g1) / 2, 0.03, zs + 2.31 + (h - 2.31) / 2), (g1 - g0, 0.012, h - 2.33))  # the glass above, to the ceiling
+        P.box(st, ((g0 + g1) / 2, 0.03, zs + h - 0.02), (g1 - g0, 0.05, 0.04))                    # head channel
+        for xx in (g0 + 0.01, g1 - 0.01):                                                         # slim side channels in the stone
+            P.box(st, (xx, 0.03, zs + h / 2), (0.02, 0.05, h))
+        P.box(st, (f1, dep + 0.004, zs + 1.1), (0.09, 0.012, 0.16))                 # call plate on the column face
+        P.rod(br, (f1, dep + 0.004, zs + 1.13), (f1, dep + 0.016, zs + 1.13), 0.016, seg=20)
+        P.rod(br, (f1, dep + 0.004, zs + 1.07), (f1, dep + 0.016, zs + 1.07), 0.016, seg=20)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4635,7 +4784,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
 PARAMS = {"core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),

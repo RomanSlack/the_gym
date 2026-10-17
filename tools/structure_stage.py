@@ -232,17 +232,31 @@ def door(wid, s, z_list, note, match=None):
 
 below = [lv["F4"], lv["F3"], lv["F2"]]
 door("W-west-A", [20.6, 21.8], below, "core W1 door (floor landing)", "core W1")
-door("W-west-A", [22.75, 23.85], below, "core W1 lift")
 door("W-west-A", [7.55, 8.75], below, "core W2 door (floor landing)", "core W2")
 door("W-west-N", [19.8, 21.0], below, "core W3 (north exit stair, floor landing)", "core W3")
 door("CS-W2-W", [7.55, 8.75], [lv["F1"]], "exit to outside", "exit")
 door("CS-W3-N", [7.55, 8.75], [lv["F1"]], "exit to outside (north, by the sauna path)", "exit")
 door("P-F1-30b", [5.05, 6.25], [lv["F1"]], "core W1 door (floor landing)")
-door("P-F1-30b", [7.2, 8.3], [lv["F1"]], "core W1 lift")
 door("P-F1-31", [7.55, 8.75], [lv["F1"]], "core W2 door (floor landing)")
 for wid, z in (("P-E1-2", lv["E1"]), ("P-E2-19", lv["E2"])):
     door(wid, [0.25, 1.25], [z], "core E stair (floor landing)", "Core E")
-    door(wid, [7.9, 9.1], [z], "core E lift")
+
+# the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts): every lift stop opens floor to ceiling between two
+# split granite columns (construction/furniture.py glass_lift); these replace the old 1.1 m lift doors
+def lift_front(wid, s, zz, note, match=None):
+    w = by_id[wid]
+    w["openings"] = [o for o in w.get("openings", []) if not (match and match in o.get("note", ""))] + \
+        [{"s": s, "z": [round(a, 3), round(b, 3)], "type": "opening", "note": note} for a, b in zz]
+
+
+lift_front("W-west-A", [22.2, 24.4], [(lv["F4"], lv["F4"] + 3.0), (lv["F3"], -5.295), (lv["F2"], -0.385)], "core W1 glass lift")
+lift_front("P-F1-30b", [6.65, 8.85], [(lv["F1"], 5.58)], "core W1 glass lift")
+lift_front("W-west-A", [30.125, 32.275], [(lv["F4"], lv["F4"] + 3.0)], "men's express lift (glass)", "men's express lift")
+lift_front("W-west-A", [38.925, 41.075], [(lv["F4"], lv["F4"] + 3.0)], "women's express lift (glass)", "women's express lift")
+lift_front("P-F1-32b", [0.125, 2.275], [(lv["F1"], 3.18)], "men's express lift (glass)")
+lift_front("P-F1-33b", [0.125, 2.275], [(lv["F1"], 3.18)], "women's express lift (glass)")
+lift_front("P-E1-2", [6.725, 9.19], [(lv["E1"], 5.32)], "core E glass lift")
+lift_front("P-E2-19", [6.6, 9.065], [(lv["E2"], lv["E2"] + 3.0)], "core E glass lift")
 
 for st in m["stairs"]:
     if st["kind"] != "spiral":

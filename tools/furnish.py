@@ -77,7 +77,6 @@ put("lounge_chair", 28.7, 14.55, rot=-60, zone="reception")
 put("lounge_chair", 28.7, 15.65, rot=-120, zone="reception")
 put("side_table", 29.45, 15.1, zone="reception")
 put("door_slatted", 24.19, 7.55, rot=-90, width=1.0, height=2.3, note="hidden stair door: the oak slats run over the leaf")
-put("lift_doors", 24.19, 15.3, rot=-90, width=1.2, height=2.3, note="lift: dark bronze centre-opening doors, call plate")
 put("glass_door", 27.4, 16.2, rot=0, width=1.6, height=2.3, note="daycare secure door (glass, staff / parent release)")
 by_id["G-E1-daycare"]["mullions"] = [1.3, 2.6, 4.2, 5.35]  # mullions clear the door
 
@@ -387,7 +386,6 @@ for x in (14.2, 18.6):
     put("portal_frame", x, 6.8 + 0.075 + 0.02, rot=180, zone="cafe", width=1.6, height=2.4, depth=0.25, note="blackened-steel portal")
 put("pictogram", 12.95, WCF, rot=180, zone="cafe", figure="gym", size=0.3, mount=1.62, note="to the gym (west, over the bridge)")
 put("pictogram", 26.6, 16.17, rot=180, zone="reception", figure="child", size=0.3, mount=1.62, note="daycare")
-put("pictogram", 24.26, 16.0, rot=-90, zone="reception", figure="lift", size=0.2, mount=1.4, note="lift to the garage")
 # public WCs: a floor drain in each, an amenity tray on every vanity (period products in the women's)
 for x in (14.75, 18.05):
     put("floor_drain", x, 12.4, zone="wc")
@@ -705,7 +703,6 @@ for room in ("men-lockers", "women-lockers"):
         putl("wall_waterfall", it["x"], it["y"], rot=it["rot"], length=it["w"], d=it["d"],
              light={"type": "AREA", "energy": 22, "size": round(it["w"] - 0.2, 2), "size_y": 0.04, "offset": [0, -0.03, 3.02],
                     "aim": [it["x"], yw + (0.05 if men else -0.05), 0.4], "color": [1.0, 0.88, 0.74]}, note=it["label"])
-    putl("lift_doors", -28.71, -2.9 if men else 5.9, rot=-90, width=1.1, height=2.3, note="express lift to the pool (F4)")
     putl("glass_door", -29.45, 0.0 if men else 3.0, rot=90, width=1.0, height=2.1, note="to the sauna lobby")
 for room, y, r in (("men-lockers", -4.095, 0), ("women-lockers", 7.545, 180)):
     putl("auto_door", -13.5, y, rot=r, w=1.0, h=2.1, note="the WC room door: hands-free automatic sliding")
@@ -892,8 +889,6 @@ for lvl, slat in (("F2", "oak"), ("F3", "smoked")):
         put("core_door", XW, y, rot=-90, zone=zn_, level=lvl, z=z_, width=w, height=2.3, finish="mirror", exit_=ex, note=f"{note}: mirror-clad in the mirror wall")
         if ex:
             put("exit_sign", XW - 0.02, y, rot=-90, zone=zn_, level=lvl, z=z_, mount=2.55, note=f"nødutgang: {note}")
-    put("lift_doors", XW - 0.01, -10.8, rot=-90, zone=zn_, level=lvl, z=z_, width=1.1, height=2.3, note="core W1 lift")
-    put("pictogram", XW - 0.015, -9.95, rot=-90, zone=zn_, level=lvl, z=z_, figure="lift", size=0.24, mount=1.55, note="lift")
     for k_, fig in enumerate(("woman", "man", "accessible")):
         put("pictogram", XW - 0.015, -21.35 + 0.0 - k_ * 0.0, rot=-90, zone=zn_, level=lvl, z=z_, figure=fig, size=0.17, mount=1.85 - k_ * 0.21, note=f"WC annex: {fig}")
     put("core_door", -9.05, YN, rot=180, zone=zn_, level=lvl, z=z_, width=1.2, height=2.3, finish=slat, exit_=True, note="core W3, the north exit stair")
@@ -907,7 +902,6 @@ XF1 = -28.85 + 0.125 + 0.025
 for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")):
     put("core_door", XF1, y, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], width=w, height=2.3, finish="oak", exit_=ex, note=note)
     put("exit_sign", XF1 - 0.02, y, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], mount=2.55, note=f"nødutgang: {note}")
-put("lift_doors", XF1 - 0.01, -10.8, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], width=1.1, height=2.3, note="core W1 lift")
 put("safety_point", XF1 - 0.01, -29.6, rot=-90, zone="gym-f1", level="F1", z=lv["F1"], note="AED, extinguisher, first aid")
 for lvl, zc in (("F1", 5.58), ("F2", round(-0.385 - lv["F2"], 3)), ("F3", round(-5.295 - lv["F3"], 3))):
     yb0, yb1 = (-34.1, -11.0) if lvl == "F1" else (-34.1, 12.1)
@@ -996,6 +990,32 @@ for it in KUs("stamp_steps"):
     putk("stamp_steps", it["x"], it["y"], rot=it["rot"], z=KDECK, w=it["w"], note="steps up to the tub")
 for it in KUs("tip_bucket"):
     putk("tip_bucket", it["x"], it["y"], rot=it["rot"], z=KDECK, note="tipping bucket, cold pool water")
+
+# ---- the glass lifts (Roman 2026-10-17: natural stone columns with glass lifts; only the lifts there are: core W1 in the gym's west
+# wall, the two express lifts from the locker rooms to the pool lobby, core E from the garage to reception). Each shaft is one piece
+# (construction/furniture.py glass_lift) in its own frame: +y = the room (east), y = 0 the glass plane, z from the lowest stop.
+# The express lifts stay solid where they pass the gym floors (robes, privacy): glass only where they stop.
+LIFT_WARM = [1.0, 0.86, 0.7]
+for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
+        ("W1", -29.66, -10.8, "F4", lv["F4"], (-1.1, 1.1, -2.24), (-1.1, 1.1),
+         ((0.0, 3.0, 0.46), (lv["F3"] - lv["F4"], -5.295 - lv["F3"], 0.5), (lv["F2"] - lv["F4"], -0.385 - lv["F2"], 0.5), (lv["F1"] - lv["F4"], 5.58, 0.94)),
+         5.6 - lv["F4"], lv["F3"] - lv["F4"], "gym-f3"),
+        ("men", -29.66, -2.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46), (lv["F1"] - lv["F4"], 3.18, 0.94)),
+         6.2 - lv["F4"], lv["F1"] - lv["F4"], "lockers"),
+        ("women", -29.66, 5.9, "F4", lv["F4"], (-1.075, 1.075, -1.465), (-1.075, 1.075), ((0.0, 3.0, 0.46), (lv["F1"] - lv["F4"], 3.18, 0.94)),
+         6.2 - lv["F4"], 0.0, "lockers"),
+        ("E", 23.9, 14.6325, "E2", lv["E2"], (-1.4425, 1.0325, -2.975), (-1.2325, 1.2325), ((0.0, 3.0, 0.225), (lv["E1"] - lv["E2"], 5.2, 0.29)),
+         5.6 - lv["E2"], lv["E1"] - lv["E2"], "reception")):
+    put("glass_lift", ox, oy, rot=-90, zone=zone, level=lvl, z=z0, shaft=list(shaft), front=list(front), stops=[list(s_) for s_ in stops],
+        pit=-1.2, top=round(top, 3), cab=round(cab, 3), name=f"lift_{nm}", note=f"glass lift {nm}: split granite shaft + columns, glass cab")
+    xb = ox + shaft[2]                                                       # the shaft's back wall (world x)
+    for zs, h, rv in stops:                                                  # each stop: the stone back wall grazed from the front head
+        put("light_only", ox - 0.15, oy, zone=zone, level=lvl, z=z0 + zs,
+            light={"type": "AREA", "energy": 40, "size": round(front[1] - front[0] - 0.5, 2), "size_y": 0.05, "offset": [0, 0, round(min(h, 3.4) - 0.1, 3)],
+                   "aim": [round(xb + 0.1, 3), oy, round(z0 + zs + 0.3, 3)], "color": LIFT_WARM}, note=f"lift {nm}: grazes the shaft's stone")
+    put("light_only", ox + (shaft[2] + 0.0) / 2, oy, zone=zone, level=lvl, z=z0 + cab,
+        light={"type": "AREA", "energy": 18, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [ox + shaft[2] / 2, oy, z0 + cab - 1.0],
+               "color": [1.0, 0.93, 0.84]}, note=f"lift {nm}: the cab's opal ceiling")
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
