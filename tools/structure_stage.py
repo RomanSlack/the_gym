@@ -144,6 +144,13 @@ f3["holes"].append({"rect": [[-8.25, -33.82], [-6.45, -33.82], [-6.45, 12.1], [-
 add({"id": "ST3-F3-den-tank", "type": "slab", "material": "concrete", "rect": [-8.25, -33.82, -6.45, 12.1],
      "z": [round(f3["z"][1] - 0.35, 3), round(f3["z"][1] - 0.2, 3)], "holes": [],
      "note": "the den river's tank: a 150 mm dropped slab, waterproofed, tied into the river wall + the F3 slab"})
+# the F3 floor beams run under the strip lower: each stops at the pool's edge and a short leg carries on under the tank slab
+for k in range(1, 8):
+    bm_ = by_id[f"B-{k}-F3-west"]
+    if bm_["to"][0] > -8.25:
+        bm_["to"] = [-8.25, bm_["to"][1]]
+    add({"id": f"ST3-F3-den-tank-beam-{k}", "type": "beam", "material": "concrete", "from": [-8.25, bm_["from"][1]], "to": [-6.45, bm_["from"][1]],
+         "size": bm_["size"], "z": [bm_["z"][0], round(f3["z"][1] - 0.35, 3)], "note": "PT beam under the den river's tank (its top dropped with the tank)"})
 add({"id": "ST3-link-ledge-E","type": "beam", "material": "concrete", "from": [12.0, -9.5], "to": [12.0, 7.62], "size": [0.5, 0.6],
      "z": [round(DECK_Z[0] - 1.6, 2), round(DECK_Z[0] - 1.0, 2)], "note": "concrete bearing ledge between columns D13-D11 for the lounge girders"})
 for k, x in enumerate(np.linspace(LINK[0] + 0.45, LINK[2] - 0.45, 7)):
