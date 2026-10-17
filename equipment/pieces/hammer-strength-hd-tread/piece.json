@@ -12,8 +12,62 @@
  ],
  "picked": "2026-10-17T23:18:09+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 9467.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:29:18+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-main-1000x1000.jpg?v=1748945272"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-side-1000x1000.jpg?v=1748945272"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-front-1000x1000.jpg?v=1748945272"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-console-1000x1000.jpg?v=1748945272"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-deck-1000x1000.jpg?v=1748945272"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-deck-close-1000x1000.jpg?v=1748945273"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-lifestyle-1000x1000.jpg?v=1748945273"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-console-1000x1000_dc84f60a-c6b6-4d6a-b867-d692f7e53c20.jpg?v=1748945273"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-deck-closeup-1000x1000.jpg?v=1748945273"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-handles-1000x1000.jpg?v=1748945273"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-tread-callouts-1000x1000.jpg?v=1748945273"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:29:18+00:00",
+  "how": "shopify json"
+ }
 }

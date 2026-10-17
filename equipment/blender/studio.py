@@ -79,7 +79,7 @@ print(f"bounding box: {size.x:.3f} x {size.y:.3f} x {size.z:.3f} m (w x d x h)")
 # ---- the studio: a seamless mid-grey sweep, big soft lights
 w = bpy.data.worlds.new("studio"); scene.world = w; w.use_nodes = True
 w.node_tree.nodes["Background"].inputs["Color"].default_value = (0.6, 0.6, 0.62, 1)
-w.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.25
+w.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.12
 floor = bpy.data.materials.new("sweep"); floor.use_nodes = True
 fb = floor.node_tree.nodes["Principled BSDF"]; fb.inputs["Base Color"].default_value = (0.32, 0.32, 0.33, 1); fb.inputs["Roughness"].default_value = 0.6
 import bmesh  # noqa: E402
@@ -105,10 +105,10 @@ def area(name, loc, energy, size, target):
 
 
 c = centre
-area("key", c + Vector((-2.6, -3.0, 2.8)), 900, 2.5, c)
-area("fill", c + Vector((3.2, -2.2, 1.4)), 300, 3.0, c)
-area("rim", c + Vector((1.5, 3.2, 3.0)), 500, 2.0, c)
-area("top", c + Vector((0, 0, 3.5)), 250, 3.0, c)
+area("key", c + Vector((-2.6, -3.0, 2.8)), 420, 2.5, c)
+area("fill", c + Vector((3.2, -2.2, 1.4)), 110, 3.0, c)
+area("rim", c + Vector((1.5, 3.2, 3.0)), 320, 2.0, c)
+area("top", c + Vector((0, 0, 3.5)), 110, 3.0, c)
 
 # ---- views
 cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam")); scene.collection.objects.link(cam); scene.camera = cam
@@ -123,6 +123,9 @@ for name, (az, el, zoom) in VIEWS.items():
     dist = rad / math.sin(fov / 2) * 1.02 / zoom
     cam.location = c + d * dist
     cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
+    sw.location = (c.x, c.y, 0); sw.rotation_euler = (0, 0, a)  # the sweep's curved wall always behind the piece
+    sw.data.transform(__import__("mathutils").Matrix.Translation((-c.x, -c.y, 0))) if not sw.get("centred") else None
+    sw["centred"] = True
     scene.render.filepath = str(versions.path(PIECE, name, V))
     bpy.ops.render.render(write_still=True)
     print("view:", scene.render.filepath, flush=True)

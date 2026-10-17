@@ -15,5 +15,18 @@
  "price": null,
  "refs": [],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "sheet_refs": [
+  "precor_official.png"
+ ],
+ "specs": {
+  "dimensions_cm": "155 x 127 x 147 (L x W x H)",
+  "stack_tower_cm": 148,
+  "weight_stack": "109 kg / 240 lb",
+  "machine_weight": "279 kg / 616 lb",
+  "upholstery": "65 mm: 19 mm plywood + 2 x 19 mm foam + industrial vinyl",
+  "frame": "welded steel tubing, powder coat (Black Pearl)",
+  "model_code": "RSL0605",
+  "source": "https://www.precor.com/en-US/products/RSL0605"
+ }
 }

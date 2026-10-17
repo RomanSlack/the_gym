@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T22:59:02+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 1021.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:30:03+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-olympic-weightlifting-bar-Cerakote-USMC-Red-Bar-1000x1000.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-olympic-weightlifting-bar-Cerakote-Concrete-Gray-Bar-1000x1000_b3700c33-eba9-467e-a9ff-8630f882cc95.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-olympic-weightlifting-bar-Cerakote-Blue-Zoom-Bar-1000x1000.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-olympic-weightlifting-bar-Cerakote-Desert-Sand-Bar-1000x1000.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/28MM-MensOlympic-BarBushing-StainlessSteel.png?v=1748945398"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/WomensOlympic-Bar-Bushing-StainlessSteel-1200x1200.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-10_16ea2549-c087-4ead-bc00-db57a0c8daa5.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-8_860b9fe4-155d-44b6-8a7f-01a4a0f53044.jpg?v=1748945398"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-9_f9db88db-8c6c-447b-9e12-156684054ff3.jpg?v=1748945399"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-13.jpg?v=1748945399"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-14_5b5a638a-649d-4572-b87c-702a059108c0.jpg?v=1748945399"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-11_a49dcb68-25bb-47f5-b857-e423db4cf4d5.jpg?v=1748945399"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/exercising-press-olympic-weightlifting-bar-1000x1000.jpg?v=1748945399"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/exercising-press-female-olympic-weightlifting-bar-1000x1000.jpg?v=1748945399"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:30:03+00:00",
+  "how": "shopify json"
+ }
 }

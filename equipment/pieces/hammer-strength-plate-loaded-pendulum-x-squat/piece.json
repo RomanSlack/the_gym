@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T23:02:50+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 8820.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:33:05+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Pendulum-X_Squat_PL-XSQ_-_Render.jpg?v=1748945058"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Pendulum-X_Squat_PL-XSQ_-_Render_3.jpg?v=1748945058"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Pendulum-X_Squat_PL-XSQ_-_Render_2.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_9__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_7__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_40__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_41__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_53__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_52__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_55__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_56__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_58__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_61__mr.jpg?v=1748945059"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-Pendulum-XSquat_PL-XSQ_1__mr.jpg?v=1748945059"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:33:05+00:00",
+  "how": "shopify json"
+ }
 }

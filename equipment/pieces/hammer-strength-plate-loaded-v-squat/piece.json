@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T23:02:59+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 6119.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:34:40+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-plate-loaded-v-squat-charcoal-black-1000x1000.jpg?v=1748945083"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image22_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image28_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image27_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image10_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image14_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image16_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image11_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image12_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image20_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image5_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image6_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image3_mr.jpg?v=1750277078"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_Plate_Loaded_V-Squat_Image4_mr.jpg?v=1750277078"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:34:40+00:00",
+  "how": "shopify json"
+ }
 }

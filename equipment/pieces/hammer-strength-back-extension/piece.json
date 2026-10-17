@@ -12,8 +12,54 @@
  ],
  "picked": "2026-10-17T22:47:47+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 1794.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:28:14+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-back-extensions-charcoal-black-1000x1000.jpg?v=1748945081"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_43.jpg?v=1768505154"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_40.jpg?v=1768504014"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_32.jpg?v=1768506262"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_30.jpg?v=1768506262"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_31.jpg?v=1768506262"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_6.jpg?v=1768506262"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_9.jpg?v=1768506262"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Back_Extension_BW-BE_7.jpg?v=1768506262"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:28:14+00:00",
+  "how": "shopify json"
+ }
 }

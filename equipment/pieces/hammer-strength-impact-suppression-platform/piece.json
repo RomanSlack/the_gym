@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T22:40:20+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 6346.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:29:25+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/296-819-hs-lifting-platform-45-left-v2.jpg?v=1781632206"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:29:25+00:00",
+  "how": "shopify json"
+ }
 }

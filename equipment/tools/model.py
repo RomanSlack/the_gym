@@ -19,12 +19,12 @@ import versions  # noqa: E402
 
 piece, rest = sys.argv[1], sys.argv[2:]
 v = versions.next_version(piece)
-r = subprocess.run(["nice", "-n", "19", "blender", "-b", "--factory-startup", "-t", "12", "--python",
+r = subprocess.run(["nice", "-n", "19", "blender", "-b", "--factory-startup", "-t", "12", "--python-exit-code", "1", "--python",
                     str(EQ / "blender" / "studio.py"), "--", piece, str(v), *rest])
 if r.returncode == 3:
     sys.exit("!! NO GPU: tell Roman (driver update without a reboot?); nothing rendered")
-if r.returncode:
-    sys.exit(f"blender failed ({r.returncode})")
+if r.returncode or not [1 for vv, _, _ in versions.versions(piece) if vv == v]:
+    sys.exit(f"blender failed ({r.returncode}): no sheet")
 
 pc = json.loads((EQ / "pieces" / piece / "piece.json").read_text())
 refs_dir = EQ / "pieces" / piece / "refs"
@@ -52,7 +52,10 @@ for label, row in (("the real one", refs), ("ours", ours)):
     n = max(len(row), 3 if label == "the real one" else 4)
     cw = (W - 80 - (n - 1) * 20) // n
     for i, f in enumerate(row):
-        im = Image.open(f).convert("RGB")
+        im = Image.open(f)
+        if im.mode in ("RGBA", "LA", "P"):  # transparent product shots go on white, like the shop shows them
+            im = im.convert("RGBA"); w_ = Image.new("RGBA", im.size, (255, 255, 255, 255)); w_.alpha_composite(im); im = w_
+        im = im.convert("RGB")
         im.thumbnail((cw, cell))
         bg = Image.new("RGB", (cw, cell), (244, 242, 238) if label == "the real one" else (20, 19, 18))
         bg.paste(im, ((cw - im.width) // 2, (cell - im.height) // 2))

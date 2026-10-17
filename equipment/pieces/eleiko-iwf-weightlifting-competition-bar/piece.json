@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T22:59:47+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 0.0,
+  "currency": "usd",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:26:25+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3085893_10.jpg"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:26:25+00:00",
+  "how": "page"
+ }
 }

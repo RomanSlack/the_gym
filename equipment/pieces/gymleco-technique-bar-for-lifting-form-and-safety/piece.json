@@ -12,8 +12,34 @@
  ],
  "picked": "2026-10-17T23:00:30+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 4967.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:27:23+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0850/4147/9946/files/technique-bar-10kg-premium-817T-main.jpg?v=1734604001"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://cdn.shopify.com/s/files/1/0850/4147/9946/files/817t.png?v=1757667674"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0850/4147/9946/files/technique-bar-10kg-premium-817T-front.jpg?v=1757667674"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0850/4147/9946/files/technique-bar-10kg-premium-817T-half.jpg?v=1757667674"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:27:23+00:00",
+  "how": "shopify json"
+ }
 }

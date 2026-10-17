@@ -12,8 +12,38 @@
  ],
  "picked": "2026-10-17T22:59:16+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 179.99,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:26:43+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0084/0214/1246/files/20240302_Stock_Giant_0021_1.jpg?v=1762966022"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0084/0214/1246/files/20240302_Stock_Giant_0004.jpg?v=1762966022"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0084/0214/1246/files/20240302_Stock_Giant_0023_de8e1b3b-fc6b-4858-9c47-0e196c9e670e.jpg?v=1762966022"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0084/0214/1246/files/20240302_Stock_Giant_0057.jpg?v=1762966022"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0084/0214/1246/files/20240302_Stock_Giant_0077.jpg?v=1762966022"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:26:43+00:00",
+  "how": "shopify json"
+ }
 }

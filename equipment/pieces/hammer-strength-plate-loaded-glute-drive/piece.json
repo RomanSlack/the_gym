@@ -14,8 +14,74 @@
  ],
  "picked": "2026-10-17T22:49:54+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 4907.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:31:06+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HS_GLUTE_360_0057_charcoalframe_blackuph_1000x1000_965d0bdc-12be-4762-a055-821aa5673f25.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_26.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_31.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_25.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_27.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_28.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_30.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/mini-resistance-bands-glute-bridge-1-1000x1000_d15e7109-b968-4543-b2f7-dcd70892a518.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/mini-resistance-bands-glute-bridge-2-1000x1000_7e0f7df0-7c02-4dcc-929c-591b20f9d778.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/mini-resistance-bands-glute-bridge-3-1000x1000_79b03abc-a638-45c0-be5f-0492585fd0ea.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_4.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_19.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_17.jpg?v=1748945148"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Glute_Drive_PL-GLD_24.jpg?v=1748945149"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:31:06+00:00",
+  "how": "shopify json"
+ }
 }

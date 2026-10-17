@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T22:50:11+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 279.99,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:27:11+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-main-1_ee790fbb-9edc-45be-aea8-0419d7392c94.jpg?v=1739524956"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-main-2.jpg?v=1739524956"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-footprint-1000lbs-600lbs-weight-capacity.jpg?v=1741406153"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/1-1_860eceb2-de93-49a3-a428-397a2f904703.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-no-cheating.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-8-positions-barbell-support.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-adjustable-seat.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-customized-comfort.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-precise-muscle-activation.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-seure-feet-better-stability.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-one-step-position.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-workout-seal-row.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-workout-reverse-fly.jpg?v=1764063898"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0844/8403/0739/files/gmwd-seal-row-bench-sr05-workout-reverse-leg-raise.jpg?v=1764063898"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:27:11+00:00",
+  "how": "shopify json"
+ }
 }

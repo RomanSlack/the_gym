@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T23:09:17+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 6020.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:35:14+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/outlet-hammer-strength-select-hip-abduction-charcoal-black-1000x01000.jpg?v=1748945068"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:35:14+00:00",
+  "how": "shopify json"
+ }
 }

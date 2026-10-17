@@ -27,7 +27,9 @@ def versions(item):
 
 
 def next_version(item):
-    return max((v for v, _, _ in versions(item)), default=0) + 1
+    """Past every render and every .glb (a pass that died after exporting still used its number)."""
+    glbs = [int(f.stem.rsplit("_v", 1)[1]) for f in (PIECES / item / "models").glob(f"{item}_v[0-9][0-9][0-9].glb")]
+    return max([v for v, _, _ in versions(item)] + glbs, default=0) + 1
 
 
 def path(item, view, v):
