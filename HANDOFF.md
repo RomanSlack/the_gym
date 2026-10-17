@@ -164,7 +164,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - **West-garden camera** sits inside the forest; there's a small ground dip at the foot of the W2 tower.
 - **Forest species:** birch and grey alder aren't generated yet (the forest is spruce, pine and regrowth), and there are no shrubs.
 - **3D stage replay:** the construction timelapse by `phase` / `seq` isn't built.
-- **Drawings and code:** elevation A-203 draws no ground in front (an old issue); the W1/W2 stairs are only 1.0 m wide (check against TEK17).
+- **Drawings and code:** elevation A-203 draws no ground in front (an old issue). (The W1/W2 stairs' 1.0 m width vs TEK17: dropped, Roman 2026-10-17: don't worry about TEK17 for the stairs.)
 - **Blender gotchas:**
   - Blender 4.1+ makes new faces smooth unless set flat (handled in bl_common).
   - In Blender 5.2's node API, Random Value has one "Value" output, and geometry nodes use FunctionNodeSeparateColor.
