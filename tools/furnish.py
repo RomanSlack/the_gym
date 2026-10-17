@@ -815,7 +815,7 @@ for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
 # Continuous linear lines on the soffit between the 1.1 m PT beams (the beams shield them: no glare for a lifter on a bench), three per
 # 7.7 m bay, in runs that stop short of the spiral's opening; wall-washers down the long west walls (mirrors / free weights) so the
 # room reads lit and deep. F2 (machines, free weights, olympic, cardio): 4000 K, ~450 lux. F1 hall (stretching, cardio,
-# calisthenics): 3500 K like the gallery, under the wood wool. F3, the den: 3000 K, a low ambient (the pools over the rig, racks and
+# calisthenics): 3500 K like the gallery, under the wood wool. F3, the den: 3000 K, a low ambient, one line a bay (Roman 2026-10-17: two a bay was too bright, not aesthetic) (the pools over the rig, racks and
 # sled lane come with the equipment).
 GYM_C = {"4000": [1.0, 0.95, 0.88], "3500": [1.0, 0.92, 0.82], "3000": [1.0, 0.85, 0.68]}
 SPX, SPY, SPR = -17.95, -14.85, 3.5 + 0.6
@@ -839,7 +839,7 @@ for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "40
     for ya, yb in zip(BAYS, BAYS[1:]):
         if ya < y0 - 0.01 or yb > y1 + 0.01:
             continue
-        for y in (((ya + yb) / 2 - 2.4, (ya + yb) / 2, (ya + yb) / 2 + 2.4) if lvl != "F3" else ((ya + yb) / 2 - 1.9, (ya + yb) / 2 + 1.9)):
+        for y in (((ya + yb) / 2 - 2.4, (ya + yb) / 2, (ya + yb) / 2 + 2.4) if lvl != "F3" else ((ya + yb) / 2,)):  # F3: one line a bay (Roman: half of them, more aesthetic)
             for xa, xb in gym_runs(y):
                 L_ = round(xb - xa, 2)
                 put("gym_line", (xa + xb) / 2, y, rot=0, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,

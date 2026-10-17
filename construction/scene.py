@@ -22,6 +22,7 @@ args = sys.argv[sys.argv.index("--") + 1:]
 STAGE = int(args[0]) if args else 0
 RENDER = "render" in args
 DRAFT = "draft" in args  # quick looks: 48 samples (denoised) at 1280 x 720
+NIGHT = "night" in args  # after dark: the sky near black, only the building's own lights; renders get a _night name
 import time as _time
 _T0 = _time.time()
 def _tick(what):
@@ -35,6 +36,10 @@ rng = np.random.default_rng(3)
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 bc.world_and_render(scene)
+if NIGHT:
+    for o_ in [o_ for o_ in scene.objects if o_.type == "LIGHT" and o_.data.type == "SUN"]:
+        bpy.data.objects.remove(o_)
+    scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.003
 if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop stays responsive
     scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
     scene.cycles.samples = 48 if DRAFT else 128 if STAGE >= 5 else 64; scene.cycles.use_denoising = True
@@ -649,9 +654,11 @@ if RENDER:
              4: ["style_gorge", "style_aerial", "style_arrival", "west_garden", "frame_east", "roof_eaves", "lounge_deck", "daycare_garden", "garden_close", "hall_f1", "river_window_f3", "stair_f3_f4", "towers_west"]}
     for n in (ONLY or shots[max(k for k in shots if k <= STAGE)]):
         scene.camera = bpy.data.objects[f"cam_{n}"]
+        cam_n = n
+        n = n + "_night" if NIGHT else n
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (1.6 if n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
