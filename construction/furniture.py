@@ -4513,19 +4513,26 @@ def den_stream(P):
     leans out from the glass like the ravine's sheeted cliffs. Between the glass and the top course a dark slit runs the length of
     the window, exactly at the river's surface outside, in front of the pilasters; the river skims in over the top course and steps
     down the ledges in long thin sheets, a bead of water on every lip, into a pool sunk flush along the foot (1.42 m of water,
-    40-60 mm under a flush dark granite coping) over a bed of thousands of small river stones. It drifts south and slides over a
+    40-60 mm under a flush dark granite coping) over black sand covered in near-black river stones. It drifts south and slides over a
     steel lip into a slit across the floor. Built in the den's own coordinates (origin, z = F3)."""
     st = M["steel"]; d = DEN
     gr = M.setdefault("granite_honed_dark", bc.pbr_material("granite_honed_dark", "granite_tile", 1.2, box=True, tint=(0.55, 0.55, 0.57), sat=0.3,
                                                           val=0.34, rough_mul=0.45, rough_add=0.05, piece_var=0.08))
-    split = M.setdefault("granite_split_dark", bc.pbr_material("granite_split_dark", "quarry_wall", 1.8, box=True, tint=(0.8, 0.82, 0.85), sat=0.25,
-                                                             val=0.3, rough_mul=0.55, piece_var=0.1))
-    stones = [M.setdefault(f"river_pebble_{k}", bc.pbr_material(f"river_pebble_{k}", "dark_rock", 0.35, box=True, tint=t, sat=0.3, val=v_,
-                                                                rough_mul=0.5, piece_var=0.2))
-              for k, (t, v_) in enumerate((((0.8, 0.8, 0.8), 0.35), ((0.9, 0.85, 0.78), 0.55), ((0.75, 0.78, 0.8), 0.22), ((0.85, 0.82, 0.78), 0.75)))]
-    bed = M.setdefault("riverbed_dark", bc.material("riverbed_dark", (0.03, 0.028, 0.025), 0.9))
-    if "water_den" not in M:  # clear, a faint tea tint (it is the river)
-        M["water_den"] = bc.arch_glass("water_den", tint=(0.9, 0.88, 0.78))
+    split = M.setdefault("granite_split_dark", bc.pbr_material("granite_split_dark", "quarry_wall", 1.8, box=True, tint=(0.8, 0.82, 0.85), sat=0.2,
+                                                             val=0.12, rough_mul=0.5, piece_var=0.1))
+    stones = [M.setdefault(f"river_pebble_{k}", bc.pbr_material(f"river_pebble_{k}", "dark_rock", 0.35, box=True, tint=t, sat=0.15, val=v_, rough_add=0.0,
+                                                                rough_mul=0.3, piece_var=0.2))
+              for k, (t, v_) in enumerate((((0.8, 0.8, 0.82), 0.06), ((0.82, 0.82, 0.8), 0.1), ((0.78, 0.8, 0.82), 0.035), ((0.8, 0.8, 0.8), 0.15)))]
+    if "black_sand" not in M:  # black sand beach: near black, a fine grain
+        bs = bc.material("black_sand", (0.012, 0.012, 0.013), 0.7)
+        N_, L_ = bs.node_tree.nodes, bs.node_tree.links
+        nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 900.0; nz_.inputs["Detail"].default_value = 2.0
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.6; bp_.inputs["Distance"].default_value = 0.001
+        L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], N_["Principled BSDF"].inputs["Normal"])
+        M["black_sand"] = bs
+    bed = M["black_sand"]
+    if "water_den" not in M:  # clear and neutral, so the black stones stay black
+        M["water_den"] = bc.arch_glass("water_den", tint=(0.93, 0.94, 0.94))
     wat = M["water_den"]
     if "water_sheet" not in M:  # the thin running sheet: clear, a silver sheen, faint streaks down the fall
         ws = bc.material("water_sheet", (0.9, 0.92, 0.9), 0.02)
@@ -4573,15 +4580,16 @@ def den_stream(P):
         a, b_ = float(ya) + 0.002, float(min(ya + 1.2, yn)) - 0.002
         P.box(gr, (xr - c / 2, (a + b_) / 2, d["z_bot"] / 2), (c, b_ - a, -d["z_bot"]))
     P.box(gr, ((xr - c + front[0]) / 2, (ys_ - 0.096 + yw) / 2, d["z_bot"] / 2), (front[0] - xr + c, ys_ - 0.096 - yw, -d["z_bot"]))  # past the slit
+    P.box(gr, ((xr + front[0]) / 2, yn - 0.01, d["z_bot"] / 2), (front[0] - xr, 0.02, -d["z_bot"]))           # the pool's north end, dark
     P.box(bed, ((xr + front[0]) / 2, (ys_ + yn) / 2, d["z_bot"] + 0.01), (front[0] - xr, yn - ys_, 0.02))
-    area = (front[0] - xr) * (yn - ys_); npb = int(area * 160)
-    rr = rng.uniform(0.012, 0.045, npb) ** 1.0
+    area = (front[0] - xr) * (yn - ys_); npb = int(area * 320)                                                  # the bed covered, sand between
+    rr = 0.015 + 0.06 * rng.uniform(0, 1, npb) ** 1.8
     pts = np.stack([rng.uniform(xr + 0.02, front[0] - 0.01, npb), rng.uniform(ys_ + 0.02, yn - 0.02, npb), d["z_bot"] + 0.02 + rr * 0.3], 1)
     radii = np.stack([rr * rng.uniform(1.0, 1.5, npb), rr, rr * rng.uniform(0.4, 0.6, npb)], 1)[:, None, :]
     _pebbles(P, stones, pts, radii, rng)
     ang = (d["zw_n"] - d["zw_s"]) / (yn - ys_)
     P.box(wat, ((xr + front[0]) / 2 + 0.002, (ys_ + yn) / 2, (d["zw_n"] + d["zw_s"]) / 2 - 0.004), (front[0] - xr - 0.004, yn - ys_ - 0.004, 0.008), rx=ang)
-    P.box(_led("den_pool_line", (1.0, 0.8, 0.55), 1.6), (xr + 0.006, (ys_ + yn) / 2, -0.075), (0.008, yn - ys_ - 0.1, 0.01))
+    P.box(_led("den_pool_line", (1.0, 0.9, 0.78), 1.0), (xr + 0.006, (ys_ + yn) / 2, -0.075), (0.008, yn - ys_ - 0.1, 0.01))
 
     # ---- the outfall: over a steel lip into an open slit across the floor, and gone (the return to the river)
     zws = d["zw_s"]; wx = (xr + front[0]) / 2; ww = front[0] - xr
