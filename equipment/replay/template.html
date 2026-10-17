@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Gym · equipment replay</title>
+<style>
+:root{--bg:#141312;--panel:#1c1b19;--line:#2c2a27;--ink:#e9e4dc;--mute:#8d867c;--oak:#c9a46a;--ok:#8fb08a;--skip:#6b6660}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 ui-sans-serif,system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(20,19,18,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+h1{font:600 17px/1 ui-serif,Georgia,serif;letter-spacing:.02em;margin:0 8px 0 0}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-radius:0}.seg button.on{background:#2d2a26;color:var(--ink)}
+button,select{font:inherit;color:var(--mute);background:transparent;border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+button:hover{color:var(--ink);border-color:#4a463f}select{color:var(--ink);background:var(--bg)}
+input[type=range]{accent-color:var(--oak)}
+.hint{color:var(--mute);font-size:12px;margin-left:auto}
+main{max-width:1500px;margin:0 auto;padding:16px 22px 80px}
+.view{display:none}.view.on{display:block}
+/* curation */
+#cbar{display:flex;gap:12px;align-items:center;margin-bottom:6px}#cbar input{flex:1}
+#clock{font:600 30px/1 ui-serif,Georgia,serif;font-variant-numeric:tabular-nums}
+#count{color:var(--mute);font-variant-numeric:tabular-nums}#count b{color:var(--oak);font-weight:600}
+#now{color:var(--mute);min-height:20px;margin-bottom:8px}#now b{color:var(--ink);font-weight:500}
+.cat{margin-top:16px}
+h2{font:600 12px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:uppercase;color:var(--oak);margin:0 0 8px}
+h2 small{color:var(--mute);letter-spacing:0;text-transform:none;font-weight:400;margin-left:8px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;opacity:.32;transition:opacity .4s,border-color .4s}
+.tile .im{aspect-ratio:1;background:#0f0e0d center/contain no-repeat;display:flex;align-items:center;justify-content:center;color:#3a3732;font:600 22px ui-serif,Georgia,serif}
+.tile .im.ph{background-image:none}
+.tile .t{padding:5px 7px 6px;font-size:11.5px;line-height:1.25}
+.tile .d{color:var(--mute);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile.found{opacity:1;border-color:#4b4436}.tile.found .im{background-color:#f4f2ee}.tile.found .im.ph{background-color:#2a251d;color:var(--oak)}
+.tile.skipped{opacity:.14}.tile.skipped .t{text-decoration:line-through}
+.tile.new{animation:pop .9s ease-out}.tile.gone{display:none}
+@keyframes pop{0%{transform:scale(1.12);border-color:var(--oak);box-shadow:0 0 0 3px var(--oak)}100%{transform:scale(1)}}
+.empty{color:var(--mute);padding:30px 0;font-size:15px}
+/* piece */
+#ptop{display:flex;gap:12px;align-items:center;flex-wrap:wrap}#ptop select{min-width:340px}
+#pname{font:600 30px/1.15 ui-serif,Georgia,serif;margin:18px 0 2px}#pmeta{color:var(--mute)}
+h3{font:600 12px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:uppercase;color:var(--oak);margin:26px 0 10px}
+.finds{display:flex;gap:12px;flex-wrap:wrap}
+.find{width:230px;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.find .im{aspect-ratio:4/3;background:#f4f2ee center/contain no-repeat}.find .im.ph{background:#0f0e0d}
+.find .t{padding:7px 9px;font-size:12.5px}.find a{color:var(--ink);text-decoration:none}.find a:hover{color:var(--oak)}
+.find .d{color:var(--mute);font-size:11.5px}
+#vbar{display:flex;gap:10px;align-items:center}#vbar input{flex:1}
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:10px}
+.views figure{margin:0}.views img{width:100%;display:block;border-radius:4px;background:#0f0e0d}
+.views figcaption{color:var(--mute);font-size:12px;margin-top:3px}
+#vcap{margin-top:10px;max-width:1000px}#vcap b{color:var(--oak);font-weight:600}.also{color:#9a9488;font-size:13px}
+/* overview */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:pointer}
+.card:hover{border-color:#4a463f}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair div{aspect-ratio:1;background:#0f0e0d center/contain no-repeat;display:flex;align-items:center;justify-content:center;color:#4a463f;font-size:11px;text-align:center;padding:6px}
+.pair div.ref{background-color:#f4f2ee}.pair div.mdl{background-size:cover}
+.card .t{padding:7px 9px;font-size:12.5px}.card .d{color:var(--mute);font-size:11.5px}
+/* video mode: no chrome, big type, for screen recording */
+body.video header{display:none}
+body.video main{max-width:none;padding:3vh 3vw}
+body.video #cbar button,body.video #cbar input,body.video #ptop,body.video #vbar button,body.video #vbar input{display:none}
+body.video #clock{font-size:54px}body.video #count{font-size:22px}body.video #now{font-size:20px;min-height:30px}
+body.video .tiles{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
+body.video h2{font-size:14px}body.video #pname{font-size:52px}body.video #vcap{font-size:20px;max-width:none}
+body.video::before{content:'The Gym · equipment';display:block;font:600 22px ui-serif,Georgia,serif;color:var(--oak);padding:2.4vh 3vw 0}
+</style>
+<header>
+  <h1>The Gym · equipment replay</h1>
+  <div class="seg" id="tabs"><button data-v="curation" class="on">Curation</button><button data-v="piece">Piece</button><button data-v="overview">Overview</button></div>
+  <span class="hint">Space play · ← → step · V video mode · Esc exit</span>
+</header>
+<main>
+<section class="view on" id="v-curation">
+  <div id="cbar"><span id="clock">·</span><button id="cplay">▶ Play</button><input type="range" id="ct" min="0" step="0.01" value="0"><span id="count"></span></div>
+  <div id="now"></div><div id="grid"></div>
+</section>
+<section class="view" id="v-piece">
+  <div id="ptop"><select id="psel"></select></div>
+  <div id="pname"></div><div id="pmeta"></div>
+  <h3>Found</h3><div class="finds" id="finds"></div>
+  <h3>Modelled</h3><div id="vbar"><button id="vprev">◀</button><button id="vplay">▶</button><button id="vnext">▶|</button><input type="range" id="vt" min="0" value="0"><span id="vn"></span></div>
+  <div class="views" id="views"></div><div id="vcap"></div>
+</section>
+<section class="view" id="v-overview"><div class="cards" id="cards"></div></section>
+</main>
+<script>
+const D = /*DATA*/null;
+const $ = s => document.querySelector(s), esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, '') } catch (e) { return '' } };
+const items = D.cats.flatMap(c => c.items.map(i => ({...i, cat: c.name})));
+const ITEM = Object.fromEntries(items.map(i => [i.id, i]));
+const END = D.events.length ? D.events[D.events.length - 1].p + 2.5 : 0;
+const initials = n => n.split(/\s+/).filter(w => /^[A-Za-z]/.test(w)).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+
+// the state of every item after the events up to play time p
+function stateAt(p) {
+  const S = {}, get = id => S[id] ||= {links: [], skipped: false, custom: false, removed: false};
+  let lastE = null;
+  for (const e of D.events) {
+    if (e.p > p) break;
+    const s = get(e.id); if (e.action !== 'link_meta') lastE = e;
+    if (e.action === 'add_link' && !s.links.find(l => l.url === e.url)) s.links.push({url: e.url, at: e.p});
+    else if (e.action === 'remove_link') s.links = s.links.filter(l => l.url !== e.url);
+    else if (e.action === 'skip') s.skipped = !!e.value;
+    else if (e.action === 'add_item') { s.custom = true; s.removed = false }
+    else if (e.action === 'remove_item') s.removed = true;
+    else if (e.action === 'link_meta') { const l = s.links.find(l => l.url === e.url); if (l) Object.assign(l, {title: e.title, ref: e.ref}) }
+  }
+  return {S, lastE};
+}
+const finalState = () => stateAt(Infinity).S;
+
+// ---------- curation ----------
+let cp = END, playing = false, prevFound = new Set();
+function drawCuration() {
+  const {S, lastE} = stateAt(cp);
+  let found = 0, total = 0, html = '';
+  if (!D.events.length) html += '<div class="empty">Nothing curated yet: the tiles light up as links are added on the shopping page.</div>';
+  for (const c of D.cats) {
+    let tiles = '', n = 0, nf = 0;
+    for (const i of c.items) {
+      const s = S[i.id] || {links: []};
+      const hidden = (i.custom && !s.custom) || s.removed;
+      if (!hidden) { n++; total++ }
+      const st = s.links.length ? 'found' : s.skipped ? 'skipped' : '';
+      if (st === 'found' && !hidden) { nf++; found++ }
+      const l = s.links.find(l => l.ref) || s.links[0];
+      const isNew = st === 'found' && !prevFound.has(i.id) && playing;
+      tiles += `<div class="tile ${st} ${hidden ? 'gone' : ''} ${isNew ? 'new' : ''}" title="${esc(i.name)}">
+        <div class="im ${l && l.ref ? '' : 'ph'}" ${l && l.ref ? `style="background-image:url('${esc(l.ref)}')"` : ''}>${l && l.ref ? '' : esc(initials(i.name))}</div>
+        <div class="t">${esc(i.name.split(/[(,]/)[0])}<div class="d">${l ? esc(host(l.url)) : '&nbsp;'}</div></div></div>`;
+    }
+    html += `<div class="cat"><h2>${esc(c.name)}<small>${nf} / ${n}</small></h2><div class="tiles">${tiles}</div></div>`;
+  }
+  $('#grid').innerHTML = html;
+  if (playing) document.querySelector('.tile.new')?.scrollIntoView({block: 'center', behavior: 'smooth'});  // follow the newest find
+  prevFound = new Set(Object.keys(S).filter(id => S[id].links.length));
+  $('#count').innerHTML = `<b>${found}</b> / ${total} found`;
+  $('#clock').textContent = lastE ? new Date(lastE.t).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'}) : '·';
+  const verb = {add_link: 'found', skip: 'skipped', add_item: 'added', remove_link: 'dropped a link for', remove_item: 'removed', link_meta: 'fetched'}[lastE?.action];
+  $('#now').innerHTML = lastE && ITEM[lastE.id] ? `${verb} <b>${esc(ITEM[lastE.id].name)}</b>${lastE.url ? ' · ' + esc(host(lastE.url)) : ''}` : '';
+  $('#ct').value = cp;
+}
+$('#ct').max = END;
+$('#ct').oninput = () => { cp = +$('#ct').value; stopCuration(); drawCuration() };
+let lastTick = 0, lastDrawn = -1, civ = null;
+function stopCuration() { playing = false; clearInterval(civ); civ = null; $('#cplay').textContent = '▶ Play' }
+function tick() {
+  const now = performance.now(); cp = Math.min(END, cp + (now - lastTick) / 1000); lastTick = now;
+  const k = D.events.filter(e => e.p <= cp).length;
+  if (k !== lastDrawn) { lastDrawn = k; drawCuration() }
+  if (cp >= END) stopCuration();
+}
+function playCuration(from0) {
+  if (playing) return stopCuration();
+  if (from0 || cp >= END) { cp = 0; prevFound = new Set() }
+  playing = true; lastTick = performance.now(); lastDrawn = -1; $('#cplay').textContent = '❚❚ Pause'; civ = setInterval(tick, 40);
+}
+$('#cplay').onclick = () => playCuration(false);
+
+// ---------- piece ----------
+function pieceOptions() {
+  const F = finalState(), rank = i => (D.models[i.id] ? 0 : F[i.id]?.links.length ? 1 : 2);
+  const opts = [...items].filter(i => !(F[i.id]?.removed)).sort((a, b) => rank(a) - rank(b));
+  $('#psel').innerHTML = opts.map(i => `<option value="${i.id}">${D.models[i.id] ? '● ' : F[i.id]?.links.length ? '○ ' : '   '}${esc(i.name)}</option>`).join('');
+}
+let pv = 0, pplay = null;
+function drawPiece() {
+  const id = $('#psel').value, i = ITEM[id], s = finalState()[id] || {links: []}, vs = D.models[id] || [];
+  $('#pname').textContent = i.name;
+  $('#pmeta').textContent = `${i.cat} · ×${i.qty}${i.zone ? ' · ' + i.zone : ''}${s.skipped ? ' · skipped' : ''}`;
+  $('#finds').innerHTML = s.links.length ? s.links.map(l => `<div class="find"><div class="im ${l.ref ? '' : 'ph'}" ${l.ref ? `style="background-image:url('${esc(l.ref)}')"` : ''}></div>
+     <div class="t"><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title || l.url)}</a><div class="d">${esc(host(l.url))}</div></div></div>`).join('')
+    : '<div class="empty">Not found yet.</div>';
+  $('#vbar').style.display = vs.length ? '' : 'none';
+  if (!vs.length) { $('#views').innerHTML = '<div class="empty">Not modelled yet.</div>'; $('#vcap').innerHTML = ''; return }
+  pv = Math.min(pv, vs.length - 1); $('#vt').max = vs.length - 1; $('#vt').value = pv;
+  const v = vs[pv];
+  $('#vn').textContent = `v${String(v.v).padStart(3, '0')} · ${pv + 1} / ${vs.length}`;
+  $('#views').innerHTML = Object.entries(v.views).map(([k, src]) => `<figure><img src="${esc(src)}"><figcaption>${esc(k.replace(/_/g, ' '))}</figcaption></figure>`).join('');
+  $('#vcap').innerHTML = `${v.date ? '<b>' + esc(v.date) + '</b> · ' : ''}${esc(v.subject)}${v.prompt ? '<br><b>Prompt:</b> ' + esc(v.prompt) : ''}${(v.also || []).map(a => '<div class="also">also: ' + esc(a) + '</div>').join('')}`;
+}
+const step = d => { const n = (D.models[$('#psel').value] || []).length; if (!n) return; pv = Math.max(0, Math.min(n - 1, pv + d)); drawPiece() };
+$('#psel').onchange = () => { pv = 0; drawPiece(); history.replaceState(null, '', '#piece=' + $('#psel').value) };
+$('#vt').oninput = () => { pv = +$('#vt').value; drawPiece() };
+$('#vprev').onclick = () => step(-1); $('#vnext').onclick = () => step(1);
+function playPiece() {
+  if (pplay) { clearInterval(pplay); pplay = null; return }
+  const n = (D.models[$('#psel').value] || []).length; if (!n) return;
+  if (pv >= n - 1) pv = 0; drawPiece();
+  pplay = setInterval(() => { if (pv >= (D.models[$('#psel').value] || []).length - 1) { clearInterval(pplay); pplay = null; return } step(1) }, 1400);
+}
+$('#vplay').onclick = playPiece;
+
+// ---------- overview ----------
+function drawOverview() {
+  const F = finalState();
+  $('#cards').innerHTML = items.filter(i => !(i.custom && !F[i.id]?.custom) && !F[i.id]?.removed).map(i => {
+    const s = F[i.id] || {links: []}, l = s.links.find(l => l.ref) || s.links[0], vs = D.models[i.id], last = vs && vs[vs.length - 1];
+    const m = last && Object.values(last.views)[0];
+    return `<div class="card" data-id="${i.id}"><div class="pair">
+      <div class="${l && l.ref ? 'ref' : ''}" ${l && l.ref ? `style="background-image:url('${esc(l.ref)}')"` : ''}>${l && l.ref ? '' : l ? esc(host(l.url)) : 'not found yet'}</div>
+      <div class="${m ? 'mdl' : ''}" ${m ? `style="background-image:url('${esc(m)}')"` : ''}>${m ? '' : 'not modelled yet'}</div></div>
+      <div class="t">${esc(i.name)}<div class="d">${esc(i.cat)}${vs ? ' · ' + vs.length + ' version' + (vs.length > 1 ? 's' : '') : ''}</div></div></div>`;
+  }).join('');
+}
+$('#cards').onclick = e => { const c = e.target.closest('.card'); if (!c) return; show('piece'); $('#psel').value = c.dataset.id; pv = 0; drawPiece() };
+
+// ---------- views, keys, video mode ----------
+let cur = 'curation';
+function show(v) {
+  cur = v; document.querySelectorAll('.view').forEach(s => s.classList.toggle('on', s.id === 'v-' + v));
+  [...$('#tabs').children].forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'curation') drawCuration(); if (v === 'piece') drawPiece(); if (v === 'overview') drawOverview();
+  if (!location.hash.startsWith('#' + v)) history.replaceState(null, '', '#' + v);
+}
+$('#tabs').onclick = e => e.target.dataset.v && show(e.target.dataset.v);
+function video(on) {
+  document.body.classList.toggle('video', on);
+  if (on) { document.documentElement.requestFullscreen?.().catch(() => {}); if (cur === 'curation') { stopCuration(); playCuration(true) } else if (cur === 'piece') { pv = 0; drawPiece(); if (pplay) { clearInterval(pplay); pplay = null } playPiece() } }
+  else if (document.fullscreenElement) document.exitFullscreen();
+}
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === 'v' || e.key === 'V') video(!document.body.classList.contains('video'));
+  else if (e.key === 'Escape') video(false);
+  else if (e.key === ' ') { e.preventDefault(); cur === 'piece' ? playPiece() : playCuration(false) }
+  else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    const d = e.key === 'ArrowRight' ? 1 : -1;
+    if (cur === 'piece') step(d);
+    else { const ps = [0, ...D.events.map(e => e.p), END]; cp = d > 0 ? (ps.find(p => p > cp + 1e-6) ?? END) : ([...ps].reverse().find(p => p < cp - 1e-6) ?? 0); stopCuration(); drawCuration() }
+  }
+});
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) document.body.classList.remove('video') });
+pieceOptions();
+const h = location.hash.slice(1), [hv, hid] = h.split('=');
+if (hid && ITEM[hid]) $('#psel').value = hid;
+show(['curation', 'piece', 'overview'].includes(hv) ? hv : 'curation');
+if (new URLSearchParams(location.search).has('video')) video(true);
+</script>

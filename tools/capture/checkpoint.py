@@ -112,6 +112,10 @@ def rebuild_history():
     """Refresh the blueprint's replay data (git-ignored) so the viewer always has the latest versions."""
     subprocess.run([sys.executable, str(ROOT / "tools" / "replay" / "build_history.py")], capture_output=True, timeout=120)
     subprocess.run([sys.executable, str(ROOT / "tools" / "replay" / "render_history.py")], capture_output=True, timeout=300)  # 3D render replay
+    try:  # the equipment replay is its own system: whatever happens there must never break the replays above
+        subprocess.run([sys.executable, str(ROOT / "equipment" / "replay" / "build.py")], capture_output=True, timeout=120)
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":

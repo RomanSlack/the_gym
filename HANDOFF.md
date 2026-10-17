@@ -63,7 +63,9 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 **The gym equipment (2026-10-17, Roman: he shops for real high-end equipment himself, we model it):** a system of its own in `equipment/`, separate from the building pipeline so it has fewer ways to fail.
 - `equipment/list.json`: the master list (~200 types, from the old wishlist + FIT_STUDY + VISION; `maybe` = beyond the fit study, Roman decides).
 - `python3 equipment/serve.py` → http://localhost:5290: Roman pastes a product link per item (it checks off), skips maybes, adds items. Every click is one line in `equipment/history/curation.jsonl` (the curation replay) and is folded into `equipment/picks.json`. The server fetches each link's title + og:image into `equipment/refs/` (git-ignored: shop photos).
-- Next: model each piece from its refs, with its own replay (curation, then the 3D versions) for the YouTube section.
+- **Equipment replay** (for the YouTube section: how we curated, then how we modelled): `python3 equipment/replay/build.py` → open `equipment/replay/out/index.html` (git-ignored, rebuilt after every turn by `tools/capture/checkpoint.py`, guarded so it can't break the other replays). Three views: Curation (every item as a tile that lights up with its product photo as Roman found it, real time with long gaps squeezed, play/scrub), Piece (one item: its finds, then every model version with the prompt under it), Overview (product photo beside the latest model). V = video mode (full screen, no chrome, autoplay) for screen recording; `?video` in the URL starts in it.
+- **Model renders convention:** `equipment/models/<item>/<item>_<view>_vNNN.jpg`, never overwritten; use `equipment/tools/versions.py` (`v = next_version(item)`, then `path(item, view, v)` per view). Commit each pass on its own so the replay gets the Prompt trailer per version.
+- Next: model each piece from its refs.
 
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).

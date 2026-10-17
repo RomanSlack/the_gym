@@ -1,0 +1,39 @@
+"""Where a piece's model renders go: equipment/models/<item>/<item>_<view>_vNNN.jpg, never overwritten.
+
+One modelling pass = one version number across all its views:
+    v = next_version("power-rack")
+    for view in ("front", "three_quarter", "side", "detail"):
+        render_to(path("power-rack", view, v))
+next_path(item, view) is the shortcut for a single new view.
+"""
+import re
+from pathlib import Path
+
+MODELS = Path(__file__).resolve().parents[1] / "models"
+
+
+def versions(item):
+    d = MODELS / item
+    pat = re.compile(rf"^{re.escape(item)}_(.+)_v(\d{{3}})$")
+    out = []
+    for f in sorted(d.glob("*.jpg")) if d.exists() else []:
+        m = pat.match(f.stem)
+        if m:
+            out.append((int(m.group(2)), m.group(1), f))
+    return out
+
+
+def next_version(item):
+    return max((v for v, _, _ in versions(item)), default=0) + 1
+
+
+def path(item, view, v):
+    p = MODELS / item / f"{item}_{view}_v{v:03d}.jpg"
+    if p.exists():
+        raise FileExistsError(f"{p} exists: renders are never overwritten")
+    p.parent.mkdir(parents=True, exist_ok=True)
+    return p
+
+
+def next_path(item, view):
+    return path(item, view, max((v for v, w, _ in versions(item) if w == view), default=0) + 1)
