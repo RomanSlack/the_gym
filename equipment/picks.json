@@ -719,6 +719,18 @@
     }
    ],
    "skipped": false
+  },
+  "treadmill": {
+   "links": [
+    {
+     "url": "https://thexpt.com/product/4front-the-ultimate-commercial-fitness-treadmill/?attribute_console-options=21+inch+4+Front+Display&gad_source=1&gad_campaignid=16578473913&gbraid=0AAAAAoa1bPQlbJ5_N0NE2KfkY97rOPL9g&gclid=CjwKCAjwuczWBhA9EiwAYGgEoefxB15voPF2NbUYQJ-mN8DbQ7XoIhlbp5fUm-jrPxwWErRn9UwHDhoCEeYQAvD_BwE",
+     "added": "2026-10-17T23:16:47+00:00",
+     "title": "Woodway 4Front The Ultimate Commercial Fitness Treadmill - XPT Trainer",
+     "image": "https://thexpt.com/wp-content/uploads/2023/04/4front_800_21inch.jpg",
+     "ref": "refs/treadmill/ref_01.jpg"
+    }
+   ],
+   "skipped": false
   }
  },
  "custom": []
