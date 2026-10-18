@@ -15,8 +15,8 @@ from pathlib import Path
 LOOK = {
     "frame": dict(color=(0.012, 0.012, 0.013), rough=0.3, metal=0.35, coat=0.5, bump=(900, 0.05)),   # Black Pearl
     "shroud": dict(color=(0.035, 0.036, 0.04), rough=0.42, metal=0.2, coat=0.3),                     # Tungsten
-    "pad": dict(color=(0.36, 0.13, 0.05), rough=0.48, sheen=0.3, bump=(1600, 0.12)),                  # All Spice vinyl
-    "seam": dict(color=(0.27, 0.095, 0.035), rough=0.55),
+    "pad": dict(color=(0.25, 0.075, 0.028), rough=0.48, sheen=0.3, bump=(1600, 0.12)),                  # All Spice vinyl
+    "seam": dict(color=(0.17, 0.05, 0.02), rough=0.55),
     "accent": dict(color=(0.95, 0.42, 0.02), rough=0.35),                                            # orange adjusters
     "label": dict(color=(0.92, 0.92, 0.92), rough=0.4),
     "panel": dict(color=(0.03, 0.035, 0.045), rough=0.25, coat=0.6),
@@ -40,7 +40,7 @@ CAM = (-0.40, -0.43, 0.78)       # centre of the cam housing
 LE = (-0.27, -0.733, 0.514)      # the lever's lower end block (the drop arm to the roller hangs from it)
 UE = (-0.27, -0.235, 0.996)      # its upper end (foam sleeve)
 RA = (-0.653, 0.325)             # roller axle (y, z)
-ROLLER, ROLLER_R = (-0.215, 0.294), 0.065
+ROLLER, ROLLER_R = (-0.215, 0.294), 0.074
 GRIP_A, GRIP_B = (-0.33, -0.567, 0.977), (-0.30, -0.636, 0.833)   # tops of the two silver-capped hand grips
 POST = (-0.30, -0.58)            # the round post foot under the mechanism
 SPINE0 = (-0.30, -0.567, 0.571)  # the spine's front end (big silver cap), bolted to the mechanism
@@ -48,8 +48,8 @@ SPINE0 = (-0.30, -0.567, 0.571)  # the spine's front end (big silver cap), bolte
 XS = 0.30                        # the user's-left side frame
 FOOT_F, FOOT_R = -0.056, 0.715   # its feet (y)
 FLEG_TOP = (0.27, 0.057, 0.50)   # the front leg meets the seat frame
-ARCH_TOP = (0.29, 0.62, 0.44)    # the rear leg's arch top
-XR = -0.39                       # the rear frame's other side (x)
+ARCH_TOP = (0.03, 0.62, 0.44)    # the rear leg's arch top: one leg under the seat's middle (rear drawing + photos)
+XR = -0.39                       # the far side of the frame (x)
 # ---- seat + back pad
 SEAT = (0.02, -0.12, 0.62, 0.44, 0.45, 0.075)    # x, y (centre), top z at the front, width at the front, depth, thickness
 # (the photos: the seat's front edge ~11 cm behind the knee hub, so the knee lines up with the pivot; the side drawing had
@@ -99,15 +99,15 @@ def anchors():
         "dial": DIAL,
         "drum": CAM,
         "lever_hub": (PIV[0] + 0.035, PIV[1], PIV[2]),
-        "lever_top": UE,
-        "lever_low": LE,
+        "lever_top": (PIV[0] + 0.035, UE[1], UE[2]),
+        "lever_low": (PIV[0] + 0.035, LE[1], LE[2]),
         "grip_a": (GRIP_A[0], GRIP_A[1], GRIP_A[2] + 0.017),
         "grip_b": (GRIP_B[0], GRIP_B[1], GRIP_B[2] + 0.017),
         "roller_cap": (ROLLER[1] + 0.012, RA[0], RA[1]),
-        "roller_far_end": (ROLLER[0], RA[0], RA[1]),
+        "roller_far_end": (PIV[0] + 0.08, RA[0], RA[1]),
         "post_foot": (POST[0], POST[1], 0.0),
         "foot_front": (XS, FOOT_F, 0.03),
-        "foot_rear": (XS, FOOT_R, 0.03),
+        "foot_rear": (ARCH_TOP[0], FOOT_R, 0.03),
         "front_leg_top": FLEG_TOP,
         "arch_top": ARCH_TOP,
         "seat_front_left": _seat_top(True, 1),
@@ -197,14 +197,14 @@ def mechanism(k):
     # a silver drum runs back from the housing to the dial
     cx, cy, cz = CAM
     px_ = PIV[0] - 0.085
-    k.shaped_pad("frame", [(-0.13, -0.15), (0.06, -0.13), (0.15, -0.07), (0.15, 0.08), (0.06, 0.17), (-0.10, 0.13)],
+    k.shaped_pad("frame", [(-0.13, -0.15), (0.06, -0.13), (0.15, -0.07), (0.14, 0.05), (0.06, 0.11), (-0.10, 0.08)],
                  (px_, (cy + PIV[1]) / 2, (cz + DIAL[2]) / 2), (1, 0, 0), (0, 1, 0), 0.03, r=0.035, seam=False, board=False)
     k.sweep("frame", [(cx, cy - 0.05, cz), (cx, cy + 0.06, cz)], k.circle(0.12, 64), soft=0.012)
     k.disc("frame", (cx, cy - 0.055, cz), 0.122, 0.092, 0.014, axis="y", seg=64)       # the rim, proud of the face
     k.cyl("plastic", (cx, cy - 0.05, cz), 0.093, 0.004, axis="y", seg=64)              # the recess
-    k.cyl("alu", (cx, cy - 0.055, cz), 0.032, 0.012, axis="y")
-    for t in range(0, 360, 60):
-        k.cyl("alu", (cx + 0.06 * math.cos(math.radians(t)), cy - 0.054, cz + 0.06 * math.sin(math.radians(t))), 0.006, 0.006, axis="y", seg=12)
+    k.cyl("frame", (cx + 0.015, cy - 0.04, cz - 0.01), 0.07, 0.03, axis="y", seg=48, soft=0.006)    # the cam inside
+    k.cyl("frame", (cx, cy - 0.055, cz), 0.032, 0.03, axis="y", soft=0.004)
+    k.cyl("alu", (cx, cy - 0.071, cz), 0.014, 0.004, axis="y")
     k.tube("alu", (cx + 0.03, cy + 0.06, cz + 0.02), (DIAL[0] - 0.02, DIAL[1] + 0.03, DIAL[2] - 0.02), 0.038, seg=32)
     # the start dial with its numbered holes
     dx, dy, dz = DIAL
@@ -213,19 +213,23 @@ def mechanism(k):
         a = math.radians(-40 + i * 22)
         k.text("label", str(i + 1), (dx + 0.009, dy + 0.045 * math.cos(a), dz + 0.045 * math.sin(a)), 0.012, rz=math.pi / 2)
     k.tube("chrome", (px_, PIV[1], PIV[2]), (PIV[0] + 0.03, PIV[1], PIV[2]), 0.02)       # the axle from the side plate
-    # the lever: a straight round tube through its hub, the foam sleeve at the top, the block + silver cap below
-    k.tube("frame", LE, UE, 0.025, seg=28)
-    k.tube("rubber", lerp(UE, LE, 0.02), lerp(UE, LE, 0.30), 0.036, seg=28)
-    k.cyl("frame", UE, 0.036, 0.012, axis="x")
-    k.cyl("frame", PIV, 0.045, 0.06, axis="x", seg=32, soft=0.004)
-    k.cyl("alu", (PIV[0] + 0.035, PIV[1], PIV[2]), 0.03, 0.012, axis="x")
-    k.box("frame", LE, (0.06, 0.10, 0.07), soft=0.008)
-    k.cyl("alu", (LE[0] + 0.035, LE[1] + 0.02, LE[2]), 0.022, 0.01, axis="x")
+    # the lever: a straight round tube through its hub (all in one plane, x = LX), the foam sleeve at the top, the block +
+    # silver cap below
+    LX = PIV[0] + 0.035
+    le, ue = (LX, LE[1], LE[2]), (LX, UE[1], UE[2])
+    k.tube("frame", le, ue, 0.025, seg=28)
+    k.tube("rubber", lerp(ue, le, 0.02), lerp(ue, le, 0.30), 0.036, seg=28)
+    k.cyl("frame", ue, 0.036, 0.012, axis="x")
+    k.cyl("frame", (LX, PIV[1], PIV[2]), 0.045, 0.07, axis="x", seg=32, soft=0.004)
+    k.cyl("alu", (LX + 0.037, PIV[1], PIV[2]), 0.03, 0.008, axis="x")
+    k.box("frame", le, (0.06, 0.10, 0.07), soft=0.008)
+    k.cyl("alu", (LX + 0.033, le[1] + 0.02, le[2]), 0.022, 0.008, axis="x")
     # the drop arm from the block down to the roller axle, the roller across under the shins
     ry, rz = RA
-    k.sweep("frame", [(LE[0], LE[1] + 0.01, LE[2] - 0.02), (LE[0], ry - 0.01, rz + 0.05), (LE[0], ry, rz)], k.stadium(0.07, 0.045), bend=0.04, up=(1, 0, 0))
-    k.tube("chrome", (LE[0], ry, rz), (ROLLER[1], ry, rz), 0.016)
-    k.sweep("pad", [(ROLLER[0] + 0.01, ry, rz), (ROLLER[1] - 0.012, ry, rz)], k.circle(ROLLER_R, 48), soft=0.014)
+    k.sweep("frame", [(LX, le[1] + 0.01, le[2] - 0.02), (LX, ry - 0.01, rz + 0.05), (LX, ry, rz)], k.stadium(0.07, 0.045), bend=0.04, up=(1, 0, 0))
+    k.tube("chrome", (LX, ry, rz), (ROLLER[1], ry, rz), 0.016)
+    k.cyl("frame", (LX + 0.03, ry, rz), 0.03, 0.03, axis="x", soft=0.004)                # the roller's collar on the arm
+    k.sweep("pad", [(LX + 0.05, ry, rz), (ROLLER[1] - 0.012, ry, rz)], k.circle(ROLLER_R, 48), soft=0.014)
     k.sweep("plastic", [(ROLLER[1] - 0.013, ry, rz), (ROLLER[1] + 0.006, ry, rz)], k.circle(ROLLER_R - 0.003, 48), soft=0.008)
     # the two hand grips: black stubs with silver caps, on a bent tube down into the spine's front
     base = (SPINE0[0] + 0.02, SPINE0[1] + 0.03, SPINE0[2] + 0.05)
@@ -248,18 +252,17 @@ def frame(k):
     L = k.rect(0.075, 0.05, 0.01)
     k.bar("frame", (XS, FOOT_F, 0.03), FLEG_TOP, 0.08, 0.06, up=(0, 1, 0))
     k.bar("frame", (x + 0.05, FLEG_TOP[1] - 0.02, FLEG_TOP[2] - 0.02), FLEG_TOP, 0.06, 0.05)          # into the spine
-    k.bar("frame", (XS, FOOT_F + 0.04, 0.15), (XS, FOOT_R - 0.06, 0.06), 0.07, 0.045)                 # the rail
-    for xr in (XS, XR):  # rear arches both sides, joined at the top by a cross tube
-        k.sweep("frame", [(xr, FOOT_R, 0.03), (xr, FOOT_R - 0.02, ARCH_TOP[2] - 0.05), (xr, ARCH_TOP[1] - 0.06, ARCH_TOP[2])],
-                k.circle(0.032), bend=0.08)
-        k.sweep("rubber", [(xr, FOOT_R, 0.0), (xr, FOOT_R, 0.03)], k.circle(0.07, 32), soft=0.006)
-    k.tube("frame", (XR, ARCH_TOP[1] - 0.06, ARCH_TOP[2]), (XS, ARCH_TOP[1] - 0.06, ARCH_TOP[2]), 0.032)
+    xa = ARCH_TOP[0]
+    k.bar("frame", (XS, FOOT_F + 0.06, 0.06), (xa, FOOT_R - 0.08, 0.06), 0.07, 0.05)                    # the floor rail
+    # the rear leg: one rectangular tube back from the seat carriage, bending down to a wide foot
+    k.sweep("frame", [(xa, y + d / 2 + 0.05, 0.45), (xa, ARCH_TOP[1] - 0.04, ARCH_TOP[2]), (xa, FOOT_R, ARCH_TOP[2] - 0.06), (xa, FOOT_R, 0.03)],
+            k.rect(0.075, 0.06, 0.012), bend=0.10, up=(1, 0, 0))
+    k.sweep("rubber", [(xa, FOOT_R, 0.0), (xa, FOOT_R, 0.03)], k.stadium(0.22, 0.11), soft=0.006)
     k.sweep("rubber", [(XS, FOOT_F, 0.0), (XS, FOOT_F, 0.03)], k.stadium(0.22, 0.11), soft=0.006)
     # the base: the post foot's rail curving back under the tower to the front leg, the tower's own base rail
     k.sweep("frame", [(POST[0], POST[1] + 0.02, 0.36), (POST[0], POST[1] + 0.02, 0.15), (POST[0], TY0 + 0.06, 0.15), (POST[0], FOOT_F, 0.15),
                       (XS, FOOT_F + 0.04, 0.15)], k.rect(0.075, 0.06, 0.012), bend=0.09, up=(1, 0, 0))   # the J
-    k.tube("frame", (XR, ARCH_TOP[1] - 0.06, ARCH_TOP[2]), (XR, TY1 - 0.05, 0.06), 0.03)            # the far side back to the tower
-    k.bar("frame", (TX1 - TD * 0.5, TY1 - 0.05, 0.05), (XR, TY1 - 0.05, 0.05), 0.06, 0.05)
+    k.bar("frame", (xa - 0.03, FOOT_R - 0.04, 0.05), (TX1 + 0.02, TY1 - 0.05, 0.05), 0.07, 0.05)         # the rear rail to the tower's base
 
 
 def seat_and_back(k):
