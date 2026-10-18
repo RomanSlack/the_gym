@@ -188,7 +188,7 @@ for pad in m["site"]["pads"]:
 in_pad = ndi.binary_dilation(in_pad, iterations=1)
 cell = lambda x, y: (int(np.clip(y + 1000, 0, 1999)), int(np.clip(x + 1000, 0, 1999)))
 ground = lambda x, y: np.nan if in_pad[cell(x, y)] else float(fin[cell(x, y)])
-CENTRE = {"W-west-": (-17.95, -14.0), "SA-": (-17.65, -37.1), "WA-": (-33.45, -21.8), "W-east-": (21.25, 11.9),
+CENTRE = {"W-west-": (-17.95, -14.0), "SA-": (-17.65, -37.1), "WA-": (-35.45, -21.8), "W-east-": (21.25, 11.9),
           "CS-W1-": (-30.45, -14.05), "CS-W2-": (-30.45, -29.6), "CS-W3-": (-12.7, 13.95), "LS-men-": (-30.05, -2.9), "LS-women-": (-30.05, 5.9),
           "FDN-garden-wall-W": (-20.0, 40.0)}  # garden wall: its exposed face is the garden (east) side
 for e in els:
@@ -224,6 +224,9 @@ for e in els:
           "z": [z0, z1], "note": "150 mm dry-laid granite plinth on a 50 mm cavity, tied back to the concrete"}
     if e.get("openings"):
         st["openings"] = e["openings"]
+    if e["id"] == "W-west-A":  # the gym WCs' annex is dug against its back between the towers: no stone in there (it showed in the WCs)
+        st["openings"] = st.get("openings", []) + [{"s": [round(9.5 + r_, 2), round(15.05 + r_, 2)], "z": [z0, -0.6], "type": "opening",
+                                                    "note": "the gym WCs' annex (rooms, not ground, behind the wall)"}]
     add(st)
 
 # ---- the sauna-lobby annex sits on a low granite plinth (no gap under its timber walls)
@@ -287,15 +290,21 @@ for r in ROOFS:
                  "holes": r.get("holes", []) if sd == "W" else [], "note": "weathered oak soffit boards under the eave; glulam tails stay exposed below"})
 
 # ---- annex roofs below the main roof line are sod roofs too (south rock annex, WC annex)
-for rid in ("S-SA-roof", "S-WA-roof"):
+EDGE_GAPS = {"S-WA-roof": {"E": (-24.75, -18.9)}, "S-WA-roof-n": {"W": (-24.75, -18.9)}}  # the WC annex's two roofs meet: no edge between them
+for rid in ("S-SA-roof", "S-WA-roof", "S-WA-roof-n"):
     r = by_id[rid]
     add({"id": f"EN-sod-{rid}", "type": "slab", "material": "sod", "rect": r["rect"], "z": [r["z"][1], round(r["z"][1] + SOD, 2)], "holes": [],
          "note": "sod roof over the rock annex: membrane, insulation, drainage, substrate + turf, flush with the meadow"})
     x0, y0, x1, y1 = r["rect"]; zt = round(r["z"][1] + SOD + 0.05, 2)
     for sd, (pa, pb) in {"S": ([x0, y0 - 0.025], [x1, y0 - 0.025]), "N": ([x0, y1 + 0.025], [x1, y1 + 0.025]),
                          "W": ([x0 - 0.025, y0], [x0 - 0.025, y1]), "E": ([x1 + 0.025, y0], [x1 + 0.025, y1])}.items():
-        add({"id": f"EN-edge-{rid}-{sd}", "type": "wall", "kind": "trim", "material": "steel_dark", "from": pa, "to": pb, "size": [0.05, 0],
-             "z": [r["z"][0], zt], "note": "folded dark aluminium roof edge"})
+        gap = EDGE_GAPS.get(rid, {}).get(sd)
+        legs = [(pa, pb)] if not gap else [(pa, [pa[0], gap[0]]), ([pa[0], gap[1]], pb)]
+        for k_, (qa, qb) in enumerate(legs):
+            if abs(qb[1] - qa[1]) + abs(qb[0] - qa[0]) < 0.05:
+                continue
+            add({"id": f"EN-edge-{rid}-{sd}" + (f"-{k_}" if gap else ""), "type": "wall", "kind": "trim", "material": "steel_dark", "from": qa, "to": qb, "size": [0.05, 0],
+                 "z": [r["z"][0], zt], "note": "folded dark aluminium roof edge"})
 
 # ---- dark steel edge on the lounge deck slab: reads as a thin dark plate over the water
 dk = by_id["S-F1-link"]; x0, y0, x1, y1 = dk["rect"]
@@ -323,7 +332,7 @@ for cid, poly in cores.items():
     top = max((e["z"][1] for e in m["elements"] if e["type"] == "wall" and e.get("kind") == "shaft"
                and min(xs) - 0.2 <= e["from"][0] <= max(xs) + 0.2 and min(ys) - 0.2 <= e["from"][1] <= max(ys) + 0.2), default=6.0)
     VOIDS.append([[min(xs), min(ys), max(xs), max(ys)], -17.5, top])
-for rid, zb, zt in (("S-WA-roof", -17.0, None), ("S-SA-roof", -17.0, None), ("S-P-roof", -7.0, None), ("S-F1-annex", None, 3.2)):
+for rid, zb, zt in (("S-WA-roof", -17.0, None), ("S-WA-roof-n", -17.0, None), ("S-SA-roof", -17.0, None), ("S-P-roof", -7.0, None), ("S-F1-annex", None, 3.2)):
     r = sl[rid]
     VOIDS.append([r["rect"], r["z"][0] if zb is None else zb, r["z"][0] if zt is None else zt])
 H = fin.copy()

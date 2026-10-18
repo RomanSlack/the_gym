@@ -161,11 +161,14 @@ S("breathwork", "F4", "gym", "Breathwork & mobility room", R(-28.85, SA[0], -17.
 S("pool-store", "F4", "service", "Pool store · lane ropes, kit, cleaning", R(-17.5, SA[0], -6.45, SA[1]), "off the south pool deck")
 
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
-# (Roman 2026-10-18: darker, efficient, clean + private; fully separate men's and women's): dug 8 m into the rock (was 4) so each
-# floor holds two mirror-image rooms with their own door off the gym, split on the annex's centre line (y -21.825); stacked
+# (Roman 2026-10-18: darker, efficient, clean + private; fully separate men's and women's; then: more spacious, doors that don't hit
+# people walking past): a T in plan. The neck between the W1 + W2 towers (3 m, the wash zones) opens behind them into a body 9 m deep
+# into the rock and 10.15 m wide; a men's and a women's room mirror-image either side of the centre line (y -21.825); stacked
 for L in ("F2", "F3", "F4"):
-    S(f"wc-gym-women-{L}", L, "wet", "Women's WC · 3 cells + accessible", R(-37.45, -24.75, -29.45, -21.825), "annex in the rock outside the back wall between W2 and W1, stacked")
-    S(f"wc-gym-men-{L}", L, "wet", "Men's WC · cell, 3 urinals + accessible", R(-37.45, -21.825, -29.45, -18.9), "annex in the rock outside the back wall between W2 and W1, stacked")
+    S(f"wc-gym-women-{L}", L, "wet", "Women's WC · 3 cells + accessible",
+      [[-29.45, -21.825], [-29.45, -24.75], [-32.45, -24.75], [-32.45, -26.9], [-38.45, -26.9], [-38.45, -21.825]], "annex in the rock outside the back wall between W2 and W1, stacked")
+    S(f"wc-gym-men-{L}", L, "wet", "Men's WC · 2 cells, 4 urinals + accessible",
+      [[-29.45, -21.825], [-29.45, -18.9], [-32.45, -18.9], [-32.45, -16.75], [-38.45, -16.75], [-38.45, -21.825]], "annex in the rock outside the back wall between W2 and W1, stacked")
 
 # rooms are cut cleanly around every core / shaft that pokes into them (they sit 0.6 m inside the walls)
 from shapely.geometry import Polygon
@@ -298,13 +301,18 @@ els.append({"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [
 for L in ("F3", "F2"):
     els.append({"id": f"S-SA-{L}", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
 els.append({"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv["F4"] - 0.6, 2), lv["F4"]], "holes": []})
-for n_, (a_, b_) in {"W": ([-37.45, -24.75], [-37.45, -18.9]), "N": ([-37.45, -18.9], [-29.7, -18.9]), "S": ([-37.45, -24.75], [-29.7, -24.75])}.items():
+WA_BODY, WA_NECK = [-38.45, -26.9, -32.45, -16.75], [-32.45, -24.75, -29.45, -18.9]
+for n_, (a_, b_) in {"W": ([-38.45, -26.9], [-38.45, -16.75]), "NB": ([-38.45, -16.75], [-32.45, -16.75]), "NE": ([-32.45, -16.75], [-32.45, -18.9]),
+                     "N": ([-32.6, -18.9], [-29.7, -18.9]), "SB": ([-38.45, -26.9], [-32.45, -26.9]), "SE": ([-32.45, -26.9], [-32.45, -24.75]),
+                     "S": ([-32.6, -24.75], [-29.7, -24.75])}.items():
     wall(f"WA-{n_}", a_, b_, 0.3, lv["F4"] - 0.6, -0.25, "retaining", "concrete")
-els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": [-37.45, -24.75, -29.45, -18.9], "z": [-0.6, -0.25], "holes": []})
-wall("SP-WA-spine", [-37.3, -21.825], [-29.7, -21.825], 0.2, lv["F4"], -0.6, "spine", "concrete")  # men's | women's, raft to roof
+els.append({"id": "S-WA-roof", "type": "slab", "material": "concrete", "rect": WA_BODY, "z": [-0.6, -0.25], "holes": []})
+els.append({"id": "S-WA-roof-n", "type": "slab", "material": "concrete", "rect": WA_NECK, "z": [-0.6, -0.25], "holes": []})
+wall("SP-WA-spine", [-38.3, -21.825], [-29.7, -21.825], 0.2, lv["F4"], -0.6, "spine", "concrete")  # men's | women's, raft to roof
 els[-1].update(phase=3, seq=int(round((lv["F4"] + 20) * 10)), note="200 mm concrete spine between the men's and women's WCs, F4 raft to the annex roof (sound)")
 for L in ("F3", "F2"):  # the annex's own floors (it was one hollow shaft from the raft to the roof)
-    els.append({"id": f"S-WA-{L}", "type": "slab", "material": "concrete", "rect": [-37.45, -24.75, -29.45, -18.9], "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
+    els.append({"id": f"S-WA-{L}", "type": "slab", "material": "concrete", "rect": WA_BODY, "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
+    els.append({"id": f"S-WA-{L}n", "type": "slab", "material": "concrete", "rect": WA_NECK, "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
 # underground parking: retaining walls, columns on a 8.2 x 11 m grid, roof slab = the forecourt
 PZ0, PZ1 = lv["E2"] - 0.6, -1.1
 wall("WP-S", [30.5, -9.5], [60.0, -9.5], 0.4, PZ0, PZ1, "retaining", "concrete")

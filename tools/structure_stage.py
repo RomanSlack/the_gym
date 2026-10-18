@@ -44,7 +44,7 @@ def add(e):
 
 # ---- suspended slabs sit 100 mm under the finished floor level (finish build-up: impact mat, screed + underfloor heating,
 # floor finish; the PT beam tops already sit at level - 0.10). Ground rafts (F4, E2) keep their levels for now.
-SUSP = {"S-F1-west": "F1", "S-F2-west": "F2", "S-F3-west": "F3", "S-E1-east": "E1", "S-F1-link": "F1", "S-F1-annex": "F1", "S-SA-F2": "F2", "S-SA-F3": "F3", "S-WA-F2": "F2", "S-WA-F3": "F3"}
+SUSP = {"S-F1-west": "F1", "S-F2-west": "F2", "S-F3-west": "F3", "S-E1-east": "E1", "S-F1-link": "F1", "S-F1-annex": "F1", "S-SA-F2": "F2", "S-SA-F3": "F3", "S-WA-F2": "F2", "S-WA-F3": "F3", "S-WA-F2n": "F2", "S-WA-F3n": "F3"}
 for e in els:
     if e["id"] in SUSP:
         t = round(e["z"][1] - e["z"][0], 2)

@@ -1190,7 +1190,8 @@ for y_, rot_ in ((-34.35 - 0.015, 180), (-39.9 + 0.015, 0)):
 # on F2, F3 + F4, the pool floor's made for wet bare feet; a robot in each). Two mirror-image rooms in the rock annex either side of
 # its concrete spine (construction/furniture.py gym_wc): wash zone, cells along the outer wall, the accessible WC across the far end.
 # Origin of each = the finished corner of the gym wall (x -29.72) and the spine; u runs west into the rock, v from the spine outwards.
-GWC_W, GWC_L, GWC_H = 2.635, 7.56, 2.7
+# A T in plan (Roman: more spacious, doors that don't hit people walking past, the cells flush): the neck between the towers, the body behind.
+GWC_WN, GWC_W, GWC_UB, GWC_L, GWC_H = 2.635, 4.785, 2.9, 8.6, 2.7    # neck width, body width, where the body starts, length, ceiling
 WC_WARM = [1.0, 0.8, 0.6]
 for lvl in ("F2", "F3", "F4"):
     zl = lv[lvl] + (0.01 if lvl == "F4" else 0.0)                                        # F4: on the mosaic laid on the raft
@@ -1207,24 +1208,28 @@ for lvl in ("F2", "F3", "F4"):
             F.append({"id": f"light_only-{len(F):03d}", "kind": "light_only", "level": lvl, "at": [round(x, 3), round(y, 3)], "z": zl, "rot_deg": 0,
                       "zone": zn_, "light": L_, "note": f"{lvl} {tag} WC: {note}"})
         sp = dict(typ="SPOT", spot_deg=70, blend=1.0, radius=0.05)
-        lo(0.95, GWC_W - 0.06, 2.0, 18, 0.3, (0.95, 0.5, 1.2), note="the mirror's halo")
-        lo(0.95, GWC_W - 0.25, 0.7, 4, 0.3, (0.95, GWC_W - 0.25, 0.0), note="the glow under the trough")
-        lo(1.0, 1.2, GWC_H - 0.03, 22, 0, (1.0, 1.2, 0.0), note="the wash zone's downlight", **sp)
-        for u in (2.6, 3.775, 4.95):
-            lo(u, GWC_W - 1.6 - 0.32, GWC_H - 0.03, 9, 0.5, (u, GWC_W - 1.6, 0.6), note="the cove grazing the cell fronts")
-        cells = [2.1 + (k + 0.5) * 3.35 / 3 for k in range(3)] if not men else [2.65]
-        for u in cells:
-            lo(u, GWC_W - 0.8, GWC_H - 0.03, 16, 0, (u, GWC_W - 0.8, 0.0), note="a cell's downlight", **sp)
+        lo(1.075, GWC_WN - 0.06, 2.0, 18, 0.3, (1.075, 0.5, 1.2), note="the mirror's halo")
+        lo(1.3, GWC_WN - 0.3, 0.2, 3, 0.3, (1.3, GWC_WN - 0.3, 0.0), note="the glow under the vanity")
+        for u, v in ((1.0, 1.2), (3.4, 1.3), (7.2, 1.3)):
+            lo(u, v, GWC_H - 0.03, 20, 0, (u, v, 0.0), note="a downlight (neck, aisle)", **sp)
+        for u in (3.85, 5.75, 7.65):
+            lo(u, GWC_WN - 0.32, GWC_H - 0.03, 9, 0.5, (u, GWC_WN, 0.6), note="the cove grazing the cell fronts")
+        U0 = GWC_UB; cells = (["store", "wc", "wc"] if men else ["wc", "wc", "wc"])
+        for k, kind in enumerate(cells):
+            u = U0 + 1.1335 * (k + 0.5)
+            lo(u, GWC_W - 1.0, GWC_H - 0.03, 16, 0, (u, GWC_W - 1.0, 0.0), note=f"the {'cupboard' if kind == 'store' else 'cell'}'s downlight", **sp)
+        ua = U0 + 3.4 + (GWC_L - U0 - 3.4) / 2                                                  # the accessible WC's centre (u)
+        for du, dv in ((-0.3, 1.2), (0.55, 1.45)):
+            lo(ua + du, GWC_W - dv, GWC_H - 0.03, 20, 0, (ua + du, GWC_W - dv, 0.0), note="the accessible WC's downlight", **sp)
+        lo(ua - 1.1, GWC_W - 1.25, 1.9, 6, 0.25, (ua - 0.3, GWC_W - 1.25, 1.3), note="the accessible mirror's halo")
         if men:
-            for u in (3.85, 4.85):
-                lo(u, GWC_W - 0.12, GWC_H - 0.04, 12, 0.4, (u, GWC_W - 0.02, 0.5), note="grazing the tile over the urinals")
-        for u, v in ((GWC_L - 0.9, GWC_W - 0.9), (GWC_L - 1.6, GWC_W - 1.6)):
-            lo(u, v, GWC_H - 0.03, 22, 0, (u, v, 0.0), note="the accessible WC's downlight", **sp)
-        lo(GWC_L - 1.0, GWC_W - 0.15, GWC_H - 0.04, 10, 0.4, (GWC_L - 1.0, GWC_W - 0.02, 0.6), note="grazing the tile beside the accessible WC")
-        lo(6.55, 0.08, 1.9, 6, 0.25, (6.55, 1.0, 1.3), note="the accessible mirror's halo")
-        F.append({"id": f"ceiling_services-{len(F):03d}", "kind": "ceiling_services", "level": lvl, "at": list(at(3.8, 0.5)), "z": zl, "rot_deg": 0,
+            for u in (4.0, 5.6):
+                lo(u, 0.12, GWC_H - 0.04, 12, 0.4, (u, 0.02, 0.5), note="grazing the tile over the urinals")
+        else:
+            lo(4.6, 0.06, 2.0, 18, 0.4, (4.6, 1.0, 1.2), note="the grooming mirror's halo")
+        F.append({"id": f"ceiling_services-{len(F):03d}", "kind": "ceiling_services", "level": lvl, "at": list(at(4.8, 1.3)), "z": zl, "rot_deg": 0,
                   "zone": zn_, "z_local": GWC_H - 0.04, "ceiling": GWC_H, "note": f"{lvl} {tag} WC: sprinkler + smoke detector"})
-        F.append({"id": f"far_uvc-{len(F):03d}", "kind": "far_uvc", "level": lvl, "at": list(at(4.6, 0.5)), "z": zl, "rot_deg": 0, "zone": zn_,
+        F.append({"id": f"far_uvc-{len(F):03d}", "kind": "far_uvc", "level": lvl, "at": list(at(6.0, 1.3)), "z": zl, "rot_deg": 0, "zone": zn_,
                   "z_ceiling": GWC_H, "note": f"{lvl} {tag} WC: far-UVC (222 nm)"})
 
 m["furnishings"] = F

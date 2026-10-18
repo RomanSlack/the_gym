@@ -5396,158 +5396,198 @@ def _placed(P, fn, x, y, rz=0.0):
         me = bpy.data.meshes.new("tmp"); b.to_mesh(me); b.free(); tgt.from_mesh(me); bpy.data.meshes.remove(me)
 
 
-def gym_wc(P, men=True, pool=False, hand=1, W=2.635, L=7.56, H=2.7):
+def gym_wc(P, men=True, pool=False, hand=1, Wn=2.635, W=4.785, ub=2.9, L=8.6, H=2.7):
     """One of the gym floors' WC rooms in the rock annex (F2, F3, F4; men's + women's mirror-image either side of the concrete spine).
-    The dark version of the house WC language: black glazed tile to the ceiling (interior.py), fluted SMOKED oak cell fronts, blackened
-    steel, white china (it reads clean and contrasts for low vision), a honed black stone trough. Plan, from the door in the gym wall:
-      - the wash zone: a floating black stone trough with two taps under a backlit mirror, towels + bin in the wall beside it,
-        a shelf for the phone and bottle (pool: a rail of robe hooks), Vaskebjørn's dock in the corner behind the door
-      - the cells along the outer wall, floor to ceiling and closed (women 3; men 1 cell + 3 splash-free urinals behind oak screens),
-        the aisle along the spine
-      - the accessible WC across the far end (TEK17: 1.5 m turning circle, 0.9 m beside the WC, rails, pull cord, basin, changing table)
-    pool=True (F4: wet bare feet; slips are the danger): continuous grab rail along the spine, a linear drain the room's length under
-    it, a drained foot grate inside the door, robe hooks in every cell (the slip-resistant mosaic floor is in interior.py).
-    Origin = the finished corner of the gym wall and the spine; local +y runs away from the gym, +x from the spine to the outer
-    wall (hand -1 mirrors it: the women's room). Lights are their own furnishings (tools/furnish.py, 'the gym WCs')."""
+    The dark version of the house WC language: black glazed tile to the ceiling (interior.py), fluted fumed-oak cell fronts, blackened
+    steel, white china (it reads clean and contrasts for low vision), a honed black stone trough. A T in plan (Roman: more spacious,
+    doors that don't hit people walking past, the cells integrated flush, not boxes added after the fact):
+      - the neck between the stair towers (Wn wide): the door from the gym, the wash zone (a floating black stone trough with two taps
+        under a backlit mirror, towels + bin in the wall), a phone/bottle shelf, Vaskebjørn's dock in the corner behind the door
+      - the body behind the towers (W wide): ONE run of cells along the outer wall from the step to the back wall, its fluted front in
+        the plane of the neck's wall (it reads as the wall), the doors opening out into a 2.6 m aisle. Women: 3 cells + the accessible
+        WC; men: the cleaner's cupboard, 2 cells + the accessible WC, and 4 splash-free urinals on the spine wall behind oak screens;
+        the women's spine wall a grooming shelf under a long mirror
+    pool=True (F4: wet bare feet; slips are the danger): a grab rail along the spine, a linear drain under it, a drained foot grate
+    inside the door, robe hooks in every cell (the slip-resistant mosaic floor is in interior.py).
+    Origin = the finished corner of the gym wall and the spine; local +y runs away from the gym (u), +x from the spine outwards (v);
+    hand -1 mirrors it (the women's room). Lights are their own furnishings (tools/furnish.py, 'the gym WCs')."""
     oak0 = M["oak"]
     sm = M.setdefault("oak_smoked_dark", bc.pbr_material("oak_smoked_dark", "black_oak_veneer", 1.5, box=True, tint=(1.0, 0.92, 0.85), sat=0.7, val=0.38,
                                                          rough_mul=0.8, rough_add=0.08, piece_var=0.06))       # fumed oak, as the recovery floor
     nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
     st, fe = M["steel"], M["felt"]
     paper = M.setdefault("paper_white", bc.material("paper_white", (0.86, 0.85, 0.82), 0.8))
+    halo = _led("wc_halo", (1.0, 0.78, 0.55), 3.0)
     M.setdefault("led_free", bc.material("led_free", (0.02, 0.45, 0.1), 0.3, emit=((0.05, 1.0, 0.2), 0.5)))
     M.setdefault("led_busy", bc.material("led_busy", (0.6, 0.02, 0.01), 0.3, emit=((1.0, 0.05, 0.02), 0.5)))
-    M["oak"] = sm                                              # the shared WC helpers (door leaves) take the smoked oak here
+    D = W - Wn                                                # the cells' depth: their front is the neck wall's plane
+    vf = Wn + 0.02                                            # the 40 mm front's centre line
+    M["oak"] = sm                                              # the shared WC helpers (door leaves) take the fumed oak here
     try:
-        xf = W - 1.6                                          # the cells' front face (they are 1.6 deep)
-        y0c, y1c = 2.1, 5.45                                  # the cell zone along the room
-        ya = 5.5                                              # the accessible WC's front
-        # ---- the wash zone
-        tx0, tx1 = 0.3, 1.6
-        P.box(nero, (W - 0.25, (tx0 + tx1) / 2, 0.8), (0.5, tx1 - tx0, 0.12))                       # trough slab, floating (wall-hung)
-        P.box(nero, (W - 0.27, (tx0 + tx1) / 2, 0.76), (0.32, tx1 - tx0 - 0.12, 0.002))              # the trough's floor, sunk 80 mm
-        for yb in ((tx0 + tx1) / 2 - 0.325, (tx0 + tx1) / 2 + 0.325):
-            P.rod(st, (W, yb, 1.02), (W - 0.17, yb, 1.02), 0.011, seg=12)                            # wall spout over each place
-            P.box(st, (W - 0.004, yb, 1.15), (0.008, 0.07, 0.07))                                    # touch-free sensor plate
-            P.box(st, (W - 0.05, yb + 0.2, 1.05), (0.1, 0.09, 0.18))                                 # soap
-        P.box(sm, (W - 0.011, (tx0 + tx1) / 2, 1.62), (0.022, tx1 - tx0, 1.0))                       # smoked oak behind the mirror
-        P.box(M["mirror"], (W - 0.025, (tx0 + tx1) / 2, 1.62), (0.006, tx1 - tx0 - 0.06, 0.94))
-        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (W - 0.02, (tx0 + tx1) / 2, 2.105), (0.01, tx1 - tx0 - 0.04, 0.012))  # the halo over it
-        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (W - 0.2, (tx0 + tx1) / 2, 0.735), (0.01, tx1 - tx0 - 0.1, 0.006))     # the glow under it
-        P.box(sm, (W - 0.03, 1.82, 1.25), (0.06, 0.36, 0.44)); P.box(st, (W - 0.065, 1.82, 1.25), (0.012, 0.3, 0.38))      # paper towels
-        P.box(fe, (W - 0.072, 1.82, 1.08), (0.004, 0.2, 0.012))
-        _pedal_bin(P, (W - 0.22, 1.82), h=0.62, r=0.15, lid=sm)
-        if pool:                                                                                     # robe hooks on a smoked oak rail
+        # ---- the neck: the wash zone. A wall-hung vanity 2.0 m long: a 120 mm honed black stone top with a trough carved into it
+        # (sloped to a slot drain at the back), two slim wall spouts with the soap beside each, a fluted fumed-oak cabinet under it
+        # floating 250 mm off the floor (a glow under it), a waste slot in the top at the far end under the towel dispenser set flush
+        # in the tile, a long mirror in a fumed-oak frame with a halo over it. No freestanding bins.
+        u0, u1, dv, top = 0.3, 2.3, 0.52, 0.86
+        vb = Wn - dv                                                                               # the vanity's front edge
+        t0, t1 = 0.45, 1.75                                                                        # the trough
+        for (a_, b_) in ((u0, t0), (t1, u1)):                                                      # the solid top either side of it
+            P.box(nero, (Wn - dv / 2, (a_ + b_) / 2, top - 0.06), (dv, b_ - a_, 0.12))
+        P.box(nero, (vb + 0.04, (t0 + t1) / 2, top - 0.06), (0.08, t1 - t0, 0.12))                # front lip
+        P.box(nero, (Wn - 0.05, (t0 + t1) / 2, top - 0.06), (0.1, t1 - t0, 0.12))                 # back strip (the drain slot in front of it)
+        P.box(nero, ((vb + 0.08 + Wn - 0.1) / 2, (t0 + t1) / 2, top - 0.105), (Wn - 0.1 - vb - 0.08, t1 - t0, 0.03), rx=0.0, ry=math.radians(-6))  # sloped floor
+        P.box(st, (Wn - 0.115, (t0 + t1) / 2, top - 0.11), (0.025, t1 - t0 - 0.06, 0.004))         # slot drain
+        P.box(sm, (Wn - dv / 2 - 0.01, (u0 + u1) / 2, 0.52), (dv - 0.04, u1 - u0, 0.56))           # the cabinet under it
+        for yg in np.arange(u0 + 0.015, u1, 0.03):
+            P.box(fe, (vb + 0.019, yg, 0.52), (0.002, 0.003, 0.54))
+        P.box(halo, (vb + 0.1, (u0 + u1) / 2, 0.235), (0.02, u1 - u0 - 0.1, 0.006))                # glow under it
+        for yb in ((t0 + t1) / 2 - 0.33, (t0 + t1) / 2 + 0.33):
+            P.box(st, (Wn - 0.004, yb, 1.05), (0.008, 0.06, 0.06))                                # rose
+            P.rod(st, (Wn, yb, 1.05), (Wn - 0.2, yb, 1.05), 0.009, seg=12)                         # spout (sensor in its tip)
+            P.box(st, (Wn - 0.004, yb + 0.16, 1.05), (0.008, 0.045, 0.045))
+            P.rod(st, (Wn, yb + 0.16, 1.05), (Wn - 0.12, yb + 0.16, 1.05), 0.007, seg=10)          # soap spout
+        P.box(st, (Wn - dv / 2, 2.1, top + 0.001), (dv - 0.16, 0.18, 0.003))                      # waste slot: a steel flap in the top
+        P.box(fe, (Wn - dv / 2, 2.1, top + 0.003), (dv - 0.2, 0.012, 0.001))
+        P.box(st, (Wn - 0.003, 2.1, 1.35), (0.006, 0.28, 0.4))                                     # towel dispenser, flush in the tile
+        P.box(fe, (Wn - 0.007, 2.1, 1.17), (0.002, 0.2, 0.012))
+        P.box(sm, (Wn - 0.012, (u0 + 1.85) / 2 + 0.0, 1.6), (0.024, 1.55, 0.96))                    # the mirror in its frame
+        P.box(M["mirror"], (Wn - 0.026, (u0 + 1.85) / 2, 1.6), (0.004, 1.49, 0.9))
+        P.box(halo, (Wn - 0.03, (u0 + 1.85) / 2, 2.095), (0.012, 1.5, 0.01))
+        if pool:
             P.box(sm, (0.02, 1.4, 1.7), (0.04, 1.2, 0.1))
             for yh in np.arange(0.9, 1.95, 0.25):
                 P.rod(st, (0.04, yh, 1.7), (0.12, yh, 1.74), 0.009, seg=8)
-        else:                                                                                        # phone + bottle shelf, hooks for a bag
+        else:
             P.box(sm, (0.13, 1.4, 1.1), (0.26, 1.0, 0.03))
             for ys in (1.0, 1.8):
                 P.box(st, (0.05, ys, 1.06), (0.1, 0.03, 0.06))
             for yh in (1.05, 1.75):
                 P.rod(st, (0.0, yh, 1.6), (0.09, yh, 1.63), 0.009, seg=8)
-        _placed(P, lambda T: robot_dock(T), 0.4, 0.0, 0.0)                                           # Vaskebjørn's garage behind the door
+        _placed(P, lambda T: robot_dock(T), 0.4, 0.0, 0.0)
         _placed(P, lambda T: vaskebjorn(T, ring="lingon"), 0.4, 0.27, 0.0)
-        P.box(st, (1.305, 0.004, 2.12), (1.08, 0.008, 0.04))                                         # the door's inside frame (the leaf swings in)
+        P.box(st, (1.305, -0.255, 2.31), (1.04, 0.53, 0.02))                                       # the doorway's reveal, lined in steel
+        for sx in (0.795, 1.815):
+            P.box(st, (sx, -0.255, 1.155), (0.02, 0.53, 2.31))
+        P.box(st, (1.305, -0.255, 0.003), (1.02, 0.53, 0.006))                                     # a steel threshold, level
+        P.box(st, (1.305, 0.004, 2.33), (1.08, 0.008, 0.04))                                       # + a slim frame on the tile
         for sx in (0.785, 1.825):
-            P.box(st, (sx, 0.004, 1.05), (0.04, 0.008, 2.1))
-        P.box(st, (1.75, 0.01, 1.05), (0.022, 0.02, 0.36))                                           # pull handle
-        # ---- the cells: side panels, the fluted front with a door each, the fittings
-        cells = [(y0c + k * (y1c - y0c) / 3, y0c + (k + 1) * (y1c - y0c) / 3) for k in range(3)] if not men else [(y0c, y0c + 1.1)]
-        bounds = [c[0] for c in cells] + [cells[-1][1]]
-        for k, ys in enumerate(bounds):  # the side panels, 30 mm, floor to ceiling (the end ones inside the zone)
-            P.box(sm, (xf + 0.8, ys + (0.015 if k == 0 else -0.015 if ys == y1c else 0.0), H / 2), (1.6, 0.03, H))
-        for i, (a, b) in enumerate(cells):
-            c = (a + b) / 2; dw = 0.8
-            da, db = c - dw / 2, c + dw / 2
-            for (u0, u1, z0, z1) in ((a + 0.015, da - 0.003, 0, H), (db + 0.003, b - 0.015, 0, H), (da - 0.003, db + 0.003, 2.103, H)):
-                if u1 - u0 > 0.005:
-                    P.box(sm, (xf, (u0 + u1) / 2, (z0 + z1) / 2), (0.04, u1 - u0, z1 - z0))
-                    for yg in np.arange(u0 + 0.015, u1, 0.03):
-                        P.box(fe, (xf - 0.0205, yg, (z0 + z1) / 2), (0.002, 0.003, z1 - z0 - 0.02))
-            P.box(fe, (xf, c, 2.1015), (0.042, dw + 0.006, 0.003))
+            P.box(st, (sx, 0.004, 1.165), (0.04, 0.008, 2.33))
+        P.box(st, (1.75, 0.01, 1.05), (0.022, 0.02, 0.36))
+        # ---- the body: one run of cells, wall to wall, along the outer wall
+        cells = ([("store", 1.134), ("wc", 1.133), ("wc", 1.133)] if men else [("wc", 1.133), ("wc", 1.133), ("wc", 1.134)]) + [("acc", L - ub - 3.4)]
+        bounds, u = [], ub
+        for kind, w in cells:
+            bounds.append((kind, u, u + w)); u += w
+        doors = []
+        for i, (kind, a, b) in enumerate(bounds):
+            dw = 1.0 if kind == "acc" else 0.8
+            da = a + 0.12 if kind == "acc" else (a + b) / 2 - dw / 2
+            doors.append((da, da + dw))
+            if i:                                                                                  # the panel between two cells
+                P.box(sm, ((vf + 0.02 + W) / 2, a, H / 2), (W - vf - 0.02, 0.03, H))
+        cuts = [ub] + [v for d in doors for v in (d[0] - 0.003, d[1] + 0.003)] + [L]
+        for k in range(0, len(cuts), 2):                                                           # the front between the doors: fluted
+            u0, u1 = cuts[k], cuts[k + 1]
+            P.box(sm, (vf, (u0 + u1) / 2, H / 2), (0.04, u1 - u0, H))
+            for yg in np.arange(u0 + 0.015, u1 - 0.005, 0.03):
+                P.box(fe, (vf - 0.0205, yg, H / 2), (0.002, 0.003, H - 0.02))
+        for i, ((da, db), (kind, a, b)) in enumerate(zip(doors, bounds)):
+            P.box(sm, (vf, (da + db) / 2, (2.1 + H) / 2 + 0.0015), (0.04, db - da + 0.006, H - 2.103))  # transom over the door
+            for yg in np.arange(da + 0.015, db, 0.03):
+                P.box(fe, (vf - 0.0205, yg, (2.1 + H) / 2 + 0.0015), (0.002, 0.003, H - 2.123))
+            P.box(fe, (vf, (da + db) / 2, 2.1015), (0.042, db - da + 0.006, 0.003))
             for yl in (da - 0.004, db + 0.004):
-                P.box(sm, (xf, yl, 1.05), (0.042, 0.005, 2.1))
-            _placed(P, lambda T, dw=dw, o=(i == 1 and not men): _leaf(T, (0.0, 0.0), dw, 2.1, math.radians(100) if o else 0.0, occupied=(i == 0)),
-                    xf, da, math.pi / 2)                                                             # outward into the aisle
-            P.box(st, (xf - 0.025, c, 2.4), (0.006, 0.16, 0.16))                                     # the cell's plate over the door
-            P.box(M["led_busy"] if i == 0 else M["led_free"], (xf - 0.03, c, 2.4), (0.004, 0.025, 0.025))
-            def cell_kit(T, w=b - a):
+                P.box(sm, (vf, yl, 1.05), (0.042, 0.005, 2.1))
+            busy = (kind == "wc" and i == len(bounds) - 2)
+            _placed(P, lambda T, w_=db - da, b_=busy: _leaf(T, (0.0, 0.0), w_, 2.1, 0.0, occupied=b_), vf, da, math.pi / 2)  # opens out
+            if kind != "store":
+                P.box(st, (vf - 0.025, (da + db) / 2, 2.4), (0.006, 0.16, 0.16))                    # the cell's plate + occupancy dot
+                P.box(M["led_busy"] if busy else M["led_free"], (vf - 0.03, (da + db) / 2, 2.4), (0.004, 0.025, 0.025))
+            if kind == "acc":
+                for k_, fig in enumerate(("accessible", "baby")):
+                    _placed(P, lambda T, f_=fig: pictogram_on(T, f_, 0.0, 0.0, 2.4, 0.16, plate=True), vf - 0.021, db + 0.15 + k_ * 0.21, math.pi / 2)
+            w = b - a
+            def wc_kit(T, w=w):
                 _wc_pan(T, 0.0)
                 T.rod(paper, (0.39, 0.12, 0.75), (0.5, 0.12, 0.75), 0.055, seg=20)
                 _brush(T, (-0.36, 0.1)); _pedal_bin(T, (-w / 2 + 0.17, 0.16), h=0.3, r=0.09, lid=sm)
-                T.box(st, (0.0, 0.004, 1.42), (0.12, 0.008, 0.08))                                   # seat-cleaner dispenser
-                T.cyl(st, (0.0, 0.8, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (0.0, 0.8, H - 0.014), 0.05, 0.003, seg=24)
-            _placed(P, cell_kit, W, c, math.pi / 2)
-            P.box(sm, (W - 0.7, b - 0.03 - 0.075, 1.05), (0.3, 0.15, 0.02))                          # shelf on the side panel
-            for k in range(2 if pool else 1):                                                        # hook(s) on the front, inside
-                P.rod(st, (xf + 0.02, a + 0.12 + k * 0.12, 1.7), (xf + 0.09, a + 0.12 + k * 0.12, 1.73), 0.009, seg=8)
-        if men:  # three splash-free urinals behind smoked oak screens (one lower), a grazing light over them
-            yu = [3.6, 4.35, 5.1]
+                T.box(st, (0.0, 0.004, 1.42), (0.12, 0.008, 0.08))
+                T.box(sm, (w / 2 - 0.105, 0.75, 1.05), (0.15, 0.3, 0.02)); T.box(paper, (w / 2 - 0.105, 0.68, 1.1), (0.11, 0.11, 0.1))
+                for k in range(2 if pool else 1):
+                    T.rod(st, (-w / 2 + 0.12 + k * 0.12, D - 0.04, 1.7), (-w / 2 + 0.12 + k * 0.12, D - 0.11, 1.73), 0.009, seg=8)
+                T.cyl(st, (0.0, 1.0, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (0.0, 1.0, H - 0.014), 0.05, 0.003, seg=24)
+            def store_kit(T, w=w):
+                T.box(M["brushed"], (-w / 2 + 0.35, 0.22, 0.3), (0.5, 0.4, 0.3)); T.rod(st, (-w / 2 + 0.35, 0.0, 0.85), (-w / 2 + 0.35, 0.18, 0.85), 0.012, seg=10)
+                for z in (1.2, 1.55, 1.9):
+                    T.box(sm, (0.0, 0.15, z), (w - 0.06, 0.28, 0.02))
+                    for k in range(5):
+                        T.cyl(st, (-w / 2 + 0.2 + k * 0.17, 0.15, z + 0.01), 0.035, 0.2, seg=12)                    # bottles
+                for k in range(3):
+                    T.rod(sm, (w / 2 - 0.2 - k * 0.1, 0.06, 0.05), (w / 2 - 0.2 - k * 0.1, 0.06, 1.4), 0.012, seg=8)
+                T.box(st, (0.0, 1.3, 0.45), (0.5, 0.8, 0.9))                                         # the cleaning cart
+                T.cyl(st, (0.0, 1.0, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (0.0, 1.0, H - 0.014), 0.05, 0.003, seg=24)
+            def acc_kit(T, w=w):  # the accessible WC: the pan by the back wall, the basin on the far side panel, 1.5 m to turn
+                px = w / 2 - 0.5
+                _wc_pan(T, px)
+                T.rod(paper, (px - 0.5, 0.12, 0.75), (px - 0.39, 0.12, 0.75), 0.055, seg=20)
+                T.rod(st, (w / 2 - 0.035, 0.25, 0.8), (w / 2 - 0.035, 1.0, 0.8), 0.017, seg=12); T.rod(st, (w / 2 - 0.035, 0.25, 0.8), (w / 2 - 0.035, 0.25, 1.5), 0.017, seg=12)
+                T.box(st, (px - 0.35, 0.03, 0.8), (0.07, 0.06, 0.16)); T.rod(st, (px - 0.35, 0.05, 0.8), (px - 0.35, 0.85, 0.8), 0.017, seg=12)
+                _brush(T, (w / 2 - 0.15, 0.12)); _pedal_bin(T, (px - 0.6, 0.15), h=0.3, r=0.09, lid=sm)
+                T.box(M["ceramic"], (w / 2 - 0.04, 1.2, 2.3), (0.08, 0.03, 0.08))                  # the alarm pull: cord + two red bangles
+                T.rod(M["lino_lingon"], (w / 2 - 0.06, 1.2, 2.26), (w / 2 - 0.06, 1.2, 0.1), 0.0025, seg=6)
+                for z in (0.1, 0.9):
+                    T.cyl(M["lino_lingon"], (w / 2 - 0.06, 1.2, z - 0.02), 0.025, 0.04, seg=16)
+                _placed(T, lambda Q: _accessible_basin(Q, 0.0), -w / 2, 1.25, -math.pi / 2)        # basin on the side panel, knee space
+                T.box(sm, (-w / 2 + 0.012, 1.25, 1.45), (0.024, 0.54, 0.84)); T.box(M["mirror"], (-w / 2 + 0.026, 1.25, 1.45), (0.004, 0.5, 0.8))
+                T.box(halo, (-w / 2 + 0.03, 1.25, 1.885), (0.01, 0.5, 0.01))
+                T.box(st, (-w / 2 + 0.05, 1.57, 1.05), (0.1, 0.09, 0.18))
+                T.box(sm, (-w / 2 + 0.03, 0.55, 1.25), (0.06, 0.36, 0.42)); T.box(st, (-w / 2 + 0.065, 0.55, 1.25), (0.012, 0.3, 0.36))
+                _pedal_bin(T, (-w / 2 + 0.2, 0.3), h=0.42, r=0.12, lid=sm)
+                T.box(sm, (-0.35, 0.06, 0.95), (0.8, 0.11, 0.55))                                   # fold-down changing table (folded)
+                T.box(M["ceramic"], (0.2, D - 0.03, 1.0), (0.08, 0.02, 0.08)); T.box(M["lino_lingon"], (0.2, D - 0.044, 1.0), (0.04, 0.008, 0.04))  # alarm reset
+                T.rod(st, (0.6, D - 0.02, 1.7), (0.6, D - 0.1, 1.72), 0.01, seg=8)
+                _placed(T, lambda Q: floor_drain(Q), -0.2, 1.1, 0.0)
+                for xs, ys in ((-0.3, 1.2), (0.55, 1.45)):
+                    T.cyl(st, (xs, ys, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (xs, ys, H - 0.014), 0.05, 0.003, seg=24)
+            _placed(P, {"wc": wc_kit, "store": store_kit, "acc": acc_kit}[kind], W, (a + b) / 2, math.pi / 2)
+        # ---- the spine wall in the body
+        if men:  # four splash-free urinals (one lower) behind fumed oak screens, a grazing light over them
+            yu = [3.6, 4.4, 5.2, 6.0]
             for k, y_ in enumerate(yu):
-                _placed(P, lambda T, k=k: _nautilus(T, 0.0, rim=0.5 if k == 0 else 0.62), W, y_, math.pi / 2)
-            for y_ in (3.975, 4.725):
-                P.box(sm, (W - 0.27, y_, 1.0), (0.5, 0.025, 1.2))
+                _placed(P, lambda T, k=k: _nautilus(T, 0.0, rim=0.5 if k == 0 else 0.62), 0.0, y_, -math.pi / 2)
+            for y_ in (4.0, 4.8, 5.6):
+                P.box(sm, (0.27, y_, 1.0), (0.5, 0.025, 1.2))
                 for z in (0.55, 1.45):
-                    P.box(st, (W - 0.02, y_, z), (0.04, 0.04, 0.04))
-            P.box(st, (W - 0.12, 4.35, H - 0.012), (0.08, 1.9, 0.024)); P.box(M["opal"], (W - 0.12, 4.35, H - 0.025), (0.05, 1.86, 0.003))
-        # ---- the accessible WC across the far end
-        dA, dB = 0.06, 1.06
-        for (u0, u1, z0, z1) in ((0.0, dA - 0.003, 0, H), (dB + 0.003, W, 0, H), (dA - 0.003, dB + 0.003, 2.103, H)):
-            if u1 - u0 > 0.005:
-                P.box(sm, ((u0 + u1) / 2, ya, (z0 + z1) / 2), (u1 - u0, 0.04, z1 - z0))
-                for xg in np.arange(u0 + 0.015, u1, 0.03):
-                    P.box(fe, (xg, ya - 0.0205, (z0 + z1) / 2), (0.003, 0.002, z1 - z0 - 0.02))
-        P.box(fe, ((dA + dB) / 2, ya, 2.1015), (dB - dA + 0.006, 0.042, 0.003))
-        _placed(P, lambda T: _leaf(T, (0.0, 0.0), dB - dA, 2.1, 0.0), dB, ya, math.pi)       # outward (closed), lever at the spine side
-        _placed(P, lambda T: pictogram_on(T, "accessible", 0.0, 0.0, 2.4, 0.16, plate=True), 0.45, ya - 0.021, math.pi)
-        _placed(P, lambda T: pictogram_on(T, "baby", 0.0, 0.0, 2.4, 0.16, plate=True), 0.67, ya - 0.021, math.pi)
-        yb_ = ya + 0.02                                                                              # inside face of the front
-        def acc_kit(T):  # in the frame of the back wall (y=0 there), facing the room; x runs from the outer wall (x=0) to the spine (x=W)
-            px = 0.5
-            _wc_pan(T, px)
-            T.rod(paper, (px + 0.39, 0.12, 0.75), (px + 0.5, 0.12, 0.75), 0.055, seg=20)
-            T.rod(st, (0.035, 0.25, 0.8), (0.035, 1.0, 0.8), 0.017, seg=12); T.rod(st, (0.035, 0.25, 0.8), (0.035, 0.25, 1.5), 0.017, seg=12)
-            T.box(st, (px + 0.35, 0.03, 0.8), (0.07, 0.06, 0.16)); T.rod(st, (px + 0.35, 0.05, 0.8), (px + 0.35, 0.85, 0.8), 0.017, seg=12)
-            _brush(T, (0.15, 0.12)); _pedal_bin(T, (1.05, 0.15), h=0.3, r=0.09, lid=sm)
-            T.box(M["ceramic"], (0.04, 1.2, 2.3), (0.03, 0.08, 0.08))                                # the alarm pull: cord + two red bangles
-            T.rod(M["lino_lingon"], (0.06, 1.2, 2.26), (0.06, 1.2, 0.1), 0.0025, seg=6)
-            for z in (0.1, 0.9):
-                T.cyl(M["lino_lingon"], (0.06, 1.2, z - 0.02), 0.025, 0.04, seg=16)
-            for xs, ys in ((0.9, 0.7), (1.6, 1.4)):
-                T.cyl(st, (xs, ys, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (xs, ys, H - 0.014), 0.05, 0.003, seg=24)
-        _placed(P, acc_kit, W, L, math.pi)
-        yba = 6.55                                                                                   # the accessible basin on the spine wall
-        _placed(P, lambda T: _accessible_basin(T, 0.0), 0.0, yba, -math.pi / 2)
-        P.box(sm, (0.012, yba, 1.45), (0.024, 0.54, 0.84)); P.box(M["mirror"], (0.026, yba, 1.45), (0.004, 0.5, 0.8))
-        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (0.03, yba, 1.885), (0.01, 0.5, 0.01))
-        P.box(st, (0.05, yba + 0.32, 1.05), (0.1, 0.09, 0.18))
-        P.box(sm, (0.03, 7.15, 1.25), (0.06, 0.36, 0.42)); P.box(st, (0.065, 7.15, 1.25), (0.012, 0.3, 0.36))
-        _pedal_bin(P, (0.2, 7.32), h=0.42, r=0.12, lid=sm)
-        P.box(sm, (1.85, yb_ + 0.06, 0.95), (0.8, 0.11, 0.55))                                       # the fold-down changing table (folded)
-        P.box(M["ceramic"], (1.25, yb_ + 0.01, 1.0), (0.08, 0.02, 0.08))                             # alarm reset by the door
-        P.box(M["lino_lingon"], (1.25, yb_ + 0.024, 1.0), (0.04, 0.008, 0.04))
-        P.rod(st, (2.4, yb_, 1.7), (2.4, yb_ + 0.08, 1.72), 0.01, seg=8)                              # coat hook
-        if pool:
-            P.rod(st, (2.25, yb_, 1.7), (2.25, yb_ + 0.08, 1.72), 0.01, seg=8)
-        # ---- the floor: drains, and on the pool floor the rail + the foot grate
-        if pool:
-            P.rod(st, (0.065, 0.35, 0.9), (0.065, y1c, 0.9), 0.02, seg=14)                           # grab rail along the spine, the room's length
-            for yr in np.arange(0.5, y1c, 0.9):
-                P.rod(st, (0.0, yr, 0.9), (0.065, yr, 0.9), 0.009, seg=8)
-            P.box(st, (0.16, (0.7 + y1c) / 2, 0.001), (0.07, y1c - 0.7, 0.002))                     # linear drain under it
-            for yg in np.arange(0.75, y1c - 0.03, 0.025):
+                    P.box(st, (0.02, y_, z), (0.04, 0.04, 0.04))
+            P.box(st, (0.14, 4.8, H - 0.012), (0.08, 2.9, 0.024)); P.box(M["opal"], (0.14, 4.8, H - 0.025), (0.05, 2.86, 0.003))
+        elif not pool:  # a grooming shelf under a long backlit mirror (hair, make-up, a bag down)
+            P.box(sm, (0.011, 4.6, 1.6), (0.022, 2.4, 1.0)); P.box(M["mirror"], (0.025, 4.6, 1.6), (0.006, 2.34, 0.94))
+            P.box(halo, (0.02, 4.6, 2.105), (0.01, 2.36, 0.012))
+            P.box(sm, (0.14, 4.6, 0.95), (0.28, 2.4, 0.03))
+            for ys in (3.6, 4.6, 5.6):
+                P.box(st, (0.05, ys, 0.91), (0.1, 0.03, 0.06))
+        if pool:  # a grab rail along the spine (round the urinals), a linear drain under it, the foot grate at the door
+            spans = [(0.35, 3.15), (6.45, L - 0.15)] if men else [(0.35, L - 0.15)]
+            for r0, r1 in spans:
+                P.rod(st, (0.065, r0, 0.9), (0.065, r1, 0.9), 0.02, seg=14)
+                for yr in np.arange(r0 + 0.15, r1, 0.9):
+                    P.rod(st, (0.0, yr, 0.9), (0.065, yr, 0.9), 0.009, seg=8)
+            if not men:
+                P.box(sm, (0.02, 5.0, 1.7), (0.04, 2.4, 0.1))
+                for yh in np.arange(3.95, 6.1, 0.3):
+                    P.rod(st, (0.04, yh, 1.7), (0.12, yh, 1.74), 0.009, seg=8)
+            P.box(st, (0.16, (0.7 + L - 0.2) / 2, 0.001), (0.07, L - 0.9, 0.002))
+            for yg in np.arange(0.75, L - 0.23, 0.025):
                 P.box(fe, (0.16, yg, 0.0022), (0.05, 0.006, 0.0005))
-            P.box(st, (1.305, 0.35, 0.002), (1.1, 0.6, 0.004))                                       # the foot grate inside the door
+            P.box(st, (1.305, 0.35, 0.002), (1.1, 0.6, 0.004))
             for xg in np.arange(0.775, 1.84, 0.02):
                 P.box(fe, (xg, 0.35, 0.0042), (0.006, 0.56, 0.0006))
         else:
-            _placed(P, lambda T: floor_drain(T), 0.5, 3.8, 0.0)
-        _placed(P, lambda T: floor_drain(T), 1.2, 6.6, 0.0)
-        # the cove over the cell fronts (it grazes the fluting) + the wash zone's downlight
-        P.box(st, (xf - 0.32, (y0c + y1c) / 2, H - 0.012), (0.08, y1c - y0c, 0.024)); P.box(M["opal"], (xf - 0.32, (y0c + y1c) / 2, H - 0.025), (0.05, y1c - y0c - 0.04, 0.003))
-        P.cyl(st, (1.2, 1.0, H - 0.012), 0.06, 0.012, seg=24); P.cyl(M["opal"], (1.2, 1.0, H - 0.014), 0.05, 0.003, seg=24)
+            _placed(P, lambda T: floor_drain(T), 1.4, 4.8, 0.0)
+        # the cove over the cell fronts (it grazes the fluting) + the downlights in the neck and the aisle
+        P.box(st, (Wn - 0.32, (ub + L) / 2, H - 0.012), (0.08, L - ub - 0.1, 0.024)); P.box(M["opal"], (Wn - 0.32, (ub + L) / 2, H - 0.025), (0.05, L - ub - 0.14, 0.003))
+        for xs, ys in ((1.2, 1.0), (1.3, 3.4), (1.3, 7.2)):
+            P.cyl(st, (xs, ys, H - 0.012), 0.06, 0.012, seg=24); P.cyl(M["opal"], (xs, ys, H - 0.014), 0.05, 0.003, seg=24)
     finally:
         M["oak"] = oak0
     if hand < 0:  # the women's room: the same room in mirror image
