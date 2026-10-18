@@ -93,3 +93,22 @@ if mfile.exists():
         mo = versions.path(piece, "match" if vi == 0 else f"match{vi + 1}", v)
         sheet2.save(mo, quality=90)
         print("match:", mo)
+
+# the drawings sheet: the orthographic reference views we generated (refs/gen/ortho*.png) above, ours from the same sides below
+gen = {"ortho_side": "orthosideleft_0.png", "ortho_front": "orthofront_0.png", "ortho_rear": "orthorear_0.png", "ortho_top": "orthotop_0.png"}
+mine = {view: f for vv, view, f in versions.versions(piece) if vv == v and view in gen}
+if mine:
+    cell = 640
+    sheet3 = Image.new("RGB", (len(mine) * (cell + 20) + 20, 2 * cell + 140), (20, 19, 18)); d3 = ImageDraw.Draw(sheet3)
+    d3.text((20, 20), "generated reference drawings (from the real photos)", font=font, fill=(141, 134, 124))
+    d3.text((20, cell + 80), f"ours, orthographic, v{v:03d}", font=font, fill=(141, 134, 124))
+    for i, view in enumerate(k_ for k_ in gen if k_ in mine):
+        for row, f in enumerate((refs_dir / "gen" / gen[view], mine[view])):
+            if not f.exists():
+                continue
+            im = Image.open(f).convert("RGB"); im.thumbnail((cell, cell))
+            bg = Image.new("RGB", (cell, cell), (255, 255, 255)); bg.paste(im, ((cell - im.width) // 2, (cell - im.height) // 2))
+            sheet3.paste(bg, (20 + i * (cell + 20), 60 + row * (cell + 60)))
+    do = versions.path(piece, "drawings", v)
+    sheet3.save(do, quality=90)
+    print("drawings:", do)

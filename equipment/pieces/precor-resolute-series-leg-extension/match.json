@@ -108,14 +108,6 @@
      630,
      1090
     ],
-    "seat_front_left": [
-     775,
-     1162
-    ],
-    "seat_rear_left": [
-     1490,
-     1262
-    ],
     "orange": [
      1610,
      970
@@ -173,65 +165,63 @@
    },
    "camera": {
     "location": [
-     3.4434080434252174,
-     -3.696421902200934,
-     2.028322227809036
+     3.5919907527246218,
+     -4.2955884211858235,
+     2.3984376422682696
     ],
     "rotation": [
      [
-      0.7170425205449034,
-      -0.028989374311360727,
-      0.6964263348751596
+      0.7410364811660254,
+      -0.30400592334890075,
+      0.5987030417075376
      ],
      [
-      0.6964546216058363,
-      -0.010770989845532208,
-      -0.7175199968095796
+      0.6703066432223864,
+      0.28258007900476967,
+      -0.6861760000186502
      ],
      [
-      0.028301656744500803,
-      0.9995216865855305,
-      0.01246652600900472
+      0.039420015639413275,
+      0.909796074688411,
+      0.4131793373930357
      ]
     ],
-    "lens": 102.651162147675,
+    "lens": 117.01203671174481,
     "sensor": 36.0,
     "shift_x": 0.0,
-    "shift_y": -0.7078302781392839,
+    "shift_y": 0.4630370053228953,
     "size": [
      2000,
      2000
     ]
    },
    "errors_px": {
-    "tower_top_rear_face": 21.8,
-    "logo": 24.5,
+    "tower_top_rear_face": 30.1,
+    "logo": 16.5,
     "slot_top": 7.1,
-    "dial": 7.6,
-    "lever_top": 9.2,
-    "roller_cap": 7.2,
-    "post_foot": 34.0,
-    "foot_front": 19.9,
-    "foot_rear": 38.3,
-    "backpad_top_left": 5.6,
-    "backpad_top_right": 19.6,
-    "tower_face_rear_bottom": 37.8,
-    "backpad_bot_left": 24.1,
-    "backpad_bot_right": 15.5,
-    "plate_top_rear": 44.3,
-    "plate_top_front": 22.5,
-    "plate_bot_front": 15.5,
-    "lever_low": 10.4,
-    "drum": 24.2,
-    "roller_far_end": 18.7,
-    "grip_a": 13.5,
-    "grip_b": 9.7,
-    "front_leg_top": 5.3,
-    "arch_top": 18.1,
-    "lever_hub": 13.6,
-    "seat_front_left": 49.1,
-    "seat_rear_left": 55.5,
-    "orange": 8.2
+    "dial": 8.1,
+    "lever_top": 6.6,
+    "roller_cap": 3.4,
+    "post_foot": 37.5,
+    "foot_front": 16.4,
+    "foot_rear": 36.8,
+    "backpad_top_left": 2.7,
+    "backpad_top_right": 18.6,
+    "tower_face_rear_bottom": 32.2,
+    "backpad_bot_left": 17.8,
+    "backpad_bot_right": 15.3,
+    "plate_top_rear": 27.6,
+    "plate_top_front": 15.4,
+    "plate_bot_front": 10.5,
+    "lever_low": 20.7,
+    "drum": 24.6,
+    "roller_far_end": 20.7,
+    "grip_a": 14.7,
+    "grip_b": 12.4,
+    "front_leg_top": 5.8,
+    "arch_top": 17.2,
+    "lever_hub": 7.6,
+    "orange": 11.4
    }
   },
   {
@@ -322,14 +312,6 @@
      1480,
      1256
     ],
-    "seat_front_left": [
-     572,
-     968
-    ],
-    "seat_rear_left": [
-     1215,
-     1160
-    ],
     "backpad_top_left": [
      1487,
      409
@@ -397,64 +379,62 @@
    },
    "camera": {
     "location": [
-     3.0943874975322525,
-     -2.0537745119861297,
-     1.323074432339934
+     3.287842273043467,
+     -2.210478480743861,
+     1.520083034795939
     ],
     "rotation": [
      [
-      0.5433102816431842,
-      0.01666426136895638,
-      0.8393665708460345
+      0.5315427152843746,
+      -0.14807099957853076,
+      0.8339888014307684
      ],
      [
-      0.8380551075681226,
-      -0.07004303897905173,
-      -0.5410707988512793
+      0.8458672854358957,
+      0.041187267799884464,
+      -0.53180085031945
      ],
      [
-      0.04977524022831403,
-      0.9974047699322508,
-      -0.05202067258895715
+      0.04439456337687986,
+      0.9881187115195198,
+      0.14714120662676666
      ]
     ],
-    "lens": 75.10061832562516,
+    "lens": 82.4381584439205,
     "sensor": 36.0,
     "shift_x": 0.0,
-    "shift_y": -0.4805086740696737,
+    "shift_y": -0.1187926835900735,
     "size": [
      1800,
      1800
     ]
    },
    "errors_px": {
-    "tower_top_rear_face": 15.5,
-    "plate_top_rear": 25.8,
-    "plate_top_front": 23.9,
-    "plate_bot_front": 9.9,
-    "logo": 19.9,
-    "slot_top": 11.5,
-    "lever_top": 2.8,
-    "lever_low": 24.1,
-    "lever_hub": 12.7,
-    "dial": 7.2,
-    "drum": 28.7,
-    "grip_a": 18.0,
-    "grip_b": 13.8,
-    "roller_cap": 3.1,
-    "roller_far_end": 28.3,
-    "post_foot": 33.4,
-    "foot_front": 34.9,
-    "foot_rear": 31.4,
-    "front_leg_top": 5.8,
-    "arch_top": 18.2,
-    "seat_front_left": 22.7,
-    "seat_rear_left": 39.2,
-    "backpad_top_left": 12.3,
-    "backpad_top_right": 18.3,
-    "backpad_bot_left": 30.3,
-    "backpad_bot_right": 22.5,
-    "orange": 10.2
+    "tower_top_rear_face": 7.4,
+    "plate_top_rear": 24.5,
+    "plate_top_front": 17.0,
+    "plate_bot_front": 3.0,
+    "logo": 13.3,
+    "slot_top": 14.0,
+    "lever_top": 12.2,
+    "lever_low": 32.0,
+    "lever_hub": 10.7,
+    "dial": 9.5,
+    "drum": 24.1,
+    "grip_a": 20.4,
+    "grip_b": 10.5,
+    "roller_cap": 9.3,
+    "roller_far_end": 31.2,
+    "post_foot": 33.1,
+    "foot_front": 23.8,
+    "foot_rear": 39.4,
+    "front_leg_top": 7.6,
+    "arch_top": 14.5,
+    "backpad_top_left": 7.4,
+    "backpad_top_right": 18.1,
+    "backpad_bot_left": 33.5,
+    "backpad_bot_right": 32.3,
+    "orange": 16.4
    }
   }
  ],

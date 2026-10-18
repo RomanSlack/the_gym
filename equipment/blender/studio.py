@@ -129,6 +129,26 @@ for name, (az, el, zoom) in VIEWS.items():
     scene.render.filepath = str(versions.path(PIECE, name, V))
     bpy.ops.render.render(write_still=True)
     print("view:", scene.render.filepath, flush=True)
+# orthographic views (to set beside orthographic reference drawings): name -> azimuth (0 = from the front, +90 = from the
+# user's left) or "top"; one metre is the same number of pixels in all of them
+for name, az in getattr(pm, "ORTHO", {}).items():
+    cam.data.type = "ORTHO"; cam.data.ortho_scale = 2.0
+    sw.location = (c.x, c.y, 0)
+    if az == "top":
+        cam.location = Vector((c.x, c.y, 6.0)); cam.rotation_euler = (0, 0, 0)
+        sw.hide_render = True
+    else:
+        a = math.radians(az)
+        d = Vector((math.sin(a), -math.cos(a), 0))
+        cam.location = Vector((c.x, c.y, 0.80)) + d * 6.0
+        cam.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler()
+        sw.rotation_euler = (0, 0, a); sw.hide_render = False
+    scene.render.resolution_x = scene.render.resolution_y = 1000
+    scene.render.filepath = str(versions.path(PIECE, name, V))
+    bpy.ops.render.render(write_still=True)
+    print("view:", scene.render.filepath, flush=True)
+cam.data.type = "PERSP"; sw.hide_render = False
+scene.render.resolution_x, scene.render.resolution_y = 1200, 900
 for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
     cam.location = Vector(eye); cam.rotation_euler = (Vector(target) - Vector(eye)).to_track_quat("-Z", "Y").to_euler()
     cam.data.lens = lens
