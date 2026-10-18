@@ -29,7 +29,33 @@ It runs on its own, separate from the building pipeline, so a failure on one sid
 
 Each modelling pass is committed on its own, so the replay shows the prompt behind every version.
 
-## The playbook (learned on the Precor leg extension, 2026-10-17)
+## Start here: the checklist for a new piece (the Hammer Strength method, 2026-10-18)
+
+The Hammer Strength Iso-Lateral got to "looks amazing" in 11 versions by doing this, in this order. Follow it so the next
+piece starts at that level instead of getting there by back and forth.
+
+1. **References: real photos from many angles.** A true side view, a true front view, a three-quarter, and close-ups of
+   the pivot, the pad mounts and the base. Dealer galleries (Shopify `/products/<handle>.js`) beat the maker's single hero
+   render. Pick pieces that have them. No camera fitting, no generated drawings as truth.
+2. **Read the structure before building anything.** For every assembly, answer from a close-up: what is it made of
+   (member sizes: 3 x 3 in, 2 x 4 in, 3 x 2 in...), and **what holds it** (see the joint table below). Find the yokes,
+   brackets and gussets first; the parts they carry come after.
+3. **Build by eye from the side and front views**, held to the maker's L x W x H. Constants at the top of model.py with
+   a comment on each, every joint built as what it is (cut + weld, bolted plate, hub on an axle, bracket + bolts).
+4. **The finishing parts that make it read as real, from the first pass:**
+   - every member end lands on a face (cut + weld) or has a **plastic end cap** (rails, posts, lever tops);
+   - **rubber feet** under the rail ends (a block the rail sits on, a pad flanged out each side with anchor holes), so the
+     frame stands off the floor; the rails run past the cross bars to them;
+   - **bolts with washers**, through-bolts with nuts, rail bolts in round black bushings;
+   - **cushioned upholstery** (`shaped_pad(cushion=)`) on a back plate on a bolted bracket;
+   - satin powder coat, the maker's colourway; warning labels where the photos have them.
+5. **`check` until clean** (about 2 s, no render): 0 floating, nothing hung on a rod, no unexplained gaps.
+6. **Render, then close-ups of every joint** (`DETAILS` cameras: the pivot, the pad mounts, the feet, the seat frame),
+   each set beside the matching photo crop. The check proves contact; the close-ups show whether each joint is the right
+   kind. Fix what differs before showing Roman.
+7. Every pass is a version, committed with its prompt. Stop when Roman says good enough.
+
+## The playbook (learned on the Precor leg extension, 2026-10-17; superseded by the checklist above where they differ)
 
 1. **Gather every angle first.** Makers often publish one hero render; dealer shops (Shopify: `/products/<handle>.js`) carry more angles, close-ups and colourways. Two or more views of the same machine are worth more than any amount of fitting on one.
 2. **Read the machine with common sense before measuring anything** (Roman): which way the user sits, where the knees, the back pad and the stack are, what is built square and level. Machines are welded square: towers square to the frame, rollers level. Label every anchor by what it is on the real machine (which corner, which side); a mislabelled corner (the Precor's seat side read as its front) makes the solver invent tilts, turns and absurd sizes.
