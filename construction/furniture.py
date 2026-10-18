@@ -5282,21 +5282,16 @@ def _air_boot(P, x, y_hip, y_heel, z_bed, pump=None):
         P.rod(zipm, p0, p1, 0.0045, seg=6)
     r0 = rings[0]; zc0 = sum(q[2] for q in r0) / N
     _loft(P, cuff, [[(q[0] + (q[0] - x) * 0.04, y_hip - 0.002 + dy, zc0 + (q[2] - zc0) * 1.04) for q in r0] for dy in (0.0, 0.035)])
-    # the foot: the sleeve carries on round the heel and up to the toes (a lying leg's foot points up), a rounded toe box
-    ra, za = rings[-1], None
-    rxa = max(q[0] for q in ra) - x; rza = (max(q[2] for q in ra) - min(q[2] for q in ra)) / 2; za = z_bed + rza
-    foot, R = [], 0.06
-    for i in range(13):
-        ph = math.radians(90 * i / 12)
-        c = (x, y_heel + R * math.sin(ph), za + R * (1 - math.cos(ph)))
-        tv = (0.0, -math.sin(ph), math.cos(ph))                                          # in the ring's plane, across the path
-        ru = rxa + (0.072 - rxa) * i / 12; rv = rza + (0.1 - rza) * i / 12
-        foot.append([(c[0] + ru * math.cos(u), c[1] + rv * math.sin(u) * tv[1], c[2] + rv * math.sin(u) * tv[2]) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
-    top = foot[-1][0][2]
-    for i in range(1, 7):                                                                # up to the toes, then closing over them
-        f = i / 6; zc_ = top + 0.17 * f; sc = math.cos(f * math.pi / 2) ** 0.5 if f > 0.6 else 1.0
-        c = (x, y_heel + R + 0.02 * f, zc_)
-        foot.append([(c[0] + 0.072 * (1 - 0.15 * f) * sc * math.cos(u), c[1] + (0.1 - 0.02 * f) * sc * math.sin(u), zc_) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
+    # the foot (a lying leg's foot points up): a boot shape standing on the bed, heel overlapping the sleeve's end, a sole
+    # rounded at the bottom, the toe box domed over the top
+    foot, H = [], 0.27
+    for i in range(19):
+        f = i / 18; zc_ = z_bed + 0.004 + H * f
+        sc = (0.9 + 0.1 * math.sin(f / 0.12 * math.pi / 2)) if f < 0.12 else (math.sqrt(max(0.0, 1 - ((f - 0.72) / 0.28) ** 2)) if f > 0.72 else 1.0)
+        crease = 1.0 - 0.07 * math.exp(-((f - 0.45) / 0.04) ** 2)                      # the foot's own air chamber seam
+        rxf, ryf = 0.07 * sc * crease * (1 - 0.2 * f), (0.118 - 0.03 * f) * sc * crease
+        cy_ = y_heel + 0.06 + 0.06 * f ** 1.5                                             # the toes lean towards the foot of the bed
+        foot.append([(x + max(rxf, 0.004) * math.cos(u), cy_ + max(ryf, 0.004) * math.sin(u), zc_) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
     _loft(P, fab, foot)
     port = (x, y_hip + 0.08, zc0 + 0.07)
     P.cyl(cuff, (port[0], port[1], port[2] - 0.005), 0.016, 0.02, seg=16)
@@ -5329,8 +5324,9 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
         z = 0.5 + k * 0.088; yy = y0 + 0.1 + k * 0.03                                                        # flat pillowed channels,
         rings = []                                                                                           # rounded off at the ends
         for xx in np.linspace(x0 + 0.03, x1 - 0.03, 24):
-            e = min(1.0, (min(xx - x0 - 0.03, x1 - 0.03 - xx) / 0.05)) ** 0.5
-            rings.append([(xx, yy + 0.034 * max(e, 0.15) * math.cos(u), z + 0.046 * max(e, 0.15) * math.sin(u)) for u in np.linspace(0, 2 * math.pi, 25)[:-1]])
+            dd = min(1.0, min(xx - x0 - 0.03, x1 - 0.03 - xx) / 0.035)
+            e = max(0.6, math.sqrt(max(0.0, 1 - (1 - dd) ** 2)))                                          # a round end, not a point
+            rings.append([(xx, yy + 0.034 * e * math.cos(u), z + 0.046 * e * math.sin(u)) for u in np.linspace(0, 2 * math.pi, 25)[:-1]])
         _loft(P, vel, rings)
     P.rod(vel, (-0.28, y0 + 0.36, 0.5), (0.28, y0 + 0.36, 0.5), 0.07, seg=24)                               # a bolster
     # the boots, laid side by side on the bed, the hoses to the pump on the table's shelf
