@@ -1021,6 +1021,40 @@ for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
         light={"type": "AREA", "energy": 60, "size": 0.9, "size_y": 0.7, "offset": [0, 0, 2.3], "aim": [ox + shaft[2] / 2, oy, z0 + cab - 1.0],
                "color": [1.0, 0.93, 0.84]}, note=f"lift {nm}: the cab's opal ceiling")
 
+# ---- F4, the pool hall (Roman 2026-10-17: blueish dark tile + stone, black stone, white only as accent, no marble; bright but moody).
+# The shell is tools/interior.py ("F4, the pool hall"). Light: the pool lit from underwater (it carries the room), one dim warm line
+# per bay between the beams, wall-washers on the ink tile, a soft grazer down the black stone between the river windows.
+F4 = lv["F4"]; ZC4 = round(by_id["S-F3-west"]["z"][0] - 0.035 - F4, 3)
+_RW = by_id["W-west-C"]
+put("lap_pool", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the 25 m lap pool: ink mosaic basin, black stone coping, white stone accents")
+put("river_volume", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the river outside the windows: its body of water (murk, fall-off)")
+put("river_wall_f4", 0.0, 0.0, zone="pool", level="F4", z=F4, top=ZC4, note="the river wall: near-black stone round the underwater windows",
+    pilasters=[e["at"][1] for e in m["elements"] if e["type"] == "column" and e["id"].startswith("C-C") and e["id"].endswith("-F4")],
+    windows=[[round(_RW["from"][1] + o_["s"][0], 3), round(_RW["from"][1] + o_["s"][1], 3), round(o_["z"][0] - F4, 3), round(o_["z"][1] - F4, 3)]
+             for o_ in _RW["openings"] if o_["type"] == "underwater"])
+for yy in [-25.9 + 3.0 * k for k in range(8)]:                                     # underwater lights along the west wall, aimed across
+    put("light_only", -16.1, float(yy), zone="pool", level="F4", z=F4,
+        light={"type": "AREA", "energy": 35, "size": 0.3, "size_y": 0.1, "offset": [0, 0, -0.6], "aim": [-7.0, float(yy), F4 - 1.7],
+               "color": [0.8, 0.93, 1.0]}, note="underwater light")
+for ya, yb in zip(BAYS, BAYS[1:]):
+    y = (ya + yb) / 2
+    for xa, xb in ((-28.9, -16.95), (-16.2, -7.2)):
+        if xa < -24.45 + 0.1 and 4.4 < y:                                    # (the thermal suite has its own light, later)
+            continue
+        if 4.4 < y and xa > -16.5:
+            continue
+        L_ = round(xb - xa, 2)
+        put("gym_line", (xa + xb) / 2, y, rot=0, zone="pool", level="F4", z=F4, L=L_, z_ceiling=ZC4, temp="3000",
+            light={"type": "AREA", "energy": round(14 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06],
+                   "aim": [(xa + xb) / 2, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K between the beams, dimmed (the pool hall)")
+    a_, b_ = ya + 0.6, yb - 0.6; L_ = round(b_ - a_, 2)
+    put("wall_washer", -29.45 + 0.6, (a_ + b_) / 2, rot=90, zone="pool", level="F4", z=F4, L=L_, z_ceiling=ZC4, temp="3000",
+        light={"type": "AREA", "energy": round(16 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, ZC4 - 0.06],
+               "aim": [-29.45, (a_ + b_) / 2, F4 + 1.2], "color": GYM_C["3000"]}, note="wall-washer on the ink tile")
+    put("light_only", -7.25, y, zone="pool", level="F4", z=F4,
+        light={"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, ZC4 - 0.1], "aim": [-6.7, y, F4 + 0.6],
+               "color": GYM_C["3000"]}, note="grazer down the black stone")
+
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
 for f in m.get("fixtures", []):

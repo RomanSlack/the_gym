@@ -4771,6 +4771,150 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
         P.rod(br, (f1, dep + 0.004, zs + 1.07), (f1, dep + 0.016, zs + 1.07), 0.016, seg=20)
 
 
+# ---------------------------------------------------------------- F4: the lap pool (Roman 2026-10-17: blueish dark tile + stone, black stone, white as accent)
+def lap_pool(P, x0=-16.25, x1=-6.65, y0=-27.9, y1=-3.3, depth=2.0, water=-0.012):
+    """The 25 m lap pool in the pool hall, built in the floor's frame (origin at the F4 floor, x/y world). A deep ink-blue glass mosaic
+    basin (the river wall's face too, below the water), four lanes marked in black mosaic with T-ends and targets on the end walls;
+    honed black stone coping with white veins on three sides, flush with the deck, the water a hand below it over a
+    hidden overflow slot (blackened steel grate); a thin white stone line set in the deck round the pool (the white accent). Wide
+    steps in the north-west corner: black stone treads with white stone nosings, a blackened steel rail. The water clear with a faint
+    blue, gently moving; lit from underwater along the west wall."""
+    st = M["steel"]
+    mos, mosb = bc.pool_mosaic(), bc.pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020))
+    nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
+    white = M.get("stone_white") or bc.interior_materials()["stone_white"]
+    if "pool_water" not in M:  # clear water (architectural glass: light passes to the mosaic), a faint blue, a slow surface
+        w = bc.arch_glass("pool_water", tint=(0.80, 0.92, 0.95))
+        N_, L_ = w.node_tree.nodes, w.node_tree.links; g_ = next(n for n in N_ if n.type == "BSDF_GLASS"); g_.inputs["IOR"].default_value = 1.33
+        tc_ = N_.new("ShaderNodeTexCoord"); nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 1.2; nz_.inputs["Detail"].default_value = 3.0
+        L_.new(tc_.outputs["Object"], nz_.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.12; bp_.inputs["Distance"].default_value = 0.01
+        L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], g_.inputs["Normal"])
+        M["pool_water"] = w
+    wat = M["pool_water"]
+    glow = _led("pool_light", (0.8, 0.93, 1.0), 25.0)
+    zb = -depth; t = 0.03                                       # mosaic thickness on the structure
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    # ---- the basin: floor + four walls in mosaic (inside faces at x0..x1, y0..y1)
+    P.box(mos, (cx, cy, zb + t / 2), (x1 - x0, y1 - y0, t))                                       # on the structure, inward
+    P.box(mos, (x0 + t / 2, cy, zb / 2 - 0.02), (t, y1 - y0, -zb - 0.04))
+    P.box(mos, (x1 - 0.03, cy, zb / 2 - 0.02), (0.06, y1 - y0, -zb - 0.04))                       # river wall face (over the pilasters)
+    for yy, sg in ((y0, 1), (y1, -1)):
+        P.box(mos, (cx, yy + sg * t / 2, zb / 2 - 0.02), (x1 - x0, t, -zb - 0.04))
+    zb += t; x0 += t; y0 += t; y1 -= t; cy = (y0 + y1) / 2                                         # the finished faces
+    # ---- lanes: four, black mosaic lines on the floor with T-ends, targets on the end walls
+    lw = (x1 - x0) / 4
+    for k in range(4):
+        lx = x0 + lw * (k + 0.5)
+        P.box(mosb, (lx, cy, zb + 0.002), (0.25, y1 - y0 - 4.0, 0.004))
+        for yy, sg in ((y0 + 2.0, 1), (y1 - 2.0, -1)):
+            P.box(mosb, (lx, yy, zb + 0.002), (1.0, 0.25, 0.004))
+        for yy, sg in ((y0, 1), (y1, -1)):
+            P.box(mosb, (lx, yy + sg * 0.003, zb + 0.9), (0.25, 0.004, 1.8 - 0.3))
+            P.box(mosb, (lx, yy + sg * 0.003, -0.6), (0.6, 0.004, 0.25))
+    # ---- the steps, north-west corner: 8 risers down to the floor, black stone treads, white stone nosings, mosaic risers
+    sw, n_, rise, go = 3.0, 8, depth / 8, 0.3
+    for k in range(n_):
+        zt_ = -rise * (k + 1); ya = y1 - go * k
+        P.box(mos, (x0 + sw / 2, ya - go / 2, (zt_ + zb) / 2), (sw, go, zt_ - zb))                 # the step block
+        P.box(nero, (x0 + sw / 2, ya - go / 2, zt_ - 0.012), (sw, go, 0.024))
+        P.box(white, (x0 + sw / 2, ya - go + 0.02, zt_ - 0.011), (sw, 0.04, 0.026))
+    P.rods(st, [(x0 + sw + 0.05, y1 + 0.25, 0.0)], [(x0 + sw + 0.05, y1 + 0.25, 0.95)], 0.021, seg=16)  # the rail: up from the deck,
+    pts = [(x0 + sw + 0.05, y1 + 0.25, 0.95), (x0 + sw + 0.05, y1 - 0.1, 0.95), (x0 + sw + 0.05, y1 - go * 5, -rise * 5 + 0.9),
+           (x0 + sw + 0.05, y1 - go * 5, -rise * 5 + 0.1)]
+    for a, b in zip(pts, pts[1:]):                                                                    # over the edge and down the steps
+        P.rod(st, a, b, 0.021, seg=16)
+    # ---- coping: honed black stone, 450 mm, flush with the deck (top 20 mm above the raft), on W, N + S; the overflow slot behind it
+    cw_, gr = 0.45, 0.16
+    def coping_run(xa, ya, xb, yb, inward):
+        L = math.hypot(xb - xa, yb - ya); ux, uy = (xb - xa) / L, (yb - ya) / L; nx, ny = inward
+        s = 0.0
+        while s < L - 0.01:
+            pl = min(1.0, L - s)
+            ccx = xa + ux * (s + pl / 2) - nx * cw_ / 2; ccy = ya + uy * (s + pl / 2) - ny * cw_ / 2
+            P.box(nero, (ccx, ccy, -0.02), (abs(ux) * (pl - 0.003) + abs(nx) * cw_, abs(uy) * (pl - 0.003) + abs(ny) * cw_, 0.08))
+            s += pl
+        gx = (xa + xb) / 2 - nx * (cw_ + gr / 2); gy = (ya + yb) / 2 - ny * (cw_ + gr / 2)
+        P.box(st, (gx, gy, 0.012), (abs(ux) * L + abs(nx) * gr, abs(uy) * L + abs(ny) * gr, 0.016))        # overflow grate
+        for k in range(int(L / 0.03)):
+            px = xa + ux * (k * 0.03 + 0.015) - nx * (cw_ + gr / 2); py = ya + uy * (k * 0.03 + 0.015) - ny * (cw_ + gr / 2)
+            P.box(M["felt"], (px, py, 0.0205), (abs(ux) * 0.012 + abs(nx) * (gr - 0.03), abs(uy) * 0.012 + abs(ny) * (gr - 0.03), 0.002))
+        lx_ = (xa + xb) / 2 - nx * (cw_ + gr + 0.35); ly_ = (ya + yb) / 2 - ny * (cw_ + gr + 0.35)
+        P.box(white, (lx_, ly_, 0.0205), (abs(ux) * (L + 2 * (cw_ + gr + 0.35)) + abs(nx) * 0.02, abs(uy) * (L + 2 * (cw_ + gr + 0.35)) + abs(ny) * 0.02, 0.002))
+    coping_run(x0, y0, x0, y1, (1, 0))
+    coping_run(x0, y1, x1, y1, (0, -1))
+    coping_run(x0, y0, x1, y0, (0, 1))
+    # ---- the water: a hand under the coping, gently moving
+    P.box(wat, ((x0 + x1 - 0.06) / 2, cy, (water + zb) / 2), (x1 - 0.06 - x0 - 0.004, y1 - y0 - 0.004, water - zb))
+    # ---- underwater lights: flush opal lenses along the west wall + the ends, 0.6 m down
+    for yy in np.arange(y0 + 2.0, y1 - 1.0, 3.0):
+        P.box(glow, (x0 + 0.002, float(yy), -0.6), (0.006, 0.3, 0.1))
+    for xx in np.arange(x0 + 1.5, x1, 2.4):
+        for yy, sg in ((y0, 1), (y1, -1)):
+            if not (yy == y1 and xx < x0 + sw + 0.2):
+                P.box(glow, (float(xx), yy + sg * 0.002, -0.6), (0.3, 0.006, 0.1))
+
+
+def _rect_minus(r, holes):
+    """An axis-aligned rect (a0, a1, b0, b1) minus holes: the pieces left, cut round each hole."""
+    out = [r]
+    for h0, h1, k0, k1 in holes:
+        nxt = []
+        for a0, a1, b0, b1 in out:
+            if h1 <= a0 or h0 >= a1 or k1 <= b0 or k0 >= b1:
+                nxt.append((a0, a1, b0, b1)); continue
+            if b0 < k0: nxt.append((a0, a1, b0, k0))
+            if k1 < b1: nxt.append((a0, a1, k1, b1))
+            if a0 < h0: nxt.append((a0, h0, max(b0, k0), min(b1, k1)))
+            if h1 < a1: nxt.append((h1, a1, max(b0, k0), min(b1, k1)))
+        out = nxt
+    return [p for p in out if p[1] - p[0] > 0.005 and p[3] - p[2] > 0.005]
+
+
+def river_wall_f4(P, y0=-34.1, y1=12.1, top=5.2, face=-6.65, d=0.065, windows=(), pilasters=()):
+    """F4's river wall (Roman 2026-10-17: the underwater windows kept; black round them; no marble, normal materials): black glazed
+    tile 300 x 600 in stack bond wall to wall, cut round every window, the reveals lined in the same tile back to the acrylic, and where
+    a pilaster runs through a window it is clad as a mullion. Built in the floor's frame (x/y world)."""
+    nero = M.get("stone_nero") or bc.interior_materials()["stone_nero"]
+    P.vary = True                                                                                 # every tile its own glaze tone
+    holes = [(a, b, c, e) for a, b, c, e in windows]
+    y = y0
+    while y < y1 - 0.01:
+        w = min(0.3, y1 - y); z = 0.0
+        while z < top - 0.01:
+            h = min(0.6, top - z)
+            for a0, a1, b0, b1 in _rect_minus((y, y + w, z, z + h), holes):
+                P.box(nero, (face - d / 2, (a0 + a1) / 2, (b0 + b1) / 2), (d, a1 - a0 - 0.002, b1 - b0 - 0.002))
+            z += h
+        y += w
+    xa, xb = face - d, -6.25
+    for wy0, wy1, wz0, wz1 in windows:
+        for yy in (wy0 + 0.01, wy1 - 0.01):
+            P.box(nero, ((xa + xb) / 2, yy, (wz0 + wz1) / 2), (xb - xa, 0.02, wz1 - wz0))
+        for zz in (wz0 + 0.01, wz1 - 0.01):
+            P.box(nero, ((xa + xb) / 2, (wy0 + wy1) / 2, zz), (xb - xa, wy1 - wy0, 0.02))
+        for py in pilasters:
+            a, b = max(wy0, py - 0.31), min(wy1, py + 0.31)
+            if b > a:
+                P.box(nero, ((xa + xb) / 2, (a + b) / 2, (wz0 + wz1) / 2), (xb - xa, b - a, wz1 - wz0))
+
+
+def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62):
+    """The river itself outside F4's windows (it had a surface but no body: the windows looked out through air): a body of water
+    from just under the bed to the surface (-8.77), cool green-teal, light falling off with distance so the far bank fades into
+    murk. No surface shader: only the volume. Built in the floor's frame (x/y world, z from F4)."""
+    if "river_body" not in M:
+        mt = bpy.data.materials.new("river_body"); mt.use_nodes = True
+        N_, L_ = mt.node_tree.nodes, mt.node_tree.links
+        N_.remove(N_["Principled BSDF"])
+        v = N_.new("ShaderNodeVolumePrincipled")
+        v.inputs["Color"].default_value = (0.32, 0.62, 0.55, 1); v.inputs["Density"].default_value = 0.09
+        v.inputs["Absorption Color"].default_value = (0.30, 0.70, 0.62, 1)
+        L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
+        M["river_body"] = mt
+    P.box(M["river_body"], ((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), (x1 - x0, y1 - y0, z1 - z0))
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4805,9 +4949,9 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

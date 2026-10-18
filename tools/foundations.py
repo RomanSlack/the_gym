@@ -72,7 +72,8 @@ FOOT = [  # rect, bottom z (top of blinding)
     ([12.0, -9.5, 30.5, 33.3], E2B), ([30.5, -9.5, 60.0, 24.0], round(lv["E2"] - 0.3, 2)),
 ]
 for k, (r, b) in enumerate(FOOT):
-    add({"id": f"FDN-blinding-{k}", "type": "blinding", "material": "lean", "rect": r, "z": [round(b - 0.075, 3), b], "note": "75 mm blinding"}, 40)
+    add({"id": f"FDN-blinding-{k}", "type": "blinding", "material": "lean", "rect": r, "z": [round(b - 0.075, 3), b], "note": "75 mm blinding",
+         **({"holes": [{"rect": [[pool[0], pool[1]], [pool[2], pool[1]], [pool[2], pool[3]], [pool[0], pool[3]]]}]} if k == 0 else {})}, 40)  # (it ran across the pool)
 
 # ---- strip footings under retaining walls (thickened raft edge)
 for e in els:

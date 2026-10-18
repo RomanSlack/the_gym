@@ -255,8 +255,11 @@ wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # w
 # openings along the river wall: s = metres from its south end (y -34.1), z absolute
 F2, F3, F4 = lv["F2"], lv["F3"], lv["F4"]
 els[-1]["openings"] = (
-    [{"s": [6.0 + 3.2 * k, 8.4 + 3.2 * k], "z": [round(F4 + 0.35, 2), round(F4 + 2.35, 2)], "type": "underwater",
-      "note": "thick acrylic, looks into the river at the riverbed"} for k in range(8)]
+    # F4: one window per 7.7 m bay between the pilasters, as big as it gets (Roman 2026-10-17: the small ones ran into the structure;
+    # "make the windows as large as possible ... we want this space to be beyond that"): 6.8 m wide, from the floor / pool water line
+    # up to 0.35 m under the ceiling, the river above it all the way
+    [{"s": [round(7.7 * k + 0.45, 2), round(7.7 * (k + 1) - 0.45, 2)], "z": [F4, -10.5], "type": "underwater",
+      "note": "300 mm structural acrylic, one panel per bay: the river and its bed, floor to ceiling"} for k in range(6)]
     + [{"s": [2.0, 44.2], "z": [F3, round(F3 + 2.6, 2)], "type": "river",
         "note": "continuous river window: water surface (-8.77) about 1.0 m above the floor, waist height"}]
     + [{"s": [2.0, 44.2], "z": [round(F2 + 0.45, 2), round(F2 + 3.0, 2)], "type": "window", "note": "ravine view band"}]

@@ -360,20 +360,19 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
         lining("W-west-C", "plaster_charcoal", 1, tag=f"-{lvl}", z=[zf, zt])
 
 # ---- zone: F4, the pool hall (Roman, 2026-10-17: "blueish dark marble or tile, then black tile and marble, white only as accent; bright
-#   enough but a little moody"; the east wall keeps its underwater river windows, black marble round them). The deck honed dark blue-grey
-#   marble 600 x 1200; the west, north + south walls and the partitions facing the hall in deep ink-blue glazed tile; the river wall in
-#   polished black marble with white veins, big slabs, the windows cut through; charcoal wood wool between the beams painted out. The
-#   pool itself (mosaic basin, black marble coping, the steps, the water) is a furnishing (construction/furniture.py lap_pool).
-FINISH["marble_blue_deck"] = {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.002, "dir": "y", "bond": "stack", "material": "marble_blue", "t": 0.02}
+#   enough but a little moody"; the east wall keeps its underwater river windows; then: no marble, normal materials). The deck honed
+#   dark blue-grey stone 600 x 1200; the west, north + south walls and the partitions facing the hall in deep ink-blue glazed tile; the
+#   river wall in near-black stone slabs 600 x 1200, the windows cut through; charcoal wood wool between the beams painted out. The
+#   pool itself (mosaic basin, black stone coping, the steps, the water) is a furnishing (construction/furniture.py lap_pool).
+FINISH["stone_blue_deck"] = {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.002, "dir": "y", "bond": "stack", "material": "stone_blue", "t": 0.02}
 FINISH["tile_ink"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012, "depth": 0.02, "material": "tile_ink"}
-FINISH["marble_nero_slabs"] = {"kind": "courses", "h": [1.2], "L": [0.8], "gap": 0.002, "depth": 0.065, "material": "marble_nero"}
 F4v = lv["F4"]; zs4 = by_id["S-F3-west"]["z"][0]; zt4 = round(zs4 - 0.035, 3)
 POOL4 = [-16.45, -28.1, -6.45, -3.1]
-F4_HOLES = G_CORES + [{"rect": POOL4, "note": "the pool (its coping + basin: lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
+F4_HOLES = G_CORES + [{"rect": [-16.86, -28.51, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
                       {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"}]
-add({"id": "IN-F4-deck", "type": "slab", "kind": "floor_finish", "material": "marble_blue", "rect": [-29.45, -34.1, -6.65, 12.1], "z": [F4v, round(F4v + 0.02, 3)],
-     "holes": F4_HOLES, "pattern": {k: v for k, v in FINISH["marble_blue_deck"].items() if k != "material"},
-     "note": "honed dark blue-grey marble 600 x 1200 on the anchored raft (the pool deck, the lobby, the recovery lounge)"})
+add({"id": "IN-F4-deck", "type": "slab", "kind": "floor_finish", "material": "stone_blue", "rect": [-29.45, -34.1, -6.65, 12.1], "z": [F4v, round(F4v + 0.02, 3)],
+     "holes": F4_HOLES, "pattern": {k: v for k, v in FINISH["stone_blue_deck"].items() if k != "material"},
+     "note": "honed dark blue-grey stone 600 x 1200 on the anchored raft (the pool deck, the lobby, the recovery lounge)"})
 beams4 = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith("-F3-west"))
 bz4 = next(e["z"][0] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith("-F3-west"))
 add({"id": "IN-F4-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal", "rect": GH, "z": [zt4, zs4],
@@ -385,11 +384,13 @@ for k, yb in enumerate(beams4):
                    ([GH[0], yb + 0.275, GH[2], yb + 0.279], [bz4, zs4])):
         add({"id": f"IN-F4-beam-paint-{k}-{len(new)}", "type": "slab", "material": "paint_charcoal", "rect": [round(v, 3) for v in rr],
              "z": [round(zz[0], 3), round(zz[1], 3)], "holes": [], "note": "PT beam painted charcoal (the pool hall)"})
+add({"id": "IN-F4-tank-paint", "type": "slab", "material": "paint_charcoal", "rect": [-8.25, -33.82, -6.65, 12.1], "z": [-10.224, -10.22], "holes": [],
+     "note": "the underside of the den river's tank, painted charcoal (it showed white over the river wall)"})
 lining("W-west-A", "tile_ink", -1, tag="-F4", z=[F4v, zt4])
 lining("W-west-N", "tile_ink", -1, s_range=(0.0, 5.0), tag="-F4", z=[F4v, zt4])
 lining("W-west-S", "tile_ink", 1, s_range=(0.0, 5.0), tag="-F4-rec", z=[F4v, zt4])
 lining("W-west-S", "tile_ink", 1, s_range=(13.0, 22.8), tag="-F4-deck", z=[F4v, zt4])
-lining("W-west-C", "marble_nero_slabs", 1, tag="-F4", z=[F4v, zt4])
+# (the river wall: near-black stone slabs cut round the windows, construction/furniture.py river_wall_f4)
 for wid, sg in (("P-F4-55", -1), ("P-F4-56", -1), ("P-F4-57", -1), ("P-F4-58", 1), ("P-F4-59", 1), ("P-F4-60", 1), ("P-F4-61", -1)):
     lining(wid, "tile_ink", sg, tag="-pool", z=[F4v, zt4])
 
