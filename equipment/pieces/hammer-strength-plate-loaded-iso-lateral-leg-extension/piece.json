@@ -81,5 +81,19 @@
  "fetched": {
   "at": "2026-10-17T23:32:02+00:00",
   "how": "shopify json"
+ },
+ "sheet_refs": [
+  "ref_01.jpg",
+  "ref_08.jpg",
+  "ref_10.jpg"
+ ],
+ "specs": {
+  "L_W_H_cm": [
+   153,
+   186,
+   137
+  ],
+  "weight_kg": 137,
+  "source": "lifefitness.com.au / delta-fitness.com (IL-LE)"
  }
 }
