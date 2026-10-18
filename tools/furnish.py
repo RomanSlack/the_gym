@@ -1160,12 +1160,12 @@ p4("plunge", XP, (4.6 + 7.15) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=Fal
 p4("plunge", XP, (7.25 + 9.8) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=True, note="hot plunge (40 °C), on the river window")
 for x, y, L_, rot_ in ((-18.45, 5.6, 5.4, 0), (-11.15, 8.0, 6.0, 90), (-8.3, 7.2, 4.6, 90), (-22.9, 5.9, 2.4, 0)):
     p4("gym_line", x, y, rot=rot_, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
-       light={"type": "AREA", "energy": round(30 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
+       light={"type": "AREA", "energy": round(10 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
               "aim": [x, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K, dim (the thermal suite)")
 for x0_, x1_ in ((-15.3, -12.5), (-9.9, -6.8)):                                           # warm grazers on the black tile north wall
     L_ = round(x1_ - x0_, 2)
     p4("wall_washer", (x0_ + x1_) / 2, YT - 0.6, rot=0, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
-       light={"type": "AREA", "energy": round(30 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [(x0_ + x1_) / 2, YT, F4 + 1.2], "color": GYM_C["3000"]},
+       light={"type": "AREA", "energy": round(10 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [(x0_ + x1_) / 2, YT, F4 + 1.2], "color": GYM_C["3000"]},
        note="wall-washer on the black tile")
 for x0_, x1_ in ((-24.2, -16.6), (-15.3, -12.2), (-10.7, -6.8)):                          # and on the south wall
     L_ = round(x1_ - x0_, 2)
@@ -1270,15 +1270,15 @@ pa("scene_keypad", -25.45, PYN, rot=180, zone="posing", note="scenes: stage warm
 for bx, by in ((SX + 0.35, PYN - 0.45), (SX + 0.35, PYS + 0.45)):         # the side-light booms, square on to the poser
     pa("light_boom", bx, by, rot=aim_rot(bx, by, SX, SY), zone="posing", H=HP, note="side light: a tall LED bar behind a honeycomb")
     for z in (0.9, 1.6, 2.3):
-        la(bx + (SX - bx) * 0.03, by + (SY - by) * 0.03, z, 18, (SX, SY, 1.25), zone="posing", size=0.09, color=(1.0, 0.92, 0.84), note="side light")
-la(SX, SY, HP - 0.63, 150, (SX, SY, 0.0), zone="posing", size=1.15, color=(1.0, 0.93, 0.86), note="the top light over the stage")
+        la(bx + (SX - bx) * 0.03, by + (SY - by) * 0.03, z, 7, (SX, SY, 1.25), zone="posing", size=0.09, color=(1.0, 0.92, 0.84), note="side light")
+la(SX, SY, HP - 0.63, 60, (SX, SY, 0.0), zone="posing", size=1.15, color=(1.0, 0.93, 0.86), note="the top light over the stage")
 for s in (-1, 1):
     for t in (-1, 1):                                                    # +s = the mirror side (key), -s = behind (rim)
         cx_, cy_ = SX + s * 1.3, SY + t * 1.3
-        la(cx_, cy_, HP - 0.65, 80 if s > 0 else 45, (SX, SY, 1.3), zone="posing", typ="SPOT", spot_deg=28, blend=0.5, radius=0.05,
+        la(cx_, cy_, HP - 0.65, 35 if s > 0 else 20, (SX, SY, 1.3), zone="posing", typ="SPOT", spot_deg=28, blend=0.5, radius=0.05,
            color=(1.0, 0.91, 0.8), note="key spot" if s > 0 else "rim spot")
-la(PX1 - 0.4, PYC, 2.58, 12, (SX, SY, 1.3), zone="posing", size=2.6, size_y=0.05, color=(1.0, 0.86, 0.72), note="the mirror niche's front fill")
-la(PX0 + 0.5, PYC, HP - 0.05, 45, (PX0, PYC, 1.4), zone="posing", size=0.06, size_y=5.2, color=WARM, note="a dim warm wash down the velvet")
+la(PX1 - 0.4, PYC, 2.58, 6, (SX, SY, 1.3), zone="posing", size=2.6, size_y=0.05, color=(1.0, 0.86, 0.72), note="the mirror niche's front fill")
+la(PX0 + 0.5, PYC, HP - 0.05, 20, (PX0, PYC, 1.4), zone="posing", size=0.06, size_y=5.2, color=WARM, note="a dim warm wash down the velvet")
 for x, y in ((-27.6, -35.4), (-27.6, -38.85), (-23.8, -35.15), (-23.8, -39.1)):
     pa("ceiling_speaker", x, y, zone="posing", z_ceiling=HP, note="ceiling speaker")
 pa("ceiling_services", -27.6, PYC, zone="services", z_local=HP - 0.04, ceiling=HP, device="smoke", note="smoke detector")
@@ -1296,14 +1296,14 @@ for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
     for dx in (-1.05, 1.05):
         L_ = 4.6
         pa("gym_line", cx + dx, yc, rot=90, zone=zn_, L=L_, z_ceiling=HP, temp="3500",
-           light={"type": "AREA", "energy": round(70 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.095], "aim": [cx + dx, yc, lv["F2"] - 1.0],
+           light={"type": "AREA", "energy": round(20 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.095], "aim": [cx + dx, yc, lv["F2"] - 1.0],
                   "color": [1.0, 0.92, 0.82]}, note="linear line, tunable 2700-5000 K (the pod)")
     L_ = round(xm - (xj + 0.5) - 0.6, 2)
     pa("wall_washer", (xj + 0.5 + xm) / 2, ys + 0.6, rot=180, zone=zn_, L=L_, z_ceiling=HP, temp="3000",
-       light={"type": "AREA", "energy": round(30 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HP - 0.09], "aim": [(xj + 0.5 + xm) / 2, ys, lv["F2"] + 1.2],
+       light={"type": "AREA", "energy": round(10 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HP - 0.09], "aim": [(xj + 0.5 + xm) / 2, ys, lv["F2"] + 1.2],
               "color": [1.0, 0.85, 0.68]}, note="wall-washer on the smoked oak behind the platform")
-    la(xj + 0.3, yn - 0.8, 2.0, 12, (xj + 0.3, yn - 0.8, 0.9), zone=zn_, size=0.2, size_y=1.3, color=WARM, note="the towel niche's light")
-    la(xj + 0.3, ys + 0.95, 2.4, 18, (xj + 0.3, ys + 0.95, 0.5), zone=zn_, size=0.2, size_y=1.7, color=WARM, note="the kit wall's light")
+    la(xj + 0.3, yn - 0.8, 2.0, 5, (xj + 0.3, yn - 0.8, 0.9), zone=zn_, size=0.2, size_y=1.3, color=WARM, note="the towel niche's light")
+    la(xj + 0.3, ys + 0.95, 2.4, 7, (xj + 0.3, ys + 0.95, 0.5), zone=zn_, size=0.2, size_y=1.7, color=WARM, note="the kit wall's light")
     pa("scene_keypad", xd + 0.85, yn, rot=180, zone=zn_, note="scenes: train / focus / cool-down; the screen + sound; climate")
     for y in (yc + 1.6, yc - 1.6):
         pa("ceiling_speaker", cx, y, zone=zn_, z_ceiling=HP, note="ceiling speaker")
@@ -1322,10 +1322,10 @@ pa("tap_station", -25.4, AYN, rot=180, lvl="F3", zone="altitude", note="water (b
 pa("exit_sign", -22.45, AYN - 2.07, rot=180, lvl="F3", zone="altitude", mount=2.5, note="nødutgang: through the airlock")
 pa("core_door", AX1, -38.9, rot=90, lvl="F3", zone="altitude", width=1.0, height=2.1, finish="steel", note="the altitude plant (staff)")
 pa("hypoxic_plant", -10.5, -37.125, lvl="F3", zone="services", note="hypoxic generators, buffer tank, control cabinet, ducts")
-la(-21.55, -37.125, HA + 0.3, 260, (-21.55, -37.125, 0.0), lvl="F3", zone="altitude", size=11.6, size_y=3.6, color=(0.78, 0.87, 1.0), note="the sky's light")
+la(-21.55, -37.125, HA + 0.3, 90, (-21.55, -37.125, 0.0), lvl="F3", zone="altitude", size=11.6, size_y=3.6, color=(0.78, 0.87, 1.0), note="the sky's light")
 L_ = 12.6
 pa("wall_washer", -21.6, AYS + 0.6, rot=180, lvl="F3", zone="altitude", L=L_, z_ceiling=HA, temp="3000",
-   light={"type": "AREA", "energy": round(26 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HA - 0.09], "aim": [-21.6, AYS, lv["F3"] + 1.2], "color": [1.0, 0.82, 0.62]},
+   light={"type": "AREA", "energy": round(12 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HA - 0.09], "aim": [-21.6, AYS, lv["F3"] + 1.2], "color": [1.0, 0.82, 0.62]},
    note="warm grazing light down the slate")
 for x in (-27.0, -22.0, -17.0):
     pa("ceiling_speaker", x, -39.4, lvl="F3", zone="altitude", z_ceiling=HA, note="ceiling speaker")

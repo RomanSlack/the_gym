@@ -5902,7 +5902,7 @@ def _sky_mat():
     ramp = N.new("ShaderNodeValToRGB"); Lk.new(sr.outputs[0], ramp.inputs[0])
     ramp.color_ramp.elements[0].color = (0.56, 0.74, 1.0, 1); ramp.color_ramp.elements[1].color = (0.16, 0.34, 0.85, 1)
     ramp.color_ramp.elements[1].position = 1.25; ramp.color_ramp.interpolation = "EASE"
-    em = N.new("ShaderNodeEmission"); em.inputs["Strength"].default_value = 0.7; Lk.new(ramp.outputs[0], em.inputs["Color"])
+    em = N.new("ShaderNodeEmission"); em.inputs["Strength"].default_value = 0.45; Lk.new(ramp.outputs[0], em.inputs["Color"])
     Lk.new(em.outputs[0], N["Material Output"].inputs["Surface"])
     return m
 
