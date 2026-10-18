@@ -4908,7 +4908,7 @@ def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62):
         N_, L_ = mt.node_tree.nodes, mt.node_tree.links
         N_.remove(N_["Principled BSDF"])
         v = N_.new("ShaderNodeVolumePrincipled")
-        v.inputs["Color"].default_value = (0.32, 0.62, 0.55, 1); v.inputs["Density"].default_value = 0.09
+        v.inputs["Color"].default_value = (0.18, 0.44, 0.42, 1); v.inputs["Density"].default_value = 0.12
         v.inputs["Absorption Color"].default_value = (0.30, 0.70, 0.62, 1)
         L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
         M["river_body"] = mt
