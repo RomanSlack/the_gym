@@ -29,10 +29,11 @@ It runs on its own, separate from the building pipeline, so a failure on one sid
 
 Each modelling pass is committed on its own, so the replay shows the prompt behind every version.
 
-## The playbook (filled in as we learn on the leg extensions)
+## The playbook (learned on the Precor leg extension, 2026-10-17)
 
-1. Study the refs: every photo of the piece, the maker's spec sheet dimensions (footprint, height, weight stack, pad sizes), what moves and how.
-2. Model at true scale from the real dimensions: frame tubes and their profiles, welds and end caps, pads and upholstery seams, the moving arm with its pivot and cam, weight stack with guide rods, pin and shroud, cables and pulleys, adjusters, labels as geometry where they're plates.
-3. Render the studio views (front, side, three-quarter, detail) and compare side by side with the refs; iterate.
-4. Then place it in the gym and render it there.
-5. (to be written: what the leg extensions teach us)
+1. **Gather every angle first.** Makers often publish one hero render; dealer shops (Shopify: `/products/<handle>.js`) carry more angles, close-ups and colourways. Two or more views of the same machine are worth more than any amount of fitting on one.
+2. **Read the machine with common sense before measuring anything** (Roman): which way the user sits, where the knees, the back pad and the stack are, what is built square and level. Machines are welded square: towers square to the frame, rollers level. Label every anchor by what it is on the real machine (which corner, which side); a mislabelled corner (the Precor's seat side read as its front) makes the solver invent tilts, turns and absurd sizes.
+3. **Real dimensions**: the maker's overall L x W x H (spec sheet) go into `SPEC`; parts that are standard (seat ~0.45 wide, pads 65 mm) start from those.
+4. **Camera match** (`tools/camsolve.py`): anchors + straight edges in each photo, solved together with only the genuinely uncertain dimensions (`FIT`), each held near its sensible value. Then `tools/model.py` renders through each photo's camera and composes a match sheet (the photo | ours | overlay with our outline). The overlay is for checking, not the goal by itself: where it fights common sense, common sense wins.
+5. **Then detail, part by part**, against the overlays and the close-ups: real joints (nothing floating), the maker's materials and colours, our own artwork for placards.
+6. Every pass is a version (renders + .glb), committed on its own.

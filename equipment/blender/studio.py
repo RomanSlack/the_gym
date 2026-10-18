@@ -137,13 +137,16 @@ for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
     print("view:", scene.render.filepath, flush=True)
     cam.data.lens = 50
 
-# ---- the reference camera (equipment/tools/camsolve.py): our model seen exactly as the photo, for the overlay
+# ---- the reference cameras (equipment/tools/camsolve.py): our model seen exactly as each photo, for the overlays
 mfile = EQ / "pieces" / PIECE / "match.json"
 if mfile.exists():
     import json
     from mathutils import Matrix
-    mc = json.loads(mfile.read_text()).get("camera")
-    if mc:
+    MJ = json.loads(mfile.read_text())
+    for vi, vw in enumerate(MJ.get("views") or [MJ]):
+        mc = vw.get("camera")
+        if not mc:
+            continue
         R = Matrix(mc["rotation"]).to_4x4(); R.translation = Vector(mc["location"])
         cam.matrix_world = R
         cam.data.lens, cam.data.sensor_width, cam.data.sensor_fit = mc["lens"], mc["sensor"], "AUTO"
@@ -154,6 +157,6 @@ if mfile.exists():
         sw.hide_render = True
         scene.render.image_settings.file_format = "PNG"; scene.render.image_settings.color_mode = "RGBA"
         (EQ / ".cache").mkdir(exist_ok=True)
-        scene.render.filepath = str(EQ / ".cache" / f"match_{PIECE}.png")
+        scene.render.filepath = str(EQ / ".cache" / f"match_{PIECE}_{vi}.png")
         bpy.ops.render.render(write_still=True)
         print("match:", scene.render.filepath, flush=True)

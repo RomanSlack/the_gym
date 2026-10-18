@@ -49,18 +49,18 @@ GRIP_A, GRIP_B = (-0.17, -0.37, 0.74), (-0.17, -0.18, 0.70)   # tops of the two 
 # ---- the frame + seat
 XS = 0.30                        # the user's-left side frame
 FOOT_F, FOOT_R = -0.20, 0.62     # its feet (y)
-SEAT = (0.03, -0.02, 0.51, 0.48, 0.48, 0.075)   # x, y, top z, width x, depth y, thickness
+SEAT = (0.03, -0.02, 0.52, 0.46, 0.50, 0.075)   # x, y, top z, width x, depth y, thickness
 BACK = (0.02, 0.26, 0.56, 0.78, 0.42, 0.07)   # x, bottom front edge y + z, height, bottom width, thickness
 BACK_LEAN, BACK_TOPW = 18.0, 0.36             # lean from vertical (deg), width at the top (the pad tapers)
 SEAT_TILT = 0.0                  # the seat's front raised (deg)
-SEAT_BACKW = 0.48                # the seat's width at its back (it narrows from the wide front)
+ORANGE = (0.25, 0.40, 0.80)      # the orange back-pad release paddle, on its rod up from the seat carriage
 FLEG_TOP = (0.28, -0.12, 0.42)   # the user's-left front leg meets the seat frame here
 ARCH_TOP = (0.27, 0.50, 0.40)    # the rear leg's arch, where it turns forward under the seat
 
 
 # solved with the camera of the official photo (equipment/tools/camsolve.py), each held to its value above by sigma (m)
 FIT = {"TX1": 0.06, "TD": 0.06, "TY0": 0.08, "TY1": 0.08, "YS": 0.05, "PIV": 0.06, "LE": 0.08, "UE": 0.08, "RA": 0.06,
-       "POST": 0.08, "XS": 0.06, "FOOT_F": 0.08, "FOOT_R": 0.08, "SEAT": 0.05, "BACK": 0.06, "BACK_LEAN": 6.0, "BACK_TOPW": 0.06, "TYAW": 15.0, "DRUM": 0.10, "ROLLER": 0.10, "ROLL_TIP": 0.08, "LEV_T": 0.15, "DRUM_R": 0.04, "GRIP_A": 0.08, "GRIP_B": 0.08, "FLEG_TOP": 0.08, "SEAT_TILT": 6.0, "SEAT_BACKW": 0.08, "ARCH_TOP": 0.08, "PLATE_TOP": 0.04, "PLATE_BOT": 0.06, "HEADER": 0.03}
+       "POST": 0.08, "XS": 0.06, "FOOT_F": 0.08, "FOOT_R": 0.08, "SEAT": 0.05, "BACK": 0.06, "BACK_LEAN": 6.0, "BACK_TOPW": 0.06, "DRUM": 0.10, "ROLLER": 0.10, "LEV_T": 0.15, "DRUM_R": 0.04, "GRIP_A": 0.08, "GRIP_B": 0.08, "FLEG_TOP": 0.08, "SEAT_TILT": 4.0, "ORANGE": 0.08,  "ARCH_TOP": 0.08, "PLATE_TOP": 0.04, "PLATE_BOT": 0.06, "HEADER": 0.03}
 _ff = Path(__file__).with_name("fit.json")
 if _ff.exists() and not os.environ.get("EQ_NOFIT"):
     globals().update({k_: (tuple(v_) if isinstance(v_, list) else v_) for k_, v_ in json.loads(_ff.read_text()).items()})
@@ -106,13 +106,12 @@ def anchors():
         "arch_top": ARCH_TOP,
         "roller_cap": (ROLLER[1] + 0.012, RA[0] + ROLL_TIP[0], RA[1] + ROLL_TIP[1]),
         "roller_far_end": (ROLLER[0], RA[0], RA[1]),
-        "seat_front_right": (x - w / 2, y - d / 2, zt - 0.01 + d / 2 * math.sin(math.radians(SEAT_TILT))),
         "post_foot": (POST[0], POST[1], 0.0),
         "foot_front": (XS, FOOT_F, 0.03),
         "foot_rear": (XS, FOOT_R, 0.03),
-        "seat_front_right": (x - w / 2, y - d / 2, zt),
         "seat_front_left": (x + w / 2, y - d / 2, zt - 0.01 + d / 2 * math.sin(math.radians(SEAT_TILT))),
-        "seat_rear_left": (x + SEAT_BACKW / 2, y + d / 2, zt - 0.01 - d / 2 * math.sin(math.radians(SEAT_TILT))),
+        "seat_rear_left": (x + w / 2, y + d / 2, zt - 0.01 - d / 2 * math.sin(math.radians(SEAT_TILT))),
+        "orange": ORANGE,
         "backpad_bot_left": (BACK[0] + BACK[4] / 2, BACK[1], BACK[2]),
         "backpad_bot_right": (BACK[0] - BACK[4] / 2, BACK[1], BACK[2]),
         "backpad_top_left": _back_top(1),
@@ -192,7 +191,7 @@ def build(k):
 
     # ================= the knee mechanism at the tower's round front end
     px, py, pz = PIV
-    _drum(k, DRUM, DRUM_R, 0.20)                 # the open cam cover
+    _drum(k, DRUM, DRUM_R, 0.13)                 # the open cam cover
     k.tube("chrome", (sx, py, pz), (px + 0.03, py, pz), 0.022)               # axle
     k.cyl("frame", (TX1 + 0.04, py, pz), 0.06, 0.08, axis="x", seg=40, soft=0.006)
     k.disc("frame", (px + 0.005, py, pz), 0.085, 0.024, 0.014, axis="x")     # the start dial
@@ -255,7 +254,7 @@ def build(k):
     x, y, zt, w, d, th = SEAT
     k.box("frame", (x, y, zt - th - 0.015), (w - 0.14, d - 0.10, 0.03), soft=0.004)
     tl = math.radians(SEAT_TILT)
-    k.shaped_pad("pad", [(-w / 2, -d / 2), (w / 2, -d / 2), (SEAT_BACKW / 2, d / 2), (-SEAT_BACKW / 2, d / 2)],
+    k.shaped_pad("pad", [(-w / 2, -d / 2), (w / 2, -d / 2), (w / 2, d / 2), (-w / 2, d / 2)],
                  (x, y, zt - th / 2), (0, math.sin(tl), math.cos(tl)), (1, 0, 0), th, r=0.04)
     # the carriage at the seat's rear left: a box with a knob, the back-pad release handle, a bolted bracket plate
     k.box("frame", (0.22, 0.25, 0.42), (0.09, 0.12, 0.13), soft=0.006)
@@ -273,14 +272,15 @@ def build(k):
     c = (bx, by0 + up[1] * bh / 2 - nrm[1] * bt / 2, bz0 + up[2] * bh / 2 - nrm[2] * bt / 2)
     k.shaped_pad("pad", [(-bw / 2, -bh / 2), (bw / 2, -bh / 2), (BACK_TOPW / 2, bh / 2), (-BACK_TOPW / 2, bh / 2)],
                  c, nrm, (1, 0, 0), bt, r=0.04)
-    k.tube("frame", (bx + 0.05, by0 + 0.21, bz0 + 0.24), (0.22, by0 + 0.01, bz0 - 0.10), 0.007)
-    k.box("accent", (bx + bw / 2 + 0.015, by0 + 0.14, bz0 + 0.28), (0.022, 0.05, 0.10), rx=a - math.pi / 2, soft=0.006)
+    rod0 = (0.20, SEAT[1] + SEAT[4] / 2 - 0.02, SEAT[2] - SEAT[5] - 0.06)               # from the seat carriage
+    k.tube("frame", rod0, ORANGE, 0.007)
+    k.box("accent", ORANGE, (0.022, 0.07, 0.085), rx=math.atan2(ORANGE[1] - rod0[1], ORANGE[2] - rod0[2]), soft=0.008)
 
 
 def _drum(k, c, r, w):
     """The cam cover: a smooth open shell of a drum on the x axis (from below the front round over the top), rims at both sides."""
     cx, cy, cz = c
-    arc = [math.radians(t) for t in range(-70, 231, 6)]
+    arc = [math.radians(t) for t in range(215, 506, 6)]   # all round except the front (open towards the user)
     outer = [(-(r * math.cos(t)), r * math.sin(t)) for t in arc]               # profile (u, v): world y = -u, z = v
     inner = [(-((r - 0.008) * math.cos(t)), (r - 0.008) * math.sin(t)) for t in reversed(arc)]
     k.sweep("frame", [(cx - w / 2, cy, cz), (cx + w / 2, cy, cz)], outer + inner, up=(0, 0, 1), soft=0.003)
@@ -288,4 +288,6 @@ def _drum(k, c, r, w):
     rim_i = [(-((r - 0.03) * math.cos(t)), (r - 0.03) * math.sin(t)) for t in reversed(arc)]
     for s_ in (-1, 1):
         k.sweep("frame", [(cx + s_ * w / 2 - 0.006, cy, cz), (cx + s_ * w / 2 + 0.006, cy, cz)], rim_o + rim_i, up=(0, 0, 1), soft=0.003)
-    k.cyl("frame", (cx, cy, cz), r * 0.55, w * 0.7, axis="x", seg=48, soft=0.008)       # the cam inside
+    k.cyl("frame", (cx, cy, cz), r * 0.62, w * 0.45, axis="x", seg=64, soft=0.006)       # the cam inside
+    for t in range(0, 360, 45):                                                           # its bolt circle
+        k.cyl("alu", (cx + w * 0.23, cy + r * 0.42 * math.cos(math.radians(t)), cz + r * 0.42 * math.sin(math.radians(t))), 0.007, 0.006, axis="x", seg=12)

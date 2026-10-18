@@ -65,27 +65,31 @@ out = versions.path(piece, "sheet", v)
 sheet.save(out, quality=90)
 print("sheet:", out)
 
-# the overlay: the photo | ours from the photo's camera | both, ours at half strength with its outline in red
-mfile, raw = EQ / "pieces" / piece / "match.json", EQ / ".cache" / f"match_{piece}.png"
-if mfile.exists() and raw.exists() and raw.stat().st_mtime > out.stat().st_mtime - 600:
+# the overlays, one per reference photo: the photo | ours from its camera | both, ours at half with its outline in red
+mfile = EQ / "pieces" / piece / "match.json"
+if mfile.exists():
     from PIL import ImageFilter, ImageChops
-    M = json.loads(mfile.read_text())
-    ref = Image.open(refs_dir / M["ref"]).convert("RGBA")
-    w_ = Image.new("RGBA", ref.size, (255, 255, 255, 255)); w_.alpha_composite(ref); ref = w_
-    ours_ = Image.open(raw).convert("RGBA").resize(ref.size)
-    alone = Image.new("RGBA", ref.size, (255, 255, 255, 255)); alone.alpha_composite(ours_)
-    a = ours_.getchannel("A").point(lambda x: 255 if x > 40 else 0)
-    edge = ImageChops.subtract(a.filter(ImageFilter.MaxFilter(5)), a)
-    ov = ref.copy(); half = ours_.copy(); half.putalpha(ours_.getchannel("A").point(lambda x: x // 2)); ov.alpha_composite(half)
-    ov.paste((230, 20, 20, 255), (0, 0), edge)
-    side = 1000
-    sheet2 = Image.new("RGB", (3 * side + 80, side + 90), (20, 19, 18)); d2 = ImageDraw.Draw(sheet2)
-    for i, (lab, im) in enumerate((("the real one", ref), ("ours, same camera", alone), ("overlay: ours at half, outline red", ov))):
-        sheet2.paste(im.convert("RGB").resize((side, side)), (20 + i * (side + 20), 70))
-        d2.text((20 + i * (side + 20), 25), lab, font=font, fill=(141, 134, 124))
-    errs = M.get("errors_px", {})
-    if errs:
-        d2.text((3 * side + 60, 25), f"anchors off by {(sum(e * e for e in errs.values()) / len(errs)) ** 0.5:.0f} px rms", font=font, fill=(201, 164, 106), anchor="ra")
-    mo = versions.path(piece, "match", v)
-    sheet2.save(mo, quality=90)
-    print("match:", mo)
+    MJ = json.loads(mfile.read_text())
+    for vi, vw in enumerate(MJ.get("views") or [MJ]):
+        raw = EQ / ".cache" / f"match_{piece}_{vi}.png"
+        if not raw.exists() or raw.stat().st_mtime < out.stat().st_mtime - 600:
+            continue
+        ref = Image.open(refs_dir / vw["ref"]).convert("RGBA")
+        w_ = Image.new("RGBA", ref.size, (255, 255, 255, 255)); w_.alpha_composite(ref); ref = w_
+        ours_ = Image.open(raw).convert("RGBA").resize(ref.size)
+        alone = Image.new("RGBA", ref.size, (255, 255, 255, 255)); alone.alpha_composite(ours_)
+        a = ours_.getchannel("A").point(lambda x: 255 if x > 40 else 0)
+        edge = ImageChops.subtract(a.filter(ImageFilter.MaxFilter(5)), a)
+        ov = ref.copy(); half = ours_.copy(); half.putalpha(ours_.getchannel("A").point(lambda x: x // 2)); ov.alpha_composite(half)
+        ov.paste((230, 20, 20, 255), (0, 0), edge)
+        side = 1000
+        sheet2 = Image.new("RGB", (3 * side + 80, side + 90), (20, 19, 18)); d2 = ImageDraw.Draw(sheet2)
+        for i, (lab, im) in enumerate((("the real one", ref), ("ours, same camera", alone), ("overlay: ours at half, outline red", ov))):
+            sheet2.paste(im.convert("RGB").resize((side, side)), (20 + i * (side + 20), 70))
+            d2.text((20 + i * (side + 20), 25), lab, font=font, fill=(141, 134, 124))
+        errs = vw.get("errors_px", {})
+        if errs:
+            d2.text((3 * side + 60, 25), f"anchors off by {(sum(e * e for e in errs.values()) / len(errs)) ** 0.5:.0f} px rms", font=font, fill=(201, 164, 106), anchor="ra")
+        mo = versions.path(piece, "match" if vi == 0 else f"match{vi + 1}", v)
+        sheet2.save(mo, quality=90)
+        print("match:", mo)
