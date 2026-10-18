@@ -98,10 +98,10 @@ S("river-edge", "F3", "feature", "River edge · waist-high river window + indoor
 S("north-stair-F4", "F4", "circulation", "Stair from F3", R(-21.45, 7.1, -15.45, 12.1))
 S("thermal", "F4", "wet", "Thermal · sauna, steam, hot/cold plunge",
   [[-24.45, 4.4], [-6.45, 4.4], [-6.45, 12.1], [-15.45, 12.1], [-15.45, 7.1], [-21.45, 7.1], [-21.45, 12.1], [-24.45, 12.1]])
-S("pool", "F4", "pool", "Lap pool 25 × 10 m · underwater river windows", R(-16.45, -28.1, -6.45, -3.1))
+S("pool", "F4", "pool", "Lap pool 25 × 10 m · underwater river windows", R(-16.45, -28.58, -6.45, -3.1))
 S("pool-deck-w", "F4", "wet", "Pool deck & lounge", R(-24.45, -18.7, -16.45, 4.4))
 S("pool-deck-n", "F4", "wet", "Pool deck", R(-16.45, -3.1, -6.45, 4.4))
-S("pool-deck-s", "F4", "wet", "Pool deck", R(-16.45, -34.1, -6.45, -28.1))
+S("pool-deck-s", "F4", "wet", "Pool deck", R(-16.45, -34.1, -6.45, -28.58))
 S("plant", "F4", "service", "Plant room · pool + building", R(-24.45, -34.1, -16.45, -18.7))
 S("recovery", "F4", "gym", "Recovery lounge · compression, loungers", R(-29.45, -34.1, -24.45, -4.5), "no spa / massage (Roman)")
 S("pool-lobby", "F4", "circulation", "Pool lobby · express lifts, towels + robes", R(-29.45, -4.5, -24.45, 12.1), "arrive from the locker rooms in robes, straight onto the pool deck; towel + robe station")
@@ -211,7 +211,7 @@ els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall") and
 WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.5, 12.0, 11.3)
 PLUNGES = [R(-9.9, 4.6, -6.45, 7.15), R(-9.9, 7.25, -6.45, 9.8)]  # the thermal suite's cold + hot plunge along the river window, sunk through the raft (the W3 exit landing stays clear north of them)
 holes = {  # openings through each slab
-    "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}] + [{"rect": r_} for r_ in PLUNGES],  # pool basin, the thermal suite's plunges
+    "F4": [{"rect": R(-16.45, -28.58, -6.45, -3.1)}] + [{"rect": r_} for r_ in PLUNGES],  # pool basin, the thermal suite's plunges
     "F1": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F2": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F3": [{"rect": R(-21.45, 7.1, -15.45, 12.1)}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],

@@ -367,8 +367,8 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
 FINISH["stone_blue_deck"] = {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "y", "bond": "stack", "material": "stone_blue", "t": 0.02}
 FINISH["tile_ink"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012, "depth": 0.02, "material": "tile_ink"}
 F4v = lv["F4"]; zs4 = by_id["S-F3-west"]["z"][0]; zt4 = round(zs4 - 0.035, 3)
-POOL4 = [-16.45, -28.1, -6.45, -3.1]
-F4_HOLES = G_CORES + [{"rect": [-16.86, -28.51, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
+POOL4 = [-16.45, -28.58, -6.45, -3.1]
+F4_HOLES = G_CORES + [{"rect": [-16.86, -28.99, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
                       {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"}, {"rect": [-29.45, -34.1, -24.45, -18.7], "note": "the recovery lounge's oak"}]
 PLUNGE4 = [[min(q[0] for q in h_["rect"]), min(q[1] for q in h_["rect"]), max(q[0] for q in h_["rect"]), max(q[1] for q in h_["rect"])]
            for h_ in by_id["S-F4-west"]["holes"][1:]]                       # the thermal suite's plunges (tools/layout_v1.py PLUNGES)

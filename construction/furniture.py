@@ -4772,43 +4772,59 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
 
 
 # ---------------------------------------------------------------- F4: the lap pool (Roman 2026-10-17: blueish dark tile + stone, black stone, white as accent)
-def lap_pool(P, x0=-16.25, x1=-6.65, y0=-27.9, y1=-3.3, depth=2.0, water=-0.012):
+def lap_pool(P, x0=-16.25, x1=-6.65, y0=-28.38, y1=-3.3, d_n=1.25, d_s=1.5, raft=-1.6, water=-0.012):
     """The 25 m lap pool in the pool hall, built in the floor's frame (origin at the F4 floor, x/y world). A deep ink-blue glass mosaic
     basin (the river wall's face too, below the water), four lanes marked in black mosaic with T-ends and targets on the end walls;
     honed black stone coping with white veins on three sides, flush with the deck, the water a hand below it over a
     hidden overflow slot (blackened steel grate); a thin white stone line set in the deck round the pool (the white accent). Wide
     steps in the north-west corner: black stone treads with white stone nosings, a blackened steel rail. The water clear with a faint
-    blue, gently moving; lit from underwater along the west wall."""
+    blue, gently moving; lit from underwater along the west wall. Roman 2026-10-18: a true 25 m between the finished end walls
+    (25.02, inside the +0.03 tolerance) and a club depth, 1.25 m at the steps falling gently to 1.5 m at the south end (was 2.0 throughout);
+    the fall is in the screed on the flat raft (top at `raft`)."""
     st = M["steel"]
     mos, mosb = bc.pool_mosaic(), bc.pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020))
     nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
     white = M.get("stone_white") or bc.interior_materials()["stone_white"]
     wat = _pool_water()
     glow = _led("pool_light", (0.8, 0.93, 1.0), 25.0)
-    zb = -depth; t = 0.03                                       # mosaic thickness on the structure
-    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
-    # ---- the basin: floor + four walls in mosaic (inside faces at x0..x1, y0..y1)
-    P.box(mos, (cx, cy, zb + t / 2), (x1 - x0, y1 - y0, t))                                       # on the structure, inward
-    P.box(mos, (x0 + t / 2, cy, zb / 2 - 0.02), (t, y1 - y0, -zb - 0.04))
-    P.box(mos, (x1 - 0.03, cy, zb / 2 - 0.02), (0.06, y1 - y0, -zb - 0.04))                       # river wall face (over the pilasters)
+    t = 0.03                                                    # mosaic thickness on the structure
+    cx = (x0 + x1) / 2
+    zf = lambda y: -d_s + (d_s - d_n) * (y - y0) / (y1 - y0)   # the finished floor, falling to the south
+    def wedge(mat, xa, xb, pts_yz):                             # a yz outline extruded along x (the sloped floor + side walls)
+        bb = P.bm(mat)
+        v0 = [bb.verts.new((xa, y, z)) for y, z in pts_yz]; v1 = [bb.verts.new((xb, y, z)) for y, z in pts_yz]
+        bb.faces.new(v0[::-1]); bb.faces.new(v1)
+        for i in range(len(pts_yz)):
+            j = (i + 1) % len(pts_yz)
+            bb.faces.new((v0[i], v0[j], v1[j], v1[i]))
+        bmesh.ops.recalc_face_normals(bb, faces=bb.faces[-(len(pts_yz) + 2):])
+    # ---- the basin: the screed + mosaic floor on the raft, falling south, and four walls in mosaic (inside faces at x0..x1, y0..y1)
+    wedge(mos, x0, x1, [(y0, raft), (y1, raft), (y1, zf(y1)), (y0, zf(y0))])
+    wedge(mos, x0, x0 + t, [(y0, raft), (y1, raft), (y1, -0.04), (y0, -0.04)])
+    wedge(mos, x1 - 0.06, x1, [(y0, raft), (y1, raft), (y1, -0.04), (y0, -0.04)])                 # river wall face (over the pilasters)
     for yy, sg in ((y0, 1), (y1, -1)):
-        P.box(mos, (cx, yy + sg * t / 2, zb / 2 - 0.02), (x1 - x0, t, -zb - 0.04))
-    zb += t; x0 += t; y0 += t; y1 -= t; cy = (y0 + y1) / 2                                         # the finished faces
-    # ---- lanes: four, black mosaic lines on the floor with T-ends, targets on the end walls
+        P.box(mos, (cx, yy + sg * t / 2, (raft - 0.04) / 2), (x1 - x0, t, -raft - 0.04))
+    x0 += t; y0 += t; y1 -= t; cy = (y0 + y1) / 2                                                 # the finished faces
+    slope = math.atan2(d_s - d_n, y1 - y0)                                                        # the floor rises to the north
+    # ---- lanes: four, black mosaic lines on the floor with T-ends, targets on the end walls (crossbar 0.3 m under the water)
     lw = (x1 - x0) / 4
     for k in range(4):
         lx = x0 + lw * (k + 0.5)
-        P.box(mosb, (lx, cy, zb + 0.002), (0.25, y1 - y0 - 4.0, 0.004))
-        for yy, sg in ((y0 + 2.0, 1), (y1 - 2.0, -1)):
-            P.box(mosb, (lx, yy, zb + 0.002), (1.0, 0.25, 0.004))
+        P.box(mosb, (lx, cy, zf(cy) + 0.002), (0.25, y1 - y0 - 4.0, 0.004), rx=slope)
+        for yy in (y0 + 2.0, y1 - 2.0):
+            P.box(mosb, (lx, yy, zf(yy) + 0.002), (1.0, 0.25, 0.004), rx=slope)
         for yy, sg in ((y0, 1), (y1, -1)):
-            P.box(mosb, (lx, yy + sg * 0.003, zb + 0.9), (0.25, 0.004, 1.8 - 0.3))
-            P.box(mosb, (lx, yy + sg * 0.003, -0.6), (0.6, 0.004, 0.25))
-    # ---- the steps, north-west corner: 8 risers down to the floor, black stone treads, white stone nosings, mosaic risers
-    sw, n_, rise, go = 3.0, 8, depth / 8, 0.3
+            za, zb_ = zf(yy) + 0.15, -0.3
+            P.box(mosb, (lx, yy + sg * 0.003, (za + zb_) / 2), (0.25, 0.004, zb_ - za))
+            P.box(mosb, (lx, yy + sg * 0.003, -0.3), (0.6, 0.004, 0.25))
+    # ---- the steps, north-west corner: 6 risers down to the floor, black stone treads, white stone nosings, mosaic risers
+    sw, n_, go = 3.0, 6, 0.3
+    rise = d_n / n_
     for k in range(n_):
         zt_ = -rise * (k + 1); ya = y1 - go * k
-        P.box(mos, (x0 + sw / 2, ya - go / 2, (zt_ + zb) / 2), (sw, go, zt_ - zb))                 # the step block
+        zb_ = zf(ya - go) - 0.01
+        if zt_ - zb_ > 0.02:
+            P.box(mos, (x0 + sw / 2, ya - go / 2, (zt_ + zb_) / 2), (sw, go, zt_ - zb_))           # the step block
         P.box(nero, (x0 + sw / 2, ya - go / 2, zt_ - 0.012), (sw, go, 0.024))
         P.box(white, (x0 + sw / 2, ya - go + 0.02, zt_ - 0.011), (sw, 0.04, 0.026))
     P.rods(st, [(x0 + sw + 0.05, y1 + 0.25, 0.0)], [(x0 + sw + 0.05, y1 + 0.25, 0.95)], 0.021, seg=16)  # the rail: up from the deck,
@@ -4837,7 +4853,7 @@ def lap_pool(P, x0=-16.25, x1=-6.65, y0=-27.9, y1=-3.3, depth=2.0, water=-0.012)
     coping_run(x0, y1, x1, y1, (0, -1))
     coping_run(x0, y0, x1, y0, (0, 1))
     # ---- the water: a hand under the coping, gently moving
-    P.box(wat, ((x0 + x1 - 0.06) / 2, cy, (water + zb) / 2), (x1 - 0.06 - x0 - 0.004, y1 - y0 - 0.004, water - zb))
+    P.box(wat, ((x0 + x1 - 0.06) / 2, cy, (water + raft) / 2), (x1 - 0.06 - x0 - 0.004, y1 - y0 - 0.004, water - raft))
     # ---- underwater lights: flush opal lenses along the west wall + the ends, 0.6 m down
     for yy in np.arange(y0 + 2.0, y1 - 1.0, 3.0):
         P.box(glow, (x0 + 0.002, float(yy), -0.6), (0.006, 0.3, 0.1))

@@ -55,20 +55,20 @@ CORE_RAFTS = {
 for k, (r, top) in CORE_RAFTS.items():
     add({"id": f"FDN-raft-{k}", "type": "slab", "material": "concrete", "rect": r, "z": [round(top - 0.6, 2), round(top, 2)],
          "note": "0.6 m raft" + (" (lift pit 1.2 m)" if k.startswith("LIFT") else "")}, 70)
-# pool basin: deeper raft + basin walls
-pool = [-16.45, -28.1, -6.45, -3.1]
-add({"id": "FDN-pool-raft", "type": "slab", "material": "concrete", "rect": pool, "z": [round(lv["F4"] - 2.6, 2), round(lv["F4"] - 2.0, 2)],
+# pool basin: deeper raft + basin walls (Roman 2026-10-18: a true 25 m, 1.25 -> 1.5 m deep; the fall is in the screed on the raft)
+pool = [-16.45, -28.58, -6.45, -3.1]
+add({"id": "FDN-pool-raft", "type": "slab", "material": "concrete", "rect": pool, "z": [round(lv["F4"] - 2.2, 2), round(lv["F4"] - 1.6, 2)],
      "note": "pool basin floor, 0.6 m, rock-anchored"}, 70)
 x0, y0, x1, y1 = pool
 for n, (a, b) in {"S": ([x0, y0], [x1, y0]), "N": ([x0, y1], [x1, y1]), "W": ([x0, y0], [x0, y1])}.items():
-    add({"id": f"FDN-pool-wall-{n}", "type": "wall", "material": "concrete", "from": a, "to": b, "size": [0.4, 2.0],
-         "z": [round(lv["F4"] - 2.0, 2), round(lv["F4"] - 0.6, 2)], "note": "pool basin wall (east side = river wall)"}, 75)
+    add({"id": f"FDN-pool-wall-{n}", "type": "wall", "material": "concrete", "from": a, "to": b, "size": [0.4, 1.0],
+         "z": [round(lv["F4"] - 1.6, 2), round(lv["F4"] - 0.6, 2)], "note": "pool basin wall (east side = river wall)"}, 75)
 
 # ---- foundation bottoms per footprint (for blinding, anchors, pit)
 F4B, E2B = round(lv["F4"] - 0.6, 2), round(lv["E2"] - 0.6, 2)
 FOOT = [  # rect, bottom z (top of blinding)
     ([-29.45, -34.1, -6.45, 12.1], F4B), ([-28.85, -40.1, -6.45, -34.1], F4B),
-    *[(r, round(t - 0.6, 2)) for r, t in CORE_RAFTS.values()], (pool, round(lv["F4"] - 2.6, 2)),
+    *[(r, round(t - 0.6, 2)) for r, t in CORE_RAFTS.values()], (pool, round(lv["F4"] - 2.2, 2)),
     ([12.0, -9.5, 30.5, 33.3], E2B), ([30.5, -9.5, 60.0, 24.0], round(lv["E2"] - 0.3, 2)),
 ]
 for k, (r, b) in enumerate(FOOT):
@@ -93,7 +93,7 @@ pts_f4 = [p for p in grid_in([-29.45, -34.1, -6.45, 12.1]) + grid_in([-28.85, -4
 add({"id": "FDN-anchors-F4", "type": "anchor_field", "material": "steel", "points": pts_f4, "dia": 0.15, "z": [F4B - 0.075 - 8.0, F4B - 0.075],
      "note": "grouted rock anchors Ø150, 8 m, 2.5 m grid: hold the F4 raft down (river 6.6 m above F4)"}, 30)
 add({"id": "FDN-anchors-pool", "type": "anchor_field", "material": "steel", "points": grid_in(pool, 2.0, 0.8), "dia": 0.15,
-     "z": [round(lv["F4"] - 2.675 - 8.0, 2), round(lv["F4"] - 2.675, 2)], "note": "rock anchors under the pool basin, 2.0 m grid"}, 30)
+     "z": [round(lv["F4"] - 2.275 - 8.0, 2), round(lv["F4"] - 2.275, 2)], "note": "rock anchors under the pool basin, 2.0 m grid"}, 30)
 
 # ---- pad footings under the parking columns
 for e in els:

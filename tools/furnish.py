@@ -1039,7 +1039,7 @@ put("river_wall_f4", 0.0, 0.0, zone="pool", level="F4", z=F4, top=ZC4, note="the
              for o_ in _RW["openings"] if o_["type"] == "underwater"])
 for yy in [-25.9 + 3.0 * k for k in range(8)]:                                     # underwater lights along the west wall, aimed across
     put("light_only", -16.1, float(yy), zone="pool", level="F4", z=F4,
-        light={"type": "AREA", "energy": 35, "size": 0.3, "size_y": 0.1, "offset": [0, 0, -0.6], "aim": [-7.0, float(yy), F4 - 1.7],
+        light={"type": "AREA", "energy": 35, "size": 0.3, "size_y": 0.1, "offset": [0, 0, -0.6], "aim": [-7.0, float(yy), F4 - 1.2],
                "color": [0.8, 0.93, 1.0]}, note="underwater light")
 for ya, yb in zip(BAYS, BAYS[1:]):
     y = (ya + yb) / 2

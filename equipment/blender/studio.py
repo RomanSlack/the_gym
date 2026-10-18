@@ -3,6 +3,8 @@
 Run through the runner (it picks the version number and composes the comparison sheet):
     python3 equipment/tools/model.py <piece> [draft]
 Directly: nice -n 19 blender -b --factory-startup -t 12 --python equipment/blender/studio.py -- <piece> <version> [draft]
+Joints only (build + the floating-part check, nothing rendered or saved):
+    blender -b --factory-startup --python equipment/blender/studio.py -- <piece> 0 check
 
 Builds equipment/pieces/<piece>/model.py (def build(k)), exports pieces/<piece>/models/<piece>_vNNN.glb, then renders
 the studio views to pieces/<piece>/models/<piece>_<view>_vNNN.jpg. A model.py may define VIEWS (extra or replaced
@@ -27,6 +29,7 @@ import versions  # noqa: E402
 args = sys.argv[sys.argv.index("--") + 1:]
 PIECE, V = args[0], int(args[1])
 DRAFT = "draft" in args
+CHECK = "check" in args
 
 
 def gpu_or_stop():
@@ -49,7 +52,8 @@ def gpu_or_stop():
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
 scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.tile_size = 256
-gpu_or_stop()
+if not CHECK:
+    gpu_or_stop()
 scene.cycles.samples = 48 if DRAFT else 160; scene.cycles.use_denoising = True
 scene.render.resolution_x, scene.render.resolution_y = (1200, 900)
 scene.render.resolution_percentage = 70 if DRAFT else 100
@@ -64,6 +68,8 @@ k = kit.Kit(PIECE, coll, getattr(pm, "LOOK", None))
 pm.build(k)
 obs = k.finish()
 bpy.context.view_layer.update()
+if CHECK:
+    os._exit(4 if k.floating else 0)
 
 glb = versions.model_path(PIECE, V)
 for o in bpy.data.objects:

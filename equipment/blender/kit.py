@@ -11,12 +11,15 @@ equipment/pieces/<piece>/model.py as `def build(k)`, where k is a Kit:
 Geometry is collected per (material, softness); k.finish() makes one object per group. Materials are named by role
 ("frame", "pad", "chrome", ...) and given a look per piece via k.look(frame=(r,g,b), ...).
 """
+import functools
+import inspect
 import math
 
 import bmesh
 import bpy
 import numpy as np
 from mathutils import Matrix, Vector
+from mathutils.bvhtree import BVHTree
 
 # ---------------------------------------------------------------- materials
 
@@ -90,12 +93,50 @@ def stadium(w, h, seg=10):
     return rect(w, h, h / 2 - 1e-4, seg)
 
 
+# ---------------------------------------------------------------- parts (for the connection check)
+
+HARDWARE = {"bolt", "hole", "warn", "label", "seam", "weld"}   # sit on a member but never hold two members together
+ROD = 0.025   # round bars this thin (axles, pins, rods) can't hold a part on their own: it needs a hub, a plate, a weld
+
+
+def _part(fn):
+    """Record each top-level geometry call as one part (its faces in each group + the model.py line that made it), so
+    k.check() can tell which parts touch and which float."""
+    @functools.wraps(fn)
+    def w(self, *a, **kw):
+        if self._depth:
+            self._depth += 1
+            try:
+                return fn(self, *a, **kw)
+            finally:
+                self._depth -= 1
+        before = {key: len(b.faces) for key, b in self.groups.items()}
+        self._depth = 1
+        try:
+            r = fn(self, *a, **kw)
+        finally:
+            self._depth = 0
+        fr, where = inspect.currentframe().f_back, "?"
+        while fr:
+            if fr.f_code.co_filename.endswith("model.py"):
+                where = f"{fr.f_code.co_name}():{fr.f_lineno}"; break
+            fr = fr.f_back
+        rng = {key: (before.get(key, 0), len(b.faces)) for key, b in self.groups.items() if len(b.faces) > before.get(key, 0)}
+        if rng:
+            role = a[0] if a and isinstance(a[0], str) else fn.__name__
+            r_ = (a[3] if len(a) > 3 else kw.get("r")) if fn.__name__ == "tube" else None
+            self.parts.append(dict(what=f"{fn.__name__} {role}", where=where, rng=rng, rod=bool(r_ and r_ <= ROD)))
+        return r
+    return w
+
+
 # ---------------------------------------------------------------- the kit
 
 class Kit:
     def __init__(self, name, coll=None, look=None):
         self.name, self.groups, self.subs, self.extra = name, {}, [], []
         self.pivot, self.rz = (0.0, 0.0, 0.0), 0.0
+        self.parts, self._depth, self.floating = [], 0, []
         self.coll = coll or bpy.context.scene.collection
         self.looks = {k: dict(v) for k, v in LOOK.items()}
         if look:
@@ -112,9 +153,14 @@ class Kit:
         return self.groups.setdefault((mat, soft), bmesh.new())
 
     # -- sweeps: the backbone (frames are tubes bent along a path)
-    def sweep(self, mat, path, profile, bend=0.0, up=(0, 0, 1), caps=True, soft=0.0015, bend_seg=10, twist=0.0):
+    @_part
+    def sweep(self, mat, path, profile, bend=0.0, up=(0, 0, 1), caps=True, soft=0.0015, bend_seg=10, twist=0.0,
+              cut0=None, cut1=None, weld=False):
         """Sweep a closed profile along a polyline. bend > 0 rounds every corner with that centreline radius (bent tube).
-        The profile's v axis starts on `up` projected off the first tangent (then parallel-transported)."""
+        The profile's v axis starts on `up` projected off the first tangent (then parallel-transported).
+        Joints: cut0 / cut1 = (point, normal), a plane the start / end is cut to (the face of the member it meets: a
+        coped, mitred end sitting flush, not a square end poking through or stopping short); weld=True runs a fillet
+        bead round each cut end (the joint is welded; powder-coated over, so the member's own material)."""
         P = [Vector(p) for p in path]
         if bend > 0 and len(P) > 2:
             P = _fillet(P, bend, bend_seg)
@@ -161,16 +207,53 @@ class Kit:
                 b.faces.new((r0[j], r0[(j + 1) % m], r1[(j + 1) % m], r1[j]))
         if caps:
             b.faces.new(rings[0][::-1]); b.faces.new(rings[-1])
+        for ring, cut, t_in, c0 in ((rings[0], cut0, T[0], P[0]), (rings[-1], cut1, -T[-1], P[-1])):
+            if not cut:
+                continue
+            q, nv = Vector(cut[0]), Vector(cut[1]).normalized()
+            if abs(t_in.dot(nv)) < 0.05:
+                raise ValueError(f"sweep: cut plane {cut} is parallel to the member")
+            for v in ring:   # slide each end vertex along the member's axis onto the plane
+                v.co = v.co + t_in * ((q - v.co).dot(nv) / t_in.dot(nv))
+            if weld:
+                self.bead(mat, [v.co.copy() for v in ring], c0 + t_in * ((q - c0).dot(nv) / t_in.dot(nv)),
+                          nv if nv.dot(t_in) > 0 else -nv)
 
-    def tube(self, mat, p0, p1, r, seg=20, soft=0.0008, caps=True):
-        self.sweep(mat, [p0, p1], circle(r, seg), soft=soft, caps=caps)
+    @_part
+    def tube(self, mat, p0, p1, r, seg=20, soft=0.0008, caps=True, **joint):
+        self.sweep(mat, [p0, p1], circle(r, seg), soft=soft, caps=caps, **joint)
 
-    def bar(self, mat, p0, p1, w, h=None, r=None, up=(0, 0, 1), soft=0.0015):
-        """Straight rectangular tube between two points (h along `up`)."""
+    @_part
+    def bar(self, mat, p0, p1, w, h=None, r=None, up=(0, 0, 1), soft=0.0015, **joint):
+        """Straight rectangular tube between two points (h along `up`); joint = cut0 / cut1 / weld as in sweep."""
         h = w if h is None else h
-        self.sweep(mat, [p0, p1], rect(w, h, w * 0.12 if r is None else r), up=up, soft=soft)
+        self.sweep(mat, [p0, p1], rect(w, h, w * 0.12 if r is None else r), up=up, soft=soft, **joint)
+
+    @_part
+    def bead(self, mat, loop, centre, out, r=0.0035):
+        """A weld bead: a small round fillet along a closed loop (the edge of a member's end where it meets a face),
+        tucked into the corner: pushed out from the member's axis (`centre`) and off the face (`out`, into the member)."""
+        out = Vector(out).normalized(); cv = Vector(centre)
+        pts = []
+        for p in loop:
+            rd = p - cv; rd = rd - out * rd.dot(out)
+            pts.append(p + (rd.normalized() * r * 0.55 if rd.length > 1e-6 else Vector()) + out * r * 0.55)
+        self.sweep(mat, pts + [pts[0]], circle(r, 6), caps=False, soft=0)
+
+    @_part
+    def bolt(self, c, axis, size=0.016, nut=None, mat="bolt"):
+        """A hex bolt (size = its diameter) on a washer, on the face at c; axis ("+x", "-y", ...) points out of that face.
+        nut = the grip length: the shank runs that far back through the parts and a washer + hex nut sit on the far face."""
+        ax = axis[-1]; d = Vector({"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}[ax]) * (-1 if axis[0] == "-" else 1)
+        cv = Vector(c)
+        ends = [(cv, d)] + ([(cv - d * nut, -d)] if nut else [])
+        for at, o in ends:
+            self.disc(mat, at + o * 0.0012, size * 0.95, size * 0.52, 0.0024, axis=ax, seg=20)               # washer
+            self.cyl(mat, at + o * (0.0024 + size * 0.33), size * 0.866, size * 0.65, axis=ax, seg=6)          # hex head / nut
+        self.tube(mat, cv - d * ((nut or 0.0) + (size * 0.5 if nut else 0.0)), cv + d * 0.004, size * 0.45, seg=10)
 
     # -- solids
+    @_part
     def box(self, mat, c, size, rx=0.0, ry=0.0, rz=0.0, soft=0.0015):
         b = self.bm(mat, soft)
         g = bmesh.ops.create_cube(b, size=1.0)["verts"]
@@ -179,6 +262,7 @@ class Kit:
         bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=R)
         bmesh.ops.translate(b, verts=g, vec=c)
 
+    @_part
     def pad(self, mat, c, size, r=0.03, rx=0.0, ry=0.0, rz=0.0, seam=True, board=True):
         """An upholstered pad: a soft rounded block (size = x, y, thickness along local z) on a thin base board,
         with a piping seam round the top face. Rotations turn the local z (the sitting / pressing face)."""
@@ -195,6 +279,7 @@ class Kit:
             pts = [cv + R @ Vector((u, v, z)) for u, v in loop] + [cv + R @ Vector((loop[0][0], loop[0][1], z))]
             self.sweep("seam", pts, circle(0.0015, 6), caps=False, soft=0)
 
+    @_part
     def shaped_pad(self, mat, outline, c, normal, side, th, r=0.03, seam=True, board=True, cushion=0.0):
         """An upholstered pad of any plan shape (a seat narrowing to the back, a tapered back pad): `outline` is a list of
         (a, b) points in the pad's plane (a along `side`, b along normal x side), rounded by r at each corner; c is the
@@ -260,6 +345,7 @@ class Kit:
             pts = [cv + sd * a + fw * q + n * (th / 2 + 0.0005) for a, q in sl]
             self.sweep("seam", pts + [pts[0]], circle(0.0015, 6), caps=False, soft=0)
 
+    @_part
     def cyl(self, mat, c, r, h, axis="z", seg=32, soft=0.001, r2=None):
         b = self.bm(mat, soft)
         g = bmesh.ops.create_cone(b, cap_ends=True, segments=seg, radius1=r, radius2=r if r2 is None else r2, depth=h)["verts"]
@@ -269,6 +355,7 @@ class Kit:
             bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X"))
         bmesh.ops.translate(b, verts=g, vec=c)
 
+    @_part
     def disc(self, mat, c, r_out, r_in, h, axis="x", seg=48, soft=0.0008):
         """A washer / pulley / plate ring (annulus) of thickness h."""
         b = self.bm(mat, soft)
@@ -285,6 +372,7 @@ class Kit:
                 b.faces.new((L0[i], L0[j], L1[j], L1[i]))
         bmesh.ops.recalc_face_normals(b, faces=b.faces)
 
+    @_part
     def pulley(self, c, r, axis="x", w=0.025):
         """A cable pulley: grooved wheel in a plate housing hint (wheel only; housings are modelled by the piece)."""
         ax = {"x": Vector((1, 0, 0)), "y": Vector((0, 1, 0)), "z": Vector((0, 0, 1))}[axis]
@@ -294,9 +382,11 @@ class Kit:
         self.disc("plastic", cv, r * 0.86, 0.012, w * 0.42, axis)
         self.cyl("chrome", cv, 0.008, w * 1.4, axis, seg=12)
 
+    @_part
     def cable(self, pts, r=0.0028):
         self.sweep("cable", pts, circle(r, 8), caps=False, soft=0)
 
+    @_part
     def stack(self, c, n=20, w=0.26, d=0.125, t=0.0254, gap=0.0, rods=0.47, rod_r=0.0127, top=1.45, pin_at=6, mat="plate"):
         """A selectorized weight stack standing on c (centre of its footprint, floor height): n plates of w x d x t,
         two chrome guide rods `rods` apart (x), a top plate with the lifting tube, a selector pin in plate `pin_at`,
@@ -317,6 +407,7 @@ class Kit:
             self.tube("chrome", (cx + sx * rods / 2, cy, cz + 0.01), (cx + sx * rods / 2, cy, cz + top), rod_r)
         return ztop + 0.06
 
+    @_part
     def text(self, mat, body, c, size, rz=0.0, rx=math.pi / 2, depth=0.001):
         """Raised lettering (labels on shrouds, weight numbers). Default faces -y (the user)."""
         cu = bpy.data.curves.new("txt", "FONT"); cu.body = body; cu.size = size; cu.extrude = depth / 2
@@ -357,12 +448,102 @@ class Kit:
         """A sub-assembly built in the same coordinates, then turned as one about a vertical axis through `pivot` by rz
         degrees (a stack tower set at an angle to the seat). Same looks; finished with the parent."""
         s = Kit(f"{self.name}_{name}", self.coll)
-        s.looks, s.pivot, s.rz = self.looks, tuple(pivot), rz
+        s.looks, s.pivot, s.rz, s.is_sub = self.looks, tuple(pivot), rz, True
         self.subs.append(s)
         return s
 
+    # -- connections
+    def check(self, tol=0.002):
+        """Every part must be held: touching (or within tol of) a part that leads, part by part, down to the floor.
+        Hardware (bolts, labels, holes, seams) must sit on a member but never counts as holding two members together:
+        a bolt head stuck on one plate does not bolt anything. Fills self.floating with the parts nothing holds."""
+        items = []
+        kits = [(self, Matrix())] + [(s_, Matrix.Translation(Vector(s_.pivot)) @ Matrix.Rotation(math.radians(s_.rz), 4, "Z")
+                                      @ Matrix.Translation(-Vector(s_.pivot))) for s_ in self.subs]
+        for kit, M in kits:
+            for pt in kit.parts:
+                co, polys = [], []
+                for key, (f0, f1) in pt["rng"].items():
+                    b = kit.groups[key]; b.faces.ensure_lookup_table()
+                    for fi in range(f0, f1):
+                        f = b.faces[fi]
+                        polys.append(list(range(len(co), len(co) + len(f.verts))))
+                        co.extend(M @ v.co for v in f.verts)
+                if not polys:
+                    continue
+                A = np.array([tuple(v) for v in co])
+                items.append(dict(pt, co=co, tree=BVHTree.FromPolygons(co, polys), lo=A.min(0) - tol, hi=A.max(0) + tol,
+                                  c=A.mean(0), hw=all(key[0] in HARDWARE for key in pt["rng"])))
+        n = len(items)
+        par = list(range(n))
+
+        def root(i):
+            while par[i] != i:
+                par[i] = par[par[i]]; i = par[i]
+            return i
+
+        def touch(a, b):
+            if (a["lo"] > b["hi"]).any() or (b["lo"] > a["hi"]).any():
+                return False
+            if a["tree"].overlap(b["tree"]):
+                return True
+            sm, big = (a, b) if len(a["co"]) < len(b["co"]) else (b, a)
+            return any(big["tree"].find_nearest(v, tol)[0] is not None for v in sm["co"][::max(1, len(sm["co"]) // 400)])
+
+        seated, nb = set(), {}   # hardware sitting on some structural part; who touches whom
+        for i in range(n):
+            for j in range(i + 1, n):
+                a, b = items[i], items[j]
+                if a["hw"] and b["hw"]:
+                    continue
+                if (a["hw"] or b["hw"]) and ((i if a["hw"] else j) in seated):
+                    continue
+                if touch(a, b):
+                    if a["hw"] or b["hw"]:
+                        seated.add(i if a["hw"] else j)
+                    else:
+                        par[root(i)] = root(j)
+                        nb.setdefault(i, []).append(j); nb.setdefault(j, []).append(i)
+        ground = {root(i) for i, it in enumerate(items) if not it["hw"] and it["lo"][2] <= tol * 1.5}
+        held = {i for i, it in enumerate(items) if not it["hw"] and root(i) in ground}
+        self.floating = []
+        for i, it in enumerate(items):
+            if it["hw"]:
+                ok = i in seated   # (seated on a part that is itself held: checked below)
+            else:
+                ok = i in held
+            if not ok:
+                self.floating.append((it["what"], it["where"], tuple(round(float(x), 3) for x in it["c"])))
+        groups = {}
+        for i in range(n):
+            if not items[i]["hw"] and i not in held:
+                groups.setdefault(root(i), []).append(i)
+        print(f"connections: {n} parts, {len(held)} structural held to the floor, {len(self.floating)} floating"
+              + (f" in {len(groups)} loose assemblies" if groups else ""), flush=True)
+        for g, members in groups.items():
+            print("  loose assembly:", flush=True)
+            for i in members:
+                print(f"    {items[i]['what']:<22} {items[i]['where']:<12} at {tuple(round(float(x), 3) for x in items[i]['c'])}", flush=True)
+        for i, it in enumerate(items):
+            if it["hw"] and i not in seated:
+                print(f"  hardware on nothing: {it['what']} {it['where']} at {tuple(round(float(x), 3) for x in it['c'])}", flush=True)
+        if __import__("os").environ.get("KIT_DEBUG"):
+            for i, it in enumerate(items):
+                if it["where"] == "side():95":
+                    print("DBG", it["c"], [(items[j]["what"], items[j]["where"]) for j in nb.get(i, [])])
+        hung = [i for i, it in enumerate(items) if not it["hw"] and not it["rod"] and i in held and nb.get(i)
+                and all(items[j]["rod"] for j in nb[i])]
+        for i in hung:
+            it = items[i]
+            self.floating.append((it["what"] + " (hung on a rod)", it["where"], tuple(round(float(x), 3) for x in it["c"])))
+            print(f"  hung on a rod only: {it['what']} {it['where']} at {tuple(round(float(x), 3) for x in it['c'])}"
+                  f" (on {', '.join(items[j]['where'] for j in nb[i])}): bolt it to a plate, give it a hub, or weld it", flush=True)
+        return self.floating
+
     # -- output
     def finish(self):
+        if not getattr(self, "is_sub", False):
+            self.check()
         mats = {}
         obs = []
         for (role, soft), b in self.groups.items():
