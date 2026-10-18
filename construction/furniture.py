@@ -5135,7 +5135,7 @@ def towel_bin(P):
             P.box(oak, (0, sy * (D / 2 - 0.015), z), (W, 0.03, 0.03))
         for sx in (-1, 1):
             P.box(oak, (sx * (W / 2 - 0.015), 0, z), (0.03, D, 0.03))
-    bag = M.setdefault("robe_linen_bag", bc.pbr_material("robe_linen_bag", "rough_linen", 0.27, box=True, tint=(0.9, 0.85, 0.75), sat=0.35, val=0.45, piece_var=0.03))
+    bag = M.setdefault("robe_linen_bag", bc.pbr_material("robe_linen_bag", "rough_linen", 0.27, box=True, tint=(0.9, 0.85, 0.75), sat=0.35, val=0.22, piece_var=0.03))
     P.box(bag, (0, 0, H / 2 + 0.02), (W - 0.07, D - 0.07, H - 0.12))
     towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
     P.blob(towel, (0.05, 0.0, H - 0.08), (0.16, 0.13, 0.07), seg=16)
@@ -5202,8 +5202,8 @@ def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
             P.box(lf, (x + math.cos(a) * tilt * L / 2, y + math.sin(a) * tilt * L / 2, ph + L / 2), (0.05, 0.008, L), rz=rng.uniform(0, math.pi),
                   rx=-math.sin(a) * tilt, ry=math.cos(a) * tilt)
     else:  # kentia: fronds arching out from the crown, leaflets along each
-        for k in range(9):
-            a = 2 * math.pi * k / 9 + rng.uniform(-0.2, 0.2); L = rng.uniform(0.7, 1.0) * (h - ph) * 1.1
+        for k in range(13):
+            a = 2 * math.pi * k / 13 + rng.uniform(-0.2, 0.2); L = rng.uniform(0.7, 1.0) * (h - ph) * 1.1
             pts = []
             for i in range(9):
                 t = i / 8; out = L * 0.75 * t; up = L * (0.95 * t - 0.55 * t * t)
@@ -5213,9 +5213,22 @@ def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
                 P.rod(lf, p0, p1, 0.006, seg=6)
             for i in range(1, 8):
                 for sd in (-1, 1):
-                    p = pts[i]; ll = 0.2 * (1 - abs(i - 3.5) / 5)
+                    p = pts[i]; ll = 0.34 * (1 - abs(i - 3.5) / 6)
                     ang = a + sd * 1.2
                     P.box(lf, (p[0] + math.cos(ang) * ll / 2, p[1] + math.sin(ang) * ll / 2, p[2] - 0.03), (ll, 0.022, 0.003), rz=ang)
+
+
+
+def eclipse_sconce(P, d=0.36):
+    """A round wall light (after Remedy Place's): a honed plaster disc standing off the wall, a smaller dark disc in front of it,
+    warm light washing out from behind both, a halo on the wall. Origin = the wall at its centre on the floor, front +y; z 1.6."""
+    z = 1.6
+    b = P.bm(M["steel"]); g = bmesh.ops.create_cone(b, cap_ends=True, segments=48, radius1=0.05, radius2=0.05, depth=0.03)["verts"]
+    bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b, verts=g, vec=(0, 0.015, z))
+    for mat, r, y, t in ((_led("eclipse_glow", (1.0, 0.76, 0.5), 5.0), d / 2 - 0.01, 0.034, 0.006), (M.get("plaster_venetian") or bc.interior_materials()["plaster_venetian"], d / 2, 0.045, 0.012),
+                         (M["steel"], d * 0.3, 0.06, 0.012)):
+        b = P.bm(mat); g = bmesh.ops.create_cone(b, cap_ends=True, segments=48, radius1=r, radius2=r, depth=t)["verts"]
+        bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b, verts=g, vec=(0, y, z))
 
 
 def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
@@ -5232,12 +5245,10 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
     P.box(_led("bay_plinth_glow", (1.0, 0.72, 0.45), 3.0), (0, (y0 + y1) / 2 - 0.2, 0.004), (0.7, 1.4, 0.004))
     _zprism(P, vel, _stadium(x0, x1, y0, y1), 0.12, 0.36)                                                   # the base
     _zprism(P, vel, _stadium(x0 + 0.015, x1 - 0.015, y0 + 0.015, y1 - 0.015), 0.36, 0.44)                  # the seat cushion
-    for k in range(4):                                                                                       # channel-tufted back, raked
-        z = 0.52 + k * 0.125; yy = y0 + 0.13 + k * 0.035
-        P.rod(vel, (x0 + 0.02, yy, z), (x1 - 0.02, yy, z), 0.068, seg=24)
-    for sx in (-1, 1):
-        P.box(vel, (sx * (x1 - 0.06), y0 + 0.4, 0.52), (0.12, 0.6, 0.18))                                  # low arm rolls at the head
-    P.rod(vel, (-0.3, y0 + 0.5, 0.5), (0.3, y0 + 0.5, 0.5), 0.085, seg=24)                                  # a bolster
+    for k in range(5):                                                                                       # channel-tufted back, raked
+        z = 0.5 + k * 0.088; yy = y0 + 0.1 + k * 0.03
+        P.rod(vel, (x0 + 0.03, yy, z), (x1 - 0.03, yy, z), 0.048, seg=24)
+    P.rod(vel, (-0.28, y0 + 0.36, 0.5), (0.28, y0 + 0.36, 0.5), 0.07, seg=24)                               # a bolster
     # the boots, laid on the bed (sleeves tapering to the foot), the hose to the pump
     boot = M.setdefault("boot_graphite", bc.material("boot_graphite", (0.035, 0.037, 0.04), 0.55))
     seam = M.setdefault("boot_seam", bc.material("boot_seam", (0.012, 0.012, 0.014), 0.7))
@@ -5279,10 +5290,10 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
     # curtains between the bays: pleated velvet floor to track, the track on the soffit
     for cx_ in ((-w / 2, w / 2) if end else (-w / 2,)):
         P.box(st, (cx_, d / 2, ceiling - 0.02), (0.03, d, 0.03))
-        n = int(d / 0.09); yy = 0.05
-        for k in range(n):
-            P.box(vel, (cx_ + (0.025 if k % 2 else -0.025), yy + 0.045, (ceiling - 0.05) / 2 + 0.015), (0.012, 0.1, ceiling - 0.05), rz=(0.5 if k % 2 else -0.5))
-            yy += 0.09
+        yy = 0.04
+        while yy < d - 0.02:                                                                                 # soft folds: a wave of round pleats
+            P.rod(vel, (cx_ + 0.03 * math.sin(yy * 2 * math.pi / 0.16), yy, 0.015), (cx_ + 0.03 * math.sin(yy * 2 * math.pi / 0.16), yy, ceiling - 0.04), 0.03, seg=12)
+            yy += 0.04
 
 
 BUILDERS = {
@@ -5321,7 +5332,7 @@ BUILDERS = {
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
     "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
-    "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "towel_bin": towel_bin, "breath_mat": breath_mat,
+    "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "eclipse_sconce": eclipse_sconce, "towel_bin": towel_bin, "breath_mat": breath_mat,
 }
 PARAMS = {"recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),

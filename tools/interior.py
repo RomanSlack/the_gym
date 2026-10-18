@@ -364,7 +364,7 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
 #   dark blue-grey stone 600 x 1200; the west, north + south walls and the partitions facing the hall in deep ink-blue glazed tile; the
 #   river wall in near-black stone slabs 600 x 1200, the windows cut through; charcoal wood wool between the beams painted out. The
 #   pool itself (mosaic basin, black stone coping, the steps, the water) is a furnishing (construction/furniture.py lap_pool).
-FINISH["stone_blue_deck"] = {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.002, "dir": "y", "bond": "stack", "material": "stone_blue", "t": 0.02}
+FINISH["stone_blue_deck"] = {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "y", "bond": "stack", "material": "stone_blue", "t": 0.02}
 FINISH["tile_ink"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012, "depth": 0.02, "material": "tile_ink"}
 F4v = lv["F4"]; zs4 = by_id["S-F3-west"]["z"][0]; zt4 = round(zs4 - 0.035, 3)
 POOL4 = [-16.45, -28.1, -6.45, -3.1]

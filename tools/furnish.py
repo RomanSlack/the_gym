@@ -1099,6 +1099,12 @@ p4("gym_line", -26.75, 8.25, rot=0, zone="lobby", L=4.3, z_ceiling=ZC4, temp="30
 
 for x, y, kind, h, r in ((-28.7, 11.3, "kentia", 2.2, 0.34), (-25.2, -3.9, "kentia", 2.0, 0.32), (-28.9, -6.0, "sansevieria", 1.1, 0.24)):
     p4("plant_pot", x, y, zone="lobby", species=kind, h=h, r=r, note="greenery (under the warm lines)")
+for y in (0.4, 2.2):                                                                         # round wall lights on the lobby's ink tile
+    p4("eclipse_sconce", XL, y, rot=-90, zone="lobby", note="eclipse wall light",
+       light={"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [XL + 1.0, y, F4 + 1.6], "color": [1.0, 0.76, 0.5]})
+for y in (-17.6, -6.4):                                                                    # and along the deck's west wall
+    p4("eclipse_sconce", XL, y, rot=-90, zone="deck", note="eclipse wall light",
+       light={"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [XL + 1.0, y, F4 + 1.6], "color": [1.0, 0.76, 0.5]})
 # -- the west deck: loungers in pairs facing the pool, a little table between each pair
 for c in (-16.2, -12.6, -9.0, -5.4, -1.8, 1.8):
     for dy in (-0.6, 0.6):
