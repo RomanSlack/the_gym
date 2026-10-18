@@ -5752,7 +5752,6 @@ def pod_wall(P, L=5.55, D=0.5, H=3.375):
     mats in the cubbies under it). Origin = the finished wall face at mid-length; front +y into the room, -x = the door end."""
     sm, st, fe = _fumed(), M["steel"], M["felt"]
     bays = [(-L / 2, -L / 2 + 1.6), (-L / 2 + 1.6, -L / 2 + 3.6), (-L / 2 + 3.6, L / 2)]
-    P.box(sm, (0, D / 2 - 0.02, (0.08 + H) / 2), (L, D - 0.04, H - 0.08))                          # the carcass (behind the fronts)
     P.box(fe, (0, D - 0.07, 0.04), (L, 0.04, 0.08))                                                # recessed kick
     for (a, b) in bays[1:]:
         P.box(fe, (a, D - 0.001, (0.08 + H) / 2), (0.004, 0.003, H - 0.08))                         # shadow lines between the bays
@@ -5761,8 +5760,13 @@ def pod_wall(P, L=5.55, D=0.5, H=3.375):
     a, b = bays[0]; cx = (a + b) / 2; nz0, nz1 = 0.92, 2.05
     fr0, fr1 = a + 0.06, a + 0.66
     skip = [(a, b, nz0 - 0.005, nz1 + 0.005), (fr0 - 0.004, fr1 + 0.004, 0.1, 0.86)]
-    P.box(sm, (cx, D - 0.02, (0.08 + H) / 2), (b - a, 0.04, H - 0.08))
-    P.box(sm, (cx, 0.22, (nz0 + nz1) / 2), (b - a - 0.04, 0.44, nz1 - nz0))                        # the niche carved out of the front
+    for x0_, x1_ in ((a, fr0 - 0.004), (fr1 + 0.004, b)):                                           # solid either side of the fridge
+        P.box(sm, ((x0_ + x1_) / 2, D / 2, (0.08 + nz0) / 2), (x1_ - x0_, D, nz0 - 0.08))
+    for z0_, z1_ in ((0.08, 0.1), (0.86, nz0)):
+        P.box(sm, ((fr0 + fr1) / 2, D / 2, (z0_ + z1_) / 2), (fr1 - fr0 + 0.008, D, z1_ - z0_))
+    P.box(sm, ((fr0 + fr1) / 2, 0.02, 0.48), (fr1 - fr0, 0.04, 0.76))                               # the fridge's back
+    P.box(sm, (cx, D / 2, (nz1 + H) / 2), (b - a, D, H - nz1))                                     # solid over the niche
+    P.box(sm, (cx, 0.02, (nz0 + nz1) / 2), (b - a, 0.04, nz1 - nz0))                               # the niche's back
     P.box(sm, (cx, D - 0.24, nz0 + 0.01), (b - a - 0.06, 0.48, 0.02))  # its shelf
     P.box(glow, (cx, D - 0.06, nz1 - 0.003), (b - a - 0.1, 0.02, 0.003))
     _flutes(P, a, b, D, 0.08, H, skip=skip)
@@ -5774,7 +5778,10 @@ def pod_wall(P, L=5.55, D=0.5, H=3.375):
     P.cyl(M["felt"], (b - 0.36, D - 0.2, nz0 + 0.037), 0.04, 0.003, seg=24)
     for xh in (b - 0.42, b - 0.26):
         P.rod(st, (xh, 0.2, nz1 - 0.25), (xh, 0.3, nz1 - 0.22), 0.008, seg=8)
-    P.box(st, ((fr0 + fr1) / 2, D - 0.03, 0.48), (fr1 - fr0, 0.04, 0.76))                         # the fridge: steel frame, glass door
+    for x_ in (fr0 + 0.01, fr1 - 0.01):                                                             # the fridge: a steel frame, a glass door
+        P.box(st, (x_, D - 0.02, 0.48), (0.02, 0.04, 0.76))
+    for z_ in (0.11, 0.85):
+        P.box(st, ((fr0 + fr1) / 2, D - 0.02, z_), (fr1 - fr0, 0.04, 0.02))
     P.box(M["glass"], ((fr0 + fr1) / 2, D - 0.004, 0.48), (fr1 - fr0 - 0.04, 0.008, 0.72))
     P.box(_led("fridge_glow", (0.9, 0.95, 1.0), 1.5), ((fr0 + fr1) / 2, D - 0.42, 0.48), (fr1 - fr0 - 0.08, 0.004, 0.66))
     bot = M.setdefault("bottle_glass", bc.arch_glass("bottle_glass", tint=(0.85, 0.92, 0.95)))
@@ -5787,7 +5794,7 @@ def pod_wall(P, L=5.55, D=0.5, H=3.375):
     P.box(fe, ((fr1 + b) / 2, D + 0.0008, 0.47), (0.004, 0.0025, 0.78))                             # the bag cupboard's door
     # -- the screen
     a, b = bays[1]; cx = (a + b) / 2; sw, sh, sz = 1.43, 0.805, 1.55
-    P.box(sm, (cx, D - 0.02, (0.08 + H) / 2), (b - a, 0.04, H - 0.08))
+    P.box(sm, (cx, D / 2, (0.08 + H) / 2), (b - a, D, H - 0.08))
     P.box(_screen_mat(), (cx, D + 0.0005, sz), (sw, 0.002, sh)); P.box(st, (cx, D + 0.0003, sz), (sw + 0.02, 0.0015, sh + 0.02))
     P.box(M.setdefault("speaker_cloth", bc.material("speaker_cloth", (0.03, 0.03, 0.032), 0.97)), (cx, D + 0.0006, 2.2), (b - a - 0.2, 0.002, 0.16))
     _flutes(P, a, b, D, 0.08, H, skip=[(cx - sw / 2 - 0.012, cx + sw / 2 + 0.012, sz - sh / 2 - 0.012, sz + sh / 2 + 0.012),
@@ -5797,8 +5804,8 @@ def pod_wall(P, L=5.55, D=0.5, H=3.375):
     P.box(fe, (cx, D + 0.0008, 0.93), (b - a - 0.02, 0.0025, 0.003))
     # -- the kit wall: an open niche
     a, b = bays[2]; cx = (a + b) / 2; kz0, kz1 = 0.5, 2.45
-    P.box(sm, (cx, D - 0.02, (0.08 + kz0) / 2), (b - a, 0.04, kz0 - 0.08))
-    P.box(sm, (cx, D - 0.02, (kz1 + H) / 2), (b - a, 0.04, H - kz1))
+    P.box(sm, (cx, D / 2, (0.08 + kz0) / 2), (b - a, D, kz0 - 0.08))
+    P.box(sm, (cx, D / 2, (kz1 + H) / 2), (b - a, D, H - kz1))
     _flutes(P, a, b, D, 0.08, kz0); _flutes(P, a, b, D, kz1, H)
     P.box(sm, (cx, 0.03, (kz0 + kz1) / 2), (b - a - 0.04, 0.06, kz1 - kz0))                         # peg board back
     for xp in np.arange(a + 0.12, b - 0.05, 0.1):
@@ -5893,9 +5900,9 @@ def _sky_mat():
     ad = N.new("ShaderNodeMath"); ad.operation = "ADD"; Lk.new(sq[0].outputs[0], ad.inputs[0]); Lk.new(sq[1].outputs[0], ad.inputs[1])
     sr = N.new("ShaderNodeMath"); sr.operation = "SQRT"; Lk.new(ad.outputs[0], sr.inputs[0])
     ramp = N.new("ShaderNodeValToRGB"); Lk.new(sr.outputs[0], ramp.inputs[0])
-    ramp.color_ramp.elements[0].color = (0.82, 0.9, 1.0, 1); ramp.color_ramp.elements[1].color = (0.28, 0.48, 0.9, 1)
+    ramp.color_ramp.elements[0].color = (0.56, 0.74, 1.0, 1); ramp.color_ramp.elements[1].color = (0.16, 0.34, 0.85, 1)
     ramp.color_ramp.elements[1].position = 1.25; ramp.color_ramp.interpolation = "EASE"
-    em = N.new("ShaderNodeEmission"); em.inputs["Strength"].default_value = 1.1; Lk.new(ramp.outputs[0], em.inputs["Color"])
+    em = N.new("ShaderNodeEmission"); em.inputs["Strength"].default_value = 0.7; Lk.new(ramp.outputs[0], em.inputs["Color"])
     Lk.new(em.outputs[0], N["Material Output"].inputs["Surface"])
     return m
 

@@ -1296,11 +1296,11 @@ for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
     for dx in (-1.05, 1.05):
         L_ = 4.6
         pa("gym_line", cx + dx, yc, rot=90, zone=zn_, L=L_, z_ceiling=HP, temp="3500",
-           light={"type": "AREA", "energy": round(110 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.06], "aim": [cx + dx, yc, lv["F2"] - 1.0],
+           light={"type": "AREA", "energy": round(70 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.095], "aim": [cx + dx, yc, lv["F2"] - 1.0],
                   "color": [1.0, 0.92, 0.82]}, note="linear line, tunable 2700-5000 K (the pod)")
     L_ = round(xm - (xj + 0.5) - 0.6, 2)
     pa("wall_washer", (xj + 0.5 + xm) / 2, ys + 0.6, rot=180, zone=zn_, L=L_, z_ceiling=HP, temp="3000",
-       light={"type": "AREA", "energy": round(50 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HP - 0.06], "aim": [(xj + 0.5 + xm) / 2, ys, lv["F2"] + 1.2],
+       light={"type": "AREA", "energy": round(30 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HP - 0.09], "aim": [(xj + 0.5 + xm) / 2, ys, lv["F2"] + 1.2],
               "color": [1.0, 0.85, 0.68]}, note="wall-washer on the smoked oak behind the platform")
     la(xj + 0.3, yn - 0.8, 2.0, 12, (xj + 0.3, yn - 0.8, 0.9), zone=zn_, size=0.2, size_y=1.3, color=WARM, note="the towel niche's light")
     la(xj + 0.3, ys + 0.95, 2.4, 18, (xj + 0.3, ys + 0.95, 0.5), zone=zn_, size=0.2, size_y=1.7, color=WARM, note="the kit wall's light")
@@ -1322,10 +1322,10 @@ pa("tap_station", -25.4, AYN, rot=180, lvl="F3", zone="altitude", note="water (b
 pa("exit_sign", -22.45, AYN - 2.07, rot=180, lvl="F3", zone="altitude", mount=2.5, note="nødutgang: through the airlock")
 pa("core_door", AX1, -38.9, rot=90, lvl="F3", zone="altitude", width=1.0, height=2.1, finish="steel", note="the altitude plant (staff)")
 pa("hypoxic_plant", -10.5, -37.125, lvl="F3", zone="services", note="hypoxic generators, buffer tank, control cabinet, ducts")
-la(-21.55, -37.125, HA + 0.3, 450, (-21.55, -37.125, 0.0), lvl="F3", zone="altitude", size=11.6, size_y=3.6, color=(0.78, 0.87, 1.0), note="the sky's light")
+la(-21.55, -37.125, HA + 0.3, 260, (-21.55, -37.125, 0.0), lvl="F3", zone="altitude", size=11.6, size_y=3.6, color=(0.78, 0.87, 1.0), note="the sky's light")
 L_ = 12.6
 pa("wall_washer", -21.6, AYS + 0.6, rot=180, lvl="F3", zone="altitude", L=L_, z_ceiling=HA, temp="3000",
-   light={"type": "AREA", "energy": round(26 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HA - 0.06], "aim": [-21.6, AYS, lv["F3"] + 1.2], "color": [1.0, 0.82, 0.62]},
+   light={"type": "AREA", "energy": round(26 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HA - 0.09], "aim": [-21.6, AYS, lv["F3"] + 1.2], "color": [1.0, 0.82, 0.62]},
    note="warm grazing light down the slate")
 for x in (-27.0, -22.0, -17.0):
     pa("ceiling_speaker", x, -39.4, lvl="F3", zone="altitude", z_ceiling=HA, note="ceiling speaker")

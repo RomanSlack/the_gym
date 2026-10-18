@@ -27226,7 +27226,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-20.7, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-20.7, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27240,7 +27240,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-18.599999999999998, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-18.599999999999998, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27254,7 +27254,7 @@
       "L": 4.07,
       "z_ceiling": 3.375,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 204, "size": 4.07, "size_y": 0.06, "offset": [0, 0, 3.315], "aim": [-19.6235, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 122, "size": 4.07, "size_y": 0.06, "offset": [0, 0, 3.285], "aim": [-19.6235, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the smoked oak behind the platform"
     },
     {
@@ -27330,7 +27330,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-15.3, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-15.3, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27344,7 +27344,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-13.2, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-13.2, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27358,7 +27358,7 @@
       "L": 4.07,
       "z_ceiling": 3.375,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 204, "size": 4.07, "size_y": 0.06, "offset": [0, 0, 3.315], "aim": [-14.2235, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 122, "size": 4.07, "size_y": 0.06, "offset": [0, 0, 3.285], "aim": [-14.2235, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the smoked oak behind the platform"
     },
     {
@@ -27434,7 +27434,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-9.9875, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-9.9875, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27448,7 +27448,7 @@
       "L": 4.6,
       "z_ceiling": 3.375,
       "temp": "3500",
-      "light": {"type": "AREA", "energy": 506, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.315], "aim": [-7.8875, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
+      "light": {"type": "AREA", "energy": 322, "size": 0.06, "size_y": 4.6, "offset": [0, 0, 3.28], "aim": [-7.8875, -37.125, -5.91], "color": [1.0, 0.92, 0.82]},
       "note": "linear line, tunable 2700-5000 K (the pod)"
     },
     {
@@ -27462,7 +27462,7 @@
       "L": 3.9,
       "z_ceiling": 3.375,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 195, "size": 3.9, "size_y": 0.06, "offset": [0, 0, 3.315], "aim": [-8.911000000000001, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 117, "size": 3.9, "size_y": 0.06, "offset": [0, 0, 3.285], "aim": [-8.911000000000001, -39.835, -3.71], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the smoked oak behind the platform"
     },
     {
@@ -27546,7 +27546,7 @@
       "z": -9.77,
       "rot_deg": 0.0,
       "zone": "altitude",
-      "light": {"type": "AREA", "energy": 450, "offset": [0, 0, 4.3999999999999995], "aim": [-21.55, -37.125, -9.77], "color": [0.78, 0.87, 1.0], "size": 11.6, "size_y": 3.6},
+      "light": {"type": "AREA", "energy": 260, "offset": [0, 0, 4.3999999999999995], "aim": [-21.55, -37.125, -9.77], "color": [0.78, 0.87, 1.0], "size": 11.6, "size_y": 3.6},
       "note": "the sky's light"
     },
     {
@@ -27560,7 +27560,7 @@
       "L": 12.6,
       "z_ceiling": 4.1,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 328, "size": 12.6, "size_y": 0.06, "offset": [0, 0, 4.04], "aim": [-21.6, -39.87, -8.57], "color": [1.0, 0.82, 0.62]},
+      "light": {"type": "AREA", "energy": 328, "size": 12.6, "size_y": 0.06, "offset": [0, 0, 4.01], "aim": [-21.6, -39.87, -8.57], "color": [1.0, 0.82, 0.62]},
       "note": "warm grazing light down the slate"
     },
     {"id": "ceiling_speaker-1549", "kind": "ceiling_speaker", "level": "F3", "at": [-27.0, -39.4], "z": -9.77, "rot_deg": 0.0, "zone": "altitude", "z_ceiling": 4.1, "note": "ceiling speaker"},
