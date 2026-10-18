@@ -49,6 +49,8 @@ def all_prompts(transcript):
         att = e.get("attachment") if isinstance(e.get("attachment"), dict) else None
         if e.get("type") == "attachment" and att and att.get("type") == "queued_command" and (att.get("origin") or {}).get("kind", "human") == "human":
             text = att.get("prompt", "")
+            if isinstance(text, list):  # a message sent mid-turn with an image: text + image blocks
+                text = " ".join(c.get("text", "") for c in text if isinstance(c, dict))
         elif e.get("type") == "user" and not e.get("isMeta"):
             content = e.get("message", {}).get("content")
             if isinstance(content, list):
