@@ -1,0 +1,209 @@
+{
+ "ref": "precor_official.png",
+ "size": [
+  2000,
+  2000
+ ],
+ "free_centre": "y",
+ "points": {
+  "tower_top_rear_face": [
+   930,
+   60
+  ],
+  "logo": [
+   725,
+   167
+  ],
+  "slot_top": [
+   715,
+   300
+  ],
+  "dial": [
+   565,
+   965
+  ],
+  "lever_top": [
+   850,
+   760
+  ],
+  "roller_cap": [
+   975,
+   1778
+  ],
+  "post_foot": [
+   395,
+   1888
+  ],
+  "foot_front": [
+   1160,
+   1890
+  ],
+  "foot_rear": [
+   1712,
+   1608
+  ],
+  "backpad_top_left": [
+   1668,
+   452
+  ],
+  "backpad_top_right": [
+   1458,
+   410
+  ],
+  "tower_face_rear_bottom": [
+   917,
+   1445
+  ],
+  "seat_front_left": [
+   1490,
+   1262
+  ],
+  "backpad_bot_left": [
+   1500,
+   1125
+  ],
+  "backpad_bot_right": [
+   1209,
+   1031
+  ],
+  "plate_top_rear": [
+   925,
+   145
+  ],
+  "plate_top_front": [
+   495,
+   250
+  ],
+  "plate_bot_front": [
+   500,
+   495
+  ],
+  "lever_low": [
+   255,
+   1475
+  ],
+  "drum": [
+   355,
+   1150
+  ],
+  "roller_far_end": [
+   460,
+   1560
+  ],
+  "seat_front_right": [
+   775,
+   1162
+  ],
+  "grip_a": [
+   516,
+   1042
+  ],
+  "grip_b": [
+   627,
+   862
+  ],
+  "front_leg_top": [
+   1245,
+   1385
+  ],
+  "arch_top": [
+   1655,
+   1400
+  ],
+  "lever_hub": [
+   630,
+   1090
+  ],
+  "seat_rear_left": [
+   1440,
+   1235
+  ]
+ },
+ "camera": {
+  "location": [
+   2.8946964636283883,
+   -4.0126152611384205,
+   1.931992057911029
+  ],
+  "rotation": [
+   [
+    0.7974998366389456,
+    -0.06433678072839061,
+    0.5998789788001928
+   ],
+   [
+    0.6029401655593718,
+    0.049752752130528266,
+    -0.7962335212804568
+   ],
+   [
+    0.02138147132665469,
+    0.9966872339409918,
+    0.07846904092036705
+   ]
+  ],
+  "lens": 101.97664503179891,
+  "sensor": 36.0,
+  "shift_x": 0.0,
+  "shift_y": -0.47694908692159554,
+  "size": [
+   2000,
+   2000
+  ]
+ },
+ "errors_px": {
+  "tower_top_rear_face": 6.7,
+  "logo": 21.0,
+  "slot_top": 1.2,
+  "dial": 4.8,
+  "lever_top": 4.5,
+  "roller_cap": 1.4,
+  "post_foot": 6.3,
+  "foot_front": 1.2,
+  "foot_rear": 15.3,
+  "backpad_top_left": 11.1,
+  "backpad_top_right": 8.9,
+  "tower_face_rear_bottom": 18.5,
+  "seat_front_left": 19.6,
+  "backpad_bot_left": 13.8,
+  "backpad_bot_right": 19.8,
+  "plate_top_rear": 16.0,
+  "plate_top_front": 8.0,
+  "plate_bot_front": 6.6,
+  "lever_low": 7.7,
+  "drum": 1.2,
+  "roller_far_end": 6.8,
+  "seat_front_right": 14.5,
+  "grip_a": 2.8,
+  "grip_b": 3.9,
+  "front_leg_top": 0.5,
+  "arch_top": 2.5,
+  "lever_hub": 8.5
+ },
+ "prior_px": 12.0,
+ "lines": {
+  "z": [
+   [
+    930,
+    62,
+    917,
+    1440
+   ],
+   [
+    702,
+    320,
+    705,
+    1000
+   ]
+  ],
+  "y": [
+   [
+    1160,
+    1890,
+    1712,
+    1608
+   ]
+  ]
+ },
+ "starts": 4
+}

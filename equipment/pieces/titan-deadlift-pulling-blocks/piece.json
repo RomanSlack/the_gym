@@ -12,8 +12,58 @@
  ],
  "picked": "2026-10-17T22:43:09+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 94.97,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:41:11+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_01.jpg?v=1769784772"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_02.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_03.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_04.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_05.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_06.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_07.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_08.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_09.jpg?v=1769784918"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/412316_10.jpg?v=1769784918"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:41:11+00:00",
+  "how": "shopify json"
+ }
 }

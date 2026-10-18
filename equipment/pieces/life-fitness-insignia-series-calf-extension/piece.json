@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T23:07:38+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 7635.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:36:32+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFInsignia-CalfExtension-charcoal-black_ba8afe48-a3b4-4ab7-b8fc-18a03934ba70.jpg?v=1759934761"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:36:32+00:00",
+  "how": "shopify json"
+ }
 }

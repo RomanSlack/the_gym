@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T23:05:46+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 8315.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:36:49+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Insignia-Series-leg-extension-charcoal-black_77ff568d-7817-49fb-b0f6-eca097b2c89a.jpg?v=1758725194"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:36:49+00:00",
+  "how": "shopify json"
+ }
 }

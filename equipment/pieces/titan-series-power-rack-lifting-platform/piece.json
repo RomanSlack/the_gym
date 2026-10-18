@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T22:41:36+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 1619.97,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:41:42+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_01.jpg?v=1741963518"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_02.jpg?v=1741963523"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_03.jpg?v=1741963528"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_04.jpg?v=1741963534"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_05.jpg?v=1741963541"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_06.jpg?v=1741963714"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_07.jpg?v=1741963846"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_08.jpg?v=1741963846"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_09.jpg?v=1741963846"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401976_10.jpg?v=1741963846"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401977_01.jpg?v=1741963762"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401977_02.jpg?v=1741963768"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401977_03.jpg?v=1741963774"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0802/1508/1237/files/401977_04.jpg?v=1741963779"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:41:42+00:00",
+  "how": "shopify json"
+ }
 }

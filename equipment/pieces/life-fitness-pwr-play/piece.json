@@ -20,8 +20,42 @@
  ],
  "picked": "2026-10-17T23:13:51+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 21272.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:37:32+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/PWR-Play-Cable-Crossover-charcoal-black.jpg?v=1748945248"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_1.jpg?v=1748945248"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_2.jpg?v=1748945248"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_4.jpg?v=1748945248"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_5.jpg?v=1748945248"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_9.jpg?v=1748945249"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:37:32+00:00",
+  "how": "shopify json"
+ }
 }

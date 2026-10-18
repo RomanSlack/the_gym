@@ -12,8 +12,42 @@
  ],
  "picked": "2026-10-17T22:32:36+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 899.99,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:38:02+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/products/PR-5000-Thumbnail.jpg?v=1667837512"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/files/Shopify-REP_PR-5000_RED.jpg?v=1762444272"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/files/NickelPlates-Lifestyle-39_603f3d20-aa1f-443b-b229-dc8a179f37e7.jpg?v=1762444272"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/products/Shopify-381B7314_3338275a-0d8a-4b98-b859-9a818adbab11.jpg?v=1762444272"
+  },
+  {
+   "file": "refs/ref_05.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/files/acf.Shopify-Garage-Gym-A-381B5062.webp?v=1762444310"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0574/1215/7598/products/Shopify-Iso-Arms_Up_PR-5000v2_ad61e389-370b-4d03-b6b1-6aee4bb63a8b.jpg?v=1762444310"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:38:02+00:00",
+  "how": "shopify json"
+ }
 }

@@ -12,8 +12,18 @@
  ],
  "picked": "2026-10-17T23:06:18+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 6050.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:37:46+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://healthandfitnessohio.com/wp-content/uploads/2025/01/wp-image-healthandfitnessohio-149.jpg"
+  }
+ ],
  "status": "picked",
  "notes": "",
  "sheet_refs": [
@@ -28,5 +38,9 @@
   "frame": "welded steel tubing, powder coat (Black Pearl)",
   "model_code": "RSL0605",
   "source": "https://www.precor.com/en-US/products/RSL0605"
+ },
+ "fetched": {
+  "at": "2026-10-17T23:37:46+00:00",
+  "how": "page"
  }
 }

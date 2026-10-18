@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T23:16:47+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 13995.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:42:22+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://thexpt.com/wp-content/uploads/2023/04/4front_800_21inch.jpg"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:42:22+00:00",
+  "how": "page"
+ }
 }

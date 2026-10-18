@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-17T23:17:45+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 5995.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:42:13+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Regular-Black.jpg?v=1755721045"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Regular-White.jpg?v=1755721099"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Regular-Red.jpg?v=1755721099"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/Versaclimber_TMM_New_1.jpg?v=1755721099"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/Versa_TSM_Mount_White.jpg?v=1762981697"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/Versa_TSM_Mount_Black.jpg?v=1762981697"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/Versa_TSM_Mount_Red.jpg?v=1762981697"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-FloorMount-Black.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-FloorMount-Red.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-FloorMount-White.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Stackable-Black.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Stackable-Red.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/TSM-Stackable-White.jpg?v=1762982635"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0044/9341/0393/files/Versaclimber_TMM_New_3.jpg?v=1762982635"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:42:13+00:00",
+  "how": "shopify json"
+ }
 }

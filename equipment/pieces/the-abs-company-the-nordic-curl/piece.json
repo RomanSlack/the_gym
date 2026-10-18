@@ -13,7 +13,20 @@
  "picked": "2026-10-17T22:49:07+00:00",
  "source": "Roman's pick",
  "price": null,
- "refs": [],
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://www.hamiltonhomefitness.com/images/products/edited44.png"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://www.hamiltonhomefitness.com/images/products/NordicCurlUse2.jpg"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:40:47+00:00",
+  "how": "page"
+ }
 }

@@ -12,8 +12,58 @@
  ],
  "picked": "2026-10-17T23:17:07+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 10099.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:40:22+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/8gx1.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/console2.png?v=1747957009"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/LED-console1.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/8gx2.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/8gx3.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_06.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/8gx4.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_07.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/console3.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_08.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/console5.png?v=1748140503"
+  },
+  {
+   "file": "refs/ref_09.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/console4.png?v=1748140502"
+  },
+  {
+   "file": "refs/ref_10.png",
+   "url": "https://cdn.shopify.com/s/files/1/0708/9366/6622/files/8gx5.png?v=1748140502"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:40:22+00:00",
+  "how": "shopify json"
+ }
 }

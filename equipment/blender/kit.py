@@ -94,7 +94,8 @@ def stadium(w, h, seg=10):
 
 class Kit:
     def __init__(self, name, coll=None, look=None):
-        self.name, self.groups = name, {}
+        self.name, self.groups, self.subs, self.extra = name, {}, [], []
+        self.pivot, self.rz = (0.0, 0.0, 0.0), 0.0
         self.coll = coll or bpy.context.scene.collection
         self.looks = {k: dict(v) for k, v in LOOK.items()}
         if look:
@@ -192,7 +193,39 @@ class Kit:
             loop = rect(sx - 2 * inset, sy - 2 * inset, max(0.004, r - inset), 6)
             z = sz / 2 + 0.0005
             pts = [cv + R @ Vector((u, v, z)) for u, v in loop] + [cv + R @ Vector((loop[0][0], loop[0][1], z))]
-            self.sweep("seam", pts, circle(0.0022, 6), caps=False, soft=0)
+            self.sweep("seam", pts, circle(0.0015, 6), caps=False, soft=0)
+
+    def shaped_pad(self, mat, outline, c, normal, side, th, r=0.03, seam=True, board=True):
+        """An upholstered pad of any plan shape (a seat narrowing to the back, a tapered back pad): `outline` is a list of
+        (a, b) points in the pad's plane (a along `side`, b along normal x side), rounded by r at each corner; c is the
+        centre of its thickness th; `normal` the pressing face's direction."""
+        n = Vector(normal).normalized(); sd = Vector(side).normalized(); fw = n.cross(sd)
+        loop = _round_poly(outline, r, 6)
+        # a sweep along n with up = fw maps profile (u, v) to world u * (n x fw)... built directly instead:
+        cv = Vector(c)
+        b = self.bm(mat, min(r * 0.8, th / 2 - 0.002))
+        for z0, z1, mm, shrink in ((-th / 2 + 0.012, th / 2, mat, 0.0),):
+            lo = [b.verts.new(cv + sd * a + fw * bb + n * z0) for a, bb in loop]
+            hi = [b.verts.new(cv + sd * a + fw * bb + n * z1) for a, bb in loop]
+            m_ = len(loop)
+            for i in range(m_):
+                j = (i + 1) % m_
+                b.faces.new((lo[i], lo[j], hi[j], hi[i]))
+            b.faces.new(hi); b.faces.new(lo[::-1])
+        if board:
+            bb_ = self.bm("plastic", 0.003)
+            inner = _round_poly([(a * 0.97, q * 0.97) for a, q in outline], r, 6)
+            lo = [bb_.verts.new(cv + sd * a + fw * q + n * (-th / 2)) for a, q in inner]
+            hi = [bb_.verts.new(cv + sd * a + fw * q + n * (-th / 2 + 0.012)) for a, q in inner]
+            for i in range(len(inner)):
+                j = (i + 1) % len(inner)
+                bb_.faces.new((lo[i], lo[j], hi[j], hi[i]))
+            bb_.faces.new(hi); bb_.faces.new(lo[::-1])
+        if seam:
+            ins = min(r, th / 2) * 0.9
+            sl = _round_poly(_inset(outline, ins), max(0.004, r - ins), 6)
+            pts = [cv + sd * a + fw * q + n * (th / 2 + 0.0005) for a, q in sl]
+            self.sweep("seam", pts + [pts[0]], circle(0.0015, 6), caps=False, soft=0)
 
     def cyl(self, mat, c, r, h, axis="z", seg=32, soft=0.001, r2=None):
         b = self.bm(mat, soft)
@@ -265,6 +298,36 @@ class Kit:
         me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Rotation(rx, 4, "X"))
         self.bm(mat, 0).from_mesh(me); bpy.data.meshes.remove(me)
 
+    def decal(self, img, c, w, h, facing="+x", rough=0.3):
+        """A flat printed sheet (a placard, a label) with an image, centred on c, w wide and h tall, facing +x/-x/+y/-y.
+        Made as its own object at once (it needs UVs); the image is ours, generated next to the piece's model.py."""
+        me = bpy.data.meshes.new(f"{self.name}_decal")
+        hw, hh = w / 2, h / 2
+        right = {"+x": Vector((0, 1, 0)), "-x": Vector((0, -1, 0)), "+y": Vector((-1, 0, 0)), "-y": Vector((1, 0, 0))}[facing]  # the viewer's right
+        cv, up = Vector(c), Vector((0, 0, 1))
+        vs = [cv - right * hw - up * hh, cv + right * hw - up * hh, cv + right * hw + up * hh, cv - right * hw + up * hh]
+        me.from_pydata([tuple(v) for v in vs], [], [(0, 1, 2, 3)])
+        uv = me.uv_layers.new(name="UVMap")
+        for li, (u, v) in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))):
+            uv.data[li].uv = (u, v)
+        m = bpy.data.materials.new(f"{self.name}_decal_{len(bpy.data.materials)}"); m.use_nodes = True
+        nt = m.node_tree; b = nt.nodes["Principled BSDF"]; b.inputs["Roughness"].default_value = rough
+        b.inputs["Coat Weight"].default_value = 0.6
+        tex = nt.nodes.new("ShaderNodeTexImage"); tex.image = bpy.data.images.load(str(img), check_existing=True)
+        nt.links.new(tex.outputs["Color"], b.inputs["Base Color"])
+        me.materials.append(m)
+        ob = bpy.data.objects.new(me.name, me); self.coll.objects.link(ob)
+        self.extra.append(ob)
+        return ob
+
+    def sub(self, name, pivot=(0.0, 0.0, 0.0), rz=0.0):
+        """A sub-assembly built in the same coordinates, then turned as one about a vertical axis through `pivot` by rz
+        degrees (a stack tower set at an angle to the seat). Same looks; finished with the parent."""
+        s = Kit(f"{self.name}_{name}", self.coll)
+        s.looks, s.pivot, s.rz = self.looks, tuple(pivot), rz
+        self.subs.append(s)
+        return s
+
     # -- output
     def finish(self):
         mats = {}
@@ -283,6 +346,12 @@ class Kit:
                 ob.modifiers.new("ws", "WEIGHTED_NORMAL")
             obs.append(ob)
         self.groups = {}
+        obs += self.extra
+        for s in self.subs:
+            M = Matrix.Translation(Vector(s.pivot)) @ Matrix.Rotation(math.radians(s.rz), 4, "Z") @ Matrix.Translation(-Vector(s.pivot))
+            for ob in s.finish():
+                ob.matrix_world = M @ ob.matrix_world
+                obs.append(ob)
         return obs
 
 
@@ -309,4 +378,36 @@ def _fillet(P, r, seg):
             q = q.normalized() * rr
             out.append(cen + q)
     out.append(P[-1])
+    return out
+
+
+def _round_poly(pts, r, seg):
+    """A closed polygon with every corner rounded by r (clipped to fit)."""
+    P = [Vector((x, y)) for x, y in pts]
+    out = []
+    n = len(P)
+    for i in range(n):
+        a, b, c = P[i - 1], P[i], P[(i + 1) % n]
+        u, v = (a - b), (c - b)
+        la, lc = u.length, v.length
+        u.normalize(); v.normalize()
+        ang = u.angle(v)
+        t = min(r / math.tan(ang / 2), la * 0.45, lc * 0.45)
+        rr = t * math.tan(ang / 2)
+        p0, p1 = b + u * t, b + v * t
+        cen = b + (u + v).normalized() * (rr / math.sin(ang / 2))
+        a0, a1 = p0 - cen, p1 - cen
+        for k in range(seg + 1):
+            q = a0.lerp(a1, k / seg).normalized() * rr
+            out.append((cen + q).to_tuple())
+    return out
+
+
+def _inset(pts, d):
+    """Shrink a convex polygon towards its centroid by about d."""
+    cx = sum(p[0] for p in pts) / len(pts); cy = sum(p[1] for p in pts) / len(pts)
+    out = []
+    for x, y in pts:
+        v = Vector((x - cx, y - cy)); L = v.length
+        out.append((cx + v.x * (L - d * 1.2) / L, cy + v.y * (L - d * 1.2) / L))
     return out

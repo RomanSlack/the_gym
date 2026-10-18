@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T22:35:01+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 1450.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:39:43+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Power%20Racks%20/Monster%20Lite%20Racks/MLHR-GROUP/ML-Half-Rack-H_hult04.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:39:43+00:00",
+  "how": "page"
+ }
 }

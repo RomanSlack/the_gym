@@ -12,8 +12,30 @@
  ],
  "picked": "2026-10-17T23:00:47+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 739.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:36:22+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/dual-hexbar-lifefitness-1000x1000.jpg?v=1749069497"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/dual-hexbar-angeld-lifefitness-1000x1000.jpg?v=1749069497"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/dual-hexbar-closeup-lifefitness-1000x1000.jpg?v=1749069497"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:36:22+00:00",
+  "how": "shopify json"
+ }
 }

@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-17T23:05:55+00:00",
  "source": "Roman's pick",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 8485.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-17T23:36:59+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/insignia-series-seated-leg-curl-charcoal-black.jpg?v=1758734443"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-17T23:36:59+00:00",
+  "how": "shopify json"
+ }
 }
