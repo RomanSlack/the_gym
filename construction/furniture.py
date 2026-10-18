@@ -5658,7 +5658,7 @@ def posing_wall(P, L=5.55, D=0.47, H=3.375):
         P.box(st, (cx + n[0] * 0.03, cy + n[1] * 0.03, zm0 / 2), (Wg, 0.06, zm0), rz=s * ang)
         P.box(st, (s * C / 2, 0.03, (zm0 + zm1) / 2), (0.012, 0.03, zm1 - zm0))                    # the folds: a slim steel edge
     P.box(sm, (0, D / 2, zm1 + 0.02), (2 * xw, D, 0.04))                                           # the niche's soffit
-    P.box(_led("pose_soffit", (1.0, 0.86, 0.72), 4.0), (0, D - 0.07, zm1 - 0.001), (2 * xw - 0.12, 0.03, 0.002))
+    P.box(_led("pose_soffit", (1.0, 0.86, 0.72), 2.0), (0, D - 0.07, zm1 - 0.001), (2 * xw - 0.12, 0.03, 0.002))
     P.box(sm, (0, D - 0.02, (zm1 + 0.04 + H) / 2), (2 * xw, 0.04, H - zm1 - 0.04))                # the header over it, fluted
     _flutes(P, -xw, xw, D, zm1 + 0.04, H, skip=[(-0.06, 0.06, 2.84, 2.96)])
     P.box(st, (0, D + 0.006, 2.9), (0.09, 0.012, 0.09))                                            # the camera
@@ -5710,7 +5710,7 @@ def stage_rig(P, w=2.6, z_ceiling=3.375, hang=0.55):
             P.cyl(st, (s * w / 2, t * w / 2, z_ceiling - 0.006), 0.04, 0.006, seg=16)
         P.box(st, (0, s * 0.62, zf), (w - 0.05, 0.04, 0.04))                                       # the cross bars carrying the top light
     P.box(st, (0, 0, zf - 0.02), (1.24, 1.24, 0.1))
-    P.box(_led("pose_top", (1.0, 0.95, 0.9), 7.0), (0, 0, zf - 0.071), (1.18, 1.18, 0.002))
+    P.box(_led("pose_top", (1.0, 0.95, 0.9), 2.5), (0, 0, zf - 0.071), (1.18, 1.18, 0.002))
     for s in (-1, 1):
         for t in (-1, 1):
             p0 = Vector((s * w / 2, t * w / 2, zf - 0.05)); tgt = Vector((0, 0, 1.3))
@@ -5727,7 +5727,7 @@ def light_boom(P, H=3.375, z0=0.45, z1=2.75):
     P.box(st, (0, 0, 0.006), (0.22, 0.22, 0.012)); P.box(st, (0, 0, H - 0.006), (0.14, 0.14, 0.012))
     P.box(st, (0, 0, H / 2), (0.04, 0.04, H))
     P.box(st, (0, 0.05, (z0 + z1) / 2), (0.1, 0.07, z1 - z0))
-    P.box(_led("pose_side", (1.0, 0.93, 0.86), 6.0), (0, 0.0855, (z0 + z1) / 2), (0.08, 0.002, z1 - z0 - 0.02))
+    P.box(_led("pose_side", (1.0, 0.93, 0.86), 2.5), (0, 0.0855, (z0 + z1) / 2), (0.08, 0.002, z1 - z0 - 0.02))
     for z in np.arange(z0 + 0.04, z1 - 0.02, 0.04):
         P.box(M["felt"], (0, 0.088, z), (0.084, 0.004, 0.003))
     for z in (z0 + 0.1, z1 - 0.1):
