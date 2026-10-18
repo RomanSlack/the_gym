@@ -1086,7 +1086,7 @@ p4("core_door", -16.45, -31.1, rot=-90, width=1.0, height=2.1, finish="steel", n
 p4("safety_point", XW - 0.01, -16.2, rot=-90, note="AED, extinguisher, first aid, pool rescue")
 
 # -- the pool lobby: out of the express lifts in your robe, a towel, the deck
-XL = -29.45 + TL                                                                           # the west wall's tile face
+XL = -29.45 + 0.25 + TL                                                                    # the west wall's tile face (wall A is 0.5 thick on its line)
 p4("towel_shelf", XL, 8.9, rot=-90, zone="lobby", length=1.6, note="fresh towels")
 p4("towel_warmer", XL, 10.7, rot=-90, zone="lobby", length=1.2, note="warm towels")
 p4("robe_wall", -24.525 - TL, 9.0, rot=90, zone="lobby", length=4.2, note="robe hooks, fresh robes rolled, sandals")
@@ -1097,7 +1097,7 @@ p4("gym_line", -26.75, 8.25, rot=0, zone="lobby", L=4.3, z_ceiling=ZC4, temp="30
    light={"type": "AREA", "energy": 60, "size": 4.3, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [-26.75, 8.25, F4 - 1.0], "color": GYM_C["3000"]},
    note="linear line 3000 K (the pool lobby)")
 
-for x, y, kind, h, r in ((-28.7, 11.3, "kentia", 2.2, 0.34), (-25.2, -3.9, "kentia", 2.0, 0.32), (-28.9, -6.0, "sansevieria", 1.1, 0.24)):
+for x, y, kind, h, r in ((-28.7, 11.3, "strelitzia", 2.2, 0.34), (-25.2, -3.9, "strelitzia", 2.0, 0.32), (-28.9, -6.0, "sansevieria", 1.1, 0.24)):
     p4("plant_pot", x, y, zone="lobby", species=kind, h=h, r=r, note="greenery (under the warm lines)")
 for y in (0.4, 2.2):                                                                         # round wall lights on the lobby's ink tile
     p4("eclipse_sconce", XL, y, rot=-90, zone="lobby", note="eclipse wall light",
@@ -1113,7 +1113,7 @@ for c in (-16.2, -12.6, -9.0, -5.4, -1.8, 1.8):
 for y in (-17.6, 3.6):
     p4("towel_bin", -21.6, y, rot=-90, zone="deck", note="used towels")
 for c in (-14.4, -7.2, 0.0):                                                               # tall planters between the lounger pairs
-    p4("plant_pot", -20.9, c, zone="deck", species="kentia", h=2.1, r=0.32, note="kentia palm between the loungers")
+    p4("plant_pot", -20.9, c, zone="deck", species="strelitzia", h=2.1, r=0.32, note="bird of paradise between the loungers")
 
 # -- the recovery lounge (Roman 2026-10-17: look up real references; after Remedy Place LA's lounge beds): five bays along the
 # plant room wall between charcoal velvet curtains, a velvet daybed in each with the compression boots on it, a reading light, a low
@@ -1126,7 +1126,7 @@ for k, y in enumerate((-20.6, -23.0, -25.4, -27.8, -30.2)):
     p4("light_only", XR - 0.34, y + 0.45, zone="recovery", light={"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28],
        "aim": [XR - 0.6, y, F4 + 0.45], "color": [1.0, 0.8, 0.58]}, note="the bay's reading light")
 p4("tap_station", XL, -24.4, rot=-90, zone="recovery", note="water")
-p4("plant_pot", -28.6, -32.6, zone="recovery", species="kentia", h=1.9, r=0.3, note="kentia palm")
+p4("plant_pot", -28.6, -32.6, zone="recovery", species="strelitzia", h=1.9, r=0.3, note="bird of paradise")
 p4("plant_pot", -25.2, -32.9, zone="recovery", species="sansevieria", h=1.0, r=0.2, note="sansevieria")
 p4("towel_bin", -28.9, -19.6, rot=-90, zone="recovery", note="used towels")
 p4("blanket_basket", -28.85, -20.3, zone="recovery", note="wool blankets")

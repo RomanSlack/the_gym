@@ -5174,7 +5174,7 @@ def _velvet():
     """Charcoal velvet (Remedy Place's lounge beds + curtains): the scanned velour, a soft sheen on the pile."""
     m = M.get("velvet_charcoal") or bc.interior_materials()["velvet_charcoal"]
     b = m.node_tree.nodes["Principled BSDF"]
-    for k, v in (("Sheen Weight", 0.8), ("Sheen Roughness", 0.35)):
+    for k, v in (("Sheen Weight", 0.35), ("Sheen Roughness", 0.4), ("Sheen Tint", (0.3, 0.3, 0.32, 1.0))):
         if k in b.inputs:
             b.inputs[k].default_value = v
     M["velvet_charcoal"] = m
@@ -5187,9 +5187,9 @@ def _foliage():
 
 def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
     """Greenery (Remedy Place: planted everywhere; under grow light here): a honed near-black stone pot, and either a
-    sansevieria (stiff upright blades, banded) or a kentia palm (arching fronds of narrow leaflets). Origin = floor centre."""
+    sansevieria (stiff upright blades) or a strelitzia (tall stems, big paddle leaves). Origin = floor centre."""
     pot = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
-    ph = min(0.55, 0.45 * h) if species == "kentia" else min(0.45, 0.5 * h)
+    ph = min(0.55, 0.3 * h) if species == "strelitzia" else min(0.45, 0.5 * h)
     P.cyl(pot, (0, 0, 0), r, ph, seg=48, r2=r * 0.92)
     P.cyl(M["sand"] if "sand" in M else M["felt"], (0, 0, ph - 0.03), r * 0.88, 0.02, seg=40)
     rng = np.random.default_rng(int(h * 100 + r * 1000))
@@ -5201,23 +5201,22 @@ def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
             x, y = rr * math.cos(a), rr * math.sin(a)
             P.box(lf, (x + math.cos(a) * tilt * L / 2, y + math.sin(a) * tilt * L / 2, ph + L / 2), (0.05, 0.008, L), rz=rng.uniform(0, math.pi),
                   rx=-math.sin(a) * tilt, ry=math.cos(a) * tilt)
-    else:  # kentia: fronds arching out from the crown, leaflets along each
-        for k in range(13):
-            a = 2 * math.pi * k / 13 + rng.uniform(-0.2, 0.2); L = rng.uniform(0.7, 1.0) * (h - ph) * 1.1
-            pts = []
-            for i in range(9):
-                t = i / 8; out = L * 0.75 * t; up = L * (0.95 * t - 0.55 * t * t)
-                pts.append((out * math.cos(a), out * math.sin(a), ph + 0.05 + up))
-            P.rod(lf, (0, 0, ph), pts[0], 0.01, seg=6)
-            for p0, p1 in zip(pts, pts[1:]):
-                P.rod(lf, p0, p1, 0.006, seg=6)
-            for i in range(1, 8):
-                for sd in (-1, 1):
-                    p = pts[i]; ll = 0.34 * (1 - abs(i - 3.5) / 6)
-                    ang = a + sd * 1.2
-                    P.box(lf, (p[0] + math.cos(ang) * ll / 2, p[1] + math.sin(ang) * ll / 2, p[2] - 0.03), (ll, 0.022, 0.003), rz=ang)
-
-
+    else:  # strelitzia (bird of paradise): tall bare stems, each with one big paddle leaf, split a little at the edges
+        for k in range(15):
+            a = 2 * math.pi * k / 15 + rng.uniform(-0.25, 0.25); tilt = rng.uniform(0.08, 0.3); L = rng.uniform(0.5, 1.0) * (h - ph)
+            top = (math.cos(a) * tilt * L, math.sin(a) * tilt * L, ph + L * 0.7)
+            P.rod(lf, (math.cos(a) * 0.04, math.sin(a) * 0.04, ph), top, 0.012, 0.008, seg=8)
+            lw, ll = rng.uniform(0.075, 0.1), rng.uniform(0.55, 0.8)
+            up = Vector((math.cos(a) * 0.45, math.sin(a) * 0.45, 1.0)).normalized()             # the paddle leans out with its stem
+            side = Vector((-math.sin(a), math.cos(a), 0.0)); nrm = side.cross(up).normalized()
+            b = P.bm(lf); base = Vector(top); ring = []
+            for t in np.linspace(0, 2 * math.pi, 25)[:-1]:                                   # an elliptical blade, cupped a little
+                u_, w_ = lw * math.sin(t), ll / 2 * (1 - math.cos(t))
+                ring.append(base + side * u_ + up * w_ + nrm * (0.04 * (u_ / lw) ** 2))
+            vf = [b.verts.new(q + nrm * 0.003) for q in ring]; vb = [b.verts.new(q - nrm * 0.003) for q in ring]
+            b.faces.new(vf); b.faces.new(vb[::-1])
+            for m_ in range(len(ring)):
+                n_ = (m_ + 1) % len(ring); b.faces.new((vf[m_], vb[m_], vb[n_], vf[n_]))
 
 def eclipse_sconce(P, d=0.36):
     """A round wall light (after Remedy Place's): a honed plaster disc standing off the wall, a smaller dark disc in front of it,

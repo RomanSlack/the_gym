@@ -23,3 +23,6 @@ equipment/picks.tmp
 equipment/replay/out/
 equipment/pieces/*/refs/
 equipment/.cache/
+
+# third-party reference photos: look, never publish
+reference/f4_recovery/

@@ -23001,12 +23001,12 @@
       "note": "the plant room (staff, off the south deck)"
     },
     {"id": "safety_point-1261", "kind": "safety_point", "level": "F4", "at": [-29.185, -16.2], "z": -15.39, "rot_deg": -90, "zone": "pool", "note": "AED, extinguisher, first aid, pool rescue"},
-    {"id": "towel_shelf-1262", "kind": "towel_shelf", "level": "F4", "at": [-29.43, 8.9], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.6, "note": "fresh towels"},
-    {"id": "towel_warmer-1263", "kind": "towel_warmer", "level": "F4", "at": [-29.43, 10.7], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.2, "note": "warm towels"},
+    {"id": "towel_shelf-1262", "kind": "towel_shelf", "level": "F4", "at": [-29.18, 8.9], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.6, "note": "fresh towels"},
+    {"id": "towel_warmer-1263", "kind": "towel_warmer", "level": "F4", "at": [-29.18, 10.7], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.2, "note": "warm towels"},
     {"id": "robe_wall-1264", "kind": "robe_wall", "level": "F4", "at": [-24.545, 9.0], "z": -15.39, "rot_deg": 90, "zone": "lobby", "length": 4.2, "note": "robe hooks, fresh robes rolled, sandals"},
-    {"id": "stone_bench-1265", "kind": "stone_bench", "level": "F4", "at": [-29.22, 0.4], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 2.2, "note": "sit, sandals off"},
-    {"id": "tap_station-1266", "kind": "tap_station", "level": "F4", "at": [-29.43, 3.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "water"},
-    {"id": "towel_bin-1267", "kind": "towel_bin", "level": "F4", "at": [-29.18, 4.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "used towels"},
+    {"id": "stone_bench-1265", "kind": "stone_bench", "level": "F4", "at": [-28.97, 0.4], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 2.2, "note": "sit, sandals off"},
+    {"id": "tap_station-1266", "kind": "tap_station", "level": "F4", "at": [-29.18, 3.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "water"},
+    {"id": "towel_bin-1267", "kind": "towel_bin", "level": "F4", "at": [-28.93, 4.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "used towels"},
     {
       "id": "gym_line-1268",
       "kind": "gym_line",
@@ -23021,52 +23021,52 @@
       "light": {"type": "AREA", "energy": 60, "size": 4.3, "size_y": 0.06, "offset": [0, 0, 5.175000000000001], "aim": [-26.75, 8.25, -16.39], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K (the pool lobby)"
     },
-    {"id": "plant_pot-1269", "kind": "plant_pot", "level": "F4", "at": [-28.7, 11.3], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "kentia", "h": 2.2, "r": 0.34, "note": "greenery (under the warm lines)"},
-    {"id": "plant_pot-1270", "kind": "plant_pot", "level": "F4", "at": [-25.2, -3.9], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "kentia", "h": 2.0, "r": 0.32, "note": "greenery (under the warm lines)"},
+    {"id": "plant_pot-1269", "kind": "plant_pot", "level": "F4", "at": [-28.7, 11.3], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "strelitzia", "h": 2.2, "r": 0.34, "note": "greenery (under the warm lines)"},
+    {"id": "plant_pot-1270", "kind": "plant_pot", "level": "F4", "at": [-25.2, -3.9], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "strelitzia", "h": 2.0, "r": 0.32, "note": "greenery (under the warm lines)"},
     {"id": "plant_pot-1271", "kind": "plant_pot", "level": "F4", "at": [-28.9, -6.0], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "sansevieria", "h": 1.1, "r": 0.24, "note": "greenery (under the warm lines)"},
     {
       "id": "eclipse_sconce-1272",
       "kind": "eclipse_sconce",
       "level": "F4",
-      "at": [-29.43, 0.4],
+      "at": [-29.18, 0.4],
       "z": -15.39,
       "rot_deg": -90,
       "zone": "lobby",
       "note": "eclipse wall light",
-      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.43, 0.4, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.18, 0.4, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "eclipse_sconce-1273",
       "kind": "eclipse_sconce",
       "level": "F4",
-      "at": [-29.43, 2.2],
+      "at": [-29.18, 2.2],
       "z": -15.39,
       "rot_deg": -90,
       "zone": "lobby",
       "note": "eclipse wall light",
-      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.43, 2.2, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.18, 2.2, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "eclipse_sconce-1274",
       "kind": "eclipse_sconce",
       "level": "F4",
-      "at": [-29.43, -17.6],
+      "at": [-29.18, -17.6],
       "z": -15.39,
       "rot_deg": -90,
       "zone": "deck",
       "note": "eclipse wall light",
-      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.43, -17.6, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.18, -17.6, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
     },
     {
       "id": "eclipse_sconce-1275",
       "kind": "eclipse_sconce",
       "level": "F4",
-      "at": [-29.43, -6.4],
+      "at": [-29.18, -6.4],
       "z": -15.39,
       "rot_deg": -90,
       "zone": "deck",
       "note": "eclipse wall light",
-      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.43, -6.4, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
+      "light": {"type": "AREA", "energy": 8, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-28.18, -6.4, -13.790000000000001], "color": [1.0, 0.76, 0.5]}
     },
     {"id": "pool_lounger-1276", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -16.8], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
     {"id": "pool_lounger-1277", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -15.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
@@ -23088,9 +23088,9 @@
     {"id": "deck_table-1293", "kind": "deck_table", "level": "F4", "at": [-18.3, 1.8], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
     {"id": "towel_bin-1294", "kind": "towel_bin", "level": "F4", "at": [-21.6, -17.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
     {"id": "towel_bin-1295", "kind": "towel_bin", "level": "F4", "at": [-21.6, 3.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
-    {"id": "plant_pot-1296", "kind": "plant_pot", "level": "F4", "at": [-20.9, -14.4], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
-    {"id": "plant_pot-1297", "kind": "plant_pot", "level": "F4", "at": [-20.9, -7.2], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
-    {"id": "plant_pot-1298", "kind": "plant_pot", "level": "F4", "at": [-20.9, 0.0], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
+    {"id": "plant_pot-1296", "kind": "plant_pot", "level": "F4", "at": [-20.9, -14.4], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "strelitzia", "h": 2.1, "r": 0.32, "note": "bird of paradise between the loungers"},
+    {"id": "plant_pot-1297", "kind": "plant_pot", "level": "F4", "at": [-20.9, -7.2], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "strelitzia", "h": 2.1, "r": 0.32, "note": "bird of paradise between the loungers"},
+    {"id": "plant_pot-1298", "kind": "plant_pot", "level": "F4", "at": [-20.9, 0.0], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "strelitzia", "h": 2.1, "r": 0.32, "note": "bird of paradise between the loungers"},
     {
       "id": "recovery_bay-1299",
       "kind": "recovery_bay",
@@ -23271,8 +23271,8 @@
       "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -30.2, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
       "note": "the bay's reading light"
     },
-    {"id": "tap_station-1314", "kind": "tap_station", "level": "F4", "at": [-29.43, -24.4], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "water"},
-    {"id": "plant_pot-1315", "kind": "plant_pot", "level": "F4", "at": [-28.6, -32.6], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "species": "kentia", "h": 1.9, "r": 0.3, "note": "kentia palm"},
+    {"id": "tap_station-1314", "kind": "tap_station", "level": "F4", "at": [-29.18, -24.4], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "water"},
+    {"id": "plant_pot-1315", "kind": "plant_pot", "level": "F4", "at": [-28.6, -32.6], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "species": "strelitzia", "h": 1.9, "r": 0.3, "note": "bird of paradise"},
     {"id": "plant_pot-1316", "kind": "plant_pot", "level": "F4", "at": [-25.2, -32.9], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "species": "sansevieria", "h": 1.0, "r": 0.2, "note": "sansevieria"},
     {"id": "towel_bin-1317", "kind": "towel_bin", "level": "F4", "at": [-28.9, -19.6], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "used towels"},
     {"id": "blanket_basket-1318", "kind": "blanket_basket", "level": "F4", "at": [-28.85, -20.3], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "note": "wool blankets"},
