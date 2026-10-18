@@ -271,6 +271,15 @@ for e in els:
             if sa is not None and sb > 0 and sa < L_:
                 e.setdefault("openings", []).append({"s": [round(max(0.0, sa), 3), round(min(L_, sb), 3)], "z": list(e["z"]), "type": "opening",
                                                      "note": "lift shaft (no soil behind the wall here)"})
+# wall S's ran down through the south rock annex (the breathwork room, the pool store, the F2 + F3 rooms): open there up to its roof
+for e in els:
+    if e["id"].startswith(("FDN-membrane-W-west-S", "FDN-gravel-W-west-S")):
+        (ax_, ay_), (bx_, by_) = e["from"], e["to"]; L_ = math.hypot(bx_ - ax_, by_ - ay_); ux_ = (bx_ - ax_) / L_
+        if abs(ux_) > 0.5 and e["z"][0] < by_id["S-SA-roof"]["z"][1]:
+            sa, sb = sorted(((-28.85 - ax_) / ux_, (-6.45 - ax_) / ux_))
+            if sb > 0 and sa < L_:
+                e.setdefault("openings", []).append({"s": [round(max(0.0, sa), 3), round(min(L_, sb), 3)], "z": [e["z"][0], by_id["S-SA-roof"]["z"][1]],
+                                                     "type": "opening", "note": "the south rock annex (no soil behind the wall here)"})
 els[:] = [e for e in els if e["id"] not in ("C-A3-F4", "C-A3-F1", "C-A4-F4", "C-A4-F1")]
 for b_ in ("B-3-RF-west", "B-4-RF-west"):
     by_id[b_]["from"][0] = -28.85

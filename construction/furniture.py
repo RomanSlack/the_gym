@@ -4983,7 +4983,7 @@ def plunge(P, w=2.8, d=3.6, depth=0.57, rim=0.45, hot=False):
     glow = _led("plunge_warm" if hot else "plunge_cool", (1.0, 0.72, 0.45) if hot else (0.75, 0.9, 1.0), 14.0)
     P.box(glow, (0, -yi + 0.002, -0.28), (0.24, 0.006, 0.08))                          # one lens in the back wall
     if hot:
-        P.box(_vapour("plunge_mist", 0.35), (0, 0, wl + 0.12), (2 * xi - 0.1, 2 * yi - 0.1, 0.22))
+        P.box(_vapour("plunge_mist", 0.08), (0, 0, wl + 0.09), (2 * xi - 0.1, 2 * yi - 0.1, 0.16))
 
 
 def sauna_cabin(P, w=2.85, d=4.4, h=2.3, door=0.8):
@@ -5072,6 +5072,7 @@ def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
     fall = 0.25; ang = math.atan2(fall, d)
     P.box(mos, (0, -d / 2, h - fall / 2 + 0.02), (w, math.hypot(d, fall), t), rx=-ang)  # the sloped ceiling (high at the front)
     P.box(tile, (0, -d / 2, h + 0.12), (w, d, 0.06))                                    # the box's lid
+    P.box(tile, (-w / 2 - 0.03, -d / 2, (h + 0.15) / 2), (0.06, d, h + 0.15))          # its outer skin on the side open to the suite
     for xp, yp in [(-w / 4, -0.8), (w / 4, -0.8), (-w / 4, -2.3), (w / 4, -2.3), (0, -1.55)]:
         zc = h - fall * (-yp) / d - 0.001
         P.cyl(_led("steam_pin", (1.0, 0.8, 0.55), 30.0), (xp, yp, zc - 0.012), 0.012, 0.012, seg=12)
@@ -5083,7 +5084,7 @@ def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
     P.box(mos, (-w / 2 + t + 0.08, (-d + t + sd - 0.9) / 2, seat + 0.25), (0.16, (-0.9) - (-d + t + sd), 0.5), ry=math.radians(10))
     P.box(st, (w / 2 - 0.25, -d + t + 0.002, 0.25), (0.12, 0.006, 0.08))               # the steam outlet
     P.box(st, (0, -0.3, 0.021), (w - 0.2, 0.05, 0.004))                                 # linear drain
-    P.box(_vapour("steam", 0.55), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
+    P.box(_vapour("steam", 0.12), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
     # the front: clear glass in a blackened-steel frame, the door
     P.box(st, (0, 0.0, h + 0.05), (w, 0.05, 0.1)); P.box(st, (0, 0.0, 0.02), (w, 0.05, 0.04))
     for xp in (-w / 2 + 0.02, door - 0.42, door + 0.42, w / 2 - 0.02):
@@ -5146,7 +5147,7 @@ def recovery_recliner(P, boots=True):
     (quilted graphite chambers, a zip up the side) lying on the leg rest, their hoses to a small pump unit on the floor. Origin =
     floor centre, the feet +y."""
     st = M["steel"]
-    lth = M.setdefault("leather_charcoal", bc.pbr_material("leather_charcoal", "brown_leather", 0.4, box=True, tint=(0.5, 0.5, 0.52), sat=0.2, val=0.22, piece_var=0.03, rough_mul=0.75))
+    lth = M.setdefault("leather_charcoal", bc.pbr_material("leather_charcoal", "brown_leather", 0.4, box=True, tint=(0.5, 0.5, 0.52), sat=0.2, val=0.12, piece_var=0.03, rough_mul=0.75))
     W = 0.7
     # the profile: back raked 30° from horizontal-up, seat dipping, legs rising to the feet
     segs = [((0, -0.95, 0.95), (0, -0.25, 0.48)), ((0, -0.25, 0.48), (0, 0.25, 0.45)), ((0, 0.25, 0.45), (0, 0.95, 0.66))]
@@ -5155,7 +5156,6 @@ def recovery_recliner(P, boots=True):
         P.box(lth, (0, (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 + th / 2), (W - 0.04, L + 0.02, th), rx=a)
         for sx in (-1, 1):
             P.box(st, (sx * (W / 2 - 0.02), (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 - 0.02), (0.03, L, 0.04), rx=a)
-    P.blob(lth, (0, -0.92, 1.02), (0.22, 0.08, 0.07), seg=20)                          # headrest roll
     for sx in (-1, 1):                                                                  # the base: two bent legs + a floor bar each side
         x = sx * (W / 2 - 0.02)
         P.rod(st, (x, -0.55, 0.0), (x, -0.15, 0.47), 0.018, seg=12)
@@ -5167,12 +5167,14 @@ def recovery_recliner(P, boots=True):
     if boots:
         boot = M.setdefault("boot_graphite", bc.material("boot_graphite", (0.035, 0.037, 0.04), 0.55))
         a = math.atan2(0.66 - 0.45, 0.7)
+        seam = M.setdefault("boot_seam", bc.material("boot_seam", (0.012, 0.012, 0.014), 0.7))
         for sx in (-0.13, 0.13):
-            for k in range(5):                                                          # quilted chambers along the leg rest
-                u = 0.12 + k * 0.15
-                yy, zz = 0.25 + u * math.cos(a), 0.45 + 0.09 + 0.07 + u * math.sin(a)
-                P.blob(boot, (sx, yy, zz), (0.1, 0.085, 0.07), seg=18)
-            P.blob(boot, (sx, 0.97, 0.78), (0.07, 0.12, 0.1), seg=18)                  # the foot
+            p0 = (sx, 0.3, 0.45 + 0.09 + 0.07 + 0.05 * math.sin(a)); p1 = (sx, 0.9, 0.66 + 0.09 + 0.06)
+            P.rod(boot, p0, p1, 0.085, 0.07, seg=24)                                   # the leg sleeve, tapering to the ankle
+            for k in range(1, 5):                                                       # the chamber seams
+                f = k / 5; c = tuple(p0[i] + (p1[i] - p0[i]) * f for i in range(3))
+                P.rod(seam, (c[0], c[1] - 0.006, c[2] - 0.002), (c[0], c[1] + 0.006, c[2] + 0.002), 0.087 - 0.015 * f, seg=24)
+            P.blob(boot, (sx, 0.98, 0.76), (0.065, 0.12, 0.09), seg=18)                # the foot
             P.box(M["steel"], (sx + 0.095 * (1 if sx > 0 else -1), 0.6, 0.66), (0.004, 0.6, 0.012), rx=a)  # zip
             P.rod(boot, (sx, 0.3, 0.6), (W / 2 + 0.25, 0.1, 0.1), 0.012, seg=10)       # hose
         P.box(boot, (W / 2 + 0.3, 0.15, 0.13), (0.2, 0.28, 0.26))                       # pump unit
@@ -5190,7 +5192,7 @@ def towel_bin(P):
             P.box(oak, (0, sy * (D / 2 - 0.015), z), (W, 0.03, 0.03))
         for sx in (-1, 1):
             P.box(oak, (sx * (W / 2 - 0.015), 0, z), (0.03, D, 0.03))
-    bag = M.setdefault("robe_linen_bag", bc.pbr_material("robe_linen_bag", "rough_linen", 0.27, box=True, tint=(0.9, 0.85, 0.75), sat=0.35, val=1.0, piece_var=0.03))
+    bag = M.setdefault("robe_linen_bag", bc.pbr_material("robe_linen_bag", "rough_linen", 0.27, box=True, tint=(0.9, 0.85, 0.75), sat=0.35, val=0.45, piece_var=0.03))
     P.box(bag, (0, 0, H / 2 + 0.02), (W - 0.07, D - 0.07, H - 0.12))
     towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
     P.blob(towel, (0.05, 0.0, H - 0.08), (0.16, 0.13, 0.07), seg=16)

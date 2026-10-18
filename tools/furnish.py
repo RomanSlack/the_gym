@@ -1080,6 +1080,7 @@ p4("glass_door", -11.45, 4.4, rot=0, zone="thermal", width=1.0, height=2.1, note
 p4("glass_door", -24.45, 5.6, rot=90, zone="thermal", width=1.0, height=2.1, note="the thermal suite, from the pool lobby")
 p4("core_door", -26.25, YS, rot=0, zone="breathwork", width=1.0, height=2.3, finish="smoked", note="the breathwork room (off the recovery lounge)")
 p4("core_door", -12.45, YS, rot=0, width=1.2, height=2.3, finish="steel", note="the pool store")
+p4("core_door", -24.45, -26.4, rot=90, zone="recovery", width=1.0, height=2.1, finish="steel", note="the plant room (staff)")
 p4("safety_point", XW - 0.01, -16.2, rot=-90, note="AED, extinguisher, first aid, pool rescue")
 
 # -- the pool lobby: out of the express lifts in your robe, a towel, the deck
@@ -1134,7 +1135,7 @@ p4("plunge", XP, (4.6 + 7.15) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=Fal
 p4("plunge", XP, (7.25 + 9.8) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=True, note="hot plunge (40 °C), on the river window")
 for x, y, L_, rot_ in ((-18.45, 5.6, 5.4, 0), (-11.15, 8.0, 6.0, 90), (-8.3, 7.2, 4.6, 90), (-22.9, 5.9, 2.4, 0)):
     p4("gym_line", x, y, rot=rot_, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
-       light={"type": "AREA", "energy": round(9 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
+       light={"type": "AREA", "energy": round(22 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
               "aim": [x, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K, dim (the thermal suite)")
 l4((ST0 + ST1) / 2, (STY + YT) / 2, 18, 1.6, 1.6, 2.38, color=(1.0, 0.8, 0.55), zone="thermal", note="steam room: a soft warm glow under the ceiling")
 

@@ -565,6 +565,8 @@ FINISH["tile_black"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d
 _wall4 = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and e["z"][0] <= F4v + 1.0 <= e["z"][1]
           and min(e["from"][0], e["to"][0]) < -5 and max(e["from"][0], e["to"][0]) > -36 and min(e["from"][1], e["to"][1]) < 13]
 line_rooms("thermal", "tile_black", [F4v, zt4], "th", skip=("W-west-C",), walls=_wall4)
+lining("P-F4-54b", "tile_black", -1, s_range=(6.0, 6.095), tag="-th-corner")       # wrap the stair enclosure's corner (its gypsum end showed)
+lining("P-F4-54c", "tile_black", -1, s_range=(-0.095, 0.0), tag="-th-corner")
 line_rooms("breathwork", "plaster_charcoal", [F4v, round(by_id["S-SA-F3"]["z"][0], 3)], "bw", walls=_wall4)
 BW = [-28.85, -40.1, -17.5, -34.1]
 add({"id": "IN-F4-breathwork-floor", "type": "slab", "kind": "floor_finish", "material": "carpet_wool", "rect": BW, "z": [F4v, round(F4v + 0.012, 3)], "holes": [],
