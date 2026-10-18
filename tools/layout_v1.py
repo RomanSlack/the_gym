@@ -158,6 +158,7 @@ for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
     S(f"pod-{k + 1}", "F2", "gym", f"Private training pod {k + 1}", R(a_, SA[0], b_, SA[1]), "mirrored walls, adjustable lighting, integrated AV, rack + bench")
 S("altitude", "F3", "gym", "Altitude training room · hypoxic", R(-28.85, SA[0], -14.45, SA[1]), "adjustable O2 (sealed room), bikes, rowers, treadmill")
 S("breathwork", "F4", "gym", "Breathwork & mobility room", R(-28.85, SA[0], -17.5, SA[1]), "ambient lighting, soft floor, quiet")
+S("pool-store", "F4", "service", "Pool store · lane ropes, kit, cleaning", R(-17.5, SA[0], -6.45, SA[1]), "off the south pool deck")
 
 # ---------------------------------------------------------------- gym floors F2-F4: WC annex dug into the rock behind the west wall
 for L in ("F2", "F3", "F4"):
@@ -208,8 +209,9 @@ m["fixtures"] = [
 # ---------------------------------------------------------------- slabs + walls (frame envelope)
 els = [e for e in m.get("elements", []) if e["type"] not in ("slab", "wall") and not e.get("fixed")]
 WEST, EAST, LINK = (-29.45, -34.1, -6.45, 12.1), (12.0, -9.5, 30.5, 33.3), (-6.45, -12.5, 12.0, 11.3)
+PLUNGES = [R(-9.9, 4.6, -6.45, 7.15), R(-9.9, 7.25, -6.45, 9.8)]  # the thermal suite's cold + hot plunge along the river window, sunk through the raft (the W3 exit landing stays clear north of them)
 holes = {  # openings through each slab
-    "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}],  # pool basin
+    "F4": [{"rect": R(-16.45, -28.1, -6.45, -3.1)}] + [{"rect": r_} for r_ in PLUNGES],  # pool basin, the thermal suite's plunges
     "F1": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F2": [{"circle": [-17.95, -14.85, 3.5]}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
     "F3": [{"rect": R(-21.45, 7.1, -15.45, 12.1)}, {"rect": cores["W1"]["poly"]}, {"rect": cores["W2"]["poly"]}],
@@ -248,7 +250,8 @@ els[-1]["openings"] = [{"s": [17.3, 18.5], "z": [lv[L], round(lv[L] + 2.3, 2)], 
 wall("W-west-S", [x0, y0], [x1, y0], 0.5, zb, zt, "retaining", "concrete")
 els[-1]["openings"] = [{"s": s_, "z": [lv[L], round(lv[L] + 2.3, 2)], "type": "door", "note": n_} for L, s_, n_ in (
     ("F2", [2.5, 3.7], "posing room"), ("F2", [9.0, 10.2], "pod 1"), ("F2", [14.4, 15.6], "pod 2"), ("F2", [19.8, 21.0], "pod 3"),
-    ("F3", [6.0, 8.0], "altitude room (airlock door)"), ("F4", [4.0, 5.6], "breathwork room"))]
+    ("F3", [6.0, 8.0], "altitude room (airlock door)"), ("F4", [2.7, 3.7], "breathwork room (off the recovery lounge, clear of the plant room wall)"),
+    ("F4", [16.4, 17.6], "pool store"))]
 els[-1]["finishes"] = [{"level": "F3", "face": "interior", "kind": "hangboard", "s": [0.6, 5.6], "z": [lv["F3"], round(lv["F3"] + 3.0, 2)],
                         "note": "grip & finger training wall: hangboards, pinch blocks, rings, campus rungs, wrist roller (no bouldering)"}]
 wall("W-west-C", [x1, y0], [x1, y1], 0.4, zb, zt, "river_wall", "concrete")  # windows at F2/F3, underwater at F4

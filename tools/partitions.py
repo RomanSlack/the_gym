@@ -41,7 +41,7 @@ DOORS = {
     "dc-wc-low": ["daycare-low"], "dc-rest": ["daycare-low"], "dc-store": ["daycare-low"],
     "dc-nursing": ["daycare-up"],
     "wc-women": ["cafe"], "wc-men": ["cafe"], "game-room": ["garage"],
-    "thermal": ["pool-deck-n"],
+    "thermal": ["pool-deck-n", "pool-lobby"], "pool-store": [],
 }
 RANK = {"circulation": 0, "lounge": 1, "gym": 2, "daycare": 3, "garage": 4}
 # Roman's principle: no door unless it is needed (privacy, fire, heat, security, cars, sleeping kids).
@@ -63,6 +63,7 @@ PLACE = {("women-lockers", "gallery"): ((-11.6, 0.45), 1.5), ("men-lockers", "ga
          # the WC rooms' doors (hands-free automatic sliding, hygiene): right off the arrival nooks, on the shoe side
          ("men-wc", "men-lockers"): ((-13.5, -4.2), 1.0), ("women-wc", "women-lockers"): ((-13.5, 7.65), 1.0),
          # the wash zones' two openings, spaced so the wall reads water - door - water - door - water (Roman: wall waterfalls)
+         ("thermal", "pool-lobby"): ((-24.45, 5.6), 1.0),
          ("men-wet", "men-lockers"): ([(-25.925, -4.2), (-21.925, -4.2)], 1.8), ("women-wet", "women-lockers"): ([(-25.925, 7.65), (-21.925, 7.65)], 1.8)}
 DOOR_W = 1.0
 

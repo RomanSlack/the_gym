@@ -370,6 +370,9 @@ F4v = lv["F4"]; zs4 = by_id["S-F3-west"]["z"][0]; zt4 = round(zs4 - 0.035, 3)
 POOL4 = [-16.45, -28.1, -6.45, -3.1]
 F4_HOLES = G_CORES + [{"rect": [-16.86, -28.51, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
                       {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"}]
+PLUNGE4 = [[min(q[0] for q in h_["rect"]), min(q[1] for q in h_["rect"]), max(q[0] for q in h_["rect"]), max(q[1] for q in h_["rect"])]
+           for h_ in by_id["S-F4-west"]["holes"][1:]]                       # the thermal suite's plunges (tools/layout_v1.py PLUNGES)
+F4_HOLES += [{"rect": r_, "note": "a plunge (furniture.py plunge)"} for r_ in PLUNGE4]
 add({"id": "IN-F4-deck", "type": "slab", "kind": "floor_finish", "material": "stone_blue", "rect": [-29.45, -34.1, -6.65, 12.1], "z": [F4v, round(F4v + 0.02, 3)],
      "holes": F4_HOLES, "pattern": {k: v for k, v in FINISH["stone_blue_deck"].items() if k != "material"},
      "note": "honed dark blue-grey stone 600 x 1200 on the anchored raft (the pool deck, the lobby, the recovery lounge)"})
@@ -424,10 +427,11 @@ def _foot(e):
 _walls_u = _union([_foot(e) for e in _wall_els])
 def clear(room):
     return _Poly(_sp[room]["poly"]).difference(_walls_u)
-def line_rooms(room, finish, z, tag, only=None, skip=()):
+def line_rooms(room, finish, z, tag, only=None, skip=(), walls=None):
     """Line every wall face of a room with a finish, each lining exactly between the faces of the walls it meets."""
-    cp = clear(room); f = FINISH[finish]; dep = f.get("depth", 0.015)
-    for e in _wall_els:
+    cp = _Poly(_sp[room]["poly"]).difference(_union([_foot(e) for e in walls])) if walls else clear(room)
+    f = FINISH[finish]; dep = f.get("depth", 0.015)
+    for e in walls or _wall_els:
         if e["id"] in skip or (only and e["id"] not in only):
             continue
         (ax, ay), (bx, by) = e["from"], e["to"]; L = math.hypot(bx - ax, by - ay)
@@ -554,6 +558,21 @@ for nm, (r, fk, holes) in DL.items():
              "note": "ash wave ceiling under the E1 slab, between its beams, cut round the stairwell and the stair trimmer"})
         add({"id": f"IN-E2-ceiling-{nm}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": r, "z": [round(SOF - 0.01, 3), round(SOF - 0.002, 3)],
              "holes": [STAIR_HOLE] if holes else [], "note": "black acoustic felt on the slab soffit"})
+# ---- F4, the rooms off the pool hall (Roman 2026-10-17: finish off F4). The thermal suite in black glazed tile (the pool hall's
+#   ink tile goes black where it gets hot and wet; the sauna's warm aspen glows against it); the breathwork room soft and dark: wool
+#   carpet, charcoal lime plaster, charcoal wood wool overhead. The pieces in them: tools/furnish.py ("F4, the rooms").
+FINISH["tile_black"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012, "depth": 0.02, "material": "stone_nero"}
+_wall4 = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and e["z"][0] <= F4v + 1.0 <= e["z"][1]
+          and min(e["from"][0], e["to"][0]) < -5 and max(e["from"][0], e["to"][0]) > -36 and min(e["from"][1], e["to"][1]) < 13]
+line_rooms("thermal", "tile_black", [F4v, zt4], "th", skip=("W-west-C",), walls=_wall4)
+line_rooms("breathwork", "plaster_charcoal", [F4v, round(by_id["S-SA-F3"]["z"][0], 3)], "bw", walls=_wall4)
+BW = [-28.85, -40.1, -17.5, -34.1]
+add({"id": "IN-F4-breathwork-floor", "type": "slab", "kind": "floor_finish", "material": "carpet_wool", "rect": BW, "z": [F4v, round(F4v + 0.012, 3)], "holes": [],
+     "note": "soft wool carpet (the breathwork room: shoes off, lie down)"})
+add({"id": "IN-F4-breathwork-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal", "rect": BW,
+     "z": [round(by_id["S-SA-F3"]["z"][0] - 0.035, 3), by_id["S-SA-F3"]["z"][0]], "holes": [],
+     "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"}, "note": "charcoal wood-wool panels (quiet)"})
+
 # the concrete retaining walls of the play room: warm lime plaster (the climbing wall goes on the west one)
 for wid, side, rng_ in (("W-east-W", -1, (5.02 + 0.075, 17.12 - 0.2 - 0.015)), ("W-east-N1", -1, (0.2, 6.0))):
     lining(wid, P["plain"], side, rng_, "-dclow", z=[E2, -0.88])

@@ -1057,6 +1057,99 @@ for ya, yb in zip(BAYS, BAYS[1:]):
         light={"type": "AREA", "energy": round(16 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, ZC4 - 0.06],
                "aim": [-29.45, (a_ + b_) / 2, F4 + 1.2], "color": GYM_C["3000"]}, note="wall-washer on the ink tile")
 
+# ---- F4, the rooms (Roman 2026-10-17: "lets keep going ... finishing off F4"). The shell finishes are tools/interior.py ("F4, the
+# rooms off the pool hall"). Light stays the pool hall's: warm 3000 K, dim, low pools; the sauna's aspen glows through its bronze glass.
+def p4(kind, x, y, rot=0.0, zone="pool", **kw):
+    put(kind, x, y, rot=rot, zone=zone, level="F4", z=F4, **kw)
+
+
+def l4(x, y, energy, size, size_y, z, aim_z=0.0, color=(1.0, 0.85, 0.68), zone="pool", note="", aim=None):
+    p4("light_only", x, y, zone=zone, light={"type": "AREA", "energy": energy, "size": size, "size_y": size_y, "offset": [0, 0, z],
+                                              "aim": aim or [x, y, F4 + aim_z], "color": list(color)}, note=note)
+
+
+TL = 0.02                                                                                  # the tile lining's depth
+# the doors: the stair cores + the WC annex (blackened steel in the ink tile), the thermal suite (glass), breathwork, the pool store
+for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)"), (-22.4, 1.4, False, "the WC annex")):
+    p4("core_door", XW, y, rot=-90, width=w, height=2.3, finish="steel", exit_=ex, note=note)
+    if ex:
+        p4("exit_sign", XW - 0.02, y, rot=-90, mount=2.55, note=f"nødutgang: {note}")
+p4("core_door", -9.05, YN, rot=180, zone="thermal", width=1.2, height=2.3, finish="steel", exit_=True, note="core W3, the north exit stair (from the thermal suite)")
+p4("exit_sign", -9.05, YN + 0.02, rot=180, zone="thermal", mount=2.55, note="nødutgang: core W3")
+p4("glass_door", -11.45, 4.4, rot=0, zone="thermal", width=1.0, height=2.1, note="the thermal suite, from the pool deck")
+p4("glass_door", -24.45, 5.6, rot=90, zone="thermal", width=1.0, height=2.1, note="the thermal suite, from the pool lobby")
+p4("core_door", -26.25, YS, rot=0, zone="breathwork", width=1.0, height=2.3, finish="smoked", note="the breathwork room (off the recovery lounge)")
+p4("core_door", -12.45, YS, rot=0, width=1.2, height=2.3, finish="steel", note="the pool store")
+p4("safety_point", XW - 0.01, -16.2, rot=-90, note="AED, extinguisher, first aid, pool rescue")
+
+# -- the pool lobby: out of the express lifts in your robe, a towel, the deck
+XL = -29.45 + TL                                                                           # the west wall's tile face
+p4("towel_shelf", XL, 8.9, rot=-90, zone="lobby", length=1.6, note="fresh towels")
+p4("towel_warmer", XL, 10.7, rot=-90, zone="lobby", length=1.2, note="warm towels")
+p4("robe_wall", -24.525 - TL, 9.0, rot=90, zone="lobby", length=4.2, note="robe hooks, fresh robes rolled, sandals")
+p4("stone_bench", XL + 0.21, 0.4, rot=-90, zone="lobby", length=2.2, note="sit, sandals off")
+p4("tap_station", XL, 3.0, rot=-90, zone="lobby", note="water")
+p4("towel_bin", XL + 0.25, 4.0, rot=-90, zone="lobby", note="used towels")
+p4("gym_line", -26.75, 8.25, rot=0, zone="lobby", L=4.3, z_ceiling=ZC4, temp="3000",
+   light={"type": "AREA", "energy": 60, "size": 4.3, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [-26.75, 8.25, F4 - 1.0], "color": GYM_C["3000"]},
+   note="linear line 3000 K (the pool lobby)")
+
+# -- the west deck: loungers in pairs facing the pool, a little table between each pair
+for c in (-16.2, -12.6, -9.0, -5.4, -1.8, 1.8):
+    for dy in (-0.6, 0.6):
+        p4("pool_lounger", -18.95, c + dy, rot=-90, zone="deck", note="pool lounger")
+    p4("deck_table", -18.3, c, zone="deck", d=0.42, h=0.4, note="a little granite table between the loungers")
+for y in (-17.6, 3.6):
+    p4("towel_bin", -21.6, y, rot=-90, zone="deck", note="used towels")
+
+# -- the recovery lounge (the quiet south end, off the deck): compression recliners along the plant room wall, feet to the west
+XR = -24.525 - TL
+for y in (-19.9, -21.4, -22.9, -24.4, -28.4, -29.9, -31.4):
+    p4("recovery_recliner", XR - 1.05, y, rot=90, zone="recovery", boots=True, note="recovery recliner + air-compression boots")
+p4("tap_station", XL, -24.4, rot=-90, zone="recovery", note="water")
+p4("blanket_basket", XL + 0.35, -19.4, zone="recovery", note="wool blankets")
+p4("towel_bin", -28.4, -33.6, zone="recovery", note="used towels")
+for y in (-22.15, -30.15):                                                                 # low warm pools over the recliners
+    l4(XR - 1.1, y, 70, 2.6, 0.5, ZC4 - 0.06, color=(1.0, 0.8, 0.6), zone="recovery", note="recovery: a low warm pool of light")
+
+# -- the thermal suite: sauna (west), showers on the stair wall, steam room, the cold + hot plunges on the river window
+XS0, XS1, YT = -24.375 + TL, -21.525 - TL, 11.85 - TL                                     # the sauna's corner (tile faces)
+SW, SY = round(XS1 - XS0, 3), 7.4
+p4("sauna_cabin", (XS0 + XS1) / 2, SY, rot=180, zone="thermal", w=SW, d=round(YT - SY, 3), h=2.3, door=-0.65, note="the sauna: thermo-aspen, bronze glass front")
+for seat, y, back in ((1.0, YT - 0.3, True), (0.5, YT - 0.9, False)):
+    p4("sauna_tier", (XS0 + XS1) / 2, y, rot=180, zone="thermal", L=round(SW - 0.04, 3), d=0.6, seat=seat, back=back, note="sauna tier")
+p4("sauna_heater_el", XS1 - 0.55, SY + 0.7, rot=0, zone="thermal", note="electric sauna heater, soapstone")
+p4("sauna_bucket", XS0 + 0.4, YT - 1.6, zone="thermal", note="löyly bucket + ladle")
+p4("sauna_gauges", XS1, SY + 1.8, rot=90, zone="thermal", note="thermometer, hygrometer, sand timer")
+l4((XS0 + XS1) / 2, YT - 0.25, 30, 2.4, 0.15, 2.2, aim_z=0.8, color=(1.0, 0.68, 0.42), zone="thermal", note="sauna: warm light behind the backrest")
+p4("stone_bench", -23.2, 4.495 + 0.21, zone="thermal", length=1.6, note="rest")
+p4("peg_rail", -24.375 + TL, 6.6, rot=-90, zone="thermal", L=1.2, note="robe hooks by the sauna")
+p4("rinse_shower", -18.45, 7.025 - TL, rot=180, zone="thermal", n=3, pitch=1.4, note="rinse showers (before the sauna)")
+p4("tap_station", -20.6, 4.495, zone="thermal", note="water")
+ST0, ST1, STY = -15.375 + TL, -12.4, 8.0
+p4("steam_room", (ST0 + ST1) / 2, STY, rot=180, zone="thermal", w=round(ST1 - ST0, 3), d=round(YT - STY, 3), h=2.5, door=-0.95, note="the steam room: ink mosaic, clear glass front")
+p4("rinse_shower", -13.9, 4.495, zone="thermal", n=2, pitch=1.1, note="rinse showers (after the steam, before the plunge)")
+XP = (-9.9 + (-6.65 - 0.065)) / 2; DP = round(-6.65 - 0.065 - (-9.9), 3)                 # the plunges: to the river wall's tile face
+p4("plunge", XP, (4.6 + 7.15) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=False, note="cold plunge (6 °C), on the river window")
+p4("plunge", XP, (7.25 + 9.8) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=True, note="hot plunge (40 °C), on the river window")
+for x, y, L_, rot_ in ((-18.45, 5.6, 5.4, 0), (-11.15, 8.0, 6.0, 90), (-8.3, 7.2, 4.6, 90), (-22.9, 5.9, 2.4, 0)):
+    p4("gym_line", x, y, rot=rot_, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
+       light={"type": "AREA", "energy": round(9 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
+              "aim": [x, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K, dim (the thermal suite)")
+l4((ST0 + ST1) / 2, (STY + YT) / 2, 18, 1.6, 1.6, 2.38, color=(1.0, 0.8, 0.55), zone="thermal", note="steam room: a soft warm glow under the ceiling")
+
+# -- the breathwork room: soft, dark, quiet; mats in a ring, feet to the middle; a warm wash up the plaster from the floor
+BC = (-23.2, -37.15)
+for k in range(8):
+    a = 2 * math.pi * k / 8 + math.pi / 8
+    p4("breath_mat", BC[0] + 1.85 * math.cos(a), BC[1] + 1.85 * math.sin(a), rot=round(math.degrees(a) + 90, 1), zone="breathwork",
+       colour=("oat", "moss", "fjord", "heather")[k % 4], note="breathwork mat, bolster, blanket, eye pillow")
+p4("mat_shelf", -28.85 + 0.015, -37.1, rot=-90, zone="breathwork", length=2.4, note="spare mats + bolsters")
+for y_, rot_ in ((-34.35 - 0.015, 180), (-39.9 + 0.015, 0)):
+    p4("floor_grazer", -23.2, y_ + (0.05 if rot_ == 0 else -0.05), rot=0, zone="breathwork", length=10.4,
+       light={"type": "AREA", "energy": 40, "size": 10.4, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-23.2, y_, F4 + 2.0], "color": [1.0, 0.72, 0.48]},
+       note="a warm wash up the plaster from a slot in the floor")
+
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)
 for f in m.get("fixtures", []):

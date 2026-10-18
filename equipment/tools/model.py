@@ -112,3 +112,34 @@ if mine:
     do = versions.path(piece, "drawings", v)
     sheet3.save(do, quality=90)
     print("drawings:", do)
+
+# the drawing overlays: each generated drawing with ours on top, ours stretched to the drawing's own extent on each axis
+# (a generated view is not to scale and stretches differently across and up), outline red: shapes, not sizes
+if mine:
+    from PIL import ImageFilter, ImageChops
+    cut = []
+    for view in (k_ for k_ in gen if k_ in mine):
+        raw, gf = EQ / ".cache" / f"ortho_{piece}_{view}.png", refs_dir / "gen" / gen[view]
+        if not raw.exists() or not gf.exists():
+            continue
+        ref = Image.open(gf).convert("RGB")
+        rb = ImageChops.invert(ref.convert("L")).point(lambda x: 255 if x > 25 else 0).getbbox()
+        ou = Image.open(raw).convert("RGBA")
+        ob = ou.getchannel("A").point(lambda x: 255 if x > 40 else 0).getbbox()
+        ou = ou.crop(ob).resize((rb[2] - rb[0], rb[3] - rb[1]))
+        lay = Image.new("RGBA", ref.size, (0, 0, 0, 0)); lay.paste(ou, rb[:2])
+        a = lay.getchannel("A").point(lambda x: 255 if x > 40 else 0)
+        edge = ImageChops.subtract(a.filter(ImageFilter.MaxFilter(5)), a)
+        ov = ref.convert("RGBA"); half = lay.copy(); half.putalpha(lay.getchannel("A").point(lambda x: x // 2)); ov.alpha_composite(half)
+        ov.paste((230, 20, 20, 255), (0, 0), edge)
+        cut.append((view, ov.convert("RGB")))
+    if cut:
+        cell = 900
+        sheet4 = Image.new("RGB", (len(cut) * (cell + 20) + 20, cell + 90), (20, 19, 18)); d4 = ImageDraw.Draw(sheet4)
+        d4.text((20, 20), f"generated drawings with ours over them (each stretched to the drawing's extent), outline red, v{v:03d}", font=font, fill=(141, 134, 124))
+        for i, (view, im) in enumerate(cut):
+            im.thumbnail((cell, cell)); bg = Image.new("RGB", (cell, cell), (255, 255, 255))
+            bg.paste(im, ((cell - im.width) // 2, (cell - im.height) // 2)); sheet4.paste(bg, (20 + i * (cell + 20), 70))
+        oo = versions.path(piece, "drawover", v)
+        sheet4.save(oo, quality=90)
+        print("drawing overlays:", oo)

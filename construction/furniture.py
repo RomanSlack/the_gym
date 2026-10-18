@@ -4783,15 +4783,7 @@ def lap_pool(P, x0=-16.25, x1=-6.65, y0=-27.9, y1=-3.3, depth=2.0, water=-0.012)
     mos, mosb = bc.pool_mosaic(), bc.pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020))
     nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
     white = M.get("stone_white") or bc.interior_materials()["stone_white"]
-    if "pool_water" not in M:  # clear water (architectural glass: light passes to the mosaic), a faint blue, a slow surface
-        w = bc.arch_glass("pool_water", tint=(0.80, 0.92, 0.95))
-        N_, L_ = w.node_tree.nodes, w.node_tree.links; g_ = next(n for n in N_ if n.type == "BSDF_GLASS"); g_.inputs["IOR"].default_value = 1.33
-        tc_ = N_.new("ShaderNodeTexCoord"); nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 1.2; nz_.inputs["Detail"].default_value = 3.0
-        L_.new(tc_.outputs["Object"], nz_.inputs["Vector"])
-        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.12; bp_.inputs["Distance"].default_value = 0.01
-        L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], g_.inputs["Normal"])
-        M["pool_water"] = w
-    wat = M["pool_water"]
+    wat = _pool_water()
     glow = _led("pool_light", (0.8, 0.93, 1.0), 25.0)
     zb = -depth; t = 0.03                                       # mosaic thickness on the structure
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
@@ -4919,6 +4911,300 @@ def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62, lamps
 
 
 
+# ------------------------------------------------------------------ F4: the thermal suite, the lobby, the deck, recovery, breathwork
+def _pool_water():
+    """Pool water: architectural glass (light passes to the mosaic), IOR 1.33, a faint blue, a slow noise on the surface."""
+    if "pool_water" not in M:
+        w = bc.arch_glass("pool_water", tint=(0.80, 0.92, 0.95))
+        N_, L_ = w.node_tree.nodes, w.node_tree.links; g_ = next(n for n in N_ if n.type == "BSDF_GLASS"); g_.inputs["IOR"].default_value = 1.33
+        tc_ = N_.new("ShaderNodeTexCoord"); nz_ = N_.new("ShaderNodeTexNoise"); nz_.inputs["Scale"].default_value = 1.2; nz_.inputs["Detail"].default_value = 3.0
+        L_.new(tc_.outputs["Object"], nz_.inputs["Vector"])
+        bp_ = N_.new("ShaderNodeBump"); bp_.inputs["Strength"].default_value = 0.12; bp_.inputs["Distance"].default_value = 0.01
+        L_.new(nz_.outputs["Fac"], bp_.inputs["Height"]); L_.new(bp_.outputs[0], g_.inputs["Normal"])
+        M["pool_water"] = w
+    return M["pool_water"]
+
+
+def _vapour(name, density, color=(0.95, 0.95, 0.95)):
+    """Steam / mist: a volume only (no surface), white scatter, a little anisotropy forward."""
+    if name not in M:
+        mt = bpy.data.materials.new(name); mt.use_nodes = True
+        N_, L_ = mt.node_tree.nodes, mt.node_tree.links
+        N_.remove(N_["Principled BSDF"])
+        v = N_.new("ShaderNodeVolumePrincipled")
+        v.inputs["Color"].default_value = (*color, 1); v.inputs["Density"].default_value = density
+        v.inputs["Anisotropy"].default_value = 0.3
+        L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
+        M[name] = mt
+    return M[name]
+
+
+def plunge(P, w=2.8, d=3.6, depth=0.57, rim=0.45, hot=False):
+    """A plunge pool in the thermal suite (VISION: a simple hot/cold plunge): sunk through the raft with a honed near-black stone kerb
+    0.45 high and 0.3 wide (sit on it, swing your legs over), the water a hand under the kerb, ~1 m deep. Inside a deep glass mosaic
+    (cold: ink blue, a cool light; hot: near-black, a warm light and a breath of mist over it), a seat ledge you sit on with the water
+    at your shoulders, a blackened-steel grab rail over the kerb. Origin = the basin's centre on the floor, the step-in side +y."""
+    st = M["steel"]
+    nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
+    tile = M.get("stone_nero") or bc.interior_materials()["stone_nero"]
+    mos = bc.pool_mosaic("plunge_mosaic_hot", (0.012, 0.012, 0.014), (0.020, 0.019, 0.020), caustics=True) if hot else bc.pool_mosaic()
+    k = 0.3; t = 0.03
+    xi, yi = w / 2 - k, d / 2 - k                                                       # inner half-sizes (finished faces)
+    zb = -depth
+    P.box(mos, (0, 0, zb + t / 2), (2 * xi, 2 * yi, t))                                 # floor
+    for sx in (-1, 1):
+        P.box(mos, (sx * (xi + t / 2), 0, (zb + rim - 0.02) / 2), (t, 2 * yi + 2 * t, rim - 0.02 - zb))
+    for sy in (-1, 1):
+        P.box(mos, (0, sy * (yi + t / 2), (zb + rim - 0.02) / 2), (2 * xi, t, rim - 0.02 - zb))
+    P.vary = True
+    for sx in (-1, 1):                                                                  # the kerb: honed slabs, mitred look
+        P.box(nero, (sx * (w / 2 - k / 2), 0, rim - 0.03), (k, d, 0.06))
+    for sy in (-1, 1):
+        P.box(nero, (0, sy * (d / 2 - k / 2), rim - 0.03), (w - 2 * k - 0.004, k, 0.06))
+    for sx in (-1, 1):                                                                  # its outer faces in black glazed tile
+        P.box(tile, (sx * (w / 2 - 0.01), 0, (rim - 0.06) / 2), (0.02, d, rim - 0.06))
+    for sy in (-1, 1):
+        P.box(tile, (0, sy * (d / 2 - 0.01), (rim - 0.06) / 2), (w, 0.02, rim - 0.06))
+    for sx in (-1, 1):                                                                  # the kerb's core (between the tile skins)
+        P.box(tile, (sx * (w / 2 - k / 2), 0, (rim - 0.06) / 2), (k - 0.04, d - 0.04, rim - 0.06))
+    for sy in (-1, 1):
+        P.box(tile, (0, sy * (d / 2 - k / 2), (rim - 0.06) / 2), (w - 2 * k, k - 0.04, rim - 0.06))
+    P.vary = False
+    sh = 0.42                                                                           # the seat ledge along the step-in side
+    P.box(mos, (0, yi - sh / 2, (zb + t - 0.5) / 2 + 0.0), (2 * xi, sh, -0.5 - zb - t))
+    P.box(nero, (0, yi - sh / 2, -0.5 + 0.015), (2 * xi, sh, 0.03))
+    rx = xi - 0.35                                                                      # the rail, over the kerb and down onto the ledge
+    pts = [(rx, d / 2 + 0.12, 0.0), (rx, d / 2 + 0.12, rim + 0.5), (rx, yi - 0.05, rim + 0.5), (rx, yi - 0.05, -0.47)]
+    for a, b in zip(pts, pts[1:]):
+        P.rod(st, a, b, 0.019, seg=16)
+    P.cyl(st, (rx, d / 2 + 0.12, 0.0), 0.04, 0.008, seg=24)
+    wl = rim - 0.09
+    P.box(_pool_water(), (0, 0, (wl + zb + t) / 2), (2 * xi - 0.004, 2 * yi - 0.004, wl - zb - t))
+    glow = _led("plunge_warm" if hot else "plunge_cool", (1.0, 0.72, 0.45) if hot else (0.75, 0.9, 1.0), 14.0)
+    P.box(glow, (0, -yi + 0.002, -0.28), (0.24, 0.006, 0.08))                          # one lens in the back wall
+    if hot:
+        P.box(_vapour("plunge_mist", 0.35), (0, 0, wl + 0.12), (2 * xi - 0.1, 2 * yi - 0.1, 0.22))
+
+
+def sauna_cabin(P, w=2.85, d=4.4, h=2.3, door=0.8):
+    """The thermal suite's sauna (VISION: a simple thermal setup): a thermo-aspen room built into the corner, its front onto the suite
+    bronze glass from floor to ceiling in aspen posts with the door in it, so the warm wood glows into the dark tile. Vertical aspen
+    boards on the walls, a boarded ceiling at 2.3, slatted aspen duckboards on the floor; above the ceiling a closed box to the
+    hall's ceiling line in black tile. The tiers, the heater, the bucket are their own pieces. Origin = the front's centre on the
+    floor, the room behind it (-y), front +y."""
+    _kulpen_mats(); a = M["aspen_thermo"]
+    tint = M.setdefault("glass_bronze", bc.arch_glass("glass_bronze", tint=(0.86, 0.74, 0.58)))
+    P.vary = True
+    x = -w / 2 + 0.045                                                                  # the back wall's boards
+    while x < w / 2 - 0.02:
+        P.box(a, (x, -d + 0.01, h / 2), (0.088, 0.02, h)); x += 0.09
+    for sx in (-1, 1):                                                                  # the side walls'
+        y = -d + 0.045
+        while y < -0.08:
+            P.box(a, (sx * (w / 2 - 0.01), y, h / 2), (0.02, 0.088, h)); y += 0.09
+    y = -d + 0.045
+    while y < 0.0:                                                                      # the ceiling, boards across
+        P.box(a, (0, y, h + 0.01), (w, 0.088, 0.02)); y += 0.09
+    y = -d + 0.06
+    while y < -0.08:                                                                    # duckboards
+        P.box(a, (0, y, 0.025), (w - 0.06, 0.07, 0.025)); y += 0.095
+    for sx in (-1, 1):
+        P.box(a, (sx * (w / 2 - 0.1), -d / 2, 0.006), (0.05, d - 0.1, 0.012))
+    P.vary = False
+    # the front: aspen posts, bronze glass, the door
+    xs = [-w / 2, door - 0.4, door + 0.4, w / 2]
+    for xp in xs:
+        P.box(a, (xp + (0.03 if xp == -w / 2 else -0.03 if xp == w / 2 else 0.0), -0.04, h / 2 + 0.06), (0.06, 0.08, h + 0.12))
+    P.box(a, (0, -0.04, h + 0.06), (w, 0.08, 0.12))                                     # head
+    P.box(a, (0, -0.04, 0.03), (w, 0.08, 0.06))                                         # sill
+    for xa_, xb_ in ((-w / 2 + 0.06, door - 0.43), (door + 0.43, w / 2 - 0.06)):
+        if xb_ - xa_ > 0.05:
+            P.box(tint, ((xa_ + xb_) / 2, -0.04, h / 2 + 0.03), (xb_ - xa_, 0.01, h - 0.06))
+    for sx in (-1, 1):                                                                  # the door leaf: aspen frame, bronze glass
+        P.box(a, (door + sx * 0.355, -0.01, 0.98), (0.05, 0.05, 1.92))
+    for z in (0.04, 1.92):
+        P.box(a, (door, -0.01, z), (0.76, 0.05, 0.06))
+    P.box(tint, (door, -0.01, 0.98), (0.66, 0.008, 1.82))
+    for sy in (-1, 1):
+        P.box(a, (door + 0.25, sy * 0.05, 1.0), (0.035, 0.03, 0.42))
+    tile = M.get("stone_nero") or bc.interior_materials()["stone_nero"]
+    P.box(tile, (0, -0.04, h + 0.12 + 0.06), (w, 0.1, 0.12))                            # a black band over the head (the box above)
+
+
+def sauna_heater_el(P):
+    """The thermal suite's sauna heater (electric; no fire underground): a tall soapstone-clad body, a deep open basket of stones on
+    top for the löyly, a blackened-steel guard of rails; the controls are outside by the door. Origin = floor, front +y."""
+    _kulpen_mats(); ss, st = M["soapstone"], M["steel"]
+    W, D, H = 0.55, 0.45, 0.95
+    for k, (z0, z1) in enumerate(((0.0, 0.32), (0.32, 0.64), (0.64, H))):
+        P.box(ss, (0, 0, (z0 + z1) / 2), (W, D, z1 - z0 - 0.004))
+    for sx in (-1, 1):
+        P.box(st, (sx * (W / 2 - 0.004), 0, H + 0.14), (0.008, D, 0.28)); P.box(st, (0, sx * (D / 2 - 0.004), H + 0.14), (W, 0.008, 0.28))
+    rng = np.random.default_rng(11)
+    stone = M.setdefault("sauna_stones", bc.pbr_material("sauna_stones", "dark_rock", 0.6, box=True, tint=(0.75, 0.75, 0.75), sat=0.3, val=0.6, piece_var=0.15))
+    for z in (H + 0.04, H + 0.11, H + 0.18, H + 0.25):
+        for _ in range(16):
+            r = float(rng.uniform(0.04, 0.06))
+            P.blob(stone, (float(rng.uniform(-0.22, 0.22)), float(rng.uniform(-0.17, 0.17)), z), (r, r * float(rng.uniform(0.8, 1.1)), r * 0.7), seg=12)
+    for sx in (-1, 1):                                                                  # guard
+        for yy in (-D / 2 - 0.12, D / 2 + 0.12):
+            P.rod(st, (sx * (W / 2 + 0.12), yy, 0.0), (sx * (W / 2 + 0.12), yy, 0.9), 0.012, seg=10)
+        for z in (0.45, 0.88):
+            P.rod(st, (sx * (W / 2 + 0.12), -D / 2 - 0.12, z), (sx * (W / 2 + 0.12), D / 2 + 0.12, z), 0.01, seg=10)
+    for z in (0.45, 0.88):
+        P.rod(st, (-W / 2 - 0.12, D / 2 + 0.12, z), (W / 2 + 0.12, D / 2 + 0.12, z), 0.01, seg=10)
+
+
+def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
+    """The thermal suite's steam room (VISION: a simple thermal setup): lined all over in deep ink glass mosaic, walls, benches and a
+    ceiling that falls from front to back so the drips run down the walls, not onto you; L-shaped benches along the back + one side,
+    tiled, raked backs; clear glass front in a blackened-steel frame with the door; the steam itself (a soft volume that blurs the
+    back), small warm pin lights in the ceiling, the steam outlet low by the bench. Origin = the front's centre on the floor, the
+    room behind (-y), front +y."""
+    st = M["steel"]
+    mos = bc.pool_mosaic("steam_mosaic", (0.012, 0.030, 0.055), (0.022, 0.050, 0.085), caustics=False)
+    tile = M.get("stone_nero") or bc.interior_materials()["stone_nero"]
+    t = 0.03
+    P.box(mos, (0, -d / 2, 0.01), (w, d, 0.02))                                         # floor
+    P.box(mos, (0, -d + t / 2, h / 2), (w, t, h))                                       # back
+    for sx in (-1, 1):
+        P.box(mos, (sx * (w / 2 - t / 2), -d / 2, h / 2), (t, d, h))                    # sides
+    fall = 0.25; ang = math.atan2(fall, d)
+    P.box(mos, (0, -d / 2, h - fall / 2 + 0.02), (w, math.hypot(d, fall), t), rx=-ang)  # the sloped ceiling (high at the front)
+    P.box(tile, (0, -d / 2, h + 0.12), (w, d, 0.06))                                    # the box's lid
+    for xp, yp in [(-w / 4, -0.8), (w / 4, -0.8), (-w / 4, -2.3), (w / 4, -2.3), (0, -1.55)]:
+        zc = h - fall * (-yp) / d - 0.001
+        P.cyl(_led("steam_pin", (1.0, 0.8, 0.55), 30.0), (xp, yp, zc - 0.012), 0.012, 0.012, seg=12)
+    seat, sd = 0.46, 0.5                                                                 # benches: back run + west run
+    P.box(mos, (0, -d + t + sd / 2, seat / 2), (w - 2 * t, sd, seat))
+    P.box(mos, (-w / 2 + t + sd / 2, (-d + t + sd + -0.9) / 2, seat / 2), (sd, (-0.9) - (-d + t + sd), seat))
+    for yy in (-d + t + 0.08,):
+        P.box(mos, (0, yy, seat + 0.25), (w - 2 * t, 0.16, 0.5), rx=math.radians(-10))  # raked back
+    P.box(mos, (-w / 2 + t + 0.08, (-d + t + sd - 0.9) / 2, seat + 0.25), (0.16, (-0.9) - (-d + t + sd), 0.5), ry=math.radians(10))
+    P.box(st, (w / 2 - 0.25, -d + t + 0.002, 0.25), (0.12, 0.006, 0.08))               # the steam outlet
+    P.box(st, (0, -0.3, 0.021), (w - 0.2, 0.05, 0.004))                                 # linear drain
+    P.box(_vapour("steam", 0.55), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
+    # the front: clear glass in a blackened-steel frame, the door
+    P.box(st, (0, 0.0, h + 0.05), (w, 0.05, 0.1)); P.box(st, (0, 0.0, 0.02), (w, 0.05, 0.04))
+    for xp in (-w / 2 + 0.02, door - 0.42, door + 0.42, w / 2 - 0.02):
+        P.box(st, (xp, 0.0, h / 2), (0.04, 0.05, h))
+    for xa_, xb_ in ((-w / 2 + 0.04, door - 0.44), (door + 0.44, w / 2 - 0.04)):
+        if xb_ - xa_ > 0.05:
+            P.box(M["glass"], ((xa_ + xb_) / 2, 0.0, h / 2), (xb_ - xa_, 0.01, h - 0.08))
+    P.box(M["glass"], (door, 0.02, 1.02), (0.8, 0.01, 2.0))
+    P.rod(st, (door + 0.3, 0.06, 0.8), (door + 0.3, 0.06, 1.4), 0.012, seg=12)
+    for z in (0.8, 1.4):
+        P.rod(st, (door + 0.3, 0.025, z), (door + 0.3, 0.06, z), 0.008, seg=8)
+
+
+def rinse_shower(P, n=1, pitch=1.1):
+    """Open rinse showers on a wall (before the sauna, after the plunge): per head a 250 square blackened-steel rain head on an arm
+    at 2.25, a thermostatic push valve, a flush slot drain; a hook for the robe. Origin = the wall at the run's centre, front +y."""
+    st = M["steel"]
+    for k in range(n):
+        x = (k - (n - 1) / 2) * pitch
+        P.box(st, (x, 0.012, 2.3), (0.06, 0.024, 0.06))
+        P.box(st, (x, 0.2, 2.3), (0.03, 0.36, 0.02))
+        P.box(st, (x, 0.38, 2.27), (0.25, 0.25, 0.012))
+        P.box(st, (x, 0.012, 1.1), (0.12, 0.024, 0.16))
+        P.rod(M["brass"], (x, 0.024, 1.1), (x, 0.04, 1.1), 0.02, seg=20)                  # the push valve
+        P.box(st, (x, 0.36, 0.002), (0.6, 0.05, 0.004))
+        P.rod(st, (x + 0.45, 0.01, 1.7), (x + 0.45, 0.08, 1.74), 0.008, seg=8)
+
+
+def pool_lounger(P):
+    """A pool lounger: a sled base of blackened-steel flat bar, a slatted oiled oak deck (the head end raised to 40°), a 60 mm
+    charcoal cushion over it, a rolled white towel at the foot. 2.0 x 0.72, the seat at 0.36. Origin = floor centre, foot +y."""
+    st, oak = M["steel"], M["oak"]
+    cush = M.setdefault("cushion_charcoal", bc.pbr_material("cushion_charcoal", "caban", 0.274, box=True, tint=(0.5, 0.52, 0.56), sat=0.2, val=0.2, piece_var=0.02))
+    W, z = 0.72, 0.3
+    for sx in (-1, 1):                                                                  # sled runners: floor bar up into the deck rail
+        x = sx * (W / 2 - 0.03)
+        P.box(st, (x, 0.0, 0.008), (0.04, 1.8, 0.016))
+        for y in (-0.82, 0.82):
+            P.box(st, (x, y, z / 2), (0.04, 0.012, z))
+        P.box(st, (x, 0.2, z), (0.04, 1.25, 0.03))
+    y0 = -0.43; L1 = 1.25                                                                # flat part: slats across
+    y = y0 + 0.04
+    while y < y0 + L1:
+        P.box(oak, (0, y, z + 0.03), (W - 0.02, 0.06, 0.022)); y += 0.075
+    P.box(cush, (0, y0 + L1 / 2, z + 0.072), (W - 0.06, L1 - 0.02, 0.06))
+    ang = math.radians(40); Lb = 0.62                                                   # the raised back
+    cy, cz = y0 - math.cos(ang) * Lb / 2, z + 0.03 + math.sin(ang) * Lb / 2
+    P.box(oak, (0, cy, cz), (W - 0.02, Lb, 0.022), rx=-ang)
+    P.box(cush, (0, cy + 0.03, cz + 0.045), (W - 0.06, Lb, 0.06), rx=-ang)
+    for sx in (-1, 1):
+        P.rod(st, (sx * (W / 2 - 0.05), y0 - math.cos(ang) * Lb * 0.75, z + 0.03 + math.sin(ang) * Lb * 0.75 - 0.03),
+              (sx * (W / 2 - 0.05), y0 - 0.55, z), 0.012, seg=10)
+    towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
+    P.rod(towel, (-0.25, y0 + L1 - 0.18, z + 0.15), (0.25, y0 + L1 - 0.18, z + 0.15), 0.06, seg=24)
+
+
+def recovery_recliner(P, boots=True):
+    """A recovery recliner for the compression boots (VISION: compression, loungers): a zero-gravity chair, the legs raised above the
+    heart; charcoal leather pads on a blackened-steel frame, an oak side arm with a tray. boots=True: a pair of air-compression boots
+    (quilted graphite chambers, a zip up the side) lying on the leg rest, their hoses to a small pump unit on the floor. Origin =
+    floor centre, the feet +y."""
+    st = M["steel"]
+    lth = M.setdefault("leather_charcoal", bc.pbr_material("leather_charcoal", "brown_leather", 0.4, box=True, tint=(0.5, 0.5, 0.52), sat=0.2, val=0.22, piece_var=0.03, rough_mul=0.75))
+    W = 0.7
+    # the profile: back raked 30° from horizontal-up, seat dipping, legs rising to the feet
+    segs = [((0, -0.95, 0.95), (0, -0.25, 0.48)), ((0, -0.25, 0.48), (0, 0.25, 0.45)), ((0, 0.25, 0.45), (0, 0.95, 0.66))]
+    for (p0, p1), th in zip(segs, (0.1, 0.11, 0.09)):
+        dy, dz = p1[1] - p0[1], p1[2] - p0[2]; L = math.hypot(dy, dz); a = math.atan2(dz, dy)
+        P.box(lth, (0, (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 + th / 2), (W - 0.04, L + 0.02, th), rx=a)
+        for sx in (-1, 1):
+            P.box(st, (sx * (W / 2 - 0.02), (p0[1] + p1[1]) / 2, (p0[2] + p1[2]) / 2 - 0.02), (0.03, L, 0.04), rx=a)
+    P.blob(lth, (0, -0.92, 1.02), (0.22, 0.08, 0.07), seg=20)                          # headrest roll
+    for sx in (-1, 1):                                                                  # the base: two bent legs + a floor bar each side
+        x = sx * (W / 2 - 0.02)
+        P.rod(st, (x, -0.55, 0.0), (x, -0.15, 0.47), 0.018, seg=12)
+        P.rod(st, (x, 0.55, 0.0), (x, 0.2, 0.45), 0.018, seg=12)
+        P.box(st, (x, 0.0, 0.01), (0.04, 1.2, 0.02))
+    P.box(M["oak"], (W / 2 + 0.06, -0.1, 0.62), (0.12, 0.6, 0.03))                      # oak arm + tray
+    P.rod(st, (W / 2 + 0.06, -0.1, 0.0), (W / 2 + 0.06, -0.1, 0.61), 0.016, seg=12)
+    P.box(st, (W / 2 + 0.06, -0.1, 0.008), (0.3, 0.3, 0.016))
+    if boots:
+        boot = M.setdefault("boot_graphite", bc.material("boot_graphite", (0.035, 0.037, 0.04), 0.55))
+        a = math.atan2(0.66 - 0.45, 0.7)
+        for sx in (-0.13, 0.13):
+            for k in range(5):                                                          # quilted chambers along the leg rest
+                u = 0.12 + k * 0.15
+                yy, zz = 0.25 + u * math.cos(a), 0.45 + 0.09 + 0.07 + u * math.sin(a)
+                P.blob(boot, (sx, yy, zz), (0.1, 0.085, 0.07), seg=18)
+            P.blob(boot, (sx, 0.97, 0.78), (0.07, 0.12, 0.1), seg=18)                  # the foot
+            P.box(M["steel"], (sx + 0.095 * (1 if sx > 0 else -1), 0.6, 0.66), (0.004, 0.6, 0.012), rx=a)  # zip
+            P.rod(boot, (sx, 0.3, 0.6), (W / 2 + 0.25, 0.1, 0.1), 0.012, seg=10)       # hose
+        P.box(boot, (W / 2 + 0.3, 0.15, 0.13), (0.2, 0.28, 0.26))                       # pump unit
+        P.box(_led("boot_screen", (0.6, 0.85, 1.0), 2.0), (W / 2 + 0.3, 0.15, 0.261), (0.12, 0.08, 0.002))
+
+
+def towel_bin(P):
+    """Used towels: an open oak frame holding a heavy natural linen bag, a brass ring on its rim. Origin = floor, front +y."""
+    oak = M["oak"]; W, D, H = 0.5, 0.42, 0.85
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            P.box(oak, (sx * (W / 2 - 0.015), sy * (D / 2 - 0.015), H / 2), (0.03, 0.03, H))
+    for z in (0.05, H - 0.02):
+        for sy in (-1, 1):
+            P.box(oak, (0, sy * (D / 2 - 0.015), z), (W, 0.03, 0.03))
+        for sx in (-1, 1):
+            P.box(oak, (sx * (W / 2 - 0.015), 0, z), (0.03, D, 0.03))
+    bag = M.setdefault("robe_linen_bag", bc.pbr_material("robe_linen_bag", "rough_linen", 0.27, box=True, tint=(0.9, 0.85, 0.75), sat=0.35, val=1.0, piece_var=0.03))
+    P.box(bag, (0, 0, H / 2 + 0.02), (W - 0.07, D - 0.07, H - 0.12))
+    towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
+    P.blob(towel, (0.05, 0.0, H - 0.08), (0.16, 0.13, 0.07), seg=16)
+
+
+def breath_mat(P, colour="oat"):
+    """A breathwork place: a thick wool mat (0.7 x 1.9), a round bolster across it, a folded wool blanket and an eye pillow at the
+    head. Origin = floor centre, the head -y."""
+    P.box(M["felt_" + colour], (0, 0, 0.015), (0.7, 1.9, 0.03))
+    P.rod(M["felt_fjord"], (-0.3, 0.35, 0.12), (0.3, 0.35, 0.12), 0.11, seg=28)
+    P.box(M["boucle"], (0.0, -0.78, 0.06), (0.5, 0.3, 0.06))
+    P.blob(M["felt_heather"], (0.0, -0.62, 0.045), (0.11, 0.05, 0.015), seg=16)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -4954,8 +5240,10 @@ BUILDERS = {
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
+    "pool_lounger": pool_lounger, "recovery_recliner": recovery_recliner, "towel_bin": towel_bin, "breath_mat": breath_mat,
 }
-PARAMS = {"river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "recovery_recliner": ("boots",), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

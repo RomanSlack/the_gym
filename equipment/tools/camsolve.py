@@ -7,7 +7,7 @@ pieces/<piece>/match.json: {"views": [{"ref": "<file in refs/>", "size": [W, H],
                                        "lines": {"x"|"y"|"z": [[u1, v1, u2, v2], ...]},   # edges running along an axis
                                        "free_centre": false | "y" | true}, ...],      # "y": a level camera with rise
                             "prior_px": 12}
-model.py gives anchors() -> {"<anchor>": (x, y, z)} and FIT = {"NAME": sigma, ...} (module constants solved here, each
+model.py gives anchors() -> {"<anchor>": (x, y, z)} and FIT = {"NAME": sigma or (sigma per element), ...} (module constants solved here, each
 held to its own value in model.py with that sigma; physically certain things, like a tower built square, stay out of
 FIT). SPEC + extents() hold the maker's overall size. With two or more photos of the same machine the depth is
 triangulated instead of guessed. Writes each view's "camera" + "errors_px" and fit.json (model.py loads it).
@@ -45,7 +45,7 @@ slots, flat = [], []
 for n, sig in FIT.items():
     v = start[n]
     for i, x in (enumerate(v) if isinstance(v, (tuple, list)) else [(None, v)]):
-        flat.append(float(x)); slots.append((n, i, sig))
+        flat.append(float(x)); slots.append((n, i, sig[i] if isinstance(sig, (tuple, list)) else sig))
 flat0, sigs = np.array(flat), np.array([s for _, _, s in slots])
 
 

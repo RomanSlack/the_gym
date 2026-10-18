@@ -147,6 +147,15 @@ for name, az in getattr(pm, "ORTHO", {}).items():
     scene.render.filepath = str(versions.path(PIECE, name, V))
     bpy.ops.render.render(write_still=True)
     print("view:", scene.render.filepath, flush=True)
+    # the same view cut out (transparent, no sweep) for the overlay on the generated drawing (tools/model.py)
+    hid, sw.hide_render = sw.hide_render, True
+    scene.render.film_transparent = True; scene.cycles.samples = 16
+    scene.render.image_settings.file_format = "PNG"; scene.render.image_settings.color_mode = "RGBA"
+    (EQ / ".cache").mkdir(exist_ok=True)
+    scene.render.filepath = str(EQ / ".cache" / f"ortho_{PIECE}_{name}.png")
+    bpy.ops.render.render(write_still=True)
+    scene.render.film_transparent = False; scene.cycles.samples = 48 if DRAFT else 160; sw.hide_render = hid
+    scene.render.image_settings.file_format = "JPEG"; scene.render.image_settings.color_mode = "RGB"
 cam.data.type = "PERSP"; sw.hide_render = False
 scene.render.resolution_x, scene.render.resolution_y = 1200, 900
 for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
