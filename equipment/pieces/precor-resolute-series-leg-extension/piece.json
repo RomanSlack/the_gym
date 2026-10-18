@@ -24,7 +24,7 @@
    "url": "https://healthandfitnessohio.com/wp-content/uploads/2025/01/wp-image-healthandfitnessohio-149.jpg"
   }
  ],
- "status": "picked",
+ "status": "modelled",
  "notes": "",
  "sheet_refs": [
   "precor_official.png"
@@ -42,5 +42,6 @@
  "fetched": {
   "at": "2026-10-17T23:37:46+00:00",
   "how": "page"
- }
+ },
+ "status_note": "v039: restyled by eye; the cam housing and lid simpler than the real ones"
 }

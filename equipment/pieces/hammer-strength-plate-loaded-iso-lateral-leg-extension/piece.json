@@ -76,7 +76,7 @@
    "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Leg_Extension_IL-LE_10_mr.jpg?v=1748945130"
   }
  ],
- "status": "picked",
+ "status": "modelled",
  "notes": "",
  "fetched": {
   "at": "2026-10-17T23:32:02+00:00",
@@ -95,5 +95,6 @@
   ],
   "weight_kg": 137,
   "source": "lifefitness.com.au / delta-fitness.com (IL-LE)"
- }
+ },
+ "status_note": "v008: Roman: good enough, he may tweak by hand (constants at the top of model.py)"
 }
