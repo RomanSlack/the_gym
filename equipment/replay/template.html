@@ -47,7 +47,7 @@ h3{font:600 12px/1 ui-sans-serif,system-ui;letter-spacing:.12em;text-transform:u
 #prefs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}#prefs img{height:120px;border-radius:4px;background:#f4f2ee}
 #vbar{display:flex;gap:10px;align-items:center}#vbar input{flex:1}
 .views{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:10px}
-.views figure{margin:0}.views img{width:100%;display:block;border-radius:4px;background:#0f0e0d}
+.views figure{margin:0}.views figure.hero{grid-column:1/-1}.views figure.hero img{max-height:72vh;object-fit:contain}.views img{width:100%;display:block;border-radius:4px;background:#0f0e0d}
 .views figcaption{color:var(--mute);font-size:12px;margin-top:3px}
 #vcap{margin-top:10px;max-width:1000px}#vcap b{color:var(--oak);font-weight:600}.also{color:#9a9488;font-size:13px}
 /* overview */
@@ -168,7 +168,9 @@ function pieceOptions() {
   $('#psel').innerHTML = opts.map(i => `<option value="${i.id}">${D.models[i.id] ? '● ' : F[i.id]?.links.length ? '○ ' : '   '}${esc(i.name)}</option>`).join('');
 }
 let pv = 0, pi = 0, pplay = null;
-const curVs = () => { const ps = (D.pieces || {})[$('#psel').value] || []; return ps.length ? (ps[Math.min(pi, ps.length - 1)].versions || []) : curVs() };
+// open an item on its most-modelled piece
+const bestPi = () => { const ps = (D.pieces || {})[$('#psel').value] || []; let b = 0; ps.forEach((p, k) => { if ((p.versions || []).length > (ps[b].versions || []).length) b = k }); return b };
+const curVs = () => { const ps = (D.pieces || {})[$('#psel').value] || []; return ps.length ? (ps[Math.min(pi, ps.length - 1)].versions || []) : (D.models[$('#psel').value] || []) };
 $('#ptabs').onclick = e => { const b = e.target.closest('button'); if (!b) return; pi = +b.dataset.k; pv = 0; drawPiece() };
 function drawPiece() {
   const id = $('#psel').value, i = ITEM[id], s = finalState()[id] || {links: []}, ps = (D.pieces || {})[id] || [];
@@ -186,11 +188,15 @@ function drawPiece() {
   pv = Math.min(pv, vs.length - 1); $('#vt').max = vs.length - 1; $('#vt').value = pv;
   const v = vs[pv];
   $('#vn').textContent = `v${String(v.v).padStart(3, '0')} · ${pv + 1} / ${vs.length}`;
-  $('#views').innerHTML = Object.entries(v.views).map(([k, src]) => `<figure><img src="${esc(src)}"><figcaption>${esc(k.replace(/_/g, ' '))}</figcaption></figure>`).join('');
+  $('#views').innerHTML = orderViews(v.views).map(([k, src], n) => `<figure${n === 0 ? ' class="hero"' : ''}><img src="${esc(src)}"><figcaption>${esc(k.replace(/_/g, ' '))}</figcaption></figure>`).join('');
   $('#vcap').innerHTML = `${v.date ? '<b>' + esc(v.date) + '</b> · ' : ''}${esc(v.subject)}${v.prompt ? '<br><b>Prompt:</b> ' + esc(v.prompt) : ''}${(v.also || []).map(a => '<div class="also">also: ' + esc(a) + '</div>').join('')}`;
 }
+// the hero first (the model itself), then the photo beside ours, the plain views, the drawings, the close-ups
+const VORDER = ['three_quarter', 'match', 'front', 'side', 'back_three_quarter', 'ortho_top', 'ortho_side', 'ortho_front', 'ortho_rear', 'drawover', 'drawings', 'match2'];
+const vrank = k => { const i = VORDER.indexOf(k); return i >= 0 ? i : k.startsWith('detail') ? 50 : k === 'sheet' ? 90 : 60 };
+const orderViews = views => Object.entries(views).sort((a, b) => vrank(a[0]) - vrank(b[0]) || a[0].localeCompare(b[0]));
 const step = d => { const n = curVs().length; if (!n) return; pv = Math.max(0, Math.min(n - 1, pv + d)); drawPiece() };
-$('#psel').onchange = () => { pv = 0; pi = 0; drawPiece(); history.replaceState(null, '', '#piece=' + $('#psel').value) };
+$('#psel').onchange = () => { pv = 0; pi = bestPi(); drawPiece(); history.replaceState(null, '', '#piece=' + $('#psel').value) };
 $('#vt').oninput = () => { pv = +$('#vt').value; drawPiece() };
 $('#vprev').onclick = () => step(-1); $('#vnext').onclick = () => step(1);
 function playPiece() {
@@ -206,14 +212,14 @@ function drawOverview() {
   const F = finalState();
   $('#cards').innerHTML = items.filter(i => !(i.custom && !F[i.id]?.custom) && !F[i.id]?.removed).map(i => {
     const s = F[i.id] || {links: []}, l = s.links.find(l => l.ref) || s.links[0], vs = D.models[i.id], last = vs && vs[vs.length - 1];
-    const m = last && Object.values(last.views)[0];
+    const m = last && (last.views.three_quarter || orderViews(last.views)[0][1]);
     return `<div class="card" data-id="${i.id}"><div class="pair">
       <div class="${l && l.ref ? 'ref' : ''}" ${l && l.ref ? `style="background-image:url('${esc(l.ref)}')"` : ''}>${l && l.ref ? '' : l ? esc(host(l.url)) : 'not found yet'}</div>
       <div class="${m ? 'mdl' : ''}" ${m ? `style="background-image:url('${esc(m)}')"` : ''}>${m ? '' : 'not modelled yet'}</div></div>
       <div class="t">${esc(i.name)}<div class="d">${esc(i.cat)}${vs ? ' · ' + vs.length + ' version' + (vs.length > 1 ? 's' : '') : ''}</div></div></div>`;
   }).join('');
 }
-$('#cards').onclick = e => { const c = e.target.closest('.card'); if (!c) return; show('piece'); $('#psel').value = c.dataset.id; pv = 0; drawPiece() };
+$('#cards').onclick = e => { const c = e.target.closest('.card'); if (!c) return; show('piece'); $('#psel').value = c.dataset.id; pv = 0; pi = bestPi(); drawPiece() };
 
 // ---------- views, keys, video mode ----------
 let cur = 'curation';
@@ -244,6 +250,7 @@ document.addEventListener('fullscreenchange', () => { if (!document.fullscreenEl
 pieceOptions();
 const h = location.hash.slice(1), [hv, hid] = h.split('=');
 if (hid && ITEM[hid]) $('#psel').value = hid;
+pi = bestPi();
 show(['curation', 'piece', 'overview'].includes(hv) ? hv : 'curation');
 if (new URLSearchParams(location.search).has('video')) video(true);
 </script>

@@ -37,3 +37,12 @@ Each modelling pass is committed on its own, so the replay shows the prompt behi
 4. **Camera match** (`tools/camsolve.py`): anchors + straight edges in each photo, solved together with only the genuinely uncertain dimensions (`FIT`), each held near its sensible value. Then `tools/model.py` renders through each photo's camera and composes a match sheet (the photo | ours | overlay with our outline). The overlay is for checking, not the goal by itself: where it fights common sense, common sense wins.
 5. **Then detail, part by part**, against the overlays and the close-ups: real joints (nothing floating), the maker's materials and colours, our own artwork for placards.
 6. Every pass is a version (renders + .glb), committed on its own.
+
+### Learned the hard way on the Precor (v001-v039)
+
+- **Positions and looks are separate problems.** The camera solve (`camsolve.py`) got every part where it belongs (Roman: "positionally perfect"), but a model can match the photo's outline and still look nothing like the machine. Once positions are right, stop fitting and restyle by eye, the photo beside ours.
+- **What makes it read as the real machine** ("the sauce of the structure"): real member sizes (commercial frames are heavy: 80-120 mm tubes, 30-35 mm levers), satin powder coat not gloss, upholstery as cushions (bulging sides, rolled edges, a stitched panel: `kit.shaped_pad(cushion=)`), dense mechanisms (plates, bolts, guards packed round the pivot), parts squared to each other in plan.
+- **Generated drawings (gpt-image-2) are guides, not measurements**: each view scales differently per axis, has some perspective, and invents what the photos don't show (the top view's tower, the rear view's single leg). Use them for layout and shapes; sizes come from the photos + the spec. They disagree with each other: when they do, the real photos decide.
+- **Pick references with many real angles first.** One hero render forces guessing the hidden sides; a dealer gallery with side, front, rear and close-ups doesn't.
+- **Sheets that helped**: `match` (photo | ours from its camera), `detail*` (close-ups per assembly from the same camera, match.json "details"), `drawover` (ours over each drawing), the orthographic top against the generated top.
+
