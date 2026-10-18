@@ -52,6 +52,10 @@ BX = 0.645                       # the A-frames and the side rails under them (x
 BY0, BY1 = -0.47, 0.27           # main base: front and rear cross bars (y)
 RX, RY = 0.33, 0.84              # the seat's rear legs (x, beside the seat) and their feet (y)
 BOX = (0.076, 0.05)              # base section (3 x 2 in)
+FOOT_H = 0.022                   # the rails stand this high on their rubber feet
+RAIL_Z = FOOT_H + BOX[1] / 2     # the rails' centreline
+RAIL_TOP = FOOT_H + BOX[1]
+EXT = 0.065                      # the side rails run this far past the cross bars, to their feet and end caps
 LEG = (0.076, 0.076)             # A-frame legs and the swoops (3 x 3 in)
 # ---- seat + back pad (ref_10: the seat high and tilted back, the back pad long and leaning)
 SEAT_F = (0.07, 0.85)            # the seat's front top edge (y, z)
@@ -92,9 +96,9 @@ def side(k, s):
     Z = (0, 0, 1)
     # the A-frame: two legs from the side rail's top up under the bridge, a gusset filling the top of the V between them,
     # the swoop welded to the front leg's inner face, down and inwards to the middle
-    legs = [((s * BX, fy, BOX[1]), (s * BX, PIV_Y, bot)) for fy in (BY0 + 0.06, BY1 - 0.04)]
+    legs = [((s * BX, fy, RAIL_TOP), (s * BX, PIV_Y, bot)) for fy in (BY0 + 0.06, BY1 - 0.04)]
     for p0, p1 in legs:
-        k.bar("frame", p0, p1, LEG[0], LEG[1], up=(1, 0, 0), cut0=((0, 0, BOX[1]), Z), cut1=((0, 0, bot), Z), weld=True)
+        k.bar("frame", p0, p1, LEG[0], LEG[1], up=(1, 0, 0), cut0=((0, 0, RAIL_TOP), Z), cut1=((0, 0, bot), Z), weld=True)
 
     def leg_y(n, z):                                          # where leg n's centreline is at height z
         (_, y0, z0), (_, y1, z1) = legs[n]
@@ -173,24 +177,58 @@ def side(k, s):
                  pc, (0, 1, 0), (1, 0, 0), SHIN[2], r=0.03, cushion=0.025)
 
 
+def foot(k, x, y, along="y"):
+    """A rubber foot under a rail's end (ref_09): a block the rail sits on, on a flat pad with a flange out each side of
+    the rail, a floor-anchor hole in each flange."""
+    bw = BOX[0]
+    ax, ay = (bw + 0.004, 0.075) if along == "y" else (0.075, bw + 0.004)
+    k.box("rubber", (x, y, 0.008 + (FOOT_H - 0.008) / 2), (ax, ay, FOOT_H - 0.008), soft=0.003)
+    fx, fy = (bw + 0.10, 0.065) if along == "y" else (0.065, bw + 0.10)
+    k.box("rubber", (x, y, 0.004), (fx, fy, 0.008), soft=0.003)
+    for d in (-1, 1):
+        hx, hy = (x + d * (bw / 2 + 0.026), y) if along == "y" else (x, y + d * (bw / 2 + 0.026))
+        k.cyl("hole", (hx, hy, 0.0082), 0.0075, 0.001, seg=16)
+
+
+def rail_bolt(k, c, axis):
+    """The bolts through the rails sit in round black bushings (ref_09)."""
+    ax = axis[-1]; sg = 1 if axis[0] == "+" else -1
+    o = {"x": (sg, 0, 0), "y": (0, sg, 0)}[ax]
+    k.cyl("plastic", tuple(c[i] + o[i] * 0.003 for i in range(3)), 0.017, 0.006, axis=ax, seg=28, soft=0.0015)
+    k.bolt(tuple(c[i] + o[i] * 0.006 for i in range(3)), axis, size=0.012)
+
+
 def base(k):
+    """The base, every joint welded (ref_09, ref_08): a side rail under each tower running past both cross bars to a foot
+    and an end cap; the front and rear cross bars teed into the rails' inner faces; the centre rail teed between the front
+    cross bar and the seat section's cross bar; the seat section's two rails teed into the rear cross bar's back face,
+    out to their own feet."""
     bw, bh = BOX
-    # main base: a side rail under each tower, the front and rear cross bars, a centre rail
+    Y = (0, 1, 0)
     for s in (1, -1):
-        k.bar("frame", (s * BX, BY0, bh / 2), (s * BX, BY1, bh / 2), bw, bh)
-        for fy in (BY0, BY1):
-            k.box("rubber", (s * BX, fy, 0.006), (0.12, 0.09, 0.012), soft=0.003)
+        y0, y1 = BY0 - EXT, BY1 + EXT
+        k.bar("frame", (s * BX, y0, RAIL_Z), (s * BX, y1, RAIL_Z), bw, bh)
+        for ye, d in ((y0, -1), (y1, 1)):
+            k.box("plastic", (s * BX, ye + d * 0.004, RAIL_Z), (bw + 0.004, 0.008, bh + 0.004), soft=0.002)   # end cap
+            foot(k, s * BX, ye - d * 0.036)
         for by in (BY0 + 0.12, -0.12, 0.08, BY1 - 0.1):
-            k.cyl("bolt", (s * (BX + bw / 2 + 0.003), by, bh / 2), 0.011, 0.007, axis="x", seg=6)
+            rail_bolt(k, (s * (BX + bw / 2), by, RAIL_Z), "+x" if s > 0 else "-x")
+    xi = BX - bw / 2                                          # the side rails' inner faces
     for y_ in (BY0, BY1):
-        k.bar("frame", (-BX, y_, bh / 2), (BX, y_, bh / 2), bw, bh)
-    k.bar("frame", (0, BY0, bh / 2), (0, RY, bh / 2), bw, bh)
-    k.box("warn", (0.25, BY0 - bw / 2 - 0.002, bh / 2), (0.04, 0.002, 0.035), soft=0.0)
-    # the seat's rear section: its rails out to the rear feet, a cross bar
+        k.bar("frame", (-xi, y_, RAIL_Z), (xi, y_, RAIL_Z), bw, bh,
+              cut0=((-xi, 0, 0), (1, 0, 0)), cut1=((xi, 0, 0), (1, 0, 0)), weld=True)
+    yr = RY - 0.03                                            # the seat section's cross bar
+    k.bar("frame", (0, BY0 + bw / 2, RAIL_Z), (0, yr - bw / 2, RAIL_Z), bw, bh,
+          cut0=((0, BY0 + bw / 2, 0), Y), cut1=((0, yr - bw / 2, 0), Y), weld=True)
+    k.box("warn", (0.25, BY0 - bw / 2 - 0.001, RAIL_Z), (0.04, 0.002, 0.035), soft=0.0)
     for s in (1, -1):
-        k.bar("frame", (s * RX, BY1, bh / 2), (s * RX, RY, bh / 2), bw, bh)
-        k.box("rubber", (s * RX, RY, 0.006), (0.10, 0.10, 0.012), soft=0.003)
-    k.bar("frame", (-RX, RY - 0.03, bh / 2), (RX, RY - 0.03, bh / 2), bw, bh)
+        y1 = RY + EXT
+        k.bar("frame", (s * RX, BY1 + bw / 2, RAIL_Z), (s * RX, y1, RAIL_Z), bw, bh, cut0=((0, BY1 + bw / 2, 0), Y), weld=True)
+        k.box("plastic", (s * RX, y1 + 0.004, RAIL_Z), (bw + 0.004, 0.008, bh + 0.004), soft=0.002)
+        foot(k, s * RX, y1 - 0.036)
+        rail_bolt(k, (s * (RX + bw / 2), RY - 0.15, RAIL_Z), "+x" if s > 0 else "-x")
+    k.bar("frame", (-(RX - bw / 2), yr, RAIL_Z), (RX - bw / 2, yr, RAIL_Z), bw, bh,
+          cut0=((-(RX - bw / 2), 0, 0), (1, 0, 0)), cut1=((RX - bw / 2, 0, 0), (1, 0, 0)), weld=True)
 
 
 def seat(k):
@@ -206,9 +244,9 @@ def seat(k):
     fr = (0.0, fy + 0.04, fz - SEAT_T - 0.046)
     k.tube("frame", (-SEAT_W / 2 + 0.03, fr[1], fr[2]), (SEAT_W / 2 - 0.03, fr[1], fr[2]), 0.02)        # the tube across under its front
     # the swoops meet in a block on the centre rail; the seat's slim post stands on the rail under the seat's middle
-    k.box("frame", (0.0, PIV_Y + 0.07, BOX[1] + 0.045), (0.14, 0.11, 0.09), soft=0.005)
-    k.tube("frame", (0.0, under[1], BOX[1]), (0.0, under[1], under[2] - 0.02), 0.03, seg=28)
-    k.box("frame", (0.0, under[1], BOX[1] + 0.006), (0.10, 0.10, 0.012), soft=0.002)                  # its foot plate
+    k.box("frame", (0.0, PIV_Y + 0.07, RAIL_TOP + 0.045), (0.14, 0.11, 0.09), soft=0.005)
+    k.tube("frame", (0.0, under[1], RAIL_TOP), (0.0, under[1], under[2] - 0.02), 0.03, seg=28)
+    k.box("frame", (0.0, under[1], RAIL_TOP + 0.006), (0.10, 0.10, 0.012), soft=0.002)                  # its foot plate
     # the back pad: a lumbar section at the seat's rear, the long main pad, both leaning BACK_LEAN
     rear_top = (0.0, fy + along[1] * SEAT_L, fz + along[2] * SEAT_L)
     b = math.radians(BACK_LEAN)
@@ -231,10 +269,12 @@ def seat(k):
         x_ = sx * RX
         bend_at = (x_, RY - 0.10, zg)
         tip = (x_, rear_top[1] - 0.24, zg + 0.01)
-        k.sweep("frame", [(x_, RY, BOX[1]), bend_at, tip], k.rect(0.05, 0.05, 0.006), bend=0.10, up=(1, 0, 0))
+        k.sweep("frame", [(x_, RY, RAIL_TOP), bend_at, tip], k.rect(0.05, 0.05, 0.006), bend=0.10, up=(1, 0, 0),
+                cut0=((0, 0, RAIL_TOP), (0, 0, 1)), weld=True)
         k.tube("rubber", lerp(bend_at, tip, 0.55), (tip[0], tip[1] - 0.02, tip[2]), 0.022)               # the hand grip
         k.cyl("rubber", (tip[0], tip[1] - 0.02, tip[2]), 0.024, 0.012, axis="y")
-        k.bar("frame", (x_, BY1 + 0.10, BOX[1]), lerp((x_, RY, BOX[1]), bend_at, 0.72), 0.05, 0.05, up=(1, 0, 0))   # the strut
+        k.bar("frame", (x_, BY1 + 0.10, RAIL_TOP), lerp((x_, RY, RAIL_TOP), bend_at, 0.72), 0.05, 0.05, up=(1, 0, 0),   # the strut
+              cut0=((0, 0, RAIL_TOP), (0, 0, 1)), cut1=((0, RY - 0.025, 0), (0, 1, 0)), weld=True)
     cz = zg - 0.06
     k.bar("frame", (-RX, RY - 0.12, cz), (RX, RY - 0.12, cz), 0.06, 0.05)
     k.bar("frame", sp0, (0.0, RY - 0.12, cz), 0.06, 0.05)                                                   # the spine down to it
