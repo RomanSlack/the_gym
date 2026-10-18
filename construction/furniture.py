@@ -5181,7 +5181,7 @@ def _velvet():
     return m
 
 
-def _leaf():
+def _foliage():
     return M.setdefault("leaf_green", bc.material("leaf_green", (0.035, 0.075, 0.03), 0.45))
 
 
@@ -5193,7 +5193,7 @@ def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
     P.cyl(pot, (0, 0, 0), r, ph, seg=48, r2=r * 0.92)
     P.cyl(M["sand"] if "sand" in M else M["felt"], (0, 0, ph - 0.03), r * 0.88, 0.02, seg=40)
     rng = np.random.default_rng(int(h * 100 + r * 1000))
-    lf = _leaf()
+    lf = _foliage()
     if species == "sansevieria":
         for k in range(14):
             a = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0, r * 0.6); L = rng.uniform(0.5, 1.0) * (h - ph)
@@ -5264,7 +5264,7 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
     rng = np.random.default_rng(int(w * 10))
     for k in range(7):                                                                                       # a small sansevieria
         a = rng.uniform(0, 2 * math.pi); L = rng.uniform(0.15, 0.3)
-        P.box(_leaf(), (tx + 0.07 + 0.02 * math.cos(a), ty + 0.06 + 0.02 * math.sin(a), 0.695 + L / 2), (0.025, 0.005, L), rz=a)
+        P.box(_foliage(), (tx + 0.07 + 0.02 * math.cos(a), ty + 0.06 + 0.02 * math.sin(a), 0.695 + L / 2), (0.025, 0.005, L), rz=a)
     # the reading light: a wall plate, a slim arm, a linear head angled down at the pillow
     lx = 0.62
     P.box(st, (lx, 0.01, 1.15), (0.05, 0.02, 0.09))
