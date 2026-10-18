@@ -181,7 +181,7 @@ if mfile.exists():
         cam.data.lens, cam.data.sensor_width, cam.data.sensor_fit = mc["lens"], mc["sensor"], "AUTO"
         cam.data.shift_x, cam.data.shift_y = mc["shift_x"], mc["shift_y"]
         scene.render.resolution_x, scene.render.resolution_y = mc["size"]
-        scene.render.resolution_percentage = 50
+        scene.render.resolution_percentage = 100 if MJ.get("details") else 50   # full size when close-ups are cut from it
         scene.render.film_transparent = True
         sw.hide_render = True
         scene.render.image_settings.file_format = "PNG"; scene.render.image_settings.color_mode = "RGBA"

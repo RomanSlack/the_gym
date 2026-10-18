@@ -93,6 +93,17 @@ if mfile.exists():
         mo = versions.path(piece, "match" if vi == 0 else f"match{vi + 1}", v)
         sheet2.save(mo, quality=90)
         print("match:", mo)
+        # close-ups (match.json "details": {"name": [x0, y0, x1, y1]} in this photo's pixels): the real part | ours
+        for dn, box in (vw.get("details") or {}).items():
+            a_, b_ = ref.crop(box).convert("RGB"), alone.crop(box).convert("RGB")
+            sc = 900 / max(a_.size)
+            a_, b_ = a_.resize((int(a_.width * sc), int(a_.height * sc))), b_.resize((int(b_.width * sc), int(b_.height * sc)))
+            sh = Image.new("RGB", (2 * a_.width + 60, a_.height + 80), (20, 19, 18)); dd = ImageDraw.Draw(sh)
+            sh.paste(a_, (20, 60)); sh.paste(b_, (40 + a_.width, 60))
+            dd.text((20, 18), f"{dn}: the real one", font=font, fill=(141, 134, 124)); dd.text((40 + a_.width, 18), f"ours, v{v:03d}", font=font, fill=(141, 134, 124))
+            dp = versions.path(piece, f"detail{vi + 1}-{dn}", v)
+            sh.save(dp, quality=90)
+            print("detail:", dp)
 
 # the drawings sheet: the orthographic reference views we generated (refs/gen/ortho*.png) above, ours from the same sides below
 gen = {"ortho_side": "orthosideleft_0.png", "ortho_front": "orthofront_0.png", "ortho_rear": "orthorear_0.png", "ortho_top": "orthotop_0.png"}
