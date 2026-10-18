@@ -195,7 +195,7 @@ class Kit:
             pts = [cv + R @ Vector((u, v, z)) for u, v in loop] + [cv + R @ Vector((loop[0][0], loop[0][1], z))]
             self.sweep("seam", pts, circle(0.0015, 6), caps=False, soft=0)
 
-    def shaped_pad(self, mat, outline, c, normal, side, th, r=0.03, seam=True, board=True):
+    def shaped_pad(self, mat, outline, c, normal, side, th, r=0.03, seam=True, board=True, cushion=0.0):
         """An upholstered pad of any plan shape (a seat narrowing to the back, a tapered back pad): `outline` is a list of
         (a, b) points in the pad's plane (a along `side`, b along normal x side), rounded by r at each corner; c is the
         centre of its thickness th; `normal` the pressing face's direction."""
@@ -203,6 +203,39 @@ class Kit:
         loop = _round_poly(outline, r, 6)
         # a sweep along n with up = fw maps profile (u, v) to world u * (n x fw)... built directly instead:
         cv = Vector(c)
+        if cushion:  # an upholstered cushion: the sides bulge, the top rolls over its edge into a crowned panel (`cushion` =
+            # the panel's inset from the edge); the seam runs round the panel, like the stitched top of a real pad
+            b = self.bm(mat, -1)   # soft -1: a subdivided, smooth group (see finish)
+            prof = [(-th / 2 + 0.012, 0.004), (-th / 2 + 0.3 * th, -0.002), (0.0, -0.004), (th / 2 - 0.3 * th, -0.002),
+                    (th / 2 - 0.12 * th, 0.005), (th / 2 - 0.03 * th, 0.016), (th / 2, cushion * 0.55), (th / 2 + 0.006, cushion),
+                    (th / 2 + 0.009, cushion * 1.6)]
+            rings = []
+            for z, ins in prof:
+                lp = _round_poly(_inset(outline, ins), max(0.006, r - ins), 6)
+                rings.append([b.verts.new(cv + sd * a + fw * q + n * z) for a, q in lp])
+            m_ = len(rings[0])
+            for r0, r1 in zip(rings, rings[1:]):
+                for i in range(m_):
+                    j = (i + 1) % m_
+                    b.faces.new((r0[i], r0[j], r1[j], r1[i]))
+            b.faces.new(rings[-1]); b.faces.new(rings[0][::-1])
+            if board:
+                bb_ = self.bm("plastic", 0.003)
+                inner = _round_poly([(a * 0.97, q * 0.97) for a, q in outline], r, 6)
+                lo = [bb_.verts.new(cv + sd * a + fw * q + n * (-th / 2)) for a, q in inner]
+                hi = [bb_.verts.new(cv + sd * a + fw * q + n * (-th / 2 + 0.012)) for a, q in inner]
+                for i in range(len(inner)):
+                    j = (i + 1) % len(inner)
+                    bb_.faces.new((lo[i], lo[j], hi[j], hi[i]))
+                bb_.faces.new(hi); bb_.faces.new(lo[::-1])
+            if seam:
+                sl = _round_poly(_inset(outline, cushion), max(0.006, r - cushion), 6)
+                pts = [cv + sd * a + fw * q + n * (th / 2 + 0.0068) for a, q in sl]
+                self.sweep("seam", pts + [pts[0]], circle(0.0016, 6), caps=False, soft=0)
+                sl = _round_poly(_inset(outline, -0.004), r + 0.004, 6)       # the welt round the side
+                pts = [cv + sd * a + fw * q + n * (-th / 2 + 0.3 * th) for a, q in sl]
+                self.sweep("seam", pts + [pts[0]], circle(0.0016, 6), caps=False, soft=0)
+            return
         b = self.bm(mat, min(r * 0.8, th / 2 - 0.002))
         for z0, z1, mm, shrink in ((-th / 2 + 0.012, th / 2, mat, 0.0),):
             lo = [b.verts.new(cv + sd * a + fw * bb + n * z0) for a, bb in loop]
@@ -338,7 +371,9 @@ class Kit:
             bmesh.ops.recalc_face_normals(b, faces=b.faces)
             me = bpy.data.meshes.new(f"{self.name}_{role}"); b.to_mesh(me); b.free()
             ob = bpy.data.objects.new(me.name, me); self.coll.objects.link(ob); me.materials.append(mats[role])
-            if soft:
+            if soft == -1:  # cushions: subdivided smooth
+                sd_ = ob.modifiers.new("smooth", "SUBSURF"); sd_.levels = sd_.render_levels = 2
+            elif soft:
                 bv = ob.modifiers.new("soft", "BEVEL"); bv.width = soft; bv.segments = 4 if soft > 0.004 else 2
                 bv.limit_method = "ANGLE"; bv.angle_limit = math.radians(35); bv.harden_normals = soft <= 0.004
             me.polygons.foreach_set("use_smooth", np.ones(len(me.polygons), bool))
