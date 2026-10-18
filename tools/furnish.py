@@ -1135,8 +1135,18 @@ p4("plunge", XP, (4.6 + 7.15) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=Fal
 p4("plunge", XP, (7.25 + 9.8) / 2, rot=90, zone="thermal", w=2.55, d=DP, hot=True, note="hot plunge (40 °C), on the river window")
 for x, y, L_, rot_ in ((-18.45, 5.6, 5.4, 0), (-11.15, 8.0, 6.0, 90), (-8.3, 7.2, 4.6, 90), (-22.9, 5.9, 2.4, 0)):
     p4("gym_line", x, y, rot=rot_, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
-       light={"type": "AREA", "energy": round(22 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
+       light={"type": "AREA", "energy": round(30 * L_), "size": L_ if rot_ == 0 else 0.06, "size_y": 0.06 if rot_ == 0 else L_, "offset": [0, 0, ZC4 - 0.06],
               "aim": [x, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K, dim (the thermal suite)")
+for x0_, x1_ in ((-15.3, -12.5), (-9.9, -6.8)):                                           # warm grazers on the black tile north wall
+    L_ = round(x1_ - x0_, 2)
+    p4("wall_washer", (x0_ + x1_) / 2, YT - 0.6, rot=0, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
+       light={"type": "AREA", "energy": round(30 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [(x0_ + x1_) / 2, YT, F4 + 1.2], "color": GYM_C["3000"]},
+       note="wall-washer on the black tile")
+for x0_, x1_ in ((-24.2, -16.6), (-15.3, -12.2), (-10.7, -6.8)):                          # and on the south wall
+    L_ = round(x1_ - x0_, 2)
+    p4("wall_washer", (x0_ + x1_) / 2, 4.495 + 0.6, rot=180, zone="thermal", L=L_, z_ceiling=ZC4, temp="3000",
+       light={"type": "AREA", "energy": round(24 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [(x0_ + x1_) / 2, 4.495, F4 + 1.2], "color": GYM_C["3000"]},
+       note="wall-washer on the black tile")
 l4((ST0 + ST1) / 2, (STY + YT) / 2, 18, 1.6, 1.6, 2.38, color=(1.0, 0.8, 0.55), zone="thermal", note="steam room: a soft warm glow under the ceiling")
 
 # -- the breathwork room: soft, dark, quiet; mats in a ring, feet to the middle; a warm wash up the plaster from the floor
@@ -1148,7 +1158,7 @@ for k in range(8):
 p4("mat_shelf", -28.85 + 0.015, -37.1, rot=-90, zone="breathwork", length=2.4, note="spare mats + bolsters")
 for y_, rot_ in ((-34.35 - 0.015, 180), (-39.9 + 0.015, 0)):
     p4("floor_grazer", -23.2, y_ + (0.05 if rot_ == 0 else -0.05), rot=0, zone="breathwork", length=10.4,
-       light={"type": "AREA", "energy": 40, "size": 10.4, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-23.2, y_, F4 + 2.0], "color": [1.0, 0.72, 0.48]},
+       light={"type": "AREA", "energy": 60, "size": 10.4, "size_y": 0.04, "offset": [0, 0, 0.03], "aim": [-23.2, y_, F4 + 2.0], "color": [1.0, 0.72, 0.48]},
        note="a warm wash up the plaster from a slot in the floor")
 
 m["furnishings"] = F

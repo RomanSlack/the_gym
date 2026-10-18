@@ -4942,7 +4942,7 @@ def _vapour(name, density, color=(0.95, 0.95, 0.95)):
 def plunge(P, w=2.8, d=3.6, depth=0.57, rim=0.45, hot=False):
     """A plunge pool in the thermal suite (VISION: a simple hot/cold plunge): sunk through the raft with a honed near-black stone kerb
     0.45 high and 0.3 wide (sit on it, swing your legs over), the water a hand under the kerb, ~1 m deep. Inside a deep glass mosaic
-    (cold: ink blue, a cool light; hot: near-black, a warm light and a breath of mist over it), a seat ledge you sit on with the water
+    (cold: ink blue, a cool light; hot: near-black, a warm light), a seat ledge you sit on with the water
     at your shoulders, a blackened-steel grab rail over the kerb. Origin = the basin's centre on the floor, the step-in side +y."""
     st = M["steel"]
     nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
@@ -4982,8 +4982,6 @@ def plunge(P, w=2.8, d=3.6, depth=0.57, rim=0.45, hot=False):
     P.box(_pool_water(), (0, 0, (wl + zb + t) / 2), (2 * xi - 0.004, 2 * yi - 0.004, wl - zb - t))
     glow = _led("plunge_warm" if hot else "plunge_cool", (1.0, 0.72, 0.45) if hot else (0.75, 0.9, 1.0), 14.0)
     P.box(glow, (0, -yi + 0.002, -0.28), (0.24, 0.006, 0.08))                          # one lens in the back wall
-    if hot:
-        P.box(_vapour("plunge_mist", 0.08), (0, 0, wl + 0.09), (2 * xi - 0.1, 2 * yi - 0.1, 0.16))
 
 
 def sauna_cabin(P, w=2.85, d=4.4, h=2.3, door=0.8):
@@ -5084,7 +5082,7 @@ def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
     P.box(mos, (-w / 2 + t + 0.08, (-d + t + sd - 0.9) / 2, seat + 0.25), (0.16, (-0.9) - (-d + t + sd), 0.5), ry=math.radians(10))
     P.box(st, (w / 2 - 0.25, -d + t + 0.002, 0.25), (0.12, 0.006, 0.08))               # the steam outlet
     P.box(st, (0, -0.3, 0.021), (w - 0.2, 0.05, 0.004))                                 # linear drain
-    P.box(_vapour("steam", 0.12), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
+    P.box(_vapour("steam", 0.03), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
     # the front: clear glass in a blackened-steel frame, the door
     P.box(st, (0, 0.0, h + 0.05), (w, 0.05, 0.1)); P.box(st, (0, 0.0, 0.02), (w, 0.05, 0.04))
     for xp in (-w / 2 + 0.02, door - 0.42, door + 0.42, w / 2 - 0.02):
