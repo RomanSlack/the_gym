@@ -23,6 +23,8 @@ VIEWS = {"three_quarter": (27, 12, 1.3), "front": (0, 5, 1.3), "side": (-90, 3, 
 DETAILS = {   # the joints up close, from the angles of the close-ups (ref_08's left tower, ref_12's pivot)
     "detail_pivot_front": ((-0.95, -1.9, 0.95), (-0.62, 0.0, 0.62), 60),
     "detail_pivot": ((1.25, -0.75, 1.05), (0.68, 0.0, 0.78), 50),
+    "detail_foot_front": ((1.1, -0.95, 0.32), (0.645, -0.47, 0.04), 55),      # the base's front corner
+    "detail_foot_rear": ((0.8, 1.3, 0.32), (0.33, 0.84, 0.04), 55),           # the seat's rear leg foot
 }
 ORTHO = {"ortho_side": -90, "ortho_front": 0, "ortho_top": "top"}
 
