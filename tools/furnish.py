@@ -903,7 +903,7 @@ for lvl, slat in (("F2", "oak"), ("F3", "smoked")):
     put("safety_point", XW - 0.01, -16.2, rot=-90, zone=zn_, level=lvl, z=z_, note="AED, extinguisher, first aid")
 put("core_door", -26.35, YS, rot=0, zone="gym-f2", level="F2", z=lv["F2"], width=1.2, height=2.3, finish="oak", note="the posing room")
 for x in (-19.85, -14.45, -9.05):
-    put("glass_door", x, YS, rot=0, zone="gym-f2", level="F2", z=lv["F2"], width=1.2, height=2.3, note="a private training pod")
+    put("glass_door", x, YS, rot=0, zone="gym-f2", level="F2", z=lv["F2"], width=1.2, height=2.3, privacy=True, note="a private training pod (switchable privacy glass)")
 put("glass_door", -22.45, YS, rot=0, zone="gym-f3", level="F3", z=lv["F3"], width=2.0, height=2.3, note="the altitude room's airlock")
 XF1 = -28.85 + 0.125 + 0.025
 for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")):
@@ -1231,6 +1231,106 @@ for lvl in ("F2", "F3", "F4"):
                   "zone": zn_, "z_local": GWC_H - 0.04, "ceiling": GWC_H, "note": f"{lvl} {tag} WC: sprinkler + smoke detector"})
         F.append({"id": f"far_uvc-{len(F):03d}", "kind": "far_uvc", "level": lvl, "at": list(at(6.0, 1.3)), "z": zl, "rot_deg": 0, "zone": zn_,
                   "z_ceiling": GWC_H, "note": f"{lvl} {tag} WC: far-UVC (222 nm)"})
+
+# ---- the south annex rooms (Roman 2026-10-18: "lets do those other rooms super high quality"): the posing room + three private training
+# pods off the F2 gym, the altitude room off the F3 den. The shells: tools/interior.py ('the south rock annex on F2 + F3'); the pieces:
+# construction/furniture.py ('the south annex rooms'). The machines in them come from the equipment library (equipment/), placed when
+# they're modelled: each pod's rack on its platform, a bench + a dumbbell set on the open floor north of it; the altitude room's
+# 4 bikes, 2 rowers + 2 treadmills in a row along the slate wall facing the display.
+def pa(kind, x, y, rot=0.0, lvl="F2", zone="annex", **kw):
+    put(kind, x, y, rot=rot, zone=zone, level=lvl, z=lv[lvl], **kw)
+
+
+def la(x, y, z, energy, aim, lvl="F2", zone="annex", note="", color=(1.0, 0.86, 0.72), typ="AREA", size=0.3, size_y=None, **kw):
+    L_ = {"type": typ, "energy": energy, "offset": [0, 0, z], "aim": [aim[0], aim[1], lv[lvl] + aim[2]], "color": list(color), **kw}
+    if typ == "AREA":
+        L_.update(size=size, size_y=size if size_y is None else size_y)
+    pa("light_only", x, y, lvl=lvl, zone=zone, light=L_, note=note)
+
+
+def aim_rot(x, y, tx, ty):
+    """rot_deg turning a piece's front (+y) from (x, y) towards (tx, ty)."""
+    return round(math.degrees(math.atan2(-(tx - x), ty - y)), 1)
+
+
+HP = round(by_id["S-SA-roof"]["z"][0] - 0.035 - lv["F2"], 3)            # the F2 rooms' ceiling height (3.375)
+YN_A, YS_A = -34.35, -39.9                                               # the annex's inner wall faces (north, south)
+COOL, WARM = (0.92, 0.95, 1.0), (1.0, 0.82, 0.62)
+# -- the posing room: the mirror wall east, the stage before it, the black velvet behind; top light + side light, warm or cool
+PX0, PX1 = -28.65 + 0.015, -22.675 - 0.015                               # plaster faces west, east
+PYN, PYS = YN_A - 0.015, YS_A + 0.015
+PYC = round((PYN + PYS) / 2, 3)
+pa("posing_wall", PX1, PYC, rot=90, zone="posing", L=round(PYN - PYS, 3), D=0.47, H=HP, note="the mirror wall: 3-way mirror, camera + playback screen, cabinet")
+SX, SY = round(PX1 - 0.47 - 1.3 - 0.9, 3), PYC                           # the stage's centre: 1.3 m in front of the mirror niche
+pa("posing_stage", SX, SY, zone="posing", w=1.8, d=1.8, h=0.2, note="the posing stage: fumed oak, floating on a glow")
+pa("stage_rig", SX, SY, rot=-90, zone="posing", w=2.6, z_ceiling=HP, hang=0.55, note="the light rig: top light + 4 spots (2700 / 5000 K)")
+pa("velvet_backdrop", PX0, PYC, rot=-90, zone="posing", L=round(PYN - PYS, 3), H=HP, note="charcoal velvet backdrop, wall to wall")
+pa("bench", -27.85, PYN - 0.2, zone="posing", length=1.2, note="the coach's bench")
+pa("scene_keypad", -25.45, PYN, rot=180, zone="posing", note="scenes: stage warm / stage cool / photo / house")
+for bx, by in ((SX + 0.35, PYN - 0.45), (SX + 0.35, PYS + 0.45)):         # the side-light booms, square on to the poser
+    pa("light_boom", bx, by, rot=aim_rot(bx, by, SX, SY), zone="posing", H=HP, note="side light: a tall LED bar behind a honeycomb")
+    for z in (0.9, 1.6, 2.3):
+        la(bx + (SX - bx) * 0.03, by + (SY - by) * 0.03, z, 18, (SX, SY, 1.25), zone="posing", size=0.09, color=(1.0, 0.92, 0.84), note="side light")
+la(SX, SY, HP - 0.63, 150, (SX, SY, 0.0), zone="posing", size=1.15, color=(1.0, 0.93, 0.86), note="the top light over the stage")
+for s in (-1, 1):
+    for t in (-1, 1):                                                    # +s = the mirror side (key), -s = behind (rim)
+        cx_, cy_ = SX + s * 1.3, SY + t * 1.3
+        la(cx_, cy_, HP - 0.65, 80 if s > 0 else 45, (SX, SY, 1.3), zone="posing", typ="SPOT", spot_deg=28, blend=0.5, radius=0.05,
+           color=(1.0, 0.91, 0.8), note="key spot" if s > 0 else "rim spot")
+la(PX1 - 0.4, PYC, 2.58, 12, (SX, SY, 1.3), zone="posing", size=2.6, size_y=0.05, color=(1.0, 0.86, 0.72), note="the mirror niche's front fill")
+la(PX0 + 0.5, PYC, HP - 0.05, 45, (PX0, PYC, 1.4), zone="posing", size=0.06, size_y=5.2, color=WARM, note="a dim warm wash down the velvet")
+for x, y in ((-27.6, -35.4), (-27.6, -38.85), (-23.8, -35.15), (-23.8, -39.1)):
+    pa("ceiling_speaker", x, y, zone="posing", z_ceiling=HP, note="ceiling speaker")
+pa("ceiling_services", -27.6, PYC, zone="services", z_local=HP - 0.04, ceiling=HP, device="smoke", note="smoke detector")
+pa("ceiling_services", -23.6, PYC, zone="services", z_local=HP - 0.04, ceiling=HP, device="sprinkler", note="sprinkler")
+# -- the private training pods: the joinery wall west, the mirror east, the platform flush in the floor, the lines over it
+for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
+    zn_ = f"pod-{k + 1}"
+    xa, xb = a_ + 0.075, (b_ - 0.075 if k < 2 else b_ - 0.2)              # the walls' faces
+    xj, xm = xa + 0.065, xb - 0.012                                        # the slats' face (behind the joinery), the mirror's face
+    yn, ys = YN_A - 0.065, YS_A + 0.065
+    yc = round((yn + ys) / 2, 3); xd = (-19.85, -14.45, -9.05)[k]
+    pa("pod_wall", xj, yc, rot=-90, zone=zn_, L=round(yn - ys, 3), D=0.5, H=HP, note="the joinery wall: water + towels, the screen, the kit wall")
+    cx = (xa + 0.5 + xb) / 2; py = YS_A + 0.35 + 1.22
+    pa("platform_inlay", cx, py, zone=zn_, s=2.44, note="the lifting platform, flush (oak centre, rubber drop zones); the rack goes on it")
+    for dx in (-1.05, 1.05):
+        L_ = 4.6
+        pa("gym_line", cx + dx, yc, rot=90, zone=zn_, L=L_, z_ceiling=HP, temp="3500",
+           light={"type": "AREA", "energy": round(110 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.06], "aim": [cx + dx, yc, lv["F2"] - 1.0],
+                  "color": [1.0, 0.92, 0.82]}, note="linear line, tunable 2700-5000 K (the pod)")
+    L_ = round(xm - (xj + 0.5) - 0.6, 2)
+    pa("wall_washer", (xj + 0.5 + xm) / 2, ys + 0.6, rot=180, zone=zn_, L=L_, z_ceiling=HP, temp="3000",
+       light={"type": "AREA", "energy": round(50 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HP - 0.06], "aim": [(xj + 0.5 + xm) / 2, ys, lv["F2"] + 1.2],
+              "color": [1.0, 0.85, 0.68]}, note="wall-washer on the smoked oak behind the platform")
+    la(xj + 0.3, yn - 0.8, 2.0, 12, (xj + 0.3, yn - 0.8, 0.9), zone=zn_, size=0.2, size_y=1.3, color=WARM, note="the towel niche's light")
+    la(xj + 0.3, ys + 0.95, 2.4, 18, (xj + 0.3, ys + 0.95, 0.5), zone=zn_, size=0.2, size_y=1.7, color=WARM, note="the kit wall's light")
+    pa("scene_keypad", xd + 0.85, yn, rot=180, zone=zn_, note="scenes: train / focus / cool-down; the screen + sound; climate")
+    for y in (yc + 1.6, yc - 1.6):
+        pa("ceiling_speaker", cx, y, zone=zn_, z_ceiling=HP, note="ceiling speaker")
+    pa("ceiling_services", cx, yc, zone="services", z_local=HP - 0.04, ceiling=HP, device="smoke" if k % 2 == 0 else "sprinkler", note="sprinkler / smoke detector")
+# -- the altitude room: in through the airlock, under the sky, the slate wall, the display at the end
+HA = 4.1                                                                  # the suspended ceiling
+AYN, AYS = YN_A - 0.015, YS_A + 0.03
+AX0, AX1 = -28.65 + 0.015, -14.55 - 0.015
+AYC = round((AYN + AYS) / 2, 3)
+pa("airlock", -22.45, AYN, rot=180, lvl="F3", zone="altitude", w=3.0, d=2.0, h=2.7, door=1.4, note="the airlock: glass lobby, interlocked sliding doors")
+pa("sky_coffer", -21.55, -37.125, lvl="F3", zone="altitude", w=11.7, d=3.65, depth=0.36, z_ceiling=HA, note="the sky: a backlit ceiling coffer + the slot diffusers")
+pa("altitude_display", AX0, AYC, rot=-90, lvl="F3", zone="altitude", mount=1.9, note="the altitude display: 2 800 m, O2, CO2")
+pa("altitude_station", -20.3, AYN, rot=180, lvl="F3", zone="altitude", note="control screen, O2 + CO2 sensor, fresh-air purge, pulse oximeters")
+pa("vent_grille", AX1, -36.6, rot=90, lvl="F3", zone="altitude", w=1.6, note="return air to the generators")
+pa("tap_station", -25.4, AYN, rot=180, lvl="F3", zone="altitude", note="water (bring your own bottle)")
+pa("exit_sign", -22.45, AYN - 2.07, rot=180, lvl="F3", zone="altitude", mount=2.5, note="nødutgang: through the airlock")
+pa("core_door", AX1, -38.9, rot=90, lvl="F3", zone="altitude", width=1.0, height=2.1, finish="steel", note="the altitude plant (staff)")
+pa("hypoxic_plant", -10.5, -37.125, lvl="F3", zone="services", note="hypoxic generators, buffer tank, control cabinet, ducts")
+la(-21.55, -37.125, HA + 0.3, 450, (-21.55, -37.125, 0.0), lvl="F3", zone="altitude", size=11.6, size_y=3.6, color=(0.78, 0.87, 1.0), note="the sky's light")
+L_ = 12.6
+pa("wall_washer", -21.6, AYS + 0.6, rot=180, lvl="F3", zone="altitude", L=L_, z_ceiling=HA, temp="3000",
+   light={"type": "AREA", "energy": round(26 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, HA - 0.06], "aim": [-21.6, AYS, lv["F3"] + 1.2], "color": [1.0, 0.82, 0.62]},
+   note="warm grazing light down the slate")
+for x in (-27.0, -22.0, -17.0):
+    pa("ceiling_speaker", x, -39.4, lvl="F3", zone="altitude", z_ceiling=HA, note="ceiling speaker")
+for x, dev in ((-26.0, "sprinkler"), (-21.0, "smoke"), (-16.0, "sprinkler")):
+    pa("ceiling_services", x, -34.85, lvl="F3", zone="services", z_local=HA - 0.04, ceiling=HA, device=dev, note="sprinkler / smoke detector")
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)

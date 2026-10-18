@@ -227,6 +227,9 @@ for e in els:
     if e["id"] == "W-west-A":  # the gym WCs' annex is dug against its back between the towers: no stone in there (it showed in the WCs)
         st["openings"] = st.get("openings", []) + [{"s": [round(9.5 + r_, 2), round(15.05 + r_, 2)], "z": [z0, -0.6], "type": "opening",
                                                     "note": "the gym WCs' annex (rooms, not ground, behind the wall)"}]
+    if e["id"] == "W-west-S":  # nor in the south rock annex (the posing room, the pods, the altitude room, breathwork, the pool store)
+        st["openings"] = st.get("openings", []) + [{"s": [round(0.6 + r_, 2), round(23.0 + r_, 2)], "z": [z0, -1.1], "type": "opening",
+                                                    "note": "the south rock annex (rooms, not ground, behind the wall)"}]
     add(st)
 
 # ---- the sauna-lobby annex sits on a low granite plinth (no gap under its timber walls)

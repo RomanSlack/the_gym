@@ -563,12 +563,14 @@ def lift_doors(P, width=1.2, height=2.3):
     P.cyl(M["opal"], (width / 2 + 0.25, 0.02, 1.08), 0.015, 0.006, seg=16)
 
 
-def glass_door(P, width=1.6, height=2.3):
-    """Framed glass secure door (pair) with a long oak pull."""
+def glass_door(P, width=1.6, height=2.3, privacy=False):
+    """Framed glass secure door (pair) with a long oak pull. privacy=True: switchable privacy glass (the training pods), shown
+    frosted, as when the pod is booked and in use."""
     fr = M["frame"]
+    gl = M.setdefault("glass_privacy", bc.arch_glass("glass_privacy", rough=0.35, frosted=True)) if privacy else M["glass"]
     for s in (-1, 1):
         cx = s * width / 4
-        P.box(M["glass"], (cx, 0, height / 2), (width / 2 - 0.08, 0.012, height - 0.08))
+        P.box(gl, (cx, 0, height / 2), (width / 2 - 0.08, 0.012, height - 0.08))
         for x in (cx - width / 4 + 0.025, cx + width / 4 - 0.025):
             P.box(fr, (x, 0, height / 2), (0.05, 0.06, height))
         for z in (0.03, height - 0.03):
@@ -5597,6 +5599,378 @@ def gym_wc(P, men=True, pool=False, hand=1, Wn=2.635, W=4.785, ub=2.9, L=8.6, H=
             bmesh.ops.reverse_faces(b, faces=b.faces)
 
 
+# ------------------------------------------------------------------ the south annex rooms (Roman 2026-10-18: "lets do those other rooms super
+# high quality"): the posing room + the three private training pods (F2), the altitude room (F3). Fumed oak + blackened steel, the
+# gym WCs' language; the joinery flush wall to wall and floor to ceiling, fronts in one plane (Roman's flush built-ins rule).
+def _fumed():
+    return M.setdefault("oak_smoked_dark", bc.pbr_material("oak_smoked_dark", "black_oak_veneer", 1.5, box=True, tint=(1.0, 0.92, 0.85), sat=0.7, val=0.38,
+                                                           rough_mul=0.8, rough_add=0.08, piece_var=0.06))
+
+
+def _flutes(P, x0, x1, y, z0, z1, pitch=0.03, skip=()):
+    """The fluting on a fumed-oak front facing +y at y: a fine dark groove every pitch, interrupted over skip = [(x0, x1, z0, z1)]."""
+    for xg in np.arange(x0 + pitch / 2, x1 - 0.005, pitch):
+        zs = [z0, z1]
+        for (a, b, c, d) in skip:
+            if a <= xg <= b:
+                zs = [z0, c, d, z1] if z0 < c and d < z1 else zs
+        for k in range(0, len(zs), 2):
+            if zs[k + 1] - zs[k] > 0.02:
+                P.box(M["felt"], (xg, y + 0.0005, (zs[k] + zs[k + 1]) / 2), (0.003, 0.002, zs[k + 1] - zs[k] - 0.01))
+
+
+def _screen_mat():
+    return M.setdefault("screen_black", bc.material("screen_black", (0.006, 0.006, 0.007), 0.06))
+
+
+def scene_keypad(P, mount=1.1):
+    """The room's control plate by the door: blackened steel, four soft-lit scene keys (light, sound, climate), a small status line."""
+    P.box(M["steel"], (0, 0.004, mount), (0.086, 0.008, 0.13))
+    k = _led("keypad_glow", (1.0, 0.82, 0.62), 1.2)
+    for i in range(4):
+        P.box(k, (0, 0.0085, mount + 0.045 - i * 0.026), (0.05, 0.001, 0.004))
+
+
+def ceiling_speaker(P, z_ceiling=3.4):
+    """A flush round ceiling speaker: a thin blackened-steel ring round a dark micro-perforated grille."""
+    P.cyl(M["steel"], (0, 0, z_ceiling - 0.004), 0.105, 0.004, seg=40)
+    P.cyl(M["felt"], (0, 0, z_ceiling - 0.005), 0.095, 0.002, seg=40)
+
+
+def posing_wall(P, L=5.55, D=0.47, H=3.375):
+    """The posing room's mirror wall: one fumed-oak joinery wall, wall to wall and floor to ceiling, the 3-way mirror recessed into it
+    (a 1.8 m centre glass and two 0.75 m wings turned 37° in towards the stage: front and both sides at once, as a tailor's mirror),
+    a camera in the header over it (the screen beside it plays a pose back on a delay), a 50-inch screen flush in the north flank,
+    a tall cabinet in the south one (posing trunks, tan, oil, bands, towels), a warm line in the niche's soffit lighting the poser
+    from the front. Origin = the finished wall face at mid-length; front +y into the room, +x north."""
+    sm, st, fe, mi = _fumed(), M["steel"], M["felt"], M["mirror"]
+    C, Wg, ang = 1.8, 0.75, math.radians(37)
+    xw = C / 2 + Wg * math.cos(ang)
+    zm0, zm1 = 0.08, 2.6
+    P.box(sm, (0, 0.01, (zm0 + zm1) / 2), (C, 0.02, zm1 - zm0))                                   # the centre glass on its backing
+    P.box(mi, (0, 0.0215, (zm0 + zm1) / 2), (C - 0.012, 0.003, zm1 - zm0 - 0.012))
+    P.box(st, (0, 0.03, zm0 / 2), (C, 0.06, zm0))                                                  # a blackened-steel kick under it
+    for s in (-1, 1):                                                                              # the wings
+        n = (-s * math.sin(ang), math.cos(ang))
+        cx, cy = s * (C / 2 + Wg * math.cos(ang) / 2), 0.02 + Wg * math.sin(ang) / 2
+        P.box(sm, (cx - n[0] * 0.01, cy - n[1] * 0.01, (zm0 + zm1) / 2), (Wg, 0.02, zm1 - zm0), rz=s * ang)
+        P.box(mi, (cx + n[0] * 0.0015, cy + n[1] * 0.0015, (zm0 + zm1) / 2), (Wg - 0.012, 0.003, zm1 - zm0 - 0.012), rz=s * ang)
+        P.box(st, (cx + n[0] * 0.03, cy + n[1] * 0.03, zm0 / 2), (Wg, 0.06, zm0), rz=s * ang)
+        P.box(st, (s * C / 2, 0.03, (zm0 + zm1) / 2), (0.012, 0.03, zm1 - zm0))                    # the folds: a slim steel edge
+    P.box(sm, (0, D / 2, zm1 + 0.02), (2 * xw, D, 0.04))                                           # the niche's soffit
+    P.box(_led("pose_soffit", (1.0, 0.86, 0.72), 4.0), (0, D - 0.07, zm1 - 0.001), (2 * xw - 0.12, 0.03, 0.002))
+    P.box(sm, (0, D - 0.02, (zm1 + 0.04 + H) / 2), (2 * xw, 0.04, H - zm1 - 0.04))                # the header over it, fluted
+    _flutes(P, -xw, xw, D, zm1 + 0.04, H, skip=[(-0.06, 0.06, 2.84, 2.96)])
+    P.box(st, (0, D + 0.006, 2.9), (0.09, 0.012, 0.09))                                            # the camera
+    P.rod(_screen_mat(), (0, D + 0.012, 2.9), (0, D + 0.03, 2.9), 0.022, seg=24)
+    P.cyl(M["glass"], (0, D + 0.031, 2.878), 0.016, 0.044, seg=20)
+    for s in (-1, 1):                                                                              # the flanks
+        a, b = sorted((s * xw, s * L / 2)); w = b - a; cx = (a + b) / 2
+        P.box(sm, (cx, D / 2, (0.08 + H) / 2), (w, D - 0.04, H - 0.08))                            # carcass
+        P.box(fe, (cx, D - 0.07, 0.04), (w, 0.04, 0.08))                                           # kick, set back
+        P.box(sm, (cx, D - 0.02, (0.08 + H) / 2), (w, 0.04, H - 0.08))                             # the front
+        if s > 0:   # north: the playback screen, flush
+            sw, sh, sz = 1.107, 0.623, 1.55
+            P.box(_screen_mat(), (cx, D + 0.0005, sz), (sw, 0.002, sh))
+            P.box(st, (cx, D + 0.0003, sz), (sw + 0.02, 0.0015, sh + 0.02))
+            _flutes(P, a, b, D, 0.08, H, skip=[(cx - sw / 2 - 0.012, cx + sw / 2 + 0.012, sz - sh / 2 - 0.012, sz + sh / 2 + 0.012)])
+        else:       # south: a tall pair of doors to 2.6 m, a shadow gap round them, a finger groove down the meeting edge
+            _flutes(P, a, b, D, 0.08, H)
+            P.box(fe, (cx, D + 0.0008, zm1), (w, 0.0025, 0.003))
+            P.box(fe, (cx, D + 0.0008, (0.08 + zm1) / 2), (0.004, 0.0025, zm1 - 0.08))
+            P.box(st, (cx, D + 0.004, 1.1), (0.012, 0.008, 0.5))
+        P.box(fe, (s * xw, D - 0.001, (0.08 + H) / 2), (0.004, 0.003, H - 0.08))                    # the shadow line at the niche
+
+
+def posing_stage(P, w=1.8, d=1.8, h=0.2):
+    """The posing stage: a solid fumed-oak platform 200 mm high on a recessed blackened-steel plinth, a warm glow out from under it
+    so it floats, the top in wide boards with a brass centre mark (where the judges' light is aimed). Origin = its centre on the floor."""
+    sm, st = _fumed(), M["steel"]
+    P.box(st, (0, 0, 0.03), (w - 0.14, d - 0.14, 0.06))
+    P.box(sm, (0, 0, (0.06 + h) / 2), (w, d, h - 0.06))
+    for x in np.arange(-w / 2 + 0.3, w / 2 - 0.01, 0.3):                                           # board joints on the top
+        P.box(M["felt"], (x, 0, h + 0.0004), (0.002, d - 0.004, 0.001))
+    g = _led("stage_glow", (1.0, 0.75, 0.5), 3.0)
+    for sx, sy, lx, ly in ((0, 1, w - 0.16, 0.01), (0, -1, w - 0.16, 0.01), (1, 0, 0.01, d - 0.16), (-1, 0, 0.01, d - 0.16)):
+        P.box(g, (sx * (w / 2 - 0.075), sy * (d / 2 - 0.075), 0.055), (lx, ly, 0.006))
+    P.cyl(M["brass"], (0, 0, h), 0.02, 0.0015, seg=24)
+
+
+def stage_rig(P, w=2.6, z_ceiling=3.375, hang=0.55):
+    """The posing light rig over the stage, after competition stage lighting (the top light carves the physique): a square frame in
+    blackened steel hung on four rods, a 1.2 m soft top light in the middle of it and four spots on short yokes at its corners,
+    two aimed in at the poser from the front at 45° (key), two from behind (rim). Warm 2700 K / cool 5000 K switchable.
+    Origin = under its centre on the floor (the stage's centre), +y = towards the mirror."""
+    st = M["steel"]; zf = z_ceiling - hang
+    for s in (-1, 1):
+        P.box(st, (0, s * w / 2, zf), (w + 0.05, 0.05, 0.1))
+        P.box(st, (s * w / 2, 0, zf), (0.05, w - 0.05, 0.1))
+        for t in (-1, 1):
+            P.rod(st, (s * w / 2, t * w / 2, zf + 0.05), (s * w / 2, t * w / 2, z_ceiling), 0.008, seg=8)
+            P.cyl(st, (s * w / 2, t * w / 2, z_ceiling - 0.006), 0.04, 0.006, seg=16)
+        P.box(st, (0, s * 0.62, zf), (w - 0.05, 0.04, 0.04))                                       # the cross bars carrying the top light
+    P.box(st, (0, 0, zf - 0.02), (1.24, 1.24, 0.1))
+    P.box(_led("pose_top", (1.0, 0.95, 0.9), 7.0), (0, 0, zf - 0.071), (1.18, 1.18, 0.002))
+    for s in (-1, 1):
+        for t in (-1, 1):
+            p0 = Vector((s * w / 2, t * w / 2, zf - 0.05)); tgt = Vector((0, 0, 1.3))
+            dvec = (tgt - p0).normalized(); c0 = p0 + Vector((0, 0, -0.08))
+            P.rod(st, p0, c0, 0.01, seg=8)
+            P.rod(st, c0 - dvec * 0.06, c0 + dvec * 0.16, 0.055, seg=24)
+            P.rod(_led("pose_spot", (1.0, 0.93, 0.85), 8.0), c0 + dvec * 0.16, c0 + dvec * 0.163, 0.045, seg=24)
+
+
+def light_boom(P, H=3.375, z0=0.45, z1=2.75):
+    """A side light: a 40 x 40 blackened-steel post floor to ceiling on two plates, carrying a tall slim LED bar behind a black
+    honeycomb grid (the side light that shows the lines of a pose). Origin = its foot; front +y = where it throws."""
+    st = M["steel"]
+    P.box(st, (0, 0, 0.006), (0.22, 0.22, 0.012)); P.box(st, (0, 0, H - 0.006), (0.14, 0.14, 0.012))
+    P.box(st, (0, 0, H / 2), (0.04, 0.04, H))
+    P.box(st, (0, 0.05, (z0 + z1) / 2), (0.1, 0.07, z1 - z0))
+    P.box(_led("pose_side", (1.0, 0.93, 0.86), 6.0), (0, 0.0855, (z0 + z1) / 2), (0.08, 0.002, z1 - z0 - 0.02))
+    for z in np.arange(z0 + 0.04, z1 - 0.02, 0.04):
+        P.box(M["felt"], (0, 0.088, z), (0.084, 0.004, 0.003))
+    for z in (z0 + 0.1, z1 - 0.1):
+        P.box(st, (0, 0.02, z), (0.05, 0.02, 0.04))
+
+
+def velvet_backdrop(P, L=5.55, H=3.375):
+    """A charcoal velvet curtain wall to wall on a ceiling track, floor to ceiling (the black backdrop for posing photos + video;
+    it soaks up the sound too). Origin = the wall it hangs in front of, at mid-length; front +y."""
+    st, vel = M["steel"], _velvet()
+    P.box(st, (0, 0.12, H - 0.02), (L, 0.04, 0.03))
+    xs = np.arange(-L / 2 + 0.03, L / 2 - 0.02, 0.04)
+    yy = 0.12 + 0.03 * np.sin(xs * 2 * math.pi / 0.16)
+    P.rods(vel, np.c_[xs, yy, np.full_like(xs, 0.015)], np.c_[xs, yy, np.full_like(xs, H - 0.04)], 0.03, seg=10)
+
+
+def pod_wall(P, L=5.55, D=0.5, H=3.375):
+    """A private training pod's west wall: one fumed-oak joinery wall, wall to wall and floor to ceiling, fronts in one plane. From the
+    door end: towels + water (a glass-front fridge of cold water under a lit open niche of rolled towels, a phone shelf with a charger,
+    two hooks, a cupboard for a bag), the screen (65-inch, flush, a fabric speaker line over it, drawers of straps, chalk + bands
+    under it), the kit wall by the platform (an open lit niche, a fumed-oak peg board of bands, belts, straps + ropes, foam rollers and
+    mats in the cubbies under it). Origin = the finished wall face at mid-length; front +y into the room, -x = the door end."""
+    sm, st, fe = _fumed(), M["steel"], M["felt"]
+    bays = [(-L / 2, -L / 2 + 1.6), (-L / 2 + 1.6, -L / 2 + 3.6), (-L / 2 + 3.6, L / 2)]
+    P.box(sm, (0, D / 2 - 0.02, (0.08 + H) / 2), (L, D - 0.04, H - 0.08))                          # the carcass (behind the fronts)
+    P.box(fe, (0, D - 0.07, 0.04), (L, 0.04, 0.08))                                                # recessed kick
+    for (a, b) in bays[1:]:
+        P.box(fe, (a, D - 0.001, (0.08 + H) / 2), (0.004, 0.003, H - 0.08))                         # shadow lines between the bays
+    glow = _led("pod_niche", (1.0, 0.8, 0.58), 3.0)
+    # -- towels + water
+    a, b = bays[0]; cx = (a + b) / 2; nz0, nz1 = 0.92, 2.05
+    fr0, fr1 = a + 0.06, a + 0.66
+    skip = [(a, b, nz0 - 0.005, nz1 + 0.005), (fr0 - 0.004, fr1 + 0.004, 0.1, 0.86)]
+    P.box(sm, (cx, D - 0.02, (0.08 + H) / 2), (b - a, 0.04, H - 0.08))
+    P.box(sm, (cx, 0.22, (nz0 + nz1) / 2), (b - a - 0.04, 0.44, nz1 - nz0))                        # the niche carved out of the front
+    P.box(sm, (cx, D - 0.24, nz0 + 0.01), (b - a - 0.06, 0.48, 0.02))  # its shelf
+    P.box(glow, (cx, D - 0.06, nz1 - 0.003), (b - a - 0.1, 0.02, 0.003))
+    _flutes(P, a, b, D, 0.08, H, skip=skip)
+    tw = M.setdefault("towel_char", bc.material("towel_char", (0.06, 0.058, 0.055), 0.95))
+    for i in range(4):
+        for j in range(2):
+            P.rod(tw, (a + 0.28 + i * 0.16, D - 0.42, nz0 + 0.1 + j * 0.15), (a + 0.28 + i * 0.16, D - 0.08, nz0 + 0.1 + j * 0.15), 0.07, seg=16)
+    P.box(st, (b - 0.36, D - 0.2, nz0 + 0.03), (0.3, 0.2, 0.012))                                   # phone shelf + charger pad
+    P.cyl(M["felt"], (b - 0.36, D - 0.2, nz0 + 0.037), 0.04, 0.003, seg=24)
+    for xh in (b - 0.42, b - 0.26):
+        P.rod(st, (xh, 0.2, nz1 - 0.25), (xh, 0.3, nz1 - 0.22), 0.008, seg=8)
+    P.box(st, ((fr0 + fr1) / 2, D - 0.03, 0.48), (fr1 - fr0, 0.04, 0.76))                         # the fridge: steel frame, glass door
+    P.box(M["glass"], ((fr0 + fr1) / 2, D - 0.004, 0.48), (fr1 - fr0 - 0.04, 0.008, 0.72))
+    P.box(_led("fridge_glow", (0.9, 0.95, 1.0), 1.5), ((fr0 + fr1) / 2, D - 0.42, 0.48), (fr1 - fr0 - 0.08, 0.004, 0.66))
+    bot = M.setdefault("bottle_glass", bc.arch_glass("bottle_glass", tint=(0.85, 0.92, 0.95)))
+    for z in (0.22, 0.48, 0.72):
+        P.box(M["glass"], ((fr0 + fr1) / 2, D - 0.24, z - 0.005), (fr1 - fr0 - 0.08, 0.36, 0.006))
+        for i in range(5):
+            P.cyl(bot, (fr0 + 0.08 + i * 0.105, D - 0.2, z), 0.032, 0.2, seg=16)
+            P.cyl(st, (fr0 + 0.08 + i * 0.105, D - 0.2, z + 0.2), 0.018, 0.025, seg=12)
+    P.box(st, (fr1 - 0.04, D + 0.006, 0.6), (0.012, 0.012, 0.3))
+    P.box(fe, ((fr1 + b) / 2, D + 0.0008, 0.47), (0.004, 0.0025, 0.78))                             # the bag cupboard's door
+    # -- the screen
+    a, b = bays[1]; cx = (a + b) / 2; sw, sh, sz = 1.43, 0.805, 1.55
+    P.box(sm, (cx, D - 0.02, (0.08 + H) / 2), (b - a, 0.04, H - 0.08))
+    P.box(_screen_mat(), (cx, D + 0.0005, sz), (sw, 0.002, sh)); P.box(st, (cx, D + 0.0003, sz), (sw + 0.02, 0.0015, sh + 0.02))
+    P.box(M.setdefault("speaker_cloth", bc.material("speaker_cloth", (0.03, 0.03, 0.032), 0.97)), (cx, D + 0.0006, 2.2), (b - a - 0.2, 0.002, 0.16))
+    _flutes(P, a, b, D, 0.08, H, skip=[(cx - sw / 2 - 0.012, cx + sw / 2 + 0.012, sz - sh / 2 - 0.012, sz + sh / 2 + 0.012),
+                                        (a + 0.1, b - 0.1, 2.115, 2.285)])
+    for z in (0.37, 0.65):                                                                          # drawer joints under it
+        P.box(fe, (cx, D + 0.0008, z), (b - a - 0.02, 0.0025, 0.003))
+    P.box(fe, (cx, D + 0.0008, 0.93), (b - a - 0.02, 0.0025, 0.003))
+    # -- the kit wall: an open niche
+    a, b = bays[2]; cx = (a + b) / 2; kz0, kz1 = 0.5, 2.45
+    P.box(sm, (cx, D - 0.02, (0.08 + kz0) / 2), (b - a, 0.04, kz0 - 0.08))
+    P.box(sm, (cx, D - 0.02, (kz1 + H) / 2), (b - a, 0.04, H - kz1))
+    _flutes(P, a, b, D, 0.08, kz0); _flutes(P, a, b, D, kz1, H)
+    P.box(sm, (cx, 0.03, (kz0 + kz1) / 2), (b - a - 0.04, 0.06, kz1 - kz0))                         # peg board back
+    for xp in np.arange(a + 0.12, b - 0.05, 0.1):
+        for zp in np.arange(kz0 + 0.95, kz1 - 0.05, 0.1):
+            P.box(fe, (xp, 0.0605, zp), (0.008, 0.001, 0.008))
+    P.box(sm, (cx, D / 2, kz0 + 0.01), (b - a - 0.04, D - 0.04, 0.02))                               # the cubby shelf
+    for xs in (a + (b - a) / 3, a + 2 * (b - a) / 3):
+        P.box(sm, (xs, D / 2, (kz0 + kz0 + 0.62) / 2), (0.02, D - 0.04, 0.62))
+    P.box(sm, (cx, D / 2, kz0 + 0.63), (b - a - 0.04, D - 0.04, 0.02))
+    P.box(glow, (cx, D - 0.06, kz1 - 0.003), (b - a - 0.1, 0.02, 0.003))
+    cols = [M.setdefault(f"band_{n}", bc.material(f"band_{n}", c, 0.6)) for n, c in
+            (("black", (0.02, 0.02, 0.02)), ("moss", (0.12, 0.16, 0.08)), ("rust", (0.32, 0.1, 0.05)), ("sand", (0.5, 0.42, 0.3)))]
+    for i, mat in enumerate(cols):                                                                   # bands on pegs
+        xp = a + 0.22 + i * 0.16
+        P.rod(st, (xp, 0.06, 2.2), (xp, 0.16, 2.21), 0.008, seg=8)
+        for s in (-1, 1):
+            P.rod(mat, (xp + s * 0.012, 0.14, 2.2), (xp + s * 0.03, 0.13, 1.45 + i * 0.05), 0.007, seg=8)
+    xb_ = a + 1.0                                                                                   # a lifting belt
+    P.rod(st, (xb_, 0.06, 2.2), (xb_, 0.16, 2.21), 0.008, seg=8)
+    P.box(M["rubber"], (xb_, 0.13, 1.85), (0.1, 0.012, 0.7))
+    for i in range(2):                                                                              # straps, a jump rope
+        xs_ = a + 1.25 + i * 0.12
+        P.rod(st, (xs_, 0.06, 2.2), (xs_, 0.16, 2.21), 0.008, seg=8)
+        P.box(M["rubber"] if i else cols[1], (xs_, 0.135, 1.95), (0.035, 0.006, 0.5))
+    P.rod(st, (b - 0.3, 0.06, 2.2), (b - 0.3, 0.16, 2.21), 0.008, seg=8)
+    for s in (-1, 1):
+        P.rod(M["rubber"], (b - 0.3 + s * 0.02, 0.15, 2.19), (b - 0.3 + s * 0.08, 0.14, 1.3), 0.004, seg=6)
+    for i, (xc_, kind) in enumerate(((a + (b - a) / 6, "roller"), (a + (b - a) / 2, "mat"), (a + 5 * (b - a) / 6, "roller"))):
+        if kind == "roller":
+            for j in range(2):
+                P.rod(cols[0] if j else cols[3], (xc_ - 0.28, 0.12 + j * 0.2, kz0 + 0.1), (xc_ + 0.28, 0.12 + j * 0.2, kz0 + 0.1), 0.075, seg=24)
+        else:
+            for j in range(3):
+                P.rod(cols[(j + 1) % 4], (xc_ - 0.3, 0.1 + j * 0.15, kz0 + 0.09), (xc_ + 0.3, 0.1 + j * 0.15, kz0 + 0.09), 0.065, seg=20)
+
+
+def platform_inlay(P, s=2.44):
+    """A lifting platform set flush into the pod's floor (top at the floor): a light oak centre 1.22 m wide where the lifter stands,
+    30 mm recycled-rubber drop zones either side where the plates land, a slim blackened-steel frame round it, the centre in boards.
+    Origin = its centre on the floor; x = the way the lifter faces."""
+    t = 0.03
+    P.box(M["oak"], (0, 0, -t / 2), (s - 0.02, 1.22, t))
+    for y in np.arange(-0.61 + 0.2033, 0.6, 0.2033):
+        P.box(M["felt"], (0, y, -0.0004), (s - 0.03, 0.002, 0.001))
+    for sy in (-1, 1):
+        P.box(M["rubber"], (0, sy * (0.61 + (s / 2 - 0.62) / 2), -t / 2), (s - 0.02, s / 2 - 0.63, t))
+        P.box(M["steel"], (0, sy * 0.615, -t / 2 + 0.0003), (s - 0.02, 0.01, t))
+    for sx, sy, lx, ly in ((0, 1, s, 0.01), (0, -1, s, 0.01), (1, 0, 0.01, s), (-1, 0, 0.01, s)):
+        P.box(M["steel"], (sx * (s / 2 - 0.005), sy * (s / 2 - 0.005), -t / 2 + 0.0003), (lx, ly, t))
+
+
+def airlock(P, w=3.0, d=2.0, h=2.7, door=1.4):
+    """The altitude room's airlock inside its door from the gym: a glass lobby in slim blackened-steel frames, a glass lid, a pair of
+    automatic sliding glass doors in the far side, interlocked with the door from the gym (only one side opens at a time, so the
+    thin air stays in), a grate to stand on, the room's altitude on a small display on the door post. Origin = the finished wall face
+    at its middle, front +y into the room."""
+    fr = M["frame"]
+    _placed(P, lambda T: glass_screen(T, w, h, door=door), 0.0, d, 0.0)
+    for s in (-1, 1):
+        _placed(P, lambda T: glass_screen(T, d, h), s * w / 2, d / 2, math.pi / 2)
+    P.box(M["glass"], (0, d / 2, h - 0.01), (w - 0.1, d - 0.1, 0.012))
+    for s in (-1, 1):
+        P.box(fr, (0, d / 2 + s * (d / 2 - 0.03), h - 0.02), (w, 0.06, 0.04))
+        P.box(fr, (s * (w / 2 - 0.03), d / 2, h - 0.02), (0.06, d, 0.04))
+    _placed(P, lambda T: entrance_mat(T, size=(w - 0.3, d - 0.3), style="wiper"), 0.0, d / 2, 0.0)
+    dz = 1.45; x0 = door / 2 + 0.17
+    P.box(fr, (x0, d + 0.07, dz), (0.14, 0.012, 0.09))
+    P.box(_screen_mat(), (x0, d + 0.077, dz), (0.13, 0.002, 0.08))
+    P.text(_led("alt_text", (0.75, 0.88, 1.0), 3.0), "2800 m", (x0, d + 0.079, dz + 0.008), 0.03)
+    P.cyl(_led("alt_ok", (0.2, 1.0, 0.4), 2.0), (x0 + 0.045, d + 0.078, dz - 0.028), 0.004, 0.002, seg=12)
+
+
+def _sky_mat():
+    """A backlit stretched ceiling printed with nothing but sky: a soft emissive field, palest in the middle, a deeper clear blue
+    towards the edges (high-altitude sky, as an artificial skylight in a windowless room)."""
+    m = bpy.data.materials.get("alt_sky")
+    if m:
+        return m
+    m = bpy.data.materials.new("alt_sky"); m.use_nodes = True
+    N, Lk = m.node_tree.nodes, m.node_tree.links
+    N.remove(N["Principled BSDF"])
+    tc = N.new("ShaderNodeTexCoord"); sep = N.new("ShaderNodeSeparateXYZ"); Lk.new(tc.outputs["Generated"], sep.inputs[0])
+    def dist(o):
+        a = N.new("ShaderNodeMath"); a.operation = "SUBTRACT"; a.inputs[1].default_value = 0.5; Lk.new(o, a.inputs[0])
+        b = N.new("ShaderNodeMath"); b.operation = "ABSOLUTE"; Lk.new(a.outputs[0], b.inputs[0])
+        c = N.new("ShaderNodeMath"); c.operation = "MULTIPLY"; c.inputs[1].default_value = 2.0; Lk.new(b.outputs[0], c.inputs[0])
+        return c.outputs[0]
+    dx, dy = dist(sep.outputs[0]), dist(sep.outputs[1])
+    sq = []
+    for dd in (dx, dy):
+        p = N.new("ShaderNodeMath"); p.operation = "POWER"; p.inputs[1].default_value = 2.0; Lk.new(dd, p.inputs[0]); sq.append(p)
+    ad = N.new("ShaderNodeMath"); ad.operation = "ADD"; Lk.new(sq[0].outputs[0], ad.inputs[0]); Lk.new(sq[1].outputs[0], ad.inputs[1])
+    sr = N.new("ShaderNodeMath"); sr.operation = "SQRT"; Lk.new(ad.outputs[0], sr.inputs[0])
+    ramp = N.new("ShaderNodeValToRGB"); Lk.new(sr.outputs[0], ramp.inputs[0])
+    ramp.color_ramp.elements[0].color = (0.82, 0.9, 1.0, 1); ramp.color_ramp.elements[1].color = (0.28, 0.48, 0.9, 1)
+    ramp.color_ramp.elements[1].position = 1.25; ramp.color_ramp.interpolation = "EASE"
+    em = N.new("ShaderNodeEmission"); em.inputs["Strength"].default_value = 1.1; Lk.new(ramp.outputs[0], em.inputs["Color"])
+    Lk.new(em.outputs[0], N["Material Output"].inputs["Surface"])
+    return m
+
+
+def sky_coffer(P, w=11.7, d=3.65, depth=0.36, z_ceiling=4.1):
+    """The altitude room's sky: a coffer 0.36 m up into the ceiling plenum, its reveals in charcoal, its lid a backlit stretched
+    ceiling of clear sky (a windowless room in the rock under a sky; dimmable, dawn to noon). Linear slot diffusers along both long
+    sides breathe the hypoxic air in; the return is low on the east wall. Origin = under its centre on the floor."""
+    rv = M.setdefault("coffer_charcoal", bc.material("coffer_charcoal", (0.035, 0.035, 0.037), 0.9))
+    z0, z1 = z_ceiling, z_ceiling + depth
+    for s in (-1, 1):
+        P.box(rv, (0, s * (d / 2 + 0.01), (z0 + z1) / 2), (w + 0.04, 0.02, depth))
+        P.box(rv, (s * (w / 2 + 0.01), 0, (z0 + z1) / 2), (0.02, d, depth))
+    P.box(_sky_mat(), (0, 0, z1 - 0.005), (w, d, 0.01))
+    for s in (-1, 1):                                                                                # the slot diffusers
+        P.box(M["steel"], (0, s * (d / 2 + 0.17), z0 - 0.002), (w, 0.06, 0.004))
+        P.box(M["felt"], (0, s * (d / 2 + 0.17), z0 - 0.0045), (w - 0.02, 0.025, 0.001))
+
+
+def altitude_display(P, w=2.6, h=1.46, mount=1.75):
+    """The altitude display on the end wall, read from every bike, rower and treadmill: a black glass panel, the set altitude large
+    (2 800 m), under it the room's air (O2 15.1 %, CO2 0.09 %, 18 °C, 45 % RH), a thin ridge line of the Rondane peaks along the top.
+    Origin = the finished wall face; front +y."""
+    st = M["steel"]
+    P.box(st, (0, 0.012, mount), (w + 0.03, 0.024, h + 0.03))
+    P.box(_screen_mat(), (0, 0.0245, mount), (w, 0.002, h))
+    tx = _led("alt_text", (0.75, 0.88, 1.0), 3.0); dim = _led("alt_dim", (0.55, 0.7, 0.9), 1.4)
+    P.text(dim, "HØYDE  ·  ALTITUDE", (0, 0.026, mount + 0.33), 0.06)
+    P.text(tx, "2 800 m", (0, 0.026, mount + 0.06), 0.34)
+    P.text(dim, "O2 15.1 %     CO2 0.09 %     18 °C     45 % RH", (0, 0.026, mount - 0.33), 0.055)
+    ridge = [(-1.15, 0.58), (-0.9, 0.6), (-0.7, 0.66), (-0.5, 0.62), (-0.3, 0.69), (-0.1, 0.64), (0.1, 0.67), (0.3, 0.61), (0.55, 0.65), (0.8, 0.6), (1.15, 0.585)]
+    for (x0, z0), (x1, z1) in zip(ridge, ridge[1:]):
+        L_ = math.hypot(x1 - x0, z1 - z0)
+        P.box(dim, ((x0 + x1) / 2, 0.0262, mount + (z0 + z1) / 2), (L_, 0.0005, 0.004), ry=-math.atan2(z1 - z0, x1 - x0))
+
+
+def altitude_station(P):
+    """By the inner airlock door: the room's control screen (set the altitude, the session timer), the oxygen + CO2 sensor head at
+    breathing height, a red fresh-air purge button under a flip cover (it floods the room with outside air), and a small steel shelf
+    with fingertip pulse oximeters (check your SpO2 between sets). Origin = the finished wall face; front +y."""
+    st = M["steel"]
+    P.box(st, (0, 0.008, 1.35), (0.3, 0.016, 0.2)); P.box(_screen_mat(), (0, 0.0165, 1.35), (0.28, 0.002, 0.18))
+    tx = _led("alt_text", (0.75, 0.88, 1.0), 3.0)
+    P.text(tx, "2800 m", (0, 0.018, 1.37), 0.045)
+    P.box(M["ceramic"], (0.32, 0.025, 1.55), (0.1, 0.05, 0.14)); P.cyl(_led("alt_ok", (0.2, 1.0, 0.4), 2.0), (0.32, 0.051, 1.6), 0.005, 0.002, seg=12)
+    for z in np.arange(1.5, 1.56, 0.015):
+        P.box(st, (0.32, 0.0505, z), (0.07, 0.001, 0.004))
+    yel = M.setdefault("purge_yellow", bc.material("purge_yellow", (0.75, 0.55, 0.02), 0.5))
+    P.box(yel, (0.32, 0.01, 1.15), (0.12, 0.02, 0.12))
+    P.rod(M["lino_lingon"], (0.32, 0.02, 1.15), (0.32, 0.045, 1.15), 0.03, seg=20)
+    P.box(M["glass"], (0.32, 0.06, 1.15), (0.11, 0.004, 0.11))
+    P.box(st, (0, 0.08, 1.0), (0.3, 0.16, 0.01))
+    for x in (-0.07, 0.07):
+        P.box(M["ceramic"], (x, 0.08, 1.02), (0.035, 0.06, 0.03)); P.box(_screen_mat(), (x, 0.08, 1.036), (0.02, 0.025, 0.001))
+
+
+def vent_grille(P, w=1.2, h=0.4, z0=0.15):
+    """A low return-air grille in blackened steel (the sealed room's air goes back to the generators through it). Origin = wall face."""
+    P.box(M["steel"], (0, 0.01, z0 + h / 2), (w, 0.02, h))
+    for z in np.arange(z0 + 0.03, z0 + h - 0.02, 0.025):
+        P.box(M["felt"], (0, 0.0205, z), (w - 0.04, 0.002, 0.012))
+
+
+def hypoxic_plant(P):
+    """The altitude room's plant bay (staff): two hypoxic generators (membrane air separation: compressors + nitrogen membranes in
+    grey steel cabinets), a buffer tank, the control cabinet, the ducts up to the ceiling plenum. Origin = the middle of the bay floor."""
+    gr = M.setdefault("plant_grey", bc.material("plant_grey", (0.32, 0.33, 0.33), 0.5, metal=0.3))
+    for x in (-2.2, -1.1):
+        P.box(gr, (x, -1.6, 0.9), (0.9, 0.7, 1.8)); P.box(M["felt"], (x, -1.24, 1.5), (0.6, 0.004, 0.3))
+        P.box(gr, (x, -1.6, 2.5), (0.4, 0.4, 1.4))
+    P.cyl(gr, (0.4, -1.8, 0.0), 0.35, 1.7, seg=24)
+    P.box(gr, (1.6, -2.4, 1.0), (0.8, 0.3, 1.6))
+    P.box(gr, (-1.6, -1.6, 3.6), (2.2, 0.5, 0.4))
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -5634,14 +6008,20 @@ BUILDERS = {
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
     "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
     "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "eclipse_sconce": eclipse_sconce, "towel_bin": towel_bin, "breath_mat": breath_mat,
-    "gym_wc": gym_wc,
+    "gym_wc": gym_wc, "scene_keypad": scene_keypad, "ceiling_speaker": ceiling_speaker, "posing_wall": posing_wall, "posing_stage": posing_stage,
+    "stage_rig": stage_rig, "light_boom": light_boom, "velvet_backdrop": velvet_backdrop, "pod_wall": pod_wall, "platform_inlay": platform_inlay,
+    "airlock": airlock, "sky_coffer": sky_coffer, "altitude_display": altitude_display, "altitude_station": altitude_station, "vent_grille": vent_grille,
+    "hypoxic_plant": hypoxic_plant,
 }
-PARAMS = {"gym_wc": ("men", "pool", "hand"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceiling_speaker": ("z_ceiling",), "posing_wall": ("L", "D", "H"),
+          "posing_stage": ("w", "d", "h"), "stage_rig": ("w", "z_ceiling", "hang"), "light_boom": ("H",), "velvet_backdrop": ("L", "H"), "pod_wall": ("L", "D", "H"),
+          "platform_inlay": ("s",), "airlock": ("w", "d", "h", "door"), "sky_coffer": ("w", "d", "depth", "z_ceiling"), "altitude_display": ("w", "h", "mount"),
+          "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),
           "glass_screen": ("width", "height", "door"), "sliding_doors": ("width", "height"), "vestibule_lid": ("size", "height"),
-          "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height"),
+          "door_slatted": ("width", "height"), "lift_doors": ("width", "height"), "glass_door": ("width", "height", "privacy"),
           "baffle_screen": ("width", "height"), "window_counter": ("length",), "bar_stool": ("height",), "relief_art": ("width", "height"), "porch_floor": ("size",), "canvas_art": ("width", "height", "image", "z0"), "downlight": ("z_ceiling",), "gallery_spot": ("z_ceiling",), "entrance_mat": ("size", "style"),
           "wc_cells": ("n", "w", "depth", "style", "door_at", "pan_at", "number0", "occupied"),
           "wc_run": ("cells", "depth", "open_", "occupied", "pan_side"), "vanity": ("length", "n", "top"), "urinals": ("n", "pitch"), "cell_light": ("z_ceiling",),

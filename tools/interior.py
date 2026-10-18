@@ -626,6 +626,68 @@ for L_ in ("F2", "F3", "F4"):
             add({"id": f"IN-{L_}-gwc-{g}-{part}-lid", "type": "slab", "kind": "ceiling", "material": "timber_stud", "rect": r, "z": [round(z0 + 2.76, 3), round(z0 + 2.785, 3)], "holes": [],
                  "pattern": {"kind": "poured", "joint": 0.25}, "note": "plasterboard lid: the room is a closed box at negative pressure (extract plenum above)"})
 
+# ---- the south rock annex on F2 + F3 (Roman 2026-10-18: "lets do those other rooms super high quality"): the posing room and the three
+#   private training pods (F2), the altitude room (F3). All three are dark, warm and quiet next to the bright gym, lit for what
+#   happens in them (the fittings + light: tools/furnish.py, 'the south annex rooms').
+#   - posing: charcoal lime plaster all round (a dark backdrop makes a physique read), smoked oak boards underfoot (barefoot),
+#     charcoal wood wool overhead
+#   - pods: the gym's impact tiles with a lifting platform set flush into them, smoked oak slats on three walls, the fourth a mirror
+#     from the floor (blackened-steel skirting) to 2.6 m with slats above, charcoal wood wool overhead
+#   - altitude: the impact tiles; the rock wall (south) in riven slate courses, charcoal plaster elsewhere; a suspended charcoal
+#     wood-wool ceiling at 4.1 m (the plenum over it carries the hypoxic air) round the backlit sky coffer
+SAN = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and (e["id"] in ("W-west-S", "SP-SA-alt") or e["id"].startswith(("SA-", "P-F2-5")))]
+def _san_walls(z0):
+    return [e for e in SAN if e["z"][0] <= z0 + 1.0 <= e["z"][1]]
+def gym_floor(lvl, nm, r, holes=()):
+    zf = lv[lvl]; holes = list(holes)
+    add({"id": f"IN-{lvl}-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(zf - 0.10, 3), round(zf - 0.08, 3)], "holes": [],
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
+    add({"id": f"IN-{lvl}-{nm}-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": r, "z": [round(zf - 0.08, 3), round(zf - 0.038, 3)],
+         "holes": [], "pattern": {"kind": "poured", "joint": 6.0}, "note": "screed with underfloor heating"})
+    add({"id": f"IN-{lvl}-{nm}-pad", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(zf - 0.038, 3), round(zf - 0.03, 3)], "holes": holes,
+         "pattern": {"kind": "poured", "joint": 30.0}, "note": "8 mm acoustic underlay"})
+    add({"id": f"IN-{lvl}-{nm}-floor", "type": "slab", "kind": "floor_finish", "material": "gym_rubber", "rect": r, "z": [round(zf - 0.03, 3), zf], "holes": holes,
+         "pattern": RUB, "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the gym)"})
+def ww_ceiling(lvl, nm, r, z0, holes=()):
+    add({"id": f"IN-{lvl}-{nm}-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal", "rect": r, "z": [round(z0, 3), round(z0 + 0.035, 3)],
+         "holes": list(holes), "pattern": {"kind": "slabs", "w": 0.6, "L": [1.2], "gap": 0.004, "dir": "x", "bond": "stack"},
+         "note": "charcoal wood-wool acoustic panels 600 x 1200 x 35"})
+F2v, F3v = lv["F2"], lv["F3"]
+ZR2 = round(by_id["S-SA-roof"]["z"][0] - 0.035, 3)                   # the F2 rooms' ceiling (under the annex roof)
+w2 = _san_walls(F2v)
+POS = [-28.85, -40.1, -22.6, -34.1]
+line_rooms("posing", "plaster_charcoal", [F2v, ZR2], "pos", walls=w2)
+add({"id": "IN-F2-posing-screed", "type": "slab", "material": "screed", "rect": POS, "z": [round(F2v - 0.10, 3), round(F2v - 0.02, 3)], "holes": [],
+     "note": "impact mat + screed with underfloor heating"})
+add({"id": "IN-F2-posing-floor", "type": "slab", "kind": "floor_finish", "material": "oak_smoked_floor", "rect": POS, "z": [round(F2v - 0.02, 3), F2v], "holes": [],
+     "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "x"}, "note": "smoked oak boards, wire-brushed (the posing room: barefoot)"})
+ww_ceiling("F2", "posing", POS, ZR2)
+PODS = [(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]
+POD_JD, POD_PLAT = 0.5, 2.44                                          # the joinery wall's depth (west), the platform (square)
+def pod_plat(k):
+    """The lifting platform's rect in pod k: centred in the floor east of the joinery, 0.35 m off the rock wall."""
+    a_, b_ = PODS[k]; xa, xb = a_ + 0.075, (b_ - 0.075 if k < 2 else b_ - 0.2)
+    cx = (xa + POD_JD + xb) / 2; y0 = -39.9 + 0.35
+    return [round(cx - POD_PLAT / 2, 3), round(y0, 3), round(cx + POD_PLAT / 2, 3), round(y0 + POD_PLAT, 3)]
+for k, (a_, b_) in enumerate(PODS):
+    nm = f"pod{k + 1}"; r = [a_, -40.1, b_, -34.1]
+    east = "SA-E" if k == 2 else f"P-F2-5{k + 2}"
+    gym_floor("F2", nm, r, holes=[{"rect": pod_plat(k), "note": "the lifting platform, set flush"}])
+    line_rooms(f"pod-{k + 1}", "oak_slats_smoked", [F2v, ZR2], nm, walls=[e for e in w2 if e["id"] != east])
+    rng_ = (0.2, 5.75)
+    lining(east, "steel_skirting", 1, rng_, tag=f"-{nm}-skirt", z=[F2v, round(F2v + 0.15, 3)])
+    lining(east, "mirror", 1, rng_, tag=f"-{nm}-mirror", z=[round(F2v + 0.15, 3), round(F2v + 2.6, 3)])
+    lining(east, "oak_slats_smoked", 1, rng_, tag=f"-{nm}-slats", z=[round(F2v + 2.6, 3), ZR2])
+    ww_ceiling("F2", nm, r, ZR2)
+ALT = [-28.85, -40.1, -14.45, -34.1]
+ZA = round(F3v + 4.1, 3)                                              # the altitude room's suspended ceiling
+ALT_SKY = [-27.4, -38.95, -15.7, -35.3]                               # the sky coffer
+w3 = _san_walls(F3v)
+gym_floor("F3", "altitude", ALT)
+line_rooms("altitude", "slate_courses", [F3v, round(ZA + 0.04, 3)], "alts", walls=w3, only=("SA-S",))
+line_rooms("altitude", "plaster_charcoal", [F3v, round(ZA + 0.04, 3)], "alt", walls=w3, skip=("SA-S",))
+ww_ceiling("F3", "altitude", ALT, ZA, holes=[{"rect": ALT_SKY, "note": "the sky coffer"}])
+
 m["elements"] = els + new
 modelio.save(m)
 print(f"phase-5 elements: {sum(1 for e in m['elements'] if e.get('phase') == 5)}; reception palette {m['interior']['palette']} ({P['name']})")

@@ -301,6 +301,11 @@ els.append({"id": "S-SA-roof", "type": "slab", "material": "concrete", "rect": [
 for L in ("F3", "F2"):
     els.append({"id": f"S-SA-{L}", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv[L] - 0.25, 2), lv[L]], "holes": []})
 els.append({"id": "S-SA-F4", "type": "slab", "material": "concrete", "rect": [-28.85, -40.1, -6.45, -34.1], "z": [round(lv["F4"] - 0.6, 2), lv["F4"]], "holes": []})
+# F3: the altitude room's east wall (Roman 2026-10-18: the rooms, super high quality); behind it, the east bay of the annex holds the
+# hypoxic generators (compressors: loud + warm, kept out of the sealed room), a staff door from the room
+wall("SP-SA-alt", [-14.45, -39.9], [-14.45, -34.35], 0.2, round(lv["F3"] - 0.1, 2), round(lv["F2"] - 0.35, 2), "spine", "concrete")
+els[-1].update(phase=3, seq=int(round((lv["F3"] + 20) * 10)), note="200 mm concrete wall: the sealed altitude room | its hypoxic plant bay",
+               openings=[{"s": [0.5, 1.5], "z": [lv["F3"], round(lv["F3"] + 2.1, 2)], "type": "door", "note": "the altitude plant (staff)"}])
 WA_BODY, WA_NECK = [-38.45, -26.9, -32.45, -16.75], [-32.45, -24.75, -29.45, -18.9]
 for n_, (a_, b_) in {"W": ([-38.45, -26.9], [-38.45, -16.75]), "NB": ([-38.45, -16.75], [-32.45, -16.75]), "NE": ([-32.45, -16.75], [-32.45, -18.9]),
                      "N": ([-32.6, -18.9], [-29.7, -18.9]), "SB": ([-38.45, -26.9], [-32.45, -26.9]), "SE": ([-32.45, -26.9], [-32.45, -24.75]),
