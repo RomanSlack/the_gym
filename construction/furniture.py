@@ -978,13 +978,13 @@ def _nautilus(P, x, rim=0.62):
 
 
 def urinals(P, n=3, pitch=0.85):
-    """Splash-free 'Nautilus' urinals (one lower, rim 0.5, for children) with tall oak privacy screens between them (0.45 deep,
-    0.4 to 1.6 m: you see a screen, never a neighbour) on blackened-steel brackets."""
+    """Splash-free 'Nautilus' urinals (one lower, rim 0.5, for children) with tall oak privacy screens on both sides of every one,
+    the end ones included (Roman 2026-10-18) (0.45 deep, 0.4 to 1.6 m: you see a screen, never a neighbour) on blackened-steel brackets."""
     for k in range(n):
         x = -(n - 1) * pitch / 2 + k * pitch
         _nautilus(P, x, rim=0.5 if k == 0 else 0.62)
-    for k in range(n - 1):
-        x = -(n - 1) * pitch / 2 + (k + 0.5) * pitch
+    for k in range(n + 1):
+        x = -n * pitch / 2 + k * pitch
         P.box(M["oak"], (x, 0.28, 1.0), (0.025, 0.5, 1.2))
         for z in (0.55, 1.45):
             P.box(M["steel"], (x, 0.02, z), (0.04, 0.04, 0.04))
@@ -5551,11 +5551,11 @@ def gym_wc(P, men=True, pool=False, hand=1, Wn=2.635, W=4.785, ub=2.9, L=8.6, H=
                     T.cyl(st, (xs, ys, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (xs, ys, H - 0.014), 0.05, 0.003, seg=24)
             _placed(P, {"wc": wc_kit, "store": store_kit, "acc": acc_kit}[kind], W, (a + b) / 2, math.pi / 2)
         # ---- the spine wall in the body
-        if men:  # four splash-free urinals (one lower) behind fumed oak screens, a grazing light over them
+        if men:  # four splash-free urinals (one lower), a fumed oak screen both sides of each, a grazing light over them
             yu = [3.6, 4.4, 5.2, 6.0]
             for k, y_ in enumerate(yu):
                 _placed(P, lambda T, k=k: _nautilus(T, 0.0, rim=0.5 if k == 0 else 0.62), 0.0, y_, -math.pi / 2)
-            for y_ in (4.0, 4.8, 5.6):
+            for y_ in (3.2, 4.0, 4.8, 5.6, 6.4):                                                  # a screen both sides of every urinal
                 P.box(sm, (0.27, y_, 1.0), (0.5, 0.025, 1.2))
                 for z in (0.55, 1.45):
                     P.box(st, (0.02, y_, z), (0.04, 0.04, 0.04))
