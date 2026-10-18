@@ -524,7 +524,7 @@ The light shell stays: oak floor, ash ceiling, plaster. Play and colour come fro
 - **Touches:**
   - **Grooming bar:** a mirror floating on a halo of warm light, dryers standing in steel holsters, a slate tray per place (amber bottles with brass pumps, an oak comb, cotton pads), walnut and leather stools.
   - **Onsen wash places:** low slatted oak screens (light and air pass), a slate splashback, a warm light under the shelf.
-  - **Water stations:** a slate panel in a steel frame, a chilled tap, birch cups (kåsa). One in each changing room and one in the sauna lobby.
+  - **Water stations:** a slate panel in a steel frame, a chilled tap (no cups: Roman 2026-10-18 found them low-brow; bring your own bottle). One in each changing room and one in the sauna lobby.
 - **The wash zones' light** (Roman: tackle the flat wash zones):
   - An open oak slat canopy at 3.05 m over each wash zone, two-thirds open: the clerestory daylight still comes in, filtered and dappled (light through trees), and the tall wet room gets an intimate height.
   - A blackened-steel "eyelid" sconce over each onsen wash place, a warm pool on the shelf and the stool; general wall lights turned down.

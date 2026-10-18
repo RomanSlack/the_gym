@@ -45,7 +45,7 @@ KINDS = {  # plan size defaults (w along the piece, d front-to-back), height, fr
     "bench": {"label": "Walnut bench", "d": 0.45, "h": 0.45, "mat": "walnut"},
     "peg_rail": {"label": "Hooks (oak pegs on a slat rail)", "d": 0.12, "h": 1.7, "mat": "oak"},
     "towels": {"label": "Towel shelf (fresh, rolled)", "d": 0.4, "h": 1.8, "mat": "oak"},
-    "tap_station": {"label": "Water: slate panel, chilled tap, birch cups", "d": 0.3, "h": 1.2, "mat": "stone"},
+    "tap_station": {"label": "Water: slate panel, chilled tap", "d": 0.3, "h": 1.2, "mat": "stone"},
     "firewood": {"label": "Firewood stacked under the eave (birch)", "d": 0.45, "h": 1.8, "mat": "wood"},
     "sandals": {"label": "Robe hooks + sandal rack (porch)", "d": 0.35, "h": 1.7, "mat": "oak"},
     "porch_bench": {"label": "Porch bench (split log on stones)", "d": 0.4, "h": 0.45, "mat": "wood"},

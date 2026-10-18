@@ -3746,9 +3746,9 @@ def towel_warmer(P, L=1.2):
 
 def tap_station(P):
     """A water station (drink before, during, after): a recessed panel of cleft slate in a blackened-steel frame, a steel spout
-    with a push plate (still, chilled, from the house filter), a slotted drain under it, an oak shelf of turned birch cups (kåsa),
-    no lettering. Origin = the wall at the centre, front +y."""
-    st, oak = M["steel"], M["oak"]
+    with a push plate (still, chilled, from the house filter), a slotted drain under it, no lettering. Members bring their own bottle
+    (Roman 2026-10-18: the cups on top were low-brow; only the cafe's water station keeps glasses). Origin = the wall at the centre, front +y."""
+    st = M["steel"]
     sl = M.setdefault("slate_riven_wf", bc.pbr_material("slate_riven_wf", "slate_floor_03", 0.7, box=True, tint=(0.7, 0.76, 0.82), sat=0.4, val=0.3, rough_add=0.08, piece_var=0.0))
     P.box(st, (0, 0.02, 1.15), (0.66, 0.04, 1.06))
     P.box(sl, (0, 0.035, 1.15), (0.6, 0.02, 1.0))
@@ -3757,11 +3757,6 @@ def tap_station(P):
     P.box(st, (0, 0.11, 0.92), (0.36, 0.16, 0.02))
     for k in range(9):
         P.box(M["felt"], (-0.16 + k * 0.04, 0.11, 0.931), (0.012, 0.13, 0.002))                 # the drain slots
-    P.box(oak, (0, 0.09, 1.6), (0.56, 0.12, 0.025))                                            # cup shelf
-    birch = M.setdefault("birch_turned", bc.material("birch_turned", (0.78, 0.66, 0.5), 0.45))
-    for k in range(4):
-        P.cyl(birch, (-0.2 + k * 0.13, 0.09, 1.613), 0.04, 0.06, seg=20, r2=0.03)
-    P.box(_led("niche_glow", (1.0, 0.74, 0.46), 2.0), (0, 0.06, 1.585), (0.5, 0.01, 0.004))
 
 
 def log_store(P, L=1.2, h=2.0, d=0.35):

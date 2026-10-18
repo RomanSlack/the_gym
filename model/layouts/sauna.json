@@ -2008,7 +2008,7 @@
    "mat": "oak"
   },
   "tap_station": {
-   "label": "Water: slate panel, chilled tap, birch cups",
+   "label": "Water: slate panel, chilled tap",
    "d": 0.3,
    "h": 1.2,
    "mat": "stone"
@@ -2255,7 +2255,7 @@
    "id": "ku-changing-tap_station-1",
    "room": "ku-changing",
    "kind": "tap_station",
-   "label": "Water: slate panel, chilled tap, birch cups",
+   "label": "Water: slate panel, chilled tap",
    "x": -21.15,
    "y": 93.8,
    "w": 0.6,

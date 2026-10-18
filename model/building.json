@@ -22519,10 +22519,10 @@
       "band": 0.39,
       "note": "the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off"
     },
-    {"id": "tap_station-922", "kind": "tap_station", "level": "F2", "at": [-24.0, 11.785], "z": -4.91, "rot_deg": 180, "zone": "gym-f2", "note": "water station: chilled tap, birch cups"},
-    {"id": "tap_station-923", "kind": "tap_station", "level": "F2", "at": [-9.0, -33.785], "z": -4.91, "rot_deg": 0, "zone": "gym-f2", "note": "water station: chilled tap, birch cups"},
-    {"id": "tap_station-924", "kind": "tap_station", "level": "F3", "at": [-11.0, 11.785], "z": -9.77, "rot_deg": 180, "zone": "gym-f3", "note": "water station: chilled tap, birch cups"},
-    {"id": "tap_station-925", "kind": "tap_station", "level": "F3", "at": [-26.0, -33.785], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "water station: chilled tap, birch cups"},
+    {"id": "tap_station-922", "kind": "tap_station", "level": "F2", "at": [-24.0, 11.785], "z": -4.91, "rot_deg": 180, "zone": "gym-f2", "note": "water station: chilled tap (bring your own bottle)"},
+    {"id": "tap_station-923", "kind": "tap_station", "level": "F2", "at": [-9.0, -33.785], "z": -4.91, "rot_deg": 0, "zone": "gym-f2", "note": "water station: chilled tap (bring your own bottle)"},
+    {"id": "tap_station-924", "kind": "tap_station", "level": "F3", "at": [-11.0, 11.785], "z": -9.77, "rot_deg": 180, "zone": "gym-f3", "note": "water station: chilled tap (bring your own bottle)"},
+    {"id": "tap_station-925", "kind": "tap_station", "level": "F3", "at": [-26.0, -33.785], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "water station: chilled tap (bring your own bottle)"},
     {"id": "wipe_station-926", "kind": "wipe_station", "level": "F2", "at": [-13.4, -11.6], "z": -4.91, "rot_deg": 0, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
     {"id": "wipe_station-927", "kind": "wipe_station", "level": "F2", "at": [-27.6, -21.0], "z": -4.91, "rot_deg": 90, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
     {"id": "wipe_station-928", "kind": "wipe_station", "level": "F2", "at": [-8.0, -29.5], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "note": "wipes + bin (placeholder spot: repositioned with the equipment)"},
@@ -22594,7 +22594,7 @@
     {"id": "pictogram-942", "kind": "pictogram", "level": "F2", "at": [-29.19, -22.5], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
     {"id": "pictogram-943", "kind": "pictogram", "level": "F2", "at": [-29.19, -21.15], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "figure": "man", "size": 0.17, "mount": 1.85, "note": "gym WC: man"},
     {"id": "pictogram-944", "kind": "pictogram", "level": "F2", "at": [-29.19, -21.15], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
-    {"id": "tap_station-945", "kind": "tap_station", "level": "F2", "at": [-29.185, -21.825], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "note": "water station between the WC doors: chilled tap, birch cups"},
+    {"id": "tap_station-945", "kind": "tap_station", "level": "F2", "at": [-29.185, -21.825], "z": -4.91, "rot_deg": -90, "zone": "gym-f2", "note": "water station between the WC doors: chilled tap (bring your own bottle)"},
     {
       "id": "core_door-946",
       "kind": "core_door",
@@ -22673,7 +22673,7 @@
     {"id": "pictogram-956", "kind": "pictogram", "level": "F3", "at": [-29.19, -22.5], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
     {"id": "pictogram-957", "kind": "pictogram", "level": "F3", "at": [-29.19, -21.15], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "figure": "man", "size": 0.17, "mount": 1.85, "note": "gym WC: man"},
     {"id": "pictogram-958", "kind": "pictogram", "level": "F3", "at": [-29.19, -21.15], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
-    {"id": "tap_station-959", "kind": "tap_station", "level": "F3", "at": [-29.185, -21.825], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "note": "water station between the WC doors: chilled tap, birch cups"},
+    {"id": "tap_station-959", "kind": "tap_station", "level": "F3", "at": [-29.185, -21.825], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "note": "water station between the WC doors: chilled tap (bring your own bottle)"},
     {
       "id": "core_door-960",
       "kind": "core_door",
@@ -23808,7 +23808,7 @@
     {"id": "pictogram-1262", "kind": "pictogram", "level": "F4", "at": [-29.19, -22.5], "z": -15.39, "rot_deg": -90, "zone": "pool", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
     {"id": "pictogram-1263", "kind": "pictogram", "level": "F4", "at": [-29.19, -21.15], "z": -15.39, "rot_deg": -90, "zone": "pool", "figure": "man", "size": 0.17, "mount": 1.85, "note": "gym WC: man"},
     {"id": "pictogram-1264", "kind": "pictogram", "level": "F4", "at": [-29.19, -21.15], "z": -15.39, "rot_deg": -90, "zone": "pool", "figure": "accessible", "size": 0.17, "mount": 1.6400000000000001, "note": "gym WC: accessible"},
-    {"id": "tap_station-1265", "kind": "tap_station", "level": "F4", "at": [-29.185, -21.825], "z": -15.39, "rot_deg": -90, "zone": "pool", "note": "water station between the WC doors: chilled tap, birch cups"},
+    {"id": "tap_station-1265", "kind": "tap_station", "level": "F4", "at": [-29.185, -21.825], "z": -15.39, "rot_deg": -90, "zone": "pool", "note": "water station between the WC doors: chilled tap (bring your own bottle)"},
     {
       "id": "core_door-1266",
       "kind": "core_door",

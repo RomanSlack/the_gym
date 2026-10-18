@@ -873,7 +873,7 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
         note="the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off")
 for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -9.0, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
     y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)
-    put("tap_station", x, y, rot=rot, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl], note="water station: chilled tap, birch cups")
+    put("tap_station", x, y, rot=rot, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl], note="water station: chilled tap (bring your own bottle)")
 for lvl, x, y in (("F2", -13.4, -11.6), ("F2", -27.6, -21.0), ("F2", -8.0, -29.5), ("F2", -8.0, 4.5), ("F3", -15.2, -20.5), ("F3", -27.6, -6.0),
                   ("F3", -20.5, 5.5), ("F1", -12.8, -30.5), ("F1", -27.6, -27.0)):
     put("wipe_station", x, y, rot=90 if x < -25 else -90 if x > -10 else 0, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl],
@@ -890,7 +890,7 @@ def wc_signs(pz):
     for y, figs in ((-22.5, ("woman", "accessible")), (-21.15, ("man", "accessible"))):
         for k_, fig in enumerate(figs):
             pz("pictogram", XW - 0.015, y, rot=-90, figure=fig, size=0.17, mount=1.85 - k_ * 0.21, note=f"gym WC: {fig}")
-    pz("tap_station", XW - 0.01, -21.825, rot=-90, note="water station between the WC doors: chilled tap, birch cups")
+    pz("tap_station", XW - 0.01, -21.825, rot=-90, note="water station between the WC doors: chilled tap (bring your own bottle)")
 for lvl, slat in (("F2", "oak"), ("F3", "smoked")):
     z_ = lv[lvl]; zn_ = f"gym-{lvl.lower()}"
     for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")) + WC_DOORS:
