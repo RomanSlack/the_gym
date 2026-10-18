@@ -22348,18 +22348,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "light_only-1238",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, -30.25],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, -30.25, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
-    },
-    {
-      "id": "gym_line-1239",
+      "id": "gym_line-1238",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, -22.55],
@@ -22373,7 +22362,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1240",
+      "id": "gym_line-1239",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -22.55],
@@ -22387,7 +22376,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1241",
+      "id": "wall_washer-1240",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -22.55],
@@ -22401,18 +22390,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "light_only-1242",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, -22.55],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, -22.549999999999997, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
-    },
-    {
-      "id": "gym_line-1243",
+      "id": "gym_line-1241",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, -14.85],
@@ -22426,7 +22404,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1244",
+      "id": "gym_line-1242",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -14.85],
@@ -22440,7 +22418,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1245",
+      "id": "wall_washer-1243",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -14.85],
@@ -22454,18 +22432,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "light_only-1246",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, -14.85],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, -14.85, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
-    },
-    {
-      "id": "gym_line-1247",
+      "id": "gym_line-1244",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, -7.15],
@@ -22479,7 +22446,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1248",
+      "id": "gym_line-1245",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -7.15],
@@ -22493,7 +22460,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1249",
+      "id": "wall_washer-1246",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -7.15],
@@ -22507,18 +22474,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "light_only-1250",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, -7.15],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, -7.15, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
-    },
-    {
-      "id": "gym_line-1251",
+      "id": "gym_line-1247",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, 0.55],
@@ -22532,7 +22488,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1252",
+      "id": "gym_line-1248",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, 0.55],
@@ -22546,7 +22502,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1253",
+      "id": "wall_washer-1249",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, 0.55],
@@ -22560,18 +22516,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "light_only-1254",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, 0.55],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, 0.5500000000000003, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
-    },
-    {
-      "id": "wall_washer-1255",
+      "id": "wall_washer-1250",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, 8.25],
@@ -22583,17 +22528,6 @@
       "temp": "3000",
       "light": {"type": "AREA", "energy": 104, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, 8.25, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the ink tile"
-    },
-    {
-      "id": "light_only-1256",
-      "kind": "light_only",
-      "level": "F4",
-      "at": [-7.25, 8.25],
-      "z": -15.39,
-      "rot_deg": 0.0,
-      "zone": "pool",
-      "light": {"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, 5.135000000000001], "aim": [-6.7, 8.25, -14.790000000000001], "color": [1.0, 0.85, 0.68]},
-      "note": "grazer down the black stone"
     }
   ]
 }

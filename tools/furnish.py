@@ -1023,7 +1023,7 @@ for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
 
 # ---- F4, the pool hall (Roman 2026-10-17: blueish dark tile + stone, black stone, white only as accent, no marble; bright but moody).
 # The shell is tools/interior.py ("F4, the pool hall"). Light: the pool lit from underwater (it carries the room), one dim warm line
-# per bay between the beams, wall-washers on the ink tile, a soft grazer down the black stone between the river windows.
+# per bay between the beams, wall-washers on the ink tile (nothing aimed at the river glass: at night the river stays black).
 F4 = lv["F4"]; ZC4 = round(by_id["S-F3-west"]["z"][0] - 0.035 - F4, 3)
 _RW = by_id["W-west-C"]
 put("lap_pool", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the 25 m lap pool: ink mosaic basin, black stone coping, white stone accents")
@@ -1056,9 +1056,6 @@ for ya, yb in zip(BAYS, BAYS[1:]):
     put("wall_washer", -29.45 + 0.6, (a_ + b_) / 2, rot=90, zone="pool", level="F4", z=F4, L=L_, z_ceiling=ZC4, temp="3000",
         light={"type": "AREA", "energy": round(16 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, ZC4 - 0.06],
                "aim": [-29.45, (a_ + b_) / 2, F4 + 1.2], "color": GYM_C["3000"]}, note="wall-washer on the ink tile")
-    put("light_only", -7.25, y, zone="pool", level="F4", z=F4,
-        light={"type": "AREA", "energy": 45, "size": 0.06, "size_y": 3.0, "offset": [0, 0, ZC4 - 0.1], "aim": [-6.7, y, F4 + 0.6],
-               "color": GYM_C["3000"]}, note="grazer down the black stone")
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)

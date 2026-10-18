@@ -780,7 +780,7 @@ def interior_materials():
         "stone_white": pbr_material("stone_white", "smooth_concrete_floor", 1.0, box=True, tint=(1.0, 0.99, 0.97), sat=0.1, val=2.1, rough_mul=0.5, rough_add=0.1, piece_var=0.0),
         "tile_ink": glazed_tile("tile_ink", ((0.018, 0.036, 0.062), (0.026, 0.050, 0.082), (0.014, 0.028, 0.048), (0.034, 0.058, 0.086))),
         "pool_mosaic": pool_mosaic(),
-        "pool_mosaic_black": pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020)),
+        "pool_mosaic_black": pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020), caustics=False),
         "carpet_wool": pbr_material("carpet_wool", "poly_wool_herringbone", 0.27, tint=(1.0, 0.96, 0.9), sat=0.3, val=1.25, piece_var=0.0),
     }
 
@@ -839,8 +839,28 @@ def wood_wool(name="wood_wool", dark=False):
 
 
 
+def caustic(N, L, co, scale=1.4, width=0.09, sharp=2.5):
+    """A caustic net (light focused by a rippled water surface): two warped Voronoi edge fields multiplied, sharpened to bright lines."""
+    out = None
+    for k, sc in enumerate((scale, scale * 1.37)):
+        wp = N.new("ShaderNodeTexNoise"); wp.inputs["Scale"].default_value = 0.8 + k * 0.3; wp.inputs["Detail"].default_value = 2.0
+        L.new(co, wp.inputs["Vector"])
+        sh = N.new("ShaderNodeVectorMath"); sh.operation = "MULTIPLY_ADD"; sh.inputs[1].default_value = (0.35, 0.35, 0.35)
+        L.new(wp.outputs["Color"], sh.inputs[0]); L.new(co, sh.inputs[2])
+        vo = N.new("ShaderNodeTexVoronoi"); vo.feature = "DISTANCE_TO_EDGE"; vo.inputs["Scale"].default_value = sc
+        L.new(sh.outputs[0], vo.inputs["Vector"])
+        r = N.new("ShaderNodeMapRange"); r.inputs[1].default_value = 0.0; r.inputs[2].default_value = width; r.inputs[3].default_value = 1.0; r.inputs[4].default_value = 0.0
+        L.new(vo.outputs["Distance"], r.inputs[0])
+        if out is None:
+            out = r.outputs[0]
+        else:
+            mx = N.new("ShaderNodeMath"); mx.operation = "MAXIMUM"; L.new(out, mx.inputs[0]); L.new(r.outputs[0], mx.inputs[1]); out = mx.outputs[0]
+    pw = N.new("ShaderNodeMath"); pw.operation = "POWER"; pw.inputs[1].default_value = sharp; L.new(out, pw.inputs[0])
+    return pw.outputs[0]
 
-def pool_mosaic(name="pool_mosaic", c1=(0.010, 0.030, 0.060), c2=(0.020, 0.052, 0.090)):
+
+
+def pool_mosaic(name="pool_mosaic", c1=(0.010, 0.030, 0.060), c2=(0.020, 0.052, 0.090), caustics=True):
     """The basin's glass mosaic: 25 mm tiles (a brick texture in stack bond), each tile its own deep blue, dark grout, glossy."""
     m = bpy.data.materials.get(name)
     if m:
@@ -858,7 +878,14 @@ def pool_mosaic(name="pool_mosaic", c1=(0.010, 0.030, 0.060), c2=(0.020, 0.052, 
     br.inputs["Mortar Size"].default_value = 0.0018; br.inputs["Bias"].default_value = 0.0
     br.inputs["Color1"].default_value = (*c1, 1); br.inputs["Color2"].default_value = (*c2, 1); br.inputs["Mortar"].default_value = (0.006, 0.007, 0.009, 1)
     L.new(comb.outputs[0], br.inputs["Vector"])
-    L.new(br.outputs["Color"], b.inputs["Base Color"])
+    if caustics:  # the light focused by the rippled surface, a bright net moving over the floor + walls (Roman: realistic water)
+        c = caustic(N, L, tc.outputs["Object"], 1.3)
+        g = N.new("ShaderNodeMath"); g.operation = "MULTIPLY_ADD"; g.inputs[1].default_value = 2.2; g.inputs[2].default_value = 1.0
+        L.new(c, g.inputs[0])
+        mul = N.new("ShaderNodeVectorMath"); mul.operation = "SCALE"; L.new(br.outputs["Color"], mul.inputs[0]); L.new(g.outputs[0], mul.inputs["Scale"])
+        L.new(mul.outputs[0], b.inputs["Base Color"])
+    else:
+        L.new(br.outputs["Color"], b.inputs["Base Color"])
     rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.08; rr.inputs[4].default_value = 0.6
     L.new(br.outputs["Fac"], rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
     bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.3; bump.inputs["Distance"].default_value = 0.001; bump.invert = True

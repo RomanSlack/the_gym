@@ -4908,7 +4908,7 @@ def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62, lamps
         N_, L_ = mt.node_tree.nodes, mt.node_tree.links
         N_.remove(N_["Principled BSDF"])
         v = N_.new("ShaderNodeVolumePrincipled")
-        v.inputs["Color"].default_value = (0.05, 0.12, 0.11, 1); v.inputs["Density"].default_value = 0.12  # mostly absorbs: pitch black at night
+        v.inputs["Color"].default_value = (0.018, 0.05, 0.045, 1); v.inputs["Density"].default_value = 0.13  # mostly absorbs: black at night, shafts by day
         v.inputs["Absorption Color"].default_value = (0.30, 0.70, 0.62, 1)
         L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
         M["river_body"] = mt
@@ -4916,6 +4916,7 @@ def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62, lamps
     for ly in lamps:                                                                              # the bed lights: small pucks at the wall's foot
         P.box(M["steel"], (x0 + 0.25, ly, lamp_z + 0.04), (0.16, 0.16, 0.08))
         P.box(_led("riverbed_lamp", (0.85, 0.95, 1.0), 6.0), (x0 + 0.25, ly, lamp_z + 0.081), (0.1, 0.1, 0.002))
+
 
 
 BUILDERS = {
