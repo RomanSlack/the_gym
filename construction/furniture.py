@@ -4899,7 +4899,7 @@ def river_wall_f4(P, y0=-34.1, y1=12.1, top=5.2, face=-6.65, d=0.065, windows=()
                 P.box(nero, ((xa + xb) / 2, (a + b) / 2, (wz0 + wz1) / 2), (xb - xa, b - a, wz1 - wz0))
 
 
-def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62):
+def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62, lamps=(), lamp_z=-0.85):
     """The river itself outside F4's windows (it had a surface but no body: the windows looked out through air): a body of water
     from just under the bed to the surface (-8.77), cool green-teal, light falling off with distance so the far bank fades into
     murk. No surface shader: only the volume. Built in the floor's frame (x/y world, z from F4)."""
@@ -4908,11 +4908,14 @@ def river_volume(P, x0=-6.25, x1=8.0, y0=-36.0, y1=14.0, z0=-1.3, z1=6.62):
         N_, L_ = mt.node_tree.nodes, mt.node_tree.links
         N_.remove(N_["Principled BSDF"])
         v = N_.new("ShaderNodeVolumePrincipled")
-        v.inputs["Color"].default_value = (0.18, 0.44, 0.42, 1); v.inputs["Density"].default_value = 0.12
+        v.inputs["Color"].default_value = (0.05, 0.12, 0.11, 1); v.inputs["Density"].default_value = 0.12  # mostly absorbs: pitch black at night
         v.inputs["Absorption Color"].default_value = (0.30, 0.70, 0.62, 1)
         L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
         M["river_body"] = mt
     P.box(M["river_body"], ((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), (x1 - x0, y1 - y0, z1 - z0))
+    for ly in lamps:                                                                              # the bed lights: small pucks at the wall's foot
+        P.box(M["steel"], (x0 + 0.25, ly, lamp_z + 0.04), (0.16, 0.16, 0.08))
+        P.box(_led("riverbed_lamp", (0.85, 0.95, 1.0), 6.0), (x0 + 0.25, ly, lamp_z + 0.081), (0.1, 0.1, 0.002))
 
 
 BUILDERS = {
@@ -4951,7 +4954,7 @@ BUILDERS = {
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
 }
-PARAMS = {"river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

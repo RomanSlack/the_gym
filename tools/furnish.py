@@ -1027,7 +1027,12 @@ for nm, ox, oy, lvl, z0, shaft, front, stops, top, cab, zone in (
 F4 = lv["F4"]; ZC4 = round(by_id["S-F3-west"]["z"][0] - 0.035 - F4, 3)
 _RW = by_id["W-west-C"]
 put("lap_pool", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the 25 m lap pool: ink mosaic basin, black stone coping, white stone accents")
-put("river_volume", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the river outside the windows: its body of water (murk, fall-off)")
+put("river_volume", 0.0, 0.0, zone="pool", level="F4", z=F4, note="the river outside the windows: its body of water (murk, fall-off)",
+    lamps=[round((a + b) / 2, 2) for a, b in zip(BAYS, BAYS[1:])], lamp_z=-0.85)
+for ya, yb in zip(BAYS, BAYS[1:]):  # low lights on the riverbed at the wall's foot (Roman: only the bottom lit; at night nearly pitch black)
+    put("light_only", -6.0, (ya + yb) / 2, zone="pool", level="F4", z=F4,
+        light={"type": "SPOT", "energy": 25, "spot_deg": 110, "blend": 0.9, "radius": 0.05, "offset": [0, 0, -0.72],
+               "aim": [-3.0, (ya + yb) / 2, F4 - 1.2], "color": [0.85, 0.95, 1.0]}, note="riverbed light, aimed down across the bed")
 put("river_wall_f4", 0.0, 0.0, zone="pool", level="F4", z=F4, top=ZC4, note="the river wall: near-black stone round the underwater windows",
     pilasters=[e["at"][1] for e in m["elements"] if e["type"] == "column" and e["id"].startswith("C-C") and e["id"].endswith("-F4")],
     windows=[[round(_RW["from"][1] + o_["s"][0], 3), round(_RW["from"][1] + o_["s"][1], 3), round(o_["z"][0] - F4, 3), round(o_["z"][1] - F4, 3)]
