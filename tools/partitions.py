@@ -41,7 +41,7 @@ DOORS = {
     "dc-wc-low": ["daycare-low"], "dc-rest": ["daycare-low"], "dc-store": ["daycare-low"],
     "dc-nursing": ["daycare-up"],
     "wc-women": ["cafe"], "wc-men": ["cafe"], "game-room": ["garage"],
-    "thermal": ["pool-deck-n", "pool-lobby"], "pool-store": [],
+    "thermal": ["pool-deck-n", "pool-lobby"], "pool-store": [], "plant": ["pool-deck-s"],
 }
 RANK = {"circulation": 0, "lounge": 1, "gym": 2, "daycare": 3, "garage": 4}
 # Roman's principle: no door unless it is needed (privacy, fire, heat, security, cars, sleeping kids).

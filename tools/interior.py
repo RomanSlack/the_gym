@@ -369,7 +369,7 @@ FINISH["tile_ink"] = {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d":
 F4v = lv["F4"]; zs4 = by_id["S-F3-west"]["z"][0]; zt4 = round(zs4 - 0.035, 3)
 POOL4 = [-16.45, -28.1, -6.45, -3.1]
 F4_HOLES = G_CORES + [{"rect": [-16.86, -28.51, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"}, {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
-                      {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"}]
+                      {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"}, {"rect": [-29.45, -34.1, -24.45, -18.7], "note": "the recovery lounge's oak"}]
 PLUNGE4 = [[min(q[0] for q in h_["rect"]), min(q[1] for q in h_["rect"]), max(q[0] for q in h_["rect"]), max(q[1] for q in h_["rect"])]
            for h_ in by_id["S-F4-west"]["holes"][1:]]                       # the thermal suite's plunges (tools/layout_v1.py PLUNGES)
 F4_HOLES += [{"rect": r_, "note": "a plunge (furniture.py plunge)"} for r_ in PLUNGE4]
@@ -389,12 +389,12 @@ for k, yb in enumerate(beams4):
              "z": [round(zz[0], 3), round(zz[1], 3)], "holes": [], "note": "PT beam painted charcoal (the pool hall)"})
 add({"id": "IN-F4-tank-paint", "type": "slab", "material": "paint_charcoal", "rect": [-8.25, -33.82, -6.65, 12.1], "z": [-10.224, -10.22], "holes": [],
      "note": "the underside of the den river's tank, painted charcoal (it showed white over the river wall)"})
-lining("W-west-A", "tile_ink", -1, tag="-F4", z=[F4v, zt4])
+REC4 = [-29.45, -34.1, -24.45, -18.7]                                    # the recovery lounge (plaster + smoked oak, below)
+lining("W-west-A", "tile_ink", -1, s_range=(REC4[3] - REC4[1], 46.2), tag="-F4", z=[F4v, zt4])
 lining("W-west-N", "tile_ink", -1, s_range=(0.0, 5.0), tag="-F4", z=[F4v, zt4])
-lining("W-west-S", "tile_ink", 1, s_range=(0.0, 5.0), tag="-F4-rec", z=[F4v, zt4])
 lining("W-west-S", "tile_ink", 1, s_range=(13.0, 22.8), tag="-F4-deck", z=[F4v, zt4])
 # (the river wall: near-black stone slabs cut round the windows, construction/furniture.py river_wall_f4)
-for wid, sg in (("P-F4-55", -1), ("P-F4-56", -1), ("P-F4-57", -1), ("P-F4-58", 1), ("P-F4-59", 1), ("P-F4-60", 1), ("P-F4-61", -1)):
+for wid, sg in (("P-F4-55", -1), ("P-F4-56", -1), ("P-F4-57", -1), ("P-F4-58", 1), ("P-F4-59", 1), ("P-F4-60", 1)):
     lining(wid, "tile_ink", sg, tag="-pool", z=[F4v, zt4])
 
 # Kilden, the spring, on the bridge axis (y -1.35) between the two locker entries: a 1.6 m niche cut through the men's gallery wall
@@ -567,6 +567,13 @@ _wall4 = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("linin
 line_rooms("thermal", "tile_black", [F4v, zt4], "th", skip=("W-west-C",), walls=_wall4)
 lining("P-F4-54b", "tile_black", -1, s_range=(6.0, 6.095), tag="-th-corner")       # wrap the stair enclosure's corner (its gypsum end showed)
 lining("P-F4-54c", "tile_black", -1, s_range=(-0.095, 0.0), tag="-th-corner")
+# the recovery lounge (Roman 2026-10-17: look up real references; after Remedy Place LA): grey Venetian plaster, smoked oak boards
+FINISH["plaster_venetian"] = {"kind": "skin", "depth": 0.015, "material": "plaster_venetian"}
+lining("W-west-A", "plaster_venetian", -1, s_range=(0.0, REC4[3] - REC4[1]), tag="-F4-rec", z=[F4v, zt4])
+lining("W-west-S", "plaster_venetian", 1, s_range=(0.0, 5.0), tag="-F4-rec", z=[F4v, zt4])
+lining("P-F4-61", "plaster_venetian", -1, tag="-rec", z=[F4v, zt4])
+add({"id": "IN-F4-recovery-floor", "type": "slab", "kind": "floor_finish", "material": "oak_smoked_floor", "rect": REC4, "z": [F4v, round(F4v + 0.02, 3)], "holes": [],
+     "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "y"}, "note": "smoked oak boards, wire-brushed (the recovery lounge)"})
 line_rooms("breathwork", "plaster_charcoal", [F4v, round(by_id["S-SA-F3"]["z"][0], 3)], "bw", walls=_wall4)
 BW = [-28.85, -40.1, -17.5, -34.1]
 add({"id": "IN-F4-breathwork-floor", "type": "slab", "kind": "floor_finish", "material": "carpet_wool", "rect": BW, "z": [F4v, round(F4v + 0.012, 3)], "holes": [],

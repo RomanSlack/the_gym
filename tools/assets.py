@@ -45,6 +45,27 @@ def polyhaven_hdri(hid, res):
     return dst
 
 
+def derive_gridless(src, dst, box):
+    """A texture with a tile grid baked in (e.g. granite_tile_03), made gridless: one clean tile cut out (box = l, t, r, b in px)
+    and mirror-tiled 2 x 2, seamless in every direction; the normal map's x / y flipped where the copy is mirrored."""
+    from PIL import Image, ImageOps
+    s_, d_ = CACHE / "textures" / "polyhaven" / src, CACHE / "textures" / "polyhaven" / dst
+    if (d_ / "diff.jpg").exists():
+        return
+    d_.mkdir(parents=True, exist_ok=True)
+    for name in ("diff", "rough", "nor_gl"):
+        c = Image.open(s_ / f"{name}.jpg").convert("RGB").crop(box)
+        fx, fy = ImageOps.mirror(c), ImageOps.flip(c)
+        fxy = ImageOps.flip(fx)
+        if name == "nor_gl":
+            inv = lambda im, ch: Image.merge("RGB", [ImageOps.invert(b) if i in ch else b for i, b in enumerate(im.split())])
+            fx, fy, fxy = inv(fx, (0,)), inv(fy, (1,)), inv(fxy, (0, 1))
+        w, h = c.size
+        out = Image.new("RGB", (2 * w, 2 * h))
+        out.paste(c, (0, 0)); out.paste(fx, (w, 0)); out.paste(fy, (0, h)); out.paste(fxy, (w, h))
+        out.resize((2048, 2048), Image.LANCZOS).save(d_ / f"{name}.jpg", quality=95)
+
+
 def texture_dir(tid, source="polyhaven"):
     return CACHE / "textures" / source / tid
 
@@ -54,6 +75,7 @@ if __name__ == "__main__":
     for t in man["textures"]:
         if t["source"] == "polyhaven":
             print(t["id"], polyhaven(t["id"], t["res"]))
+    derive_gridless("granite_tile_03", "granite_flamed_gridless", (24, 24, 660, 1000))   # the F4 deck: one clean slab of it
     for h in man.get("hdris", []):
         if h["source"] == "polyhaven":
             print(h["id"], polyhaven_hdri(h["id"], h["res"]))

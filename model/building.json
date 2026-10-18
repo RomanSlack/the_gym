@@ -3131,7 +3131,9 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["pool-deck-s", "plant"],
-      "openings": [],
+      "openings": [
+        {"s": [2.5, 3.5], "z": [-15.39, -13.29], "type": "door", "swing": -1, "note": "Plant room ↔ Pool deck"}
+      ],
       "phase": 5,
       "seq": 46,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
@@ -3147,9 +3149,7 @@
       "z": [-15.39, -10.02],
       "level": "F4",
       "between": ["plant", "recovery"],
-      "openings": [
-        {"s": [7.2, 8.2], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Plant room ↔ Recovery lounge"}
-      ],
+      "openings": [],
       "phase": 5,
       "seq": 46,
       "note": "70 mm timber studs + 2 x 13 mm gypsum each side (122 mm), painted"
@@ -10033,6 +10033,7 @@
         {"rect": [-16.86, -28.51, -6.45, -2.69], "note": "the pool, its coping + overflow grate (lap_pool)"},
         {"rect": [-24.45, -34.1, -16.45, -18.7], "note": "plant room"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair from F3"},
+        {"rect": [-29.45, -34.1, -24.45, -18.7], "note": "the recovery lounge's oak"},
         {"rect": [-9.9, 4.6, -6.45, 7.15], "note": "a plunge (furniture.py plunge)"},
         {"rect": [-9.9, 7.25, -6.45, 9.8], "note": "a plunge (furniture.py plunge)"}
       ],
@@ -10285,18 +10286,16 @@
       "type": "wall",
       "kind": "lining",
       "material": "tile_ink",
-      "from": [-29.19, -34.1],
+      "from": [-29.19, -18.7],
       "to": [-29.19, 12.1],
       "size": [0.02, 5.24],
       "z": [-15.39, -10.155],
       "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
       "openings": [
-        {"s": [11.0, 12.4], "z": [-15.39, -13.09], "type": "door", "note": "core WC annex door"},
-        {"s": [20.6, 21.8], "z": [-15.39, -13.09], "type": "door", "note": "core W1 door (floor landing)"},
-        {"s": [7.55, 8.75], "z": [-15.39, -13.09], "type": "door", "note": "core W2 door (floor landing)"},
-        {"s": [22.2, 24.4], "z": [-15.39, -12.39], "type": "opening", "note": "core W1 glass lift"},
-        {"s": [30.12, 32.27], "z": [-15.39, -12.39], "type": "opening", "note": "men's express lift (glass)"},
-        {"s": [38.92, 41.08], "z": [-15.39, -12.39], "type": "opening", "note": "women's express lift (glass)"}
+        {"s": [5.2, 6.4], "z": [-15.39, -13.09], "type": "door", "note": "core W1 door (floor landing)"},
+        {"s": [6.8, 9.0], "z": [-15.39, -12.39], "type": "opening", "note": "core W1 glass lift"},
+        {"s": [14.72, 16.87], "z": [-15.39, -12.39], "type": "opening", "note": "men's express lift (glass)"},
+        {"s": [23.52, 25.68], "z": [-15.39, -12.39], "type": "opening", "note": "women's express lift (glass)"}
       ],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: tile_ink",
@@ -10315,24 +10314,6 @@
       "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
       "openings": [],
       "face_normal": [0.0, -1.0],
-      "note": "interior lining: tile_ink",
-      "phase": 5,
-      "seq": 46
-    },
-    {
-      "id": "IN-lining-W-west-S-F4-rec",
-      "type": "wall",
-      "kind": "lining",
-      "material": "tile_ink",
-      "from": [-29.45, -33.84],
-      "to": [-24.45, -33.84],
-      "size": [0.02, 5.24],
-      "z": [-15.39, -10.155],
-      "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
-      "openings": [
-        {"s": [2.7, 3.7], "z": [-15.39, -13.09], "type": "door", "note": "breathwork room (off the recovery lounge, clear of the plant room wall)"}
-      ],
-      "face_normal": [-0.0, 1.0],
       "note": "interior lining: tile_ink",
       "phase": 5,
       "seq": 46
@@ -10449,26 +10430,10 @@
       "size": [0.02, 5.24],
       "z": [-15.39, -10.155],
       "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
-      "openings": [],
-      "face_normal": [1.0, 0.0],
-      "note": "interior lining: tile_ink",
-      "phase": 5,
-      "seq": 46
-    },
-    {
-      "id": "IN-lining-P-F4-61-pool",
-      "type": "wall",
-      "kind": "lining",
-      "material": "tile_ink",
-      "from": [-24.535, -18.7],
-      "to": [-24.535, -34.1],
-      "size": [0.02, 5.24],
-      "z": [-15.39, -10.155],
-      "pattern": {"kind": "tiles", "w": 0.065, "h": 0.26, "gap": 0.002, "d": 0.012},
       "openings": [
-        {"s": [7.2, 8.2], "z": [-15.39, -13.29], "type": "door", "swing": 1, "note": "Plant room ↔ Recovery lounge"}
+        {"s": [2.5, 3.5], "z": [-15.39, -13.29], "type": "door", "swing": -1, "note": "Plant room ↔ Pool deck"}
       ],
-      "face_normal": [-1.0, -0.0],
+      "face_normal": [1.0, 0.0],
       "note": "interior lining: tile_ink",
       "phase": 5,
       "seq": 46
@@ -12699,6 +12664,72 @@
       "openings": [],
       "face_normal": [1.0, -0.0],
       "note": "interior lining: tile_black",
+      "phase": 5,
+      "seq": 46
+    },
+    {
+      "id": "IN-lining-W-west-A-F4-rec",
+      "type": "wall",
+      "kind": "lining",
+      "material": "plaster_venetian",
+      "from": [-29.192, -34.1],
+      "to": [-29.192, -18.7],
+      "size": [0.015, 5.24],
+      "z": [-15.39, -10.155],
+      "pattern": {"kind": "skin"},
+      "openings": [
+        {"s": [11.0, 12.4], "z": [-15.39, -13.09], "type": "door", "note": "core WC annex door"},
+        {"s": [7.55, 8.75], "z": [-15.39, -13.09], "type": "door", "note": "core W2 door (floor landing)"}
+      ],
+      "face_normal": [1.0, -0.0],
+      "note": "interior lining: plaster_venetian",
+      "phase": 5,
+      "seq": 46
+    },
+    {
+      "id": "IN-lining-W-west-S-F4-rec",
+      "type": "wall",
+      "kind": "lining",
+      "material": "plaster_venetian",
+      "from": [-29.45, -33.843],
+      "to": [-24.45, -33.843],
+      "size": [0.015, 5.24],
+      "z": [-15.39, -10.155],
+      "pattern": {"kind": "skin"},
+      "openings": [
+        {"s": [2.7, 3.7], "z": [-15.39, -13.09], "type": "door", "note": "breathwork room (off the recovery lounge, clear of the plant room wall)"}
+      ],
+      "face_normal": [-0.0, 1.0],
+      "note": "interior lining: plaster_venetian",
+      "phase": 5,
+      "seq": 46
+    },
+    {
+      "id": "IN-lining-P-F4-61-rec",
+      "type": "wall",
+      "kind": "lining",
+      "material": "plaster_venetian",
+      "from": [-24.532, -18.7],
+      "to": [-24.532, -34.1],
+      "size": [0.015, 5.24],
+      "z": [-15.39, -10.155],
+      "pattern": {"kind": "skin"},
+      "openings": [],
+      "face_normal": [-1.0, -0.0],
+      "note": "interior lining: plaster_venetian",
+      "phase": 5,
+      "seq": 46
+    },
+    {
+      "id": "IN-F4-recovery-floor",
+      "type": "slab",
+      "kind": "floor_finish",
+      "material": "oak_smoked_floor",
+      "rect": [-29.45, -34.1, -24.45, -18.7],
+      "z": [-15.39, -15.37],
+      "holes": [],
+      "pattern": {"kind": "boards", "w": 0.22, "L": [1.8, 2.4], "gap": 0.002, "dir": "y"},
+      "note": "smoked oak boards, wire-brushed (the recovery lounge)",
       "phase": 5,
       "seq": 46
     },
@@ -22728,20 +22759,6 @@
       "id": "gym_line-1235",
       "kind": "gym_line",
       "level": "F4",
-      "at": [-22.925, -30.25],
-      "z": -15.39,
-      "rot_deg": 0,
-      "zone": "pool",
-      "L": 11.95,
-      "z_ceiling": 5.235,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 167, "size": 11.95, "size_y": 0.06, "offset": [0, 0, 5.175000000000001], "aim": [-22.924999999999997, -30.25, -16.39], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
-    },
-    {
-      "id": "gym_line-1236",
-      "kind": "gym_line",
-      "level": "F4",
       "at": [-11.7, -30.25],
       "z": -15.39,
       "rot_deg": 0,
@@ -22753,7 +22770,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1237",
+      "id": "wall_washer-1236",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -30.25],
@@ -22763,25 +22780,11 @@
       "L": 6.5,
       "z_ceiling": 5.235,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 104, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, -30.25, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 39, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, -30.25, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "gym_line-1238",
-      "kind": "gym_line",
-      "level": "F4",
-      "at": [-22.925, -22.55],
-      "z": -15.39,
-      "rot_deg": 0,
-      "zone": "pool",
-      "L": 11.95,
-      "z_ceiling": 5.235,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 167, "size": 11.95, "size_y": 0.06, "offset": [0, 0, 5.175000000000001], "aim": [-22.924999999999997, -22.549999999999997, -16.39], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
-    },
-    {
-      "id": "gym_line-1239",
+      "id": "gym_line-1237",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -22.55],
@@ -22795,7 +22798,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1240",
+      "id": "wall_washer-1238",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -22.55],
@@ -22805,11 +22808,11 @@
       "L": 6.5,
       "z_ceiling": 5.235,
       "temp": "3000",
-      "light": {"type": "AREA", "energy": 104, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, -22.549999999999997, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 39, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, -22.549999999999997, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "gym_line-1241",
+      "id": "gym_line-1239",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, -14.85],
@@ -22823,7 +22826,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1242",
+      "id": "gym_line-1240",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -14.85],
@@ -22837,7 +22840,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1243",
+      "id": "wall_washer-1241",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -14.85],
@@ -22851,7 +22854,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "gym_line-1244",
+      "id": "gym_line-1242",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, -7.15],
@@ -22865,7 +22868,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1245",
+      "id": "gym_line-1243",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, -7.15],
@@ -22879,7 +22882,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1246",
+      "id": "wall_washer-1244",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, -7.15],
@@ -22893,7 +22896,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "gym_line-1247",
+      "id": "gym_line-1245",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.925, 0.55],
@@ -22907,7 +22910,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "gym_line-1248",
+      "id": "gym_line-1246",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.7, 0.55],
@@ -22921,7 +22924,7 @@
       "note": "linear line 3000 K between the beams, dimmed (the pool hall)"
     },
     {
-      "id": "wall_washer-1249",
+      "id": "wall_washer-1247",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, 0.55],
@@ -22935,7 +22938,7 @@
       "note": "wall-washer on the ink tile"
     },
     {
-      "id": "wall_washer-1250",
+      "id": "wall_washer-1248",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-28.85, 8.25],
@@ -22948,13 +22951,13 @@
       "light": {"type": "AREA", "energy": 104, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.175000000000001], "aim": [-29.45, 8.25, -14.190000000000001], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer on the ink tile"
     },
-    {"id": "core_door-1251", "kind": "core_door", "level": "F4", "at": [-29.175, -12.9], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "exit_": true, "note": "core W1 stair (exit)"},
-    {"id": "exit_sign-1252", "kind": "exit_sign", "level": "F4", "at": [-29.195, -12.9], "z": -15.39, "rot_deg": -90, "zone": "pool", "mount": 2.55, "note": "nødutgang: core W1 stair (exit)"},
-    {"id": "core_door-1253", "kind": "core_door", "level": "F4", "at": [-29.175, -25.95], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "exit_": true, "note": "core W2 stair (exit)"},
-    {"id": "exit_sign-1254", "kind": "exit_sign", "level": "F4", "at": [-29.195, -25.95], "z": -15.39, "rot_deg": -90, "zone": "pool", "mount": 2.55, "note": "nødutgang: core W2 stair (exit)"},
-    {"id": "core_door-1255", "kind": "core_door", "level": "F4", "at": [-29.175, -22.4], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.4, "height": 2.3, "finish": "steel", "exit_": false, "note": "the WC annex"},
+    {"id": "core_door-1249", "kind": "core_door", "level": "F4", "at": [-29.175, -12.9], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "exit_": true, "note": "core W1 stair (exit)"},
+    {"id": "exit_sign-1250", "kind": "exit_sign", "level": "F4", "at": [-29.195, -12.9], "z": -15.39, "rot_deg": -90, "zone": "pool", "mount": 2.55, "note": "nødutgang: core W1 stair (exit)"},
+    {"id": "core_door-1251", "kind": "core_door", "level": "F4", "at": [-29.175, -25.95], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "exit_": true, "note": "core W2 stair (exit)"},
+    {"id": "exit_sign-1252", "kind": "exit_sign", "level": "F4", "at": [-29.195, -25.95], "z": -15.39, "rot_deg": -90, "zone": "pool", "mount": 2.55, "note": "nødutgang: core W2 stair (exit)"},
+    {"id": "core_door-1253", "kind": "core_door", "level": "F4", "at": [-29.175, -22.4], "z": -15.39, "rot_deg": -90, "zone": "pool", "width": 1.4, "height": 2.3, "finish": "steel", "exit_": false, "note": "the WC annex"},
     {
-      "id": "core_door-1256",
+      "id": "core_door-1254",
       "kind": "core_door",
       "level": "F4",
       "at": [-9.05, 11.825],
@@ -22967,11 +22970,11 @@
       "exit_": true,
       "note": "core W3, the north exit stair (from the thermal suite)"
     },
-    {"id": "exit_sign-1257", "kind": "exit_sign", "level": "F4", "at": [-9.05, 11.845], "z": -15.39, "rot_deg": 180, "zone": "thermal", "mount": 2.55, "note": "nødutgang: core W3"},
-    {"id": "glass_door-1258", "kind": "glass_door", "level": "F4", "at": [-11.45, 4.4], "z": -15.39, "rot_deg": 0, "zone": "thermal", "width": 1.0, "height": 2.1, "note": "the thermal suite, from the pool deck"},
-    {"id": "glass_door-1259", "kind": "glass_door", "level": "F4", "at": [-24.45, 5.6], "z": -15.39, "rot_deg": 90, "zone": "thermal", "width": 1.0, "height": 2.1, "note": "the thermal suite, from the pool lobby"},
+    {"id": "exit_sign-1255", "kind": "exit_sign", "level": "F4", "at": [-9.05, 11.845], "z": -15.39, "rot_deg": 180, "zone": "thermal", "mount": 2.55, "note": "nødutgang: core W3"},
+    {"id": "glass_door-1256", "kind": "glass_door", "level": "F4", "at": [-11.45, 4.4], "z": -15.39, "rot_deg": 0, "zone": "thermal", "width": 1.0, "height": 2.1, "note": "the thermal suite, from the pool deck"},
+    {"id": "glass_door-1257", "kind": "glass_door", "level": "F4", "at": [-24.45, 5.6], "z": -15.39, "rot_deg": 90, "zone": "thermal", "width": 1.0, "height": 2.1, "note": "the thermal suite, from the pool lobby"},
     {
-      "id": "core_door-1260",
+      "id": "core_door-1258",
       "kind": "core_door",
       "level": "F4",
       "at": [-26.25, -33.825],
@@ -22983,17 +22986,29 @@
       "finish": "smoked",
       "note": "the breathwork room (off the recovery lounge)"
     },
-    {"id": "core_door-1261", "kind": "core_door", "level": "F4", "at": [-12.45, -33.825], "z": -15.39, "rot_deg": 0, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "note": "the pool store"},
-    {"id": "core_door-1262", "kind": "core_door", "level": "F4", "at": [-24.45, -26.4], "z": -15.39, "rot_deg": 90, "zone": "recovery", "width": 1.0, "height": 2.1, "finish": "steel", "note": "the plant room (staff)"},
-    {"id": "safety_point-1263", "kind": "safety_point", "level": "F4", "at": [-29.185, -16.2], "z": -15.39, "rot_deg": -90, "zone": "pool", "note": "AED, extinguisher, first aid, pool rescue"},
-    {"id": "towel_shelf-1264", "kind": "towel_shelf", "level": "F4", "at": [-29.43, 8.9], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.6, "note": "fresh towels"},
-    {"id": "towel_warmer-1265", "kind": "towel_warmer", "level": "F4", "at": [-29.43, 10.7], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.2, "note": "warm towels"},
-    {"id": "robe_wall-1266", "kind": "robe_wall", "level": "F4", "at": [-24.545, 9.0], "z": -15.39, "rot_deg": 90, "zone": "lobby", "length": 4.2, "note": "robe hooks, fresh robes rolled, sandals"},
-    {"id": "stone_bench-1267", "kind": "stone_bench", "level": "F4", "at": [-29.22, 0.4], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 2.2, "note": "sit, sandals off"},
-    {"id": "tap_station-1268", "kind": "tap_station", "level": "F4", "at": [-29.43, 3.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "water"},
-    {"id": "towel_bin-1269", "kind": "towel_bin", "level": "F4", "at": [-29.18, 4.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "used towels"},
+    {"id": "core_door-1259", "kind": "core_door", "level": "F4", "at": [-12.45, -33.825], "z": -15.39, "rot_deg": 0, "zone": "pool", "width": 1.2, "height": 2.3, "finish": "steel", "note": "the pool store"},
     {
-      "id": "gym_line-1270",
+      "id": "core_door-1260",
+      "kind": "core_door",
+      "level": "F4",
+      "at": [-16.45, -31.1],
+      "z": -15.39,
+      "rot_deg": -90,
+      "zone": "pool",
+      "width": 1.0,
+      "height": 2.1,
+      "finish": "steel",
+      "note": "the plant room (staff, off the south deck)"
+    },
+    {"id": "safety_point-1261", "kind": "safety_point", "level": "F4", "at": [-29.185, -16.2], "z": -15.39, "rot_deg": -90, "zone": "pool", "note": "AED, extinguisher, first aid, pool rescue"},
+    {"id": "towel_shelf-1262", "kind": "towel_shelf", "level": "F4", "at": [-29.43, 8.9], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.6, "note": "fresh towels"},
+    {"id": "towel_warmer-1263", "kind": "towel_warmer", "level": "F4", "at": [-29.43, 10.7], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 1.2, "note": "warm towels"},
+    {"id": "robe_wall-1264", "kind": "robe_wall", "level": "F4", "at": [-24.545, 9.0], "z": -15.39, "rot_deg": 90, "zone": "lobby", "length": 4.2, "note": "robe hooks, fresh robes rolled, sandals"},
+    {"id": "stone_bench-1265", "kind": "stone_bench", "level": "F4", "at": [-29.22, 0.4], "z": -15.39, "rot_deg": -90, "zone": "lobby", "length": 2.2, "note": "sit, sandals off"},
+    {"id": "tap_station-1266", "kind": "tap_station", "level": "F4", "at": [-29.43, 3.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "water"},
+    {"id": "towel_bin-1267", "kind": "towel_bin", "level": "F4", "at": [-29.18, 4.0], "z": -15.39, "rot_deg": -90, "zone": "lobby", "note": "used towels"},
+    {
+      "id": "gym_line-1268",
       "kind": "gym_line",
       "level": "F4",
       "at": [-26.75, 8.25],
@@ -23006,60 +23021,219 @@
       "light": {"type": "AREA", "energy": 60, "size": 4.3, "size_y": 0.06, "offset": [0, 0, 5.175000000000001], "aim": [-26.75, 8.25, -16.39], "color": [1.0, 0.85, 0.68]},
       "note": "linear line 3000 K (the pool lobby)"
     },
-    {"id": "pool_lounger-1271", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -16.8], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1272", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -15.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1273", "kind": "deck_table", "level": "F4", "at": [-18.3, -16.2], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "pool_lounger-1274", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -13.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1275", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -12.0], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1276", "kind": "deck_table", "level": "F4", "at": [-18.3, -12.6], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "pool_lounger-1277", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -9.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1278", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -8.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1279", "kind": "deck_table", "level": "F4", "at": [-18.3, -9.0], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "pool_lounger-1280", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -6.0], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1281", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -4.8], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1282", "kind": "deck_table", "level": "F4", "at": [-18.3, -5.4], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "pool_lounger-1283", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -2.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1284", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -1.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1285", "kind": "deck_table", "level": "F4", "at": [-18.3, -1.8], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "pool_lounger-1286", "kind": "pool_lounger", "level": "F4", "at": [-18.95, 1.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "pool_lounger-1287", "kind": "pool_lounger", "level": "F4", "at": [-18.95, 2.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
-    {"id": "deck_table-1288", "kind": "deck_table", "level": "F4", "at": [-18.3, 1.8], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
-    {"id": "towel_bin-1289", "kind": "towel_bin", "level": "F4", "at": [-21.6, -17.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
-    {"id": "towel_bin-1290", "kind": "towel_bin", "level": "F4", "at": [-21.6, 3.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
-    {"id": "recovery_recliner-1291", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -19.9], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1292", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -21.4], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1293", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -22.9], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1294", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -24.4], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1295", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -28.4], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1296", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -29.9], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "recovery_recliner-1297", "kind": "recovery_recliner", "level": "F4", "at": [-25.595, -31.4], "z": -15.39, "rot_deg": 90, "zone": "recovery", "boots": true, "note": "recovery recliner + air-compression boots"},
-    {"id": "tap_station-1298", "kind": "tap_station", "level": "F4", "at": [-29.43, -24.4], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "water"},
-    {"id": "blanket_basket-1299", "kind": "blanket_basket", "level": "F4", "at": [-29.08, -19.4], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "note": "wool blankets"},
-    {"id": "towel_bin-1300", "kind": "towel_bin", "level": "F4", "at": [-28.4, -33.6], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "note": "used towels"},
+    {"id": "plant_pot-1269", "kind": "plant_pot", "level": "F4", "at": [-28.7, 11.3], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "kentia", "h": 2.2, "r": 0.34, "note": "greenery (under the warm lines)"},
+    {"id": "plant_pot-1270", "kind": "plant_pot", "level": "F4", "at": [-25.2, -3.9], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "kentia", "h": 2.0, "r": 0.32, "note": "greenery (under the warm lines)"},
+    {"id": "plant_pot-1271", "kind": "plant_pot", "level": "F4", "at": [-28.9, -6.0], "z": -15.39, "rot_deg": 0.0, "zone": "lobby", "species": "sansevieria", "h": 1.1, "r": 0.24, "note": "greenery (under the warm lines)"},
+    {"id": "pool_lounger-1272", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -16.8], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1273", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -15.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1274", "kind": "deck_table", "level": "F4", "at": [-18.3, -16.2], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "pool_lounger-1275", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -13.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1276", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -12.0], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1277", "kind": "deck_table", "level": "F4", "at": [-18.3, -12.6], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "pool_lounger-1278", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -9.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1279", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -8.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1280", "kind": "deck_table", "level": "F4", "at": [-18.3, -9.0], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "pool_lounger-1281", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -6.0], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1282", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -4.8], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1283", "kind": "deck_table", "level": "F4", "at": [-18.3, -5.4], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "pool_lounger-1284", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -2.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1285", "kind": "pool_lounger", "level": "F4", "at": [-18.95, -1.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1286", "kind": "deck_table", "level": "F4", "at": [-18.3, -1.8], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "pool_lounger-1287", "kind": "pool_lounger", "level": "F4", "at": [-18.95, 1.2], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "pool_lounger-1288", "kind": "pool_lounger", "level": "F4", "at": [-18.95, 2.4], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "pool lounger"},
+    {"id": "deck_table-1289", "kind": "deck_table", "level": "F4", "at": [-18.3, 1.8], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "d": 0.42, "h": 0.4, "note": "a little granite table between the loungers"},
+    {"id": "towel_bin-1290", "kind": "towel_bin", "level": "F4", "at": [-21.6, -17.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
+    {"id": "towel_bin-1291", "kind": "towel_bin", "level": "F4", "at": [-21.6, 3.6], "z": -15.39, "rot_deg": -90, "zone": "deck", "note": "used towels"},
+    {"id": "plant_pot-1292", "kind": "plant_pot", "level": "F4", "at": [-20.9, -14.4], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
+    {"id": "plant_pot-1293", "kind": "plant_pot", "level": "F4", "at": [-20.9, -7.2], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
+    {"id": "plant_pot-1294", "kind": "plant_pot", "level": "F4", "at": [-20.9, 0.0], "z": -15.39, "rot_deg": 0.0, "zone": "deck", "species": "kentia", "h": 2.1, "r": 0.32, "note": "kentia palm between the loungers"},
     {
-      "id": "light_only-1301",
+      "id": "recovery_bay-1295",
+      "kind": "recovery_bay",
+      "level": "F4",
+      "at": [-24.55, -20.6],
+      "z": -15.39,
+      "rot_deg": 90,
+      "zone": "recovery",
+      "w": 2.4,
+      "d": 2.5,
+      "ceiling": 5.235,
+      "end": false,
+      "note": "recovery bay: velvet daybed, curtains, boots, reading light, globe"
+    },
+    {
+      "id": "light_only-1296",
       "kind": "light_only",
       "level": "F4",
-      "at": [-25.645, -22.15],
+      "at": [-25.02, -19.78],
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "recovery",
-      "light": {"type": "AREA", "energy": 70, "size": 2.6, "size_y": 0.5, "offset": [0, 0, 5.175000000000001], "aim": [-25.645, -22.15, -15.39], "color": [1.0, 0.8, 0.6]},
-      "note": "recovery: a low warm pool of light"
+      "light": {"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+      "note": "the bay's opal globe"
+    },
+    {
+      "id": "light_only-1297",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-24.89, -20.15],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -20.6, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
+      "note": "the bay's reading light"
+    },
+    {
+      "id": "recovery_bay-1298",
+      "kind": "recovery_bay",
+      "level": "F4",
+      "at": [-24.55, -23.0],
+      "z": -15.39,
+      "rot_deg": 90,
+      "zone": "recovery",
+      "w": 2.4,
+      "d": 2.5,
+      "ceiling": 5.235,
+      "end": false,
+      "note": "recovery bay: velvet daybed, curtains, boots, reading light, globe"
+    },
+    {
+      "id": "light_only-1299",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-25.02, -22.18],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+      "note": "the bay's opal globe"
+    },
+    {
+      "id": "light_only-1300",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-24.89, -22.55],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -23.0, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
+      "note": "the bay's reading light"
+    },
+    {
+      "id": "recovery_bay-1301",
+      "kind": "recovery_bay",
+      "level": "F4",
+      "at": [-24.55, -25.4],
+      "z": -15.39,
+      "rot_deg": 90,
+      "zone": "recovery",
+      "w": 2.4,
+      "d": 2.5,
+      "ceiling": 5.235,
+      "end": false,
+      "note": "recovery bay: velvet daybed, curtains, boots, reading light, globe"
     },
     {
       "id": "light_only-1302",
       "kind": "light_only",
       "level": "F4",
-      "at": [-25.645, -30.15],
+      "at": [-25.02, -24.58],
       "z": -15.39,
       "rot_deg": 0.0,
       "zone": "recovery",
-      "light": {"type": "AREA", "energy": 70, "size": 2.6, "size_y": 0.5, "offset": [0, 0, 5.175000000000001], "aim": [-25.645, -30.15, -15.39], "color": [1.0, 0.8, 0.6]},
-      "note": "recovery: a low warm pool of light"
+      "light": {"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+      "note": "the bay's opal globe"
     },
     {
-      "id": "sauna_cabin-1303",
+      "id": "light_only-1303",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-24.89, -24.95],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -25.4, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
+      "note": "the bay's reading light"
+    },
+    {
+      "id": "recovery_bay-1304",
+      "kind": "recovery_bay",
+      "level": "F4",
+      "at": [-24.55, -27.8],
+      "z": -15.39,
+      "rot_deg": 90,
+      "zone": "recovery",
+      "w": 2.4,
+      "d": 2.5,
+      "ceiling": 5.235,
+      "end": false,
+      "note": "recovery bay: velvet daybed, curtains, boots, reading light, globe"
+    },
+    {
+      "id": "light_only-1305",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-25.02, -26.98],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+      "note": "the bay's opal globe"
+    },
+    {
+      "id": "light_only-1306",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-24.89, -27.35],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -27.8, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
+      "note": "the bay's reading light"
+    },
+    {
+      "id": "recovery_bay-1307",
+      "kind": "recovery_bay",
+      "level": "F4",
+      "at": [-24.55, -30.2],
+      "z": -15.39,
+      "rot_deg": 90,
+      "zone": "recovery",
+      "w": 2.4,
+      "d": 2.5,
+      "ceiling": 5.235,
+      "end": true,
+      "note": "recovery bay: velvet daybed, curtains, boots, reading light, globe"
+    },
+    {
+      "id": "light_only-1308",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-25.02, -29.38],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+      "note": "the bay's opal globe"
+    },
+    {
+      "id": "light_only-1309",
+      "kind": "light_only",
+      "level": "F4",
+      "at": [-24.89, -29.75],
+      "z": -15.39,
+      "rot_deg": 0.0,
+      "zone": "recovery",
+      "light": {"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28], "aim": [-25.150000000000002, -30.2, -14.940000000000001], "color": [1.0, 0.8, 0.58]},
+      "note": "the bay's reading light"
+    },
+    {"id": "tap_station-1310", "kind": "tap_station", "level": "F4", "at": [-29.43, -24.4], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "water"},
+    {"id": "plant_pot-1311", "kind": "plant_pot", "level": "F4", "at": [-28.6, -32.6], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "species": "kentia", "h": 1.9, "r": 0.3, "note": "kentia palm"},
+    {"id": "plant_pot-1312", "kind": "plant_pot", "level": "F4", "at": [-25.2, -32.9], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "species": "sansevieria", "h": 1.0, "r": 0.2, "note": "sansevieria"},
+    {"id": "towel_bin-1313", "kind": "towel_bin", "level": "F4", "at": [-28.9, -19.6], "z": -15.39, "rot_deg": -90, "zone": "recovery", "note": "used towels"},
+    {"id": "blanket_basket-1314", "kind": "blanket_basket", "level": "F4", "at": [-28.85, -20.3], "z": -15.39, "rot_deg": 0.0, "zone": "recovery", "note": "wool blankets"},
+    {
+      "id": "sauna_cabin-1315",
       "kind": "sauna_cabin",
       "level": "F4",
       "at": [-22.95, 7.4],
@@ -23072,13 +23246,13 @@
       "door": -0.65,
       "note": "the sauna: thermo-aspen, bronze glass front"
     },
-    {"id": "sauna_tier-1304", "kind": "sauna_tier", "level": "F4", "at": [-22.95, 11.53], "z": -15.39, "rot_deg": 180, "zone": "thermal", "L": 2.77, "d": 0.6, "seat": 1.0, "back": true, "note": "sauna tier"},
-    {"id": "sauna_tier-1305", "kind": "sauna_tier", "level": "F4", "at": [-22.95, 10.93], "z": -15.39, "rot_deg": 180, "zone": "thermal", "L": 2.77, "d": 0.6, "seat": 0.5, "back": false, "note": "sauna tier"},
-    {"id": "sauna_heater_el-1306", "kind": "sauna_heater_el", "level": "F4", "at": [-22.095, 8.1], "z": -15.39, "rot_deg": 0, "zone": "thermal", "note": "electric sauna heater, soapstone"},
-    {"id": "sauna_bucket-1307", "kind": "sauna_bucket", "level": "F4", "at": [-23.955, 10.23], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "note": "löyly bucket + ladle"},
-    {"id": "sauna_gauges-1308", "kind": "sauna_gauges", "level": "F4", "at": [-21.545, 9.2], "z": -15.39, "rot_deg": 90, "zone": "thermal", "note": "thermometer, hygrometer, sand timer"},
+    {"id": "sauna_tier-1316", "kind": "sauna_tier", "level": "F4", "at": [-22.95, 11.53], "z": -15.39, "rot_deg": 180, "zone": "thermal", "L": 2.77, "d": 0.6, "seat": 1.0, "back": true, "note": "sauna tier"},
+    {"id": "sauna_tier-1317", "kind": "sauna_tier", "level": "F4", "at": [-22.95, 10.93], "z": -15.39, "rot_deg": 180, "zone": "thermal", "L": 2.77, "d": 0.6, "seat": 0.5, "back": false, "note": "sauna tier"},
+    {"id": "sauna_heater_el-1318", "kind": "sauna_heater_el", "level": "F4", "at": [-22.095, 8.1], "z": -15.39, "rot_deg": 0, "zone": "thermal", "note": "electric sauna heater, soapstone"},
+    {"id": "sauna_bucket-1319", "kind": "sauna_bucket", "level": "F4", "at": [-23.955, 10.23], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "note": "löyly bucket + ladle"},
+    {"id": "sauna_gauges-1320", "kind": "sauna_gauges", "level": "F4", "at": [-21.545, 9.2], "z": -15.39, "rot_deg": 90, "zone": "thermal", "note": "thermometer, hygrometer, sand timer"},
     {
-      "id": "light_only-1309",
+      "id": "light_only-1321",
       "kind": "light_only",
       "level": "F4",
       "at": [-22.95, 11.58],
@@ -23088,12 +23262,12 @@
       "light": {"type": "AREA", "energy": 30, "size": 2.4, "size_y": 0.15, "offset": [0, 0, 2.2], "aim": [-22.95, 11.58, -14.59], "color": [1.0, 0.68, 0.42]},
       "note": "sauna: warm light behind the backrest"
     },
-    {"id": "stone_bench-1310", "kind": "stone_bench", "level": "F4", "at": [-23.2, 4.705], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "length": 1.6, "note": "rest"},
-    {"id": "peg_rail-1311", "kind": "peg_rail", "level": "F4", "at": [-24.355, 6.6], "z": -15.39, "rot_deg": -90, "zone": "thermal", "L": 1.2, "note": "robe hooks by the sauna"},
-    {"id": "rinse_shower-1312", "kind": "rinse_shower", "level": "F4", "at": [-18.45, 7.005], "z": -15.39, "rot_deg": 180, "zone": "thermal", "n": 3, "pitch": 1.4, "note": "rinse showers (before the sauna)"},
-    {"id": "tap_station-1313", "kind": "tap_station", "level": "F4", "at": [-20.6, 4.495], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "note": "water"},
+    {"id": "stone_bench-1322", "kind": "stone_bench", "level": "F4", "at": [-23.2, 4.705], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "length": 1.6, "note": "rest"},
+    {"id": "peg_rail-1323", "kind": "peg_rail", "level": "F4", "at": [-24.355, 6.6], "z": -15.39, "rot_deg": -90, "zone": "thermal", "L": 1.2, "note": "robe hooks by the sauna"},
+    {"id": "rinse_shower-1324", "kind": "rinse_shower", "level": "F4", "at": [-18.45, 7.005], "z": -15.39, "rot_deg": 180, "zone": "thermal", "n": 3, "pitch": 1.4, "note": "rinse showers (before the sauna)"},
+    {"id": "tap_station-1325", "kind": "tap_station", "level": "F4", "at": [-20.6, 4.495], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "note": "water"},
     {
-      "id": "steam_room-1314",
+      "id": "steam_room-1326",
       "kind": "steam_room",
       "level": "F4",
       "at": [-13.878, 8.0],
@@ -23106,11 +23280,11 @@
       "door": -0.95,
       "note": "the steam room: ink mosaic, clear glass front"
     },
-    {"id": "rinse_shower-1315", "kind": "rinse_shower", "level": "F4", "at": [-13.9, 4.495], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "n": 2, "pitch": 1.1, "note": "rinse showers (after the steam, before the plunge)"},
-    {"id": "plunge-1316", "kind": "plunge", "level": "F4", "at": [-8.308, 5.875], "z": -15.39, "rot_deg": 90, "zone": "thermal", "w": 2.55, "d": 3.185, "hot": false, "note": "cold plunge (6 °C), on the river window"},
-    {"id": "plunge-1317", "kind": "plunge", "level": "F4", "at": [-8.308, 8.525], "z": -15.39, "rot_deg": 90, "zone": "thermal", "w": 2.55, "d": 3.185, "hot": true, "note": "hot plunge (40 °C), on the river window"},
+    {"id": "rinse_shower-1327", "kind": "rinse_shower", "level": "F4", "at": [-13.9, 4.495], "z": -15.39, "rot_deg": 0.0, "zone": "thermal", "n": 2, "pitch": 1.1, "note": "rinse showers (after the steam, before the plunge)"},
+    {"id": "plunge-1328", "kind": "plunge", "level": "F4", "at": [-8.308, 5.875], "z": -15.39, "rot_deg": 90, "zone": "thermal", "w": 2.55, "d": 3.185, "hot": false, "note": "cold plunge (6 °C), on the river window"},
+    {"id": "plunge-1329", "kind": "plunge", "level": "F4", "at": [-8.308, 8.525], "z": -15.39, "rot_deg": 90, "zone": "thermal", "w": 2.55, "d": 3.185, "hot": true, "note": "hot plunge (40 °C), on the river window"},
     {
-      "id": "gym_line-1318",
+      "id": "gym_line-1330",
       "kind": "gym_line",
       "level": "F4",
       "at": [-18.45, 5.6],
@@ -23124,7 +23298,7 @@
       "note": "linear line 3000 K, dim (the thermal suite)"
     },
     {
-      "id": "gym_line-1319",
+      "id": "gym_line-1331",
       "kind": "gym_line",
       "level": "F4",
       "at": [-11.15, 8.0],
@@ -23138,7 +23312,7 @@
       "note": "linear line 3000 K, dim (the thermal suite)"
     },
     {
-      "id": "gym_line-1320",
+      "id": "gym_line-1332",
       "kind": "gym_line",
       "level": "F4",
       "at": [-8.3, 7.2],
@@ -23152,7 +23326,7 @@
       "note": "linear line 3000 K, dim (the thermal suite)"
     },
     {
-      "id": "gym_line-1321",
+      "id": "gym_line-1333",
       "kind": "gym_line",
       "level": "F4",
       "at": [-22.9, 5.9],
@@ -23166,7 +23340,7 @@
       "note": "linear line 3000 K, dim (the thermal suite)"
     },
     {
-      "id": "wall_washer-1322",
+      "id": "wall_washer-1334",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-13.9, 11.23],
@@ -23180,7 +23354,7 @@
       "note": "wall-washer on the black tile"
     },
     {
-      "id": "wall_washer-1323",
+      "id": "wall_washer-1335",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-8.35, 11.23],
@@ -23194,7 +23368,7 @@
       "note": "wall-washer on the black tile"
     },
     {
-      "id": "wall_washer-1324",
+      "id": "wall_washer-1336",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-20.4, 5.095],
@@ -23208,7 +23382,7 @@
       "note": "wall-washer on the black tile"
     },
     {
-      "id": "wall_washer-1325",
+      "id": "wall_washer-1337",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-13.75, 5.095],
@@ -23222,7 +23396,7 @@
       "note": "wall-washer on the black tile"
     },
     {
-      "id": "wall_washer-1326",
+      "id": "wall_washer-1338",
       "kind": "wall_washer",
       "level": "F4",
       "at": [-8.75, 5.095],
@@ -23236,7 +23410,7 @@
       "note": "wall-washer on the black tile"
     },
     {
-      "id": "light_only-1327",
+      "id": "light_only-1339",
       "kind": "light_only",
       "level": "F4",
       "at": [-13.878, 9.915],
@@ -23246,17 +23420,17 @@
       "light": {"type": "AREA", "energy": 18, "size": 1.6, "size_y": 1.6, "offset": [0, 0, 2.38], "aim": [-13.877500000000001, 9.915, -15.39], "color": [1.0, 0.8, 0.55]},
       "note": "steam room: a soft warm glow under the ceiling"
     },
-    {"id": "breath_mat-1328", "kind": "breath_mat", "level": "F4", "at": [-21.491, -36.442], "z": -15.39, "rot_deg": 112.5, "zone": "breathwork", "colour": "oat", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1329", "kind": "breath_mat", "level": "F4", "at": [-22.492, -35.441], "z": -15.39, "rot_deg": 157.5, "zone": "breathwork", "colour": "moss", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1330", "kind": "breath_mat", "level": "F4", "at": [-23.908, -35.441], "z": -15.39, "rot_deg": 202.5, "zone": "breathwork", "colour": "fjord", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1331", "kind": "breath_mat", "level": "F4", "at": [-24.909, -36.442], "z": -15.39, "rot_deg": 247.5, "zone": "breathwork", "colour": "heather", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1332", "kind": "breath_mat", "level": "F4", "at": [-24.909, -37.858], "z": -15.39, "rot_deg": 292.5, "zone": "breathwork", "colour": "oat", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1333", "kind": "breath_mat", "level": "F4", "at": [-23.908, -38.859], "z": -15.39, "rot_deg": 337.5, "zone": "breathwork", "colour": "moss", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1334", "kind": "breath_mat", "level": "F4", "at": [-22.492, -38.859], "z": -15.39, "rot_deg": 382.5, "zone": "breathwork", "colour": "fjord", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "breath_mat-1335", "kind": "breath_mat", "level": "F4", "at": [-21.491, -37.858], "z": -15.39, "rot_deg": 427.5, "zone": "breathwork", "colour": "heather", "note": "breathwork mat, bolster, blanket, eye pillow"},
-    {"id": "mat_shelf-1336", "kind": "mat_shelf", "level": "F4", "at": [-28.835, -37.1], "z": -15.39, "rot_deg": -90, "zone": "breathwork", "length": 2.4, "note": "spare mats + bolsters"},
+    {"id": "breath_mat-1340", "kind": "breath_mat", "level": "F4", "at": [-21.491, -36.442], "z": -15.39, "rot_deg": 112.5, "zone": "breathwork", "colour": "oat", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1341", "kind": "breath_mat", "level": "F4", "at": [-22.492, -35.441], "z": -15.39, "rot_deg": 157.5, "zone": "breathwork", "colour": "moss", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1342", "kind": "breath_mat", "level": "F4", "at": [-23.908, -35.441], "z": -15.39, "rot_deg": 202.5, "zone": "breathwork", "colour": "fjord", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1343", "kind": "breath_mat", "level": "F4", "at": [-24.909, -36.442], "z": -15.39, "rot_deg": 247.5, "zone": "breathwork", "colour": "heather", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1344", "kind": "breath_mat", "level": "F4", "at": [-24.909, -37.858], "z": -15.39, "rot_deg": 292.5, "zone": "breathwork", "colour": "oat", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1345", "kind": "breath_mat", "level": "F4", "at": [-23.908, -38.859], "z": -15.39, "rot_deg": 337.5, "zone": "breathwork", "colour": "moss", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1346", "kind": "breath_mat", "level": "F4", "at": [-22.492, -38.859], "z": -15.39, "rot_deg": 382.5, "zone": "breathwork", "colour": "fjord", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "breath_mat-1347", "kind": "breath_mat", "level": "F4", "at": [-21.491, -37.858], "z": -15.39, "rot_deg": 427.5, "zone": "breathwork", "colour": "heather", "note": "breathwork mat, bolster, blanket, eye pillow"},
+    {"id": "mat_shelf-1348", "kind": "mat_shelf", "level": "F4", "at": [-28.835, -37.1], "z": -15.39, "rot_deg": -90, "zone": "breathwork", "length": 2.4, "note": "spare mats + bolsters"},
     {
-      "id": "floor_grazer-1337",
+      "id": "floor_grazer-1349",
       "kind": "floor_grazer",
       "level": "F4",
       "at": [-23.2, -34.415],
@@ -23268,7 +23442,7 @@
       "note": "a warm wash up the plaster from a slot in the floor"
     },
     {
-      "id": "floor_grazer-1338",
+      "id": "floor_grazer-1350",
       "kind": "floor_grazer",
       "level": "F4",
       "at": [-23.2, -39.835],

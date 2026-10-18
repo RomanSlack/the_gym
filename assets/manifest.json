@@ -1,219 +1,254 @@
 {
-  "note": "Downloaded inputs only (textures, HDRIs). Every model/asset is generated in this project (Roman, 2026-10-11). Files are cached outside git in ~/.cache/the_gym/; run tools/assets.py to fetch. All CC0.",
-  "textures": [
-    {
-      "source": "polyhaven",
-      "id": "pine_bark",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "Scots pine lower trunk (grey-brown plates)"
-    },
-    {
-      "source": "polyhaven",
-      "id": "knotted_pine_bark",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "pine branches"
-    },
-    {
-      "source": "polyhaven",
-      "id": "tree_bark_03",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "Norway spruce trunk"
-    },
-    {
-      "source": "polyhaven",
-      "id": "forest_floor",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "forest floor (needles, moss)"
-    },
-    {
-      "source": "polyhaven",
-      "id": "forest_leaves_04",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "pine-forest floor variation"
-    },
-    {
-      "source": "polyhaven",
-      "id": "mossy_rock",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "rock outcrops, cliff faces"
-    },
-    {
-      "source": "polyhaven",
-      "id": "sparse_grass",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "meadow / sod roof base"
-    },
-    {
-      "source": "polyhaven",
-      "id": "withered_grass",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "dry grass variation"
-    },
-    {
-      "source": "polyhaven",
-      "id": "gravel_ground_01",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "paths, trail"
-    },
-    {
-      "source": "polyhaven",
-      "id": "dark_rock",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "granite cliff blocks"
-    },
-    {
-      "source": "polyhaven",
-      "id": "lichen_rock",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "cliff blocks, lichen"
-    },
-    {
-      "source": "polyhaven",
-      "id": "quarry_wall",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "fresh-cut rock faces"
-    },
-    {
-      "source": "polyhaven",
-      "id": "river_small_rocks",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "riverbed under the water"
-    },
-    {
-      "source": "polyhaven",
-      "id": "oak_veneer_01",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "oak floor boards, slats, linings"
-    },
-    {
-      "source": "polyhaven",
-      "id": "coated_pine_02",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "spruce CLT / glulam faces"
-    },
-    {
-      "source": "polyhaven",
-      "id": "white_plaster_02",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "lime plaster walls"
-    },
-    {
-      "source": "polyhaven",
-      "id": "smooth_concrete_floor",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "poured / polished concrete floor"
-    },
-    {
-      "source": "polyhaven",
-      "id": "slate_floor_03",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "honed slate reference"
-    },
-    {
-      "source": "polyhaven",
-      "id": "granite_tile",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "honed granite surface"
-    },
-    {
-      "source": "polyhaven",
-      "id": "brown_leather",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "cognac leather (seats, pulls)"
-    },
-    {
-      "source": "polyhaven",
-      "id": "wool_boucle",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "cream boucle upholstery"
-    },
-    {
-      "source": "polyhaven",
-      "id": "curly_teddy_natural",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "sheepskin throws"
-    },
-    {
-      "source": "polyhaven",
-      "id": "rough_linen",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "linen lamp diffusers"
-    },
-    {
-      "source": "polyhaven",
-      "id": "poly_wool_herringbone",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "wool rugs"
-    },
-    {
-      "source": "polyhaven",
-      "id": "caban",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "wool upholstery (plain, felted)"
-    },
-    {
-      "source": "polyhaven",
-      "id": "natural_walnut_veneer",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "walnut: loose furniture (contrast to the oak floor)"
-    },
-    {
-      "source": "polyhaven",
-      "id": "ash_veneer",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "pale ash: wave ceiling baffles"
-    },
-    {
-      "source": "polyhaven",
-      "id": "black_painted_planks",
-      "res": "2k",
-      "license": "CC0",
-      "used_for": "black-stained / tarred timber: cladding, facade posts, header band"
-    }
-  ],
-  "hdris": [
-    {
-      "source": "polyhaven",
-      "id": "kloofendal_48d_partly_cloudy_puresky",
-      "res": "4k",
-      "license": "CC0",
-      "used_for": "default sky: partly cloudy, sunny midday (sun in the HDRI, rotated to come from the south-west)"
-    }
-  ],
-  "data": [
-    {
-      "source": "NIBIO SR16 (WMS skogressurs_sr16)",
-      "license": "CC BY 4.0, (c) NIBIO",
-      "used_for": "forest species / height / cover / site index at the site",
-      "derived": "model/forest_sr16.npz",
-      "fetch": "tools/forest_data.py"
-    }
-  ]
+ "note": "Downloaded inputs only (textures, HDRIs). Every model/asset is generated in this project (Roman, 2026-10-11). Files are cached outside git in ~/.cache/the_gym/; run tools/assets.py to fetch. All CC0.",
+ "textures": [
+  {
+   "source": "polyhaven",
+   "id": "pine_bark",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "Scots pine lower trunk (grey-brown plates)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "knotted_pine_bark",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "pine branches"
+  },
+  {
+   "source": "polyhaven",
+   "id": "tree_bark_03",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "Norway spruce trunk"
+  },
+  {
+   "source": "polyhaven",
+   "id": "forest_floor",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "forest floor (needles, moss)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "forest_leaves_04",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "pine-forest floor variation"
+  },
+  {
+   "source": "polyhaven",
+   "id": "mossy_rock",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "rock outcrops, cliff faces"
+  },
+  {
+   "source": "polyhaven",
+   "id": "sparse_grass",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "meadow / sod roof base"
+  },
+  {
+   "source": "polyhaven",
+   "id": "withered_grass",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "dry grass variation"
+  },
+  {
+   "source": "polyhaven",
+   "id": "gravel_ground_01",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "paths, trail"
+  },
+  {
+   "source": "polyhaven",
+   "id": "dark_rock",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "granite cliff blocks"
+  },
+  {
+   "source": "polyhaven",
+   "id": "lichen_rock",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "cliff blocks, lichen"
+  },
+  {
+   "source": "polyhaven",
+   "id": "quarry_wall",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "fresh-cut rock faces"
+  },
+  {
+   "source": "polyhaven",
+   "id": "river_small_rocks",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "riverbed under the water"
+  },
+  {
+   "source": "polyhaven",
+   "id": "oak_veneer_01",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "oak floor boards, slats, linings"
+  },
+  {
+   "source": "polyhaven",
+   "id": "coated_pine_02",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "spruce CLT / glulam faces"
+  },
+  {
+   "source": "polyhaven",
+   "id": "white_plaster_02",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "lime plaster walls"
+  },
+  {
+   "source": "polyhaven",
+   "id": "smooth_concrete_floor",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "poured / polished concrete floor"
+  },
+  {
+   "source": "polyhaven",
+   "id": "slate_floor_03",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "honed slate reference"
+  },
+  {
+   "source": "polyhaven",
+   "id": "granite_tile",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "honed granite surface"
+  },
+  {
+   "source": "polyhaven",
+   "id": "brown_leather",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "cognac leather (seats, pulls)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "wool_boucle",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "cream boucle upholstery"
+  },
+  {
+   "source": "polyhaven",
+   "id": "curly_teddy_natural",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "sheepskin throws"
+  },
+  {
+   "source": "polyhaven",
+   "id": "rough_linen",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "linen lamp diffusers"
+  },
+  {
+   "source": "polyhaven",
+   "id": "poly_wool_herringbone",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "wool rugs"
+  },
+  {
+   "source": "polyhaven",
+   "id": "caban",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "wool upholstery (plain, felted)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "natural_walnut_veneer",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "walnut: loose furniture (contrast to the oak floor)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "ash_veneer",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "pale ash: wave ceiling baffles"
+  },
+  {
+   "source": "polyhaven",
+   "id": "black_painted_planks",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "black-stained / tarred timber: cladding, facade posts, header band"
+  },
+  {
+   "source": "polyhaven",
+   "id": "terrazzo_tiles",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "F4 deck: dark honed terrazzo (the pool hall floor)"
+  },
+  {
+   "source": "polyhaven",
+   "id": "granite_tile_03",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "reference: flamed granite"
+  },
+  {
+   "source": "polyhaven",
+   "id": "plaster_grey_04",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "F4 recovery lounge: Venetian plaster walls"
+  },
+  {
+   "source": "polyhaven",
+   "id": "velour_velvet",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "F4 recovery lounge: velvet daybeds + curtains"
+  },
+  {
+   "source": "polyhaven",
+   "id": "black_oak_veneer",
+   "res": "2k",
+   "license": "CC0",
+   "used_for": "F4 recovery lounge: smoked oak"
+  }
+ ],
+ "hdris": [
+  {
+   "source": "polyhaven",
+   "id": "kloofendal_48d_partly_cloudy_puresky",
+   "res": "4k",
+   "license": "CC0",
+   "used_for": "default sky: partly cloudy, sunny midday (sun in the HDRI, rotated to come from the south-west)"
+  }
+ ],
+ "data": [
+  {
+   "source": "NIBIO SR16 (WMS skogressurs_sr16)",
+   "license": "CC BY 4.0, (c) NIBIO",
+   "used_for": "forest species / height / cover / site index at the site",
+   "derived": "model/forest_sr16.npz",
+   "fetch": "tools/forest_data.py"
+  }
+ ]
 }

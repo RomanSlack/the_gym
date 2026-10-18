@@ -1048,13 +1048,15 @@ for ya, yb in zip(BAYS, BAYS[1:]):
             continue
         if 4.4 < y and xa > -16.5:
             continue
+        if y < -18.7 and xa < -24.45:                                       # the recovery lounge has its own light; the plant room none
+            continue
         L_ = round(xb - xa, 2)
         put("gym_line", (xa + xb) / 2, y, rot=0, zone="pool", level="F4", z=F4, L=L_, z_ceiling=ZC4, temp="3000",
             light={"type": "AREA", "energy": round(14 * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06],
                    "aim": [(xa + xb) / 2, y, F4 - 1.0], "color": GYM_C["3000"]}, note="linear line 3000 K between the beams, dimmed (the pool hall)")
     a_, b_ = ya + 0.6, yb - 0.6; L_ = round(b_ - a_, 2)
     put("wall_washer", -29.45 + 0.6, (a_ + b_) / 2, rot=90, zone="pool", level="F4", z=F4, L=L_, z_ceiling=ZC4, temp="3000",
-        light={"type": "AREA", "energy": round(16 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, ZC4 - 0.06],
+        light={"type": "AREA", "energy": round((6 if yb <= -18.7 else 16) * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, ZC4 - 0.06],
                "aim": [-29.45, (a_ + b_) / 2, F4 + 1.2], "color": GYM_C["3000"]}, note="wall-washer on the ink tile")
 
 # ---- F4, the rooms (Roman 2026-10-17: "lets keep going ... finishing off F4"). The shell finishes are tools/interior.py ("F4, the
@@ -1080,7 +1082,7 @@ p4("glass_door", -11.45, 4.4, rot=0, zone="thermal", width=1.0, height=2.1, note
 p4("glass_door", -24.45, 5.6, rot=90, zone="thermal", width=1.0, height=2.1, note="the thermal suite, from the pool lobby")
 p4("core_door", -26.25, YS, rot=0, zone="breathwork", width=1.0, height=2.3, finish="smoked", note="the breathwork room (off the recovery lounge)")
 p4("core_door", -12.45, YS, rot=0, width=1.2, height=2.3, finish="steel", note="the pool store")
-p4("core_door", -24.45, -26.4, rot=90, zone="recovery", width=1.0, height=2.1, finish="steel", note="the plant room (staff)")
+p4("core_door", -16.45, -31.1, rot=-90, width=1.0, height=2.1, finish="steel", note="the plant room (staff, off the south deck)")
 p4("safety_point", XW - 0.01, -16.2, rot=-90, note="AED, extinguisher, first aid, pool rescue")
 
 # -- the pool lobby: out of the express lifts in your robe, a towel, the deck
@@ -1095,6 +1097,8 @@ p4("gym_line", -26.75, 8.25, rot=0, zone="lobby", L=4.3, z_ceiling=ZC4, temp="30
    light={"type": "AREA", "energy": 60, "size": 4.3, "size_y": 0.06, "offset": [0, 0, ZC4 - 0.06], "aim": [-26.75, 8.25, F4 - 1.0], "color": GYM_C["3000"]},
    note="linear line 3000 K (the pool lobby)")
 
+for x, y, kind, h, r in ((-28.7, 11.3, "kentia", 2.2, 0.34), (-25.2, -3.9, "kentia", 2.0, 0.32), (-28.9, -6.0, "sansevieria", 1.1, 0.24)):
+    p4("plant_pot", x, y, zone="lobby", species=kind, h=h, r=r, note="greenery (under the warm lines)")
 # -- the west deck: loungers in pairs facing the pool, a little table between each pair
 for c in (-16.2, -12.6, -9.0, -5.4, -1.8, 1.8):
     for dy in (-0.6, 0.6):
@@ -1102,16 +1106,24 @@ for c in (-16.2, -12.6, -9.0, -5.4, -1.8, 1.8):
     p4("deck_table", -18.3, c, zone="deck", d=0.42, h=0.4, note="a little granite table between the loungers")
 for y in (-17.6, 3.6):
     p4("towel_bin", -21.6, y, rot=-90, zone="deck", note="used towels")
+for c in (-14.4, -7.2, 0.0):                                                               # tall planters between the lounger pairs
+    p4("plant_pot", -20.9, c, zone="deck", species="kentia", h=2.1, r=0.32, note="kentia palm between the loungers")
 
-# -- the recovery lounge (the quiet south end, off the deck): compression recliners along the plant room wall, feet to the west
-XR = -24.525 - TL
-for y in (-19.9, -21.4, -22.9, -24.4, -28.4, -29.9, -31.4):
-    p4("recovery_recliner", XR - 1.05, y, rot=90, zone="recovery", boots=True, note="recovery recliner + air-compression boots")
+# -- the recovery lounge (Roman 2026-10-17: look up real references; after Remedy Place LA's lounge beds): five bays along the
+# plant room wall between charcoal velvet curtains, a velvet daybed in each with the compression boots on it, a reading light, a low
+# opal globe; plaster walls + smoked oak (tools/interior.py). No ceiling lines over it: the globes, the beds' glow, a soft wash.
+XR = -24.535 - 0.015
+for k, y in enumerate((-20.6, -23.0, -25.4, -27.8, -30.2)):
+    p4("recovery_bay", XR, y, rot=90, zone="recovery", w=2.4, d=2.5, ceiling=ZC4, end=(k == 4), note="recovery bay: velvet daybed, curtains, boots, reading light, globe")
+    p4("light_only", XR - 0.47, y + 0.82, zone="recovery", light={"type": "POINT", "energy": 9, "radius": 0.12, "offset": [0, 0, 1.5], "color": [1.0, 0.78, 0.55]},
+       note="the bay's opal globe")
+    p4("light_only", XR - 0.34, y + 0.45, zone="recovery", light={"type": "SPOT", "energy": 6, "spot_deg": 70, "blend": 0.8, "radius": 0.02, "offset": [0, 0, 1.28],
+       "aim": [XR - 0.6, y, F4 + 0.45], "color": [1.0, 0.8, 0.58]}, note="the bay's reading light")
 p4("tap_station", XL, -24.4, rot=-90, zone="recovery", note="water")
-p4("blanket_basket", XL + 0.35, -19.4, zone="recovery", note="wool blankets")
-p4("towel_bin", -28.4, -33.6, zone="recovery", note="used towels")
-for y in (-22.15, -30.15):                                                                 # low warm pools over the recliners
-    l4(XR - 1.1, y, 70, 2.6, 0.5, ZC4 - 0.06, color=(1.0, 0.8, 0.6), zone="recovery", note="recovery: a low warm pool of light")
+p4("plant_pot", -28.6, -32.6, zone="recovery", species="kentia", h=1.9, r=0.3, note="kentia palm")
+p4("plant_pot", -25.2, -32.9, zone="recovery", species="sansevieria", h=1.0, r=0.2, note="sansevieria")
+p4("towel_bin", -28.9, -19.6, rot=-90, zone="recovery", note="used towels")
+p4("blanket_basket", -28.85, -20.3, zone="recovery", note="wool blankets")
 
 # -- the thermal suite: sauna (west), showers on the stair wall, steam room, the cold + hot plunges on the river window
 XS0, XS1, YT = -24.375 + TL, -21.525 - TL, 11.85 - TL                                     # the sauna's corner (tile faces)

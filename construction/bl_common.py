@@ -776,7 +776,12 @@ def interior_materials():
         # F4, the pool hall (Roman 2026-10-17: blueish dark marble or tile, black tile + marble, white only as accent; bright enough but moody)
         "stone_nero": glazed_tile("tile_black", ((0.010, 0.010, 0.012), (0.014, 0.014, 0.016), (0.008, 0.008, 0.010), (0.017, 0.017, 0.020))),
         "stone_nero_honed": pbr_material("stone_nero_honed", "smooth_concrete_floor", 1.4, box=True, tint=(0.8, 0.84, 0.9), sat=0.15, val=0.12, rough_mul=0.55, rough_add=0.15, piece_var=0.05),
-        "stone_blue": pbr_material("stone_blue", "smooth_concrete_floor", 1.6, box=True, tint=(0.36, 0.52, 0.95), sat=0.9, val=0.30, rough_mul=0.6, rough_add=0.15, piece_var=0.06),
+        # the deck (Roman 2026-10-17: the floor looked weird and flat): real flamed granite, its baked tile grid taken out
+        # (tools/assets.py derive_gridless), cooled to a blue-charcoal; the speckle + a satin sheen give it depth
+        "stone_blue": pbr_material("stone_blue_granite", "granite_flamed_gridless", 1.2, box=True, tint=(0.62, 0.78, 1.0), sat=0.45, val=0.62, rough_mul=0.7, rough_add=0.08, piece_var=0.08),
+        "plaster_venetian": pbr_material("plaster_venetian", "plaster_grey_04", 2.0, box=True, tint=(0.9, 0.88, 0.85), sat=0.25, val=0.42, rough_mul=0.75, piece_var=0.0),
+        "velvet_charcoal": pbr_material("velvet_charcoal", "velour_velvet", 0.6, box=True, tint=(0.55, 0.55, 0.6), sat=0.08, val=0.16, piece_var=0.02),
+        "oak_smoked_floor": pbr_material("oak_smoked_floor", "black_oak_veneer", 1.5, tint=(1.0, 0.95, 0.9), sat=0.6, val=0.62, rough_mul=0.8, rough_add=0.08, piece_var=0.1),
         "stone_white": pbr_material("stone_white", "smooth_concrete_floor", 1.0, box=True, tint=(1.0, 0.99, 0.97), sat=0.1, val=2.1, rough_mul=0.5, rough_add=0.1, piece_var=0.0),
         "tile_ink": glazed_tile("tile_ink", ((0.018, 0.036, 0.062), (0.026, 0.050, 0.082), (0.014, 0.028, 0.048), (0.034, 0.058, 0.086))),
         "pool_mosaic": pool_mosaic(),
