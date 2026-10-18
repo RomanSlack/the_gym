@@ -71,6 +71,8 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 
 **The glass lifts (2026-10-17, VISION "The glass lifts"):** `glass_lift` in furniture.py, one per shaft, placed in tools/furnish.py ("the glass lifts"); stops = (z, glass height, reveal, lintel[, proud]). Openings + the removed A3/A4 columns in tools/structure_stage.py (`lift_front`). Cameras `gym_lift_f3`, `gym_lift_f3_close`, `gym_lift_f1`, `lk_lift_men`, `rec_lift`. Watch out: a new builder's kwargs only reach it if the kind is in `PARAMS` (furniture.py), otherwise it silently builds with its defaults. F4 (pool lobby) and the E2 lift lobby have no interiors yet, so those stops stand in raw rooms.
 
+**F4, the pool hall (2026-10-17, VISION "F4, the pool hall"):** shell in tools/interior.py ("F4, the pool hall": deck, ink tile linings, charcoal ceiling); `lap_pool`, `river_wall_f4` (black tile cut round the windows: `_rect_minus`), `river_volume` (the river's body outside, a volume box) in furniture.py, placed + lit in tools/furnish.py ("F4, the pool hall"). Cameras `pool_from_lobby`, `pool_south`, `pool_edge`, `pool_windows`. Materials in bl_common: `stone_blue`, `stone_nero(_honed)`, `stone_white`, `tile_ink`, `pool_mosaic(_black)`. Roman rejected procedural marble outright: use real textures (granite_tile has a baked tile grid, dark_rock reads as crumpled foil at wall scale; smooth_concrete_floor tinted works).
+
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby

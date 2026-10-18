@@ -271,6 +271,13 @@ The full equipment list is in `reference/gym_v2_original/text_features_not_all_r
   - The express lifts stay solid where they pass the gym floors (people in robes): glass only where they stop.
   - **Reception stays minimal** (Roman: "really doesn't need to be that grand ... just the entry of the door to the elevator, not the whole thing spilling out"): there it is only the door: no stone at all (Roman: "just not have the big blocks around the entrance ... a clean minimal edge"), a door-sized opening (1.2 x 2.4 m) with blackened steel jamb + head linings and a slim steel outline on the slats, the glass doors, the cab behind them; the slat wall untouched around it. The painting behind the desk shrank to 4.8 m to clear it.
 
+- **F4, the pool hall (Roman, 2026-10-17: "blueish dark marble or tile ... then black tile and marble, and white only as accent, so it is bright enough but a little moody"; then: "that marble is super fucked ... just normal materials"; the east wall keeps its underwater windows, "as large as possible ... we want this space to be beyond that"):**
+  - No marble. The deck is honed dark stone 600 x 1200; the west, north + south walls and the partitions facing the hall are deep ink-blue glazed tile (65 x 260, vertical stack, each tile its own glaze); the ceiling is charcoal wood wool between beams painted out.
+  - **The river wall:** one huge window per 7.7 m bay between the pilasters (six, 6.8 m wide), from the pool's water line / the floor to 0.35 m under the ceiling: 300 mm structural acrylic onto the river and its bed. Black glazed tile 300 x 600 round them, the reveals lined in it. The river outside has a body now (teal murk, the far bank fading), not just a surface.
+  - **The pool:** 25 m, four lanes, a deep ink-blue glass mosaic basin with black lane lines + T-ends and targets, honed near-black stone coping flush with the deck over a hidden overflow grate, wide corner steps (near-black treads, white nosings) with a blackened steel rail. The white accents: the step nosings and one thin white stone line set in the deck round the pool.
+  - **Light:** the pool lit from underwater along its west wall (it carries the room), one dimmed warm line per bay, wall-washers on the tile, grazers down the black wall.
+  - Next: the lobby (towels, robes), the loungers on the west deck, the thermal suite (north), the recovery lounge, the breathwork room.
+
 ## Exterior style: LOCKED (2026-10-11, stage 2)
 
 **Direction B: dark tarred timber + sod roofs.** Roman picked it ("really clean").
