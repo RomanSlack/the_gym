@@ -884,14 +884,20 @@ for lvl, x, y in (("F2", -13.4, -11.6), ("F2", -27.6, -21.0), ("F2", -8.0, -29.5
 # framed glass for the pods + the altitude airlock, the lift doors, exit signs over every exit, a safety point (AED, extinguisher,
 # first aid) a floor, sprinklers + smoke detectors between the beams
 XW, YS, YN = -29.45 + 0.25 + 0.025, -34.1 + 0.25 + 0.025, 12.1 - 0.25 - 0.025
+# the gym WCs' doors in the gym wall (the rooms: 'the gym WCs' below), their pictograms beside them, the water station between them
+WC_DOORS = ((-23.25, 1.0, False, "the women's WC"), (-20.4, 1.0, False, "the men's WC"))
+def wc_signs(pz):
+    for y, figs in ((-22.5, ("woman", "accessible")), (-21.15, ("man", "accessible"))):
+        for k_, fig in enumerate(figs):
+            pz("pictogram", XW - 0.015, y, rot=-90, figure=fig, size=0.17, mount=1.85 - k_ * 0.21, note=f"gym WC: {fig}")
+    pz("tap_station", XW - 0.01, -21.825, rot=-90, note="water station between the WC doors: chilled tap, birch cups")
 for lvl, slat in (("F2", "oak"), ("F3", "smoked")):
     z_ = lv[lvl]; zn_ = f"gym-{lvl.lower()}"
-    for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)"), (-22.4, 1.4, False, "the WC annex")):
+    for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")) + WC_DOORS:
         put("core_door", XW, y, rot=-90, zone=zn_, level=lvl, z=z_, width=w, height=2.3, finish="mirror", exit_=ex, note=f"{note}: mirror-clad in the mirror wall")
         if ex:
             put("exit_sign", XW - 0.02, y, rot=-90, zone=zn_, level=lvl, z=z_, mount=2.55, note=f"nødutgang: {note}")
-    for k_, fig in enumerate(("woman", "man", "accessible")):
-        put("pictogram", XW - 0.015, -21.35 + 0.0 - k_ * 0.0, rot=-90, zone=zn_, level=lvl, z=z_, figure=fig, size=0.17, mount=1.85 - k_ * 0.21, note=f"WC annex: {fig}")
+    wc_signs(lambda *a, **k: put(*a, zone=zn_, level=lvl, z=z_, **k))
     put("core_door", -9.05, YN, rot=180, zone=zn_, level=lvl, z=z_, width=1.2, height=2.3, finish=slat, exit_=True, note="core W3, the north exit stair")
     put("exit_sign", -9.05, YN + 0.02, rot=180, zone=zn_, level=lvl, z=z_, mount=2.55, note="nødutgang: core W3")
     put("safety_point", XW - 0.01, -16.2, rot=-90, zone=zn_, level=lvl, z=z_, note="AED, extinguisher, first aid")
@@ -1072,10 +1078,11 @@ def l4(x, y, energy, size, size_y, z, aim_z=0.0, color=(1.0, 0.85, 0.68), zone="
 
 TL = 0.02                                                                                  # the tile lining's depth
 # the doors: the stair cores + the WC annex (blackened steel in the ink tile), the thermal suite (glass), breathwork, the pool store
-for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)"), (-22.4, 1.4, False, "the WC annex")):
+for y, w, ex, note in ((-12.9, 1.2, True, "core W1 stair (exit)"), (-25.95, 1.2, True, "core W2 stair (exit)")) + WC_DOORS:
     p4("core_door", XW, y, rot=-90, width=w, height=2.3, finish="steel", exit_=ex, note=note)
     if ex:
         p4("exit_sign", XW - 0.02, y, rot=-90, mount=2.55, note=f"nødutgang: {note}")
+wc_signs(p4)
 p4("core_door", -9.05, YN, rot=180, zone="thermal", width=1.2, height=2.3, finish="steel", exit_=True, note="core W3, the north exit stair (from the thermal suite)")
 p4("exit_sign", -9.05, YN + 0.02, rot=180, zone="thermal", mount=2.55, note="nødutgang: core W3")
 p4("glass_door", -11.45, 4.4, rot=0, zone="thermal", width=1.0, height=2.1, note="the thermal suite, from the pool deck")
@@ -1178,6 +1185,47 @@ for y_, rot_ in ((-34.35 - 0.015, 180), (-39.9 + 0.015, 0)):
     p4("floor_grazer", -23.2, y_ + (0.05 if rot_ == 0 else -0.05), rot=0, zone="breathwork", length=10.4,
        light={"type": "AREA", "energy": 60, "size": 10.4, "size_y": 0.04, "offset": [0, 0, 0.03], "aim": [-23.2, y_, F4 + 2.0], "color": [1.0, 0.72, 0.48]},
        note="a warm wash up the plaster from a slot in the floor")
+
+# ---- the gym WCs (Roman 2026-10-18: darker, more efficient, still really clean + private; men's and women's fully separate; the same
+# on F2, F3 + F4, the pool floor's made for wet bare feet; a robot in each). Two mirror-image rooms in the rock annex either side of
+# its concrete spine (construction/furniture.py gym_wc): wash zone, cells along the outer wall, the accessible WC across the far end.
+# Origin of each = the finished corner of the gym wall (x -29.72) and the spine; u runs west into the rock, v from the spine outwards.
+GWC_W, GWC_L, GWC_H = 2.635, 7.56, 2.7
+WC_WARM = [1.0, 0.8, 0.6]
+for lvl in ("F2", "F3", "F4"):
+    zl = lv[lvl] + (0.01 if lvl == "F4" else 0.0)                                        # F4: on the mosaic laid on the raft
+    for men, oy, hand in ((True, -21.705, 1), (False, -21.945, -1)):
+        zn_ = "gym-wc"; tag = "men's" if men else "women's"
+        at = lambda u, v: (-29.72 - u, oy + hand * v)
+        F.append({"id": f"gym_wc-{len(F):03d}", "kind": "gym_wc", "level": lvl, "at": list(at(0, 0)), "z": zl, "rot_deg": 90, "zone": zn_,
+                  "men": men, "pool": lvl == "F4", "hand": hand, "note": f"{lvl} {tag} WC" + (" (the pool floor: grip, rail, drains)" if lvl == "F4" else "")})
+        def lo(u, v, z, energy, size, aim_uvz, typ="AREA", note="", **kw):
+            x, y = at(u, v); ax, ay = at(*aim_uvz[:2])
+            L_ = {"type": typ, "energy": energy, "offset": [0, 0, z], "aim": [ax, ay, zl + aim_uvz[2]], "color": WC_WARM, **kw}
+            if typ == "AREA":
+                L_.update(size=size, size_y=size)
+            F.append({"id": f"light_only-{len(F):03d}", "kind": "light_only", "level": lvl, "at": [round(x, 3), round(y, 3)], "z": zl, "rot_deg": 0,
+                      "zone": zn_, "light": L_, "note": f"{lvl} {tag} WC: {note}"})
+        sp = dict(typ="SPOT", spot_deg=70, blend=1.0, radius=0.05)
+        lo(0.95, GWC_W - 0.06, 2.0, 18, 0.3, (0.95, 0.5, 1.2), note="the mirror's halo")
+        lo(0.95, GWC_W - 0.25, 0.7, 4, 0.3, (0.95, GWC_W - 0.25, 0.0), note="the glow under the trough")
+        lo(1.0, 1.2, GWC_H - 0.03, 22, 0, (1.0, 1.2, 0.0), note="the wash zone's downlight", **sp)
+        for u in (2.6, 3.775, 4.95):
+            lo(u, GWC_W - 1.6 - 0.32, GWC_H - 0.03, 9, 0.5, (u, GWC_W - 1.6, 0.6), note="the cove grazing the cell fronts")
+        cells = [2.1 + (k + 0.5) * 3.35 / 3 for k in range(3)] if not men else [2.65]
+        for u in cells:
+            lo(u, GWC_W - 0.8, GWC_H - 0.03, 16, 0, (u, GWC_W - 0.8, 0.0), note="a cell's downlight", **sp)
+        if men:
+            for u in (3.85, 4.85):
+                lo(u, GWC_W - 0.12, GWC_H - 0.04, 12, 0.4, (u, GWC_W - 0.02, 0.5), note="grazing the tile over the urinals")
+        for u, v in ((GWC_L - 0.9, GWC_W - 0.9), (GWC_L - 1.6, GWC_W - 1.6)):
+            lo(u, v, GWC_H - 0.03, 22, 0, (u, v, 0.0), note="the accessible WC's downlight", **sp)
+        lo(GWC_L - 1.0, GWC_W - 0.15, GWC_H - 0.04, 10, 0.4, (GWC_L - 1.0, GWC_W - 0.02, 0.6), note="grazing the tile beside the accessible WC")
+        lo(6.55, 0.08, 1.9, 6, 0.25, (6.55, 1.0, 1.3), note="the accessible mirror's halo")
+        F.append({"id": f"ceiling_services-{len(F):03d}", "kind": "ceiling_services", "level": lvl, "at": list(at(3.8, 0.5)), "z": zl, "rot_deg": 0,
+                  "zone": zn_, "z_local": GWC_H - 0.04, "ceiling": GWC_H, "note": f"{lvl} {tag} WC: sprinkler + smoke detector"})
+        F.append({"id": f"far_uvc-{len(F):03d}", "kind": "far_uvc", "level": lvl, "at": list(at(4.6, 0.5)), "z": zl, "rot_deg": 0, "zone": zn_,
+                  "z_ceiling": GWC_H, "note": f"{lvl} {tag} WC: far-UVC (222 nm)"})
 
 m["furnishings"] = F
 # the old schematic fixtures for E1 are replaced by real pieces (drawings keep them as symbols)

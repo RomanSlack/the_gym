@@ -109,6 +109,15 @@ CAMS = {
     "pool_sauna": ((-22.3, 7.8, -13.85), (-23.3, 11.8, -14.3), 14),
     "pool_steam": ((-12.9, 8.3, -13.9), (-14.8, 11.5, -14.6), 14),
     "pool_plunge": ((-10.5, 10.9, -13.9), (-6.5, 6.5, -14.6), 16),
+    # the gym WCs (rock annex behind the gym wall; men's north of the spine, women's south)
+    "gwc_f2_men": ((-29.95, -21.25, -3.35), (-37.0, -19.9, -4.0), 16),
+    "gwc_f2_men_back": ((-34.75, -21.3, -3.35), (-29.8, -19.7, -4.0), 16),
+    "gwc_f2_urinals": ((-32.55, -21.4, -3.45), (-34.4, -19.2, -4.15), 18),
+    "gwc_f2_doors": ((-25.6, -21.8, -3.35), (-29.2, -21.8, -3.9), 22),
+    "gwc_f3_women": ((-29.95, -22.4, -8.2), (-37.0, -23.8, -8.85), 16),
+    "gwc_f3_women_acc": ((-35.45, -22.45, -8.25), (-37.3, -24.1, -9.0), 16),
+    "gwc_f4_women": ((-29.95, -22.4, -13.8), (-37.0, -23.8, -14.45), 16),
+    "gwc_f4_men_back": ((-34.75, -21.3, -13.8), (-29.8, -19.7, -14.45), 16),
     "pool_breathwork": ((-26.3, -34.6, -13.9), (-21.0, -38.5, -15.0), 14),
     "gym_den_across": ((-23.0, -4.0, -8.1), (-7.0, -6.0, -9.0), 16),
     "gym_den_across_s": ((-21.0, -28.5, -8.15), (-7.0, -3.0, -9.1), 16),
@@ -682,7 +691,7 @@ if RENDER:
         n = n + "_night" if NIGHT else n
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith("gwc_") else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.

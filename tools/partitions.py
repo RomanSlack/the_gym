@@ -41,7 +41,8 @@ DOORS = {
     "dc-wc-low": ["daycare-low"], "dc-rest": ["daycare-low"], "dc-store": ["daycare-low"],
     "dc-nursing": ["daycare-up"],
     "wc-women": ["cafe"], "wc-men": ["cafe"], "game-room": ["garage"],
-    "thermal": ["pool-deck-n", "pool-lobby"], "pool-store": [], "plant": ["pool-deck-s"],
+    "thermal": ["pool-deck-n", "pool-lobby"], **{f"wc-gym-{g}-{L}": [] for g in ("women", "men") for L in ("F2", "F3", "F4")},  # their doors are in the gym wall (layout_v1)
+    "pool-store": [], "plant": ["pool-deck-s"],
 }
 RANK = {"circulation": 0, "lounge": 1, "gym": 2, "daycare": 3, "garage": 4}
 # Roman's principle: no door unless it is needed (privacy, fire, heat, security, cars, sleeping kids).

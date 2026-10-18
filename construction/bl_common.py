@@ -786,6 +786,8 @@ def interior_materials():
         "tile_ink": glazed_tile("tile_ink", ((0.018, 0.036, 0.062), (0.026, 0.050, 0.082), (0.014, 0.028, 0.048), (0.034, 0.058, 0.086))),
         "pool_mosaic": pool_mosaic(),
         "pool_mosaic_black": pool_mosaic("pool_mosaic_black", (0.010, 0.011, 0.013), (0.016, 0.017, 0.020), caustics=False),
+        # the pool floor's WCs (wet bare feet): an unglazed, grit-faced charcoal porcelain mosaic, barefoot class C (DIN 51097) / R11
+        "porcelain_grip": pbr_material("porcelain_grip", "smooth_concrete_floor", 0.5, box=True, tint=(0.8, 0.82, 0.86), sat=0.1, val=0.16, rough_mul=0.4, rough_add=0.55, piece_var=0.12),
         "carpet_wool": pbr_material("carpet_wool", "poly_wool_herringbone", 0.27, tint=(1.0, 0.96, 0.9), sat=0.3, val=1.25, piece_var=0.0),
     }
 

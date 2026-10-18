@@ -188,7 +188,7 @@ for pad in m["site"]["pads"]:
 in_pad = ndi.binary_dilation(in_pad, iterations=1)
 cell = lambda x, y: (int(np.clip(y + 1000, 0, 1999)), int(np.clip(x + 1000, 0, 1999)))
 ground = lambda x, y: np.nan if in_pad[cell(x, y)] else float(fin[cell(x, y)])
-CENTRE = {"W-west-": (-17.95, -14.0), "SA-": (-17.65, -37.1), "WA-": (-31.45, -21.8), "W-east-": (21.25, 11.9),
+CENTRE = {"W-west-": (-17.95, -14.0), "SA-": (-17.65, -37.1), "WA-": (-33.45, -21.8), "W-east-": (21.25, 11.9),
           "CS-W1-": (-30.45, -14.05), "CS-W2-": (-30.45, -29.6), "CS-W3-": (-12.7, 13.95), "LS-men-": (-30.05, -2.9), "LS-women-": (-30.05, 5.9),
           "FDN-garden-wall-W": (-20.0, 40.0)}  # garden wall: its exposed face is the garden (east) side
 for e in els:

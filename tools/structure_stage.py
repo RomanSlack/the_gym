@@ -44,7 +44,7 @@ def add(e):
 
 # ---- suspended slabs sit 100 mm under the finished floor level (finish build-up: impact mat, screed + underfloor heating,
 # floor finish; the PT beam tops already sit at level - 0.10). Ground rafts (F4, E2) keep their levels for now.
-SUSP = {"S-F1-west": "F1", "S-F2-west": "F2", "S-F3-west": "F3", "S-E1-east": "E1", "S-F1-link": "F1", "S-F1-annex": "F1", "S-SA-F2": "F2", "S-SA-F3": "F3"}
+SUSP = {"S-F1-west": "F1", "S-F2-west": "F2", "S-F3-west": "F3", "S-E1-east": "E1", "S-F1-link": "F1", "S-F1-annex": "F1", "S-SA-F2": "F2", "S-SA-F3": "F3", "S-WA-F2": "F2", "S-WA-F3": "F3"}
 for e in els:
     if e["id"] in SUSP:
         t = round(e["z"][1] - e["z"][0], 2)
@@ -266,7 +266,7 @@ lift_front("ST3-core-E-E", [7.258, 8.458], [(lv["E1"], lv["E1"] + 2.4)], "core E
 for e in els:
     if e["id"].startswith(("FDN-membrane-W-west-A", "FDN-gravel-W-west-A")):
         (ax_, ay_), (bx_, by_) = e["from"], e["to"]; L_ = math.hypot(bx_ - ax_, by_ - ay_); uy_ = (by_ - ay_) / L_
-        for y0_, y1_ in ((-11.9, -9.7), (-3.975, -1.825), (4.825, 6.975)):
+        for y0_, y1_ in ((-11.9, -9.7), (-3.975, -1.825), (4.825, 6.975), (-24.6, -19.05)):  # (+ the gym WCs' annex)
             sa, sb = sorted(((y0_ - ay_) / uy_, (y1_ - ay_) / uy_)) if abs(uy_) > 0.5 else (None, None)
             if sa is not None and sb > 0 and sa < L_:
                 e.setdefault("openings", []).append({"s": [round(max(0.0, sa), 3), round(min(L_, sb), 3)], "z": list(e["z"]), "type": "opening",

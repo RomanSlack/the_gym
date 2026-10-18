@@ -5388,6 +5388,180 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
             yy += 0.04
 
 
+# ------------------------------------------------------------------ the gym floors' WCs (Roman 2026-10-18: darker, more efficient, still really
+# clean and private; men's and women's fully separate; consistent on F2-F4; the pool floor's made for wet bare feet; a robot in each)
+def _placed(P, fn, x, y, rz=0.0):
+    """Build fn(tmp) in its own frame (wall at y=0, front +y), turn it rz about z and move it to (x, y) inside P."""
+    tmp = Part("tmp"); fn(tmp)
+    c, s = math.cos(rz), math.sin(rz)
+    for mat, b in tmp.bms.items():
+        for v in b.verts:
+            v.co = Vector((x + v.co.x * c - v.co.y * s, y + v.co.x * s + v.co.y * c, v.co.z))
+        tgt = P.bm(mat)
+        me = bpy.data.meshes.new("tmp"); b.to_mesh(me); b.free(); tgt.from_mesh(me); bpy.data.meshes.remove(me)
+
+
+def gym_wc(P, men=True, pool=False, hand=1, W=2.635, L=7.56, H=2.7):
+    """One of the gym floors' WC rooms in the rock annex (F2, F3, F4; men's + women's mirror-image either side of the concrete spine).
+    The dark version of the house WC language: black glazed tile to the ceiling (interior.py), fluted SMOKED oak cell fronts, blackened
+    steel, white china (it reads clean and contrasts for low vision), a honed black stone trough. Plan, from the door in the gym wall:
+      - the wash zone: a floating black stone trough with two taps under a backlit mirror, towels + bin in the wall beside it,
+        a shelf for the phone and bottle (pool: a rail of robe hooks), Vaskebjørn's dock in the corner behind the door
+      - the cells along the outer wall, floor to ceiling and closed (women 3; men 1 cell + 3 splash-free urinals behind oak screens),
+        the aisle along the spine
+      - the accessible WC across the far end (TEK17: 1.5 m turning circle, 0.9 m beside the WC, rails, pull cord, basin, changing table)
+    pool=True (F4: wet bare feet; slips are the danger): continuous grab rail along the spine, a linear drain the room's length under
+    it, a drained foot grate inside the door, robe hooks in every cell (the slip-resistant mosaic floor is in interior.py).
+    Origin = the finished corner of the gym wall and the spine; local +y runs away from the gym, +x from the spine to the outer
+    wall (hand -1 mirrors it: the women's room). Lights are their own furnishings (tools/furnish.py, 'the gym WCs')."""
+    oak0 = M["oak"]
+    sm = M.setdefault("oak_smoked_dark", bc.pbr_material("oak_smoked_dark", "black_oak_veneer", 1.5, box=True, tint=(1.0, 0.92, 0.85), sat=0.7, val=0.38,
+                                                         rough_mul=0.8, rough_add=0.08, piece_var=0.06))       # fumed oak, as the recovery floor
+    nero = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
+    st, fe = M["steel"], M["felt"]
+    paper = M.setdefault("paper_white", bc.material("paper_white", (0.86, 0.85, 0.82), 0.8))
+    M.setdefault("led_free", bc.material("led_free", (0.02, 0.45, 0.1), 0.3, emit=((0.05, 1.0, 0.2), 0.5)))
+    M.setdefault("led_busy", bc.material("led_busy", (0.6, 0.02, 0.01), 0.3, emit=((1.0, 0.05, 0.02), 0.5)))
+    M["oak"] = sm                                              # the shared WC helpers (door leaves) take the smoked oak here
+    try:
+        xf = W - 1.6                                          # the cells' front face (they are 1.6 deep)
+        y0c, y1c = 2.1, 5.45                                  # the cell zone along the room
+        ya = 5.5                                              # the accessible WC's front
+        # ---- the wash zone
+        tx0, tx1 = 0.3, 1.6
+        P.box(nero, (W - 0.25, (tx0 + tx1) / 2, 0.8), (0.5, tx1 - tx0, 0.12))                       # trough slab, floating (wall-hung)
+        P.box(nero, (W - 0.27, (tx0 + tx1) / 2, 0.76), (0.32, tx1 - tx0 - 0.12, 0.002))              # the trough's floor, sunk 80 mm
+        for yb in ((tx0 + tx1) / 2 - 0.325, (tx0 + tx1) / 2 + 0.325):
+            P.rod(st, (W, yb, 1.02), (W - 0.17, yb, 1.02), 0.011, seg=12)                            # wall spout over each place
+            P.box(st, (W - 0.004, yb, 1.15), (0.008, 0.07, 0.07))                                    # touch-free sensor plate
+            P.box(st, (W - 0.05, yb + 0.2, 1.05), (0.1, 0.09, 0.18))                                 # soap
+        P.box(sm, (W - 0.011, (tx0 + tx1) / 2, 1.62), (0.022, tx1 - tx0, 1.0))                       # smoked oak behind the mirror
+        P.box(M["mirror"], (W - 0.025, (tx0 + tx1) / 2, 1.62), (0.006, tx1 - tx0 - 0.06, 0.94))
+        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (W - 0.02, (tx0 + tx1) / 2, 2.105), (0.01, tx1 - tx0 - 0.04, 0.012))  # the halo over it
+        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (W - 0.2, (tx0 + tx1) / 2, 0.735), (0.01, tx1 - tx0 - 0.1, 0.006))     # the glow under it
+        P.box(sm, (W - 0.03, 1.82, 1.25), (0.06, 0.36, 0.44)); P.box(st, (W - 0.065, 1.82, 1.25), (0.012, 0.3, 0.38))      # paper towels
+        P.box(fe, (W - 0.072, 1.82, 1.08), (0.004, 0.2, 0.012))
+        _pedal_bin(P, (W - 0.22, 1.82), h=0.62, r=0.15, lid=sm)
+        if pool:                                                                                     # robe hooks on a smoked oak rail
+            P.box(sm, (0.02, 1.4, 1.7), (0.04, 1.2, 0.1))
+            for yh in np.arange(0.9, 1.95, 0.25):
+                P.rod(st, (0.04, yh, 1.7), (0.12, yh, 1.74), 0.009, seg=8)
+        else:                                                                                        # phone + bottle shelf, hooks for a bag
+            P.box(sm, (0.13, 1.4, 1.1), (0.26, 1.0, 0.03))
+            for ys in (1.0, 1.8):
+                P.box(st, (0.05, ys, 1.06), (0.1, 0.03, 0.06))
+            for yh in (1.05, 1.75):
+                P.rod(st, (0.0, yh, 1.6), (0.09, yh, 1.63), 0.009, seg=8)
+        _placed(P, lambda T: robot_dock(T), 0.4, 0.0, 0.0)                                           # Vaskebjørn's garage behind the door
+        _placed(P, lambda T: vaskebjorn(T, ring="lingon"), 0.4, 0.27, 0.0)
+        P.box(st, (1.305, 0.004, 2.12), (1.08, 0.008, 0.04))                                         # the door's inside frame (the leaf swings in)
+        for sx in (0.785, 1.825):
+            P.box(st, (sx, 0.004, 1.05), (0.04, 0.008, 2.1))
+        P.box(st, (1.75, 0.01, 1.05), (0.022, 0.02, 0.36))                                           # pull handle
+        # ---- the cells: side panels, the fluted front with a door each, the fittings
+        cells = [(y0c + k * (y1c - y0c) / 3, y0c + (k + 1) * (y1c - y0c) / 3) for k in range(3)] if not men else [(y0c, y0c + 1.1)]
+        bounds = [c[0] for c in cells] + [cells[-1][1]]
+        for k, ys in enumerate(bounds):  # the side panels, 30 mm, floor to ceiling (the end ones inside the zone)
+            P.box(sm, (xf + 0.8, ys + (0.015 if k == 0 else -0.015 if ys == y1c else 0.0), H / 2), (1.6, 0.03, H))
+        for i, (a, b) in enumerate(cells):
+            c = (a + b) / 2; dw = 0.8
+            da, db = c - dw / 2, c + dw / 2
+            for (u0, u1, z0, z1) in ((a + 0.015, da - 0.003, 0, H), (db + 0.003, b - 0.015, 0, H), (da - 0.003, db + 0.003, 2.103, H)):
+                if u1 - u0 > 0.005:
+                    P.box(sm, (xf, (u0 + u1) / 2, (z0 + z1) / 2), (0.04, u1 - u0, z1 - z0))
+                    for yg in np.arange(u0 + 0.015, u1, 0.03):
+                        P.box(fe, (xf - 0.0205, yg, (z0 + z1) / 2), (0.002, 0.003, z1 - z0 - 0.02))
+            P.box(fe, (xf, c, 2.1015), (0.042, dw + 0.006, 0.003))
+            for yl in (da - 0.004, db + 0.004):
+                P.box(sm, (xf, yl, 1.05), (0.042, 0.005, 2.1))
+            _placed(P, lambda T, dw=dw, o=(i == 1 and not men): _leaf(T, (0.0, 0.0), dw, 2.1, math.radians(100) if o else 0.0, occupied=(i == 0)),
+                    xf, da, math.pi / 2)                                                             # outward into the aisle
+            P.box(st, (xf - 0.025, c, 2.4), (0.006, 0.16, 0.16))                                     # the cell's plate over the door
+            P.box(M["led_busy"] if i == 0 else M["led_free"], (xf - 0.03, c, 2.4), (0.004, 0.025, 0.025))
+            def cell_kit(T, w=b - a):
+                _wc_pan(T, 0.0)
+                T.rod(paper, (0.39, 0.12, 0.75), (0.5, 0.12, 0.75), 0.055, seg=20)
+                _brush(T, (-0.36, 0.1)); _pedal_bin(T, (-w / 2 + 0.17, 0.16), h=0.3, r=0.09, lid=sm)
+                T.box(st, (0.0, 0.004, 1.42), (0.12, 0.008, 0.08))                                   # seat-cleaner dispenser
+                T.cyl(st, (0.0, 0.8, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (0.0, 0.8, H - 0.014), 0.05, 0.003, seg=24)
+            _placed(P, cell_kit, W, c, math.pi / 2)
+            P.box(sm, (W - 0.7, b - 0.03 - 0.075, 1.05), (0.3, 0.15, 0.02))                          # shelf on the side panel
+            for k in range(2 if pool else 1):                                                        # hook(s) on the front, inside
+                P.rod(st, (xf + 0.02, a + 0.12 + k * 0.12, 1.7), (xf + 0.09, a + 0.12 + k * 0.12, 1.73), 0.009, seg=8)
+        if men:  # three splash-free urinals behind smoked oak screens (one lower), a grazing light over them
+            yu = [3.6, 4.35, 5.1]
+            for k, y_ in enumerate(yu):
+                _placed(P, lambda T, k=k: _nautilus(T, 0.0, rim=0.5 if k == 0 else 0.62), W, y_, math.pi / 2)
+            for y_ in (3.975, 4.725):
+                P.box(sm, (W - 0.27, y_, 1.0), (0.5, 0.025, 1.2))
+                for z in (0.55, 1.45):
+                    P.box(st, (W - 0.02, y_, z), (0.04, 0.04, 0.04))
+            P.box(st, (W - 0.12, 4.35, H - 0.012), (0.08, 1.9, 0.024)); P.box(M["opal"], (W - 0.12, 4.35, H - 0.025), (0.05, 1.86, 0.003))
+        # ---- the accessible WC across the far end
+        dA, dB = 0.06, 1.06
+        for (u0, u1, z0, z1) in ((0.0, dA - 0.003, 0, H), (dB + 0.003, W, 0, H), (dA - 0.003, dB + 0.003, 2.103, H)):
+            if u1 - u0 > 0.005:
+                P.box(sm, ((u0 + u1) / 2, ya, (z0 + z1) / 2), (u1 - u0, 0.04, z1 - z0))
+                for xg in np.arange(u0 + 0.015, u1, 0.03):
+                    P.box(fe, (xg, ya - 0.0205, (z0 + z1) / 2), (0.003, 0.002, z1 - z0 - 0.02))
+        P.box(fe, ((dA + dB) / 2, ya, 2.1015), (dB - dA + 0.006, 0.042, 0.003))
+        _placed(P, lambda T: _leaf(T, (0.0, 0.0), dB - dA, 2.1, 0.0), dB, ya, math.pi)       # outward (closed), lever at the spine side
+        _placed(P, lambda T: pictogram_on(T, "accessible", 0.0, 0.0, 2.4, 0.16, plate=True), 0.45, ya - 0.021, math.pi)
+        _placed(P, lambda T: pictogram_on(T, "baby", 0.0, 0.0, 2.4, 0.16, plate=True), 0.67, ya - 0.021, math.pi)
+        yb_ = ya + 0.02                                                                              # inside face of the front
+        def acc_kit(T):  # in the frame of the back wall (y=0 there), facing the room; x runs from the outer wall (x=0) to the spine (x=W)
+            px = 0.5
+            _wc_pan(T, px)
+            T.rod(paper, (px + 0.39, 0.12, 0.75), (px + 0.5, 0.12, 0.75), 0.055, seg=20)
+            T.rod(st, (0.035, 0.25, 0.8), (0.035, 1.0, 0.8), 0.017, seg=12); T.rod(st, (0.035, 0.25, 0.8), (0.035, 0.25, 1.5), 0.017, seg=12)
+            T.box(st, (px + 0.35, 0.03, 0.8), (0.07, 0.06, 0.16)); T.rod(st, (px + 0.35, 0.05, 0.8), (px + 0.35, 0.85, 0.8), 0.017, seg=12)
+            _brush(T, (0.15, 0.12)); _pedal_bin(T, (1.05, 0.15), h=0.3, r=0.09, lid=sm)
+            T.box(M["ceramic"], (0.04, 1.2, 2.3), (0.03, 0.08, 0.08))                                # the alarm pull: cord + two red bangles
+            T.rod(M["lino_lingon"], (0.06, 1.2, 2.26), (0.06, 1.2, 0.1), 0.0025, seg=6)
+            for z in (0.1, 0.9):
+                T.cyl(M["lino_lingon"], (0.06, 1.2, z - 0.02), 0.025, 0.04, seg=16)
+            for xs, ys in ((0.9, 0.7), (1.6, 1.4)):
+                T.cyl(st, (xs, ys, H - 0.012), 0.06, 0.012, seg=24); T.cyl(M["opal"], (xs, ys, H - 0.014), 0.05, 0.003, seg=24)
+        _placed(P, acc_kit, W, L, math.pi)
+        yba = 6.55                                                                                   # the accessible basin on the spine wall
+        _placed(P, lambda T: _accessible_basin(T, 0.0), 0.0, yba, -math.pi / 2)
+        P.box(sm, (0.012, yba, 1.45), (0.024, 0.54, 0.84)); P.box(M["mirror"], (0.026, yba, 1.45), (0.004, 0.5, 0.8))
+        P.box(_led("wc_halo", (1.0, 0.78, 0.55), 3.0), (0.03, yba, 1.885), (0.01, 0.5, 0.01))
+        P.box(st, (0.05, yba + 0.32, 1.05), (0.1, 0.09, 0.18))
+        P.box(sm, (0.03, 7.15, 1.25), (0.06, 0.36, 0.42)); P.box(st, (0.065, 7.15, 1.25), (0.012, 0.3, 0.36))
+        _pedal_bin(P, (0.2, 7.32), h=0.42, r=0.12, lid=sm)
+        P.box(sm, (1.85, yb_ + 0.06, 0.95), (0.8, 0.11, 0.55))                                       # the fold-down changing table (folded)
+        P.box(M["ceramic"], (1.25, yb_ + 0.01, 1.0), (0.08, 0.02, 0.08))                             # alarm reset by the door
+        P.box(M["lino_lingon"], (1.25, yb_ + 0.024, 1.0), (0.04, 0.008, 0.04))
+        P.rod(st, (2.4, yb_, 1.7), (2.4, yb_ + 0.08, 1.72), 0.01, seg=8)                              # coat hook
+        if pool:
+            P.rod(st, (2.25, yb_, 1.7), (2.25, yb_ + 0.08, 1.72), 0.01, seg=8)
+        # ---- the floor: drains, and on the pool floor the rail + the foot grate
+        if pool:
+            P.rod(st, (0.065, 0.35, 0.9), (0.065, y1c, 0.9), 0.02, seg=14)                           # grab rail along the spine, the room's length
+            for yr in np.arange(0.5, y1c, 0.9):
+                P.rod(st, (0.0, yr, 0.9), (0.065, yr, 0.9), 0.009, seg=8)
+            P.box(st, (0.16, (0.7 + y1c) / 2, 0.001), (0.07, y1c - 0.7, 0.002))                     # linear drain under it
+            for yg in np.arange(0.75, y1c - 0.03, 0.025):
+                P.box(fe, (0.16, yg, 0.0022), (0.05, 0.006, 0.0005))
+            P.box(st, (1.305, 0.35, 0.002), (1.1, 0.6, 0.004))                                       # the foot grate inside the door
+            for xg in np.arange(0.775, 1.84, 0.02):
+                P.box(fe, (xg, 0.35, 0.0042), (0.006, 0.56, 0.0006))
+        else:
+            _placed(P, lambda T: floor_drain(T), 0.5, 3.8, 0.0)
+        _placed(P, lambda T: floor_drain(T), 1.2, 6.6, 0.0)
+        # the cove over the cell fronts (it grazes the fluting) + the wash zone's downlight
+        P.box(st, (xf - 0.32, (y0c + y1c) / 2, H - 0.012), (0.08, y1c - y0c, 0.024)); P.box(M["opal"], (xf - 0.32, (y0c + y1c) / 2, H - 0.025), (0.05, y1c - y0c - 0.04, 0.003))
+        P.cyl(st, (1.2, 1.0, H - 0.012), 0.06, 0.012, seg=24); P.cyl(M["opal"], (1.2, 1.0, H - 0.014), 0.05, 0.003, seg=24)
+    finally:
+        M["oak"] = oak0
+    if hand < 0:  # the women's room: the same room in mirror image
+        for b in P.bms.values():
+            for v in b.verts:
+                v.co.x = -v.co.x
+            bmesh.ops.reverse_faces(b, faces=b.faces)
+
+
 BUILDERS = {
     "lounge_chair": lounge_chair, "sofa": sofa, "dining_chair": dining_chair, "bar_stool": bar_stool, "cafe_table": cafe_table,
     "side_table": side_table, "coffee_table": coffee_table, "communal_table": communal_table, "bench": bench, "boot_bench": boot_bench,
@@ -5425,8 +5599,9 @@ BUILDERS = {
     "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
     "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
     "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "eclipse_sconce": eclipse_sconce, "towel_bin": towel_bin, "breath_mat": breath_mat,
+    "gym_wc": gym_wc,
 }
-PARAMS = {"recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+PARAMS = {"gym_wc": ("men", "pool", "hand"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

@@ -49,7 +49,7 @@ for e in els:
 # ---- rafts for the cores / annexes that only had walls
 CORE_RAFTS = {
     "W1": ([-32.05, -18.55, -28.85, -9.55], lv["F4"]), "W2": ([-32.05, -34.1, -28.85, -25.1], lv["F4"]),
-    "W3": ([-17.2, 12.35, -8.2, 15.55], lv["F4"]), "WCA": ([-33.45, -24.75, -29.45, -18.9], lv["F4"]),
+    "W3": ([-17.2, 12.35, -8.2, 15.55], lv["F4"]), "WCA": ([-37.45, -24.75, -29.45, -18.9], lv["F4"]),
     "LIFTM": ([-31.25, -4.1, -28.85, -1.7], lv["F4"] - 1.2), "LIFTW": ([-31.25, 4.7, -28.85, 7.1], lv["F4"] - 1.2),
 }
 for k, (r, top) in CORE_RAFTS.items():
@@ -102,7 +102,7 @@ for e in els:
              "z": [round(lv["E2"] - 0.3 - 0.6, 2), round(lv["E2"] - 0.3, 2)], "note": "2.0 x 2.0 x 0.6 pad footing"}, 60)
 
 # ---- waterproofing + drainage on the earth side of retaining walls
-CENTRES = [((-17.95, -14.0), ("W-west-", "SA-", "WA-", "CS-W", "LS-")), ((21.25, 11.9), ("W-east-",)), ((45.0, 7.0), ("WP-",))]
+CENTRES = [((-33.45, -21.8), ("WA-",)), ((-17.95, -14.0), ("W-west-", "SA-", "CS-W", "LS-")), ((21.25, 11.9), ("W-east-",)), ((45.0, 7.0), ("WP-",))]  # (the WC annex: its own centre)
 for e in els:
     if e.get("phase") != 1 or e["type"] != "wall" or e["id"] == "W-west-C":
         continue

@@ -596,6 +596,35 @@ for wid, side, rng_, tag in (("P-E2-25", -1, (0.075 + TD, 5.02 - 0.075), "-dcwcl
     lining(wid, "tile_wall", side, rng_, tag + "-tile", z=[E2, round(E2 + 2.6, 2)])
     lining(wid, P["plain"], side, rng_, tag + "-plaster", z=[round(E2 + 2.6, 2), w_["z"][1]])
 
+# ---- the gym WCs (Roman 2026-10-18: darker, efficient, really clean + private; men's and women's fully separate; the same on F2-F4,
+#   the pool floor's made so nobody slips). Two rooms per floor in the rock annex either side of its concrete spine. Black glazed tile
+#   to the ceiling, a smoked oak slat ceiling at 2.7 m on felt + a lid (extract plenum above, negative pressure), the floor an unglazed
+#   grit-faced charcoal porcelain, 600 x 600 on F2 + F3, and on F4 the same as a 100 x 100 mosaic (barefoot class C / R11: the joints
+#   grip too), laid to the linear drain. The fittings: tools/furnish.py ('the gym WCs', construction/furniture.py gym_wc).
+FINISH["wc_dark_floor"] = {"kind": "slabs", "w": 0.6, "L": [0.6], "gap": 0.002, "dir": "y", "bond": "stack", "material": "porcelain_grip", "t": 0.012}
+FINISH["wc_grip_floor"] = {"kind": "slabs", "w": 0.1, "L": [0.1], "gap": 0.003, "dir": "y", "bond": "stack", "material": "porcelain_grip", "t": 0.01}
+GWC = {"women": [-37.3, -24.6, -29.7, -21.925], "men": [-37.3, -21.725, -29.7, -19.05]}
+for L_ in ("F2", "F3", "F4"):
+    z0 = lv[L_]
+    walls_ = [e for e in els if e["type"] == "wall" and e.get("kind") not in ("lining", "trim") and e["z"][0] <= z0 + 1.0 <= e["z"][1]
+              and (e["id"] in ("W-west-A", "SP-WA-spine") or e["id"].startswith("WA-"))]
+    for g, r in GWC.items():
+        fk = FINISH["wc_grip_floor" if L_ == "F4" else "wc_dark_floor"]
+        if L_ != "F4":
+            add({"id": f"IN-{L_}-gwc-{g}-screed", "type": "slab", "material": "screed", "rect": r, "z": [round(z0 - 0.10, 3), round(z0 - fk["t"], 3)], "holes": [],
+                 "note": "screed to falls + liquid waterproofing membrane, turned 150 mm up the walls"})
+        zf_ = [z0, round(z0 + fk["t"], 3)] if L_ == "F4" else [round(z0 - fk["t"], 3), z0]  # F4: on the raft, as the deck
+        add({"id": f"IN-{L_}-gwc-{g}-floor", "type": "slab", "kind": "floor_finish", "material": fk["material"], "rect": r, "z": zf_, "holes": [],
+             "pattern": {k: v for k, v in fk.items() if k not in ("material", "t")},
+             "note": "grit-faced charcoal porcelain mosaic 100 x 100, barefoot class C / R11 (the pool floor's WC)" if L_ == "F4" else "the same charcoal grit-faced porcelain, 600 x 600, R11"})
+        line_rooms(f"wc-gym-{g}-{L_}", "tile_black", [z0, round(z0 + 2.7, 3)], f"gwc{L_}{g}", walls=walls_)
+        add({"id": f"IN-{L_}-gwc-{g}-ceiling", "type": "slab", "kind": "ceiling", "material": "oak_slat_smoked", "rect": r, "z": [round(z0 + 2.7, 3), round(z0 + 2.72, 3)], "holes": [],
+             "pattern": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "y"}, "ignore_beams": True, "note": "smoked oak slat ceiling at 2.7 m"})
+        add({"id": f"IN-{L_}-gwc-{g}-felt", "type": "slab", "kind": "ceiling", "material": "felt_black", "rect": r, "z": [round(z0 + 2.75, 3), round(z0 + 2.76, 3)], "holes": [],
+             "pattern": {"kind": "poured", "joint": 0.25}, "note": "black acoustic felt behind the slats"})
+        add({"id": f"IN-{L_}-gwc-{g}-lid", "type": "slab", "kind": "ceiling", "material": "timber_stud", "rect": r, "z": [round(z0 + 2.76, 3), round(z0 + 2.785, 3)], "holes": [],
+             "pattern": {"kind": "poured", "joint": 0.25}, "note": "plasterboard lid: the room is a closed box at negative pressure (extract plenum above)"})
+
 m["elements"] = els + new
 modelio.save(m)
 print(f"phase-5 elements: {sum(1 for e in m['elements'] if e.get('phase') == 5)}; reception palette {m['interior']['palette']} ({P['name']})")

@@ -78,6 +78,8 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
   - **Detail pass (2026-10-18, VISION):** the deck floor is real flamed granite (`stone_blue` uses `granite_flamed_gridless`, a grid-free texture `tools/assets.py derive_gridless` makes from granite_tile_03, because the source has a baked tile grid); the recovery lounge follows Remedy Place (velvet daybeds in curtained bays, compression boots `_air_boot` + a pump, opal globes, smoked oak floor, venetian plaster); `pool_lounger` has a real frame (Roman caught floating parts). Helpers new in furniture.py: `_loft`, `_zprism`, `_stadium`, `_velvet`, `_foliage`. More cameras: `pool_boots_close`, `pool_lounger_close`.
   - **Watch out:** `furnish.put`'s first argument is `kind`, so no builder may take a kwarg called `kind` (plant_pot uses `species`); builder and helper names clash silently (`_leaf` is the door leaf, so foliage is `_foliage`).
 
+**The gym WCs (2026-10-18, VISION "The gym WCs, F2-F4"):** the WC annex (layout_v1 `wc-gym-women/men-<L>`, annex walls `WA-*`, slabs `S-WA-F2/F3`, the spine `SP-WA-spine`) is now 8 m deep; the rooms are one builder, `gym_wc` in furniture.py (men's local frame, the women's mirrored with `hand=-1`, `pool=True` on F4), placed + lit in tools/furnish.py ("the gym WCs"), the shell in tools/interior.py. Cameras `gwc_*` (+1.0 exposure: they read grey at +2.2). Fixed on the way: the annex walls' membrane + gravel were generated inside the rooms (foundations' soil side came from the gym's centre).
+
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
