@@ -1,5 +1,7 @@
 # Handoff (read first in a new session)
 
+**Latest (2026-10-18):** F4 is finished: the pool hall plus every room round it (lobby, deck + loungers, recovery lounge, thermal suite, breathwork), with a detail pass. Before that came the F3 den river, the glass lifts and the equipment passes (both leg extensions are modelled, `docs/` + `equipment/pieces/`). The stage 5 interiors still to do: see "Then" below. The block that follows is the 2026-10-12 state, kept for the detail standard it sets.
+
 **State on 2026-10-12 (end of session ec5888c8 + its continuation):** stages 0-4 are built (site, foundations, structure, envelope in the LOCKED exterior style B). In stage 5, **the whole east wing (E1 + E2 daycare) is finished** to the baseline detail standard:
 - **Reception:** the prototype, with the entrance matting, a fitted-out desk and the waiting nook.
 - **Cafe (reworked, VISION "Cafe rethink"):**
@@ -72,11 +74,14 @@ Roman reacts badly to "IKEA" sameness: he wants centrepieces, places to meet peo
 **The glass lifts (2026-10-17, VISION "The glass lifts"):** `glass_lift` in furniture.py, one per shaft, placed in tools/furnish.py ("the glass lifts"); stops = (z, glass height, reveal, lintel[, proud]). Openings + the removed A3/A4 columns in tools/structure_stage.py (`lift_front`). Cameras `gym_lift_f3`, `gym_lift_f3_close`, `gym_lift_f1`, `lk_lift_men`, `rec_lift`. Watch out: a new builder's kwargs only reach it if the kind is in `PARAMS` (furniture.py), otherwise it silently builds with its defaults. F4 (pool lobby) and the E2 lift lobby have no interiors yet, so those stops stand in raw rooms.
 
 **F4, the pool hall (2026-10-17, VISION "F4, the pool hall"):** shell in tools/interior.py ("F4, the pool hall": deck, ink tile linings, charcoal ceiling); `lap_pool`, `river_wall_f4` (black tile cut round the windows: `_rect_minus`), `river_volume` (the river's body outside, a volume box) in furniture.py, placed + lit in tools/furnish.py ("F4, the pool hall"). Cameras `pool_from_lobby`, `pool_south`, `pool_edge`, `pool_windows`. Materials in bl_common: `stone_blue`, `stone_nero(_honed)`, `stone_white`, `tile_ink`, `pool_mosaic(_black)`. Roman rejected procedural marble outright: use real textures (granite_tile has a baked tile grid, dark_rock reads as crumpled foil at wall scale; smooth_concrete_floor tinted works). The rooms round the hall (VISION "The rooms round it"): `plunge`, `sauna_cabin`, `sauna_heater_el`, `steam_room`, `rinse_shower`, `pool_lounger`, `recovery_bay` (Remedy Place LA refs in reference/f4_recovery/), `plant_pot`, `eclipse_sconce`, `towel_bin`, `breath_mat` in furniture.py, placed in tools/furnish.py ("F4, the rooms"); finishes in tools/interior.py ("F4, the rooms off the pool hall": `line_rooms(..., walls=_wall4)` lines F4 rooms); the plunges' raft holes are `PLUNGES` in tools/layout_v1.py. Cameras `pool_lobby`, `pool_loungers`, `pool_recovery`, `pool_recovery_bay`, `pool_thermal`, `pool_thermal_w`, `pool_sauna`, `pool_steam`, `pool_plunge`, `pool_breathwork`. The W3 exit door opens into the thermal suite at x -9.05 (structure_stage moves it): keep its landing clear.
+  - **The pool's size (Roman 2026-10-18):** a true 25 m between the finished end walls (25.02, structural rect y -28.58..-3.1 in layout_v1 / foundations / interior `POOL4`), four 2.4 m lanes, 1.25 m deep at the steps falling to 1.5 m at the south end (`lap_pool(d_n, d_s, raft)`; the raft top is F4-1.6, the fall is in the screed). Change it in all four places together.
+  - **Detail pass (2026-10-18, VISION):** the deck floor is real flamed granite (`stone_blue` uses `granite_flamed_gridless`, a grid-free texture `tools/assets.py derive_gridless` makes from granite_tile_03, because the source has a baked tile grid); the recovery lounge follows Remedy Place (velvet daybeds in curtained bays, compression boots `_air_boot` + a pump, opal globes, smoked oak floor, venetian plaster); `pool_lounger` has a real frame (Roman caught floating parts). Helpers new in furniture.py: `_loft`, `_zprism`, `_stadium`, `_velvet`, `_foliage`. More cameras: `pool_boots_close`, `pool_lounger_close`.
+  - **Watch out:** `furnish.put`'s first argument is `kind`, so no builder may take a kwarg called `kind` (plant_pot uses `species`); builder and helper names clash silently (`_leaf` is the door leaf, so foliage is `_foliage`).
 
 **Then:**
 1. the gym equipment (from `docs/FIT_STUDY.md`, hand-designed), with the focused pools over racks/platforms/rig; F1 hall walls. The locker rooms are done (first full pass).
 2. E2: garage, bike/moto parking, game room, lift lobby
-3. F2, then F3 (the darker "den", see VISION), then F4 (pool, thermal, recovery)
+3. F2, then F3 (the darker "den", see VISION). F4 is done (2026-10-18).
 
 For each zone:
 - First the shell: floors, ceilings and linings, in `tools/interior.py`.
@@ -172,6 +177,8 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - **3D renders:** `.capture/renders/replay.html`, rebuilt every turn by `tools/replay/render_history.py`. Any camera, every version, with its prompts.
 
 ## Known open items
+- **Third-party reference photos in local history (ask Roman before pushing):** the Remedy Place photos (magazine-credited) were swept into the auto checkpoint commit b4e3807. They are now untracked + gitignored (`reference/f4_recovery/`), but the commit still holds them. The repo is public, so they must not be pushed. Scrubbing them means rewriting unpushed history: Roman has not answered yet, so don't do it without his yes.
+- **F4 follow-ups offered, not decided:** the thermal suite reads dark and moody (offered: ink tile with black only round the plunges); the compression boots are fine at room scale but plain up close (offered: a multi-angle reference build as for the leg extensions).
 - **The trail runs through Kulpen.** `site.features.trail` was routed before the sauna grew a berm: it passes the porch and under the west berm (keep_out is the old 6 x 9 m box). Re-route it west round the mound (bigger keep_out in `terrain/route_trail.py`, then the features raster in `terrain/ravine.py`) when stage 6 does the trail.
 - **Entrance stone strip** inside the doors reads dark. With the vestibule now outside it could become oak plus a recessed mat; offered, not decided.
 - **West-garden camera** sits inside the forest; there's a small ground dip at the foot of the W2 tower.
