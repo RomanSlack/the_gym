@@ -46,3 +46,27 @@ Each modelling pass is committed on its own, so the replay shows the prompt behi
 - **Pick references with many real angles first.** One hero render forces guessing the hidden sides; a dealer gallery with side, front, rear and close-ups doesn't.
 - **Sheets that helped**: `match` (photo | ours from its camera), `detail*` (close-ups per assembly from the same camera, match.json "details"), `drawover` (ours over each drawing), the orthographic top against the generated top.
 
+
+## Connections: every part is held (learned on the Hammer Strength, v009)
+
+Roman: "on the real thing it is welded or bolted, but on ours it is just floating there". A machine reads as fake when its parts sit near each other instead of joined. So before modelling a part, read from a close-up **what holds it**, and build that joint. Every part attaches in one of these ways:
+
+| joint | what you see on the real one | kit |
+|---|---|---|
+| **welded** | a member's end cut to the face it meets (coped / mitred), a bead round it, powder-coated over | `k.bar(..., cut0=(point, normal), cut1=..., weld=True)` (also `k.tube`, `k.sweep`): the end is cut flush to the plane, a bead runs round it |
+| **bolted** | a plate flat against a face, at least two bolts, washers, nuts on the far side when it goes through | `k.box(...)` touching the face + `k.bolt(c, "+x", size, nut=grip)` |
+| **on an axle** | a hub (a short fat tube) round the axle, bearing against the frame each side, nuts at the axle's ends | `k.tube` hub + axle through the frame + `k.bolt(..., size=0.03)` as the nuts |
+| **sleeved / pinned** | a tube sliding in a bigger tube, a pop-pin through both | an outer tube + the inner one inside it + the pin |
+| **upholstered** | the pad on a board, the board bolted to a bracket welded to the frame | `k.shaped_pad` + a bracket box + `k.bolt` |
+
+Rules:
+- **No part hangs on a thin rod alone.** A rod, pin or axle (under 40 mm) can't hold a block: give it a hub, a plate bolted to the frame, or a weld. (The HS outer ROM block hung on the axle in air; the real one is bolted to the yoke's post.)
+- **Members end on something.** Every end is cut to a face and welded, or capped (plastic caps on post tops, lever tops). No square end poking through another member, none stopping short in mid-air.
+- **Find the yoke / bracket / gusset before the part it carries.** Pivots usually sit in a yoke (two posts on a bridge), not on one upright; A-frames meet at a gusset; bent rods end in a bracket.
+- **Bolts are hardware, not glue.** A bolt head stuck on one plate holds nothing; bolts go where a plate meets a face.
+
+**The check** (`kit.check()`, runs on every build, printed before the renders): every primitive is a part labelled with its line in model.py. Parts that touch are joined; anything not joined down to the floor is **floating**. Hardware (bolts, labels, holes, seams) must sit on a member but never joins two. It also reports parts **hung on a rod only**, and **gaps** (two members 6 mm or less apart without touching: reads as a near miss, close it or open it up). Check without rendering, in about 2 s:
+
+    blender -b --factory-startup --python equipment/blender/studio.py -- <piece> 0 check     # exit 4 = something floats
+
+Aim for `0 floating`, no "hung on a rod", and no gaps you can't explain. Then look at a `DETAILS` close-up of each joint beside the photo's close-up: the check proves contact, the eye judges whether the joint is the right kind.

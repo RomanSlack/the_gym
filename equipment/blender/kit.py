@@ -96,7 +96,8 @@ def stadium(w, h, seg=10):
 # ---------------------------------------------------------------- parts (for the connection check)
 
 HARDWARE = {"bolt", "hole", "warn", "label", "seam", "weld"}   # sit on a member but never hold two members together
-ROD = 0.025   # round bars this thin (axles, pins, rods) can't hold a part on their own: it needs a hub, a plate, a weld
+GAP = 0.006   # two members this close but not touching read as a mistake (floating by a few mm): reported
+ROD = 0.020   # round bars this thin (axles, pins, rods) can't hold a part on their own: it needs a hub, a plate, a weld
 
 
 def _part(fn):
@@ -111,6 +112,7 @@ def _part(fn):
             finally:
                 self._depth -= 1
         before = {key: len(b.faces) for key, b in self.groups.items()}
+        pid = len(self.parts) + 1
         self._depth = 1
         try:
             r = fn(self, *a, **kw)
@@ -121,7 +123,14 @@ def _part(fn):
             if fr.f_code.co_filename.endswith("model.py"):
                 where = f"{fr.f_code.co_name}():{fr.f_lineno}"; break
             fr = fr.f_back
-        rng = {key: (before.get(key, 0), len(b.faces)) for key, b in self.groups.items() if len(b.faces) > before.get(key, 0)}
+        rng = []   # the groups it added faces to; its faces are tagged with its id (index ranges don't hold: bmesh reuses
+        for key, b in self.groups.items():   # freed slots, e.g. after create_cone's caps)
+            if len(b.faces) > before.get(key, 0):
+                lay = b.faces.layers.int.get("part") or b.faces.layers.int.new("part")
+                for f in b.faces:
+                    if not f[lay]:
+                        f[lay] = pid
+                rng.append(key)
         if rng:
             role = a[0] if a and isinstance(a[0], str) else fn.__name__
             r_ = (a[3] if len(a) > 3 else kw.get("r")) if fn.__name__ == "tube" else None
@@ -461,18 +470,22 @@ class Kit:
         kits = [(self, Matrix())] + [(s_, Matrix.Translation(Vector(s_.pivot)) @ Matrix.Rotation(math.radians(s_.rz), 4, "Z")
                                       @ Matrix.Translation(-Vector(s_.pivot))) for s_ in self.subs]
         for kit, M in kits:
-            for pt in kit.parts:
+            faces = {}
+            for b in kit.groups.values():
+                lay = b.faces.layers.int.get("part")
+                for f in (b.faces if lay else ()):
+                    faces.setdefault(f[lay], []).append(f)
+            for pid, pt in enumerate(kit.parts, 1):
                 co, polys = [], []
-                for key, (f0, f1) in pt["rng"].items():
-                    b = kit.groups[key]; b.faces.ensure_lookup_table()
-                    for fi in range(f0, f1):
-                        f = b.faces[fi]
-                        polys.append(list(range(len(co), len(co) + len(f.verts))))
-                        co.extend(M @ v.co for v in f.verts)
+                probe = []   # the face centres too: two faces flat on each other may share no vertex
+                for f in faces.get(pid, ()):
+                    polys.append(list(range(len(co), len(co) + len(f.verts))))
+                    co.extend(M @ v.co for v in f.verts)
+                    probe.append(M @ f.calc_center_median())
                 if not polys:
                     continue
                 A = np.array([tuple(v) for v in co])
-                items.append(dict(pt, co=co, tree=BVHTree.FromPolygons(co, polys), lo=A.min(0) - tol, hi=A.max(0) + tol,
+                items.append(dict(pt, co=co, probe=co + probe, tree=BVHTree.FromPolygons(co, polys), lo=A.min(0) - tol, hi=A.max(0) + tol,
                                   c=A.mean(0), hw=all(key[0] in HARDWARE for key in pt["rng"])))
         n = len(items)
         par = list(range(n))
@@ -487,10 +500,23 @@ class Kit:
                 return False
             if a["tree"].overlap(b["tree"]):
                 return True
-            sm, big = (a, b) if len(a["co"]) < len(b["co"]) else (b, a)
-            return any(big["tree"].find_nearest(v, tol)[0] is not None for v in sm["co"][::max(1, len(sm["co"]) // 400)])
+            return any(y["tree"].find_nearest(v, tol)[0] is not None for x, y in ((a, b), (b, a)) for v in x["probe"]
+                       if (v.x >= y["lo"][0] and v.y >= y["lo"][1] and v.z >= y["lo"][2]
+                           and v.x <= y["hi"][0] and v.y <= y["hi"][1] and v.z <= y["hi"][2]))
 
-        seated, nb = set(), {}   # hardware sitting on some structural part; who touches whom
+        def gap(a, b, most=GAP):
+            """The smallest distance between two parts that don't touch, if under `most` (sampled vertices)."""
+            if (a["lo"] - most > b["hi"]).any() or (b["lo"] - most > a["hi"]).any():
+                return None
+            best = None
+            for sm, big in ((a, b), (b, a)):
+                for v in sm["probe"]:
+                    hit = big["tree"].find_nearest(v, most)
+                    if hit[0] is not None and (best is None or hit[3] < best):
+                        best = hit[3]
+            return best
+
+        seated, nb, near = set(), {}, []   # hardware on some structural part; who touches whom; gaps that look like misses
         for i in range(n):
             for j in range(i + 1, n):
                 a, b = items[i], items[j]
@@ -504,6 +530,10 @@ class Kit:
                     else:
                         par[root(i)] = root(j)
                         nb.setdefault(i, []).append(j); nb.setdefault(j, []).append(i)
+                elif not (a["hw"] or b["hw"]):
+                    g = gap(a, b)
+                    if g is not None:
+                        near.append((g, i, j))
         ground = {root(i) for i, it in enumerate(items) if not it["hw"] and it["lo"][2] <= tol * 1.5}
         held = {i for i, it in enumerate(items) if not it["hw"] and root(i) in ground}
         self.floating = []
@@ -527,17 +557,18 @@ class Kit:
         for i, it in enumerate(items):
             if it["hw"] and i not in seated:
                 print(f"  hardware on nothing: {it['what']} {it['where']} at {tuple(round(float(x), 3) for x in it['c'])}", flush=True)
-        if __import__("os").environ.get("KIT_DEBUG"):
-            for i, it in enumerate(items):
-                if it["where"] == "side():95":
-                    print("DBG", it["c"], [(items[j]["what"], items[j]["where"]) for j in nb.get(i, [])])
         hung = [i for i, it in enumerate(items) if not it["hw"] and not it["rod"] and i in held and nb.get(i)
+                and not it["what"].endswith(("rubber", "plastic"))   # end caps and grips do sit on a rod
                 and all(items[j]["rod"] for j in nb[i])]
         for i in hung:
             it = items[i]
             self.floating.append((it["what"] + " (hung on a rod)", it["where"], tuple(round(float(x), 3) for x in it["c"])))
             print(f"  hung on a rod only: {it['what']} {it['where']} at {tuple(round(float(x), 3) for x in it['c'])}"
                   f" (on {', '.join(items[j]['where'] for j in nb[i])}): bolt it to a plate, give it a hub, or weld it", flush=True)
+        for g, i, j in sorted(near):
+            print(f"  gap {g * 1000:.0f} mm: {items[i]['what']} {items[i]['where']} / {items[j]['what']} {items[j]['where']}"
+                  f" at {tuple(round(float(x), 3) for x in items[i]['c'])}: close it or open it up", flush=True)
+        self.gaps = near
         return self.floating
 
     # -- output
