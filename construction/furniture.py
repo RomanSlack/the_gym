@@ -5097,31 +5097,49 @@ def rinse_shower(P, n=1, pitch=1.1):
 
 
 def pool_lounger(P):
-    """A pool lounger: a sled base of blackened-steel flat bar, a slatted oiled oak deck (the head end raised to 40°), a 60 mm
-    charcoal cushion over it, a rolled white towel at the foot. 2.0 x 0.72, the seat at 0.36. Origin = floor centre, foot +y."""
+    """A pool lounger: two side frames of blackened-steel flat bar (a floor runner, end posts, a top rail the full length) joined by
+    cross rails; oiled oak slats across the rails; the back a hinged steel frame with its own slats, raised to 40° and held by a
+    U-shaped prop that drops into a notch on the rails; one 60 mm charcoal cushion following the deck and the back, a headrest
+    pillow, a rolled towel lying on the foot. 2.0 x 0.72, the seat at 0.36. Origin = floor centre, foot +y."""
     st, oak = M["steel"], M["oak"]
     cush = M.setdefault("cushion_charcoal", bc.pbr_material("cushion_charcoal", "caban", 0.274, box=True, tint=(0.5, 0.52, 0.56), sat=0.2, val=0.2, piece_var=0.02))
-    W, z = 0.72, 0.3
-    for sx in (-1, 1):                                                                  # sled runners: floor bar up into the deck rail
-        x = sx * (W / 2 - 0.03)
-        P.box(st, (x, 0.0, 0.008), (0.04, 1.8, 0.016))
-        for y in (-0.82, 0.82):
-            P.box(st, (x, y, z / 2), (0.04, 0.012, z))
-        P.box(st, (x, 0.2, z), (0.04, 1.25, 0.03))
-    y0 = -0.43; L1 = 1.25                                                                # flat part: slats across
+    W, zr, ye = 0.72, 0.3, 0.88                       # width, top of the rails, half length of the frame
+    xr = W / 2 - 0.02
+    for sx in (-1, 1):                                                                  # the side frames
+        x = sx * xr
+        P.box(st, (x, 0.0, 0.008), (0.04, 2 * ye, 0.016))                              # floor runner
+        for y in (-ye + 0.02, ye - 0.02):
+            P.box(st, (x, y, zr / 2), (0.04, 0.04, zr))                                # end posts, runner to rail
+        P.box(st, (x, 0.0, zr - 0.015), (0.04, 2 * ye, 0.03))                          # top rail
+    for y in (-ye + 0.02, 0.0, ye - 0.02):                                             # cross rails, rail to rail
+        P.box(st, (0, y, zr - 0.03), (2 * xr, 0.03, 0.03))
+    y0 = -0.42                                                                          # the hinge; the flat deck from here to the foot
     y = y0 + 0.04
-    while y < y0 + L1:
-        P.box(oak, (0, y, z + 0.03), (W - 0.02, 0.06, 0.022)); y += 0.075
-    P.box(cush, (0, y0 + L1 / 2, z + 0.072), (W - 0.06, L1 - 0.02, 0.06))
-    ang = math.radians(40); Lb = 0.62                                                   # the raised back
-    cy, cz = y0 - math.cos(ang) * Lb / 2, z + 0.03 + math.sin(ang) * Lb / 2
-    P.box(oak, (0, cy, cz), (W - 0.02, Lb, 0.022), rx=-ang)
-    P.box(cush, (0, cy + 0.03, cz + 0.045), (W - 0.06, Lb, 0.06), rx=-ang)
+    while y < ye - 0.03:
+        P.box(oak, (0, y, zr + 0.011), (W - 0.02, 0.06, 0.022)); y += 0.075
+    zs = zr + 0.022                                                                     # top of the slats
+    P.box(cush, (0, (y0 + ye) / 2, zs + 0.03), (W - 0.06, ye - y0 - 0.02, 0.06))
+    a = math.radians(40); Lb = 0.72
+    d_ = (-math.cos(a), math.sin(a)); n_ = (math.sin(a), math.cos(a))                # along the back (up, to the head) / its face
+    at = lambda s_, o_: (y0 + d_[0] * s_ + n_[0] * o_, zs - 0.03 + d_[1] * s_ + n_[1] * o_)
+    for sx in (-1, 1):                                                                  # the back's side bars, inside the rails
+        cy, cz = at(Lb / 2, 0.0)
+        P.box(st, (sx * (xr - 0.04), cy, cz), (0.03, Lb, 0.03), rx=-a)
+    P.rod(st, (-xr, y0, zs - 0.03), (xr, y0, zs - 0.03), 0.012, seg=12)              # the hinge bar, through the back's bars into the rails
+    s_ = 0.06
+    while s_ < Lb - 0.03:                                                               # its slats
+        cy, cz = at(s_, 0.026)
+        P.box(oak, (0, cy, cz), (W - 0.1, 0.06, 0.022), rx=-a); s_ += 0.075
+    cy, cz = at(Lb / 2, 0.067)
+    P.box(cush, (0, cy, cz), (W - 0.06, Lb, 0.06), rx=-a)                             # the cushion up the back
+    cy, cz = at(Lb - 0.16, 0.13)
+    P.box(cush, (0, cy, cz), (W - 0.16, 0.22, 0.07), rx=-a)                           # headrest pillow
+    py, pz = at(0.42, -0.015)                                                           # the prop: from the back's bars into the rails' notch
     for sx in (-1, 1):
-        P.rod(st, (sx * (W / 2 - 0.05), y0 - math.cos(ang) * Lb * 0.75, z + 0.03 + math.sin(ang) * Lb * 0.75 - 0.03),
-              (sx * (W / 2 - 0.05), y0 - 0.55, z), 0.012, seg=10)
+        P.rod(st, (sx * (xr - 0.04), py, pz), (sx * (xr - 0.04), -ye + 0.1, zr), 0.009, seg=10)
+    P.rod(st, (-(xr - 0.04), -ye + 0.1, zr), (xr - 0.04, -ye + 0.1, zr), 0.009, seg=10)
     towel = M.setdefault("towel_white", bc.material("towel_white", (0.85, 0.84, 0.8), 0.95))
-    P.rod(towel, (-0.25, y0 + L1 - 0.18, z + 0.15), (0.25, y0 + L1 - 0.18, z + 0.15), 0.06, seg=24)
+    P.rod(towel, (-0.25, ye - 0.3, zs + 0.06 + 0.055), (0.25, ye - 0.3, zs + 0.06 + 0.055), 0.055, seg=24)
 
 
 def towel_bin(P):
@@ -5230,6 +5248,69 @@ def eclipse_sconce(P, d=0.36):
         bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b, verts=g, vec=(0, y, z))
 
 
+def _loft(P, mat, rings, cap=True):
+    """A skin through rings of points (each ring the same count, in order): sleeves, hoses, anything round that changes size."""
+    b = P.bm(mat); vs = [[b.verts.new(q) for q in r] for r in rings]; n = len(rings[0])
+    for r0, r1 in zip(vs, vs[1:]):
+        for i in range(n):
+            j = (i + 1) % n
+            b.faces.new((r0[i], r0[j], r1[j], r1[i]))
+    if cap:
+        b.faces.new(vs[0][::-1]); b.faces.new(vs[-1])
+    bmesh.ops.recalc_face_normals(b, faces=list({f for r in vs for v in r for f in v.link_faces}))
+
+
+def _air_boot(P, x, y_hip, y_heel, z_bed, pump=None):
+    """One air-compression boot (Normatec-style) lying on its back: a full-leg sleeve of five overlapping air chambers (each
+    pillowed, a crease between), flattened where it lies, tapering from the thigh to the ankle; a boot-shaped foot standing up at
+    the end; a zip along the inner side; a grey cuff at the top and the hose from its port to the pump. Matte graphite nylon."""
+    fab = M.setdefault("boot_nylon", bc.material("boot_nylon", (0.03, 0.032, 0.036), 0.5))
+    cuff = M.setdefault("boot_cuff", bc.material("boot_cuff", (0.16, 0.165, 0.17), 0.7))
+    zipm = M.setdefault("boot_zip", bc.material("boot_zip", (0.008, 0.008, 0.009), 0.3))
+    N, K = 36, 70; inner = -1 if x > 0 else 1
+    rings, zips = [], []
+    for k in range(K + 1):
+        t = k / K; y = y_hip + (y_heel - y_hip) * t
+        rx = 0.1 - 0.042 * t ** 1.3                                                    # thigh to ankle
+        f = (t * 5) % 1.0; m = 0.93 + 0.08 * math.sin(math.pi * f) ** 0.6              # pillowed chambers, a crease between
+        rx *= m; rz = rx * 0.72
+        zc = z_bed + rz
+        rings.append([(x + rx * math.cos(u), y, zc + rz * math.sin(u)) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
+        u = math.radians(55); zips.append((x + inner * rx * 1.005 * math.cos(u), y, zc + rz * 1.005 * math.sin(u)))
+    _loft(P, fab, rings)
+    for p0, p1 in zip(zips, zips[1:]):
+        P.rod(zipm, p0, p1, 0.0045, seg=6)
+    r0 = rings[0]; zc0 = sum(q[2] for q in r0) / N
+    _loft(P, cuff, [[(q[0] + (q[0] - x) * 0.04, y_hip - 0.002 + dy, zc0 + (q[2] - zc0) * 1.04) for q in r0] for dy in (0.0, 0.035)])
+    # the foot: the sleeve carries on round the heel and up to the toes (a lying leg's foot points up), a rounded toe box
+    ra, za = rings[-1], None
+    rxa = max(q[0] for q in ra) - x; rza = (max(q[2] for q in ra) - min(q[2] for q in ra)) / 2; za = z_bed + rza
+    foot, R = [], 0.06
+    for i in range(13):
+        ph = math.radians(90 * i / 12)
+        c = (x, y_heel + R * math.sin(ph), za + R * (1 - math.cos(ph)))
+        tv = (0.0, -math.sin(ph), math.cos(ph))                                          # in the ring's plane, across the path
+        ru = rxa + (0.072 - rxa) * i / 12; rv = rza + (0.1 - rza) * i / 12
+        foot.append([(c[0] + ru * math.cos(u), c[1] + rv * math.sin(u) * tv[1], c[2] + rv * math.sin(u) * tv[2]) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
+    top = foot[-1][0][2]
+    for i in range(1, 7):                                                                # up to the toes, then closing over them
+        f = i / 6; zc_ = top + 0.17 * f; sc = math.cos(f * math.pi / 2) ** 0.5 if f > 0.6 else 1.0
+        c = (x, y_heel + R + 0.02 * f, zc_)
+        foot.append([(c[0] + 0.072 * (1 - 0.15 * f) * sc * math.cos(u), c[1] + (0.1 - 0.02 * f) * sc * math.sin(u), zc_) for u in np.linspace(0, 2 * math.pi, N + 1)[:-1]])
+    _loft(P, fab, foot)
+    port = (x, y_hip + 0.08, zc0 + 0.07)
+    P.cyl(cuff, (port[0], port[1], port[2] - 0.005), 0.016, 0.02, seg=16)
+    if pump:                                                                            # the hose: a soft curve up and over to the pump
+        h0 = (port[0], port[1], port[2] + 0.015); h3 = pump
+        h1 = (h0[0], h0[1] - 0.15, h0[2] + 0.12); h2 = (h3[0], h3[1] + 0.2, h3[2] + 0.25)
+        pts = []
+        for i in range(17):
+            t = i / 16
+            pts.append(tuple((1 - t) ** 3 * h0[c] + 3 * (1 - t) ** 2 * t * h1[c] + 3 * (1 - t) * t ** 2 * h2[c] + t ** 3 * h3[c] for c in range(3)))
+        for p0, p1 in zip(pts, pts[1:]):
+            P.rod(cuff, p0, p1, 0.007, seg=8)
+
+
 def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
     """One recovery bay (the recovery lounge, after Remedy Place LA's lounge beds; Roman 2026-10-17: look up real references):
     a charcoal velvet daybed, channel-tufted back, the foot a full half-round, on a recessed black plinth with a warm glow
@@ -5244,20 +5325,17 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
     P.box(_led("bay_plinth_glow", (1.0, 0.72, 0.45), 3.0), (0, (y0 + y1) / 2 - 0.2, 0.004), (0.7, 1.4, 0.004))
     _zprism(P, vel, _stadium(x0, x1, y0, y1), 0.12, 0.36)                                                   # the base
     _zprism(P, vel, _stadium(x0 + 0.015, x1 - 0.015, y0 + 0.015, y1 - 0.015), 0.36, 0.44)                  # the seat cushion
-    for k in range(5):                                                                                       # channel-tufted back, raked
-        z = 0.5 + k * 0.088; yy = y0 + 0.1 + k * 0.03
-        P.rod(vel, (x0 + 0.03, yy, z), (x1 - 0.03, yy, z), 0.048, seg=24)
+    for k in range(5):                                                                                       # channel-tufted back, raked:
+        z = 0.5 + k * 0.088; yy = y0 + 0.1 + k * 0.03                                                        # flat pillowed channels,
+        rings = []                                                                                           # rounded off at the ends
+        for xx in np.linspace(x0 + 0.03, x1 - 0.03, 24):
+            e = min(1.0, (min(xx - x0 - 0.03, x1 - 0.03 - xx) / 0.05)) ** 0.5
+            rings.append([(xx, yy + 0.034 * max(e, 0.15) * math.cos(u), z + 0.046 * max(e, 0.15) * math.sin(u)) for u in np.linspace(0, 2 * math.pi, 25)[:-1]])
+        _loft(P, vel, rings)
     P.rod(vel, (-0.28, y0 + 0.36, 0.5), (0.28, y0 + 0.36, 0.5), 0.07, seg=24)                               # a bolster
-    # the boots, laid on the bed (sleeves tapering to the foot), the hose to the pump
-    boot = M.setdefault("boot_graphite", bc.material("boot_graphite", (0.035, 0.037, 0.04), 0.55))
-    seam = M.setdefault("boot_seam", bc.material("boot_seam", (0.012, 0.012, 0.014), 0.7))
-    for sx in (-0.13, 0.13):
-        p0, p1 = (sx, 1.0, 0.52), (sx, 1.75, 0.5)
-        P.rod(boot, p0, p1, 0.075, 0.062, seg=24)
-        for k in range(1, 5):
-            f = k / 5; c = tuple(p0[i] + (p1[i] - p0[i]) * f for i in range(3))
-            P.rod(seam, (c[0], c[1] - 0.005, c[2]), (c[0], c[1] + 0.005, c[2]), 0.077 - 0.013 * f, seg=24)
-        P.blob(boot, (sx, 1.86, 0.5), (0.06, 0.11, 0.075), seg=18)
+    # the boots, laid side by side on the bed, the hoses to the pump on the table's shelf
+    for sx in (-0.12, 0.12):
+        _air_boot(P, sx, 0.72, 1.62, 0.44, pump=(0.72, 0.42 + (0.03 if sx > 0 else -0.03), 0.28))
     # the side table, its glass, a plant, the pump below
     tx, ty = 0.82, 0.42
     for sx in (-1, 1):
@@ -5265,8 +5343,11 @@ def recovery_bay(P, w=2.4, d=2.5, ceiling=5.2, end=False):
             P.box(st, (tx + sx * 0.16, ty + sy * 0.16, 0.29), (0.014, 0.014, 0.58))
     P.box(M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"], (tx, ty, 0.585), (0.36, 0.36, 0.02))
     P.box(st, (tx, ty, 0.18), (0.34, 0.34, 0.012))
-    P.box(boot, (tx, ty, 0.25), (0.22, 0.26, 0.13)); P.box(_led("boot_screen", (0.6, 0.85, 1.0), 2.0), (tx, ty + 0.131, 0.27), (0.1, 0.002, 0.05))
-    P.rod(boot, (tx - 0.1, ty + 0.05, 0.25), (0.15, 1.0, 0.45), 0.01, seg=8)
+    shell = M.setdefault("pump_shell", bc.material("pump_shell", (0.05, 0.052, 0.056), 0.35))
+    P.box(shell, (tx, ty, 0.25), (0.2, 0.28, 0.13))                                       # the pump: a rounded graphite unit,
+    P.box(_led("boot_screen", (0.6, 0.85, 1.0), 2.0), (tx + 0.02, ty, 0.3155), (0.09, 0.14, 0.002))  # its screen on top,
+    for dy in (-0.03, 0.03):
+        P.rod(M.setdefault("boot_cuff", bc.material("boot_cuff", (0.16, 0.165, 0.17), 0.7)), (tx - 0.1, ty + dy, 0.28), (tx - 0.12, ty + dy, 0.28), 0.012, seg=12)  # two ports
     P.cyl(M["glass"], (tx - 0.08, ty - 0.06, 0.595), 0.035, 0.12, seg=24)                                  # a glass of water
     P.cyl(M.setdefault("water_bath", bc.arch_glass("water_bath", tint=(0.8, 0.9, 0.86))), (tx - 0.08, ty - 0.06, 0.6), 0.03, 0.08, seg=24)
     pot = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
