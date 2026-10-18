@@ -4925,20 +4925,6 @@ def _pool_water():
     return M["pool_water"]
 
 
-def _vapour(name, density, color=(0.95, 0.95, 0.95)):
-    """Steam / mist: a volume only (no surface), white scatter, a little anisotropy forward."""
-    if name not in M:
-        mt = bpy.data.materials.new(name); mt.use_nodes = True
-        N_, L_ = mt.node_tree.nodes, mt.node_tree.links
-        N_.remove(N_["Principled BSDF"])
-        v = N_.new("ShaderNodeVolumePrincipled")
-        v.inputs["Color"].default_value = (*color, 1); v.inputs["Density"].default_value = density
-        v.inputs["Anisotropy"].default_value = 0.3
-        L_.new(v.outputs[0], N_["Material Output"].inputs["Volume"])
-        M[name] = mt
-    return M[name]
-
-
 def plunge(P, w=2.8, d=3.6, depth=0.57, rim=0.45, hot=False):
     """A plunge pool in the thermal suite (VISION: a simple hot/cold plunge): sunk through the raft with a honed near-black stone kerb
     0.45 high and 0.3 wide (sit on it, swing your legs over), the water a hand under the kerb, ~1 m deep. Inside a deep glass mosaic
@@ -5056,8 +5042,8 @@ def sauna_heater_el(P):
 def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
     """The thermal suite's steam room (VISION: a simple thermal setup): lined all over in deep ink glass mosaic, walls, benches and a
     ceiling that falls from front to back so the drips run down the walls, not onto you; L-shaped benches along the back + one side,
-    tiled, raked backs; clear glass front in a blackened-steel frame with the door; the steam itself (a soft volume that blurs the
-    back), small warm pin lights in the ceiling, the steam outlet low by the bench. Origin = the front's centre on the floor, the
+    tiled, raked backs; clear glass front in a blackened-steel frame with the door (no steam volume: at draft quality it rendered as
+    blotchy noise), small warm pin lights in the ceiling, the steam outlet low by the bench. Origin = the front's centre on the floor, the
     room behind (-y), front +y."""
     st = M["steel"]
     mos = bc.pool_mosaic("steam_mosaic", (0.012, 0.030, 0.055), (0.022, 0.050, 0.085), caustics=False)
@@ -5082,7 +5068,6 @@ def steam_room(P, w=2.95, d=3.8, h=2.5, door=0.9):
     P.box(mos, (-w / 2 + t + 0.08, (-d + t + sd - 0.9) / 2, seat + 0.25), (0.16, (-0.9) - (-d + t + sd), 0.5), ry=math.radians(10))
     P.box(st, (w / 2 - 0.25, -d + t + 0.002, 0.25), (0.12, 0.006, 0.08))               # the steam outlet
     P.box(st, (0, -0.3, 0.021), (w - 0.2, 0.05, 0.004))                                 # linear drain
-    P.box(_vapour("steam", 0.03), (0, -d / 2 - 0.02, (h - 0.1) / 2 + 0.03), (w - 0.08, d - 0.12, h - 0.15))
     # the front: clear glass in a blackened-steel frame, the door
     P.box(st, (0, 0.0, h + 0.05), (w, 0.05, 0.1)); P.box(st, (0, 0.0, 0.02), (w, 0.05, 0.04))
     for xp in (-w / 2 + 0.02, door - 0.42, door + 0.42, w / 2 - 0.02):
