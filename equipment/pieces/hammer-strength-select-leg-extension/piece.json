@@ -29,5 +29,17 @@
  "fetched": {
   "at": "2026-10-17T23:35:31+00:00",
   "how": "shopify json"
- }
+ },
+ "specs": {
+  "L_W_H_cm": [
+   119,
+   104,
+   163
+  ],
+  "stack_kg": 138,
+  "weight_kg": 259,
+  "model_code": "HS-LE",
+  "source": "Life Fitness spec sheet / delta-fitness.com (119 x 104 x 163 cm, 295 lb stack)"
+ },
+ "status_note": "only one photo angle exists online; Roman blocks it out in blockout.blend, then model.py is built from it"
 }
