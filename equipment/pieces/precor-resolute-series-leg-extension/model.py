@@ -272,6 +272,14 @@ def seat_and_back(k):
     k.shaped_pad("pad", [(-wf / 2, -d / 2), (wf / 2, -d / 2), (SEAT_BACKW / 2, d / 2), (-SEAT_BACKW / 2, d / 2)],
                  c, (0, math.sin(tl), math.cos(tl)), (1, 0, 0), th, r=0.045)
     k.box("frame", (x, y + 0.02, c[2] - th / 2 - 0.02), (0.22, d * 0.7, 0.03), rx=-tl, soft=0.004)   # the seat pan on the spine
+    # the seat's hand grips, one each side near its rear: a tube out from under the seat, up into a rubber grip, silver cap
+    hy = y + d / 2 - 0.07
+    hw = SEAT_BACKW / 2 + (wf - SEAT_BACKW) / 2 * 0.15 + 0.045
+    for sx in (-1, 1):
+        k.sweep("frame", [(x + sx * 0.08, hy, c[2] - th / 2 - 0.035), (x + sx * hw, hy, c[2] - th / 2 - 0.035), (x + sx * hw, hy, c[2] - 0.01)],
+                k.circle(0.014), bend=0.035)
+        k.tube("rubber", (x + sx * hw, hy, c[2] - th / 2 - 0.01), (x + sx * hw, hy, c[2] + 0.03), 0.019)
+        k.cyl("alu", (x + sx * hw, hy, c[2] + 0.036), 0.02, 0.012)
     # the carriage under the seat's rear: a box, the bolted bracket plate, the release lever's rod with the orange paddle
     k.box("frame", (x, y + d / 2 + 0.07, 0.47), (0.12, 0.14, 0.12), soft=0.006)
     k.box("frame", (x + 0.11, y + d / 2 + 0.17, 0.42), (0.008, 0.15, 0.25), soft=0.002)
