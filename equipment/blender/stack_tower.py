@@ -81,8 +81,9 @@ def _placard(t, T, cx, y, z, w, h, facing=-1, rz=0.0):
     yf = y + facing * 0.0032
     sg = -facing
     t.text("ink", T["brand"], (cx - sg * (w / 2 - 0.11), yf, z + h / 2 - 0.025), 0.022, rz=rz, depth=0.0003)
+    q = min(0.07, (w - 0.04) / 3.4)                  # the diagram squares, smaller on a narrow placard
     for i in range(3):
-        t.box("ink2", (cx - sg * (w / 2 - 0.06 - i * 0.085), yf, z - 0.01), (0.07, 0.0006, 0.07), soft=0.0)
+        t.box("ink2", (cx - sg * (w / 2 - 0.02 - q / 2 - i * q * 1.2), yf, z - 0.01), (q, 0.0006, q), soft=0.0)
     t.text("ink", T["title"], (cx + sg * (w / 2 - 0.13), yf, z - h / 2 + 0.03), 0.022, rz=rz, depth=0.0003)
 
 

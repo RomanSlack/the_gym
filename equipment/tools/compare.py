@@ -11,13 +11,14 @@ import re
 import sys
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 EQ = Path(__file__).resolve().parent.parent
 W = 800
 
 
 def fit(im):
+    im = ImageOps.exif_transpose(im)          # phone photos are stored sideways with an orientation tag
     return im.convert("RGB").resize((W, int(im.height * W / im.width)))
 
 
