@@ -67,18 +67,34 @@ def foot(k, x, y, s=0.10):
     k.box("rubber", (x, y, FOOT_H / 2), (s, s, FOOT_H), soft=0.003)
 
 
+Z, X, Y = (0, 0, 1), (1, 0, 0), (0, 1, 0)
+RZ0 = FOOT_H + 0.05 / 2              # the base beams' centre height
+
+
 def build(k):
-    Z, X, Y = (0, 0, 1), (1, 0, 0), (0, 1, 0)
     tw = stack_tower.tower(k, TOWER, TC, 90.0)
     px, py, pz = PIV
-    rz0 = FOOT_H + 0.05 / 2           # the base beams' centre height
-    rtop = FOOT_H + 0.05
-    # ---- the base: the lever's post on its foot, the low beam back beside the tower's face, the rear cross beam from
-    # the tower's face to the open side, the rear post
+    # ---- the lever's post on its foot (the base's low beam starts from it)
     foot(k, px, py, 0.12)
     k.bar("frame", (px, py, FOOT_H), (px, py, pz - 0.07), T, T, cut0=((0, 0, FOOT_H), Z), weld=True)
-    k.bar("frame", (px, py + T / 2, rz0), (px, Y_REAR - T / 2, rz0), T, 0.05,
-          cut0=((0, py + T / 2, 0), Y), cut1=((0, Y_REAR - T / 2, 0), Y), weld=True)
+    base(k, py)
+    # the curved front leg up into the seat's spine (ref_10)
+    foot(k, 0.12, -0.30, 0.11)
+    k.sweep("frame", [(0.12, -0.30, FOOT_H), (0.12, -0.30, 0.22), (0.05, -0.26, SPINE_Z - 0.03), (0.0, SEAT[1] + 0.08, SPINE_Z)],
+            k.circle(0.036, 24), bend=0.14, cut0=((0, 0, FOOT_H), Z), soft=0.002)
+    seat(k)
+    back(k)
+    cam(k, tw)
+    lever(k)
+
+
+def base(k, y0):
+    """The low beam from the front (y0, beside the lever's post) back beside the tower's face, the rear cross beam from
+    the tower's face to the open side, the rear post."""
+    px = PIV[0]
+    rz0 = RZ0
+    k.bar("frame", (px, y0 + T / 2, rz0), (px, Y_REAR - T / 2, rz0), T, 0.05,
+          cut0=((0, y0 + T / 2, 0), Y), cut1=((0, Y_REAR - T / 2, 0), Y), weld=True)
     k.bar("frame", (X_FACE, Y_REAR, rz0), (X_REAR + T / 2, Y_REAR, rz0), T, 0.05,
           cut0=((X_FACE, 0, 0), X), weld=True)
     k.box("frame", (X_FACE + 0.004, Y_REAR, rz0 + 0.02), (0.008, 0.12, 0.11), soft=0.001)        # its plate on the tower
@@ -86,13 +102,14 @@ def build(k):
     post_top = 0.50
     k.bar("frame", (X_REAR, Y_REAR, FOOT_H), (X_REAR, Y_REAR, post_top), T, T, cut0=((0, 0, FOOT_H), Z), weld=True)
     k.box("plastic", (X_REAR, Y_REAR, post_top + 0.004), (T + 0.004, T + 0.004, 0.008), soft=0.002)
-    # ---- the seat: the spine from the curved front leg back to the rear leg slanting down to the rear beam, the
-    # board, the pad
+
+
+def seat(k):
+    """The seat: the spine from its front leg (the piece's own) back to the rear leg slanting down to the rear beam,
+    the board, the pad; the handles each side."""
+    rz0 = RZ0
     sx, sy0, sy1 = SEAT
     fy = sy0 + 0.04
-    foot(k, 0.12, -0.30, 0.11)
-    k.sweep("frame", [(0.12, -0.30, FOOT_H), (0.12, -0.30, 0.22), (0.05, -0.26, SPINE_Z - 0.03), (0.0, fy + 0.04, SPINE_Z)],
-            k.circle(0.036, 24), bend=0.14, cut0=((0, 0, FOOT_H), Z), soft=0.002)          # the curved front leg (ref_10)
     ye = sy1 + 0.06
     k.bar("frame", (0, fy, SPINE_Z), (0, ye, SPINE_Z), T, T)
     k.bar("frame", (0, ye - 0.03, SPINE_Z - 0.02), (0, Y_REAR - T / 2, rz0), 0.06, 0.06,
@@ -107,6 +124,11 @@ def build(k):
         k.sweep("frame", [g0, g1, g2], k.circle(0.016, 18), bend=0.05, soft=0.0015)
         k.tube("rubber", (s * 0.245, sy1 + 0.05, SPINE_Z - 0.01), g2, 0.021, seg=22)
         k.cyl("plastic", g2, 0.023, 0.012, axis="y", seg=20, soft=0.003)
+
+
+def back(k):
+    """The back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
+    plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10)."""
     # ---- the back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
     # plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10)
     lk = math.radians(35)
@@ -146,6 +168,12 @@ def build(k):
     k.shaped_pad("pad", [(-0.20, -0.32), (0.20, -0.32), (0.20, 0.30), (-0.20, 0.30)], pc, nrm, (1, 0, 0), 0.09,
                  r=0.05, cushion=0.03)
     k.box("frame", tuple(base[i] + up[i] * 0.36 + nrm[i] * 0.024 for i in range(3)), (0.30, 0.016, 0.56), rx=-LEAN, soft=0.002)
+
+
+def cam(k, tw):
+    """The lever's housing (on the piece's own post), the axle, the cam with its guard, the cable into the tower; the
+    lever's hub, the ring of start-position holes and the handle."""
+    px, py, pz = PIV
     # ---- the lever's housing on its post, the axle, the cam inside it (between the housing and the tower) with its
     # guard outside; a yellow warning tag
     k.box("frame", (px, py, pz), (0.10, 0.14, 0.14), soft=0.008)
@@ -167,9 +195,8 @@ def build(k):
     ox, oy, oz = tw["cable"]
     out = (TC[0] - (oy - TC[1]), TC[1] + (ox - TC[0]), oz)
     k.cable([(X_FACE - 0.02, yq, 0.12), (out[0] - 0.02, yq, 0.12), (out[0] - 0.02, out[1], oz - 0.06), out])
-    # ---- the lever: its hub on the axle inside the housing, the ring of start-position holes, the handle with its
-    # pin knob and the black ball on top (ref_04 / ref_10), the arm down to the roller: the upper square tube, the
-    # lower tube sliding in it (the roller's length) with its yellow pop pin
+    # ---- the lever's hub on the axle inside the housing, the ring of start-position holes, the handle with its pin
+    # knob and the black ball on top (ref_04 / ref_10)
     k.tube("lever", (LX - 0.03, py, pz), (px + 0.05, py, pz), 0.05, seg=32)
     k.disc("cam", (LX + 0.034, py, pz), 0.10, 0.05, 0.012, axis="x", seg=40)
     for i in range(8):
@@ -182,6 +209,12 @@ def build(k):
     k.tube("chrome", (LX + 0.025, py - 0.10, pz + 0.12), (LX + 0.025, py - 0.15, pz + 0.30), 0.009, seg=14)  # the pin's pull
     k.tube("rubber", (LX + 0.025, py - 0.14, pz + 0.27), (LX + 0.025, py - 0.165, pz + 0.35), 0.016, seg=18)
     k.tube("steel", (LX + 0.025, py - 0.07, pz + 0.07), (LX + 0.025, py - 0.10, pz + 0.12), 0.006, seg=12)
+
+
+def lever(k):
+    """The arm down to the roller: the upper square tube, the lower tube sliding in it (the roller's length) with its
+    yellow pop pin; the shin roller."""
+    px, py, pz = PIV
     dn = (-math.sin(DROP), -math.cos(DROP))                                       # the arm: down, the foot forward
     ry, rz_ = py + ARM * dn[0], pz + ARM * dn[1]
     a1 = (LX, py + 0.22 * dn[0], pz + 0.22 * dn[1])
