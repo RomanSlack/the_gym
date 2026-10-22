@@ -31,6 +31,7 @@ DETAILS = {
     "detail_sled": ((-1.05, -0.35, 1.70), (0.0, 0.62, 1.15), 45),        # the pads, handles and horns from the user's side
     "detail_bearing": ((0.85, 0.05, 0.75), (0.26, 0.55, 0.78), 45),      # a bearing on its rod, the stop, the beam
     "detail_foot": ((0.95, -1.55, 0.85), (0.0, -0.85, 0.45), 45),        # the foot plate on its legs
+    "detail_handles": ((0.75, -0.30, 0.75), (0.05, 0.40, 0.85), 45),    # the start-position handle, the pop pin
 }
 
 A = math.radians(41.6)                     # the incline
@@ -143,6 +144,23 @@ def build(k):
     for s in (1, -1):
         k.box("lever", at(s * 0.16, s1 - 0.16, SLED_H + 0.07), (0.05, 0.10, 0.12), rx=A, soft=0.004)
         k.pad("pad", at(s * 0.16, s1 - 0.13, SLED_H + 0.21), (0.13, 0.26, 0.17), r=0.04, rx=A)
+    # the release lever (ref_01): a rod rising from a pivot bracket on the sled's left edge beside the shoulder pad, a grip
+    # on its end; the start-position handle (ref_06): a bracket under the sled's lower end, a bent grip across it; the
+    # pop-pin T-knob on the left bearing (ref_01, ref_13)
+    pv = at(0.33, s1 - 0.26, SLED_H)
+    k.box("lever", (0.31 + 0.02, pv[1], pv[2]), (0.04, 0.07, 0.06), rx=A, soft=0.004)
+    k.tube("steel", (0.30, pv[1], pv[2]), (0.36, pv[1], pv[2]), 0.008, seg=14)
+    l1 = at(0.35, s1 + 0.12, SLED_H + 0.50)
+    k.tube("lever", (0.35, pv[1], pv[2]), l1, 0.011, seg=18)
+    l2 = at(0.35, s1 + 0.15, SLED_H + 0.62)
+    k.tube("rubber", tuple(l1[i] + (l2[i] - l1[i]) * -0.15 for i in range(3)), l2, 0.016, seg=20)
+    k.box("lever", at(0, s0 + 0.03, SLED_H - 0.055), (0.12, 0.02, 0.09), rx=A, soft=0.003)
+    q0, q1 = at(-0.06, s0 + 0.02, SLED_H - 0.095), at(0.06, s0 + 0.02, SLED_H - 0.095)
+    k.sweep("lever", [(q0[0], q0[1], q0[2]), at(-0.06, s0 - 0.05, SLED_H - 0.10), at(0.06, s0 - 0.05, SLED_H - 0.10),
+                      (q1[0], q1[1], q1[2])], k.circle(0.011, 16), bend=0.02, soft=0.001)
+    kb = at(BX + 0.0425, SLED_S[1] - 0.18, ROD_H + 0.02)
+    k.tube("steel", (kb[0], kb[1], kb[2]), (kb[0] + 0.05, kb[1], kb[2]), 0.007, seg=14)
+    k.box("plastic", (kb[0] + 0.055, kb[1], kb[2]), (0.012, 0.06, 0.018), rx=A, soft=0.004)
     # the foot plate: the grit top on its plate and frame, a wing each side; two curved legs under it to the floor
     fy, fz = FOOT_C
     nrm = (0.0, math.sin(FOOT_TILT), math.cos(FOOT_TILT))
