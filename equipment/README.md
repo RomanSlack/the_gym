@@ -83,7 +83,12 @@ work this way. Each of these was a pass he had to send back:
    handles, decide which side each is on (the user's left or right, near or far from the tower) from which part hides
    which in the photos, and write it in the docstring. The HS Select leg extension went out with its lever mirrored
    ("the contraption on the wrong side"): the cam sits beside the tower, the roller reaching across to the open side.
-7. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
+7. **Size the parts the body touches from the body.** Seat, pads, pivots and handles sit where an average man's joints
+   are: seated, his armpit ~0.45 m above the seat, upper arm ~0.33 m, forearm + hand ~0.33 m, thigh ~0.45 m, lower leg
+   ~0.45 m; a pivot sits on the joint it moves (the elbow, the knee). Work these out first and put the numbers in the
+   constants' comments. And count a lever's parts in the photos (the HS biceps curl's is three: a short U connector, an
+   arm off it to the hands, the grips), never one guessed shape.
+8. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
    each: ref | ours, side and three-quarter) and look for the differences above before reporting. The difference you
    find yourself is a version Roman doesn't have to send back.
 
