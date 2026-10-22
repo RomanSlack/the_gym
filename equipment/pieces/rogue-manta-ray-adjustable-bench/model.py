@@ -24,7 +24,7 @@ LOOK = {
     "uhmw": dict(color=(0.22, 0.22, 0.215), rough=0.55),                                              # the machined core
     "etch": dict(color=(0.5, 0.5, 0.5), rough=0.6),
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, bump=(700, 0.15)),
-    "foam": dict(color=(0.016, 0.016, 0.017), rough=0.6, sheen=0.15, bump=(1800, 0.1)),               # the rollers' vinyl
+    "foam": dict(color=(0.010, 0.010, 0.011), rough=0.82, coat=0.0, sheen=0.03, bump=(1800, 0.12)),               # the rollers' vinyl
     "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
 }
 VIEWS = {"three_quarter": (-30, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
