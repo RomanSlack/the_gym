@@ -10,8 +10,8 @@ Head: the weight raised on its outer end, ROGUE raised on its top flat.
 import math
 
 LOOK = {
-    "rubber": dict(color=(0.022, 0.022, 0.024), rough=0.6, coat=0.0, bump=(900, 0.06)),
-    "emboss": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
+    "rubber": dict(color=(0.010, 0.010, 0.011), rough=0.62, coat=0.0, bump=(900, 0.06)),
+    "emboss": dict(color=(0.014, 0.014, 0.015), rough=0.45, coat=0.0),
     "chrome": dict(color=(0.74, 0.74, 0.76), rough=0.06, metal=1.0, coat=0.0, aniso=0.3),
     "steel": dict(color=(0.6, 0.6, 0.61), rough=0.25, metal=1.0, coat=0.0, aniso=0.5),
 }

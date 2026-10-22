@@ -12,7 +12,7 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "frame": dict(color=(0.016, 0.016, 0.017), rough=0.55, metal=0.2, coat=0.0, bump=(1200, 0.07)),   # black textured coat
+    "frame": dict(color=(0.008, 0.008, 0.009), rough=0.5, metal=0.2, coat=0.0, bump=(1200, 0.07)),   # black textured coat
 }
 VIEWS = {"three_quarter": (-35, 28, 1.2), "front": (0, 8, 1.2), "side": (90, 8, 1.0), "back_three_quarter": (150, 30, 1.2)}
 DETAILS = {"detail_y": ((0.85, -0.45, 0.32), (0.52, 0.0, 0.07), 45)}      # the Y, its plate, the loop beside it (ref_03)
@@ -24,8 +24,8 @@ Z0 = R_COL                      # the hexagon's plane
 FR = 0.0175                     # frame tube radius
 GR = 1.9 * IN / 2               # the grips
 APEX, SHX, HY = 0.545, 0.29, 0.275   # the Y's apex (x), the shoulders (x), the long sides (y)
-GX = 0.235                      # the grips (x)
-LOOP_H = 0.13                   # the raised grip over the low one
+GX = 0.275                      # the grips (x)
+LOOP_H = 0.20                   # the raised grip over the low one
 
 
 def build(k):
