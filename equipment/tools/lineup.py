@@ -1,4 +1,4 @@
-"""A line-up of modelled pieces in one scene (their latest .glb each), rendered from a few views, to judge them together.
+"""A line-up of modelled pieces in one scene (each built from its model.py, as in the studio), rendered from a few views, to judge them together.
 
     nice -n 19 blender -b --factory-startup -t 12 --python equipment/tools/lineup.py -- <name> <layout.json>
 
@@ -13,6 +13,8 @@ import re
 import sys
 from pathlib import Path
 
+import importlib.util
+
 import bpy
 from mathutils import Vector
 
@@ -20,11 +22,8 @@ EQ = Path(__file__).resolve().parents[1]
 args = sys.argv[sys.argv.index("--") + 1:]
 NAME, LAYOUT = args[0], json.loads(Path(args[1]).read_text())
 OUT = EQ / "lineups"; OUT.mkdir(exist_ok=True)
-
-
-def latest_glb(piece):
-    fs = sorted((EQ / "pieces" / piece / "models").glob(f"{piece}_v[0-9][0-9][0-9].glb"))
-    return fs[-1]
+sys.path.insert(0, str(EQ / "blender"))
+import kit  # noqa: E402
 
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -53,11 +52,16 @@ lo, hi = Vector((1e9, 1e9, 0)), Vector((-1e9, -1e9, 0))
 for row in LAYOUT["rows"]:
     placed = []
     for piece in row["pieces"]:
-        before = set(bpy.data.objects)
-        bpy.ops.import_scene.gltf(filepath=str(latest_glb(piece)))
-        obs = [o for o in bpy.data.objects if o not in before]
-        roots = [o for o in obs if o.parent is None]
+        # built from its model.py with the kit, exactly as the studio does (the .glb loses the procedural looks: grain,
+        # bumps, sheen), so the line-up shows each piece as its own renders do
+        spec = importlib.util.spec_from_file_location(f"pm_{piece}", EQ / "pieces" / piece / "model.py")
+        pm = importlib.util.module_from_spec(spec); spec.loader.exec_module(pm)
+        coll = bpy.data.collections.new(piece); sc.collection.children.link(coll)
+        k = kit.Kit(piece, coll, getattr(pm, "LOOK", None))
+        pm.build(k)
+        obs = k.finish()
         bpy.context.view_layer.update()
+        roots = obs
         mn = Vector((min(c[i] for o in obs if o.type == "MESH" for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
         mx = Vector((max(c[i] for o in obs if o.type == "MESH" for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
         placed.append((roots, mn, mx))
