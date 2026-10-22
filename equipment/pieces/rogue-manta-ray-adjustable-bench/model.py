@@ -107,11 +107,15 @@ def build(k):
     la = math.atan2(leg_d[0], leg_d[2])                                  # its lean from vertical
     lm = (LEG_BOT[0] + leg_d[0] * 0.13, LEG_BOT[1] + leg_d[2] * 0.13)
     k.box("hole", (lm[0], -(LEG[1] / 2 + 0.0006), zf + leg_d[2] * 0.13), (0.035, 0.001, 0.16), ry=la, soft=0.0)
+    ln = (leg_d[2], 0, -leg_d[0])                                       # across the leg's face, towards the rear
+
+    def on_leg(q, off):
+        return (LEG_BOT[0] + leg_d[0] * q + ln[0] * off, -(LEG[1] / 2 + 0.0011), zf + leg_d[2] * q + ln[2] * off)
     for j in range(4):
-        q = 0.07 + j * 0.04
-        k.box("uhmw", (LEG_BOT[0] + leg_d[0] * q + 0.012, -(LEG[1] / 2 + 0.0011), zf + leg_d[2] * q), (0.012, 0.001, 0.022), ry=la, soft=0.0)
-    for t_, z_ in (("0", 0.20), ("-20", 0.11)):
-        k.text("etch", t_, (LEG_BOT[0] + leg_d[0] * (z_ / leg_d[2]) - 0.03, -(LEG[1] / 2 + 0.0006), z_), 0.018, depth=0.0005)
+        k.box("uhmw", on_leg(0.07 + j * 0.04, 0.008), (0.012, 0.001, 0.022), ry=la, soft=0.0)
+    for t_, q in (("0", 0.215), ("-20", 0.05)):
+        c_ = on_leg(q, -0.03)
+        k.text("etch", t_, (c_[0], -(LEG[1] / 2 + 0.0006), c_[2]), 0.016, depth=0.0005)
     # the carry handle: a stem forwards off the plate, a bar across with grips
     hx = LEG_BOT[0] - 0.13 - 0.025
     k.bar("frame", (LEG_BOT[0] - 0.13, 0, 0.027), (hx, 0, 0.027), 0.03, 0.03, up=Z)
