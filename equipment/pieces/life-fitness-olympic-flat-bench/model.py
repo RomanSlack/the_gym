@@ -15,9 +15,9 @@ LOOK = {
     "frame": dict(color=(0.028, 0.029, 0.031), rough=0.5, metal=0.25, coat=0.0, bump=(1400, 0.07)),   # Charcoal powder coat
     "pad": dict(color=(0.014, 0.014, 0.015), rough=0.55, sheen=0.25, bump=(1500, 0.14)),             # black vinyl
     "seam": dict(color=(0.006, 0.006, 0.006), rough=0.7),
-    "urethane": dict(color=(0.008, 0.008, 0.009), rough=0.78, bump=(900, 0.05)),                                        # moulded racking
+    "urethane": dict(color=(0.008, 0.008, 0.009), rough=0.78, bump=(900, 0.05), coat=0.0),                                        # moulded racking
     "plastic": dict(color=(0.02, 0.02, 0.021), rough=0.5),
-    "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0),
+    "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0, coat=0.0),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4),
 }
 VIEWS = {"three_quarter": (-35, 14, 1.0), "front": (-90, 4, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
