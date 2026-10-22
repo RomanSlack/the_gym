@@ -88,7 +88,7 @@ def build(k):
     lever(k)
 
 
-def base(k, y0):
+def base(k, y0, on_tower=True):
     """The low beam from the front (y0, beside the lever's post) back beside the tower's face, the rear cross beam from
     the tower's face to the open side, the rear post."""
     px = PIV[0]
@@ -97,18 +97,21 @@ def base(k, y0):
           cut0=((0, y0 + T / 2, 0), Y), cut1=((0, Y_REAR - T / 2, 0), Y), weld=True)
     k.bar("frame", (X_FACE, Y_REAR, rz0), (X_REAR + T / 2, Y_REAR, rz0), T, 0.05,
           cut0=((X_FACE, 0, 0), X), weld=True)
-    k.box("frame", (X_FACE + 0.004, Y_REAR, rz0 + 0.02), (0.008, 0.12, 0.11), soft=0.001)        # its plate on the tower
+    if on_tower:                                       # (a piece whose tower stands further forward leaves it off)
+        k.box("frame", (X_FACE + 0.004, Y_REAR, rz0 + 0.02), (0.008, 0.12, 0.11), soft=0.001)    # its plate on the tower
     foot(k, X_REAR, Y_REAR + 0.02, 0.12)
     post_top = 0.50
     k.bar("frame", (X_REAR, Y_REAR, FOOT_H), (X_REAR, Y_REAR, post_top), T, T, cut0=((0, 0, FOOT_H), Z), weld=True)
     k.box("plastic", (X_REAR, Y_REAR, post_top + 0.004), (T + 0.004, T + 0.004, 0.008), soft=0.002)
 
 
-def seat(k):
+def seat(k, dz=0.0, front=None):
     """The seat: the spine from its front leg (the piece's own) back to the rear leg slanting down to the rear beam,
-    the board, the pad; the handles each side."""
+    the board, the pad; the handles each side. dz lowers or raises it, front moves its front edge (y)."""
     rz0 = RZ0
     sx, sy0, sy1 = SEAT
+    sy0 = sy0 if front is None else front
+    SPINE_Z = globals()["SPINE_Z"] + dz
     fy = sy0 + 0.04
     ye = sy1 + 0.06
     k.bar("frame", (0, fy, SPINE_Z), (0, ye, SPINE_Z), T, T)
@@ -126,15 +129,16 @@ def seat(k):
         k.cyl("plastic", g2, 0.023, 0.012, axis="y", seg=20, soft=0.003)
 
 
-def back(k):
+def back(k, lean=LEAN, dz=0.0, tall=0.0):
     """The back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
-    plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10)."""
+    plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10).
+    dz moves it with the seat, tall makes the pad taller."""
     # ---- the back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
     # plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10)
     lk = math.radians(35)
     L = 0.20
     xl = X_REAR - T / 2 - 0.012
-    lows = [(Y_REAR, 0.29), (Y_REAR, 0.41)]
+    lows = [(Y_REAR, 0.29 + dz), (Y_REAR, 0.41 + dz)]
     ups = [(y - L * math.cos(lk), z + L * math.sin(lk)) for y, z in lows]
     for (y0, z0), (y1, z1) in zip(lows, ups):
         k.bar("frame", (xl, y0, z0), (xl, y1, z1), 0.012, 0.05, up=(1, 0, 0))
@@ -150,8 +154,8 @@ def back(k):
         a = math.radians(15 + 10 * i)
         k.cyl("hole", (X_REAR - T / 2 - 0.0005, lows[0][0] - 0.12 * math.cos(a), lows[0][1] + 0.12 * math.sin(a)),
               0.006, 0.001, axis="x", seg=12, soft=0.0)
-    k.box("frame", (X_REAR - T / 2 - 0.003, Y_REAR - 0.07, 0.35), (0.006, 0.14, 0.16), soft=0.001)
-    kp = (X_REAR + T / 2, Y_REAR - 0.03, 0.35)
+    k.box("frame", (X_REAR - T / 2 - 0.003, Y_REAR - 0.07, 0.35 + dz), (0.006, 0.14, 0.16), soft=0.001)
+    kp = (X_REAR + T / 2, Y_REAR - 0.03, 0.35 + dz)
     k.tube("steel", (X_REAR - T / 2 - 0.006, kp[1], kp[2]), (kp[0] + 0.03, kp[1], kp[2]), 0.006, seg=12)
     k.cyl("frame", (kp[0] + 0.006, kp[1], kp[2]), 0.017, 0.012, axis="x", seg=20, soft=0.002)        # its boss
     k.cyl("yellow", (kp[0] + 0.024, kp[1], kp[2]), 0.018, 0.024, axis="x", seg=20, soft=0.004)
@@ -159,15 +163,15 @@ def back(k):
     zc = ups[1][1]
     xs = xl - 0.024
     k.bar("frame", (xs, cy_, zc), (-0.04, cy_, zc), 0.05, 0.05, cut0=((xs, 0, 0), X), weld=True)
-    up = (0.0, math.sin(LEAN), math.cos(LEAN))
-    nrm = (0.0, -math.cos(LEAN), math.sin(LEAN))
+    up = (0.0, math.sin(lean), math.cos(lean))
+    nrm = (0.0, -math.cos(lean), math.sin(lean))
     base = (0.0, cy_, zc)
-    top = tuple(base[i] + up[i] * 0.66 for i in range(3))
+    top = tuple(base[i] + up[i] * (0.66 + tall) for i in range(3))
     k.bar("frame", (0.0, cy_, zc - 0.025), top, 0.06, 0.04, up=(0, 1, 0))
-    pc = tuple(base[i] + up[i] * 0.36 + nrm[i] * 0.075 for i in range(3))
-    k.shaped_pad("pad", [(-0.20, -0.32), (0.20, -0.32), (0.20, 0.30), (-0.20, 0.30)], pc, nrm, (1, 0, 0), 0.09,
+    pc = tuple(base[i] + up[i] * (0.36 + tall / 2) + nrm[i] * 0.075 for i in range(3))
+    k.shaped_pad("pad", [(-0.20, -0.32 - tall / 2), (0.20, -0.32 - tall / 2), (0.20, 0.30 + tall / 2), (-0.20, 0.30 + tall / 2)], pc, nrm, (1, 0, 0), 0.09,
                  r=0.05, cushion=0.03)
-    k.box("frame", tuple(base[i] + up[i] * 0.36 + nrm[i] * 0.024 for i in range(3)), (0.30, 0.016, 0.56), rx=-LEAN, soft=0.002)
+    k.box("frame", tuple(base[i] + up[i] * (0.36 + tall / 2) + nrm[i] * 0.024 for i in range(3)), (0.30, 0.016, 0.56 + tall), rx=-lean, soft=0.002)
 
 
 def cam(k, tw):
