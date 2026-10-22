@@ -11,7 +11,7 @@ import kit
 
 IN = 0.0254
 LOOK = {
-    "rubber": dict(color=(0.026, 0.028, 0.030), rough=0.85, coat=0.0, bump=(2400, 0.10)),   # dark slate, fine rib
+    "rubber": dict(color=(0.026, 0.028, 0.030), rough=0.85, coat=0.0, spec=0.15, bump=(2400, 0.10)),   # dark slate, fine rib
 }
 VIEWS = {"three_quarter": (-35, 32, 1.0), "front": (0, 12, 1.0), "side": (90, 12, 1.0), "top": (0, 89, 1.0)}
 DETAILS = {"detail_seam": ((-0.20, -1.25, 0.40), (-0.58, -0.80, 0.0), 45)}   # a seam's tabs reaching the bevelled edge

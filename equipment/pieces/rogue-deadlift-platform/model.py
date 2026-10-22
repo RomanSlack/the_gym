@@ -9,7 +9,7 @@ reaching in towards the middle; a floor clip bolted to each end tube; ROGUE on t
 """
 IN = 0.0254
 LOOK = {
-    "rubber": dict(color=(0.035, 0.032, 0.030), rough=0.85, coat=0.0, bump=(1800, 0.14)),   # coarse recycled rubber
+    "rubber": dict(color=(0.022, 0.021, 0.020), rough=0.88, coat=0.0, spec=0.15, bump=(1800, 0.14)),   # coarse recycled rubber
     "frame": dict(color=(0.014, 0.014, 0.016), rough=0.45, coat=0.08, bump=(900, 0.06)),     # textured black
     "bolt": dict(color=(0.62, 0.62, 0.64), rough=0.3, metal=1.0, coat=0.0),
     "print": dict(color=(0.85, 0.85, 0.85), rough=0.4, coat=0.0),

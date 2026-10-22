@@ -12,9 +12,9 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "wood": dict(color=(0.62, 0.42, 0.22), rough=0.55, coat=0.0,
-                 grain=dict(dark=(0.40, 0.24, 0.10), scale=40.0, distortion=3.0, along="Y")),    # light strip veneer
-    "rubber": dict(color=(0.014, 0.014, 0.016), rough=0.85, coat=0.0, bump=(1100, 0.07)),
+    "wood": dict(color=(0.46, 0.25, 0.09), rough=0.55, coat=0.0, spec=0.3,
+                 grain=dict(dark=(0.24, 0.11, 0.035), scale=7.0, distortion=0.8, along="Y")),    # light strip veneer
+    "rubber": dict(color=(0.014, 0.014, 0.016), rough=0.85, coat=0.0, spec=0.15, bump=(1100, 0.07)),
     "frame": dict(color=(0.02, 0.02, 0.022), rough=0.42, coat=0.1, bump=(900, 0.05)),
     "emboss": dict(color=(0.05, 0.05, 0.055), rough=0.5, coat=0.0),
     "bolt": dict(color=(0.7, 0.7, 0.72), rough=0.25, metal=1.0, coat=0.0),

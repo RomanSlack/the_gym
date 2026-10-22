@@ -24,7 +24,7 @@ from mathutils.bvhtree import BVHTree
 # ---------------------------------------------------------------- materials
 
 
-def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None, knurl=None):
+def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None, knurl=None, spec=None):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -36,6 +36,8 @@ def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, a
     b.inputs["Sheen Weight"].default_value = sheen
     if aniso:
         b.inputs["Anisotropic"].default_value = aniso
+    if spec is not None:  # matte rubber, raw wood: less of the studio's light mirrored off a flat top (0.5 = Blender's default)
+        b.inputs["Specular IOR Level"].default_value = spec
     if bump:  # fine grain (vinyl, rubber, powder texture): noise -> bump, scale in 1/m
         scale, strength = bump
         tc = nt.nodes.new("ShaderNodeTexCoord")

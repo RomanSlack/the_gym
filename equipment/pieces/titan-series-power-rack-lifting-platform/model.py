@@ -12,10 +12,10 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "wood": dict(color=(0.80, 0.62, 0.40), rough=0.42, coat=0.2,
-                 grain=dict(dark=(0.66, 0.47, 0.27), scale=60.0, distortion=1.5, along="X")),     # rubberwood strips
-    "burn": dict(color=(0.30, 0.17, 0.07), rough=0.6, coat=0.0),
-    "rubber": dict(color=(0.02, 0.02, 0.022), rough=0.8, coat=0.0, bump=(1600, 0.10)),
+    "wood": dict(color=(0.56, 0.35, 0.15), rough=0.5, coat=0.0, spec=0.3,
+                 grain=dict(dark=(0.38, 0.21, 0.07), scale=9.0, distortion=2.5, along="X")),     # rubberwood strips
+    "burn": dict(color=(0.07, 0.035, 0.012), rough=0.6, coat=0.0),
+    "rubber": dict(color=(0.02, 0.02, 0.022), rough=0.85, coat=0.0, spec=0.15, bump=(1600, 0.10)),
     "frame": dict(color=(0.012, 0.012, 0.014), rough=0.4, coat=0.1, bump=(900, 0.06)),
     "emboss": dict(color=(0.05, 0.05, 0.055), rough=0.45, coat=0.0),
     "bolt": dict(color=(0.6, 0.6, 0.62), rough=0.3, metal=1.0, coat=0.0),
