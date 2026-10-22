@@ -22,7 +22,7 @@ LOOK = {
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, bump=(700, 0.15)),
     "plastic": dict(color=(0.015, 0.015, 0.016), rough=0.55),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4),
-    "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0),
+    "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0, coat=0.0),
 }
 VIEWS = {"three_quarter": (-40, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (130, 16, 1.0)}
 DETAILS = {
