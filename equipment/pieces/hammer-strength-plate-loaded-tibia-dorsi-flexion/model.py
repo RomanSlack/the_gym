@@ -37,15 +37,17 @@ CX = 0.18                         # the cradle's side plates (x)
 
 
 def build(k):
-    # the base plate, its badge, labels and anchor holes
-    k.box("frame", (0, 0, PL / 2), (BASE[0], BASE[1], PL), soft=0.002)
+    # the base (ref_13, ref_09): a wide plate along the front carrying the badge and labels, a narrow foot bar along the
+    # back, open between; the legs land on their ends
+    for yc, d in ((0.13, 0.14), (-0.165, 0.07)):
+        k.box("frame", (0, yc, PL / 2), (BASE[0], d, PL), soft=0.002)
     k.box("placard", (-0.08, 0.13, PL + 0.001), (0.14, 0.06, 0.002), soft=0.0)
     for i, line in enumerate(("HAMMER", "STRENGTH")):
         k.text("label", line, (-0.08, 0.13 + 0.012 - i * 0.022, PL + 0.0022), 0.016, rx=0.0, rz=math.pi, depth=0.0003)
     k.box("warn", (0.12, 0.14, PL + 0.001), (0.05, 0.03, 0.002), soft=0.0)
     for sx in (1, -1):
-        for sy in (1, -1):
-            k.cyl("hole", (sx * 0.22, sy * 0.17, PL + 0.0003), 0.007, 0.0008, seg=14)
+        for yy in (0.17, -0.165):
+            k.cyl("hole", (sx * 0.22, yy, PL + 0.0003), 0.007, 0.0008, seg=14)
     # each side: an A of two legs from the plate up to the bearing's mount, the pillow block, its bolts
     for s in (1, -1):
         x = s * BX
