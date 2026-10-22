@@ -24,6 +24,7 @@ LOOK = {
     "uhmw": dict(color=(0.22, 0.22, 0.215), rough=0.55),                                              # the machined core
     "etch": dict(color=(0.5, 0.5, 0.5), rough=0.6),
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, bump=(700, 0.15)),
+    "foam": dict(color=(0.016, 0.016, 0.017), rough=0.6, sheen=0.15, bump=(1800, 0.1)),               # the rollers' vinyl
     "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
 }
 VIEWS = {"three_quarter": (-30, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
@@ -31,6 +32,7 @@ DETAILS = {
     "detail_core": ((0.3, -0.7, 0.4), (0.26, 0.0, 0.2), 40),           # the spine's window, the UHMW core, the rod
     "detail_front": ((-1.0, -0.55, 0.42), (-0.56, 0.0, 0.2), 40),      # the front leg, the R plate, the foot + handle
     "detail_rear": ((1.1, -0.6, 0.35), (0.58, 0.0, 0.15), 40),          # the rear foot, wheels, the post
+    "detail_catch": ((1.25, -0.75, 0.75), (0.75, 0.0, 0.33), 40),       # the foot catch on the back pad's end
 }
 
 SPINE = (3 * IN, 4 * IN)        # spine: across (y) x tall
@@ -148,7 +150,7 @@ def build(k):
         k.bolt((hx_, s * (hs + 0.01), fz), "+y" if s > 0 else "-y", size=0.018)
     k.tube("frame", (hx_, -hs, fz), (hx_, hs, fz), 0.026, seg=28)
     k.bar("frame", (hx_ + 0.01, 0, fz), (BACK[1] - 0.03, 0, fz), fh, SPINE[0], up=Y)
-    k.box("cap", (BACK[1] - 0.026, 0, fz), (0.008, SPINE[0] + 0.004, fh + 0.004), soft=0.003)
+    foot_catch(k, BACK[1] - 0.03, fz, fh)
     # its side plates (ROGUE cut out of each), bolted through the frame
     for s in (1, -1):
         yp = s * (hs + 0.003)
@@ -170,6 +172,30 @@ def build(k):
     ptop = fz - fh / 2 - 0.03
     k.bar("frame", (POST_X, 0, pz0 - 0.01), (POST_X, 0, ptop), 3 * IN, 3 * IN, up=Y, cut0=((POST_X, 0, pz0), up), weld=True)
     k.box("rubber", (POST_X, 0, ptop + 0.015), (0.08, 0.08, 0.03), soft=0.006)
+
+
+def foot_catch(k, x0, fz, fh):
+    """The foot catch (ref_01, ref_03: Rogue's optional foot catch, fitted so the bench can go to decline): a 2 x 2 in
+    insert slid into the back frame's open end and pinned, a short post up to the first pair of rollers just past the
+    pad's end, an arm on out and down to the second pair; foam rollers on steel rods, a chrome end cap on each."""
+    Y = (0, 1, 0)
+    ins = 2 * IN
+    k.bar("frame", (x0 - 0.10, 0, fz), (x0 + 0.06, 0, fz), ins, ins, up=Y)                          # the insert
+    k.box("frame", (x0 + 0.004, 0, fz), (0.008, SPINE[0] + 0.004, fh + 0.004), soft=0.002)           # the frame's end collar
+    k.tube("steel", (x0, -(SPINE[0] / 2 + 0.012), fz), (x0, SPINE[0] / 2 + 0.012, fz), 0.006)
+    k.cyl("cap", (x0, -(SPINE[0] / 2 + 0.017), fz), 0.014, 0.012, axis="y", seg=20, soft=0.004)      # the pin's knob
+    e = (x0 + 0.06, 0, fz)
+    r = 0.055
+    c1 = (BACK[1] + r + 0.012, 0, PAD_TOP - 0.012)
+    c2 = (c1[0] + 0.30, 0, fz - 0.17)
+    k.bar("frame", e, (c1[0], 0, c1[2] - 0.0127), ins, ins, up=Y)                                       # the post up
+    k.bar("frame", e, c2, ins, ins, up=Y)                                                              # the arm out
+    for c in (c1, c2):
+        k.tube("steel", (c[0], -0.19, c[2]), (c[0], 0.19, c[2]), 0.0127)
+        for s in (1, -1):
+            k.cyl("foam", (c[0], s * (0.03 + 0.075), c[2]), r, 0.15, axis="y", seg=40, soft=0.014)
+            k.cyl("steel", (c[0], s * 0.186, c[2]), 0.022, 0.008, axis="y", seg=28, soft=0.002)
+        k.box("frame", (c[0], 0, c[2]), (0.06, 0.06, 0.06), soft=0.004)                               # the rod's hub
 
 
 def pad(k, span, bottom):
