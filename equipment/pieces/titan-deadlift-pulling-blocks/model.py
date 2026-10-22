@@ -21,7 +21,7 @@ DETAILS = {"detail_cradle": ((-0.75, -0.35, 0.55), (-0.40, 0.0, 0.40), 45)}
 PAIR_X = 0.40                    # each block's centre off the middle (x)
 FOOT_L, FOOT = 0.40, (3 * IN, 2 * IN)   # foot length (y), section across (x) x tall
 POST, INNER = 3 * IN, 2.5 * IN
-POST_TOP, INNER_TOP = 0.33, 0.42
+POST_TOP, INNER_TOP = 0.30, 0.37
 
 
 def block(k, x):
@@ -42,15 +42,15 @@ def block(k, x):
     py = POST / 2
     k.box("frame", (x, py + 0.008, POST_TOP - 0.07), (0.03, 0.016, 0.03), soft=0.003)
     k.tube("steel", (x, py + 0.016, POST_TOP - 0.07), (x, py + 0.03, POST_TOP - 0.07), 0.006)
-    ring = [(x + 0.0, py + 0.03, POST_TOP - 0.07 + 0.012)] + [(x, py + 0.03 + 0.022 * __import__("math").sin(a / 8 * 3.1416),
+    ring = [(x, py + 0.03, POST_TOP - 0.07)] + [(x, py + 0.03, POST_TOP - 0.07 + 0.012)] + [(x, py + 0.03 + 0.022 * __import__("math").sin(a / 8 * 3.1416),
             POST_TOP - 0.07 + 0.012 - 0.024 * a / 8) for a in range(1, 8)] + [(x, py + 0.03, POST_TOP - 0.07 - 0.012)]
     k.sweep("frame", ring, k.circle(0.0035, 8))
     # the collar plate and the cradle (a short pipe along x), its T screw
     k.box("frame", (x, 0, INNER_TOP + 0.005), (0.075, 0.075, 0.01), soft=0.002)
     cz = INNER_TOP + 0.01 + 0.034
     k.disc("frame", (x, 0, cz), 0.034, 0.027, 0.07, axis="x")
-    k.tube("steel", (x, 0.034, cz + 0.006), (x, 0.05, cz + 0.006), 0.004)
-    k.box("frame", (x, 0.054, cz + 0.006), (0.03, 0.008, 0.01), soft=0.003)
+    k.box("frame", (x, 0.036, cz), (0.016, 0.012, 0.016), soft=0.002)                            # its welded nut
+    k.box("frame", (x, 0.046, cz), (0.032, 0.008, 0.01), soft=0.003)                             # the T screw's handle
     # the logo on the foot's face along the bar
     k.text("white", "TITAN", (x - FOOT[0] / 2 - 0.0005, -0.08, fz + 0.007), 0.024, rz=-1.5708, depth=0.0006)
     k.text("red", "FITNESS", (x - FOOT[0] / 2 - 0.0005, -0.08, fz - 0.012), 0.012, rz=-1.5708, depth=0.0006)
