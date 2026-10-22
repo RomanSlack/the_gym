@@ -8,9 +8,11 @@ Axes: metres, floor z = 0, the user sits facing -y, x+ = the user's left. Sides 
 behind the user's right, its front facing +x across the seat; the lever's pivot and cam on the tower's side (-x), the
 lever reaching under the arm pad across to the open side (+x), its grey top cap there.
 Structure: the stack tower (shared builder, "open" style, turned to face +x); the base from the tower's face; the
-saddle seat on its height tube (row of holes, red pop pin); the pad's column and the curved brace from the base's front;
+saddle seat on its height tube (row of holes, red pop pin); the pad on its single column;
 the preacher pad sloping down away from the user; the axle at the pad's front edge, the cam outside it on the tower's
-side; the U lever under the pad (an arm each side), the handle bar with its two grey grips in front; the cable down
+side; the lever a shallow U just under the pad's front (hubs on the axle at both ends, the open side's arm up to the grey
+cap), a single stem down from its middle and the two grey grips splaying out from the stem's foot (v003, Roman's
+sketch: it had been two straight arms down to a handle bar, like table legs); the cable down
 from the cam to the tower's foot and up its face.
 """
 import math
@@ -91,8 +93,6 @@ def build(k):
     cy = -0.12
     ztop = PAD_C[2] - 0.12
     k.bar("frame", (0, cy, RAIL_TOP), (0, cy, ztop), 0.076, 0.076, cut0=((0, 0, RAIL_TOP), Z), weld=True)
-    k.sweep("frame", [(0, Y_FRONT, RAIL_TOP), (0, Y_FRONT + 0.08, 0.40), (0, cy - 0.038, ztop - 0.20)], k.rect(0.06, 0.06, 0.008),
-            bend=0.15, up=(1, 0, 0), cut0=((0, 0, RAIL_TOP), Z), cut1=((0, cy - 0.038, 0), Y), weld=True, soft=0.002)
     nrm = (0.0, -math.sin(PAD_T), math.cos(PAD_T))          # its face: up and away from the user
     k.box("frame", (0, cy, ztop + 0.01), (0.20, 0.12, 0.02), soft=0.002)
     k.box("frame", tuple(PAD_C[i] - nrm[i] * 0.05 for i in range(3)), (0.50, 0.32, 0.012), rx=PAD_T, soft=0.002)
@@ -110,20 +110,29 @@ def build(k):
     k.disc("steel", (-(AXL + 0.06), py, pz), 0.132, 0.11, 0.026, axis="x", seg=48)
     k.bolt((-(AXL + 0.09), py, pz), "-x", size=0.022)
     k.box("warn", (-0.24 - 0.026, py + 0.04, pz + 0.04), (0.002, 0.04, 0.04), soft=0.0)
-    # ---- the U lever: an arm each side from its hub on the axle down and forward to the handle bar, joined under the
-    # pad; the grey cap on the open side's arm; the handle bar with its two grips
+    # ---- the U lever (ref_02, ref_03; Roman's sketch): a hub on the axle at each end of the pad, from the tower's side
+    # it curves down and in under the pad's front to a narrow bottom, out and up the open side past its hub to the grey
+    # cap above the pad; the two grey grips stick out from the bottom's corners, angled out and down
     hy, hz = HANDLE
     for s in (1, -1):
-        x = s * AXL
-        k.tube("lever", (x - 0.03, py, pz), (x + 0.03, py, pz), 0.04, seg=28)
-        k.sweep("lever", [(x, py, pz), (x, hy + 0.06, hz + 0.10), (x, hy, hz)], k.rect(0.04, 0.06, 0.006), bend=0.06,
-                up=(1, 0, 0), soft=0.002)
-    ux = AXL
-    k.bar("lever", (ux, py + 0.02, pz + 0.04), (ux, py - 0.02, pz + 0.30), 0.04, 0.06, up=(0, 1, 0))
-    k.box("greyplastic", (ux, py - 0.025, pz + 0.34), (0.10, 0.12, 0.10), soft=0.01)
-    k.tube("lever", (-AXL, hy, hz), (AXL, hy, hz), 0.02, seg=20)
+        k.tube("lever", (s * AXL - 0.03, py, pz), (s * AXL + 0.03, py, pz), 0.04, seg=28)
+    yb = py - 0.06
+    zu = pz - 0.13                                            # the U's bottom: shallow, just under the pad's front
+    path = [(-AXL, py, pz), (-0.24, yb, zu + 0.03), (0.0, yb - 0.01, zu), (0.24, yb, zu + 0.03), (AXL, py, pz),
+            (AXL, py + 0.01, pz + 0.28)]
+    k.sweep("lever", path, k.rect(0.045, 0.06, 0.008), bend=0.10, up=(0, 1, 0), soft=0.002)
+    k.box("greyplastic", (AXL, py + 0.01, pz + 0.33), (0.10, 0.12, 0.10), soft=0.01)
+    # the stem down from the U's middle, the two grips splaying out from its foot (Roman's sketch: a stem with feet)
+    st = (0.0, yb - 0.01, zu)
+    sf = (0.0, yb - 0.05, zu - 0.24)
+    k.bar("lever", st, sf, 0.04, 0.04, up=(0, 1, 0))
+    k.box("lever", sf, (0.07, 0.06, 0.05), soft=0.004)
     for s in (1, -1):
-        k.tube("greyplastic", (s * 0.08, hy, hz), (s * 0.22, hy, hz), 0.022, seg=22)
+        g0 = (s * 0.035, sf[1], sf[2])
+        g1 = (s * 0.21, sf[1] - 0.06, sf[2] - 0.05)
+        k.tube("lever", g0, tuple(g0[i] + (g1[i] - g0[i]) * 0.3 for i in range(3)), 0.018, seg=18)
+        k.tube("greyplastic", tuple(g0[i] + (g1[i] - g0[i]) * 0.3 for i in range(3)), g1, 0.022, seg=20)
+        k.cyl("greyplastic", g1, 0.024, 0.01, axis="x", seg=20, soft=0.003)
     # ---- the cable: from the cam down to a pulley at the tower's foot, up its face to its top pulley
     ox, oy, oz = tw["cable"]
     out = (TC[0] - (oy - TC[1]), TC[1] + (ox - TC[0]), oz)
