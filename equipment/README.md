@@ -79,7 +79,11 @@ work this way. Each of these was a pass he had to send back:
 5. **Every adjustment has its mechanism.** Seats, back pads, pads and stops adjust on something real: a hinge, a strut,
    a notched rack, a pin, a pop pin or a release handle. Find it in the close-ups and build it whole. A back pad just
    sitting at an angle is wrong ("the seat rest has no pivoting thing to lower it more or raise it").
-6. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
+6. **Check every assembly's side (handedness).** Machines are not symmetric. For the tower, the lever, the cam and the
+   handles, decide which side each is on (the user's left or right, near or far from the tower) from which part hides
+   which in the photos, and write it in the docstring. The HS Select leg extension went out with its lever mirrored
+   ("the contraption on the wrong side"): the cam sits beside the tower, the roller reaching across to the open side.
+7. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
    each: ref | ours, side and three-quarter) and look for the differences above before reporting. The difference you
    find yourself is a version Roman doesn't have to send back.
 
