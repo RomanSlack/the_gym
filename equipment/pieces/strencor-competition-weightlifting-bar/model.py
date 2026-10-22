@@ -21,7 +21,7 @@ LOOK = {
     "sleeve": CHROME,
     "collar": dict(CHROME, color=(0.66, 0.66, 0.68), rough=0.14, aniso=0.6),
     "gap": dict(color=(0.02, 0.02, 0.02), rough=0.5, coat=0.0),
-    "badge": dict(color=(0.85, 0.80, 0.12), rough=0.4, coat=0.2),
+    "badge": dict(color=(0.92, 0.72, 0.01), rough=0.4, coat=0.2),
     "print": dict(color=(0.02, 0.02, 0.02), rough=0.5, coat=0.0),
 }
 VIEWS = {"three_quarter": (-30, 22, 1.35), "front": (0, 6, 1.3), "side": (90, 8, 1.0), "back_three_quarter": (150, 25, 1.35)}
