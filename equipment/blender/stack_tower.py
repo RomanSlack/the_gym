@@ -239,47 +239,77 @@ def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
     _placard(t, T, cx, yb + 0.003, H - 0.08 - ph / 2, 2 * xs, ph, facing=1, rz=math.pi)
 
 
+def _corners(pts, radii, seg=8):
+    """A closed outline (x, y) with each corner rounded by its own radius."""
+    out = []
+    n = len(pts)
+    for i in range(n):
+        (ax, ay), (bx, by), (qx, qy) = pts[i - 1], pts[i], pts[(i + 1) % n]
+        r = radii[i]
+        if r <= 0:
+            out.append((bx, by))
+            continue
+        ux, uy = ax - bx, ay - by; lu = math.hypot(ux, uy); ux, uy = ux / lu, uy / lu
+        vx, vy = qx - bx, qy - by; lv = math.hypot(vx, vy); vx, vy = vx / lv, vy / lv
+        p0, p1 = (bx + ux * r, by + uy * r), (bx + vx * r, by + vy * r)     # (square corners: the arc's ends)
+        ccx, ccy = p0[0] + vx * r, p0[1] + vy * r
+        a0, a1 = math.atan2(p0[1] - ccy, p0[0] - ccx), math.atan2(p1[1] - ccy, p1[0] - ccx)
+        da = (a1 - a0 + math.pi) % (2 * math.pi) - math.pi
+        out += [(ccx + r * math.cos(a0 + da * j / seg), ccy + r * math.sin(a0 + da * j / seg)) for j in range(seg + 1)]
+    return out
+
+
 def _axiom(t, T, cx, cy, W, D, H, n, pt, ztop):
-    hc = 0.035                                     # the thin cap
+    hc = 0.05                                      # the cap at its crown
     hb = H - hc
     yf, yb = cy - D / 2, cy + D / 2
-    zp = 0.07                                      # the base pan's top
-    t.box("frame", (cx, cy, zp / 2), (W + 0.006, D + 0.006, zp - 0.002), soft=0.006)
-    # the side panels: frame colour, the full depth and height, two bolt heads up each
-    st = 0.03
+    # the side uprights: frame colour, the full depth, from the floor plate to the cap, their outer corners rounded on
+    # a big radius (the studio shots' highlight down the corner), standing proud of the front between them; two bolt
+    # heads up each
+    uw, ro = 0.06, 0.04
     for sx in (1, -1):
-        t.box("frame", (cx + sx * (W / 2 - st / 2), cy, (zp + hb) / 2), (st, D, hb - zp + 0.002), soft=0.006)
+        xo, xi = cx + sx * W / 2, cx + sx * (W / 2 - uw)
+        plan = [(xi, yf), (xo, yf), (xo, yb), (xi, yb)]
+        out = _corners(plan, [0.004, ro, ro, 0.004])
+        t.sweep("frame", [(0, 0, 0.012), (0, 0, hb)], [(-x, y) for x, y in out], up=(0, 1, 0), soft=0.004)
         for z in (0.78, 0.93):
-            t.bolt((cx + sx * W / 2, yf + 0.09, z), "+x" if sx > 0 else "-x", size=0.014)
+            t.bolt((xo, yf + 0.09, z), "+x" if sx > 0 else "-x", size=0.014)
+    yf = yf + 0.018                                # the front between them, set back
+    zp = 0.07                                      # the base pan between the uprights, its top
+    t.box("frame", (cx, (yf + yb) / 2, zp / 2 + 0.006), (W - 2 * uw + 0.004, yb - yf - 0.01, zp - 0.012), soft=0.004)
+    st = uw
     # the front: two black panels between the sides, the slot between them; the placard band over them on its grey
     # strip, the band's top under the cap
     wi = W - 2 * st
     sl = 0.045
     pw = (wi - sl) / 2
-    zs = hb - 0.29                                 # the grey strip's foot (the panels' top)
+    zs = hb - 0.20                                 # the grey strip's foot (the panels' top)
+    hs = 0.035                                     # the strip's height
     for sx in (1, -1):
         t.box("shroud2", (cx + sx * (sl / 2 + pw / 2), yf + 0.016, (zp + zs) / 2), (pw, 0.02, zs - zp), soft=0.003)
-    t.box("ink2", (cx, yf + 0.016, zs + 0.0225), (wi + 0.002, 0.024, 0.045), soft=0.002)
-    t.box("placard", (cx, yf + 0.016, (zs + 0.045 + hb) / 2), (wi + 0.002, 0.024, hb - zs - 0.045), soft=0.002)
+    t.box("ink2", (cx, yf + 0.016, zs + hs / 2), (wi + 0.002, 0.024, hs), soft=0.002)
+    t.box("placard", (cx, yf + 0.016, (zs + hs + hb) / 2), (wi + 0.002, 0.024, hb - zs - hs), soft=0.002)
     yp = yf + 0.004 - 0.0004                       # the band's face
-    t.text("ink", T["title"], (cx - wi * 0.30, yp - 0.0002, zs + 0.0225), 0.018, depth=0.0003)
-    t.box("placard", (cx, yp, zs + 0.0225), (0.004, 0.001, 0.045), soft=0.0)          # the strip's split at the slot
-    for i in range(14):                                                                   # its dot pattern
-        for j in range(3):
-            t.box("hole", (cx + 0.03 + i * 0.008, yp, zs + 0.012 + j * 0.01), (0.004, 0.0008, 0.004), soft=0.0)
-    zt = hb - 0.01
-    t.text("ink", T["brand"], (cx + 0.02, yp, zt - 0.035), 0.03, depth=0.0003)
-    t.box("picture", (cx - wi / 2 + 0.10, yp, zt - 0.12), (0.14, 0.001, 0.16), soft=0.0)    # the muscle picture
-    for (x, z, w, h, r) in ((-0.03, 0.03, 0.035, 0.09, 0.4), (0.0, -0.035, 0.03, 0.07, -0.3), (0.02, 0.0, 0.02, 0.06, 0.6)):
-        t.box("warn", (cx - wi / 2 + 0.10 + x, yp - 0.0006, zt - 0.12 + z), (w, 0.001, h), ry=r, soft=0.0)
-    t.box("ink", (cx - 0.035, yp, zt - 0.10), (0.03, 0.001, 0.03), soft=0.0)            # the QR
-    t.box("warn", (cx - 0.035, yp, zt - 0.13), (0.012, 0.001, 0.012), soft=0.0)
-    pq = min(0.10, (wi / 2 - 0.04) / 2)                                                 # the how-to pictures
+    t.text("ink", T["title"], (cx - wi * 0.30, yp - 0.0002, zs + hs / 2), 0.014, depth=0.0003)
+    t.box("placard", (cx, yp, zs + hs / 2), (0.004, 0.001, hs), soft=0.0)              # the strip's split at the slot
+    for i in range(16):                                                                   # its dot pattern
+        for j in range(2):
+            t.box("hole", (cx + 0.03 + i * 0.008, yp, zs + 0.013 + j * 0.009), (0.004, 0.0008, 0.004), soft=0.0)
+    zt = hb - 0.005
+    t.text("ink", T["brand"], (cx - 0.01, yp, zt - 0.025), 0.024, depth=0.0003)
+    xm = cx - wi / 2 + 0.065
+    t.box("picture", (xm, yp, zt - 0.09), (0.10, 0.001, 0.11), soft=0.0)                  # the muscle picture: the
+    for (x, z, w, h, r) in ((-0.012, 0.022, 0.012, 0.06, 0.55), (0.012, -0.02, 0.01, 0.05, -0.35)):   # leg, the
+        t.box("warn", (xm + x, yp - 0.0006, zt - 0.09 + z), (w, 0.001, h), ry=r, soft=0.0)          # hamstring orange
+    t.box("ink2", (xm + 0.02, yp - 0.0006, zt - 0.075), (0.006, 0.001, 0.07), ry=-0.2, soft=0.0)
+    t.box("ink", (cx - 0.03, yp, zt - 0.08), (0.024, 0.001, 0.024), soft=0.0)           # the QR
+    t.box("warn", (cx - 0.03, yp, zt - 0.104), (0.008, 0.001, 0.01), soft=0.0)
+    pq = min(0.085, (wi / 2 - 0.04) / 2)                                                # the how-to pictures
     for i in range(2):
         x = cx + 0.025 + pq / 2 + i * (pq + 0.01)
-        t.box("ink2", (x, yp, zt - 0.13), (pq, 0.001, 0.08), soft=0.0)
-        t.box("picture", (x, yp - 0.0006, zt - 0.13), (pq - 0.006, 0.001, 0.074), soft=0.0)
-        t.box("ink2", (x, yp - 0.0012, zt - 0.13), (pq * 0.6, 0.001, 0.012), ry=0.2, soft=0.0)
+        t.box("ink2", (x, yp, zt - 0.085), (pq, 0.001, 0.062), soft=0.0)
+        t.box("picture", (x, yp - 0.0006, zt - 0.085), (pq - 0.006, 0.001, 0.056), soft=0.0)
+        t.box("ink2", (x, yp - 0.0012, zt - 0.09), (pq * 0.6, 0.001, 0.01), ry=0.2, soft=0.0)
     # in the slot: the dark wall behind, the selector rod, the plates' numbers, the yellow pin, the add-on weight
     t.box("shroud", (cx, cy + 0.08, (ztop + zs) / 2), (sl + 0.02, 0.01, zs - ztop), soft=0.002)
     t.tube("chrome", (cx, cy - 0.02, ztop - 0.01), (cx, cy - 0.02, zs - 0.01), 0.009, seg=16)
@@ -296,7 +326,13 @@ def _axiom(t, T, cx, cy, W, D, H, n, pt, ztop):
     t.text("ink", "+7.5", (cx, yf - 0.0022, ztop + 0.05), 0.009, depth=0.0006)
     t.box("frame", (cx, (yf + 0.01 + cy + 0.076) / 2, ztop + 0.05), (0.03, cy + 0.076 - yf - 0.01, 0.012), soft=0.001)   # its arm
     # the cap, a hair over the body all round, its edges rounded; the back panel with the script
-    t.box("shroud", (cx, cy, hb + hc / 2), (W + 0.01, D + 0.01, hc), soft=0.012)
+    # the cap: arched across (low over the uprights, high in the middle), its ends rounded down onto them, its front
+    # and back edges rounded over
+    a = W / 2 + 0.003
+    prof = [(-a, 0.0), (a, 0.0), (a, 0.012)] + [(a - 0.014 + 0.014 * math.cos(math.pi / 2 * j / 6), 0.012 + 0.014 * math.sin(math.pi / 2 * j / 6)) for j in range(1, 7)]
+    prof += [(x, 0.026 + (hc - 0.026) * (1 - (x / (a - 0.014)) ** 2)) for x in [(a - 0.014) * (1 - 2 * j / 20) for j in range(1, 20)]]
+    prof += [(-a + 0.014 - 0.014 * math.cos(math.pi / 2 * j / 6), 0.012 + 0.014 * math.sin(math.pi / 2 * j / 6)) for j in range(6, 0, -1)] + [(-a, 0.012)]
+    t.sweep("shroud", [(cx, cy - D / 2 - 0.003, hb), (cx, yb + 0.003, hb)], [(-x, z) for x, z in prof], up=(0, 0, 1), soft=0.01)
     t.box("shroud2", (cx, yb - 0.01, (zp + hb) / 2), (wi + 0.002, 0.02, hb - zp), soft=0.003)
     t.text("ink2", T["brand"], (cx, yb + 0.0005, hb - 0.12), 0.05, rz=math.pi, depth=0.0004)
 
