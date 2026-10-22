@@ -30,7 +30,7 @@ LOOK = {
 VIEWS = {"three_quarter": (-145, 16, 1.1), "front": (180, 6, 1.1), "side": (90, 3, 1.1), "back_three_quarter": (35, 18, 1.1)}
 DETAILS = {
     "detail_anchor": ((0.65, 1.05, 0.85), (0.0, 0.35, 0.45), 45),       # the anchor plate between the platforms
-    "detail_pivot": ((-0.95, -1.35, 1.45), (0.0, -0.78, 1.05), 45),     # the axle, lever hub, rear legs, horns
+    "detail_pivot": ((-0.95, -1.35, 1.25), (0.0, -0.78, 0.85), 45),     # the axle, lever hub, rear legs, horns
 }
 
 FOOT_H = 0.02
@@ -41,9 +41,10 @@ BX = 0.38                          # base side rails (x)
 FX = 0.30                          # tower posts, rear legs, side beams (x)
 T = 0.076
 Y_TOWER, Y_REAR, Y_FRONT = 0.12, -0.95, 0.35
-Z_BEAM = 1.20
-PIV = (-0.76, 1.05)
-TIP = (0.16, 0.50)                 # the lever's front end
+Z_BEAM = 0.97                      # the tower's top beam and the side beams (ref_10: a low box; the 64 in includes the dip
+                                   # attachment, not picked)
+PIV = (-0.76, 0.84)
+TIP = (0.16, 0.42)                 # the lever's front end
 PLAT_Z = 10.75 * 0.0254
 
 
@@ -83,11 +84,8 @@ def build(k):
     # ---- the tower: two posts on the front cross bar, the top beam bolted across, the posts' tops the grips
     for s in (1, -1):
         x = s * FX
-        k.bar("frame", (x, Y_TOWER, RAIL_TOP), (x, Y_TOWER, 1.45), T, T, cut0=((0, 0, RAIL_TOP), Z), weld=True)
-        k.box("plastic", (x, Y_TOWER, 1.455), (T + 0.004, T + 0.004, 0.01), soft=0.002)
-        k.tube("rubber", (x, Y_TOWER - T / 2 - 0.022, 1.28), (x, Y_TOWER - T / 2 - 0.022, 1.44), 0.022, seg=22)
-        for z in (1.29, 1.43):
-            k.box("frame", (x, Y_TOWER - T / 2 - 0.011, z), (0.03, 0.022, 0.02), soft=0.002)
+        k.bar("frame", (x, Y_TOWER, RAIL_TOP), (x, Y_TOWER, Z_BEAM + 0.10), T, T, cut0=((0, 0, RAIL_TOP), Z), weld=True)
+        k.box("plastic", (x, Y_TOWER, Z_BEAM + 0.105), (T + 0.004, T + 0.004, 0.01), soft=0.002)
         k.box("warn", (x + s * (T / 2 + 0.001), Y_TOWER, 0.95), (0.002, 0.05, 0.05), soft=0.0)
     bar_x(k, "frame", Y_TOWER, Z_BEAM, -(FX - T / 2), FX - T / 2)
     for bx in (-0.16, -0.05, 0.05, 0.16):
@@ -95,11 +93,11 @@ def build(k):
     # ---- the rear legs bending forward into the side beams, onto the tower posts' backs; the axle blocks; storage horns
     for s in (1, -1):
         x = s * FX
-        k.sweep("frame", [(x, Y_REAR, RAIL_TOP), (x, Y_REAR, 0.80), (x, -0.70, Z_BEAM), (x, Y_TOWER - T / 2 - 0.01, Z_BEAM)],
+        k.sweep("frame", [(x, Y_REAR, RAIL_TOP), (x, Y_REAR, 0.58), (x, -0.70, Z_BEAM), (x, Y_TOWER - T / 2 - 0.01, Z_BEAM)],
                 k.rect(T, T, 0.008), bend=0.22, up=(1, 0, 0), cut0=((0, 0, RAIL_TOP), Z),
                 cut1=((0, Y_TOWER - T / 2, 0), Y), weld=True, soft=0.002)
         k.box("frame", (x, PIV[0], (PIV[1] + Z_BEAM) / 2 - 0.02), (T, 0.10, Z_BEAM - PIV[1] + 0.04), soft=0.004)
-        for zh in (0.30, 0.62):
+        for zh in (0.25, 0.48):
             horn(k, "frame", Y_REAR, zh, s, x + s * T / 2, 0.24)
     pc = (FX + T / 2 + 0.002, -0.35, Z_BEAM)
     k.box("placard", pc, (0.004, 0.17, 0.06), soft=0.0)
@@ -108,6 +106,14 @@ def build(k):
     k.tube("steel", (-FX - 0.06, PIV[0], PIV[1]), (FX + 0.06, PIV[0], PIV[1]), 0.025, seg=28)
     for s in (1, -1):
         k.bolt((s * (FX + 0.06), PIV[0], PIV[1]), "+x" if s > 0 else "-x", size=0.03)
+    # ---- the long handles (ref_03, ref_07): a bar each side from a bracket on the side beam by the pivot, rising
+    # forward over the tower's top beam to a grip in front of it
+    for s in (1, -1):
+        xh = s * (FX - T / 2 - 0.022)
+        k.box("frame", (s * (FX - T / 2 - 0.011), -0.62, Z_BEAM), (0.022, 0.08, 0.06), soft=0.002)
+        h0, h1, h2 = (xh, -0.62, Z_BEAM), (xh, Y_TOWER + 0.16, 1.17), (xh, Y_TOWER + 0.30, 1.15)
+        k.sweep("lever", [h0, h1, h2], k.circle(0.016, 18), bend=0.06, soft=0.0015)
+        k.tube("rubber", (xh, Y_TOWER + 0.19, 1.168), h2, 0.021, seg=22)
     # ---- the lever: its hub on the axle, the beam down to the tip, the anchor plate on, two weight rods a side
     k.tube("lever", (-0.07, PIV[0], PIV[1]), (0.07, PIV[0], PIV[1]), 0.05, seg=32)
     t = math.atan2(PIV[1] - TIP[1], TIP[0] - PIV[0])
