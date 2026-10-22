@@ -129,10 +129,10 @@ def seat(k, dz=0.0, front=None):
         k.cyl("plastic", g2, 0.023, 0.012, axis="y", seg=20, soft=0.003)
 
 
-def back(k, lean=LEAN, dz=0.0, tall=0.0):
+def back(k, lean=LEAN, dz=0.0, tall=0.0, outline=None):
     """The back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
     plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10).
-    dz moves it with the seat, tall makes the pad taller."""
+    dz moves it with the seat, tall makes the pad taller, outline (across, up from its centre) shapes it."""
     # ---- the back pad's carriage: two parallel links from the rear post's inner face up and forward to the carriage
     # plate (the pad swings fore and aft on them), the lock plate of holes on the post, the pull knob (ref_01 / ref_10)
     lk = math.radians(35)
@@ -169,7 +169,7 @@ def back(k, lean=LEAN, dz=0.0, tall=0.0):
     top = tuple(base[i] + up[i] * (0.66 + tall) for i in range(3))
     k.bar("frame", (0.0, cy_, zc - 0.025), top, 0.06, 0.04, up=(0, 1, 0))
     pc = tuple(base[i] + up[i] * (0.36 + tall / 2) + nrm[i] * 0.075 for i in range(3))
-    k.shaped_pad("pad", [(-0.20, -0.32 - tall / 2), (0.20, -0.32 - tall / 2), (0.20, 0.30 + tall / 2), (-0.20, 0.30 + tall / 2)], pc, nrm, (1, 0, 0), 0.09,
+    k.shaped_pad("pad", outline or [(-0.20, -0.32 - tall / 2), (0.20, -0.32 - tall / 2), (0.20, 0.30 + tall / 2), (-0.20, 0.30 + tall / 2)], pc, nrm, (1, 0, 0), 0.09,
                  r=0.05, cushion=0.03)
     k.box("frame", tuple(base[i] + up[i] * (0.36 + tall / 2) + nrm[i] * 0.024 for i in range(3)), (0.30, 0.016, 0.56 + tall), rx=-lean, soft=0.002)
 

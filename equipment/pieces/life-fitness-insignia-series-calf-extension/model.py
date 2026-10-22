@@ -7,7 +7,7 @@ the placard, ref_06 the stack's numbers and the seat, ref_07 / ref_08 / ref_09 t
 of 58.1 in (148 cm) and about 70 x 41 in.
 The same family frame as the Insignia Leg Extension (its model.py: the base's low and rear beams, the seat, the back
 pad's carriage are imported from it), the back pad nearly upright; this one's own parts: the tower a little further
-forward (ref_03: the seat in front of it, the foot bar about 0.43 m beyond its front edge); the front frame on
+forward (ref_03: the seat's front behind its front edge, the foot bar about 0.29 m beyond it); the front frame on
 the tower side (the foot, the leg up to the housing, the strut back down to the low beam); the axle through the
 housing with the cam on its tower side and the start-position disc and pin on the other; the long foot bar on the
 axle's end, cantilevered across both feet (the balls of the feet on its back face, the heels dropping, the bar turning
@@ -34,15 +34,18 @@ DETAILS = {
 
 TOWER = dict(le.TOWER, title="CALF EXTENSION")
 T, FOOT_H, Z, X, Y = le.T, le.FOOT_H, le.Z, le.X, le.Y
-TC = (le.TC[0], 0.0)                 # the tower: the seat in front of it, the foot bar about 0.43 m beyond its front edge (ref_03)
+TC = (le.TC[0], -0.20)               # the tower: the seat's front behind its front edge, the foot bar about 0.29 m beyond it (ref_03)
 X_FACE = le.X_FACE
 PX = le.PIV[0]                       # the housing (x), on the tower side
 AXLE = (-0.92, 0.49)                 # the foot bar's axle (y, z): under the balls of the feet, legs out from the seat
-BAR = (-0.24, 0.42)                  # the foot bar's ends (x)
+BAR = (-0.24, 0.50)                  # the foot bar's ends (x): past the seat's open side (ref_01 / ref_03)
 LEAN = math.radians(12)              # the back pad: nearly upright (ref_01)
 SEAT_DZ = -0.08                      # the seat lower than the leg extension's, its top at 0.48 (ref_01)
 SEAT_FRONT = -0.42                   # and longer, its front near the foot bar
 BACK_TALL = 0.16                     # the back pad taller (ref_01)
+H0, H1 = 0.32 + BACK_TALL / 2, 0.30 + BACK_TALL / 2
+BACK_OUTLINE = [(-0.20, -H0), (0.20, -H0), (0.20, -0.02), (0.15, 0.08), (0.15, H1), (-0.15, H1), (-0.15, 0.08), (-0.20, -0.02)]
+                                     # wide at the lumbar, stepping in to the narrower upper back (ref_01 / ref_10)
 
 
 def build(k):
@@ -55,14 +58,17 @@ def build(k):
             bend=0.06, up=(1, 0, 0), cut0=((0, 0, FOOT_H), Z), soft=0.002)
     k.bar("frame", (PX, ay + 0.02, az - 0.10), (PX, y_low, le.RZ0 + 0.02), 0.06, 0.06)
     le.base(k, y_low, on_tower=False)
-    # ---- the seat's front post and the cross beam to it from the low beam; the seat; the back pad on its carriage
+    # ---- the seat's curved front post and the cross beam to its foot from the low beam; the seat; the back pad
     sy = SEAT_FRONT + 0.08
-    le.foot(k, 0.0, sy, 0.11)
-    k.bar("frame", (0, sy, FOOT_H), (0, sy, le.SPINE_Z + SEAT_DZ - T / 2), T, T, cut0=((0, 0, FOOT_H), Z), weld=True)
-    k.bar("frame", (PX + T / 2, sy, le.RZ0), (-T / 2, sy, le.RZ0), T, 0.05,
-          cut0=((PX + T / 2, 0, 0), X), cut1=((-T / 2, 0, 0), X), weld=True)
+    sz = le.SPINE_Z + SEAT_DZ
+    yf = sy + 0.16                                   # the post's foot, behind the seat's front: it curves forward up
+    le.foot(k, 0.0, yf, 0.11)
+    k.sweep("frame", [(0, yf, FOOT_H), (0, yf, 0.16), (0, sy + 0.02, sz - 0.08), (0, sy, sz - 0.01)], k.circle(0.036, 24),
+            bend=0.12, cut0=((0, 0, FOOT_H), Z), soft=0.002)                       # (ref_01)
+    k.bar("frame", (PX + T / 2, yf, le.RZ0), (-0.036, yf, le.RZ0), T, 0.05,
+          cut0=((PX + T / 2, 0, 0), X), cut1=((-0.036, 0, 0), X), weld=True)
     le.seat(k, SEAT_DZ, SEAT_FRONT)
-    le.back(k, LEAN, SEAT_DZ, BACK_TALL)
+    le.back(k, LEAN, SEAT_DZ, BACK_TALL, BACK_OUTLINE)
     # ---- the housing, the axle through it, the cam on the tower side, the start-position disc and its pin on the
     # other with the chrome pull (ref_01)
     k.box("frame", (PX, ay, az), (0.10, 0.14, 0.14), soft=0.008)
