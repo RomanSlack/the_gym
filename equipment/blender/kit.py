@@ -24,7 +24,7 @@ from mathutils.bvhtree import BVHTree
 # ---------------------------------------------------------------- materials
 
 
-def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0):
+def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -44,6 +44,16 @@ def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, a
         nt.links.new(tc.outputs["Object"], nz.inputs["Vector"])
         nt.links.new(nz.outputs["Fac"], bp.inputs["Height"])
         nt.links.new(bp.outputs["Normal"], b.inputs["Normal"])
+    if grain:  # wood (plywood faces): wave bands along x, distorted, between color and grain["dark"]; scale in 1/m
+        tc = nt.nodes.new("ShaderNodeTexCoord")
+        wv = nt.nodes.new("ShaderNodeTexWave"); wv.inputs["Scale"].default_value = grain.get("scale", 6.0)
+        wv.inputs["Distortion"].default_value = grain.get("distortion", 9.0); wv.inputs["Detail"].default_value = 3
+        wv.bands_direction = grain.get("along", "X")
+        ramp = nt.nodes.new("ShaderNodeMix"); ramp.data_type = "RGBA"
+        ramp.inputs[6].default_value = (*color, 1); ramp.inputs[7].default_value = (*grain["dark"], 1)
+        nt.links.new(tc.outputs["Object"], wv.inputs["Vector"])
+        nt.links.new(wv.outputs["Fac"], ramp.inputs[0])
+        nt.links.new(ramp.outputs[2], b.inputs["Base Color"])
     return m
 
 
