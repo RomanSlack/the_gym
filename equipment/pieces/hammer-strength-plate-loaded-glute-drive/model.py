@@ -41,7 +41,7 @@ T = 0.076
 BX = 0.40                          # base side rails (x)
 UX = 0.55                          # rear uprights (x)
 UY = 0.62                          # rear uprights (y)
-PIV = (UY, 0.86)                   # the axle (y, z)
+PIV = (UY, 0.92)                   # the axle (y, z): near the rear uprights' tops (40 in overall)
 AX = 0.42                          # the lever's arms (x)
 ROLL = (0.03, 0.70)                # the roller's axis (y, z)
 Y0, Y1 = -0.32, 0.86               # base side rails
@@ -105,10 +105,13 @@ def build(k):
     k.bar("frame", (0, -0.05, RAIL_Z), (0, 0.25 - 0.038, RAIL_Z), 0.06, RAIL[1], cut1=((0, 0.212, 0), Y), weld=True)
     k.box("frame", (0, -0.05, 0.36), (0.30, 0.24, 0.02), soft=0.003)
     k.pad("pad", (0, -0.05, 0.415), (0.40, 0.30, 0.09), r=0.04)
-    # ---- the round back pad on its stand (a half round along x, the user's upper back on its front)
-    k.bar("frame", (0, 0.25, RAIL_TOP), (0, 0.25, 0.36), 0.06, 0.06, cut0=((0, 0, RAIL_TOP), Z), weld=True)
-    k.box("frame", (0, 0.27, 0.37), (0.40, 0.10, 0.03), soft=0.003)
-    k.cyl("pad", (0, 0.27, 0.48), 0.11, 0.52, axis="x", seg=40, soft=0.02)
+    # ---- the round back pad (ref_14, ref_02): a big half round across, its flat on a plate on the stand, high behind
+    # the seat; the user's upper back rests on its curved top
+    bz = 0.50
+    k.bar("frame", (0, 0.30, RAIL_TOP), (0, 0.30, bz - 0.02), 0.08, 0.08, cut0=((0, 0, RAIL_TOP), Z), weld=True)
+    k.box("frame", (0, 0.30, bz - 0.01), (0.44, 0.28, 0.02), soft=0.003)
+    half = [(-0.15 * math.cos(math.pi * i / 20), 0.15 * math.sin(math.pi * i / 20)) for i in range(21)]
+    k.sweep("pad", [(-0.26, 0.30, bz), (0.26, 0.30, bz)], [(-dy, dz) for dy, dz in half], up=Z, soft=0.02)
     # ---- the rear uprights, the top cross tube, the storage horns, the axle
     for s in (1, -1):
         x = s * UX
@@ -127,7 +130,7 @@ def build(k):
     for s in (1, -1):
         x = s * AX
         k.tube("lever", (x - 0.04, PIV[0], PIV[1]), (s * (UX - T / 2), PIV[0], PIV[1]), 0.045, seg=32)
-        k.sweep("lever", [(x, PIV[0], PIV[1]), (x, 0.30, 0.86), (x, ROLL[0], ROLL[1])], k.rect(0.06, 0.10, 0.01),
+        k.sweep("lever", [(x, PIV[0], PIV[1]), (x, 0.24, 0.84), (x, ROLL[0], ROLL[1])], k.rect(0.07, 0.11, 0.01),
                 bend=0.18, up=(1, 0, 0), soft=0.002)
         horn(k, "lever", ROLL[0], ROLL[1], s, x + s * 0.03, 0.28)
         g0 = (x, ROLL[0] + 0.08, ROLL[1] + 0.03)
