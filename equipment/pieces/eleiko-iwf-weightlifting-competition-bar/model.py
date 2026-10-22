@@ -24,6 +24,7 @@ LOOK = {
     "gap": dict(color=(0.02, 0.02, 0.02), rough=0.5, coat=0.0),
     "ring": dict(color=(0.72, 0.56, 0.22), rough=0.35, metal=0.9, coat=0.0),
     "badge": dict(color=(0.08, 0.08, 0.085), rough=0.4, coat=0.0),
+    "print": dict(color=(0.55, 0.56, 0.58), rough=0.4, metal=0.6, coat=0.0),
     "ink": dict(color=(0.06, 0.065, 0.07), rough=0.5, coat=0.0),
 }
 VIEWS = {"three_quarter": (-30, 22, 1.35), "front": (0, 6, 1.3), "side": (90, 8, 1.0), "back_three_quarter": (150, 25, 1.35)}

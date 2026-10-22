@@ -20,6 +20,18 @@
  },
  "refs": [
   {
+   "file": "refs/ref_02.jpg",
+   "url": "https://strencor.com/imagecache/productXLarge/womens-weightlifting-bar-1.webp"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://strencor.com/imagecache/productXLarge/womens-weightlifting-bar-2.webp"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://strencor.com/imagecache/productXLarge/womens-weightlifting-bar-3.webp"
+  },
+  {
    "file": "refs/ref_01.png",
    "url": "https://strencor.com//skins/strencor/images/structure/logo-black.png"
   }
@@ -29,5 +41,10 @@
  "fetched": {
   "at": "2026-10-17T23:40:33+00:00",
   "how": "page"
- }
+ },
+ "sheet_refs": [
+  "ref_02.jpg",
+  "ref_03.jpg",
+  "ref_04.jpg"
+ ]
 }

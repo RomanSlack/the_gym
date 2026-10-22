@@ -8,9 +8,10 @@ S keys (metres):
     knurl      the knurled runs on each half [(x0, x1), ...] (distances from the centre), the rest of the shaft smooth
     centre     the centre knurl's length (0: none)
     marks      the smooth rings cut in the knurl (their centres, from the centre), 5 mm wide
-    badge      dict(text=[lines], size, r): the sleeve end's printed cap (roles "badge" + "ink")
+    badge      dict(text=[lines], size, r): the sleeve end's printed cap (roles "badge" + "print"; big: the index of a line set larger)
     ring       optional dict(text, size, r_in, r_out, full): lettering (full: spread right round) round the collar's inner face (Eleiko; roles "ring" + "ink")
-Roles: "shaft" (smooth), "knurl" (from knurl_look), "sleeve", "collar", "gap" (the bushing's dark seam), "badge", "ink".
+Roles: "shaft" (smooth), "knurl" (from knurl_look), "sleeve", "collar", "gap" (the bushing's dark seam), "badge" + "print"
+(the end cap and its lettering), "ring" + "ink" (the collar face's ring and its lettering).
 """
 import math
 
@@ -80,7 +81,7 @@ def build(k, S):
         n = len(bd["text"])
         for i, line in enumerate(bd["text"]):
             sz = bd["size"] * (1.4 if i == bd.get("big", -1) else 1.0)
-            k.text("ink", line, (xe + s * 0.0007, 0, zc + (n - 1 - 2 * i) * bd["size"] * 0.75), sz, rz=s * math.pi / 2, depth=0.0003)
+            k.text("print", line, (xe + s * 0.0007, 0, zc + (n - 1 - 2 * i) * bd["size"] * 0.75), sz, rz=s * math.pi / 2, depth=0.0003)
         ring = S.get("ring")
         if ring:
             # the coloured ring on the collar's inner face with its lettering running round it (as Eleiko prints it)
