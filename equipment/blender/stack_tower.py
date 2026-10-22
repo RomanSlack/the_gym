@@ -4,8 +4,9 @@ returned point and the piece routes it on to its lever.
 
 Two styles (read off the makers' photos, 2026-10-22):
   "open"    Hammer Strength Select: a steel frame front and back (the post on one side straight, the other bending round
-            into the top beam), the exercise placard across the top, a clear acrylic guard over the rods, a black panel
-            over the lower stack printed with the weights, the stack, rods and top plate visible through the guard.
+            into the top beam), the front open (the stack, rods and top plate in view, the weights printed on the
+            plates), the exercise placard across the top front and back, a frosted acrylic panel the full height of
+            the back with HAMMER STRENGTH low on it.
   "shroud"  Life Fitness Insignia: a closed tower (side panels, a dark front panel, a rounded top cap), the placard on
             the front's top, a narrow window up the front showing the weight numbers and the selector pin.
 Local frame (before the tower is turned by rz about its footprint's centre c): the tower's front faces -y.
@@ -30,6 +31,7 @@ LOOK = {   # defaults, a piece's LOOK overrides any of them
     "shroud": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.15),
     "shroud2": dict(color=(0.07, 0.072, 0.075), rough=0.4, coat=0.2),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4, coat=0.0),
+    "frosted": dict(color=(0.85, 0.87, 0.88), rough=0.35, coat=0.0, trans=0.85),                   # the frosted back
 }
 
 
@@ -72,14 +74,16 @@ def tower(k, T, c, rz=0.0, name="tower"):
     return dict(cable=out, sub=t)
 
 
-def _placard(t, T, cx, y, z, w, h, facing=-1):
-    """The exercise placard: a black panel, the brand top left, three diagram squares, the exercise's name."""
+def _placard(t, T, cx, y, z, w, h, facing=-1, rz=0.0):
+    """The exercise placard: a black panel, the brand top left, three diagram squares, the exercise's name (facing
+    -y, or +y with rz = pi: then left and right swap)."""
     t.box("placard", (cx, y, z), (w, 0.006, h), soft=0.001)
     yf = y + facing * 0.0032
-    t.text("ink", T["brand"], (cx - w / 2 + 0.11, yf, z + h / 2 - 0.025), 0.022, depth=0.0003)
+    sg = -facing
+    t.text("ink", T["brand"], (cx - sg * (w / 2 - 0.11), yf, z + h / 2 - 0.025), 0.022, rz=rz, depth=0.0003)
     for i in range(3):
-        t.box("ink2", (cx - w / 2 + 0.06 + i * 0.085, yf, z - 0.01), (0.07, 0.0006, 0.07), soft=0.0)
-    t.text("ink", T["title"], (cx + w / 2 - 0.13, yf, z - h / 2 + 0.03), 0.022, depth=0.0003)
+        t.box("ink2", (cx - sg * (w / 2 - 0.06 - i * 0.085), yf, z - 0.01), (0.07, 0.0006, 0.07), soft=0.0)
+    t.text("ink", T["title"], (cx + sg * (w / 2 - 0.13), yf, z - h / 2 + 0.03), 0.022, rz=rz, depth=0.0003)
 
 
 def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
@@ -95,20 +99,25 @@ def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
         path = [a, b] + arc + [(cx + rs * xs, y, zb)]
         t.sweep("frame", path, kit.rect(0.076, 0.05, 0.006), up=(0, 1, 0), soft=0.002)
     t.box("frame", (cx, cy, H - 0.012), (W - 0.2, D - 0.10, 0.024), soft=0.002)                       # the top deck
-    # the placard across the front top, the acrylic guard below it, the black lower panel with the weights printed
-    yf = cy - D / 2 - 0.002                       # on the frames' front faces, spanning post to post
+    # the front is open (ref photos of a used unit, 2026-10-22): the placard across its top; the weights printed on
+    # the plates' fronts, a number each side of the pin hole
+    yf = cy - D / 2 + 0.001
     ph = 0.22
     _placard(t, T, cx, yf - 0.003, H - 0.08 - ph / 2, 2 * xs, ph)
-    z_lp = FOOT_H + 0.006 + 0.05 + n * pt * 0.62
-    t.box("acrylic", (cx, yf, (z_lp + H - 0.08 - ph) / 2), (2 * xs, 0.004, H - 0.08 - ph - z_lp), soft=0.0006)   # a bevel: flat shading, no lens
-    t.box("frame", (cx, yf, (FOOT_H + z_lp) / 2), (2 * xs, 0.004, z_lp - FOOT_H), soft=0.001)
-    for i in range(0, n, 2):
-        z = FOOT_H + 0.006 + 0.05 + (i + 0.5) * pt
-        if z > z_lp - 0.02:
-            break
-        val = (i + 1) * T.get("step", 10) + T.get("start", 0)
-        t.text("label", str(val), (cx - 0.06, yf - 0.0024, z), 0.012, depth=0.0003)
-        t.text("label", str(val), (cx + 0.06, yf - 0.0024, z), 0.012, depth=0.0003)
+    pw, pd, _ = T["plate"]
+    z0 = FOOT_H + 0.006 + 0.05
+    for i in range(n):
+        z = z0 + (i + 0.5) * pt
+        val = str((i + 1) * T.get("step", 10) + T.get("start", 0))
+        for dx in (-0.055, 0.055):
+            t.box("label", (cx + dx, cy - pd / 2 - 0.0004, z), (0.05, 0.0008, pt * 0.62), soft=0.0)
+            t.text("seam", val, (cx + dx, cy - pd / 2 - 0.0009, z), pt * 0.5, depth=0.0002)
+    # the back: a frosted acrylic panel the full height between the frames, HAMMER STRENGTH low on it, the placard on top
+    yb = cy + D / 2 + 0.002
+    t.box("frosted", (cx, yb, (FOOT_H + H - 0.08 - ph) / 2 + 0.01), (2 * xs, 0.004, H - 0.08 - ph - FOOT_H), soft=0.0006)
+    for i, line in enumerate(T["brand"].split(" ", 1) if T["brand"].isupper() else [T["brand"]]):
+        t.text("ink2", line, (cx, yb + 0.0025, 0.45 - i * 0.075), 0.065, rz=math.pi, depth=0.0004)
+    _placard(t, T, cx, yb + 0.003, H - 0.08 - ph / 2, 2 * xs, ph, facing=1, rz=math.pi)
 
 
 def _shroud(t, T, cx, cy, W, D, H, n, pt):
