@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-10-22T11:56:53",
+  "count": 3,
+  "succeeded": 3,
+  "failed": 0,
+  "total_cost_usd": 0.495,
+  "results": [
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Photoreal photograph of an athletic man training on this exact machine, a Hammer Strength plate-loaded hack squat, in a luxury Nordic gym: warm light oak slat walls, pale stone floor, large windows onto a snowy pine forest at dusk. Keep the machine's geometry exactly as in the reference renders: the incline rails with chrome guide rods, the tapered back pad with the two shoulder pads, the angled handles, the wide tilted foot plate, the A-shaped rear supports with storage horns, charcoal frame, black upholstery. He is mid-rep, shoulders under the pads, hands on the handles, knees bent at the bottom of the squat, feet on the foot plate; black bumper plates loaded on the sled's chrome horns. Side three-quarter view, 35 mm lens, natural depth of field, editorial fitness photography, no text overlays.",
+      "images": [
+        "/home/roman/the_gym/equipment/people/hack-squatpeoplev001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Photoreal photograph of an athletic woman training on this exact machine, a Hammer Strength plate-loaded linear leg press, in a luxury Nordic gym: warm light oak slat walls, pale stone floor, large windows onto a snowy pine forest at dusk. Keep the machine's geometry exactly as in the reference renders: the long 40 degree rails starting at the low reclined seat, twin chrome rods, the open tube sled frame with the large grit foot plate nearly upright, the upper and lower loading horns, the rear posts with storage horns, charcoal frame, black upholstery. She lies back on the reclined back pad, feet on the foot plate, knees bent toward her chest, hands on the racking handles beside the seat; black bumper plates loaded on the sled horns. Side three-quarter view, 35 mm lens, natural depth of field, editorial fitness photography, no text overlays.",
+      "images": [
+        "/home/roman/the_gym/equipment/people/leg-presspeoplev001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Photoreal photograph of an athletic man training on this exact machine, a Hammer Strength plate-loaded Pendulum-X squat, in a luxury Nordic gym: warm light oak slat walls, pale stone floor, large windows onto a snowy pine forest at dusk. Keep the machine's geometry exactly as in the reference renders: the grey peaked house-shaped side frames, the black pendulum arms running under the grey roof, the three grey bumper blocks on the front, the back pad and shoulder pads on the lower branch, the inclined foot platform, charcoal grey frame, black upholstery. He stands on the inclined platform with his back against the pad and shoulders under the shoulder pads, hands on the grips, squatting deep; black bumper plates on the rear loading horns and the storage horns. Side view slightly from the front, 35 mm lens, natural depth of field, editorial fitness photography, no text overlays.",
+      "images": [
+        "/home/roman/the_gym/equipment/people/pendulumpeoplev001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    }
+  ]
+}

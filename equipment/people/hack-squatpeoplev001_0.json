@@ -1,0 +1,14 @@
+{
+  "prompt": "Photoreal photograph of an athletic man training on this exact machine, a Hammer Strength plate-loaded hack squat, in a luxury Nordic gym: warm light oak slat walls, pale stone floor, large windows onto a snowy pine forest at dusk. Keep the machine's geometry exactly as in the reference renders: the incline rails with chrome guide rods, the tapered back pad with the two shoulder pads, the angled handles, the wide tilted foot plate, the A-shaped rear supports with storage horns, charcoal frame, black upholstery. He is mid-rep, shoulders under the pads, hands on the handles, knees bent at the bottom of the squat, feet on the foot plate; black bumper plates loaded on the sled's chrome horns. Side three-quarter view, 35 mm lens, natural depth of field, editorial fitness photography, no text overlays.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1536x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [
+    "/home/roman/the_gym/equipment/people/refs/hammer-strength-plate-loaded-hack-squat_three_quarter_v005.png",
+    "/home/roman/the_gym/equipment/people/refs/hammer-strength-plate-loaded-hack-squat_side_v005.png"
+  ],
+  "filename": "hack-squatpeoplev001_0.png",
+  "generated_at": "2026-10-22T11:56:45"
+}

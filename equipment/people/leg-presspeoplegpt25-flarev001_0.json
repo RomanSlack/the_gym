@@ -1,0 +1,14 @@
+{
+  "prompt": "Photoreal photograph of an athletic woman training on this exact machine, a Hammer Strength plate-loaded linear leg press, in a luxury Nordic gym: warm light oak slat walls, pale stone floor, large windows onto a snowy pine forest at dusk. Keep the machine's geometry exactly as in the reference renders: the long 40 degree rails starting at the low reclined seat, twin chrome rods, the open tube sled frame with the large grit foot plate nearly upright, the upper and lower loading horns, the rear posts with storage horns, charcoal frame, black upholstery. She lies back on the reclined back pad, feet on the foot plate, knees bent toward her chest, hands on the racking handles beside the seat; black bumper plates loaded on the sled horns. Side three-quarter view, 35 mm lens, natural depth of field, editorial fitness photography, no text overlays.",
+  "model": "gpt-image-2.5-flare",
+  "provider": "openai",
+  "size": "1536x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [
+    "/home/roman/the_gym/equipment/people/refs/hammer-strength-plate-loaded-linear-leg-press_three_quarter_v007.png",
+    "/home/roman/the_gym/equipment/people/refs/hammer-strength-plate-loaded-linear-leg-press_side_v007.png"
+  ],
+  "filename": "leg-presspeoplegpt25-flarev001_0.png",
+  "generated_at": "2026-10-22T11:57:47"
+}
