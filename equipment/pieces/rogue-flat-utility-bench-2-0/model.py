@@ -14,9 +14,10 @@ from pathlib import Path
 IN = 0.0254
 LOOK = {
     "frame": dict(color=(0.016, 0.016, 0.017), rough=0.45, metal=0.1, coat=0.05, bump=(1400, 0.06)),   # black satin powder coat
-    "pad": dict(color=(0.050, 0.050, 0.052), rough=0.78, sheen=0.05, bump=(2600, 0.35)),             # textured grey foam
-    "emboss": dict(color=(0.040, 0.040, 0.042), rough=0.55, bump=(2600, 0.1)),                       # the moulded logo, smoother
-    "plastic": dict(color=(0.010, 0.010, 0.011), rough=0.22, coat=0.3),                              # glossy end caps
+    "pad": dict(color=(0.030, 0.030, 0.032), rough=0.8, sheen=0.05, bump=(2600, 0.35)),             # textured grey foam
+    "emboss": dict(color=(0.024, 0.024, 0.025), rough=0.55, bump=(2600, 0.1)),                       # the moulded logo, smoother
+    "plastic": dict(color=(0.012, 0.012, 0.013), rough=0.7),                                          # the pad's board, matte
+    "cap": dict(color=(0.010, 0.010, 0.011), rough=0.22, coat=0.3),                                  # glossy end caps
     "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
 }
 VIEWS = {"three_quarter": (-38, 16, 1.0), "front": (0, 4, 1.0), "side": (90, 4, 1.0), "back_three_quarter": (150, 20, 1.0)}
@@ -47,14 +48,14 @@ def build(k):
     # the spine under the pad, capped
     k.bar("frame", (-SPINE_X, 0, sz), (SPINE_X, 0, sz), SPINE[1], SPINE[0], up=(0, 1, 0))
     for s in (1, -1):
-        k.box("plastic", (s * (SPINE_X + 0.002), 0, sz), (0.008, SPINE[0] + 0.003, SPINE[1] + 0.003), soft=0.002)
+        k.box("cap", (s * (SPINE_X + 0.002), 0, sz), (0.008, SPINE[0] + 0.003, SPINE[1] + 0.003), soft=0.002)
     for s in (1, -1):
         fx = s * FOOT_X
         # the foot: the tube between its caps, the caps a touch bigger, standing on the floor
         body = FOOT_L / 2 - CAP_T
         k.bar("frame", (fx, -body, foot_bot + FOOT[1] / 2), (fx, body, foot_bot + FOOT[1] / 2), FOOT[1], FOOT[0], up=(0, 0, 1))
         for d in (1, -1):
-            k.box("plastic", (fx, d * (FOOT_L / 2 - CAP_L / 2), foot_bot + FOOT[1] / 2),
+            k.box("cap", (fx, d * (FOOT_L / 2 - CAP_L / 2), foot_bot + FOOT[1] / 2),
                   (FOOT[0] + 2 * CAP_T, CAP_L, FOOT[1] + 2 * CAP_T), soft=0.004)
         # the leg: welded onto the foot's middle, leaning in, its top cut level under the spine
         p0, p1 = (fx, 0, foot_top), (s * LEG_TOP_X, 0, s_bot)
@@ -80,5 +81,5 @@ def sticker(k, s, z0, z1):
     zc = z0 + 0.13
     xc = FOOT_X - (FOOT_X - LEG_TOP_X) * (zc - z0) / (z1 - z0) + (LEG[0] / 2) / math.cos(lean) + 0.0008
     c = Vector((s * xc, 0, zc))
-    ob = k.decal(Path(__file__).parent / "art" / "sticker.png", tuple(c), 0.052, 0.20, facing="+x" if s > 0 else "-x")
+    ob = k.decal(Path(__file__).parent / "art" / "sticker_v2.png", tuple(c), 0.052, 0.20, facing="+x" if s > 0 else "-x")
     ob.data.transform(Matrix.Translation(c) @ Matrix.Rotation(-s * lean, 4, "Y") @ Matrix.Translation(-c))
