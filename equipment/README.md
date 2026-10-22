@@ -91,6 +91,13 @@ work this way. Each of these was a pass he had to send back:
 8. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
    each: ref | ours, side and three-quarter) and look for the differences above before reporting. The difference you
    find yourself is a version Roman doesn't have to send back.
+9. **Shared parts get the most care, once.** A part many machines share (the weight-stack tower: `blender/stack_tower.py`)
+   is built once per maker style and then every machine of that maker gets it. Measure it from a photo square on to
+   it (the Insignia glute's ref_04): studio shots are turned about 40 degrees and read narrow, close phone shots read
+   wide. Read how it is made (the Insignia tower: two uprights the full height and depth, a gloss cap with a crisp band
+   and a rounded crown, two satin front panels with a narrow chrome channel and the badge block, a placard on each,
+   an inset back panel), and check a close-up render of it beside a close-up photo. A plain box with a lid
+   was Roman's "absolutely terrible" (2026-10-22).
 
 ## The playbook (learned on the Precor leg extension, 2026-10-17; superseded by the checklist above where they differ)
 

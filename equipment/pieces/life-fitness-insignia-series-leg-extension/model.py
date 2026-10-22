@@ -23,7 +23,8 @@ import stack_tower
 
 IN = 0.0254
 LOOK = {
-    "frame": dict(color=(0.03, 0.031, 0.033), rough=0.45, metal=0.3, coat=0.1, bump=(1400, 0.06)),    # Charcoal
+    "frame": dict(color=(0.05, 0.052, 0.056), rough=0.38, metal=0.45, coat=0.15, bump=(1400, 0.05)),  # Charcoal: a
+                                     # metallic grey, a shade lighter than the black panels (ref_01's tower edges)
     "lever": dict(color=(0.02, 0.02, 0.021), rough=0.42, metal=0.3, coat=0.1, bump=(1400, 0.06)),
     "pad": dict(color=(0.014, 0.014, 0.015), rough=0.55, sheen=0.25, bump=(1500, 0.14)),
     "seam": dict(color=(0.30, 0.30, 0.30), rough=0.7, coat=0.0),                                        # the grey stitching
@@ -31,8 +32,8 @@ LOOK = {
     "chrome": dict(color=(0.8, 0.8, 0.82), rough=0.06, metal=1.0, coat=0.0),
     "steel": dict(color=(0.7, 0.7, 0.71), rough=0.22, metal=1.0, aniso=0.4, coat=0.0),
     "cam": dict(color=(0.05, 0.05, 0.052), rough=0.35, metal=0.4, coat=0.1),
-    "shroud": dict(color=(0.018, 0.018, 0.02), rough=0.4, coat=0.25),
-    "shroud2": dict(color=(0.035, 0.036, 0.04), rough=0.4, coat=0.2),
+    "shroud": dict(color=(0.012, 0.012, 0.013), rough=0.22, coat=0.7),                                 # the gloss cap and pan
+    "shroud2": dict(color=(0.03, 0.033, 0.04), rough=0.38, metal=0.15, coat=0.25),                     # the satin slate panels
     "cable": dict(color=(0.03, 0.03, 0.03), rough=0.4, coat=0.0),
     "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0, coat=0.0),
     "hole": dict(color=(0.004, 0.004, 0.004), rough=0.9, coat=0.0),
@@ -40,14 +41,17 @@ LOOK = {
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, coat=0.0, spec=0.2),
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
 }
-VIEWS = {"three_quarter": (60, 14, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (-125, 16, 1.0)}
+VIEWS = {"three_quarter": (48, 12, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (-125, 16, 1.0)}
 DETAILS = {
     "detail_lever": ((0.75, -1.05, 0.95), (-0.25, -0.30, 0.45), 45),   # the cam, its guard, the handle, the roller
     "detail_back": ((0.95, 1.05, 0.95), (0.15, 0.55, 0.50), 45),       # the back pad's links, the lock plate
+    "detail_tower": ((0.75, -0.25, 1.45), (-0.42, 0.42, 1.05), 40),    # the tower's face: panels, channel, placards, cap
 }
 
-TOWER = dict(style="shroud", W=0.86, D=0.32, H=58.1 * IN, n=20, plate=(0.28, 0.13, 0.0254), rods=0.20,
-             title="LEG EXTENSION", brand="LifeFitness", step=15, start=-5, placard="insignia")
+TOWER = dict(style="insignia", W=0.74, D=0.30, H=58.1 * IN, n=20, plate=(0.34, 0.14, 0.0254), rods=0.24,
+             title="LEG EXTENSION", brand="LifeFitness", step=15, start=-5)   # half as wide as tall (the glute's ref_04,
+                                     # square on to the face: 0.72 m against its 73 in length; the close-up back photos
+                                     # read wider)
 TC = (-0.56, 0.42)                   # the tower: beside the user on the right, its face (+x) across the seat (ref_10)
 X_FACE = TC[0] + TOWER["D"] / 2      # its face (x)
 FOOT_H = 0.015

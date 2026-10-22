@@ -7,14 +7,19 @@ Two styles (read off the makers' photos, 2026-10-22):
             into the top beam), the front open (the stack, rods and top plate in view, the weights printed on the
             plates), the exercise placard across the top front and back, a frosted acrylic panel the full height of
             the back with HAMMER STRENGTH low on it.
-  "shroud"  Life Fitness Insignia: a closed tower (side panels, a dark front panel, a rounded top cap), the placard on
-            the front's top, a narrow window up the front showing the weight numbers and the selector pin.
+  "shroud"  a closed tower (side panels, a dark front panel, a rounded top cap), the placard on the front's top, a
+            narrow window up the front showing the weight numbers and the selector pin (the Precor Resolute).
+  "insignia" Life Fitness Insignia, read off the straight-on photos of three used units (2026-10-22): two charcoal
+            side uprights the full height (about 0.08 across, set back behind the front panels), a gloss rounded
+            cap overhanging them with a thin silver line under its front; the front two satin panels with a channel
+            between them showing the selector rod, the orange pin and the plates' printed numbers, the LF badge block
+            on the channel's top, a placard on each panel's top (placard.insignia), a small hook on the left panel;
+            the back one bowed inset panel with the LifeFitness script up it; a base pan. About 0.56 as wide as tall.
 Local frame (before the tower is turned by rz about its footprint's centre c): the tower's front faces -y.
 
 T keys (metres): style, W (across), D (deep), H (tall), n (plates), plate (w, d, t), rods (centres apart), title
 (the placard's exercise name), brand ("HAMMER STRENGTH" / "LifeFitness"), round (+1 / -1: which top corner of the open
-frame is bent round), units ("lb"/"kg") and step (the weight per plate) for the printed numbers, placard ("insignia":
-Life Fitness Insignia's own layout on the shroud).
+frame is bent round), units ("lb"/"kg") and step (the weight per plate) for the printed numbers.
 Roles: "frame" (the machine's frame colour), "shroud" + "shroud2" (the closed tower's panels), "plate", "chrome",
 "acrylic", "placard" + "ink" (the placard and its lettering), "label" (printed numbers), "rubber", "plastic",
 "cable".
@@ -34,6 +39,7 @@ LOOK = {   # defaults, a piece's LOOK overrides any of them
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4, coat=0.0),
     "frosted": dict(color=(0.85, 0.87, 0.88), rough=0.35, coat=0.0, trans=0.85),                   # the frosted back
     "warn": dict(color=(0.95, 0.55, 0.02), rough=0.4, coat=0.0),                                     # the placard's orange
+    "picture": dict(color=(0.035, 0.035, 0.038), rough=0.3, coat=0.3),                               # its dark pictures
 }
 
 
@@ -62,7 +68,7 @@ def tower(k, T, c, rz=0.0, name="tower"):
             t.box("rubber", (cx + sx * (W / 2 - 0.04), cy + sy * (D / 2 - 0.04), FOOT_H / 2), (0.06, 0.06, FOOT_H), soft=0.002)
     ztop = t.stack(k_floor, n=n, w=pw, d=pd, t=pt, rods=T["rods"], top=rod_top - k_floor[2], pin_at=T.get("pin_at", 5))
     # the rod plate across the top of the rods (both styles), the top pulley under the deck, the cable up to it
-    rp = (T["rods"] + 0.08, D - 0.10) if T["style"] == "open" else (W - 0.024, D - 0.024)   # to the frames / the panels
+    rp = {"open": (T["rods"] + 0.08, D - 0.10), "insignia": (W - 0.18, D - 0.08)}.get(T["style"], (W - 0.024, D - 0.024))
     t.box("frame", (cx, cy, rod_top + 0.01), (rp[0], rp[1], 0.02), soft=0.002)
     zp = rod_top + 0.10
     t.box("frame", (cx, cy, (rod_top + 0.02 + zp - 0.04) / 2), (0.05, 0.06, zp - 0.04 - rod_top - 0.02), soft=0.002)
@@ -71,6 +77,8 @@ def tower(k, T, c, rz=0.0, name="tower"):
     out = (cx, cy - 0.046, zp)
     if T["style"] == "open":
         _open(t, T, cx, cy, W, D, H, n, pt, ztop)
+    elif T["style"] == "insignia":
+        _insignia(t, T, cx, cy, W, D, H, n, pt, ztop)
     else:
         _shroud(t, T, cx, cy, W, D, H, n, pt)
     return dict(cable=out, sub=t)
@@ -89,27 +97,95 @@ def _placard(t, T, cx, y, z, w, h, facing=-1, rz=0.0):
     t.text("ink", T["title"], (cx + sg * (w / 2 - 0.13), yf, z - h / 2 + 0.03), 0.022, rz=rz, depth=0.0003)
 
 
-def _placard_insignia(t, T, cx, y, z, w, h):
-    """Life Fitness Insignia's placard (ref photos, 2026-10-22): a black band across the tower's top; on the left a
-    panel with the muscle picture (an orange stroke) and the exercise's name under it, the round LF badge in the
-    middle, on the right a panel with the two how-to pictures and the brand under them."""
-    t.box("placard", (cx, y, z), (w, 0.006, h), soft=0.001)
+def _insignia(t, T, cx, cy, W, D, H, n, pt, ztop):
+    zb = FOOT_H + 0.006
+    hc = 0.10                                      # the cap
+    hb = H - hc
+    yf, yb = cy - D / 2, cy + D / 2
+    # the base pan, a little proud of the body all round
+    t.box("shroud", (cx, cy, 0.025), (W + 0.02, D + 0.02, 0.05 - FOOT_H), soft=0.012)
+    # the side uprights: the full height to the cap and the full depth, flanking the front and back panels (ref_10:
+    # in view at both edges from the front, ref_08: from the back)
+    uw = 0.075
+    for sx in (1, -1):
+        t.box("frame", (cx + sx * (W / 2 - uw / 2), cy, (0.05 + hb) / 2), (uw, D, hb - 0.05 + 0.002), soft=0.012)
+    # the front: two satin panels between the uprights, a little back from their fronts, the channel between them
+    # (ch wide), a fine steel lip on each panel's inner edge
+    ch = 0.06                                  # (narrow: the studio shots' chrome strip)
+    pw = (W - 2 * uw - ch) / 2 + 0.003
+    pt_ = 0.026
+    zp0, zp1 = 0.055, hb - 0.004
+    for sx in (1, -1):
+        xc = cx + sx * (ch / 2 + pw / 2)
+        t.box("shroud2", (xc, yf + pt_ / 2 + 0.008, (zp0 + zp1) / 2), (pw, pt_, zp1 - zp0), soft=0.004)
+        t.box("steel", (cx + sx * (ch / 2 + 0.003), yf + 0.014, (zp0 + zp1) / 2 - 0.08), (0.004, 0.012, zp1 - zp0 - 0.30), soft=0.001)
+    # inside the channel: the dark back wall above the stack, the chrome lifting rod up from the top plate, the plates'
+    # printed numbers each side of the pin holes, the orange pin knob
+    t.box("shroud", (cx, cy + 0.07, (ztop + hb) / 2), (ch + 0.02, 0.01, hb - ztop), soft=0.002)
+    t.tube("chrome", (cx, cy - 0.02, ztop - 0.01), (cx, cy - 0.02, hb - 0.20), 0.011, seg=18)
+    t.box("frame", (cx, yf + 0.045, ztop + 0.02), (ch + 0.02, 0.04, 0.012), soft=0.002)                # the strip's foot
+    t.tube("chrome", (cx, yf + 0.03, ztop + 0.02), (cx, yf + 0.03, hb - 0.185), 0.012, seg=20)      # the polished strip
+    pw_, pd_, _ = T["plate"]
+    z0 = FOOT_H + 0.006 + 0.05
+    for i in range(n):
+        z = z0 + (i + 0.5) * pt
+        val = str((i + 1) * T.get("step", 15) + T.get("start", 0))
+        for dx in (-0.032, 0.032):
+            t.text("label", val, (cx + dx, cy - pd_ / 2 - 0.0005, z), pt * 0.42, depth=0.0002)
+    zpin = z0 + (T.get("pin_at", 5) + 0.5) * pt
+    t.cyl("warn", (cx, cy - pd_ / 2 - 0.058, zpin), 0.019, 0.026, axis="y", seg=24, soft=0.004)
+    # the LF badge block on the channel's top
+    zbg = hb - 0.11
+    t.box("placard", (cx, yf + 0.018, zbg), (ch + 0.004, 0.024, 0.15), soft=0.004)
+    t.cyl("ink2", (cx, yf + 0.006 - 0.0005, zbg + 0.035), 0.024, 0.002, axis="y", seg=32, soft=0.0005)
+    t.cyl("placard", (cx, yf + 0.006 - 0.0015, zbg + 0.035), 0.019, 0.002, axis="y", seg=32, soft=0.0)
+    t.text("ink", "LF", (cx, yf + 0.006 - 0.0026, zbg + 0.031), 0.016, depth=0.0003)
+    for dz in (-0.015, -0.045):
+        t.box("ink2", (cx, yf + 0.006 - 0.0005, zbg + dz), (0.05, 0.001, 0.018), soft=0.0)
+    # the placards on the panels' tops, the hook on the left panel
+    _placard_insignia(t, T, cx, yf + 0.005, hb - 0.10, ch, pw)
+    xh = cx - ch / 2 - pw * 0.62
+    t.box("plastic", (xh, yf - 0.003, hb - 0.27), (0.03, 0.022, 0.09), soft=0.004)
+    t.box("plastic", (xh + 0.015, yf - 0.018, hb - 0.305), (0.05, 0.018, 0.022), rz=-0.4, soft=0.004)
+    # the cap: gloss, flush with the uprights, a crisp band at the bottom and a crown rounded on its top edges (the
+    # studio shots' rounded top corners); the silver line under its front between the uprights
+    t.box("shroud", (cx, cy, hb + 0.025), (W + 0.012, D + 0.012, 0.05), soft=0.003)                   # its crisp band
+    t.box("shroud", (cx, cy, hb + 0.01 + (hc - 0.01) / 2), (W + 0.012, D + 0.012, hc - 0.01), soft=0.045)  # its crown
+    t.box("chrome", (cx, yf + 0.006, hb - 0.002), (W - 2 * uw + 0.004, 0.004, 0.006), soft=0.001)
+    # the back: the bowed inset panel between the uprights with the script up it
+    bw = W - 2 * uw - 0.03                     # a dark gap each side to the uprights (ref_08)
+    yb2 = yb - 0.03                            # recessed behind their backs
+    for sx in (1, -1):
+        for zt in (0.25, 0.75, 1.15):
+            t.box("frame", (cx + sx * (W / 2 - uw - 0.012), yb2 - 0.004, zt), (0.03, 0.012, 0.05), soft=0.001)   # its tabs
+    t.sweep("shroud2", [(cx, yb2, 0.07), (cx, yb2, hb - 0.02)],
+            [(-bw / 2 + bw * i / 12, 0.012 * math.sin(math.pi * i / 12)) for i in range(13)] +
+            [(bw / 2 - bw * i / 12, 0.012 * math.sin(math.pi * (12 - i) / 12) - 0.016) for i in range(13)],
+            up=(0, 1, 0), soft=0.006)
+    t.text("ink2", T["brand"], (cx, yb2 + 0.0125, (0.07 + hb) / 2), 0.075, rz=math.pi, spin=math.pi / 2, depth=0.0006)
+
+
+def _placard_insignia(t, T, cx, y, z, ch, pw):
+    """Life Fitness Insignia's two placards (ref_05 of the calf extension, ref_06 of the leg extension), one across the
+    top of each front panel either side of the badge block: on the left the QR square, the muscle picture (a pale leg,
+    the worked muscle orange) and the exercise's name under it; on the right the two how-to pictures and the brand."""
+    w, h = pw - 0.03, 0.15
     yf = y - 0.0032
-    pw = (w - 0.12) / 2
-    for sg in (-1, 1):
-        t.box("shroud2", (cx + sg * (0.06 + pw / 2), yf, z + 0.012), (pw - 0.02, 0.0006, h - 0.05), soft=0.0)
-    xl = cx - 0.06 - pw / 2
-    t.box("ink2", (xl - pw * 0.30, yf - 0.0004, z + 0.02), (0.035, 0.0006, 0.035), soft=0.0)            # the QR square
-    t.box("warn", (xl + 0.03, yf - 0.0004, z + 0.02), (0.09, 0.0006, 0.022), rx=0.0, soft=0.0)
-    t.box("warn", (xl + 0.03, yf - 0.0004, z + 0.02), (0.022, 0.0006, 0.09), ry=0.6, soft=0.0)          # the muscle stroke
-    t.text("ink", T["title"], (xl, yf - 0.0004, z - h / 2 + 0.018), 0.016, depth=0.0003)
-    t.cyl("ink2", (cx, yf - 0.002, z + 0.01), 0.032, 0.004, axis="y", seg=32, soft=0.001)               # the LF badge
-    t.cyl("placard", (cx, yf - 0.0045, z + 0.01), 0.024, 0.002, axis="y", seg=32, soft=0.0)
-    t.text("ink", "LF", (cx, yf - 0.0056, z + 0.004), 0.022, depth=0.0003)
-    xr = cx + 0.06 + pw / 2
-    for i, c in enumerate(("ink2", "frosted")):
-        t.box(c, (xr - pw * 0.2 + i * pw * 0.4, yf - 0.0004, z + 0.02), (pw * 0.34, 0.0006, h * 0.5), soft=0.0)
-    t.text("ink", T["brand"], (xr + pw * 0.25, yf - 0.0004, z - h / 2 + 0.018), 0.016, depth=0.0003)
+    for sx in (-1, 1):
+        xc = cx + sx * (ch / 2 + pw / 2)
+        t.box("placard", (xc, y, z), (w, 0.006, h), soft=0.002)
+        t.box("picture", (xc + sx * 0.012, yf, z + 0.012), (w - 0.05, 0.0006, h - 0.055), soft=0.0)     # the picture
+    xl = cx - ch / 2 - pw / 2
+    t.box("ink", (xl - w / 2 + 0.028, yf - 0.0004, z + 0.035), (0.03, 0.0006, 0.03), soft=0.0)          # the QR square
+    t.box("ink2", (xl + 0.01, yf - 0.0004, z + 0.02), (0.022, 0.0006, 0.09), ry=0.5, soft=0.0)             # the leg
+    t.box("warn", (xl + 0.045, yf - 0.0006, z + 0.0), (0.06, 0.0006, 0.024), ry=-0.3, soft=0.0)          # its muscle
+    t.text("ink", T["title"], (xl + 0.01, yf - 0.0004, z - h / 2 + 0.017), 0.015, depth=0.0003)
+    xr = cx + ch / 2 + pw / 2
+    for i in range(2):
+        xx = xr - w * 0.18 + i * w * 0.36
+        t.box("ink2", (xx, yf - 0.0004, z + 0.02), (0.035, 0.0006, 0.05), soft=0.0)                       # the figures
+        t.box("acrylic" if i else "warn", (xx + 0.015, yf - 0.0006, z - 0.005), (0.04, 0.0006, 0.01), soft=0.0)
+    t.text("ink", T["brand"], (xr + w * 0.22, yf - 0.0004, z - h / 2 + 0.017), 0.015, depth=0.0003)
 
 
 def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
@@ -165,10 +241,7 @@ def _shroud(t, T, cx, cy, W, D, H, n, pt):
         val = (i + 1) * T.get("step", 5) + T.get("start", 0)
         t.text("label", str(val), (wx - 0.05, yf - 0.0062, z), 0.012, depth=0.0003)
     t.cyl("plastic", (wx, yf - 0.03, z0w + 0.4 * (z1w - z0w)), 0.012, 0.05, axis="y", seg=16, soft=0.003)     # the pin
-    if T.get("placard") == "insignia":
-        _placard_insignia(t, T, cx, yf - 0.0065, hb - 0.13, W - 0.06, 0.16)
-    else:
-        _placard(t, T, cx, yf - 0.0065, hb - 0.16, W - 0.10, 0.20)
+    _placard(t, T, cx, yf - 0.0065, hb - 0.16, W - 0.10, 0.20)
     # the rounded top cap: a half round along x over the panels
     half = [(-D / 2 * math.cos(math.pi * i / 16), hc * math.sin(math.pi * i / 16)) for i in range(17)]
     t.sweep("shroud", [(cx - W / 2, cy, hb), (cx + W / 2, cy, hb)], [(-dy, dz) for dy, dz in half], up=(0, 0, 1), soft=0.004)
