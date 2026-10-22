@@ -24,7 +24,7 @@ from mathutils.bvhtree import BVHTree
 # ---------------------------------------------------------------- materials
 
 
-def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None):
+def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None, knurl=None):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -54,6 +54,29 @@ def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, a
         nt.links.new(tc.outputs["Object"], wv.inputs["Vector"])
         nt.links.new(wv.outputs["Fac"], ramp.inputs[0])
         nt.links.new(ramp.outputs[2], b.inputs["Base Color"])
+    if knurl:  # diamond knurl round a bar along x through (y, z) = knurl["c"]: two crossed helices -> pyramids -> bump
+        tc = nt.nodes.new("ShaderNodeTexCoord")
+        xyz = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(tc.outputs["Object"], xyz.inputs[0])
+        cy, cz = knurl.get("c", (0.0, 0.0))
+        p, r = knurl.get("pitch", 0.0016), knurl.get("r", 0.014)
+
+        def op(kind, a, b=None):
+            n = nt.nodes.new("ShaderNodeMath"); n.operation = kind
+            for i, v in enumerate((a, b)):
+                if v is None:
+                    continue
+                if isinstance(v, (int, float)):
+                    n.inputs[i].default_value = v
+                else:
+                    nt.links.new(v, n.inputs[i])
+            return n.outputs[0]
+        th = op("ARCTAN2", op("SUBTRACT", xyz.outputs["Z"], cz), op("SUBTRACT", xyz.outputs["Y"], cy))
+        arc = op("MULTIPLY", th, r)
+        tri = [op("PINGPONG", op("DIVIDE", op(kind, xyz.outputs["X"], arc), p), 0.5) for kind in ("ADD", "SUBTRACT")]
+        h = op("MINIMUM", *tri)
+        bp = nt.nodes.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = knurl.get("strength", 0.6)
+        bp.inputs["Distance"].default_value = knurl.get("depth", 0.0005)
+        nt.links.new(h, bp.inputs["Height"]); nt.links.new(bp.outputs["Normal"], b.inputs["Normal"])
     return m
 
 
@@ -427,8 +450,8 @@ class Kit:
         return ztop + 0.06
 
     @_part
-    def text(self, mat, body, c, size, rz=0.0, rx=math.pi / 2, depth=0.001):
-        """Raised lettering (labels on shrouds, weight numbers). Default faces -y (the user)."""
+    def text(self, mat, body, c, size, rz=0.0, rx=math.pi / 2, depth=0.001, spin=0.0):
+        """Raised lettering (labels on shrouds, weight numbers). Default faces -y (the user); spin turns it in its own plane."""
         cu = bpy.data.curves.new("txt", "FONT"); cu.body = body; cu.size = size; cu.extrude = depth / 2
         cu.align_x = "CENTER"; cu.align_y = "CENTER"
         try:
@@ -438,7 +461,7 @@ class Kit:
         ob = bpy.data.objects.new("txt", cu); bpy.context.scene.collection.objects.link(ob)
         me = bpy.data.meshes.new_from_object(ob.evaluated_get(bpy.context.evaluated_depsgraph_get()))
         bpy.data.objects.remove(ob); bpy.data.curves.remove(cu)
-        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Rotation(rx, 4, "X"))
+        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Rotation(rx, 4, "X") @ Matrix.Rotation(spin, 4, "Z"))
         self.bm(mat, 0).from_mesh(me); bpy.data.meshes.remove(me)
 
     def decal(self, img, c, w, h, facing="+x", rough=0.3):
