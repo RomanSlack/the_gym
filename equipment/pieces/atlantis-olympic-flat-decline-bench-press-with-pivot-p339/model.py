@@ -88,11 +88,12 @@ def build(k):
     e0 = on(PAD_S[1] + 0.02, 0)
     e1 = (e0[0] - 0.34, 0, e0[2] - 0.16)
     k.bar("frame", e0, e1, 0.06, 0.06, up=Y)
-    k.box("plastic", (e1[0] - 0.02, 0, e1[2] - 0.009), (0.008, 0.064, 0.064), ry=math.atan2(0.16, 0.34), soft=0.003)
+    ad = math.hypot(0.34, 0.16)
+    k.box("plastic", (e1[0] - 0.34 / ad * 0.004, 0, e1[2] - 0.16 / ad * 0.004), (0.008, 0.064, 0.064), ry=-math.atan2(0.16, 0.34), soft=0.003)
     for c in (on(PAD_S[1] - 0.02, fh / 2 + ROLL_R + 0.005), tuple(e0[i] + (e1[i] - e0[i]) * 0.86 for i in range(3))):
         if c[2] > e0[2]:
             k.bar("frame", on(PAD_S[1] - 0.02, 0), c, 0.04, 0.04, up=Y)                            # the upper pair's post
         k.tube("steel", (c[0], -(0.03 + ROLL_L + 0.01), c[2]), (c[0], 0.03 + ROLL_L + 0.01, c[2]), 0.0125)
         for s in (1, -1):
-            k.cyl("red", (c[0], s * (0.03 + ROLL_L / 2 + 0.004), c[2]), ROLL_R, ROLL_L, axis="y", seg=40, soft=0.012)
+            k.cyl("pad", (c[0], s * (0.03 + ROLL_L / 2 + 0.004), c[2]), ROLL_R, ROLL_L, axis="y", seg=40, soft=0.012)
             k.cyl("plastic", (c[0], s * (0.03 + ROLL_L + 0.006), c[2]), 0.02, 0.008, axis="y", seg=24)
