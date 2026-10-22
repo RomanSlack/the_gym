@@ -120,11 +120,14 @@ def build(k):
         x = s * AX
         k.tube("lever", (x - 0.05, PIV[0], PIV[1]), (x + 0.05, PIV[0], PIV[1]), 0.05, seg=32)
         hub = (x, PIV[0], PIV[1])
-        k.sweep("lever", [hub, (x, FRONT_END[0], FRONT_END[1])], k.rect(0.06, 0.12, 0.01), up=(1, 0, 0), soft=0.002)
-        k.sweep("lever", [hub, (x, REAR_END[0], REAR_END[1])], k.rect(0.06, 0.12, 0.01), up=(1, 0, 0), soft=0.002)
-        k.sweep("lever", [hub] + [(x, y, z) for y, z in LOWER], k.rect(0.05, 0.08, 0.008), bend=0.15, up=(1, 0, 0), soft=0.002)
-        horn(k, "lever", x, FRONT_END[0] + 0.03, FRONT_END[1], s, 0.26, x + s * 0.025)
-        horn(k, "lever", x, REAR_END[0] - 0.03, REAR_END[1], s, 0.32, x + s * 0.025)
+        # the arm: one heavy bent tube from the front end up over the axle and down to the rear horn, a second black
+        # roof under the grey one (ref_09, ref_01); the lower branch curving down under the pads
+        apex = (x, PIV[0], PIV[1] + 0.06)
+        k.sweep("lever", [(x, FRONT_END[0], FRONT_END[1]), apex, (x, REAR_END[0], REAR_END[1])], k.rect(0.08, 0.15, 0.012),
+                bend=0.22, up=(1, 0, 0), soft=0.002)
+        k.sweep("lever", [hub] + [(x, y, z) for y, z in LOWER], k.rect(0.07, 0.10, 0.01), bend=0.15, up=(1, 0, 0), soft=0.002)
+        horn(k, "lever", x, FRONT_END[0] + 0.03, FRONT_END[1], s, 0.26, x + s * 0.04)
+        horn(k, "lever", x, REAR_END[0] - 0.03, REAR_END[1], s, 0.32, x + s * 0.04)
     # the front cross bar between the arms' front ends, the three grey bumper blocks on it
     bar_x(k, "lever", FRONT_END[0] + 0.05, FRONT_END[1], -(AX - 0.025), AX - 0.025, 0.07, 0.07)
     for bx in (-0.22, 0.0, 0.22):
