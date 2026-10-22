@@ -5,10 +5,11 @@ all round at Fitness Equipment Empire (ref_02 front three-quarter, ref_03 the si
 ref_05 from the back pad's side, ref_06 the placard, ref_07 the plates' printed weights, ref_08 / ref_09 the back with
 its frosted panel), held to Life Fitness's 47 x 41 x 64 in (119 x 104 x 163 cm, L x W x H). The stack is 20 plates of
 15 lb (the top one 10 lb), numbered 10 to 295 (ref_07).
-Axes: metres, floor z = 0, the user sits facing -y, x+ = the user's left (the lever's side).
+Axes: metres, floor z = 0, the user sits facing -y, x+ = the user's left; the tower and the lever both on the user's
+right (-x), the shin roller reaching across to the open left side.
 Structure: the stack tower behind the seat (shared builder: equipment/blender/stack_tower.py, "open" style); a base
 of side rails and cross bars from the tower forward; the seat on a post; the back pad hinged at the seat's rear on a
-quadrant plate of holes with its pop pin (to set it nearer or further); the lever's post at the seat's front left,
+quadrant plate of holes with its pop pin (to set it nearer or further); the lever's post at the seat's front right,
 the axle through its head with the cam outside (the cable round it back to the tower); the lever: the arm down and
 forward to the shin roller, the short upper arm with the start-position knob, the thigh pad on its stem; a grip each
 side of the seat.
@@ -35,7 +36,7 @@ LOOK = {
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, coat=0.0, spec=0.2),
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
 }
-VIEWS = {"three_quarter": (60, 14, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (-125, 16, 1.0)}   # from the lever side, as the photos
+VIEWS = {"three_quarter": (60, 14, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (-125, 16, 1.0)}   # from the open side, as the photos
 DETAILS = {
     "detail_lever": ((0.95, -0.85, 0.85), (0.30, -0.25, 0.48), 45),     # the cam, the post, the lever, the thigh pad
     "detail_back": ((-0.85, 0.45, 0.95), (-0.10, 0.18, 0.62), 45),      # the back pad's quadrant and pop pin
@@ -53,8 +54,10 @@ RAIL_TOP = FOOT_H + RAIL[1]
 BX = 0.34                            # the base's left rail (x); the right rail runs along the tower's face
 Y_FRONT = -0.40
 SEAT = (0.0, -0.03, 0.47)            # the seat pad's top centre: a long seat, the thighs on it to the knee
-PIV = (0.40, -0.31, 0.50)            # the lever's axle (x of the post, y, z): at the knee, just in front of the seat
-LX = 0.33                            # the lever's plane (inside the post)
+M = -1                               # the lever's side: the tower's side (ref_01 / ref_03: the cam beside the tower, the
+                                     # roller reaching across to the open side)
+PIV = (M * 0.40, -0.31, 0.50)            # the lever's axle (x of the post, y, z): at the knee, just in front of the seat
+LX = M * 0.33                        # the lever's plane (inside the post)
 ROLLER = (-0.42, 0.17)               # the shin roller's axis (y, z) at the start: low, just ahead of the knee
 
 
@@ -115,19 +118,19 @@ def build(k):
     k.cyl("redplastic", (pin[0] + 0.06, pin[1], pin[2]), 0.016, 0.022, axis="x", seg=20, soft=0.004)
     # ---- the lever's post at the seat's front left, the head round the axle, the cam outside
     px, py, pz = PIV
-    k.bar("frame", (px, Y_FRONT + RAIL[0] / 2, RAIL_Z), (BX, Y_FRONT + RAIL[0] / 2 + 0.0001, RAIL_Z), 0.08, RAIL[1])
+    k.bar("frame", (px, Y_FRONT + RAIL[0] / 2, RAIL_Z), (xr, Y_FRONT + RAIL[0] / 2 + 0.0001, RAIL_Z), 0.08, RAIL[1])
     k.bar("frame", (px, py, RAIL_TOP), (px, py, pz - 0.06), 0.076, 0.076, cut0=((0, 0, RAIL_TOP), Z), weld=True)
     k.bar("frame", (px, py, RAIL_Z), (px, Y_FRONT + 0.038, RAIL_Z), 0.076, RAIL[1], cut1=((0, Y_FRONT + 0.038, 0), Y), weld=True)
     k.box("frame", (px, py, pz), (0.09, 0.13, 0.13), soft=0.006)
-    k.tube("steel", (LX - 0.03, py, pz), (px + 0.11, py, pz), 0.02, seg=20)
-    k.cyl("cam", (px + 0.075, py, pz), 0.15, 0.03, axis="x", seg=48, soft=0.003)          # the cam disc
-    k.disc("steel", (px + 0.075, py, pz), 0.152, 0.13, 0.026, axis="x", seg=48)            # its grooved rim
-    k.bolt((px + 0.11, py, pz), "+x", size=0.024)
+    k.tube("steel", (LX - M * 0.03, py, pz), (px + M * 0.11, py, pz), 0.02, seg=20)
+    k.cyl("cam", (px + M * 0.075, py, pz), 0.15, 0.03, axis="x", seg=48, soft=0.003)          # the cam disc
+    k.disc("steel", (px + M * 0.075, py, pz), 0.152, 0.13, 0.026, axis="x", seg=48)            # its grooved rim
+    k.bolt((px + M * 0.11, py, pz), "+x" if M > 0 else "-x", size=0.024)
     k.box("warn", (px, py - 0.039, pz - 0.15), (0.045, 0.002, 0.05), soft=0.0)
     # the cable: round the cam's bottom, back under the seat to a pulley at the tower's foot, up its side, over a
     # pulley on top to the stack's top pulley
     # (the tower's out point is in its own frame: turned 90 degrees about TC its front's -y becomes +x)
-    cxp = px + 0.075
+    cxp = px + M * 0.075
     ox, oy, oz = tw["cable"]
     out = (TC[0] - (oy - TC[1]), TC[1] + (ox - TC[0]), oz)
     yp = TC[1] - TOWER["W"] / 2 + 0.038                 # the tower's front post nearer the user (y)
@@ -136,24 +139,24 @@ def build(k):
     k.pulley((xq, yp, RAIL_TOP + 0.08), 0.045, axis="y")
     k.box("frame", (TX_FRONT + 0.025, yp, oz + 0.03), (0.05, 0.04, 0.10), soft=0.002)
     k.pulley((xq, yp, oz + 0.03), 0.045, axis="y")
-    k.cable([(cxp, py + 0.05, pz - 0.14), (cxp, py + 0.20, pz - 0.15), (xq + 0.045, yp, RAIL_TOP + 0.08)])
+    k.cable([(cxp, py + 0.05, pz - 0.14), (cxp, py + 0.12, 0.12), (xq - 0.01, yp, RAIL_TOP + 0.036)])
     k.cable([(xq - 0.045, yp, RAIL_TOP + 0.08), (xq - 0.045, yp, oz + 0.03)])
     k.cable([(xq, yp, oz + 0.075), (out[0] + 0.05, out[1] - 0.05, oz + 0.05), out])
     # ---- the lever: its hub on the axle inside the post, the arm down and forward to the shin roller, the short upper
     # arm with the start-position knob, the thigh pad's stem and pad
-    k.tube("lever", (LX - 0.03, py, pz), (px - 0.045, py, pz), 0.045, seg=32)
+    k.tube("lever", (LX - M * 0.03, py, pz), (px - M * 0.045, py, pz), 0.045, seg=32)
     ry, rz_ = ROLLER
     k.sweep("lever", [(LX, py, pz), (LX, ry + 0.05, rz_ + 0.05), (LX, ry, rz_)], k.rect(0.05, 0.08, 0.008), bend=0.08,
             up=(1, 0, 0), soft=0.002)
-    k.tube("steel", (LX + 0.02, ry, rz_), (-0.22, ry, rz_), 0.02, seg=20)
-    k.tube("pad", (LX - 0.03, ry, rz_), (-0.22, ry, rz_), 0.065, seg=36, soft=0.012)
-    k.cyl("plastic", (-0.225, ry, rz_), 0.066, 0.01, axis="x", seg=36, soft=0.003)
+    k.tube("steel", (LX + M * 0.02, ry, rz_), (-M * 0.22, ry, rz_), 0.02, seg=20)
+    k.tube("pad", (LX - M * 0.03, ry, rz_), (-M * 0.22, ry, rz_), 0.065, seg=36, soft=0.012)
+    k.cyl("plastic", (-M * 0.225, ry, rz_), 0.066, 0.01, axis="x", seg=36, soft=0.003)
     ua = (LX, py + 0.02, pz + 0.24)
     k.bar("lever", (LX, py, pz), ua, 0.05, 0.08, up=(0, 1, 0))
     k.box("plastic", (LX, ua[1], ua[2] + 0.04), (0.08, 0.12, 0.08), soft=0.01)                       # its grey cap
-    k.tube("steel", (LX + 0.025, py + 0.03, pz + 0.10), (LX + 0.07, py + 0.03, pz + 0.10), 0.007, seg=12)
-    k.cyl("redplastic", (LX + 0.08, py + 0.03, pz + 0.10), 0.018, 0.024, axis="x", seg=20, soft=0.004)
-    st0 = (LX - 0.025, py + 0.03, pz + 0.17)
-    st1 = (0.12, py + 0.10, pz + 0.17)
+    k.tube("steel", (LX + M * 0.025, py + 0.03, pz + 0.10), (LX + M * 0.07, py + 0.03, pz + 0.10), 0.007, seg=12)
+    k.cyl("redplastic", (LX + M * 0.08, py + 0.03, pz + 0.10), 0.018, 0.024, axis="x", seg=20, soft=0.004)
+    st0 = (LX - M * 0.025, py + 0.03, pz + 0.17)
+    st1 = (M * 0.12, py + 0.10, pz + 0.17)
     k.bar("lever", st0, st1, 0.04, 0.04, cut0=(st0, (1, 0, 0)), weld=True)
-    k.pad("pad", (0.10, py + 0.14, pz + 0.12), (0.14, 0.18, 0.07), r=0.03)
+    k.pad("pad", (M * 0.10, py + 0.14, pz + 0.12), (0.14, 0.18, 0.07), r=0.03)
