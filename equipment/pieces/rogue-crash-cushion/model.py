@@ -10,7 +10,7 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "vinyl": dict(color=(0.008, 0.008, 0.009), rough=0.35, sheen=0.2, coat=0.0, bump=(1500, 0.08)),
+    "vinyl": dict(color=(0.007, 0.007, 0.008), rough=0.55, sheen=0.15, coat=0.0, bump=(1500, 0.08)),
     "print": dict(color=(0.85, 0.85, 0.85), rough=0.45, coat=0.0),
 }
 VIEWS = {"three_quarter": (-38, 24, 1.0), "front": (0, 8, 1.0), "side": (90, 8, 1.0), "back_three_quarter": (150, 24, 1.0)}
@@ -24,9 +24,9 @@ def cushion(k, x):
     k.box("vinyl", (x, 0, H / 2), (W, L, H), soft=0.006)
     # the welt round the top edge
     pts = [(x - W / 2, -L / 2, H - 0.002), (x + W / 2, -L / 2, H - 0.002), (x + W / 2, L / 2, H - 0.002), (x - W / 2, L / 2, H - 0.002)]
-    k.sweep("vinyl", pts + [pts[0]], k.circle(0.0035, 8), caps=False, soft=0)
-    k.text("print", "ROGUE", (x + W / 2 - 0.085, 0.03, H + 0.0003), 0.10, rz=math.pi / 2, rx=0.0, depth=0.001)
-    k.text("print", "CRASH CUSHION", (x - 0.03, -L / 2 - 0.0006, 0.045), 0.026, depth=0.001)
+    k.sweep("vinyl", pts + [pts[0]], k.circle(0.002, 8), caps=False, soft=0)
+    k.text("print", "ROGUE", (x + W / 2 - 0.10, 0.08, H + 0.0003), 0.15, rz=-math.pi / 2, rx=0.0, depth=0.001)
+    k.text("print", "CRASH CUSHION", (x - 0.06, -L / 2 - 0.0006, 0.05), 0.036, depth=0.001)
 
 
 def build(k):
