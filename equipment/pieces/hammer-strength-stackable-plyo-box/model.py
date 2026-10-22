@@ -11,9 +11,9 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "vinyl": dict(color=(0.018, 0.018, 0.019), rough=0.42, sheen=0.15, coat=0.0, bump=(1600, 0.06)),   # black vinyl
+    "vinyl": dict(color=(0.010, 0.010, 0.011), rough=0.55, sheen=0.2, coat=0.0, bump=(1600, 0.06)),   # black vinyl
     "band": dict(color=(0.16, 0.16, 0.165), rough=0.45, coat=0.0),                                      # grey top border
-    "mesh": dict(color=(0.012, 0.012, 0.013), rough=0.8, coat=0.0, bump=(2400, 0.5)),                  # grip mesh
+    "mesh": dict(color=(0.008, 0.008, 0.009), rough=0.92, coat=0.0, bump=(700, 0.7)),                  # grip mesh
     "velcro": dict(color=(0.008, 0.008, 0.008), rough=0.9, coat=0.0, bump=(3000, 0.3)),
     "print": dict(color=(0.62, 0.62, 0.62), rough=0.5, coat=0.0),                                      # the grey print
     "warn": dict(color=(0.9, 0.7, 0.02), rough=0.4, coat=0.0),
@@ -34,25 +34,29 @@ def box(k, z0, level, h_in, cm):
     k.box("mesh", (0, 0, top + 0.0012), (W - 0.09, L - 0.09, 0.001), soft=0.0)
     # the numbered end (-y): the level big at the left, HAMMER STRENGTH beside it
     fy = -L / 2 - 0.0006
-    big = min(0.75 * h, 0.16)
-    k.text("print", str(level), (-0.17, fy, zc), big, depth=0.001)
-    ts = min(0.045, 0.32 * h)
-    k.text("print", "HAMMER", (0.05, fy, zc + 0.55 * ts), ts, depth=0.001)
-    k.text("print", "STRENGTH", (0.05, fy, zc - 0.55 * ts), ts, depth=0.001)
+    big = min(0.8 * h, 0.2)
+    k.text("print", str(level), (-0.25, fy, zc), big, depth=0.001)
+    ts = min(0.075, 0.36 * h)
+    k.text("print", "HAMMER", (0.06, fy, zc + 0.55 * ts), ts, depth=0.001)
+    k.text("print", "STRENGTH", (0.06, fy, zc - 0.55 * ts), ts, depth=0.001)
     # the long sides: the height in cm / in at the numbered end, two hook-and-loop tabs, the warning triangle
     for s in (1, -1):
         fx = s * (W / 2 + 0.0006)
         rz = math.pi / 2 if s > 0 else -math.pi / 2
         ny = -L / 2 + 0.07
-        hs = min(0.035, 0.3 * h)
+        hs = min(0.05, 0.3 * h)
         if h_in >= 6:
             k.text("print", str(cm), (fx, ny, top - 0.6 * hs), hs, rz=rz, depth=0.001)
             k.text("print", str(h_in), (fx, ny, top - 1.9 * hs), hs, rz=rz, depth=0.001)
         else:
             k.text("print", f"{cm} / {h_in}", (fx, ny + 0.03, zc), 0.6 * h, rz=rz, depth=0.001)
         for ty in (-0.22, 0.22):
-            k.box("velcro", (s * (W / 2 + 0.0015), ty, top - min(0.035, h / 2 - 0.004)), (0.003, 0.10, min(0.06, h - 0.012)), soft=0.0)
-        k.box("warn", (s * (W / 2 + 0.0008), -0.10, zc - h / 6), (0.0015, 0.03, 0.026), soft=0.0)
+            k.box("velcro", (s * (W / 2 + 0.0015), ty, top - min(0.05, h / 2)), (0.003, 0.10, min(0.06, h - 0.03)), soft=0.0)
+        k.text("warn", "\u25b2", (s * (W / 2 + 0.0006), -0.10, zc - h / 6), 0.03, rz=rz, depth=0.001)
+        if s > 0 and h_in >= 6:                                      # the ruler down the corner: a tick every inch
+            for i in range(1, h_in):
+                tz = z0 + i * IN
+                k.box("print", (W / 2 + 0.0008, -L / 2 + 0.018, tz), (0.0015, 0.022 if i % 6 == 0 else 0.012, 0.0025), soft=0.0)
     return top
 
 
