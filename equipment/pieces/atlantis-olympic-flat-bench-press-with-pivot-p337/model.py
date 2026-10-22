@@ -36,15 +36,15 @@ TY = 0.55                       # the towers' plane (+-y)
 RACK = (0.085, 0.06)            # rack post section: along x, across y
 RACK_TOP, RACK_LEAN = 49 * 0.0254, 3.0   # its top, its lean back (deg) from the pivot
 STORE = (0.075, 0.06)           # storage frame tube
-SX0, SX1, S_TOP = XR + 0.15, XR + 0.56, 1.17   # the storage frame's legs (x) and the top of its bend
+SX0, SX1, S_TOP = XR, XR + 0.58, 1.17   # the storage frame's front leg is beside the rack post   # the storage frame's legs (x) and the top of its bend
 BASE_Z, BASE = 0.10, (0.08, 0.06)   # the base tubes: centre height, section (tall x across)
 DISC_R = 0.07
 HOOKS = (0.71, 0.90)            # the J hooks' cradle heights
 HORNS = (0.40, 0.95)            # horn brackets on the rear leg (z)
 HORN_OUT = 0.29                 # horns' length each way from the bracket
 PAD_TOP, PAD_T, PAD_W = 0.44, 0.075, 0.30
-PAD = (-0.90, 0.22)             # the flat pad (x from / to)
-TAIL_X = -0.80                  # the tail post
+PAD = (-0.86, 0.24)             # the flat pad (x from / to)
+TAIL_X = -0.76                  # the tail post
 CROSS_X, CROSS_Z = SX0, 0.30    # the cross tube between the towers
 
 
@@ -65,11 +65,10 @@ def tower(k, s):
     k.bar("frame", (XR - 0.03, y, BASE_Z), (SX1 + 0.03, y, BASE_Z), BASE[0], BASE[1], up=(0, 1, 0), r=0.01)
     for x_, cap in ((XR - 0.03, -1), (SX1 + 0.03, 1)):
         k.box("plastic", (x_ + cap * 0.004, y, BASE_Z), (0.008, BASE[1] + 0.004, BASE[0] + 0.004), soft=0.003)
-    for x_ in (XR + 0.01, SX1):
-        disc(k, x_, y, BASE_Z - BASE[0] / 2)
+    disc(k, SX1, y, BASE_Z - BASE[0] / 2)
     # the storage frame: front leg up, a big bend back, the rear leg down; welded onto the base tube
     k.sweep("frame", [(SX0, y, bt), (SX0, y, S_TOP), (SX1, y, S_TOP), (SX1, y, bt)], k.rect(STORE[0], STORE[1], 0.022),
-            up=(0, 1, 0), bend=0.2, cut0=((0, 0, bt), Z), cut1=((0, 0, bt), Z), weld=True)
+            up=(0, 1, 0), bend=0.27, cut0=((0, 0, bt), Z), cut1=((0, 0, bt), Z), weld=True)
     # the horn brackets on the rear leg: a plate each side of the leg, a horn through, out both ways, collars
     for hz in HORNS:
         for d in (1, -1):
@@ -82,28 +81,34 @@ def tower(k, s):
             k.cyl("plastic", (hx, y + d * (HORN_OUT + 0.004), hz), 0.027, 0.008, axis="y", seg=32, soft=0.002)
         for d in (1, -1):
             k.bolt((SX1 + d * (STORE[0] / 2 + 0.01), y - 0.03, hz + 0.045), "+x" if d > 0 else "-x", size=0.01)
-    # the rack post: its foot between two plates on the base tube (the pivot), leaning back, a cap on top
+    # the rack post, beside the storage frame's front leg on the outside (ref_03, ref_04): its own disc foot, a floor
+    # plate welded to the base tube's side, its foot between two plates (the pivot), leaning back, a cap on top
+    yr = y + s * (STORE[1] / 2 + RACK[1] / 2 + 0.006)
+    fz = 0.075
+    disc(k, XR, yr, fz - 0.006)
+    k.box("frame", (XR, (yr + y) / 2 + s * 0.012, fz), (0.11, abs(yr - y) + RACK[1] / 2 + 0.024, 0.012), soft=0.002)
     for d in (1, -1):
-        k.box("frame", (XR, y + d * (RACK[1] / 2 + 0.005), bt + 0.05), (0.11, 0.01, 0.18), soft=0.002)
-    pz = bt + 0.09
+        k.box("frame", (XR, yr + d * (RACK[1] / 2 + 0.005), fz + 0.09), (0.11, 0.01, 0.17), soft=0.002)
+    pz = fz + 0.12
     lean = math.radians(RACK_LEAN)
-    top = (XR + math.sin(lean) * (RACK_TOP - pz), y, RACK_TOP - 0.01)
-    k.bar("frame", (XR, y, bt + 0.012), top, RACK[0], RACK[1], up=(0, 1, 0), r=0.014, cut0=((0, 0, bt + 0.012), Z))
-    k.box("frame", (XR, y, bt + 0.006), (0.09, RACK[1] + 0.02, 0.012), soft=0.002)                   # the bracket's floor
-    k.box("plastic", (top[0], y, RACK_TOP - 0.005), (RACK[0] + 0.006, RACK[1] + 0.006, 0.012), soft=0.004)
-    k.tube("steel", (XR, y - (RACK[1] / 2 + 0.02), pz), (XR, y + RACK[1] / 2 + 0.02, pz), 0.009)
+    top = (XR + math.sin(lean) * (RACK_TOP - pz), yr, RACK_TOP - 0.01)
+    k.bar("frame", (XR, yr, fz + 0.006), top, RACK[0], RACK[1], up=(0, 1, 0), r=0.014, cut0=((0, 0, fz + 0.006), Z))
+    k.box("plastic", (top[0], yr, RACK_TOP - 0.005), (RACK[0] + 0.006, RACK[1] + 0.006, 0.012), soft=0.004)
+    k.tube("steel", (XR, yr - (RACK[1] / 2 + 0.02), pz), (XR, yr + RACK[1] / 2 + 0.02, pz), 0.009)
     for d in (1, -1):
-        k.bolt((XR, y + d * (RACK[1] / 2 + 0.01), pz), "+y" if d > 0 else "-y", size=0.024)
+        k.bolt((XR, yr + d * (RACK[1] / 2 + 0.01), pz), "+y" if d > 0 else "-y", size=0.024)
     # the pivot's lock: a black lever out of the bracket towards the lifter, a knob
-    k.box("plastic", (XR - 0.07, y, bt + 0.05), (0.07, 0.04, 0.03), soft=0.006)
-    k.cyl("plastic", (XR - 0.115, y, bt + 0.05), 0.02, 0.04, axis="x", seg=24, soft=0.008)
+    k.box("plastic", (XR - 0.07, yr, fz + 0.05), (0.07, 0.04, 0.03), soft=0.006)
+    k.cyl("plastic", (XR - 0.115, yr, fz + 0.05), 0.02, 0.04, axis="x", seg=24, soft=0.008)
     # the J hooks on its face towards the lifter (stepped teeth, ref_04), bolted
     for hz in HOOKS:
         fx = XR - RACK[0] / 2 + math.sin(lean) * (hz - pz)
         prof = [(0.0, -0.12), (-0.05, -0.05), (-0.075, -0.012), (-0.075, 0.03), (-0.058, 0.03), (-0.05, 0.004),
                 (-0.022, 0.004), (0.0, 0.03)]
-        k.sweep("plastic", [(fx, y - 0.03, hz), (fx, y + 0.03, hz)], kit._round_poly(prof, 0.005, 3), up=(0, 0, 1), soft=0.003)
-        k.bolt((fx - 0.025, y - 0.03, hz - 0.05), "-y", size=0.01, nut=0.06)
+        k.sweep("plastic", [(fx, yr - 0.03, hz), (fx, yr + 0.03, hz)], kit._round_poly(prof, 0.005, 3), up=(0, 0, 1), soft=0.003)
+        k.bolt((fx - 0.025, yr - 0.03, hz - 0.05), "-y", size=0.01, nut=0.06)
+    # bolted to the storage frame's front leg higher up: a spacer block and a through-bolt
+    k.box("frame", (XR + math.sin(lean) * (1.0 - pz), (yr + y) / 2, 1.0), (0.05, 0.016, 0.06), soft=0.002)
     # the brace from the storage frame's front leg down and in to the cross tube
     k.bar("frame", (SX0, y - s * STORE[1] / 2, 0.62), (CROSS_X, s * 0.32, CROSS_Z + 0.04), 0.05, 0.05, up=(1, 0, 0),
           cut0=((0, y - s * STORE[1] / 2, 0), (0, 1, 0)), weld=True)
