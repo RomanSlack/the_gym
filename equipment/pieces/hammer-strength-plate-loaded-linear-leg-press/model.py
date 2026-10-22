@@ -61,7 +61,7 @@ PLATE_C = (0.874, 0.481)                   # the foot plate's centre (s, h): y -
 PLATE = (0.80, 0.60, 0.05)
 PLATE_UP = (0.365, 0.931)                  # the plate's up, in (s, h): leaning back ~18 degrees from upright
 PLATE_RX = math.radians(71.4)
-HORNS = ((1.454, 0.333), (0.965, 0.325))   # the sled's loading horns (s, h): upper and lower (ref_13)
+HORNS = ((1.454, 0.333), (0.861, 0.325))   # the sled's loading horns (s, h): upper (through both uprights), lower
 HORN_X = 0.825
 SPINE_END = 1.20
 
@@ -83,6 +83,20 @@ def foot(k, x, y):
 
 def bar_x(k, mat, y, z, x0, x1, w, h):
     k.bar(mat, (x0, y, z), (x1, y, z), w, h, cut0=((x0, 0, 0), (1, 0, 0)), cut1=((x1, 0, 0), (1, 0, 0)), weld=True)
+
+
+def frame_pt(sx, d, side=0):
+    """A point on the square-tube frame behind the foot plate: sx = +-1 its side tubes (x = +-SIDE_X), d along the
+    plate's up from its centre; side=1: the middle of the right side (where the loop's sweep starts)."""
+    ps, ph = PLATE_C
+    off = PLATE[2] / 2 + 0.028                       # behind the plate's back face
+    cs, chh = ps + 0.934 * off + PLATE_UP[0] * d, ph - 0.366 * off + PLATE_UP[1] * d
+    return at(SIDE_X if side else sx * SIDE_X, cs, chh)
+
+
+def ft_s(p):
+    """The s along the rails of a world point (its projection)."""
+    return (p[1] - B0[0]) * U[1] + (p[2] - B0[1]) * U[2]
 
 
 def tilted(c, t, d_along, d_norm):
@@ -134,23 +148,31 @@ def build(k):
             for d in (-0.05, 0.05):
                 for dz in (-0.025, 0.025):
                     k.bolt(at(x + s * 0.09, sb + d, ROD_H + 0.01 + dz), "+x" if s > 0 else "-x", size=0.01)
-        ps, ph = PLATE_C
-        bk = (ps + 0.934 * PLATE[2] / 2 + 0.002, ph - 0.366 * PLATE[2] / 2)        # the plate's back face, centre (s, h)
-        top_ = (bk[0] + PLATE_UP[0] * PLATE[1] / 2, bk[1] + PLATE_UP[1] * PLATE[1] / 2)
-        bot_ = (bk[0] - PLATE_UP[0] * PLATE[1] / 2, bk[1] - PLATE_UP[1] * PLATE[1] / 2)
-        poly = [(SLED[0], 0.10), (SLED[1], 0.10), (SLED[1], 0.40), (HORNS[0][0] + 0.06, HORNS[0][1] + 0.12),
-                (top_[0] + 0.08, top_[1] - 0.02), top_, (bot_[0], max(bot_[1], 0.12)), (SLED[0], 0.26)]
-        pts = [at(0, a, b) for a, b in poly]
+        # the sled's open frame this side (ref_12, ref_07): the carriage beam along the rails bolted to the bearings'
+        # outer faces; the square-tube frame round the foot plate's back (its side tube in this plane, the lower horn on
+        # it); the link from the carriage beam up to that frame's foot; the upright off the carriage beam's top end and
+        # the level top arm from it forward to the frame's top: an open triangle, no side walls
         xs = s * SIDE_X
-        k.sweep("lever", [(xs - 0.008, 0, 0), (xs + 0.008, 0, 0)], [(-p[1], p[2]) for p in pts], up=Z, soft=0.002)
-        for hs, hh in HORNS:
-            hc = at(0, hs, hh)
-            xo = xs + s * 0.008
-            k.cyl("lever", (xo + s * 0.03, hc[1], hc[2]), 0.06, 0.06, axis="x", seg=32, soft=0.004)
-            k.tube("steel", (xo + s * 0.06, hc[1], hc[2]), (s * HORN_X, hc[1], hc[2]), 0.025, seg=32)
-            k.cyl("lever", (s * (HORN_X + 0.008), hc[1], hc[2]), 0.029, 0.018, axis="x", seg=32, soft=0.005)
+        c0, c1 = at(xs, SLED[0] - 0.02, 0.15), at(xs, SLED[1] + 0.02, 0.15)
+        k.bar("lever", c0, c1, 0.06, 0.09, up=N)
+        k.box("plastic", at(xs, SLED[0] - 0.025, 0.15), (0.064, 0.01, 0.094), rx=-A, soft=0.002)
+        ft = frame_pt(s, -PLATE[1] / 2 + 0.03)              # the plate frame's foot and top, this side
+        tp = frame_pt(s, PLATE[1] / 2 - 0.03)
+        lk = at(xs, ft_s(ft), 0.15)
+        k.bar("lever", lk, ft, 0.05, 0.05, up=(1, 0, 0), cut0=(lk, N), weld=True)
+        up0 = at(xs, HORNS[0][0], 0.15)
+        up1 = (xs, at(0, HORNS[0][0], HORNS[0][1])[1], tp[2])     # level with the frame's top, over the upper horn
+        k.bar("lever", up0, up1, 0.07, 0.07, up=(1, 0, 0), cut0=(up0, N), weld=True)
+        k.bar("lever", up1, tp, 0.07, 0.08, up=(0, 0, 1))
+        hc = at(0, HORNS[1][0], HORNS[1][1])
+        xo = xs + s * 0.025
+        k.cyl("lever", (xo + s * 0.03, hc[1], hc[2]), 0.06, 0.06, axis="x", seg=32, soft=0.004)
+        k.tube("steel", (xo + s * 0.06, hc[1], hc[2]), (s * HORN_X, hc[1], hc[2]), 0.025, seg=32)
+        k.cyl("lever", (s * (HORN_X + 0.008), hc[1], hc[2]), 0.029, 0.018, axis="x", seg=32, soft=0.005)
+        k.cyl("lever", (xs + s * 0.065, up1[1], up1[2]), 0.06, 0.06, axis="x", seg=32, soft=0.004)   # the upper horn's boss
+        k.cyl("lever", (s * (HORN_X + 0.008), up1[1], up1[2]), 0.029, 0.018, axis="x", seg=32, soft=0.005)
         # the racking handle: from the side frame's low end down beside the seat, the grip turned out
-        r0 = at(xs + s * 0.008, SLED[0] + 0.06, 0.20)
+        r0 = at(xs + s * 0.03, SLED[0] + 0.06, 0.15)
         r1 = at(xs + s * 0.03, 0.10, 0.24)
         r2 = at(xs + s * 0.14, 0.08, 0.24)
         k.sweep("lever", [r0, r1, r2], k.circle(0.015, 18), bend=0.05, soft=0.0015)
@@ -177,6 +199,13 @@ def build(k):
     for sx in (1, -1):
         foot(k, sx * 0.16, SPINE_END - 0.06)
         k.box("plastic", (sx * 0.204, SPINE_END - 0.06, RAIL_Z), (0.008, 0.084, RAIL[1] + 0.004), soft=0.002)
+    # ---- the upper horn: one bar through both uprights (ref_01)
+    hy, hz = at(0, HORNS[0][0], HORNS[0][1])[1], frame_pt(1, PLATE[1] / 2 - 0.03)[2]
+    k.tube("steel", (-HORN_X, hy, hz), (HORN_X, hy, hz), 0.025, seg=32)
+    # ---- the square-tube frame round the foot plate's back
+    loop = [frame_pt(0, 0, side=1)] + [frame_pt(sx, d) for sx, d in ((1, PLATE[1] / 2 - 0.03), (-1, PLATE[1] / 2 - 0.03),
+                                                                     (-1, -PLATE[1] / 2 + 0.03), (1, -PLATE[1] / 2 + 0.03))] + [frame_pt(0, 0, side=1)]
+    k.sweep("lever", loop, k.rect(0.05, 0.05, 0.006), soft=0.002)
     # ---- the foot plate: its plate and the grit face towards the user, a warning label
     ps, ph = PLATE_C
     k.box("lever", at(0, ps, ph), PLATE, rx=PLATE_RX, soft=0.006)
