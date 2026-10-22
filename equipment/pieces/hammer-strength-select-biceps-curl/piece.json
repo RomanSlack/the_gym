@@ -1,0 +1,75 @@
+{
+ "id": "hammer-strength-select-biceps-curl",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Select Biceps Curl",
+ "title": "Hammer Strength Select Biceps Curl",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-select-biceps-curl",
+ "items": [
+  "bicep-curl"
+ ],
+ "item_names": [
+  "Bicep curl machine"
+ ],
+ "picked": "2026-10-22T18:50:26+00:00",
+ "source": "Claude's pick at Roman's ok",
+ "price": {
+  "amount": 5509.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-22"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5854-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5855-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5856-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5857-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5858-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5859-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5860-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5861-rotated.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5862.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://www.fitnessequipmentempire.com/wp-content/uploads/2026/02/IMG_5863.jpg",
+   "source": "Fitness Equipment Empire (a used unit)"
+  }
+ ],
+ "status": "picked",
+ "notes": ""
+}

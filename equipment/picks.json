@@ -767,6 +767,17 @@
     }
    ],
    "skipped": false
+  },
+  "bicep-curl": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-select-biceps-curl",
+     "added": "2026-10-22T18:50:26+00:00",
+     "title": "Hammer Strength Select Biceps Curl",
+     "note": "chosen by Claude at Roman's ok (2026-10-22: 'we should have the preacher curl machine but then also the bar one')"
+    }
+   ],
+   "skipped": false
   }
  },
  "custom": []
