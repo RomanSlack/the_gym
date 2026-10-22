@@ -9,9 +9,9 @@ faces, a hand slot in each end; the top block solid ply with a raised landing st
 IN = 0.0254
 LOOK = {
     "pine": dict(color=(0.62, 0.48, 0.30), rough=0.65, coat=0.0, bump=(900, 0.05),
-                 grain=dict(dark=(0.48, 0.34, 0.18), scale=9.0, distortion=14.0, along="Z")),       # pine-faced ply
+                 grain=dict(dark=(0.52, 0.38, 0.21), scale=11.0, distortion=7.0, along="Z")),       # pine-faced ply
     "ply": dict(color=(0.66, 0.52, 0.33), rough=0.7, coat=0.0,
-                grain=dict(dark=(0.42, 0.30, 0.16), scale=520.0, distortion=0.6, along="Z")),        # the plies' edges
+                grain=dict(dark=(0.36, 0.25, 0.12), scale=160.0, distortion=0.4, along="Z")),        # the plies' edges
     "burn": dict(color=(0.07, 0.045, 0.025), rough=0.8, coat=0.0),                                      # the stencil
     "hole": dict(color=(0.03, 0.022, 0.015), rough=0.9, coat=0.0),
 }
@@ -30,7 +30,7 @@ def block(k, x, z0, h_in):
     k.box("pine", (x, 0, z0 + (h - PANEL) / 2), (W, L, h - PANEL), soft=0.0015)
     k.box("ply", (x, 0, z0 + h - PANEL / 2), (W + 0.002, L + 0.002, PANEL), soft=0.0015)
     zc = z0 + (h - PANEL) / 2
-    size = min(0.085, 0.33 * h)
+    size = min(0.13, 0.5 * h)
     for s in (1, -1):
         rz = 1.5708 if s > 0 else -1.5708
         k.text("burn", "ROGUE", (x + s * (W / 2 + 0.0004), 0, zc), size, rz=rz, depth=0.0006)
