@@ -39,7 +39,7 @@ LOOK = {
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
 }
 VIEWS = {"three_quarter": (60, 14, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (-125, 16, 1.0)}
-DETAILS = {"detail_lever": ((0.55, -1.05, 1.15), (0.0, -0.40, 0.80), 45)}   # the pad, the cam, the U lever, the grips
+DETAILS = {"detail_lever": ((0.75, -1.05, 0.75), (0.0, -0.50, 0.55), 40)}   # the arm, the handle hub, the bent handle rods, the grips
 
 TOWER = dict(style="open", W=0.56, D=0.30, H=55 * IN, n=14, plate=(0.26, 0.125, 0.0254), rods=0.40,
              title="BICEPS CURL", brand="HAMMER STRENGTH", round=-1, step=15, start=5)
@@ -124,12 +124,19 @@ def build(k):
     k.sweep("lever", path, k.rect(0.045, 0.06, 0.008), bend=0.06, up=(0, 1, 0), soft=0.002)
     gh = (0.0, py - GRIP_R * math.cos(GRIP_A), pz - GRIP_R * math.sin(GRIP_A))   # the grips' hub, at the hands
     k.bar("lever", (0.0, ub[1] + 0.02, ub[2]), gh, 0.06, 0.035, up=(1, 0, 0))
-    k.box("lever", gh, (0.10, 0.06, 0.06), rx=GRIP_A, soft=0.004)
+    # the handle hub at the arm's end (ref_03 / ref_04): a bracket plate each side on a pin; off each, the handle's own
+    # bent rod: forward along the arm's line, then turned outwards into the grey grip
+    k.box("lever", gh, (0.12, 0.07, 0.07), rx=GRIP_A, soft=0.004)
+    k.tube("steel", (-0.075, gh[1], gh[2]), (0.075, gh[1], gh[2]), 0.012, seg=14)
+    fwd = (0.0, -math.cos(GRIP_A), -math.sin(GRIP_A))           # on along the arm, away from the axle
     for s in (1, -1):
-        g0 = (s * 0.05, gh[1], gh[2])
-        g1 = (s * 0.21, gh[1] - 0.04, gh[2])
-        k.tube("lever", g0, tuple(g0[i] + (g1[i] - g0[i]) * 0.25 for i in range(3)), 0.018, seg=18)
-        k.tube("greyplastic", tuple(g0[i] + (g1[i] - g0[i]) * 0.25 for i in range(3)), g1, 0.022, seg=20)
+        k.box("lever", (s * 0.066, gh[1], gh[2]), (0.012, 0.09, 0.05), rx=GRIP_A, soft=0.002)     # the bracket plate
+        r0 = (s * 0.066, gh[1] + fwd[1] * 0.03, gh[2] + fwd[2] * 0.03)
+        r1 = (s * 0.09, gh[1] + fwd[1] * 0.14, gh[2] + fwd[2] * 0.14 + 0.02)
+        g1 = (s * 0.25, r1[1] - 0.05, r1[2] + 0.01)
+        k.sweep("lever", [r0, r1, g1], k.circle(0.016, 18), bend=0.03, soft=0.0015)
+        gm = tuple(r1[i] + (g1[i] - r1[i]) * 0.25 for i in range(3))
+        k.tube("greyplastic", gm, g1, 0.022, seg=20)
         k.cyl("greyplastic", g1, 0.024, 0.01, axis="x", seg=20, soft=0.003)
     ca = math.radians(28)                                     # the counterweight arm leans forward with the lever
     c1 = (AXL, py - 0.26 * math.sin(ca), pz + 0.26 * math.cos(ca))
