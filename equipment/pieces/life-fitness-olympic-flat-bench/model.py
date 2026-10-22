@@ -9,11 +9,13 @@ the beam runs back under the pads to one tail leg on a rubber foot. The bar catc
 the lifter: a moulded urethane strip down each face, two hooks lined in urethane (the rack and a lower position).
 No bar or plates: they're not part of the bench.
 """
+import kit
+
 LOOK = {
     "frame": dict(color=(0.028, 0.029, 0.031), rough=0.5, metal=0.25, coat=0.0, bump=(1400, 0.07)),   # Charcoal powder coat
     "pad": dict(color=(0.014, 0.014, 0.015), rough=0.55, sheen=0.25, bump=(1500, 0.14)),             # black vinyl
     "seam": dict(color=(0.006, 0.006, 0.006), rough=0.7),
-    "urethane": dict(color=(0.012, 0.012, 0.013), rough=0.62),                                        # moulded racking
+    "urethane": dict(color=(0.008, 0.008, 0.009), rough=0.78, bump=(900, 0.05)),                                        # moulded racking
     "plastic": dict(color=(0.02, 0.02, 0.021), rough=0.5),
     "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4),
@@ -107,8 +109,11 @@ def catches(k, s, xf):
     for zz in (0.73, 1.18):
         k.bolt((xf - st, y, zz), "-x", size=0.01)
     for hz in HOOKS:
-        arm = 0.085
-        k.box("urethane", (xf - st - arm / 2, y, hz - 0.03), (arm, 0.055, 0.05), soft=0.008)              # the arm
-        k.box("urethane", (xf - st - arm + 0.012, y, hz - 0.005 + 0.012), (0.024, 0.055, 0.045), soft=0.008)  # its lip
-        k.box("urethane", (xf - st - 0.02, y, hz - 0.075), (0.035, 0.05, 0.035), rx=0, ry=0.785, soft=0.006)  # the gusset under it
-        k.bolt((xf - st - 0.03, y - s * 0.0275, hz - 0.03), "-y" if s > 0 else "+y", size=0.01)
+        # the hook: one moulded urethane J (side profile swept across the strip): a long underside rising from the strip
+        # out to the lip, the lip, the round cradle the bar sits in, the back sloping up to the strip again
+        prof = [(0.0, -0.10), (-0.080, -0.022), (-0.080, 0.028), (-0.058, 0.028), (-0.052, 0.006), (-0.040, -0.004),
+                (-0.024, -0.004), (-0.012, 0.010), (0.0, 0.045)]
+        prof = kit._round_poly(prof, 0.006, 3)
+        x0 = xf - st
+        k.sweep("urethane", [(x0, y - 0.028, hz), (x0, y + 0.028, hz)], prof, up=(0, 0, 1), soft=0.003)
+        k.bolt((x0 - 0.03, y - s * 0.028, hz - 0.045), "-y" if s > 0 else "+y", size=0.01, nut=0.056)
