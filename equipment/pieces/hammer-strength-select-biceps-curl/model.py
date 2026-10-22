@@ -10,9 +10,9 @@ lever reaching under the arm pad across to the open side (+x), its grey top cap 
 Structure: the stack tower (shared builder, "open" style, turned to face +x); the base from the tower's face; the
 saddle seat on its height tube (row of holes, red pop pin); the pad on its single column;
 the preacher pad sloping down away from the user; the axle at the pad's front edge, the cam outside it on the tower's
-side; the lever a shallow U just under the pad's front (hubs on the axle at both ends, the open side's arm up to the grey
-cap), a single stem down from its middle and the two grey grips splaying out from the stem's foot (v003, Roman's
-sketch: it had been two straight arms down to a handle bar, like table legs); the cable down
+side; the lever in three parts (v004, Roman): a short U connector between the hubs just under the pad's front, a
+rectangular arm off it perpendicular out to the hands, the two grey grips each side of its end; the counterweight arm
+up from the open side's hub with the grey block turned with it; proportions from a seated average man; the cable down
 from the cam to the tower's foot and up its face.
 """
 import math
@@ -52,10 +52,13 @@ RAIL_TOP = FOOT_H + RAIL[1]
 BX = 0.30
 Y_FRONT = -0.62
 SEAT = (0.0, 0.12, 0.55)             # the saddle's top centre
-PAD_C, PAD_T = (0.0, -0.20, 0.86), math.radians(38)
-PIV = (-0.43, 0.76)                  # the axle (y, z), under the pad's front edge
-AXL = 0.32                           # the lever's arms (x)
-HANDLE = (-0.66, 0.56)               # the handle bar (y, z) at the start
+# proportions from a seated average man (Roman: use the body's proportions): seated on the 0.55 m saddle his armpit is
+# ~0.45 m higher, at y -0.05; the upper arm (0.33 m) lies down the pad's 38 degree slope to the elbow at (y -0.31,
+# z 0.80); the axle sits at the elbow just under the pad; forearm + hand put the grips 0.33 m from the axle
+PAD_C, PAD_T = (0.0, -0.155, 0.868), math.radians(38)
+PIV = (-0.33, 0.76)                  # the axle (y, z), at the elbow under the pad's front edge
+AXL = 0.32                           # the lever's hubs (x), at the pad's ends
+GRIP_R, GRIP_A = 0.33, math.radians(45)   # the grips: their distance from the axle, the angle below level at the start
 
 
 def foot(k, x, y):
@@ -110,29 +113,28 @@ def build(k):
     k.disc("steel", (-(AXL + 0.06), py, pz), 0.132, 0.11, 0.026, axis="x", seg=48)
     k.bolt((-(AXL + 0.09), py, pz), "-x", size=0.022)
     k.box("warn", (-0.24 - 0.026, py + 0.04, pz + 0.04), (0.002, 0.04, 0.04), soft=0.0)
-    # ---- the U lever (ref_02, ref_03; Roman's sketch): a hub on the axle at each end of the pad, from the tower's side
-    # it curves down and in under the pad's front to a narrow bottom, out and up the open side past its hub to the grey
-    # cap above the pad; the two grey grips stick out from the bottom's corners, angled out and down
-    hy, hz = HANDLE
+    # ---- the lever, three parts (ref_03 / ref_04; Roman): 1. the U: a short connector between the two hubs, dipping
+    # just under the pad's front edge; 2. the arm: a rectangular bar off the U's bottom, perpendicular to it, out
+    # forward and down to where the hands are; 3. the grips sticking out each side of its end. The open side's hub
+    # carries the counterweight arm, the grey block on it turned with it.
     for s in (1, -1):
         k.tube("lever", (s * AXL - 0.03, py, pz), (s * AXL + 0.03, py, pz), 0.04, seg=28)
-    yb = py - 0.06
-    zu = pz - 0.13                                            # the U's bottom: shallow, just under the pad's front
-    path = [(-AXL, py, pz), (-0.24, yb, zu + 0.03), (0.0, yb - 0.01, zu), (0.24, yb, zu + 0.03), (AXL, py, pz),
-            (AXL, py + 0.01, pz + 0.28)]
-    k.sweep("lever", path, k.rect(0.045, 0.06, 0.008), bend=0.10, up=(0, 1, 0), soft=0.002)
-    k.box("greyplastic", (AXL, py + 0.01, pz + 0.33), (0.10, 0.12, 0.10), soft=0.01)
-    # the stem down from the U's middle, the two grips splaying out from its foot (Roman's sketch: a stem with feet)
-    st = (0.0, yb - 0.01, zu)
-    sf = (0.0, yb - 0.05, zu - 0.24)
-    k.bar("lever", st, sf, 0.04, 0.04, up=(0, 1, 0))
-    k.box("lever", sf, (0.07, 0.06, 0.05), soft=0.004)
+    ub = (0.0, py - 0.02, pz - 0.08)                          # the U's bottom
+    path = [(-AXL, py, pz), (-0.22, py - 0.02, pz - 0.075), (0.22, py - 0.02, pz - 0.075), (AXL, py, pz)]
+    k.sweep("lever", path, k.rect(0.045, 0.06, 0.008), bend=0.06, up=(0, 1, 0), soft=0.002)
+    gh = (0.0, py - GRIP_R * math.cos(GRIP_A), pz - GRIP_R * math.sin(GRIP_A))   # the grips' hub, at the hands
+    k.bar("lever", (0.0, ub[1] + 0.02, ub[2]), gh, 0.06, 0.035, up=(1, 0, 0))
+    k.box("lever", gh, (0.10, 0.06, 0.06), rx=GRIP_A, soft=0.004)
     for s in (1, -1):
-        g0 = (s * 0.035, sf[1], sf[2])
-        g1 = (s * 0.21, sf[1] - 0.06, sf[2] - 0.05)
-        k.tube("lever", g0, tuple(g0[i] + (g1[i] - g0[i]) * 0.3 for i in range(3)), 0.018, seg=18)
-        k.tube("greyplastic", tuple(g0[i] + (g1[i] - g0[i]) * 0.3 for i in range(3)), g1, 0.022, seg=20)
+        g0 = (s * 0.05, gh[1], gh[2])
+        g1 = (s * 0.21, gh[1] - 0.04, gh[2])
+        k.tube("lever", g0, tuple(g0[i] + (g1[i] - g0[i]) * 0.25 for i in range(3)), 0.018, seg=18)
+        k.tube("greyplastic", tuple(g0[i] + (g1[i] - g0[i]) * 0.25 for i in range(3)), g1, 0.022, seg=20)
         k.cyl("greyplastic", g1, 0.024, 0.01, axis="x", seg=20, soft=0.003)
+    ca = math.radians(28)                                     # the counterweight arm leans forward with the lever
+    c1 = (AXL, py - 0.26 * math.sin(ca), pz + 0.26 * math.cos(ca))
+    k.bar("lever", (AXL, py, pz), c1, 0.045, 0.06, up=(0, 1, 0))
+    k.box("greyplastic", (AXL, c1[1] - 0.04 * math.sin(ca), c1[2] + 0.04 * math.cos(ca)), (0.10, 0.14, 0.10), rx=ca, soft=0.01)
     # ---- the cable: from the cam down to a pulley at the tower's foot, up its face to its top pulley
     ox, oy, oz = tw["cable"]
     out = (TC[0] - (oy - TC[1]), TC[1] + (ox - TC[0]), oz)
