@@ -53,7 +53,7 @@ def build(k):
         fx = s * FOOT_X
         # the foot: the tube between its caps, the caps a touch bigger, standing on the floor
         body = FOOT_L / 2 - CAP_T
-        k.bar("frame", (fx, -body, foot_bot + FOOT[1] / 2), (fx, body, foot_bot + FOOT[1] / 2), FOOT[1], FOOT[0], up=(0, 0, 1))
+        k.bar("frame", (fx, -body, foot_bot + FOOT[1] / 2), (fx, body, foot_bot + FOOT[1] / 2), FOOT[0], FOOT[1], up=(0, 0, 1))
         for d in (1, -1):
             k.box("cap", (fx, d * (FOOT_L / 2 - CAP_L / 2), foot_bot + FOOT[1] / 2),
                   (FOOT[0] + 2 * CAP_T, CAP_L, FOOT[1] + 2 * CAP_T), soft=0.004)
