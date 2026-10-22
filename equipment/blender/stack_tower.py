@@ -13,7 +13,8 @@ Local frame (before the tower is turned by rz about its footprint's centre c): t
 
 T keys (metres): style, W (across), D (deep), H (tall), n (plates), plate (w, d, t), rods (centres apart), title
 (the placard's exercise name), brand ("HAMMER STRENGTH" / "LifeFitness"), round (+1 / -1: which top corner of the open
-frame is bent round), units ("lb"/"kg") and step (the weight per plate) for the printed numbers.
+frame is bent round), units ("lb"/"kg") and step (the weight per plate) for the printed numbers, placard ("insignia":
+Life Fitness Insignia's own layout on the shroud).
 Roles: "frame" (the machine's frame colour), "shroud" + "shroud2" (the closed tower's panels), "plate", "chrome",
 "acrylic", "placard" + "ink" (the placard and its lettering), "label" (printed numbers), "rubber", "plastic",
 "cable".
@@ -32,6 +33,7 @@ LOOK = {   # defaults, a piece's LOOK overrides any of them
     "shroud2": dict(color=(0.07, 0.072, 0.075), rough=0.4, coat=0.2),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4, coat=0.0),
     "frosted": dict(color=(0.85, 0.87, 0.88), rough=0.35, coat=0.0, trans=0.85),                   # the frosted back
+    "warn": dict(color=(0.95, 0.55, 0.02), rough=0.4, coat=0.0),                                     # the placard's orange
 }
 
 
@@ -87,6 +89,29 @@ def _placard(t, T, cx, y, z, w, h, facing=-1, rz=0.0):
     t.text("ink", T["title"], (cx + sg * (w / 2 - 0.13), yf, z - h / 2 + 0.03), 0.022, rz=rz, depth=0.0003)
 
 
+def _placard_insignia(t, T, cx, y, z, w, h):
+    """Life Fitness Insignia's placard (ref photos, 2026-10-22): a black band across the tower's top; on the left a
+    panel with the muscle picture (an orange stroke) and the exercise's name under it, the round LF badge in the
+    middle, on the right a panel with the two how-to pictures and the brand under them."""
+    t.box("placard", (cx, y, z), (w, 0.006, h), soft=0.001)
+    yf = y - 0.0032
+    pw = (w - 0.12) / 2
+    for sg in (-1, 1):
+        t.box("shroud2", (cx + sg * (0.06 + pw / 2), yf, z + 0.012), (pw - 0.02, 0.0006, h - 0.05), soft=0.0)
+    xl = cx - 0.06 - pw / 2
+    t.box("ink2", (xl - pw * 0.30, yf - 0.0004, z + 0.02), (0.035, 0.0006, 0.035), soft=0.0)            # the QR square
+    t.box("warn", (xl + 0.03, yf - 0.0004, z + 0.02), (0.09, 0.0006, 0.022), rx=0.0, soft=0.0)
+    t.box("warn", (xl + 0.03, yf - 0.0004, z + 0.02), (0.022, 0.0006, 0.09), ry=0.6, soft=0.0)          # the muscle stroke
+    t.text("ink", T["title"], (xl, yf - 0.0004, z - h / 2 + 0.018), 0.016, depth=0.0003)
+    t.cyl("ink2", (cx, yf - 0.002, z + 0.01), 0.032, 0.004, axis="y", seg=32, soft=0.001)               # the LF badge
+    t.cyl("placard", (cx, yf - 0.0045, z + 0.01), 0.024, 0.002, axis="y", seg=32, soft=0.0)
+    t.text("ink", "LF", (cx, yf - 0.0056, z + 0.004), 0.022, depth=0.0003)
+    xr = cx + 0.06 + pw / 2
+    for i, c in enumerate(("ink2", "frosted")):
+        t.box(c, (xr - pw * 0.2 + i * pw * 0.4, yf - 0.0004, z + 0.02), (pw * 0.34, 0.0006, h * 0.5), soft=0.0)
+    t.text("ink", T["brand"], (xr + pw * 0.25, yf - 0.0004, z - h / 2 + 0.018), 0.016, depth=0.0003)
+
+
 def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
     xs = W / 2 - 0.038
     zb = FOOT_H + 0.006
@@ -140,7 +165,10 @@ def _shroud(t, T, cx, cy, W, D, H, n, pt):
         val = (i + 1) * T.get("step", 5) + T.get("start", 0)
         t.text("label", str(val), (wx - 0.05, yf - 0.0062, z), 0.012, depth=0.0003)
     t.cyl("plastic", (wx, yf - 0.03, z0w + 0.4 * (z1w - z0w)), 0.012, 0.05, axis="y", seg=16, soft=0.003)     # the pin
-    _placard(t, T, cx, yf - 0.0065, hb - 0.16, W - 0.10, 0.20)
+    if T.get("placard") == "insignia":
+        _placard_insignia(t, T, cx, yf - 0.0065, hb - 0.13, W - 0.06, 0.16)
+    else:
+        _placard(t, T, cx, yf - 0.0065, hb - 0.16, W - 0.10, 0.20)
     # the rounded top cap: a half round along x over the panels
     half = [(-D / 2 * math.cos(math.pi * i / 16), hc * math.sin(math.pi * i / 16)) for i in range(17)]
     t.sweep("shroud", [(cx - W / 2, cy, hb), (cx + W / 2, cy, hb)], [(-dy, dz) for dy, dz in half], up=(0, 0, 1), soft=0.004)
