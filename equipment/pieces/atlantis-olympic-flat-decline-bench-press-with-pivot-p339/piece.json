@@ -15,8 +15,28 @@
  "price": null,
  "refs": [
   {
-   "file": "refs/ref_01.png",
-   "url": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png"
+   "file": "refs/ref_02.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-2-1200x660.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-3-1200x833.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-4-1200x838.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-5-1-1200x678.png"
+  },
+  {
+   "file": "refs/ref_06.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-6-1-1200x669.png"
+  },
+  {
+   "file": "refs/ref_07.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/p339-1200x664.png"
   }
  ],
  "status": "picked",
