@@ -43,7 +43,7 @@ PX = 0.33                        # the platform frame (x)
 AX = 0.36                        # the rear A-frames (x)
 PIV = (0.68, 0.97)               # the pivot (y, z)
 PLAT = ((-1.175, 0.656), (-0.52, 0.437))   # the platform's top: front edge, back edge (y, z)
-PLAT_W = 0.76
+PLAT_W = 0.86
 POST0, POST1 = (-0.16, 0.36), (-0.02, 1.80)   # the pad post's foot and top (y, z)
 
 
@@ -158,9 +158,9 @@ def build(k):
     for s in (1, -1):
         x = s * 0.22
         k.sweep("lever", [(x, yl + 0.03, zl), (x, 0.20, 0.50), (x, 0.52, 0.78), (x, PIV[0], PIV[1] - 0.04)],
-                k.rect(0.05, 0.08, 0.008), bend=0.16, up=(1, 0, 0), cut0=((0, yl + 0.03, 0), Y), weld=True, soft=0.002)
+                k.rect(0.07, 0.11, 0.01), bend=0.16, up=(1, 0, 0), cut0=((0, yl + 0.03, 0), Y), weld=True, soft=0.002)   # heavy, as in ref_01
         k.tube("lever", (s * 0.18, PIV[0], PIV[1]), (s * 0.30, PIV[0], PIV[1]), 0.045, seg=32)
-        for hy, hz, x0 in ((yl, zl, 0.25), (0.42, 0.68, 0.245)):
+        for hy, hz, x0 in ((yl, zl, 0.25), (0.42, 0.68, 0.255)):
             k.cyl("lever", (s * (x0 + 0.01), hy, hz), 0.05, 0.02, axis="x", seg=32, soft=0.004)
             k.tube("steel", (s * (x0 + 0.02), hy, hz), (s * (x0 + 0.33), hy, hz), 0.025, seg=32)
             k.cyl("lever", (s * (x0 + 0.338), hy, hz), 0.029, 0.018, axis="x", seg=32, soft=0.005)
