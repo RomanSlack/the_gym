@@ -147,10 +147,19 @@ def _insignia(t, T, cx, cy, W, D, H, n, pt, ztop):
     xh = cx - ch / 2 - pw * 0.62
     t.box("plastic", (xh, yf - 0.003, hb - 0.27), (0.03, 0.022, 0.09), soft=0.004)
     t.box("plastic", (xh + 0.015, yf - 0.018, hb - 0.305), (0.05, 0.018, 0.022), rz=-0.4, soft=0.004)
-    # the cap: gloss, flush with the uprights, a crisp band at the bottom and a crown rounded on its top edges (the
-    # studio shots' rounded top corners); the silver line under its front between the uprights
-    t.box("shroud", (cx, cy, hb + 0.025), (W + 0.012, D + 0.012, 0.05), soft=0.003)                   # its crisp band
-    t.box("shroud", (cx, cy, hb + 0.01 + (hc - 0.01) / 2), (W + 0.012, D + 0.012, hc - 0.01), soft=0.045)  # its crown
+    # the cap: gloss, flush with the uprights; seen from the front its top corners curve down on a big radius and the
+    # top between them is gently domed (the studio shots), its front and back edges rounded over; a crisp band at its
+    # foot; the silver line under its front between the uprights
+    t.box("shroud", (cx, cy, hb + 0.0125), (W + 0.012, D + 0.012, 0.025), soft=0.003)                 # its crisp band
+    a, rc, dome = (W + 0.012) / 2, 0.08, 0.012
+    zs = hc - dome - rc                                            # where the sides start to curve over
+    prof = [(-a, 0.0), (a, 0.0)]
+    prof += [(a - rc + rc * math.cos(math.pi / 2 * i / 10), zs + rc * math.sin(math.pi / 2 * i / 10)) for i in range(11)]
+    xt = a - rc
+    prof += [(xt * (1 - 2 * i / 16), hc - dome + dome * (1 - (1 - 2 * i / 16) ** 2)) for i in range(1, 16)]
+    prof += [(-a + rc - rc * math.cos(math.pi / 2 * i / 10), zs + rc * math.sin(math.pi / 2 * i / 10)) for i in range(10, -1, -1)]
+    t.sweep("shroud", [(cx, yf - 0.006, hb + 0.004), (cx, yb + 0.006, hb + 0.004)], [(-u, v) for u, v in prof],
+            up=(0, 0, 1), soft=0.028)                                                                    # its crown
     t.box("chrome", (cx, yf + 0.006, hb - 0.002), (W - 2 * uw + 0.004, 0.004, 0.006), soft=0.001)
     # the back: the bowed inset panel between the uprights with the script up it
     bw = W - 2 * uw - 0.03                     # a dark gap each side to the uprights (ref_08)
