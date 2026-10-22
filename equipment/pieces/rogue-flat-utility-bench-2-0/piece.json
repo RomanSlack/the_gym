@@ -40,10 +40,15 @@
    "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Strength%20Training/Weight%20Benches/Flat%20Utility%20Benches/RA1362/RA1362-web2_yeudxj.png"
   }
  ],
- "status": "picked",
- "notes": "",
+ "status": "modelled",
+ "notes": "v003 approved by Roman (2026-10-21): 'that is the level of quality'.",
  "fetched": {
   "at": "2026-10-17T23:39:07+00:00",
   "how": "page"
- }
+ },
+ "sheet_refs": [
+  "ref_01.png",
+  "ref_05.png",
+  "ref_04.png"
+ ]
 }
