@@ -40,20 +40,21 @@ N = (0.0, -math.sin(A), math.cos(A))       # off the rails, towards the user
 B0 = (-0.36, 0.19)                         # the beams' centreline at s = 0 (y, z)
 BL = 1.92                                  # the beams' length along U
 BX = 0.26                                  # each side's plane (x): base rail, beam, rod, posts
-BEAM = (0.075, 0.127)                      # 3 x 5 in (across, along N)
+BEAM = (0.09, 0.152)                       # 3.5 x 6 in (across, along N): as heavy as the photos
 RAIL = (0.076, 0.10)                       # base rails
 FOOT_H = 0.02
 RAIL_Z = FOOT_H + RAIL[1] / 2
 RAIL_TOP = FOOT_H + RAIL[1]
 RY0, RY1 = -0.62, 1.03                     # base rails: front cross bar, rear end (y)
-POST_Y = (0.40, 0.98)                      # the middle and rear posts (y)
+POST_Y = (0.40, 0.98)                      # the A's front leg's foot and the rear post (y)
+A_TOP = 0.86                               # where the A's front leg meets the beam (y), just short of the rear post
 ROD_H, ROD_R = 0.12, 0.019                 # the guide rods: off the beam's centreline, radius
 ROD_S = (0.15, 1.85)
 SLED_S = (0.85, 1.80)                      # the sled plate's span along U (at rest)
 SLED_H = 0.18
 HORN_X = 0.775                             # the loading horns' tips (61 in across)
 FOOT_C, FOOT_TILT = (-0.875, 0.55), math.radians(35.6)   # the foot plate's top centre (y, z), its tilt
-FOOT_W, FOOT_D = 0.72, 0.48
+FOOT_W, FOOT_D = 0.84, 0.48
 
 
 def at(x, s, h):
@@ -87,11 +88,17 @@ def build(k):
         k.bar("lever", p0, p1, BEAM[0], BEAM[1], up=N, cut0=((0, 0, RAIL_TOP), Z), weld=True)
         k.box("plastic", at(x, BL + 0.005, 0.0), (BEAM[0] + 0.004, 0.01, BEAM[1] + 0.004), rx=A, soft=0.002)
         # the posts up to the beam's underside (the rear one with the warning label and two storage horns)
-        for py in POST_Y:
-            sp = s_at_y(py, -BEAM[1] / 2)
-            top = at(x, sp, -BEAM[1] / 2)
-            k.bar("frame", (x, py, RAIL_TOP), (x, py, top[2] + 0.05), 0.076, 0.076, up=(0, 1, 0),
-                  cut0=((0, 0, RAIL_TOP), Z), cut1=(top, tuple(-c for c in N)), weld=True)
+        # an A each side (ref_01, ref_09): the rear post upright, the front leg leaning back from the base rail to meet
+        # the beam's underside near the top
+        nU = tuple(-c for c in N)
+        top = at(x, s_at_y(POST_Y[1], -BEAM[1] / 2), -BEAM[1] / 2)
+        k.bar("frame", (x, POST_Y[1], RAIL_TOP), (x, POST_Y[1], top[2] + 0.05), 0.076, 0.076, up=(0, 1, 0),
+              cut0=((0, 0, RAIL_TOP), Z), cut1=(top, nU), weld=True)
+        la = at(x, s_at_y(A_TOP, -BEAM[1] / 2), -BEAM[1] / 2)
+        d = (la[1] - POST_Y[0], la[2] - RAIL_TOP)
+        n_ = math.hypot(*d)
+        k.bar("frame", (x, POST_Y[0], RAIL_TOP), (x, la[1] + d[0] / n_ * 0.05, la[2] + d[1] / n_ * 0.05), 0.076, 0.076, up=(1, 0, 0),
+              cut0=((0, 0, RAIL_TOP), Z), cut1=(la, nU), weld=True)
         py = POST_Y[1]
         k.box("warn", (x, py - 0.0385, 1.05), (0.045, 0.002, 0.07), soft=0.0)
         for zh in (0.23, 0.75):
@@ -174,7 +181,7 @@ def build(k):
     k.box("lever", fp(-0.05), (FOOT_W - 0.10, FOOT_D - 0.08, 0.05), rx=rx, soft=0.004)
     for s in (1, -1):
         c = fp(0.02)
-        k.box("lever", (s * (FOOT_W / 2 + 0.004), c[1], c[2]), (0.008, FOOT_D, 0.10), rx=rx, soft=0.002)
+        k.box("lever", (s * (FOOT_W / 2 + 0.004), c[1] - nrm[1] * 0.01, c[2] - nrm[2] * 0.01), (0.008, FOOT_D, 0.045), rx=rx, soft=0.002)   # a low lip
         bot = fp(-0.075)
         x = s * 0.13
         k.sweep("frame", [(x, -0.86, FOOT_H), (x, -0.86, 0.30), (x, bot[1] - 0.02, bot[2] - 0.02)], k.rect(0.076, 0.076, 0.008),
