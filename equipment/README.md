@@ -55,6 +55,12 @@ piece starts at that level instead of getting there by back and forth.
    kind. Fix what differs before showing Roman.
 7. Every pass is a version, committed with its prompt. Stop when Roman says good enough.
 
+**Gotchas (the benches, 2026-10-21):**
+- A look role the kit doesn't have (`emboss`, `urethane`, `foam`, `hole`, ...) starts as a copy of the kit's `frame`, clear coat included: give every matte role `coat=0.0` or it renders glossy (the LF hooks, the Manta's rollers did).
+- Check the section's orientation: `k.bar(mat, p0, p1, w, h, up=...)` puts `h` along `up`. A foot passed as (2 in, 3 in) with up = z stands 3 in tall (the Rogue flat bench's feet, v002).
+- A piece whose photos are a site banner (Atlantis) has its real renders on the product page: the cached page lists them (`wp-content/uploads/...`), fetch them one at a time, 5-10 s apart.
+- Pieces of one family share parts: the Atlantis P338 + P339 import P337's `model.py` and set its constants (heights, hooks, horns) before calling `tower()`.
+
 ## The playbook (learned on the Precor leg extension, 2026-10-17; superseded by the checklist above where they differ)
 
 1. **Gather every angle first.** Makers often publish one hero render; dealer shops (Shopify: `/products/<handle>.js`) carry more angles, close-ups and colourways. Two or more views of the same machine are worth more than any amount of fitting on one.
