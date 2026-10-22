@@ -61,6 +61,28 @@ piece starts at that level instead of getting there by back and forth.
 - A piece whose photos are a site banner (Atlantis) has its real renders on the product page: the cached page lists them (`wp-content/uploads/...`), fetch them one at a time, 5-10 s apart.
 - Pieces of one family share parts: the Atlantis P338 + P339 import P337's `model.py` and set its constants (heights, hooks, horns) before calling `tower()`.
 
+**Attention to detail (the linear leg press, 2026-10-22: v001 "fucked and skinny", right at v007).** Roman asked that every agent
+work this way. Each of these was a pass he had to send back:
+1. **Take the geometry off the true side view, with numbers.** Before writing code, find the empty true-side photo,
+   set its scale from the spec (px per m from the overall length or height), and read each member's two ends in px,
+   converted to (y, z): where it starts, where it ends, its angle. The leg press rails start right at the seat near
+   the floor and climb at 40 degrees for 2 m. Guessed, they came out 45 degrees, too short and starting too high, and
+   the whole machine read wrong. Write the measured points into the constants' comments (`# y -0.03, z 1.07 (ref_13)`).
+2. **Match the bulk, member by member.** Count what each assembly is made of in the photo, and build every one: the
+   rails were a 4 x 6 in beam with two chrome rods and bearing housings round both, not one thin beam with one rod.
+   A thin machine looks wrong even when the outline is right. Make the base as wide as the photo's feet.
+3. **Open frames stay open.** If you can see through the real part (a sled built of tubes with a triangle of air in
+   it), build the tubes. Never fill it with a plate or a wall to save time ("it doesn't have those side walls").
+4. **Work out what each member belongs to before building it.** A member half hidden behind plates or a user is easy
+   to misread. Check it in every photo, empty and loaded, from both sides. The leg press's big "top bar" was the sled's
+   own top arm, not a fixed X frame. Building the misread version cost a pass.
+5. **Every adjustment has its mechanism.** Seats, back pads, pads and stops adjust on something real: a hinge, a strut,
+   a notched rack, a pin, a pop pin or a release handle. Find it in the close-ups and build it whole. A back pad just
+   sitting at an angle is wrong ("the seat rest has no pivoting thing to lower it more or raise it").
+6. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
+   each: ref | ours, side and three-quarter) and look for the differences above before reporting. The difference you
+   find yourself is a version Roman doesn't have to send back.
+
 ## The playbook (learned on the Precor leg extension, 2026-10-17; superseded by the checklist above where they differ)
 
 1. **Gather every angle first.** Makers often publish one hero render; dealer shops (Shopify: `/products/<handle>.js`) carry more angles, close-ups and colourways. Two or more views of the same machine are worth more than any amount of fitting on one.
