@@ -21,33 +21,33 @@ LOOK = {
     "plastic": dict(color=(0.012, 0.012, 0.013), rough=0.7),
     "cap": dict(color=(0.010, 0.010, 0.011), rough=0.22, coat=0.3),
     "hole": dict(color=(0.003, 0.003, 0.003), rough=0.9),                                             # cut-outs, windows
-    "uhmw": dict(color=(0.55, 0.55, 0.54), rough=0.55),                                              # the machined core
+    "uhmw": dict(color=(0.22, 0.22, 0.215), rough=0.55),                                              # the machined core
     "etch": dict(color=(0.5, 0.5, 0.5), rough=0.6),
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, bump=(700, 0.15)),
     "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
 }
 VIEWS = {"three_quarter": (-30, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
 DETAILS = {
-    "detail_core": ((0.35, -0.7, 0.4), (0.33, 0.0, 0.2), 40),           # the spine's window, the UHMW core, the rod
-    "detail_front": ((-1.05, -0.55, 0.42), (-0.62, 0.0, 0.2), 40),      # the front leg, the R plate, the foot + handle
-    "detail_rear": ((1.2, -0.6, 0.35), (0.68, 0.0, 0.15), 40),          # the rear foot, wheels, the post
+    "detail_core": ((0.3, -0.7, 0.4), (0.26, 0.0, 0.2), 40),           # the spine's window, the UHMW core, the rod
+    "detail_front": ((-1.0, -0.55, 0.42), (-0.56, 0.0, 0.2), 40),      # the front leg, the R plate, the foot + handle
+    "detail_rear": ((1.1, -0.6, 0.35), (0.58, 0.0, 0.15), 40),          # the rear foot, wheels, the post
 }
 
 SPINE = (3 * IN, 4 * IN)        # spine: across (y) x tall
 PAD_T, PAD_W, PAD_TOP = 2.25 * IN, 12 * IN, 17.5 * IN
 SEAT = (-0.72, -0.385)          # seat pad (x from / to)
 BACK = (-0.36, 0.60)            # back pad
-REAR_X = 0.70                   # rear foot centre (x)
+REAR_X = 0.60                   # rear foot centre (x)
 REAR = (4 * IN, 3 * IN)         # rear foot: along x, tall
 REAR_W = 24.75 * IN
 NODE = (-0.42, 0.27)            # where the spine's centreline meets the front leg's
-LEG_BOT = (-0.66, 0.012)        # the front leg's foot (on the plate)
+LEG_BOT = (-0.58, 0.012)        # the front leg's foot (on the plate)
 LEG = (4 * IN, 3 * IN)          # front leg: along its slope, across
 HINGE = (-0.35, None)           # the back's hinge (x); z = the back frame's centre
 ARM_AT = 0.08                   # the arms hang from under the back frame here (x)
-ROD_X = 0.50                    # the notch the rod sits in for flat (x)
-POST_X = 0.60                   # the rear post (x)
-WIN = (0.04, 0.58)              # the spine's window (x)
+ROD_X = 0.44                    # the notch the rod sits in for flat (x)
+POST_X = 0.52                   # the rear post (x)
+WIN = (0.0, 0.48)               # the spine's window (x)
 
 
 def spine_z(x):
@@ -113,7 +113,7 @@ def build(k):
     for t_, z_ in (("0", 0.20), ("-20", 0.11)):
         k.text("etch", t_, (LEG_BOT[0] + leg_d[0] * (z_ / leg_d[2]) - 0.03, -(LEG[1] / 2 + 0.0006), z_), 0.018, depth=0.0005)
     # the carry handle: a stem forwards off the plate, a bar across with grips
-    hx = LEG_BOT[0] - 0.13 - 0.05
+    hx = LEG_BOT[0] - 0.13 - 0.025
     k.bar("frame", (LEG_BOT[0] - 0.13, 0, 0.027), (hx, 0, 0.027), 0.03, 0.03, up=Z)
     k.box("frame", (LEG_BOT[0] - 0.13 + 0.005, 0, 0.0215), (0.01, 0.04, 0.019), soft=0.001)
     k.tube("frame", (hx, -0.13, 0.03), (hx, 0.13, 0.03), 0.016)
