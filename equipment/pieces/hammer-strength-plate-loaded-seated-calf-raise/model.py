@@ -38,12 +38,20 @@ FOOT_H = 0.02
 RAIL = (0.076, 0.076)
 RAIL_Z = FOOT_H + RAIL[1] / 2
 RAIL_TOP = FOOT_H + RAIL[1]
-BX = 0.36
+BX = 0.27                         # the seat gates and the rails under the seat (ref_07: narrow at the seat)
 Y0, Y1 = -0.62, 0.60
 SEAT = (0.40, 0.52)               # the seat's centre (y, z top)
 PIV = (0.16, 0.24)                # the lever's axle (y, z)
 POST_Y = -0.07                    # the lever's post (between the knees, just in front of them)
 POST_TOP = 1.00
+
+
+SPLAY = 0.16                      # the rails run parallel under the seat, then splay out this much to the front feet
+
+
+def rail_x(y):
+    """The base rails' centreline (x, the +x one) at y: straight under the seat, splaying out towards the front."""
+    return BX if y >= 0.10 else BX + SPLAY * (0.10 - y) / (0.10 - Y0)
 
 
 def foot(k, x, y):
@@ -62,16 +70,18 @@ def build(k):
     # ---- the base
     for s in (1, -1):
         x = s * BX
-        k.bar("frame", (x, Y0, RAIL_Z), (x, Y1, RAIL_Z), RAIL[0], RAIL[1], r=0.006)
+        k.sweep("frame", [(s * rail_x(Y1), Y1, RAIL_Z), (s * rail_x(0.10), 0.10, RAIL_Z), (s * rail_x(Y0), Y0, RAIL_Z)],
+                k.rect(RAIL[0], RAIL[1], 0.006), bend=0.15, soft=0.0015)
         for ye, d in ((Y0, -1), (Y1, 1)):
-            k.box("plastic", (x, ye + d * 0.004, RAIL_Z), (RAIL[0] + 0.004, 0.008, RAIL[1] + 0.004), soft=0.002)
-            foot(k, x, ye - d * 0.045)
-        k.box("placard", (x + s * (RAIL[0] / 2 + 0.002), -0.30, RAIL_Z), (0.004, 0.15, 0.05), soft=0.0)
+            k.box("plastic", (s * rail_x(ye), ye + d * 0.004, RAIL_Z), (RAIL[0] + 0.004, 0.008, RAIL[1] + 0.004), soft=0.002)
+            foot(k, s * rail_x(ye - d * 0.045), ye - d * 0.045)
+        xp = s * (rail_x(-0.30) + RAIL[0] / 2 + 0.002)
+        k.box("placard", (xp, -0.30, RAIL_Z), (0.004, 0.15, 0.05), rz=-s * math.atan2(SPLAY, 0.10 - Y0), soft=0.0)
         for i, line in enumerate(("HAMMER", "STRENGTH")):
-            k.text("label", line, (x + s * (RAIL[0] / 2 + 0.0043), -0.30, RAIL_Z + 0.01 - i * 0.02), 0.017,
-                   rz=s * math.pi / 2, depth=0.0003)
-    xi = BX - RAIL[0] / 2
+            k.text("label", line, (xp + s * 0.0023, -0.30, RAIL_Z + 0.01 - i * 0.02), 0.017,
+                   rz=s * math.pi / 2 - s * math.atan2(SPLAY, 0.10 - Y0), depth=0.0003)
     for y_ in (Y0 + 0.08, 0.0, Y1 - 0.08):
+        xi = rail_x(y_) - RAIL[0] / 2
         bar_x(k, "frame", y_, RAIL_Z, -xi, xi, RAIL[0], RAIL[1])
     # ---- the seat: a gate each side at its ends (two posts and a top bar), two cross bars, the seat's slide, the pad
     zs = SEAT[1] - 0.10
@@ -94,16 +104,18 @@ def build(k):
     # curving forward and down to the post's foot, the post up to the top
     for s in (1, -1):
         k.box("frame", (s * 0.12, PIV[0], (RAIL_TOP + PIV[1] + 0.05) / 2), (0.012, 0.10, PIV[1] + 0.05 - RAIL_TOP), soft=0.001)
+    xi = rail_x(PIV[0]) - RAIL[0] / 2
     bar_x(k, "frame", PIV[0], RAIL_Z, -xi, xi, RAIL[0], RAIL[1])
     k.tube("steel", (-0.15, PIV[0], PIV[1]), (0.15, PIV[0], PIV[1]), 0.02, seg=20)
     for s in (1, -1):
         k.bolt((s * 0.15, PIV[0], PIV[1]), "+x" if s > 0 else "-x", size=0.022)
     k.tube("lever", (-0.114, PIV[0], PIV[1]), (0.114, PIV[0], PIV[1]), 0.04, seg=28)                  # the hub
-    k.sweep("lever", [(0, PIV[0], PIV[1]), (0, 0.08, 0.30), (0, POST_Y, 0.36)], k.rect(0.07, 0.10, 0.01), bend=0.12,
+    k.sweep("lever", [(0, PIV[0], PIV[1]), (0, 0.10, 0.50), (0, POST_Y + 0.02, 0.58)], k.rect(0.08, 0.11, 0.01), bend=0.14,
             up=(1, 0, 0), soft=0.002)
     k.bar("lever", (0, POST_Y, 0.36), (0, POST_Y, POST_TOP), 0.076, 0.076, up=Y)
     k.box("plastic", (0, POST_Y, POST_TOP + 0.005), (0.08, 0.08, 0.01), soft=0.002)
     k.box("rubber", (0, POST_Y, (RAIL_TOP + 0.36) / 2 + 0.0), (0.07, 0.07, 0.36 - RAIL_TOP), soft=0.006)       # its stop
+    xi = rail_x(POST_Y) - RAIL[0] / 2
     bar_x(k, "frame", POST_Y, RAIL_Z, -xi, xi, RAIL[0], RAIL[1])
     # the chrome horn across the post
     zh = 0.56
