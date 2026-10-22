@@ -50,7 +50,7 @@ def build(k):
     bt = p337.BASE_Z + p337.BASE[0] / 2
     for x_ in (XR + 0.12, SX1 - 0.08):
         k.bar("frame", (x_, -ub, p337.BASE_Z), (x_, ub, p337.BASE_Z), 0.06, 0.04, up=Z, cut0=((0, -ub, 0), Y), cut1=((0, ub, 0), Y), weld=True)
-    k.box("plate", ((XR + SX1) / 2 + 0.02, 0, p337.BASE_Z + 0.03 + 0.004), (SX1 - XR - 0.08, 2 * ub - 0.01, 0.008), soft=0.002)
+    k.box("plate", ((XR + SX1) / 2 + 0.02, 0, p337.BASE_Z + 0.02 + 0.004), (SX1 - XR - 0.08, 2 * ub - 0.01, 0.008), soft=0.002)
     # the beam: from the front post to the low cross tube's face
     bz = LOW_Z
     k.bar("frame", (FRONT_X - 0.05, 0, bz), (XR - 0.035, 0, bz), 0.10, 0.06, up=Y, cut1=((XR - 0.035, 0, 0), (1, 0, 0)), weld=True)
