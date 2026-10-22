@@ -19,9 +19,9 @@ LOOK = {
     "pad": dict(color=(0.010, 0.010, 0.011), rough=0.42, sheen=0.2, bump=(1800, 0.08)),              # black PU
     "plastic": dict(color=(0.015, 0.015, 0.016), rough=0.6),
     "rubber": dict(color=(0.014, 0.014, 0.015), rough=0.7, bump=(700, 0.1)),                         # the wedge feet
-    "hole": dict(color=(0.003, 0.003, 0.003), rough=0.9),
+    "hole": dict(color=(0.003, 0.003, 0.003), rough=0.9, coat=0.0),
     "label": dict(color=(0.85, 0.85, 0.85), rough=0.4),
-    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
+    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0, coat=0.0),
 }
 VIEWS = {"three_quarter": (-125, 12, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (40, 16, 1.0)}
 DETAILS = {
