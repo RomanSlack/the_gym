@@ -13,7 +13,7 @@ import math
 
 IN = 0.0254
 LOOK = {
-    "frame": dict(color=(0.11, 0.115, 0.12), rough=0.45, metal=0.35, coat=0.05, bump=(1400, 0.06)),   # Charcoal
+    "frame": dict(color=(0.045, 0.047, 0.05), rough=0.45, metal=0.3, coat=0.05, bump=(1400, 0.06)),   # Charcoal
     "pad": dict(color=(0.014, 0.014, 0.015), rough=0.5, sheen=0.25, bump=(1500, 0.12)),
     "galv": dict(color=(0.62, 0.63, 0.64), rough=0.35, metal=1.0, coat=0.0, bump=(300, 0.15)),         # galvanized plate
     "grip": dict(color=(0.05, 0.05, 0.052), rough=0.9, coat=0.0, bump=(900, 0.8)),                     # the footrest's grit
@@ -64,7 +64,7 @@ def build(k):
                 up=Z, bend=0.12)
         k.box("plastic", (RX[0] - 0.243, s * 0.384, rz), (R[0] + 0.004, 0.006, R[1] + 0.004), rz=-s * 1.07, soft=0.002)
         tab(k, RX[0] - 0.28, s * 0.40)
-    k.box("warn", (0.0, -R[0] / 2 - 0.0006, rz), (0.10, 0.001, 0.03), soft=0.0)                  # the placard on the rail
+    k.box("label", (0.0, -R[0] / 2 - 0.0006, rz), (0.10, 0.001, 0.03), soft=0.0)                  # the placard on the rail
     # the beam at 45 degrees, its foot welded on the rail, the post up to it
     b_top = at(BEAM_L)
     k.bar("frame", (B0[0], 0, rt), b_top, BEAM[1], BEAM[0], up=Y, cut0=((0, 0, rt), Z), weld=True)
@@ -113,7 +113,7 @@ def build(k):
         top = (fc[0] - U[0] * 0.006 + 0.03, s * 0.12, fc[2] - U[2] * 0.006 - 0.03)
         k.bar("frame", (top[0] + 0.06, s * 0.12, rt), top, 0.04, 0.04, up=Y, cut0=((0, 0, rt), Z), weld=True)
     # the ankle post: up from the rail's rear, bending forwards over the footrest; the two ankle pads under its end
-    ac = (fc[0] - U[0] * 0.17 + N[0] * 0.14, 0, fc[2] + U[2] * 0.17 + N[2] * 0.14)          # the pads' centre
+    ac = (fc[0] + U[0] * 0.17 + N[0] * 0.14, 0, fc[2] + U[2] * 0.17 + N[2] * 0.14)          # the pads' centre
     end = (ac[0] + N[0] * 0.07, 0, ac[2] + N[2] * 0.07)
     k.sweep("frame", [(0.48, 0, rt), (0.48, 0, end[2] - 0.05), end], k.rect(R[0], R[1] + 0.01, 0.008), up=Y, bend=0.1,
             cut0=((0, 0, rt), Z), weld=True)
