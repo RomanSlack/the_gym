@@ -16,12 +16,12 @@ IN = 0.0254
 LOOK = {
     "frame": dict(color=(0.016, 0.016, 0.017), rough=0.45, metal=0.1, coat=0.05, bump=(1400, 0.06)),   # black satin powder coat
     "pad": dict(color=(0.030, 0.030, 0.032), rough=0.8, sheen=0.05, bump=(2600, 0.35)),              # textured grey foam
-    "emboss": dict(color=(0.024, 0.024, 0.025), rough=0.55, bump=(2600, 0.1)),
+    "emboss": dict(color=(0.024, 0.024, 0.025), rough=0.55, bump=(2600, 0.1), coat=0.0),
     "plastic": dict(color=(0.012, 0.012, 0.013), rough=0.7),                                         # the pads' boards, matte
     "cap": dict(color=(0.010, 0.010, 0.011), rough=0.22, coat=0.3),                                  # gloss end caps
-    "laser": dict(color=(0.62, 0.62, 0.63), rough=0.3, metal=1.0, aniso=0.3),                         # bare laser-cut steel
-    "etch": dict(color=(0.05, 0.05, 0.05), rough=0.6),
-    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
+    "laser": dict(color=(0.62, 0.62, 0.63), rough=0.3, metal=1.0, aniso=0.3, coat=0.0),                         # bare laser-cut steel
+    "etch": dict(color=(0.05, 0.05, 0.05), rough=0.6, coat=0.0),
+    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0, coat=0.0),
 }
 VIEWS = {"three_quarter": (-30, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
 DETAILS = {
