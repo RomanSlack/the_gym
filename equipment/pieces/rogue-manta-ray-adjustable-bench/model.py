@@ -17,15 +17,15 @@ IN = 0.0254
 LOOK = {
     "frame": dict(color=(0.016, 0.016, 0.017), rough=0.45, metal=0.1, coat=0.05, bump=(1400, 0.06)),   # black satin powder coat
     "pad": dict(color=(0.030, 0.030, 0.032), rough=0.8, sheen=0.05, bump=(2600, 0.35)),              # textured foam
-    "emboss": dict(color=(0.024, 0.024, 0.025), rough=0.55, bump=(2600, 0.1)),
+    "emboss": dict(color=(0.024, 0.024, 0.025), rough=0.55, bump=(2600, 0.1), coat=0.0),
     "plastic": dict(color=(0.012, 0.012, 0.013), rough=0.7),
     "cap": dict(color=(0.010, 0.010, 0.011), rough=0.22, coat=0.3),
-    "hole": dict(color=(0.003, 0.003, 0.003), rough=0.9),                                             # cut-outs, windows
-    "uhmw": dict(color=(0.22, 0.22, 0.215), rough=0.55),                                              # the machined core
-    "etch": dict(color=(0.5, 0.5, 0.5), rough=0.6),
+    "hole": dict(color=(0.003, 0.003, 0.003), rough=0.9, coat=0.0),                                             # cut-outs, windows
+    "uhmw": dict(color=(0.22, 0.22, 0.215), rough=0.55, coat=0.0),                                              # the machined core
+    "etch": dict(color=(0.5, 0.5, 0.5), rough=0.6, coat=0.0),
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, bump=(700, 0.15)),
     "foam": dict(color=(0.010, 0.010, 0.011), rough=0.82, coat=0.0, sheen=0.03, bump=(1800, 0.12)),               # the rollers' vinyl
-    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0),
+    "bolt": dict(color=(0.6, 0.6, 0.61), rough=0.3, metal=1.0, coat=0.0),
 }
 VIEWS = {"three_quarter": (-30, 14, 1.0), "front": (-90, 6, 1.0), "side": (0, 4, 1.0), "back_three_quarter": (140, 18, 1.0)}
 DETAILS = {
