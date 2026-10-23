@@ -49,7 +49,8 @@ RZ = FOOT_H + RH / 2
 RT = FOOT_H + RH
 XR = 0.36                           # the side rails and the pad end's posts (x); the feet flanged out to the 34 in
 Y0, Y1 = -0.90, 0.35                # the rails' ends: the foot unit's end (on feet), the pad end's posts
-YF = 0.70                           # the pad end's arched legs land here; the band pegs reach 74 in overall
+YF = 0.80                           # the pad end's arched legs land here (ref_01: flared well out); the band pegs
+                                    # reach 74 in overall
 LT = (-0.66, 0.56)                  # the foot unit end's frame: the legs' tops and the top beam (y, z), under the pin
 P0 = (-0.05, 0.20)                  # the column's pivot (ref_01: its yoke beside the step plate's -y end)
 C1 = (-0.42, 0.90)                  # the column's straight run ends here, under the C (ref_01: leaning ~28 deg)
@@ -177,22 +178,22 @@ def build(k):
     # ---- the pad end: each side's post up from the rail's end, capped; the arched leg out of it to its foot (the
     # Hammer Strength label on the near one, ref_01); the cross beam between the arches
     for s in (1, -1):
-        k.bar("frame", (s * XR, YP, RT), (s * XR, YP, 1.0), RW, RW, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
-        k.box("plastic", (s * XR, YP, 1.004), (RW + 0.004, RW + 0.004, 0.008), soft=0.002)
-        arch = [(s * XR, YP + RW / 2, 0.60), (s * XR, 0.60, 0.50), (s * XR, YF, 0.25), (s * XR, YF, FOOT_H)]
+        k.bar("frame", (s * XR, YP, RT), (s * XR, YP, 0.82), RW, RW, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
+        k.box("plastic", (s * XR, YP, 0.824), (RW + 0.004, RW + 0.004, 0.008), soft=0.002)
+        arch = [(s * XR, YP + RW / 2, 0.64), (s * XR, 0.62, 0.56), (s * XR, YF, 0.30), (s * XR, YF, FOOT_H)]
         k.sweep("frame", arch, k.rect(RW, RW, 0.006), bend=0.12, up=UPX, cut0=((0, YP + RW / 2, 0), (0, 1, 0)), weld=True)
         foot(k, s * XR, YF)
     k.box("placard", (XR + RW / 2 + 0.001, 0.26, RZ), (0.002, 0.16, 0.05), soft=0.0)
     for i, line in enumerate(("HAMMER", "STRENGTH")):
         k.text("label", line, (XR + RW / 2 + 0.0024, 0.26, RZ + 0.011 - i * 0.021), 0.017, rz=math.pi / 2, depth=0.0004)
-    across(k, "frame", YF, 0.25, -XR + RW / 2, XR - RW / 2, w=0.07)
+    across(k, "frame", YF, 0.30, -XR + RW / 2, XR - RW / 2, w=0.07)
     # ---- the vertical adjustment: a notched zinc plate bolted inside each post, the carriage's posts riding against
     # them, a pop pin through each into a notch; the carriage: two posts, the top rail, two lower rails (the lower one
     # bent down in the middle, ref_01)
     zc0 = 0.50
     for s in (1, -1):
-        k.box("zinc", (s * XZ, YP, 0.76), (0.01, 0.11, 0.52), soft=0.003)
-        for z in (0.58, 0.88):
+        k.box("zinc", (s * XZ, YP, 0.77), (0.01, 0.11, 0.50), soft=0.003)        # standing above its post (ref_01)
+        for z in (0.58, 0.76):
             k.bolt((s * (XR + RW / 2), YP, z), "+x" if s > 0 else "-x", size=0.016, nut=RW + 0.01)
         for z in (0.66, 0.72, 0.78, 0.84, 0.90):
             k.box("hole", (s * (XZ - 0.0052), YP + 0.03, z), (0.0008, 0.035, 0.03), soft=0.0)
