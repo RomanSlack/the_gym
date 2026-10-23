@@ -2,15 +2,15 @@
 
 Built by eye from Atlantis's four renders (refs/: ref_02 the front three-quarter from the left, ref_05 from the right,
 ref_03 / ref_04 the two sides in profile), held to Atlantis's 63 x 38 x 68 in (L x W x H), the 400 lb stack (20 x 20 lb).
-Axes: metres, floor z = 0, the incline runs along x: the tower at -x facing +x, the steps at +x; y across. The user
+Axes: metres, floor z = 0, the incline runs along x: the tower at -x facing +x, the foot plates at +x; y across. The user
 stands on a step facing the tower, leans in with the chest on the pad and the shoulders under the two shoulder pads,
 and rises on the toes, pushing the carriage up its rods.
 Structure: the closed stack tower ("atlantis" style); a rail each side from the floor at the front up to the tower's
 face at the top (56 deg, a little steeper below the knee), a chrome guide rod on each rail's top face; the carriage on
 the rods' linear bearings: its plate, the chest pad, the two shoulder pads at its top on their backing plates, the
 pop pin; a tie and a brace each side from the rail back to the tower's face; low down, a beam each side from the tower
-to the rail with the rear leg down from it, the cross tubes between the sides; the three steps between the rails
-(the three start heights), rubber treads; the cable from the carriage's foot down to a pulley on the low cross tube,
+to the rail with the rear leg down from it, the cross tubes between the sides; the three foot plates (the three
+start heights) square to the body off the rails, rubber treads; the cable from the carriage's foot down to a pulley on the low cross tube,
 back to a pulley at the tower's face and up inside it.
 """
 import math
@@ -45,14 +45,17 @@ TC = (-0.55, 0.0)                    # the tower's footprint centre: its back at
 X_FACE = TC[0] + TOWER["D"] / 2
 YR = 0.28                            # the rails' centres, either side, in line with the tower's sides
 RW, RD = 0.08, 0.12                  # a rail's width (y) and depth (across its slope)
-RA, RB = math.radians(56), math.radians(62)   # the rail's slope above the knee and below it
+RA = RB = math.radians(62)          # the rail's slope, straight to the floor
 A = (X_FACE + 0.05, 1.58)            # the rail's top end (x, z), its back corner on the tower's face
 ZK = 0.55                            # the knee
 D1 = (math.cos(RA), -math.sin(RA))   # down the upper rail
 N1 = (math.sin(RA), math.cos(RA))    # out of its top face, to the user
 K = (A[0] + (A[1] - ZK) / math.tan(RA), ZK)
 B = (K[0] + ZK / math.tan(RB), 0.0)
-S_PAD = 0.74                         # the chest pad's middle, along the rail from its top end
+S_PAD = 0.42                         # the chest pad's middle, along the rail from its top end: the carriage at its
+                                     # start puts the shoulder pads up by the placard (ref_02 / ref_05)
+S_SH = S_PAD - 0.27 + 0.03           # the tops of the user's shoulders, under the shoulder pads
+FEET = (1.24, 1.38, 1.52)            # shoulders to soles, down the slope, for the three foot plates
 LK = (-0.02, 0.40)                   # the rear legs' knee
 ZL = 0.62                            # the low beams and the cross tube
 
@@ -96,12 +99,28 @@ def build(k):
     k.tube("frame", (x_rail(ZL), -YR, ZL), (x_rail(ZL), YR, ZL), 0.03, seg=24)
     k.tube("frame", (LK[0], -YR, LK[1] + 0.03), (LK[0], YR, LK[1] + 0.03), 0.03, seg=24)
     k.box("frame", (X_FACE - 0.015, 0.0, ZL), (0.03, 2 * YR, 0.04), soft=0.002)        # the tie across the tower's face
-    # ---- the steps: three heights, each a deep plate from the rear legs forward past the rails (ref_03 / ref_04),
-    # each forward of the one above, a rubber tread on each
-    for z in (0.38, 0.26, 0.14):
-        x0, x1 = LK[0] + (LK[1] - z) * 0.19 / 0.43, x_rail(z) + 0.07
-        k.box("frame", ((x0 + x1) / 2, 0.0, z - 0.012), (x1 - x0, 2 * YR + 0.02, 0.024), soft=0.004)
-        k.box("tread", ((x0 + x1) / 2 + 0.01, 0.0, z + 0.003), (x1 - x0 - 0.06, 2 * YR - 0.10, 0.008), soft=0.002)
+    # ---- the foot plates, laid out from the user: the body lies along the incline on the chest pad, the shoulders
+    # under the shoulder pads, so the soles land 1.24 / 1.38 / 1.52 m down the slope from the shoulders (a short,
+    # a middle, a tall user: the three start points). Each plate stands square to the body (its face up the slope,
+    # to the head), out from the rails' top faces as far as the balls of the feet, its free edge clear so the heels
+    # drop past it. Seen from the front only the plates' plain backs show, from the side their treads (ref_02 /
+    # ref_03): a tray between the rails reaching back behind them and out past them, its corners rounded, a low rim
+    # round its face, the rubber tread in it, a gusset under it to each rail
+    # each lower plate stands 40 mm further out than the one above (ref_03), so the ball of the foot sits on an open
+    # edge with the toes under the plate above, 0.11 m clear
+    wp = 2 * YR - RW + 0.004
+    for i, L in enumerate(FEET):
+        s = S_SH + L
+        h0, h1 = -0.10 + 0.04 * i, 0.20 + 0.04 * i
+        k.box("frame", P(s + 0.015, (h0 + h1) / 2, 0.0), (0.03, wp, h1 - h0), ry=RA, soft=0.012)
+        k.box("tread", P(s - 0.002, (h0 + h1) / 2, 0.0), (0.006, wp - 0.05, h1 - h0 - 0.05), ry=RA, soft=0.002)
+        for j in range(6):                                                    # the tread's ribs
+            k.box("rubber", P(s - 0.005, h0 + 0.05 + j * (h1 - h0 - 0.10) / 5, 0.0), (0.006, wp - 0.09, 0.012), ry=RA, soft=0.002)
+        for hh in (h0 + 0.008, h1 - 0.008):                                   # the rim
+            k.box("frame", P(s - 0.004, hh, 0.0), (0.014, wp, 0.016), ry=RA, soft=0.004)
+        for sy in (1, -1):
+            k.box("frame", P(s - 0.004, (h0 + h1) / 2, sy * (wp / 2 - 0.008)), (0.014, 0.016, h1 - h0), ry=RA, soft=0.004)
+            k.box("frame", P(s + 0.06, 0.0, sy * (wp / 2 - 0.01)), (0.08, 0.012, 0.12), ry=RA, soft=0.002)
     # ---- the carriage: a linear bearing on each rod, the plate across them, the chest pad on it
     hb = RD / 2 + 0.024
     for sy in (1, -1):
