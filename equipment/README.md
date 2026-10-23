@@ -48,6 +48,9 @@ piece starts at that level instead of getting there by back and forth.
    comments, then build the frame to carry those points. Before showing, check that a person fits: nothing in the
    way of the toes, the shins, the head or the moving limb over the whole rep, and the machine still inside its
    L x W x H. The photos show what the parts look like. The body decides where they go and which way they face.
+   Prove it with the fit check: give model.py a `fit()` returning {label: pose} (see `blender/body.py`: a capsule
+   figure at any height, posed by segment angles from the ball of the foot) and the run renders each user in the
+   machine as `fit_<label>_<view>` (never in the piece or its .glb). The M318's fit() is the example.
 3. **Build by eye from the side and front views**, held to the maker's L x W x H. Constants at the top of model.py with
    a comment on each, every joint built as what it is (cut + weld, bolted plate, hub on an axle, bracket + bolts).
 4. **The finishing parts that make it read as real, from the first pass:**

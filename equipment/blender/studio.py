@@ -172,6 +172,30 @@ for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
     print("view:", scene.render.filepath, flush=True)
     cam.data.lens = 50
 
+# ---- the fit check: stand-in users (blender/body.py) posed in the machine by the piece's fit() -> {label: figure
+# kwargs}, each rendered on its own as fit_<label>_<view> (FIT_VIEWS, default the side and the three-quarter); never in
+# the piece, its .glb or its joint check
+if hasattr(pm, "fit"):
+    import body  # noqa: E402
+    for label, kw in pm.fit().items():
+        fc = bpy.data.collections.new(f"fit_{label}"); scene.collection.children.link(fc)
+        fk = kit.Kit(f"fit_{label}", fc, body.LOOK); fk.is_sub = True
+        pts = body.figure(fk, **kw)
+        print(f"fit {label}: " + ", ".join(f"{n} ({p.x:.2f}, {p.y:.2f}, {p.z:.2f})" for n, p in pts.items()), flush=True)
+        fobs = fk.finish()
+        for name in getattr(pm, "FIT_VIEWS", ("side", "three_quarter")):
+            az, el, zoom = VIEWS[name]
+            a, e = math.radians(az), math.radians(el)
+            d = Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+            cam.location = c + d * (rad / math.sin(fov / 2) * 1.02 / zoom)
+            cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
+            sw.rotation_euler = (0, 0, a)
+            scene.render.filepath = str(versions.path(PIECE, f"fit_{label}_{name}", V))
+            bpy.ops.render.render(write_still=True)
+            print("view:", scene.render.filepath, flush=True)
+        for o in fobs:
+            bpy.data.objects.remove(o)
+
 # ---- the reference cameras (equipment/tools/camsolve.py): our model seen exactly as each photo, for the overlays
 mfile = EQ / "pieces" / PIECE / "match.json"
 if mfile.exists():

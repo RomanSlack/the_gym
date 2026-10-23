@@ -107,11 +107,12 @@ def build(k):
     # ref_03): a tray between the rails reaching back behind them and out past them, its corners rounded, a low rim
     # round its face, the rubber tread in it, a gusset under it to each rail
     # each lower plate stands 40 mm further out than the one above (ref_03), so the ball of the foot sits on an open
-    # edge with the toes under the plate above, 0.11 m clear
+    # edge with the toes under the plate above, 0.11 m clear; out far enough that the fit check's users lie on the
+    # chest pad, not in it (v008: 5 cm in)
     wp = 2 * YR - RW + 0.004
     for i, L in enumerate(FEET):
         s = S_SH + L
-        h0, h1 = -0.10 + 0.04 * i, 0.20 + 0.04 * i
+        h0, h1 = -0.10 + 0.04 * i, 0.24 + 0.04 * i
         k.box("frame", P(s + 0.015, (h0 + h1) / 2, 0.0), (0.03, wp, h1 - h0), ry=RA, soft=0.012)
         k.box("tread", P(s - 0.002, (h0 + h1) / 2, 0.0), (0.006, wp - 0.05, h1 - h0 - 0.05), ry=RA, soft=0.002)
         for j in range(6):                                                    # the tread's ribs
@@ -161,3 +162,20 @@ def build(k):
     ox, oy, oz = tw["cable"]
     out = (TC[0] - (oy - TC[1]), TC[1] + (ox - TC[0]), oz)
     k.cable([(p2[0] - 0.047, yc, p2[2]), (p2[0] - 0.047, yc, oz - 0.08), (out[0], out[1], oz - 0.02), out])
+
+
+FIT_VIEWS = ("side", "three_quarter")
+
+
+def fit():
+    """The fit check (studio.py, blender/body.py): a short, a middle and a tall user, each on the plate their height
+    calls for, the ball of the foot near its open edge, the heels dropped (the start of the rep), leaning into the pad
+    along the rails (28 deg), the hands up by the shoulder pads."""
+    lean = 90 - math.degrees(RA)
+    out = {}
+    for i, (label, H) in enumerate((("short", 1.60), ("middle", 1.78), ("tall", 1.95))):
+        s = S_SH + FEET[i]
+        h1 = 0.24 + 0.04 * i
+        out[label] = dict(H=H, ball=P(s - 0.008, h1 - 0.035, 0.0), face=(-1, 0), sole=-lean + 14, shank=lean, thigh=lean,
+                          trunk=lean, neck=lean - 8, arm=165, forearm=35, arm_out=12)
+    return out
