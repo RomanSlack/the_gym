@@ -40,13 +40,14 @@ LOOK = {
 FOOT_H = 0.021                      # the oval feet (13/16 in, the manual's Foot Dimensions)
 A = 0.36                            # the Core's legs' centres from its centre (x and y): 83 cm over the feet
 LEG = 0.076                         # the leg tube: flat-faced, rounded corners (ref_07 / ref_08; ref_03 / ref_06 close up)
-ZARM = 2.29                         # the legs' arms over the top, into the hub
-HUB = (0.15, 2.29, 2.355)           # the top hub, a low wide disc (ref_07): radius, bottom, top; its cap to 2.39
-ZTC, ZBC = 2.03, 0.13               # the top and bottom cross-members (centres)
+ZT = 2.262                         # each face's arch: its top tube's centre (its top 2.30, the crossbar resting on it)
+ZK = 1.90                           # where a face's arch leaves its legs (the rounded shoulders above it)
+HUB = (0.14, 2.20, 2.30)            # the low dome in the middle of the top on its X arms: radius, bottom, top (under the bar)
+ZTC, ZBC = 1.95, 0.13               # the top and bottom cross-members (centres): the top one under the arches' tubes
 CM = (0.05, 0.076)                  # a cross-member: across (v), tall
 VS = A - 0.085                      # a station's stack (v): right behind its face (ref_08: the plates behind the pads)
 ZTM = ZTC + CM[1] / 2 + 0.025       # a top mount's boom (centre), bolted on top of the top cross-member
-ZTP = ZTM + 0.025 + 0.085           # its pulleys' centres, up among the legs' bends (ref_07 / ref_08)
+ZTP = ZTM + 0.025 + 0.07            # its pulleys' centres: between the top cross-member and the arch's tube (ref_04 / ref_07)
 RP = 0.065                          # those pulleys' radius; the cable runs in the groove at 0.86 of it
 
 
@@ -172,26 +173,32 @@ def foot(k, x, y, rz):
 
 
 def core(k, c):
-    """The Core at c = (x, y): the four bent legs into the top hub, the cap, the cross-members top and bottom, the base X
-    to the bottom hub, the feet, the logo up each leg's outer corner, the station holes."""
+    """The Core at c = (x, y), as the current renders and photos have it (ref_07 / ref_08 / ref_04): four legs; each face
+    an inverted U, its two legs rising into rounded shoulders and its level top tube (a leg is shared by two faces' arches,
+    so seen corner-on it reads as a straight post); the low dome in the middle of the top on an X of arms from the corners;
+    the cross-members top (under the arches' tubes, the stations' top mounts on it) and bottom; the base X to the bottom
+    hub; the oval feet; the Life Fitness script up two legs; the station holes."""
     looks(k)
     cx, cy = c
-    ha = HUB[0] + 0.01
     for sx in (1, -1):
         for sy in (1, -1):
             x, y = cx + sx * A, cy + sy * A
-            hx, hy = cx + sx * ha / math.sqrt(2), cy + sy * ha / math.sqrt(2)
-            k.sweep("frame", [(x, y, FOOT_H), (x, y, ZARM), (hx, hy, ZARM)], k.rect(LEG, LEG, 0.022), bend=0.15,
-                    up=(1, 0, 0), cut0=((0, 0, FOOT_H), (0, 0, 1)), weld=True)       # faces square to the Core's faces
+            k.bar("frame", (x, y, FOOT_H), (x, y, ZK + 0.05), LEG, LEG, r=0.022, up=(1, 0, 0),
+                  cut0=((0, 0, FOOT_H), (0, 0, 1)), weld=True)
             foot(k, x, y, math.atan2(sy, sx))
             k.bar("frame", (x, y, 0.07), (cx + sx * 0.04, cy + sy * 0.04, 0.07), 0.05, 0.012, up=(0, 0, 1))      # base X
+            h = HUB[0] - 0.01                           # the top X: an arm from the corner's shoulder in to the dome
+            k.bar("frame", (x - sx * 0.02, y - sy * 0.02, ZT), (cx + sx * h / math.sqrt(2), cy + sy * h / math.sqrt(2), HUB[1] + 0.03),
+                  0.05, 0.05, up=(0, 0, 1))
             for i in range(6):
                 k.cyl("hole", (x + sx * (LEG / 2 + 0.0002), y, 0.55 + i * 0.20), 0.006, 0.001, axis="x", seg=12)
-    k.cyl("frame", (cx, cy, (HUB[1] + HUB[2]) / 2), HUB[0], HUB[2] - HUB[1], seg=48, soft=0.006)
-    k.cyl("plastic", (cx, cy, HUB[2] + 0.0175), HUB[0] + 0.01, 0.035, seg=48, soft=0.012)
+    k.cyl("frame", (cx, cy, (HUB[1] + HUB[2]) / 2 - 0.006), HUB[0], HUB[2] - HUB[1] - 0.012, seg=48, soft=0.01)
+    k.cyl("plastic", (cx, cy, HUB[2] - 0.006), HUB[0] + 0.008, 0.012, seg=48, soft=0.004)               # its cap
     k.cyl("plastic", (cx, cy, 0.07), 0.07, 0.03, seg=36, soft=0.004)                                # bottom hub
     for o in ((0, -1), (1, 0), (0, 1), (-1, 0)):
         f = Face(k, c, o)
+        f.sweep("frame", [(-A, A, ZK), (-A, A, ZT), (A, A, ZT), (A, A, ZK)], f.k.rect(LEG, LEG, 0.022), bend=0.17,
+                up="v")                                 # the face's arch: the shoulders and the top tube
         for z in (ZTC, ZBC):
             f.bar("frame", (-A + LEG / 2, A, z), (A - LEG / 2, A, z), CM[0], CM[1], up="z",
                   cut0=((-A + LEG / 2, 0, 0), (1, 0, 0)), cut1=((A - LEG / 2, 0, 0), (1, 0, 0)), weld=True)
@@ -200,7 +207,7 @@ def core(k, c):
     # the Life Fitness script up two legs' outer corners
     for sx, sy in ((1, -1), (-1, 1)):
         x, y = cx + sx * (A + LEG / 2 + 0.001), cy + sy * A
-        k.text("label", "Life Fitness", (x, y, 1.45), 0.05, rz=math.pi / 2 * (1 if sx > 0 else -1), depth=0.0006,
+        k.text("label", "Life Fitness", (x, y, 1.40), 0.05, rz=math.pi / 2 * (1 if sx > 0 else -1), depth=0.0006,
                spin=math.pi / 2)
 
 
