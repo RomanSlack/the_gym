@@ -41,12 +41,12 @@ LOOK = {
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
     "strap": dict(color=(0.016, 0.016, 0.017), rough=0.75, coat=0.0, sheen=0.4, bump=(2200, 0.1)),
 }
-VIEWS = {"three_quarter": (125, 16, 1.0), "side": (90, 4, 1.0), "end": (180, 5, 1.0),
+VIEWS = {"three_quarter": (-125, 16, 1.0), "side": (90, 4, 1.0), "end": (180, 5, 1.0),
          "back_three_quarter": (35, 18, 1.0)}
 DETAILS = {
-    "detail_foot_unit": ((0.95, -1.35, 1.75), (0.0, -0.55, 1.38), 50),     # the rollers, upper pads, foot plate, handles
+    "detail_foot_unit": ((-0.85, 0.35, 1.80), (0.0, -0.50, 1.38), 50),     # the rollers, upper pads, foot plate, handles
     "detail_arc": ((0.95, -1.55, 0.85), (0.04, -0.75, 0.42), 45),          # the pivot yoke, arc plate, post, horns
-    "detail_pendulum": ((1.15, 1.45, 0.80), (0.0, 0.32, 0.85), 45),        # the arms' hubs, braces, horns, straps
+    "detail_pendulum": ((-1.15, 1.45, 0.80), (0.0, 0.35, 0.85), 45),        # the arms' hubs, braces, horns, straps
 }
 
 FOOT_H = 0.02
@@ -68,7 +68,8 @@ SIDE = [(-0.03, 1.07), (0.27, 1.07), (0.37, 1.17), (0.64, 1.17)]   # their path:
 ZT = 1.36                           # the cushions' top (ref_02: py 432)
 HUMP = (0.06, 1.16, 0.20)           # the knee hump's roll at the -y end: centre (y, z), radius (ref_02: the pad's end at
                                     # px 548, py 500)
-PIV = (0.32, 1.10)                  # the pendulum axle (ref_02: the arms' tops), through the portals' -y legs
+PIV = (0.35, 1.13)                  # the pendulum axle (ref_02: the arms at px 700; ref_09: a fifth of the pad in from
+                                    # its +y end), through the top of the portals' -y legs
 XA = 0.075                          # the arms (ref_11: 0.15 apart)
 XH = 0.30                           # each arm's outer hub, its brace's top
 ZH = 0.42                           # the arms' loading horns (ref_02: the plates' centre at py 718)
@@ -142,7 +143,7 @@ def build(k):
                   soft=0.002)
     k.bar("frame", (-XP + PT / 2, PORTAL[0][0], 0.22), (XP - PT / 2, PORTAL[0][0], 0.22), PW, PW, up=Z,
           cut0=((-XP + PT / 2, 0, 0), (1, 0, 0)), cut1=((XP - PT / 2, 0, 0), (1, 0, 0)), weld=True)
-    # the how-to placard on the far portal's +y leg, up its diagonal, facing the reverse hyper's end (ref_09)
+    # the how-to placard on the +x portal's +y leg, up its diagonal, facing the reverse hyper's end (ref_09)
     (ya, za), (yb, zb) = PORTAL[4], PORTAL[3]
     L = math.hypot(yb - ya, zb - za); uy, uz = (yb - ya) / L, (zb - za) / L
     ny, nz = uz, -uy                                   # the diagonal's outward normal (toward +y)
@@ -151,7 +152,7 @@ def build(k):
                           (-0.02, "blue", (0.036, 0.0008, 0.05)), (-0.08, "blue", (0.036, 0.0008, 0.05))):
         t = 0.5 + dz / L
         off = PW / 2 + 0.001 + (0.0015 if mat == "blue" else 0.0)
-        k.box(mat, (-XP, ya + (yb - ya) * t + ny * off, za + (zb - za) * t + nz * off), size, rx=al, soft=0.0)
+        k.box(mat, (XP, ya + (yb - ya) * t + ny * off, za + (zb - za) * t + nz * off), size, rx=al, soft=0.0)
     # ---- the pad frame: a bent side plate on each portal's outer face (low under the hump, up the ramp, along the
     # portal top), two bolts into the portal top and two into the front bracket; the front bracket across under the
     # hump, a rear cross member between the portal tops
@@ -189,6 +190,10 @@ def build(k):
         k.tube("steel", (s * (XH + 0.025), py, pz), (s * (XP - PT / 2), py, pz), 0.03, seg=24)       # spacer to the portal
         k.tube("steel", (s * (XA + 0.03), py, pz), (s * (XH - 0.025), py, pz), 0.026, seg=24)         # between the hubs
         k.tube("lever", (s * (XA - 0.03), py, pz), (s * (XA + 0.03), py, pz), 0.045, seg=32, soft=0.003)
+        for xc in (XA - 0.034, XA + 0.034):             # the zinc hub plates each side of the arm's top (ref_09)
+            k.box("zinc", (s * xc, py, pz - 0.05), (0.008, 0.09, 0.14), soft=0.002)
+            k.bolt((s * (xc + (0.004 if xc > XA else -0.004)), py, pz - 0.085), ("+x" if (s > 0) == (xc > XA) else "-x"),
+                   size=0.014)
         k.tube("lever", (s * (XH - 0.025), py, pz), (s * (XH + 0.025), py, pz), 0.04, seg=32, soft=0.003)
         k.bar("lever", (s * XA, py, pz), (s * XA, py, ZB), 0.05, 0.076, up=(0, 1, 0))
         k.box("plastic", (s * XA, py, ZB - 0.004), (0.054, 0.08, 0.008), soft=0.002)
@@ -259,42 +264,42 @@ def build(k):
             k.box("lever", (s * 0.355, YPL, z), (0.12, 0.01, 0.04), soft=0.004)
         k.tube("lever", (s * 0.415, YPL, 1.19), (s * 0.415, YPL, 1.48), 0.016, seg=20, soft=0.002)
         k.tube("rubber", (s * 0.415, YPL, 1.255), (s * 0.415, YPL, 1.415), 0.02, seg=24, soft=0.004)
-    # ---- the adjustment: the arc plate bolted to the column's +x face, a band round the pivot with the pin holes;
-    # the post at the base's end, the pop pin through its top into a hole, the storage horns through it lower down
-    # (ref_12 / ref_09: the zinc plate rising to the column, the warning label, the knob), a brace from the post to the
-    # pivot beam
+    # ---- the adjustment: an arc plate bolted to each face of the column (both show the warning label: ref_02 / ref_12
+    # from +x, ref_09 from -x), a band round the pivot with the pin holes; the post at the base's end rising between
+    # them, a clevis over its top round both plates, the pop pin through clevis, plates and post (the knob on +x);
+    # the storage horns through the post lower down, gussets at its foot
     r0, r1, rp = ARC
     a0, a1 = 3.0, 50.0
     pts = [(gy - r1 * math.sin(math.radians(a)), gz + r1 * math.cos(math.radians(a))) for a in range(int(a0), int(a1) + 1, 3)]
     pts += [(gy - r0 * math.sin(math.radians(a)), gz + r0 * math.cos(math.radians(a))) for a in range(int(a1), int(a0) - 1, -3)]
     xa = 0.038
-    k.sweep("zinc", [(xa, 0, 0), (xa + 0.01, 0, 0)], [(-y, z) for y, z in pts], up=Z, soft=0.002)
-    for r in (0.537, 0.583):
-        k.bolt((xa + 0.01, gy - r * sn, gz + r * cs), "+x", size=0.016, nut=0.086)
     apin = math.degrees(math.asin((gy - YPOST) / rp))
-    for i in range(-3, 3):
-        a = math.radians(apin + 6 * i)
-        if i != 0:
-            k.cyl("hole", (xa + 0.0105, gy - rp * math.sin(a), gz + rp * math.cos(a)), 0.008, 0.001, axis="x", seg=16)
     aw = math.radians(46)
-    k.box("warn", (xa + 0.0105, gy - 0.585 * math.sin(aw), gz + 0.585 * math.cos(aw)), (0.0008, 0.035, 0.035),
-          rx=-aw, soft=0.0)
-    xpo = xa + 0.01 + 0.038                              # the post, its -x face against the arc plate
+    for s in (1, -1):
+        xo = s * (xa + 0.01)                             # the plate's outer face
+        k.sweep("zinc", [(s * xa, 0, 0), (xo, 0, 0)] if s > 0 else [(xo, 0, 0), (s * xa, 0, 0)], [(-y, z) for y, z in pts],
+                up=Z, soft=0.002)
+        for r in (0.537, 0.583):
+            k.bolt((xo, gy - r * sn, gz + r * cs), "+x" if s > 0 else "-x", size=0.016, nut=0.096)
+        for i in range(-3, 3):
+            a = math.radians(apin + 6 * i)
+            if i != 0:
+                k.cyl("hole", (xo + s * 0.0005, gy - rp * math.sin(a), gz + rp * math.cos(a)), 0.008, 0.001, axis="x", seg=16)
+        k.box("warn", (xo + s * 0.0005, gy - 0.585 * math.sin(aw), gz + 0.585 * math.cos(aw)), (0.0008, 0.035, 0.035),
+              rx=-aw, soft=0.0)
     zpin = gz + rp * math.cos(math.radians(apin))
-    ztop = gz + math.sqrt(r1 ** 2 - (gy - YPOST) ** 2) + 0.01         # just over the arc's outer edge
-    k.bar("frame", (xpo, YPOST, RT), (xpo, YPOST, ztop), 0.076, 0.076, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
-    # the housing the arc runs through: a cap plate over the post and the arc, a cheek down the arc's other side
-    k.box("frame", ((0.026 + xpo + 0.038) / 2, YPOST, ztop + 0.005), (xpo + 0.038 - 0.026, 0.08, 0.01), soft=0.002)
-    k.box("frame", (0.032, YPOST, (0.60 + ztop) / 2), (0.008, 0.08, ztop - 0.60), soft=0.002)
-    k.bolt((0.028, YPOST, ztop - 0.03), "-x", size=0.014, nut=0.066)
-    k.tube("steel", (xpo + 0.038, YPOST, zpin), (xpo + 0.075, YPOST, zpin), 0.008, seg=12)
-    k.cyl("plastic", (xpo + 0.08, YPOST, zpin), 0.02, 0.016, axis="x", seg=24, soft=0.004)
-    k.box("frame", (xpo + 0.043, YPOST, zpin), (0.01, 0.05, 0.06), soft=0.002)                     # the pin's boss
-    horn(k, "frame", (xpo + 0.038, YPOST, ZSH), "+x", 0.24)
-    horn(k, "frame", (xa + 0.01, YPOST, ZSH), "-x", 0.27)
-    k.bar("frame", (xpo, YPOST + 0.038, 0.48), (xpo, gy - 0.02, RT), 0.038, 0.05, up=(1, 0, 0),
-          cut0=((0, YPOST + 0.038, 0), (0, 1, 0)), cut1=((0, 0, RT), Z), weld=True)
-
+    ztop = gz + math.sqrt(r1 ** 2 - (gy - YPOST) ** 2) + 0.012         # just over the arc's outer edge
+    k.bar("frame", (0.0, YPOST, RT), (0.0, YPOST, ztop), 0.076, 0.076, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
+    xc = xa + 0.01 + 0.003                               # the clevis cheeks' inner faces
+    k.box("frame", (0.0, YPOST, ztop + 0.005), (2 * xc + 0.02, 0.08, 0.01), soft=0.002)
+    for s in (1, -1):
+        k.box("frame", (s * (xc + 0.005), YPOST, (0.59 + ztop + 0.01) / 2), (0.01, 0.08, ztop + 0.01 - 0.59), soft=0.002)
+        k.box("frame", (0.0, YPOST + s * 0.042, RT + 0.05), (0.06, 0.008, 0.10), soft=0.002)        # the gussets
+    k.tube("steel", (-xc - 0.012, YPOST, zpin), (xc + 0.05, YPOST, zpin), 0.008, seg=12)
+    k.cyl("frame", (xc + 0.018, YPOST, zpin), 0.022, 0.016, axis="x", seg=24, soft=0.002)          # the pin's housing
+    k.cyl("plastic", (xc + 0.056, YPOST, zpin), 0.02, 0.016, axis="x", seg=24, soft=0.004)          # the knob
+    for s in (1, -1):
+        horn(k, "frame", (s * 0.038, YPOST, ZSH), "+x" if s > 0 else "-x", 0.25)
 
 FIT_VIEWS = ("side", "three_quarter")
 
