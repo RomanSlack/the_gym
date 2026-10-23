@@ -20,6 +20,11 @@ Two styles (read off the makers' photos, 2026-10-22):
             to the stack (the selector rod, the plates' numbers, the yellow pin and the add-on weight in it), the
             placard band across the top (black: the LifeFitness script, the muscle, the QR, the how-to pictures) on a
             grey strip with the exercise's name, a thin black cap, a frame-coloured base pan.
+  "atlantis" Atlantis Precision, read off the maker's four renders of the M318 (2026-10-22): four square corner posts
+            on low side rails and rubber feet, gloss black side panels between them with the big red A and ATLANTIS,
+            the front open on the stack (each plate printed "20 lb / 9 kg"), a kick plate with its label at the foot,
+            the placard band across the top (the small logo, the muscle, the figure), the cap rounded over at its
+            front with a tray in its top.
 Local frame (before the tower is turned by rz about its footprint's centre c): the tower's front faces -y.
 
 T keys (metres): style, W (across), D (deep), H (tall), n (plates), plate (w, d, t), rods (centres apart), title
@@ -46,6 +51,8 @@ LOOK = {   # defaults, a piece's LOOK overrides any of them
     "warn": dict(color=(0.95, 0.55, 0.02), rough=0.4, coat=0.0),                                     # the placard's orange
     "picture": dict(color=(0.035, 0.035, 0.038), rough=0.3, coat=0.3),                               # its dark pictures
     "yellow": dict(color=(0.95, 0.55, 0.02), rough=0.4, coat=0.1),                                   # the add-on weight
+    "logo": dict(color=(0.62, 0.04, 0.05), rough=0.35, coat=0.2),                                    # Atlantis red
+    "blue": dict(color=(0.10, 0.45, 0.85), rough=0.4, coat=0.0),                                     # the placard's figure
 }
 
 
@@ -74,7 +81,7 @@ def tower(k, T, c, rz=0.0, name="tower"):
             t.box("rubber", (cx + sx * (W / 2 - 0.04), cy + sy * (D / 2 - 0.04), FOOT_H / 2), (0.06, 0.06, FOOT_H), soft=0.002)
     ztop = t.stack(k_floor, n=n, w=pw, d=pd, t=pt, rods=T["rods"], top=rod_top - k_floor[2], pin_at=T.get("pin_at", 5))
     # the rod plate across the top of the rods (both styles), the top pulley under the deck, the cable up to it
-    rp = {"open": (T["rods"] + 0.08, D - 0.10), "insignia": (W - 0.18, D - 0.08), "axiom": (W - 0.08, D - 0.08)}.get(T["style"], (W - 0.024, D - 0.024))
+    rp = {"open": (T["rods"] + 0.08, D - 0.10), "insignia": (W - 0.18, D - 0.08), "axiom": (W - 0.08, D - 0.08), "atlantis": (W - 0.14, D - 0.06)}.get(T["style"], (W - 0.024, D - 0.024))
     t.box("frame", (cx, cy, rod_top + 0.01), (rp[0], rp[1], 0.02), soft=0.002)
     zp = rod_top + 0.10
     t.box("frame", (cx, cy, (rod_top + 0.02 + zp - 0.04) / 2), (0.05, 0.06, zp - 0.04 - rod_top - 0.02), soft=0.002)
@@ -87,6 +94,8 @@ def tower(k, T, c, rz=0.0, name="tower"):
         _insignia(t, T, cx, cy, W, D, H, n, pt, ztop)
     elif T["style"] == "axiom":
         _axiom(t, T, cx, cy, W, D, H, n, pt, ztop)
+    elif T["style"] == "atlantis":
+        _atlantis(t, T, cx, cy, W, D, H, n, pt, ztop)
     else:
         _shroud(t, T, cx, cy, W, D, H, n, pt)
     return dict(cable=out, sub=t)
@@ -335,6 +344,83 @@ def _axiom(t, T, cx, cy, W, D, H, n, pt, ztop):
     t.sweep("shroud", [(cx, cy - D / 2 - 0.003, hb), (cx, yb + 0.003, hb)], [(-x, z) for x, z in prof], up=(0, 0, 1), soft=0.01)
     t.box("shroud2", (cx, yb - 0.01, (zp + hb) / 2), (wi + 0.002, 0.02, hb - zp), soft=0.003)
     t.text("ink2", T["brand"], (cx, yb + 0.0005, hb - 0.12), 0.05, rz=math.pi, depth=0.0004)
+
+
+def _seg(t, mat, o, rz, a, b, w, d=0.0012):
+    """A flat stroke from a to b ((u, v): u the viewer's right, v up) in the vertical face through o whose front
+    faces -y turned by rz; w wide, d deep (centred on o's plane)."""
+    (u0, v0), (u1, v1) = a, b
+    um, vm = (u0 + u1) / 2, (v0 + v1) / 2
+    c = (o[0] + math.cos(rz) * um, o[1] + math.sin(rz) * um, o[2] + vm)
+    t.box(mat, c, (math.hypot(u1 - u0, v1 - v0) + w, d, w), ry=-math.atan2(v1 - v0, u1 - u0), rz=rz, soft=0.0)
+
+
+def _logo(t, o, rz, s, word=True):
+    """Atlantis's mark centred on o (its foot's middle) in a face (see _seg): the red trapezoid A, the spear in it,
+    ATLANTIS under it; s the trapezoid's foot width."""
+    w = 0.075 * s
+    q = [(-0.5 * s, 0.0), (0.5 * s, 0.0), (0.25 * s, 1.24 * s), (-0.25 * s, 1.24 * s)]
+    for i in range(4):
+        _seg(t, "logo", o, rz, q[i], q[(i + 1) % 4], w if i != 2 else 1.4 * w)
+    _seg(t, "logo", o, rz, (0, 0.02 * s), (0, 0.45 * s), 0.035 * s)                    # the spear's shaft
+    _seg(t, "logo", o, rz, (0, 0.42 * s), (0, 0.86 * s), 0.12 * s)                     # its blade
+    t.box("logo", (o[0], o[1], o[2] + 0.88 * s), (0.085 * s, 0.0012, 0.085 * s), ry=math.pi / 4, rz=rz, soft=0.0)
+    if word:
+        t.text("ink", "ATLANTIS", (o[0], o[1], o[2] - 0.24 * s), 0.24 * s, rz=rz, depth=0.0008)
+
+
+def _atlantis(t, T, cx, cy, W, D, H, n, pt, ztop):
+    hc = 0.09                                      # the cap
+    hb = H - hc
+    yf, yb = cy - D / 2, cy + D / 2
+    po = 0.07                                      # the corner posts
+    zp = 0.10                                      # the panels' foot, over the low side rails
+    for sx in (1, -1):
+        x = cx + sx * (W / 2 - po / 2)
+        for y in (yf + po / 2, yb - po / 2):
+            t.box("frame", (x, y, (FOOT_H + hb) / 2), (po, po, hb - FOOT_H), soft=0.004)
+        t.box("frame", (x, cy, 0.06), (po - 0.01, D - 2 * po + 0.004, 0.05), soft=0.003)          # the low side rail
+        # the side panel, gloss, between the posts a hair inside their face; the big logo on it (ref_03 / ref_04)
+        xs = cx + sx * (W / 2 - 0.012)
+        t.box("shroud", (xs, cy, (zp + hb) / 2), (0.02, D - 2 * po + 0.004, hb - zp), soft=0.003)
+        _logo(t, (xs + sx * 0.0101, cy, 1.24), sx * math.pi / 2, 0.16)
+    # the back panel between the back posts
+    t.box("shroud", (cx, yb - 0.012, (zp + hb) / 2), (W - 2 * po + 0.004, 0.02, hb - zp), soft=0.003)
+    # the front, open on the stack: the kick plate at its foot with the label, the placard band across the top
+    wi = W - 2 * po
+    t.box("frame", (cx, yf + 0.012, 0.115), (wi + 0.004, 0.02, 0.07), soft=0.002)
+    t.box("label", (cx - wi / 2 + 0.06, yf + 0.0018, 0.115), (0.07, 0.001, 0.03), soft=0.0)
+    hp = 0.17
+    zc = hb - hp / 2
+    t.box("placard", (cx, yf + 0.012, zc), (wi + 0.004, 0.02, hp), soft=0.002)
+    o = (cx, yf + 0.0021, zc)                      # the band's face
+    _logo(t, (cx - wi / 2 + 0.035, o[1], hb - 0.045), 0.0, 0.026, word=False)
+    t.text("ink", "ATLANTIS", (cx - wi / 2 + 0.105, o[1], hb - 0.03), 0.019, depth=0.0008)
+    xm = cx - 0.02                                 # the muscle picture: the leg, its calf in red
+    t.box("picture", (xm, o[1], zc - 0.005), (0.12, 0.0012, 0.14), soft=0.0)
+    _seg(t, "ink2", (xm, o[1] - 0.0004, zc), 0.0, (-0.02, 0.05), (0.0, -0.01), 0.026)
+    _seg(t, "ink2", (xm, o[1] - 0.0004, zc), 0.0, (0.0, -0.01), (0.01, -0.06), 0.02)
+    _seg(t, "logo", (xm, o[1] - 0.0008, zc), 0.0, (0.004, -0.015), (0.012, -0.045), 0.014)
+    _seg(t, "ink2", (cx + 0.055, o[1], zc), 0.0, (0, -0.07), (0, 0.07), 0.003)          # the divider
+    xf = cx + 0.11                                 # the figure on the machine, in blue on white lines
+    _seg(t, "ink", (xf, o[1], zc), 0.0, (-0.03, -0.06), (-0.03, 0.05), 0.004)
+    _seg(t, "ink", (xf, o[1], zc), 0.0, (-0.03, 0.05), (0.02, -0.06), 0.004)
+    _seg(t, "blue", (xf, o[1] - 0.0004, zc), 0.0, (-0.005, 0.03), (0.012, -0.03), 0.012)
+    _seg(t, "logo", (xf, o[1], zc), 0.0, (0.03, 0.05), (0.04, 0.06), 0.004)
+    # in the stack: each plate printed "20 lb / 9 kg" left of the pin
+    pw_, pd_, _ = T["plate"]
+    z0 = FOOT_H + 0.006 + 0.05
+    for i in range(n):
+        lb = (i + 1) * T.get("step", 20) + T.get("start", 0)
+        t.text("label", f"{lb} lb / {round(lb * 0.4536)} kg", (cx - pw_ * 0.22, cy - pd_ / 2 - 0.0005, z0 + (i + 0.5) * pt),
+               pt * 0.26, depth=0.0006)
+    # the cap: the full width a hair over the posts, rounded over at its front top (ref_03 / ref_04), the tray in its top
+    a0, a1, rf, rb = -D / 2 - 0.006, D / 2 + 0.006, 0.07, 0.012
+    prof = [(a0, 0.0), (a1, 0.0), (a1, hc - rb)]
+    prof += [(a1 - rb + rb * math.cos(math.pi / 2 * j / 4), hc - rb + rb * math.sin(math.pi / 2 * j / 4)) for j in range(1, 5)]
+    prof += [(a0 + rf + rf * math.cos(math.pi / 2 + math.pi / 2 * j / 10), hc - rf + rf * math.sin(math.pi / 2 + math.pi / 2 * j / 10)) for j in range(11)]
+    t.sweep("shroud", [(cx - W / 2 - 0.006, cy, hb), (cx + W / 2 + 0.006, cy, hb)], [(-y, z) for y, z in prof], up=(0, 0, 1), soft=0.006)
+    t.box("picture", (cx, cy + 0.025, H - 0.0002), (W - 0.08, D - 0.13, 0.002), soft=0.004)
 
 
 def _shroud(t, T, cx, cy, W, D, H, n, pt):

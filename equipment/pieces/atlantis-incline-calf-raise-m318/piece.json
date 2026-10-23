@@ -15,8 +15,20 @@
  "price": null,
  "refs": [
   {
-   "file": "refs/ref_01.png",
-   "url": "https://atlantisstrength.com/app/themes/Acolyte/src/img/og-image-en.png"
+   "file": "refs/ref_02.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/m318-1-1200x1396.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/m318_1-1200x1449.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/m318_2-1200x1465.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://atlantisstrength.com/app/uploads/2022/02/m318_3-1200x1381.png"
   }
  ],
  "status": "picked",
@@ -24,5 +36,12 @@
  "fetched": {
   "at": "2026-10-17T23:25:28+00:00",
   "how": "page"
+ },
+ "specs": {
+  "L_in": 63,
+  "W_in": 38,
+  "H_in": 68,
+  "weight_lb": 826,
+  "stack_lb": 400
  }
 }
