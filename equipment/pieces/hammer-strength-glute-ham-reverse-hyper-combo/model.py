@@ -24,7 +24,7 @@ an arc"), the post carrying the two storage horns.
 import math
 
 LOOK = {
-    "frame": dict(color=(0.42, 0.43, 0.45), rough=0.38, metal=0.65, coat=0.0, bump=(1400, 0.05)),   # Silver
+    "frame": dict(color=(0.25, 0.26, 0.275), rough=0.33, metal=0.8, coat=0.0, bump=(1400, 0.05)),   # Silver (ref_12)
     "lever": dict(color=(0.012, 0.012, 0.013), rough=0.48, metal=0.15, coat=0.0, bump=(1400, 0.07)),
     "pad": dict(color=(0.014, 0.014, 0.015), rough=0.55, sheen=0.25, bump=(1500, 0.14)),
     "seam": dict(color=(0.006, 0.006, 0.006), rough=0.7),
