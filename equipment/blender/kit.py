@@ -25,7 +25,7 @@ from mathutils.bvhtree import BVHTree
 
 
 def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, aniso=0.0, grain=None, knurl=None, spec=None,
-                trans=0.0):
+                trans=0.0, emit=0.0):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -39,6 +39,9 @@ def _principled(name, color, rough, metal=0.0, coat=0.0, sheen=0.0, bump=None, a
         b.inputs["Anisotropic"].default_value = aniso
     if spec is not None:  # matte rubber, raw wood: less of the studio's light mirrored off a flat top (0.5 = Blender's default)
         b.inputs["Specular IOR Level"].default_value = spec
+    if emit:  # lit displays (LED digits, console buttons): glow in their own colour at this strength
+        b.inputs["Emission Color"].default_value = (*color, 1)
+        b.inputs["Emission Strength"].default_value = emit
     if trans:  # clear acrylic guards: see-through (transmission); keep the panels thin (a few mm) so they barely refract
         b.inputs["Transmission Weight"].default_value = trans
         b.inputs["IOR"].default_value = 1.49
