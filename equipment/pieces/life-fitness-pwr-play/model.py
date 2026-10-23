@@ -2,7 +2,9 @@
 one, the one we want"; Life Fitness's PWR Play 4 Stations): two Cores joined at their tops by the crossbar, the
 Pulldown (LPP-PD) on the front of the left Core, the Row (LPP-RW) on the outer side of the right Core, the cable
 crossover (LPP-CX) between them: each Core's inner face drives a carriage on its own stainless post standing under the
-crossbar, the pull-up handles at the bar's middle. Charcoal frame, black upholstery.
+crossbar, the pull-up handles at the bar's middle; added at Roman's ask: the Triceps Pushdown (LPP-TP, the pulldown's boom
+half as long, no bench) on the left Core's outer face and an Adjustable Pulley (LPP-AC, the carriage on a post outside)
+on the right Core's front. Charcoal frame, black upholstery.
 
 Built from the shared builder equipment/blender/pwr_play.py (the PWR Play assembly instructions' drawings and Life
 Fitness's figures for the frame; the details off the real photos ref_02-ref_06: the rounded legs, the stacks, the
@@ -12,6 +14,7 @@ as tower()), ref_09 the old Multi-Jungle generation (silver, a shrouded tower): 
 Axes: metres, floor z = 0; the left Core at the origin, the right one at +x, the pulldown's user facing +y.
 """
 import math
+import os
 
 import pwr_play as pp
 
@@ -20,6 +23,7 @@ VIEWS = {"three_quarter": (-20, 12, 1.0), "front": (0, 5, 1.0), "side": (90, 5, 
          "top": (0, 78, 1.0), "render": (10, 7, 1.45)}     # "render": Roman's render's / ref_08's angle, to compare
 D = 3.22                            # the Cores' centres apart (Roman's render / ref_08: 2.4 m clear between them)
 ZB = 2.34                           # the crossbar's centre: on the hubs' sides, just under the caps' tops
+HANDLES = os.environ.get("PWRPLAY_HANDLES", "flat")   # the crossbar's pull-up handles: "flat", "neutral", "angled"
 POST = pp.A + 0.14                  # each carriage post: right beside its Core (ref_08), on the centreline under the bar
 DETAILS = {
     "detail_core_top": ((0.75, -1.05, 2.85), (0.0, 0.0, 2.10), 45),       # the hub, the legs' bends, the top mounts
@@ -37,9 +41,11 @@ def build(k):
     global PD, RW
     PD = pp.pulldown(k, a, (0, -1))
     RW = pp.row(k, b, (1, 0))
+    pp.triceps(k, a, (-1, 0))                           # the shorter boom, no bench, on the left Core's outer face
+    pp.adjustable_station(k, b, (0, -1))                # the adjustable pulley on the right Core's front, outside
     pp.crossover_station(k, a, (1, 0), POST, ZB - 0.04)
     pp.crossover_station(k, b, (-1, 0), POST, ZB - 0.04)
-    pp.beam(k, (-pp.A + 0.02, 0.0), (D + pp.A - 0.02, 0.0), ZB)        # through both hubs, end to end (ref_08)
+    pp.beam(k, (pp.HUB[0] - 0.003, 0.0), (D - pp.HUB[0] + 0.003, 0.0), ZB, handles=HANDLES, caps=False)   # hub to hub
 
 
 FIT_VIEWS = ("three_quarter", "front")

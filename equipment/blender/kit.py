@@ -138,6 +138,7 @@ def stadium(w, h, seg=10):
 # ---------------------------------------------------------------- parts (for the connection check)
 
 HARDWARE = {"bolt", "hole", "warn", "label", "seam", "weld"}   # sit on a member but never hold two members together
+PASS = 0.008       # deeper than this inside another part reads as passing through it (check)
 GAP = 0.006   # two members this close but not touching read as a mistake (floating by a few mm): reported
 ROD = 0.020   # round bars this thin (axles, pins, rods) can't hold a part on their own: it needs a hub, a plate, a weld
 
@@ -559,6 +560,7 @@ class Kit:
             return best
 
         seated, nb, near = set(), {}, []   # hardware on some structural part; who touches whom; gaps that look like misses
+        pairs = []                         # touching structural pairs (and cables), for the pass-through test
         for i in range(n):
             for j in range(i + 1, n):
                 a, b = items[i], items[j]
@@ -572,6 +574,7 @@ class Kit:
                     else:
                         par[root(i)] = root(j)
                         nb.setdefault(i, []).append(j); nb.setdefault(j, []).append(i)
+                        pairs.append((i, j))
                 elif not (a["hw"] or b["hw"]):
                     g = gap(a, b)
                     if g is not None:
@@ -611,7 +614,55 @@ class Kit:
             print(f"  gap {g * 1000:.0f} mm: {items[i]['what']} {items[i]['where']} / {items[j]['what']} {items[j]['where']}"
                   f" at {tuple(round(float(x), 3) for x in items[i]['c'])}: close it or open it up", flush=True)
         self.gaps = near
+        self.through = self._through(items, pairs)
         return self.floating
+
+    def _through(self, items, pairs, most=PASS):
+        """Parts that pass through each other (Roman: "stuff going through itself, wires going through other material"):
+        for each touching pair, how deep one's vertices sit inside the other (ray parity against its closed mesh, the
+        depth = the distance back to its surface). Rods (axles, guide rods, stems) may run through what they carry and a
+        cable may run in a pulley's groove; everything else deeper than `most` is reported."""
+        dirs = (Vector((0.5773, 0.5774, 0.5775)), Vector((-0.4472, 0.0, 0.8944)))
+
+        def inside(v, it):
+            votes = 0
+            for d in dirs:
+                o, hits = v, 0
+                for _ in range(16):
+                    hit = it["tree"].ray_cast(o, d)
+                    if hit[0] is None:
+                        break
+                    hits += 1
+                    o = hit[0] + d * 1e-5
+                votes += hits % 2
+            return votes == len(dirs)
+
+        def depth(a, b):
+            best = 0.0
+            for v in a["co"]:
+                if not (b["lo"][0] <= v.x <= b["hi"][0] and b["lo"][1] <= v.y <= b["hi"][1] and b["lo"][2] <= v.z <= b["hi"][2]):
+                    continue
+                if inside(v, b):
+                    d = b["tree"].find_nearest(v)[3]
+                    if d is not None and d > best:
+                        best = d
+            return best
+
+        out = []
+        for i, j in pairs:
+            a, b = items[i], items[j]
+            cab = [x for x in (a, b) if x["what"].endswith("cable")]
+            if cab and any(x["what"].startswith("pulley") for x in (a, b)):
+                continue
+            if (a["rod"] and not a["what"].endswith("cable")) or (b["rod"] and not b["what"].endswith("cable")):
+                continue
+            d = max(depth(a, b), depth(b, a))
+            if d > (0.0015 if cab else most):           # a cable crossing any material counts
+                out.append((d, i, j))
+        for d, i, j in sorted(out, reverse=True):
+            print(f"  through {d * 1000:.0f} mm: {items[i]['what']} {items[i]['where']} / {items[j]['what']} {items[j]['where']}"
+                  f" at {tuple(round(float(x), 3) for x in items[i]['c'])}", flush=True)
+        return out
 
     # -- output
     def finish(self):
