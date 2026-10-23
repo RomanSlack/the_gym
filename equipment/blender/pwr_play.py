@@ -29,7 +29,6 @@ LOOK = {
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, coat=0.0, spec=0.2),
     "cable": dict(color=(0.05, 0.05, 0.055), rough=0.4, coat=0.0),
     "hole": dict(color=(0.004, 0.004, 0.004), rough=0.9),
-    "yellow": dict(color=(0.75, 0.6, 0.05), rough=0.4, coat=0.0),
     "placard": dict(color=(0.02, 0.02, 0.022), rough=0.4, coat=0.0),
     "blue": dict(color=(0.08, 0.35, 0.7), rough=0.4, coat=0.0),
     "label": dict(color=(0.75, 0.75, 0.77), rough=0.4, coat=0.0),
@@ -220,6 +219,34 @@ def top_mount(f, length, zt):
     return (vp + g, ZTP)
 
 
+ZBM = 2.31                          # a pulldown / pushdown boom's centre: level with the cap, the very top (ref_08)
+RPB = 0.07                          # the pulleys under a boom
+
+
+def boom_mount(f, reach, zt):
+    """The big boom a pulldown (or a pushdown) hangs from (ref_08 / ref_07; the manual's LPP-PD and LPP-TP drawings):
+    a heavy rounded tube straight out from the Core's top cap, at the very top, `reach` past the face, its end capped; a
+    pulley hung under it over the stack and one at its end, each between two cheek plates; the cable up from the stack's
+    top plate (zt), over the inner pulley, out along under the boom, over the end pulley and down. Returns (v, z) where
+    the cable drops off the end pulley."""
+    g = 0.86 * RPB - 0.003
+    bw, bh = 0.10, 0.09
+    v1 = A + reach
+    zp = ZBM - bh / 2 - 0.012 - RPB
+    vi, vo = VS + g, v1 - 0.09
+    f.bar("boom", (0.0, -0.05, ZBM), (0.0, v1, ZBM), bw, bh, r=0.035, up="z")
+    f.box("plastic", (0.0, v1 + 0.005, ZBM), (bw - 0.01, 0.012, bh - 0.01), soft=0.02)            # its end cap
+    for vp in (vi, vo):
+        for su in (-1, 1):
+            f.box("boom", (su * 0.036, vp, (ZBM - bh / 2 + zp - 0.04) / 2), (0.008, 0.13, ZBM - bh / 2 - zp + 0.04), soft=0.02)
+            f.bolt((su * 0.04, vp, zp), "+u" if su > 0 else "-u", size=0.016)
+        f.pulley((0.0, vp, zp), RPB, axis="u")
+        f.tube("chrome", (-0.04, vp, zp), (0.04, vp, zp), 0.009, seg=12)
+    f.cable([(0.0, vi - g, zt), (0.0, vi - g, zp)])
+    f.cable([(0.0, vi, zp + g), (0.0, vo, zp + g)])
+    return (vo + g, zp)
+
+
 def placard(f, u, z):
     f.box("placard", (u, A + LEG / 2 + 0.001, z), (0.07, 0.002, 0.30), soft=0.0)
     for i in range(3):
@@ -235,14 +262,15 @@ def guard(f, z=0.88, bow=0.10):
 
 
 def pulldown(k, c, out):
-    """Pulldown (LPP-PD), as the render has it (ref_08): the stack right behind the face, the lat bar hung from a
-    pulley at the Core's top just in front of the face; the station's post in front of the face on its own foot (a floor
-    beam back to the Core), carrying the seat and above it, nearer the Core, the knee pads, the adjustment handle on its
-    top; laid out for a seated 1.78 m user (knees under the pads, hips over the seat, hands up to the bar)."""
+    """Pulldown (LPP-PD), as the render has it (ref_08 / ref_07; the manual's LPP-PD drawing): the stack right behind
+    the face; the big boom straight out from the Core's top cap at the very top, the lat bar hung from its end out over
+    the seat; the station's post on its own front foot (a floor beam back to the Core) carrying the seat under the bar and
+    nearer the Core the knee pads, the adjustment handle on its top; laid out for a seated 1.78 m user (hips under the
+    bar, thighs under the pads, hands up to the bar)."""
     f = Face(k, c, out)
     zt = f.stack(VS, A, hang=False)
-    vo, zo = top_mount(f, 0.10, zt)
-    zb = ZTC - RTR - 0.09                          # right under the top rail (ref_08)
+    vo, zo = boom_mount(f, 0.52, zt)                    # the boom out over the user (ref_08)
+    zb = 1.95                                           # the bar at rest, hung from the boom's end over the hips
     f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.06)])
     f.box("steel", (0.0, vo, zb + 0.035), (0.03, 0.02, 0.05), soft=0.002)
     bar = [(-0.60, vo + 0.03, zb - 0.09), (-0.46, vo, zb), (0.46, vo, zb), (0.60, vo + 0.03, zb - 0.09)]
@@ -254,14 +282,14 @@ def pulldown(k, c, out):
     guard(f)
     # the floor beam out from the bottom cross-member to the station's front foot; the post up from it, leaning in
     # through the seat's bracket to the knee pads' hub and the handle on top
-    vf = A + 0.70
+    vf = A + 0.72
     f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vf, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
           weld=True)
     f.box("frame", (0.0, vf, (FOOT_H + ZBC - 0.038) / 2), (0.08, 0.08, ZBC - 0.038 - FOOT_H), soft=0.004)
     f.box("rubber", (0.0, vf, FOOT_H / 2), (0.20, 0.12, FOOT_H), soft=0.006)
-    vs, zs = A + 0.56, 0.45                             # the seat: under the hips
-    vk, zk = A + 0.25, 0.66                             # the knee pads: over the thighs just behind the knees
-    post = [(0.0, A + 0.64, ZBC + 0.038), (0.0, vs, zs - 0.07), (0.0, vk + 0.02, zk - 0.02), (0.0, vk - 0.01, zk + 0.16)]
+    vs, zs = vo + 0.02, 0.45                            # the seat: the hips right under the bar
+    vk, zk = vs - 0.30, 0.66                            # the knee pads: over the thighs just behind the knees
+    post = [(0.0, vf - 0.06, ZBC + 0.038), (0.0, vs, zs - 0.07), (0.0, vk + 0.02, zk - 0.02), (0.0, vk - 0.01, zk + 0.16)]
     f.sweep("frame", post, f.k.rect(0.065, 0.065, 0.01), bend=0.08, up="u", cut0=((0, 0, ZBC + 0.038), (0, 0, 1)), weld=True)
     f.box("plastic", (0.0, vk - 0.012, zk + 0.165), (0.07, 0.07, 0.01), soft=0.003)
     f.cyl("plastic", (0.0, vk - 0.012, zk + 0.20), 0.03, 0.06, soft=0.01)                         # the handle's knob
@@ -345,10 +373,10 @@ def _plate(f, c, w, h, lean, dots=False):
 
 
 def triceps(k, c, out):
-    """Triceps Pushdown (LPP-TP): the stack, a top mount out past the face, the rope hung from it."""
+    """Triceps Pushdown (LPP-TP): the stack, a shorter boom off the top cap out past the face, the rope hung from it."""
     f = Face(k, c, out)
     zt = f.stack(VS, A, hang=False)
-    vo, zo = top_mount(f, 0.36, zt)
+    vo, zo = boom_mount(f, 0.36, zt)
     zr = 1.62
     f.cable([(0.0, vo, zo), (0.0, vo, zr + 0.07)])
     f.box("steel", (0.0, vo, zr + 0.05), (0.025, 0.02, 0.04), soft=0.002)
@@ -362,7 +390,7 @@ def triceps(k, c, out):
 def carriage_body(f, v, zc, track_w=0.055):
     """An adjustable carriage riding a track at (0, v) of face/frame f, its pulley facing +v (ref_02 / ref_03 / your
     PWR Play render): the black body round the track, the pop pin and its knob on +u, the swivel arm, the big black
-    pulley housing with the yellow ring on both faces and the warning label, the cable out of its foot to the snap hook
+    pulley housing (no yellow ring: Roman, 2026-10-23) and the warning label, the cable out of its foot to the snap hook
     and the strap D handle."""
     f.box("frame", (0.0, v, zc), (track_w + 0.045, 0.09, 0.17), soft=0.008)
     f.tube("chrome", (-(track_w / 2 + 0.0225), v, zc + 0.04), (-(track_w / 2 + 0.05), v, zc + 0.04), 0.007, seg=12)
@@ -372,7 +400,6 @@ def carriage_body(f, v, zc, track_w=0.055):
     hv, hz, hr = v + 0.13, zc - 0.03, 0.08
     f.cyl("plastic", (0.0, hv, hz), hr, 0.045, axis="u", soft=0.006)
     for su in (-1, 1):
-        f.disc("yellow", (su * 0.0232, hv, hz + 0.01), 0.048, 0.036, 0.0012, axis="u", seg=40)
         f.cyl("chrome", (su * 0.0232, hv, hz + 0.01), 0.012, 0.0024, axis="u", seg=16)
         f.box("white", (su * 0.0232, hv + 0.02, hz - 0.05), (0.0012, 0.04, 0.02), soft=0.0)
     zh = hz - hr - 0.20
