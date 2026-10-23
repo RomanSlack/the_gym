@@ -19,7 +19,7 @@ LOOK = dict(pp.LOOK)
 VIEWS = {"three_quarter": (-20, 12, 1.0), "front": (0, 5, 1.0), "side": (90, 5, 1.0), "back_three_quarter": (150, 20, 1.0),
          "top": (0, 78, 1.0), "render": (10, 7, 1.45)}     # "render": Roman's render's / ref_08's angle, to compare
 D = 3.22                            # the Cores' centres apart (Roman's render / ref_08: 2.4 m clear between them)
-ZB = 2.34                           # the crossbar's centre: resting on the Cores' arch tubes and domes (their tops 2.30)
+ZB = 2.34                           # the crossbar's centre: on the hubs' sides, just under the caps' tops
 POST = pp.A + 0.14                  # each carriage post: right beside its Core (ref_08), on the centreline under the bar
 DETAILS = {
     "detail_core_top": ((0.75, -1.05, 2.85), (0.0, 0.0, 2.10), 45),       # the hub, the legs' bends, the top mounts
@@ -39,7 +39,7 @@ def build(k):
     RW = pp.row(k, b, (1, 0))
     pp.crossover_station(k, a, (1, 0), POST, ZB - 0.04)
     pp.crossover_station(k, b, (-1, 0), POST, ZB - 0.04)
-    pp.beam(k, (-pp.A - 0.06, 0.0), (D + pp.A + 0.06, 0.0), ZB)        # end to end, resting on the arches and domes (ref_08)
+    pp.beam(k, (-pp.A + 0.02, 0.0), (D + pp.A - 0.02, 0.0), ZB)        # through both hubs, end to end (ref_08)
 
 
 FIT_VIEWS = ("three_quarter", "front")

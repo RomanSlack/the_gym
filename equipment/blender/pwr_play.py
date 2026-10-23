@@ -40,15 +40,14 @@ LOOK = {
 FOOT_H = 0.021                      # the oval feet (13/16 in, the manual's Foot Dimensions)
 A = 0.36                            # the Core's legs' centres from its centre (x and y): 83 cm over the feet
 LEG = 0.076                         # the leg tube: flat-faced, rounded corners (ref_07 / ref_08; ref_03 / ref_06 close up)
-ZT = 2.262                         # each face's arch: its top tube's centre (its top 2.30, the crossbar resting on it)
-ZK = 1.90                           # where a face's arch leaves its legs (the rounded shoulders above it)
-HUB = (0.14, 2.20, 2.30)            # the low dome in the middle of the top on its X arms: radius, bottom, top (under the bar)
-ZTC, ZBC = 1.95, 0.13               # the top and bottom cross-members (centres): the top one under the arches' tubes
+ZARM = 2.29                         # the legs' arms over the top, into the hub
+HUB = (0.12, 2.27, 2.35)            # the top hub, a small black cap where the legs meet (ref_07 / ref_08): radius, bottom, top
+ZTC, ZBC = 2.03, 0.13               # the top and bottom cross-members (centres)
 CM = (0.05, 0.076)                  # a cross-member: across (v), tall
 VS = A - 0.085                      # a station's stack (v): right behind its face (ref_08: the plates behind the pads)
-ZTM = ZTC + CM[1] / 2 + 0.025       # a top mount's boom (centre), bolted on top of the top cross-member
-ZTP = ZTM + 0.025 + 0.07            # its pulleys' centres: between the top cross-member and the arch's tube (ref_04 / ref_07)
-RP = 0.065                          # those pulleys' radius; the cable runs in the groove at 0.86 of it
+RTR = 0.022                         # the top rail across each face: a round tube (ref_08), under the legs' bends
+RP = 0.085                          # a station's one big top pulley (ref_08): its radius; the cable runs at 0.86 of it
+ZTP = 2.17                          # its centre: up inside the bends, over the stack's cable
 
 
 class Face:
@@ -144,8 +143,8 @@ class Face:
         for su in (-1, 1):                              # the red collars where the rods run into the top plate
             self.cyl("red", (su * rods / 2, v, ztop + 0.065), 0.019, 0.01, seg=24)
         self.tube("chrome", (0.0, v, zb), (0.0, v, ztop + 0.07), 0.0095)
-        zr = 1.80 if hang else ZTC - CM[1] / 2 - 0.012
-        hi2 = vcm - CM[0] / 2 - 0.004 if hang else hi
+        zr = 1.80 if hang else ZTC - RTR - 0.012
+        hi2 = vcm - CM[0] / 2 - 0.004 if hang else vcm
         self.box("frame", (0.0, (lo + hi2) / 2, zr + 0.006), (0.46, hi2 - lo, 0.012), soft=0.002)
         for su in (-1, 1):                              # the rods' bushings in the base and rod plates
             self.cyl("chrome", (su * rods / 2, v, z0 + 0.008), 0.02, 0.016, seg=20)
@@ -173,66 +172,52 @@ def foot(k, x, y, rz):
 
 
 def core(k, c):
-    """The Core at c = (x, y), as the current renders and photos have it (ref_07 / ref_08 / ref_04): four legs; each face
-    an inverted U, its two legs rising into rounded shoulders and its level top tube (a leg is shared by two faces' arches,
-    so seen corner-on it reads as a straight post); the low dome in the middle of the top on an X of arms from the corners;
-    the cross-members top (under the arches' tubes, the stations' top mounts on it) and bottom; the base X to the bottom
-    hub; the oval feet; the Life Fitness script up two legs; the station holes."""
+    """The Core at c = (x, y): the four bent legs into the top hub, the cap, the cross-members top and bottom, the base X
+    to the bottom hub, the feet, the logo up each leg's outer corner, the station holes."""
     looks(k)
     cx, cy = c
+    ha = HUB[0] + 0.01
     for sx in (1, -1):
         for sy in (1, -1):
             x, y = cx + sx * A, cy + sy * A
-            k.bar("frame", (x, y, FOOT_H), (x, y, ZK + 0.05), LEG, LEG, r=0.022, up=(1, 0, 0),
-                  cut0=((0, 0, FOOT_H), (0, 0, 1)), weld=True)
+            hx, hy = cx + sx * ha / math.sqrt(2), cy + sy * ha / math.sqrt(2)
+            k.sweep("frame", [(x, y, FOOT_H), (x, y, ZARM), (hx, hy, ZARM)], k.rect(LEG, LEG, 0.022), bend=0.15,
+                    up=(1, 0, 0), cut0=((0, 0, FOOT_H), (0, 0, 1)), weld=True)       # faces square to the Core's faces
             foot(k, x, y, math.atan2(sy, sx))
             k.bar("frame", (x, y, 0.07), (cx + sx * 0.04, cy + sy * 0.04, 0.07), 0.05, 0.012, up=(0, 0, 1))      # base X
-            h = HUB[0] - 0.01                           # the top X: an arm from the corner's shoulder in to the dome
-            k.bar("frame", (x - sx * 0.02, y - sy * 0.02, ZT), (cx + sx * h / math.sqrt(2), cy + sy * h / math.sqrt(2), HUB[1] + 0.03),
-                  0.05, 0.05, up=(0, 0, 1))
             for i in range(6):
                 k.cyl("hole", (x + sx * (LEG / 2 + 0.0002), y, 0.55 + i * 0.20), 0.006, 0.001, axis="x", seg=12)
-    k.cyl("frame", (cx, cy, (HUB[1] + HUB[2]) / 2 - 0.006), HUB[0], HUB[2] - HUB[1] - 0.012, seg=48, soft=0.01)
-    k.cyl("plastic", (cx, cy, HUB[2] - 0.006), HUB[0] + 0.008, 0.012, seg=48, soft=0.004)               # its cap
+    k.cyl("frame", (cx, cy, (HUB[1] + HUB[2]) / 2), HUB[0], HUB[2] - HUB[1], seg=48, soft=0.006)
+    k.cyl("plastic", (cx, cy, HUB[2] + 0.0175), HUB[0] + 0.01, 0.035, seg=48, soft=0.012)
     k.cyl("plastic", (cx, cy, 0.07), 0.07, 0.03, seg=36, soft=0.004)                                # bottom hub
     for o in ((0, -1), (1, 0), (0, 1), (-1, 0)):
         f = Face(k, c, o)
-        f.sweep("frame", [(-A, A, ZK), (-A, A, ZT), (A, A, ZT), (A, A, ZK)], f.k.rect(LEG, LEG, 0.022), bend=0.17,
-                up="v")                                 # the face's arch: the shoulders and the top tube
-        for z in (ZTC, ZBC):
-            f.bar("frame", (-A + LEG / 2, A, z), (A - LEG / 2, A, z), CM[0], CM[1], up="z",
-                  cut0=((-A + LEG / 2, 0, 0), (1, 0, 0)), cut1=((A - LEG / 2, 0, 0), (1, 0, 0)), weld=True)
-        for i in range(7):
-            f.cyl("hole", (-0.15 + i * 0.05, A + CM[0] / 2 + 0.0004, ZTC), 0.006, 0.001, axis="v", seg=12)
+        f.bar("frame", (-A + LEG / 2, A, ZBC), (A - LEG / 2, A, ZBC), CM[0], CM[1], up="z",
+              cut0=((-A + LEG / 2, 0, 0), (1, 0, 0)), cut1=((A - LEG / 2, 0, 0), (1, 0, 0)), weld=True)
+        f.tube("frame", (-A + LEG / 2 - 0.004, A, ZTC), (A - LEG / 2 + 0.004, A, ZTC), RTR, seg=24)   # the round top rail
     # the Life Fitness script up two legs' outer corners
     for sx, sy in ((1, -1), (-1, 1)):
         x, y = cx + sx * (A + LEG / 2 + 0.001), cy + sy * A
-        k.text("label", "Life Fitness", (x, y, 1.40), 0.05, rz=math.pi / 2 * (1 if sx > 0 else -1), depth=0.0006,
+        k.text("label", "Life Fitness", (x, y, 1.45), 0.05, rz=math.pi / 2 * (1 if sx > 0 else -1), depth=0.0006,
                spin=math.pi / 2)
 
 
 def top_mount(f, length, zt):
-    """A standard top mount on face f (ref_07 / ref_08: the big pulleys up at the Core's top): the boom on top of the
-    top cross-member from over the stack out `length` past the face, the cheeks rising from it, the inner pulley over
-    the stack and the outer pulley at its end; the cable up from the stack's top plate (zt) over the inner pulley and
-    along to the outer one. Returns (v, z) where the cable drops off the outer pulley's far side."""
-    v1 = A + length
-    vi, vo = VS, v1 - 0.06
+    """A station's top pulley (ref_08: one big black pulley up inside the legs' bends at the face): its housing's two
+    cheeks standing on the round top rail, bolted through it, the pulley on its axle, the hubs; the cable up from the
+    stack's top plate (zt) over the pulley's top and down just in front of the face. `length` is kept for the stations'
+    calls (the cable now always drops at the face). Returns (v, z) where the cable leaves the pulley's outer side."""
     g = 0.86 * RP - 0.003                               # the groove, a hair inside it
-    f.bar("boom", (0.0, vi - 0.02, ZTM), (0.0, v1, ZTM), 0.06, 0.05, up="z")
-    f.box("plastic", (0.0, v1 + 0.004, ZTM), (0.064, 0.008, 0.054), soft=0.002)
-    for vb in (A - 0.03, A + 0.03):
-        f.bolt((0.0, vb, ZTM + 0.025), "+z", size=0.014, nut=CM[1] + 0.05)
-    for vp in (vi, vo):
-        for su in (-1, 1):
-            f.box("boom", (su * 0.034, vp, ZTP - 0.04), (0.008, 0.11, 0.13), soft=0.002)     # the cheeks off the boom
-        f.pulley((0.0, vp, ZTP), RP, axis="u")
-        f.tube("chrome", (-0.036, vp, ZTP), (0.036, vp, ZTP), 0.008, seg=12)
-        for su in (-1, 1):
-            f.cyl("chrome", (su * 0.015, vp, ZTP), 0.022, 0.006, axis="u", seg=24)          # the hub
-    f.cable([(0.0, vi - g, zt), (0.0, vi - g, ZTP)])
-    f.cable([(0.0, vi, ZTP + g), (0.0, vo, ZTP + g)])
-    return (vo + g, ZTP)
+    vp = VS + g                                         # the cable rises off the stack's centre on the pulley's near side
+    for su in (-1, 1):
+        f.box("boom", (su * 0.036, vp, (ZTC + ZTP + 0.06) / 2), (0.008, 0.20, ZTP + 0.06 - ZTC), soft=0.02)
+        f.bolt((su * 0.04, vp - 0.012, ZTC), "+u" if su > 0 else "-u", size=0.014)
+    f.pulley((0.0, vp, ZTP), RP, axis="u")
+    f.tube("chrome", (-0.04, vp, ZTP), (0.04, vp, ZTP), 0.009, seg=12)
+    for su in (-1, 1):
+        f.cyl("chrome", (su * 0.02, vp, ZTP), 0.026, 0.006, axis="u", seg=24)
+    f.cable([(0.0, vp - g, zt), (0.0, vp - g, ZTP)])
+    return (vp + g, ZTP)
 
 
 def placard(f, u, z):
@@ -257,7 +242,7 @@ def pulldown(k, c, out):
     f = Face(k, c, out)
     zt = f.stack(VS, A, hang=False)
     vo, zo = top_mount(f, 0.10, zt)
-    zb = 1.86
+    zb = ZTC - RTR - 0.09                          # right under the top rail (ref_08)
     f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.06)])
     f.box("steel", (0.0, vo, zb + 0.035), (0.03, 0.02, 0.05), soft=0.002)
     bar = [(-0.60, vo + 0.03, zb - 0.09), (-0.46, vo, zb), (0.46, vo, zb), (0.60, vo + 0.03, zb - 0.09)]
@@ -419,18 +404,16 @@ def carriage_post(k, base, toward, z_top, zc=1.30, link=None):
         lv = link                                       # bottom cross-member (ref_08)
         f.box("frame", (0.0, (lv - 0.08) / 2, 0.006), (0.14, abs(lv) + 0.08, 0.012), soft=0.003)
         f.box("frame", (0.0, lv + 0.006, (0.012 + ZBC - CM[1] / 2) / 2), (0.12, 0.012, ZBC - CM[1] / 2 - 0.012), soft=0.002)
-    f.box("frame", (0.0, 0.0, z_top + 0.035), (0.11, 0.10, 0.10), soft=0.008)                    # the clamp on the bar
-    for su in (-1, 1):                                  # the fork's two cheeks from the clamp down past the pulleys
-        f.box("frame", (su * 0.034, 0.0, z_top - 0.09), (0.008, 0.10, 0.20), soft=0.003)
-        f.box("frame", (su * 0.034, -0.10, z_top - 0.03), (0.008, 0.12, 0.08), soft=0.003)
-    for pv, pz in ((-0.10, z_top - 0.035), (0.0, z_top - 0.12)):
-        f.pulley((0.0, pv, pz), 0.065 if pv else 0.055, axis="u")
-        f.tube("chrome", (-0.036, pv, pz), (0.036, pv, pz), 0.008, seg=12)
-        for su in (-1, 1):
-            f.cyl("chrome", (su * 0.015, pv, pz), 0.022, 0.006, axis="u", seg=24)
-    f.box("stainless", (0.0, 0.0, z_top - 0.20), (tw + 0.004, td + 0.004, 0.04), soft=0.002)        # the post into the fork
+    f.box("frame", (0.0, 0.0, z_top + 0.035), (0.10, 0.09, 0.09), soft=0.008)                    # the clamp on the bar
+    for su in (-1, 1):                                  # the hanger's two plates down from the clamp round the pulley
+        f.box("frame", (su * 0.034, 0.03, z_top - 0.035), (0.008, 0.13, 0.13), soft=0.02)
+    pv, pz = 0.03, z_top - 0.06
+    f.pulley((0.0, pv, pz), 0.055, axis="u")
+    f.tube("chrome", (-0.036, pv, pz), (0.036, pv, pz), 0.008, seg=12)
+    for su in (-1, 1):
+        f.cyl("chrome", (su * 0.015, pv, pz), 0.022, 0.006, axis="u", seg=24)
     carriage_body(f, 0.0, zc, tw)
-    f.cable([(0.0, 0.86 * 0.055 - 0.003, z_top - 0.12), (0.0, 0.15, zc - 0.03 + 0.07)])                # down into the housing
+    f.cable([(0.0, 0.03 + 0.86 * 0.055 - 0.003, z_top - 0.06), (0.0, 0.15, zc - 0.03 + 0.07)])         # down into the housing
     return f
 
 
@@ -454,8 +437,7 @@ def crossover_station(k, c, out, post_v, z_bar):
     zt = f.stack(VS, A, hang=False)
     vo, zo = top_mount(f, 0.12, zt)
     pz = z_bar - 0.07
-    pz = z_bar - 0.035
-    f.cable([(0.0, vo, zo), (0.0, post_v - 0.10 - 0.054, pz)])
+    f.cable([(0.0, vo - 0.86 * RP + 0.003, zo + 0.86 * RP - 0.003), (0.0, post_v + 0.03, z_bar - 0.06 + 0.044)])   # over to the post's pulley
     base = f.p(0.0, post_v, 0.0)[:2]
     carriage_post(k, base, out, z_bar, link=-(post_v - A - CM[0] / 2))
     placard(f, A, 1.25)
