@@ -40,6 +40,14 @@ piece starts at that level instead of getting there by back and forth.
 2. **Read the structure before building anything.** For every assembly, answer from a close-up: what is it made of
    (member sizes: 3 x 3 in, 2 x 4 in, 3 x 2 in...), and **what holds it** (see the joint table below). Find the yokes,
    brackets and gussets first; the parts they carry come after.
+2b. **Lay it out from the user before the frame** (the Atlantis M318, 2026-10-22: the foot plates came out as flat
+   shelves wherever they fitted, "not proper at all, use your intuition of how a human would use it"). Write down the
+   pose at the start and the end of the rep (standing, seated, lying, leaning, which way the face points), then place
+   every contact point from the body: feet, hands, chest, back, shoulders, knees. Use the body lengths (rule 7 below)
+   for a short, a middle and a tall user where the machine adjusts. Write the numbers into the constants'
+   comments, then build the frame to carry those points. Before showing, check that a person fits: nothing in the
+   way of the toes, the shins, the head or the moving limb over the whole rep, and the machine still inside its
+   L x W x H. The photos show what the parts look like. The body decides where they go and which way they face.
 3. **Build by eye from the side and front views**, held to the maker's L x W x H. Constants at the top of model.py with
    a comment on each, every joint built as what it is (cut + weld, bolted plate, hub on an axle, bracket + bolts).
 4. **The finishing parts that make it read as real, from the first pass:**
