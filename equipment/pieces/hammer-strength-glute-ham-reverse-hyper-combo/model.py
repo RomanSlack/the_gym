@@ -76,12 +76,14 @@ ZB = 0.16                           # the arms' bottom ends, the straps' shackle
 GP = (-0.60, 0.185)                 # the foot unit's column pivot (ref_02 / ref_12: the column's foot in its yoke)
 LEAN = math.radians(6)              # the column's lean back to -y at this setting (ref_02: 5-6 deg, ref_12: 9)
 C1Z = 1.24                          # the column's straight run ends at the lower rollers' height
-YB = -0.50                          # the foot unit's top bar (y), its centre at ZB2
+YB = -0.525                         # the foot unit's top bar (y), its centre at ZB2; the upper pads under it
 ZB2 = 1.565
 UPR = 0.055                         # the upper pads' radius (ref_14), hung from the bar
 LR_ = (-0.46, 1.24, 0.085)          # the lower ankle rollers: (y, z, r): 0.09 between them and the upper pads (ref_13)
 YPOST = -0.90                       # the post at the base's end (ref_02: the storage plates' centre at px 318)
-ARC = (0.50, 0.62, 0.56)            # the arc plate's band round the pivot: inner, outer, the pin holes' radius
+ARC = (0.52, 0.60, 0.56)            # the arc plate's band round the pivot: inner, outer, the pin holes' radius
+YPL = -0.585                        # the foot unit's back plate (ref_09 / ref_01: flat, behind the pads, the column's
+                                    # C-curve behind it)
 ZSH = 0.36                          # the storage horns (ref_02: py 735)
 
 
@@ -118,9 +120,11 @@ def build(k):
             foot(k, x, y - d * 0.06)
         for y in (-0.14, 0.0):
             k.bolt((s * (XP + RW / 2), y, RZ), "+x" if s > 0 else "-x", size=0.016, nut=RW)
-    k.box("placard", (XP + RW / 2 + 0.001, 0.46, RZ), (0.002, 0.16, 0.05), soft=0.0)
-    for i, line in enumerate(("HAMMER", "STRENGTH")):
-        k.text("label", line, (XP + RW / 2 + 0.0024, 0.46, RZ + 0.011 - i * 0.021), 0.017, rz=math.pi / 2, depth=0.0004)
+    for s in (1, -1):                                   # the Hammer Strength plate on both rails (ref_02, ref_09)
+        k.box("placard", (s * (XP + RW / 2 + 0.001), 0.46, RZ), (0.002, 0.16, 0.05), soft=0.0)
+        for i, line in enumerate(("HAMMER", "STRENGTH")):
+            k.text("label", line, (s * (XP + RW / 2 + 0.0024), 0.46, RZ + 0.011 - i * 0.021), 0.017,
+                   rz=s * math.pi / 2, depth=0.0004)
     # the narrow base's two cross beams: under the column's pivot and under the post
     for y in (GP[0], YPOST):
         k.bar("frame", (-XG + RW / 2, y, RZ), (XG - RW / 2, y, RZ), RH, RW, up=(0, 1, 0),
@@ -170,6 +174,11 @@ def build(k):
     uv = [(-y, z) for y, z in prof]
     for x0, x1 in ((0.006, 0.41), (-0.41, -0.006)):
         k.sweep("pad", [(x0, 0, 0), (x1, 0, 0)], uv, up=Z, soft=0.022)
+    # the piping along both top edges of each cushion, over the hump and down its front (ref_09 / ref_13)
+    run = [(hy + hr * math.cos(math.radians(a)), hz + hr * math.sin(math.radians(a))) for a in range(180, 85, -10)]
+    run += [(0.12, ZT), (0.40, ZT), (0.615, ZT), (0.635, ZT - 0.01), (0.64, ZT - 0.03), (0.64, 1.25)]
+    for xe in (0.006 + 0.016, 0.41 - 0.016, -0.41 + 0.016, -0.006 - 0.016):
+        k.sweep("seam", [(xe, y, z) for y, z in run], k.circle(0.0035, 8), soft=0)
     # ---- the pendulum arms: one axle through both portals' -y legs and the side plates, nuts outside; each arm on an
     # inner hub, braced up and out to its own outer hub (ref_11 / ref_01: the diagonals), spacers between; the arm's
     # loading horn out through a sleeve block with the badge (ref_01); a shackle and the ankle strap at its foot
@@ -195,8 +204,15 @@ def build(k):
         # the shackle tab under the arm's end, a D ring, the ankle cuff hanging to the floor
         k.box("lever", (s * XA, py, ZB - 0.032), (0.008, 0.04, 0.05), soft=0.001)
         k.disc("chrome", (s * XA, py, ZB - 0.07), 0.028, 0.02, 0.008, axis="x", seg=24)
-        k.box("strap", (s * XA, py + 0.01, ZB - 0.12), (0.05, 0.012, 0.06), soft=0.003)
-        k.box("strap", (s * XA, py + 0.04, 0.035), (0.11, 0.17, 0.05), rx=-0.5, soft=0.012)
+        # the snap hook down to the cuff's ring, the padded cuff slumped on the floor (ref_11: a loop of strap)
+        sx = s * XA
+        k.bar("chrome", (sx, py, ZB - 0.095), (sx, py + 0.012, ZB - 0.115), 0.008, 0.016, up=(1, 0, 0))
+        k.disc("chrome", (sx, py + 0.016, ZB - 0.122), 0.018, 0.012, 0.006, axis="x", seg=20)
+        k.bar("strap", (sx, py + 0.02, ZB - 0.135), (sx, py + 0.045, 0.05), 0.035, 0.006, up=(1, 0, 0))
+        cy = py + 0.11
+        loop = [(sx + 0.045 * math.sin(t * math.pi / 12), cy - 0.075 * math.cos(t * math.pi / 12), 0.032) for t in range(24)]
+        k.sweep("strap", loop + [loop[0]], k.rect(0.012, 0.06, 0.004), up=Z, caps=False, soft=0.003)
+        k.box("strap", (sx, cy, 0.032), (0.07, 0.11, 0.05), soft=0.012)       # the cuff's padding inside the loop
     # ---- the foot unit's column: a yoke of two cheek plates on the pivot beam, the axle and nuts, the hub; the column
     # leaning back up to the lower rollers' height, then curving up and over (ref_12) into the top bar's -y face
     gy, gz = GP
@@ -208,36 +224,41 @@ def build(k):
     c1 = (0.0, gy - (C1Z - gz) * math.tan(LEAN), C1Z)
     hook = [(0.0, gy, gz), c1, (0.0, c1[1] - 0.015, 1.46), (0.0, c1[1] + 0.045, ZB2), (0.0, YB - 0.04, ZB2)]
     k.sweep("frame", hook, k.rect(0.08, 0.076, 0.006), bend=0.07, up=UPX, cut1=((0, YB - 0.04, 0), (0, 1, 0)), weld=True)
-    k.bar("frame", (-0.28, YB, ZB2), (0.28, YB, ZB2), 0.08, 0.08, up=Z)
+    # the top bar (ref_09 / ref_08: silver, bolted on top), the bracket where the column's C-curve meets it (ref_01: two
+    # cheek plates and a bolt)
+    k.bar("frame", (-0.29, YB, ZB2), (0.29, YB, ZB2), 0.08, 0.08, up=Z)
     for s in (1, -1):
-        k.box("plastic", (s * 0.284, YB, ZB2), (0.008, 0.084, 0.084), soft=0.002)
-        for x in (0.08, 0.20):
+        k.box("frame", (s * 0.042, YB - 0.075, ZB2), (0.008, 0.11, 0.075), soft=0.002)
+        k.box("plastic", (s * 0.294, YB, ZB2), (0.008, 0.084, 0.084), soft=0.002)
+        for x in (0.10, 0.22):
             k.bolt((s * x, YB, ZB2 + 0.04), "+z", size=0.014)
-        # the upper pads: a roll each side hung under the bar, end caps
+        # the upper pads: a roll each side hung under the bar, its back against the plate, end caps
         zu = ZB2 - 0.04 - UPR
-        k.tube("pad", (s * 0.03, YB, zu), (s * 0.25, YB, zu), UPR, seg=36, soft=0.01)
-        k.cyl("plastic", (s * 0.255, YB, zu), 0.032, 0.012, axis="x", seg=24, soft=0.003)
-    # the lower rollers: an arm forward off the column's face to the hub, the shaft across, a roller each side
+        k.tube("pad", (s * 0.03, YB, zu), (s * 0.27, YB, zu), UPR, seg=36, soft=0.01)
+        k.cyl("plastic", (s * 0.275, YB, zu), 0.032, 0.012, axis="x", seg=24, soft=0.003)
+    k.bolt((0.046, YB - 0.085, ZB2), "+x", size=0.02, nut=0.092)
+    # the lower rollers: an arm forward off the column's face through the back plate to the hub, the shaft across, a
+    # roller each side (ref_14: the square hub between them, the chrome shaft ends)
     ly, lz, lr = LR_
     n = (0.0, cs, sn)                                   # the column's +y face normal
     fp = (0.0, c1[1] + 0.04 * cs, C1Z + 0.04 * sn)
     k.bar("frame", (0.0, fp[1] - 0.01, lz), (0.0, ly, lz), 0.06, 0.06, up=Z, cut0=(fp, n), weld=True)
     k.box("frame", (0.0, ly, lz), (0.07, 0.09, 0.09), soft=0.004)
-    k.tube("chrome", (-0.30, ly, lz), (0.30, ly, lz), 0.02, seg=20)
+    k.tube("chrome", (-0.31, ly, lz), (0.31, ly, lz), 0.02, seg=20)
     for s in (1, -1):
-        k.tube("pad", (s * 0.035, ly, lz), (s * 0.285, ly, lz), lr, seg=40, soft=0.012)
-        k.cyl("plastic", (s * 0.29, ly, lz), 0.04, 0.012, axis="x", seg=24, soft=0.003)
-    # the curved foot plate behind the ankles (ref_12 / ref_13): from under the hook's top down past the roller arm
-    curve = [(-0.565, ZB2 - 0.04), (-0.585, 1.42), (-0.592, 1.30), (-0.578, 1.19), (-0.55, 1.13)]
-    band = [(-y + 0.004, z) for y, z in curve] + [(-y - 0.004, z) for y, z in reversed(curve)]
-    k.sweep("lever", [(-0.21, 0, 0), (0.21, 0, 0)], band, up=Z, soft=0.002)
-    # the handles: a loop off each end of the top bar, out, down and back in to the foot plate's edge (ref_01 / ref_08),
-    # a foam grip on the outer upright
+        k.tube("pad", (s * 0.035, ly, lz), (s * 0.29, ly, lz), lr, seg=40, soft=0.012)
+        k.cyl("plastic", (s * 0.295, ly, lz), 0.04, 0.012, axis="x", seg=24, soft=0.003)
+    # the back plate: flat, square to the pad, from under the C-curve's top down below the rollers' arm (the soles
+    # against it); two bolts where it clamps the arm; a handle each side: the plate's two arms out to a round upright,
+    # the grip on it (ref_08: the hand round the black upright; ref_09: the window between plate and upright)
+    k.box("lever", (0.0, YPL, 1.35), (0.60, 0.01, 0.35), soft=0.012)
+    for x in (-0.06, 0.06):
+        k.bolt((x, YPL + 0.005, lz), "+y", size=0.016, nut=0.01)
     for s in (1, -1):
-        loop = [(s * 0.28, YB, ZB2), (s * 0.36, YB, ZB2), (s * 0.36, -0.56, 1.33), (s * 0.20, -0.588, 1.33)]
-        k.sweep("frame", loop, k.rect(0.03, 0.03, 0.004), bend=0.035, up=(0, 1, 0), cut0=((s * 0.28, 0, 0), (1, 0, 0)), weld=True)
-        g0 = (s * 0.36, YB - 0.006, ZB2 - 0.05); g1 = (s * 0.36, -0.554, 1.37)
-        k.tube("rubber", g0, g1, 0.021, seg=24, soft=0.004)
+        for z in (1.45, 1.22):
+            k.box("lever", (s * 0.355, YPL, z), (0.12, 0.01, 0.04), soft=0.004)
+        k.tube("lever", (s * 0.415, YPL, 1.19), (s * 0.415, YPL, 1.48), 0.016, seg=20, soft=0.002)
+        k.tube("rubber", (s * 0.415, YPL, 1.255), (s * 0.415, YPL, 1.415), 0.02, seg=24, soft=0.004)
     # ---- the adjustment: the arc plate bolted to the column's +x face, a band round the pivot with the pin holes;
     # the post at the base's end, the pop pin through its top into a hole, the storage horns through it lower down
     # (ref_12 / ref_09: the zinc plate rising to the column, the warning label, the knob), a brace from the post to the
@@ -248,7 +269,7 @@ def build(k):
     pts += [(gy - r0 * math.sin(math.radians(a)), gz + r0 * math.cos(math.radians(a))) for a in range(int(a1), int(a0) - 1, -3)]
     xa = 0.038
     k.sweep("zinc", [(xa, 0, 0), (xa + 0.01, 0, 0)], [(-y, z) for y, z in pts], up=Z, soft=0.002)
-    for r in (0.53, 0.60):
+    for r in (0.537, 0.583):
         k.bolt((xa + 0.01, gy - r * sn, gz + r * cs), "+x", size=0.016, nut=0.086)
     apin = math.degrees(math.asin((gy - YPOST) / rp))
     for i in range(-3, 3):
@@ -260,8 +281,12 @@ def build(k):
           rx=-aw, soft=0.0)
     xpo = xa + 0.01 + 0.038                              # the post, its -x face against the arc plate
     zpin = gz + rp * math.cos(math.radians(apin))
-    k.bar("frame", (xpo, YPOST, RT), (xpo, YPOST, zpin + 0.06), 0.076, 0.076, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
-    k.box("plastic", (xpo, YPOST, zpin + 0.064), (0.08, 0.08, 0.008), soft=0.002)
+    ztop = gz + math.sqrt(r1 ** 2 - (gy - YPOST) ** 2) + 0.01         # just over the arc's outer edge
+    k.bar("frame", (xpo, YPOST, RT), (xpo, YPOST, ztop), 0.076, 0.076, up=(0, 1, 0), cut0=((0, 0, RT), Z), weld=True)
+    # the housing the arc runs through: a cap plate over the post and the arc, a cheek down the arc's other side
+    k.box("frame", ((0.026 + xpo + 0.038) / 2, YPOST, ztop + 0.005), (xpo + 0.038 - 0.026, 0.08, 0.01), soft=0.002)
+    k.box("frame", (0.032, YPOST, (0.60 + ztop) / 2), (0.008, 0.08, ztop - 0.60), soft=0.002)
+    k.bolt((0.028, YPOST, ztop - 0.03), "-x", size=0.014, nut=0.066)
     k.tube("steel", (xpo + 0.038, YPOST, zpin), (xpo + 0.075, YPOST, zpin), 0.008, seg=12)
     k.cyl("plastic", (xpo + 0.08, YPOST, zpin), 0.02, 0.016, axis="x", seg=24, soft=0.004)
     k.box("frame", (xpo + 0.043, YPOST, zpin), (0.01, 0.05, 0.06), soft=0.002)                     # the pin's boss
