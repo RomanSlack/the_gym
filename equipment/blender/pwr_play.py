@@ -32,6 +32,7 @@ LOOK = {
     "hole": dict(color=(0.004, 0.004, 0.004), rough=0.9),
     "placard": dict(color=(0.02, 0.02, 0.022), rough=0.4, coat=0.0),
     "label": dict(color=(0.75, 0.75, 0.77), rough=0.4, coat=0.0),
+    "grey": dict(color=(0.16, 0.165, 0.17), rough=0.45, metal=0.3, coat=0.0),                 # the grey parts (drawings)
     "rope": dict(color=(0.02, 0.02, 0.022), rough=0.8, coat=0.0, bump=(900, 0.3)),
     "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0),
 }
@@ -809,10 +810,183 @@ def dip(k, c, out):
     placard(f, A, 1.25, "dip")
 
 
+def step(k, c, out):
+    """Step (LPP-ST, the manual's drawing): a square platform, black rubber inside a grey bumper rim, out from a
+    bracket that hooks over a mounting bar across the face (its two hooks up behind), at knee height."""
+    f = Face(k, c, out)
+    zs = 0.42
+    vm = _mount(f, zs)
+    f.box("frame", (0.0, vm + 0.03, zs), (0.30, 0.06, 0.16), soft=0.008)                       # the bracket
+    for su in (-1, 1):                                  # its hooks, curled up over the bar's top
+        u = su * 0.10
+        f.sweep("frame", [(u, vm + 0.05, zs + 0.08), (u, vm + 0.06, zs + 0.17), (u, vm + 0.10, zs + 0.24)],
+                f.k.rect(0.03, 0.02, 0.006), bend=0.05, up="v", soft=0.0)
+        f.bolt((u, vm + 0.06, zs - 0.03), "+v", size=0.014)
+    vp, w = vm + 0.06 + 0.26, 0.52
+    f.box("grey", (0.0, vp, zs - 0.02), (w, w, 0.05), soft=0.02)                               # the grey rim
+    f.box("rubber", (0.0, vp, zs + 0.0055), (w - 0.06, w - 0.06, 0.004), soft=0.002)            # the tread
+    f.box("frame", (0.0, vm + 0.06 + 0.05, zs - 0.06), (0.26, 0.10, 0.03), soft=0.004)          # the strut under it
+
+
+def handle_storage(k, c, out):
+    """Adjustable Cable Handle Storage (LPP-HR, the manual's drawing): a short arm out from a mounting bar to a black
+    tray with hooks under it, a strap handle and a rope on two of them."""
+    f = Face(k, c, out)
+    zh = 0.95
+    vm = _mount(f, zh)
+    f.box("frame", (0.0, vm + 0.05, zh), (0.06, 0.10, 0.06), soft=0.004)                       # the arm
+    vt = vm + 0.10 + 0.06
+    f.box("placard", (0.0, vt, zh + 0.01), (0.46, 0.12, 0.11), soft=0.03)                      # the tray
+    for i, du in enumerate((-0.15, -0.05, 0.05, 0.15)):
+        hz = zh - 0.045
+        f.sweep("chrome", [(du, vt + 0.03, hz), (du, vt + 0.03, hz - 0.07), (du, vt + 0.075, hz - 0.09),
+                           (du, vt + 0.085, hz - 0.06)], f.k.circle(0.0045, 10), bend=0.015, soft=0.0)
+    for du in (-0.15,):                                 # a strap D handle hung on the first hook
+        zt = zh - 0.045 - 0.085
+        f.sweep("rubber", [(du, vt + 0.07, zt), (du - 0.06, vt + 0.07, zt - 0.10), (du + 0.06, vt + 0.07, zt - 0.10),
+                           (du, vt + 0.07, zt)], f.k.rect(0.003, 0.022, 0.001), bend=0.015, up="v", soft=0.0)
+        f.tube("rubber", (du - 0.055, vt + 0.07, zt - 0.105), (du + 0.055, vt + 0.07, zt - 0.105), 0.016, soft=0.003)
+    zt = zh - 0.045 - 0.085                             # the rope over the third hook
+    f.disc("chrome", (0.05, vt + 0.07, zt + 0.012), 0.025, 0.017, 0.006, axis="u", seg=28)
+    rope = [(0.02, vt + 0.07, zt - 0.32), (0.035, vt + 0.07, zt - 0.03), (0.045, vt + 0.07, zt + 0.007),
+            (0.055, vt + 0.07, zt + 0.007), (0.065, vt + 0.07, zt - 0.03), (0.08, vt + 0.07, zt - 0.32)]
+    f.sweep("rope", rope, f.k.circle(0.012, 14), bend=0.02, soft=0.0)
+    for du in (0.02, 0.08):
+        f.cyl("rubber", (du, vt + 0.07, zt - 0.34), 0.022, 0.04, soft=0.006)
+
+
+def stall_bars(k, c, out):
+    """Stall Bars (LPP-SB, the manual's drawing): a wall-bar ladder standing just off the face, floor to near the top,
+    round rungs between two flat rails, braced to the face at the bottom cross-member and the top rail, two pull-up
+    horns curving out from its top, the placard on its rail."""
+    f = Face(k, c, out)
+    vr, ur, zt = A + 0.13, 0.30, 2.24
+    for su in (-1, 1):
+        u = su * ur
+        f.bar("frame", (u, vr, 0.012), (u, vr, zt), 0.035, 0.07, r=0.008, up="v", cut0=((0, 0, 0.012), (0, 0, 1)))
+        f.box("rubber", (u, vr, 0.006), (0.06, 0.10, 0.012), soft=0.003)
+        for z in (ZBC, ZTC):                            # braced back to the face's legs
+            f.bar("frame", (su * 0.325, A + LEG / 2, z), (su * 0.325, vr - 0.035, z), 0.05, 0.05, up="z")
+        f.sweep("frame", [(u, vr + 0.036, zt - 0.06), (u, vr + 0.20, zt + 0.02), (u + su * 0.06, vr + 0.36, zt - 0.02)],
+                f.k.circle(0.017, 18), bend=0.08, soft=0.0)                                    # the pull-up horn
+        f.tube("rubber", (u + su * 0.02, vr + 0.26, zt + 0.005), (u + su * 0.06, vr + 0.36, zt - 0.02), 0.021, soft=0.003)
+        f.cyl("plastic", (u, vr, zt + 0.005), 0.02, 0.01, seg=20, soft=0.002)
+    for i in range(14):                                 # the rungs, round, between the rails
+        z = 0.16 + i * 0.148
+        f.tube("frame", (-ur + 0.0175, vr, z), (ur - 0.0175, vr, z), 0.016, seg=20)
+    placard(f, A, 1.25, "stallbars")
+
+
+def rope_pull(k, c, out):
+    """Rope Pull (LPP-RP, the manual's drawing): the rope's housing on top of the face (a black box over the top rail,
+    out past the face), the endless rope over its sheave down the front to the floor and along it; the resistance unit
+    before the face, a grey column on two arms with its flywheels top and bottom."""
+    f = Face(k, c, out)
+    zr = ZTC + RTR
+    f.box("placard", (0.0, A + 0.10, zr + 0.07), (0.30, 0.36, 0.14), soft=0.03)                # the housing
+    f.box("frame", (0.0, A - 0.04, zr + 0.002), (0.20, 0.10, 0.004), soft=0.001)               # on the top rail
+    vc = A + 0.17
+    for z in (0.42, 1.10):                              # the column's arms off mounting bars
+        vm = _mount(f, z)
+        f.bar("frame", (0.0, vm, z), (0.0, vc - 0.04, z), 0.05, 0.05, up="z")
+    f.tube("grey", (0.0, vc, 0.30), (0.0, vc, 1.26), 0.04, seg=28)                             # the column
+    for z in (0.33, 1.20):                              # its flywheels, a pair each end
+        for su in (-1, 1):
+            f.disc("grey", (su * 0.07, vc, z), 0.085, 0.055, 0.03, axis="u", seg=40, soft=0.004)
+            f.cyl("plastic", (su * 0.07, vc, z), 0.055, 0.032, axis="u", seg=32, soft=0.002)
+        f.tube("chrome", (-0.09, vc, z), (0.09, vc, z), 0.012, seg=14)
+    f.cyl("plastic", (0.0, vc, 1.268), 0.042, 0.016, seg=28, soft=0.003)
+    for du, out_ in ((-0.04, 0.55), (0.04, 0.85)):      # the rope: down off the housing's front, along the floor
+        vf = A + 0.26
+        f.sweep("rope", [(du, vf, zr + 0.002), (du, vf + 0.02, 0.30), (du, vf + 0.10, 0.025), (du, vf + out_, 0.022)],
+                f.k.circle(0.019, 16), bend=0.12, soft=0.0)
+    placard(f, A, 1.25, "ropepull")
+
+
+def power_pivot(k, c, out):
+    """Power Pivot (LPP-PP, the manual's drawing): a landmine at the face's foot: its base plate on the floor bolted to
+    the bottom cross-member, the swivel yoke on it (black: the drawing's yellow is no colour here), the long bar from
+    the yoke out and up, its plate sleeve and the grip near its end; the rack for its handles under the yoke."""
+    f = Face(k, c, out)
+    vb = A + 0.15
+    f.box("frame", (0.0, vb, 0.006), (0.30, 0.30, 0.012), soft=0.003)                          # the base plate
+    f.box("frame", (0.0, A + 0.032, 0.012 + (ZBC - CM[1] / 2 - 0.012) / 2), (0.20, 0.012, ZBC - CM[1] / 2 - 0.012),
+          soft=0.002)                                                                           # its tab to the Core
+    f.cyl("frame", (0.0, vb, 0.012 + 0.04), 0.06, 0.08, seg=36, soft=0.004)                     # the swivel
+    zp = 0.012 + 0.08 + 0.06
+    for su in (-1, 1):                                  # the yoke's cheeks on the swivel, the pin through
+        f.box("frame", (su * 0.045, vb, 0.092 + 0.05), (0.012, 0.09, 0.10), soft=0.006)
+    f.tube("chrome", (-0.058, vb, zp), (0.058, vb, zp), 0.012, seg=16)
+    el = math.radians(28)                               # the bar, resting out and up
+    L = 1.95
+    def at(t, dz=0.0):
+        return (0.0, vb + t * L * math.cos(el), zp + t * L * math.sin(el) + dz)
+    f.tube("frame", at(-0.02), at(0.05), 0.0375, seg=28)                                        # the pivot sleeve, the
+    f.tube("steel", at(0.05), at(1.0), 0.025, seg=24)                                           # pin through it
+    f.tube("steel", at(0.62), at(0.88), 0.026, seg=24)                                           # the plate sleeve
+    f.cyl("steel", at(0.62), 0.045, 0.012, axis="v", seg=28)
+    f.tube("rubber", at(0.90), at(0.99), 0.03, soft=0.003)
+    f.cyl("plastic", at(1.0), 0.03, 0.012, axis="v", seg=24, soft=0.003)
+    placard(f, A, 1.25, "powerpivot")
+
+
+def dip_chin(k, c, out):
+    """Assisted Dip Chin (LPP-DC, the manual's drawing): the stack behind the face lifts a lever whose knee pad the user
+    kneels on; the lever pivots on a hub low on the face, the cable from the top pulley down to its tab; the dip
+    handles out from the face at chest height, the chin grips angled out at the top; the climbing steps either side on
+    the floor beam out to the station's foot."""
+    f = Face(k, c, out)
+    zt = f.stack(VS, A, hang=False)
+    vo, zo = top_mount(f, 0.06, zt)
+    zpv = 0.70                                          # the lever's pivot hub on its mounting bar
+    vm = _mount(f, zpv)
+    f.box("frame", (0.0, vm + 0.03, zpv), (0.09, 0.06, 0.05), soft=0.004)
+    hv = vm + 0.06 + 0.046
+    f.cyl("frame", (0.0, hv, zpv), 0.05, 0.12, axis="u", seg=36, soft=0.006)
+    for su in (-1, 1):                                  # the lever: two plates down from the hub, then level under the pad
+        f.sweep("frame", [(su * 0.075, hv, zpv), (su * 0.075, A + 0.42, 0.46), (su * 0.075, A + 0.66, 0.46)],
+                f.k.rect(0.06, 0.012, 0.003), bend=0.06, up="u", soft=0.0)
+    f.tube("chrome", (-0.085, hv, zpv), (0.085, hv, zpv), 0.014, seg=16)
+    f.box("frame", (0.0, A + 0.60, 0.46), (0.138, 0.08, 0.04), soft=0.004)                      # between the plates
+    f.box("frame", (0.0, A + 0.60, 0.486), (0.30, 0.26, 0.012), soft=0.003)
+    f.box("pad", (0.0, A + 0.60, 0.492 + 0.035), (0.36, 0.30, 0.07), soft=0.03)                # the knee pad
+    zl = zpv - (zpv - 0.46) * 0.10 / (A + 0.42 - hv)    # the cable's tab on the lever's top, between the plates
+    f.box("frame", (0.0, hv + 0.10, zl + 0.03 + 0.012), (0.138, 0.03, 0.03), soft=0.004)
+    f.cable([(0.0, vo, zo), (0.0, vo, zpv + 0.25), (0.0, hv + 0.10, zl + 0.06)])
+    vf = A + 1.02                                       # the floor beam to the foot, the steps on it
+    f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vf, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
+          weld=True)
+    f.box("frame", (0.0, vf - 0.03, (FOOT_H + ZBC - 0.038) / 2), (0.08, 0.08, ZBC - 0.038 - FOOT_H), soft=0.004)
+    f.box("rubber", (0.0, vf - 0.03, FOOT_H / 2), (0.20, 0.14, FOOT_H), soft=0.006)
+    for su in (-1, 1):
+        f.bar("frame", (su * 0.038, A + 0.86, ZBC), (su * 0.20, A + 0.86, ZBC), 0.06, 0.05, up="z")
+        f.bar("frame", (su * 0.20, A + 0.86, ZBC + 0.025), (su * 0.20, A + 0.86, 0.30), 0.05, 0.05, up="v")
+        f.box("frame", (su * 0.20, A + 0.86, 0.306), (0.22, 0.26, 0.012), soft=0.003)
+        f.box("rubber", (su * 0.20, A + 0.86, 0.314), (0.20, 0.24, 0.004), soft=0.002)
+    zd = 1.30                                           # the dip handles
+    vm = _mount(f, zd)
+    for su in (-1, 1):
+        u = su * 0.30
+        f.box("frame", (u, vm + 0.02, zd), (0.14, 0.04, 0.10), soft=0.006)    # a bracket each side: the cable between
+        f.sweep("frame", [(u, vm + 0.037, zd), (u, A + 0.40, zd), (u + su * 0.10, A + 0.62, zd + 0.04)],
+                f.k.circle(0.019, 20), bend=0.08, soft=0.0)
+        f.tube("rubber", (u + su * 0.03, A + 0.47, zd + 0.013), (u + su * 0.10, A + 0.62, zd + 0.04), 0.024, soft=0.004)
+    zc = 1.92                                           # the chin grips, angled out from brackets under the top rail
+    vm = _mount(f, zc)
+    for su in (-1, 1):
+        u = su * 0.22
+        f.box("frame", (u, vm + 0.02, zc), (0.14, 0.04, 0.10), soft=0.006)
+        f.sweep("frame", [(u, vm + 0.037, zc), (u, A + 0.30, zc + 0.02), (u + su * 0.22, A + 0.50, zc + 0.10)],
+                f.k.circle(0.019, 20), bend=0.08, soft=0.0)
+        f.tube("rubber", (u + su * 0.10, A + 0.39, zc + 0.055), (u + su * 0.22, A + 0.50, zc + 0.10), 0.024, soft=0.004)
+    placard(f, A, 1.15, "dipchin")
+
+
 # ---- layouts: a set or a maze of Cores as data
 FACES = {"S": (0, -1), "E": (1, 0), "N": (0, 1), "W": (-1, 0)}
 CONNECTORS = {"short": 1.867, "medium": 2.172, "long": 2.477, "xlong": 2.553}   # the crossbars, clear between Cores (m)
-NO_BAR = ("pulldown", "triceps")    # their booms end in a pulley: no crossbar lands on them
+NO_BAR = ("pulldown", "triceps")
+OTHER = {}                          # filled below: the rest of the modules by name    # their booms end in a pulley: no crossbar lands on them
 
 
 def spacing(conn):
@@ -823,7 +997,8 @@ def spacing(conn):
 def build_layout(k, L):
     """Build a layout: L = dict(cores={name: (x, y)}, faces={(name, "S"): station}, bars=[(name, name, handles)]).
     Stations: pulldown, row, triceps, adjustable (a carriage post), crossover (the post under a crossbar's boom; an
-    adjustable face with a crossbar is one), dualhigh, duallow, dip, panel (a blank face), or None. A crossbar runs along x or y between two Cores a connector's
+    adjustable face with a crossbar is one), dualhigh, duallow, dip, panel (a blank face), step, handles,
+    stallbars, ropepull, powerpivot, dipchin, or None. A crossbar runs along x or y between two Cores a connector's
     spacing apart, its ends on the facing faces' booms; it can't land on a pulldown's or a triceps' face. Returns each
     station's points by (core, face)."""
     barfaces = {}
@@ -868,6 +1043,8 @@ def build_layout(k, L):
             dual_cable(k, c, o, high=st == "dualhigh")
         elif st == "dip":
             dip(k, c, o)
+        elif st in OTHER:
+            OTHER[st](k, c, o)
         elif st is not None:
             raise ValueError(f"{key}: no station {st!r}")
         if bar:                                         # a plain boom out to the crossbar's joint
@@ -881,3 +1058,7 @@ def build_layout(k, L):
         fb = next(n for n, v in FACES.items() if v == (-o[0], -o[1]))
         beam(k, ends[(a, fa)], ends[(b, fb)], ZBAR, handles=handles, caps=False)
     return pts
+
+
+OTHER.update(step=step, handles=handle_storage, stallbars=stall_bars, ropepull=rope_pull, powerpivot=power_pivot,
+             dipchin=dip_chin)
