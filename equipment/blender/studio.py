@@ -111,10 +111,11 @@ def area(name, loc, energy, size, target):
 
 
 c = centre
-area("key", c + Vector((-2.6, -3.0, 2.8)), 420, 2.5, c)
-area("fill", c + Vector((3.2, -2.2, 1.4)), 110, 3.0, c)
-area("rim", c + Vector((1.5, 3.2, 3.0)), 320, 2.0, c)
-area("top", c + Vector((0, 0, 3.5)), 110, 3.0, c)
+sc = max(1.0, size.length / 6.0)    # a big assembly (a maze of modules): the lights stand off and grow with it
+area("key", c + Vector((-2.6, -3.0, 2.8)) * sc, 420 * sc * sc, 2.5 * sc, c)
+area("fill", c + Vector((3.2, -2.2, 1.4)) * sc, 110 * sc * sc, 3.0 * sc, c)
+area("rim", c + Vector((1.5, 3.2, 3.0)) * sc, 320 * sc * sc, 2.0 * sc, c)
+area("top", c + Vector((0, 0, 3.5)) * sc, 110 * sc * sc, 3.0 * sc, c)
 
 # ---- views
 cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam")); scene.collection.objects.link(cam); scene.camera = cam

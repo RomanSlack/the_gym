@@ -27,7 +27,7 @@ VIEWS = {"three_quarter": (-35, 22, 1.0), "front": (0, 6, 1.0), "side": (90, 6, 
          "back_three_quarter": (145, 24, 1.0), "top": (0, 80, 1.0), "aerial": (-30, 42, 1.0)}
 DETAILS = {
     "detail_t_junction": ((D + 1.3, -1.2, 3.1), (D, 0.0, 2.25), 35),        # Core B's top: three crossbars on it
-    "detail_l_junction": ((2 * D + 1.4, D + 1.3, 3.1), (2 * D, D, 2.25), 35),   # Core F's top: two
+    "detail_l_junction": ((2 * D + 1.4, -1.3, 3.1), (2 * D, 0.0, 2.25), 35),    # Core C's top: two
     "detail_dual_high": ((D + 1.2, 1.8, 2.0), (D, 0.85, 1.6), 40),        # B's dual cable high arm
     "detail_dual_low": ((1.2, D + 1.9, 1.0), (0.0, D + 0.8, 0.55), 40),   # D's dual cable low arm
     "detail_dip": ((D + 1.0, D - 1.7, 1.6), (D, D - 0.8, 1.2), 40),       # E's dip
