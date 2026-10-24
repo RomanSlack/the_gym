@@ -171,6 +171,8 @@ scene.render.resolution_x, scene.render.resolution_y = RES
 for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
     cam.location = Vector(eye); cam.rotation_euler = (Vector(target) - Vector(eye)).to_track_quat("-Z", "Y").to_euler()
     cam.data.lens = lens
+    if sc > 1.5:                        # a big assembly: the backdrop's wall turned to stand behind this camera's view
+        sw.rotation_euler = (0, 0, math.atan2(eye[0] - c.x, -(eye[1] - c.y)))
     scene.render.filepath = str(versions.path(PIECE, name, V))
     bpy.ops.render.render(write_still=True)
     print("view:", scene.render.filepath, flush=True)
