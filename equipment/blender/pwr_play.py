@@ -127,10 +127,11 @@ class Face:
     def stack(self, v, vcm, n=16, rods=0.22, pin_at=5, hang=True):
         """A selectorized stack at (0, v), its frame's cross-members at vcm, as Life Fitness's look in the photos
         (ref_05 / ref_06): the base plate on the bottom cross-member, a round rubber cushion round each guide rod, n
-        charcoal plates 0.30 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the selector slot down
-        the front, the white number on each plate's front, the pin with its black knob; the thick top plate with the
-        cable's boss, the bushings and red collars on the rods; the chrome rods up to the rod plate (hung on two straps
-        below a top mount's pulley, or right under the top rail). Returns the top of the cable's boss."""
+        charcoal plates 0.30 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the pin's hole in the
+        middle of each plate's front (no slot showing), the white number on each plate's front, the pin with its black
+        knob; the thick top plate with the cable's boss, the bushings and red collars on the rods; the chrome rods up to
+        the rod plate (hung on two straps below a top mount's pulley, or right under the top rail).
+        Returns the top of the cable's boss."""
         z0 = ZBC + CM[1] / 2
         lo, hi = min(v - 0.09, vcm - CM[0] / 2), max(v + 0.09, vcm + CM[0] / 2)
         self.box("frame", (0.0, (lo + hi) / 2, z0 + 0.005), (0.42, hi - lo, 0.010), soft=0.002)
@@ -143,7 +144,7 @@ class Face:
             zc = zb + i * t + t / 2
             self.box("plate", (0.0, v, zc), (W, Dp, t - 0.0025), soft=0.005)
             self.text("white", f"{5 + i * 7.5:g}", (-0.105, v + Dp / 2 + 0.0004, zc), 0.0135, depth=0.0004)
-        self.box("hole", (0.0, v + Dp / 2 - 0.0012, zb + n * t / 2), (0.026, 0.004, n * t), soft=0.0)   # the slot
+            self.cyl("hole", (0.0, v + Dp / 2 + 0.0002, zc), 0.0065, 0.001, axis="v", seg=16)   # the pin's hole
         self.tube("chrome", (0.0, v, zb), (0.0, v, zb + n * t + 0.01), 0.0095, seg=14)            # the stem in it
         zp = zb + pin_at * t + t / 2
         self.tube("chrome", (0.0, v + Dp / 2 - 0.02, zp), (0.0, v + Dp / 2 + 0.035, zp), 0.0055, seg=14)
