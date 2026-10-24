@@ -287,15 +287,22 @@ def guard(f, z=0.88, bow=0.10):
             soft=0.0, cut0=((-e, 0, 0), (1, 0, 0)), cut1=((e, 0, 0), (1, 0, 0)), weld=True)    # cut flush to the legs' faces
 
 
+def clip(f, u, v, z):
+    """A cable's end (ref_04 / ref_05 / ref_06): the chrome carabiner, its bottom at z, its loop facing -v, and the black
+    rubber stop on the cable's end above it. Returns the stop's top, where the cable comes in."""
+    loop = [(u - 0.012 * math.sin(math.radians(a)), v, z + 0.037 + 0.037 * math.cos(math.radians(a))) for a in range(0, 361, 20)]
+    f.sweep("chrome", loop, f.k.circle(0.0032, 10), soft=0.0)
+    f.cyl("rubber", (u, v, z + 0.0905), 0.009, 0.033, seg=20, soft=0.003)
+    return z + 0.107
+
+
 def hook(f, u, v, z):
-    """A handle's hookup (ref_04 / ref_05): a triangular tab standing on the handle at (u, v, z), the chrome carabiner
-    through its hole, the black rubber stop on the cable's end above it (its top at z + 0.135)."""
+    """A handle's hookup (ref_04 / ref_05): a triangular tab standing on the handle at (u, v, z), the clip through its
+    hole. Returns where the cable comes in (z + 0.135)."""
     tri = [(-0.035, 0.0), (0.035, 0.0), (0.008, 0.045), (-0.008, 0.045)]
     f.sweep("frame", [(u, v - 0.003, z - 0.004), (u, v + 0.003, z - 0.004)], tri, up="z", soft=0.002)
     f.cyl("hole", (u, v, z + 0.03), 0.006, 0.0062, axis="v", seg=16)
-    loop = [(u - 0.012 * math.sin(math.radians(a)), v, z + 0.065 + 0.037 * math.cos(math.radians(a))) for a in range(0, 361, 20)]
-    f.sweep("chrome", loop, f.k.circle(0.0032, 10), soft=0.0)
-    f.cyl("rubber", (u, v, z + 0.1185), 0.009, 0.033, seg=20, soft=0.003)
+    return clip(f, u, v, z + 0.028)
 
 
 def pulldown(k, c, out):
@@ -308,8 +315,8 @@ def pulldown(k, c, out):
     zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
     vo, zo = boom_mount(f, 0.52, zt)                    # the boom out over the user (ref_08)
     zb = 1.95                                           # the bar at rest, hung from the boom's end over the hips
-    hook(f, 0.0, vo, zb + 0.0145)                       # the tab on the bar, the carabiner, the cable's rubber stop
-    f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.0145 + 0.135)])
+    zc_ = hook(f, 0.0, vo, zb + 0.0145)                 # the tab on the bar, the carabiner, the cable's rubber stop
+    f.cable([(0.0, vo, zo), (0.0, vo, zc_)])
     bar = [(-0.60, vo + 0.03, zb - 0.09), (-0.46, vo, zb), (0.46, vo, zb), (0.60, vo + 0.03, zb - 0.09)]
     f.sweep("grip", bar, f.k.circle(0.0145, 18), bend=0.08, soft=0.0)    # grey all over (ref_04 / ref_05)
     for e, n_ in ((bar[0], bar[1]), (bar[-1], bar[-2])):
@@ -446,10 +453,10 @@ def triceps(k, c, out):
     zt = f.stack(VS, A, hang=False)
     vo, zo = boom_mount(f, 0.36, zt)
     zr = 1.62
-    f.cable([(0.0, vo, zo), (0.0, vo, zr + 0.07)])
-    f.box("steel", (0.0, vo, zr + 0.05), (0.025, 0.02, 0.04), soft=0.002)
+    f.disc("chrome", (0.0, vo, zr + 0.04), 0.017, 0.011, 0.006, axis="u", seg=24)      # the rope's ring (ref_06)
+    f.cable([(0.0, vo, zo), (0.0, vo, clip(f, 0.0, vo, zr + 0.047))])
     for s in (-1, 1):
-        f.sweep("rope", [(0.0, vo, zr + 0.035), (s * 0.03, vo, zr - 0.02), (s * 0.05, vo, zr - 0.34)], f.k.circle(0.013, 14),
+        f.sweep("rope", [(0.0, vo, zr + 0.02), (s * 0.03, vo, zr - 0.03), (s * 0.05, vo, zr - 0.34)], f.k.circle(0.013, 14),
                 bend=0.05, soft=0.0)
         f.cyl("rubber", (s * 0.05, vo, zr - 0.36), 0.024, 0.045, soft=0.006)
     placard(f, A, 1.25, "triceps")
@@ -631,6 +638,11 @@ def beam(k, a, b, z, handles="flat", caps=True):
     def collar(t):
         p0, p1 = at(t, -0.04), at(t, 0.04)
         k.tube("frame", p0, p1, R + 0.007, seg=32)
+    for e0 in (0.0, L):                                 # the connector sleeves by the posts, their bolts underneath (ref_03)
+        sd = 1 if e0 == 0.0 else -1
+        k.tube("frame", at(0, e0 + sd * 0.45), at(0, e0 + sd * 0.59), R + 0.006, seg=32)
+        for d_ in (0.48, 0.52, 0.56):
+            k.bolt(at(0, e0 + sd * d_, 0, -R - 0.006), "-z", size=0.012)
     if handles == "angled":                             # two grips angled down and out along the bar
         for t, s_ in ((0.44, -1), (0.56, 1)):
             collar(t)
