@@ -285,8 +285,8 @@ def guard(f, z=0.88, bow=0.10):
 def pulldown(k, c, out):
     """Pulldown (LPP-PD), as the render has it (ref_08 / ref_07; the manual's LPP-PD drawing): the stack right behind
     the face; the big boom straight out from the Core's top cap at the very top, the lat bar hung from its end out over
-    the seat; the station's post on its own front foot (a floor beam back to the Core) carrying the seat under the bar and
-    nearer the Core the knee pads, the adjustment handle on its top; laid out for a seated 1.78 m user (hips under the
+    the seat; the station's upright on the floor beam back to the Core, the seat out from it under the bar, the knee pads
+    on their pivoting arm with the pop pin and sector plate (adjustable); laid out for a seated 1.78 m user (hips under the
     bar, thighs under the pads, hands up to the bar)."""
     f = Face(k, c, out)
     zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
@@ -302,25 +302,52 @@ def pulldown(k, c, out):
     for s in (-1, 1):                                   # the grey grips most of its length (ref_04 / ref_05)
         f.tube("grip", (s * 0.06, vo, zb), (s * 0.45, vo, zb), 0.019, soft=0.003)
     guard(f)
-    # the floor beam out from the bottom cross-member to the station's front foot; the post up from it, leaning in
-    # through the seat's bracket to the knee pads' hub and the handle on top
-    vf = A + 0.72
-    f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vf, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
-          weld=True)
-    f.box("frame", (0.0, vf, (FOOT_H + ZBC - 0.038) / 2), (0.08, 0.08, ZBC - 0.038 - FOOT_H), soft=0.004)
-    f.box("rubber", (0.0, vf, FOOT_H / 2), (0.20, 0.12, FOOT_H), soft=0.006)
+    # the station's upright (the manual's LPP-PD drawing; ref_05): on the floor beam out from the bottom cross-member,
+    # leaning in toward the Core as it rises; the seat cantilevered out from its foot on an arm; the knee pads on an
+    # axle carried by two arm plates pivoting on a pin through the upright, held at their height by a pop pin in one of
+    # the holes round a sector plate on the upright's side (Roman: the knee pads adjustable)
     vs, zs = vo + 0.02, 0.45                            # the seat: the hips right under the bar
-    vk, zk = vs - 0.30, 0.66                            # the knee pads: over the thighs just behind the knees
     zb0 = ZBC + 0.038                                   # the floor beam's top
+    vb, vt, zut = vs - 0.26, vs - 0.42, 1.00            # the upright: its foot, its top
+    def vu(z):
+        return vb + (vt - vb) * (z - zb0) / (zut - zb0)
+    f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vb + 0.04, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
+          weld=True)
+    f.box("frame", (0.0, vb, (FOOT_H + ZBC - 0.038) / 2), (0.08, 0.08, ZBC - 0.038 - FOOT_H), soft=0.004)
+    f.box("rubber", (0.0, vb, FOOT_H / 2), (0.20, 0.14, FOOT_H), soft=0.006)
+    f.bar("frame", (0.0, vb, zb0), (0.0, vt, zut), 0.07, 0.07, r=0.014, up="u", cut0=((0, 0, zb0), (0, 0, 1)), weld=True)
+    f.box("plastic", (0.0, vt, zut + 0.004), (0.074, 0.074, 0.012), soft=0.004)                    # its cap
+    zsa = 0.30                                          # the seat's arm out from the upright, its post up to the seat
     zsp = zs - 0.045                                    # the seat plate's centre, the pad on it
-    f.bar("frame", (0.0, vs, zb0), (0.0, vs, zsp - 0.006), 0.065, 0.065, r=0.01, up="v", cut0=((0, 0, zb0), (0, 0, 1)), weld=True)
+    nl = math.hypot(vt - vb, zut - zb0); nv, nz = (zut - zb0) / nl, -(vt - vb) / nl    # the upright's +v face's normal
+    f.bar("frame", (0.0, vu(zsa), zsa), (0.0, vs - 0.0325, zsa), 0.065, 0.065, r=0.01, up="z",
+          cut0=((0.0, vu(zsa) + 0.035 / nv, zsa), (0.0, nv, nz)), weld=True)
+    f.bar("frame", (0.0, vs, zsa - 0.0325), (0.0, vs, zsp - 0.006), 0.065, 0.065, r=0.01, up="v")
     f.box("frame", (0.0, vs, zsp), (0.24, 0.24, 0.012), soft=0.003)
     f.box("pad", (0.0, vs + 0.02, zsp + 0.006 + 0.045), (0.38, 0.34, 0.09), soft=0.035)
-    f.bar("frame", (0.0, vk, zb0), (0.0, vk, zk + 0.16), 0.065, 0.065, r=0.01, up="v", cut0=((0, 0, zb0), (0, 0, 1)), weld=True)
-    f.box("plastic", (0.0, vk, zk + 0.164), (0.069, 0.069, 0.008), soft=0.003)
-    f.cyl("plastic", (0.0, vk, zk + 0.2), 0.03, 0.064, soft=0.01)                                 # the handle's knob
+    zpv = 0.84                                          # the knee pads' pivot, through the upright
+    P = (vu(zpv), zpv)
+    vk, zk = vs - 0.30, 0.66                            # the pads' axle at the middle setting: over the thighs
+    L = math.hypot(vk - P[0], zk - P[1]); th = math.atan2(zk - P[1], vk - P[0])
+    ext = (P[0] + (vk - P[0]) * (L + 0.03) / L, P[1] + (zk - P[1]) * (L + 0.03) / L)
+    pre = (P[0] - (vk - P[0]) * 0.035 / L, P[1] - (zk - P[1]) * 0.035 / L)
+    for uc in (-0.0465, 0.0395):                        # the two arm plates (the -u one outside the sector plate)
+        f.bar("frame", (uc, pre[0], pre[1]), (uc, ext[0], ext[1]), 0.05, 0.008, r=0.003, up="u")
+    rs = 0.115                                          # the sector plate: an arc of holes round the pivot
+    sect = [((0.085 if i < 0 else 0.145) * math.cos(th + math.radians(a)), (0.085 if i < 0 else 0.145) * math.sin(th + math.radians(a)))
+            for i, a in [(-1, a) for a in range(-45, 46, 5)] + [(1, a) for a in range(45, -46, -5)]]
+    f.sweep("frame", [(-0.0415, P[0], P[1]), (-0.0355, P[0], P[1])], sect, up="z", soft=0.0015)
+    f.box("frame", (-0.038, P[0], P[1]), (0.006, 0.07, 0.07), soft=0.002)                            # welded on the upright
+    for a in range(-40, 41, 10):
+        f.cyl("hole", (-0.0418, P[0] + rs * math.cos(th + math.radians(a)), P[1] + rs * math.sin(th + math.radians(a))),
+              0.0065, 0.001, axis="u", seg=14)
+    pin = (P[0] + rs * math.cos(th), P[1] + rs * math.sin(th))     # the pop pin through the outer arm plate
+    f.tube("chrome", (-0.04, pin[0], pin[1]), (-0.062, pin[0], pin[1]), 0.006, seg=14)
+    f.cyl("plastic", (-0.074, pin[0], pin[1]), 0.017, 0.026, axis="u", seg=24, soft=0.005)
+    f.tube("chrome", (-0.055, P[0], P[1]), (0.048, P[0], P[1]), 0.008, seg=14)                       # the pivot pin
+    for ue in (-0.053, 0.046):
+        f.cyl("bolt", (ue, P[0], P[1]), 0.014, 0.006, axis="u", seg=6)
     f.tube("steel", (-0.31, vk, zk), (0.31, vk, zk), 0.018, seg=18)
-    f.box("frame", (0.0, vk, zk), (0.12, 0.085, 0.09), soft=0.006)                       # the hub round the post
     for s in (-1, 1):
         f.tube("pad", (s * 0.065, vk, zk), (s * 0.30, vk, zk), 0.066, seg=40, soft=0.012)
         f.cyl("plastic", (s * 0.305, vk, zk), 0.05, 0.012, axis="u", seg=28, soft=0.003)

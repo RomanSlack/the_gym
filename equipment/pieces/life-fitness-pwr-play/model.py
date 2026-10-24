@@ -32,6 +32,7 @@ DETAILS = {
     "detail_plates": ((-1.15, -0.10, 0.62), (-0.275, 0.0, 0.52), 45),     # a bare stack (the triceps'): numbers, pin
     "detail_heavy": ((0.42, -1.05, 0.55), (0.0, -0.28, 0.48), 45),       # the pulldown's heavy stack past its post
     "detail_post_top": ((POST + 0.45, -0.85, 2.05), (POST, 0.0, 2.22), 40),  # the post's saddle on the bar, its pulley
+    "detail_knee": ((-0.80, -1.05, 1.05), (-0.03, -0.52, 0.66), 40),     # the knee pads' pivot, sector plate, pop pin
     "detail_bar": ((D / 2, -1.30, 2.55), (D / 2, 0.0, 2.25), 45),         # the crossbar, the handles, the post's clamp
     "detail_row": ((D + 1.6, -1.1, 1.0), (D + 0.7, 0.0, 0.45), 40),       # the row's bench, foot plate, low pulley
 }
