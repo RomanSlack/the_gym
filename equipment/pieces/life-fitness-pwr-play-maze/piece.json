@@ -1,0 +1,13 @@
+{
+ "id": "life-fitness-pwr-play-maze",
+ "brand": "Life Fitness",
+ "model": "Life Fitness PWR Play",
+ "title": "Life Fitness PWR Play maze (our layout of the PWR Play modules)",
+ "kind": "assembly",
+ "of": "life-fitness-pwr-play",
+ "items": [],
+ "status": "layout",
+ "source": "Roman (2026-10-23): the upper body as a large interconnected maze of PWR Play modules",
+ "notes": "Built from equipment/blender/pwr_play.py (build_layout); the modules are modelled in life-fitness-pwr-play.",
+ "fetched": {"at": "2026-10-23T00:00:00+00:00", "how": "none: an assembly of life-fitness-pwr-play, no page of its own"}
+}

@@ -224,7 +224,7 @@ def top_mount(f, length, zt):
     calls (the cable now always drops at the face). Returns (v, z) where the cable leaves the pulley's outer side."""
     g = 0.86 * RP - 0.003                               # the groove, a hair inside it
     vp = VS + g                                         # the cable rises off the stack's centre on the pulley's near side
-    lo, hi = vp - g + 0.012, vp + 0.10                 # the saddle on the rail: clear of the cable rising at vp - g
+    lo, hi = vp - g + 0.012, vp + g - 0.012            # the saddle on the rail: between the cable's rise and its drop
     zs0 = ZTC + RTR
     f.box("boom", (0.0, (lo + hi) / 2, zs0 + 0.005), (0.08, hi - lo, 0.010), soft=0.003)
     for su in (-1, 1):                                  # a narrow strap up each side to the axle: the pulley open (ref_07)
@@ -535,8 +535,20 @@ def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
     f.cyl("frame", (0.0, kv, zc), 0.016, 0.10, seg=24, soft=0.004)
     for z in (zc - 0.053, zc + 0.053):
         f.cyl("chrome", (0.0, kv, z), 0.009, 0.006, seg=16)
-    hv, hz, w, h = kv + 0.085, zc - 0.005, 0.15, 0.155
+    hv, hz = kv + 0.085, zc - 0.005
     f.box("frame", (0.0, (kv + 0.012 + hv - 0.069) / 2, zc), (0.026, hv - 0.069 - kv - 0.012, 0.07), soft=0.004)
+    return housing(f, hv, hz)
+
+
+HOUSING = (0.15, 0.155)             # a swivel pulley housing's D plates: across (v), tall
+
+
+def housing(f, hv, hz):
+    """A swivel pulley's housing centred at (0, hv, hz) (ref_02 / ref_03): two D-shaped black plates (round toward +v,
+    squarer toward -v) with the pulley's rim between them, the axle's bolts through, the spacer at the -v side; the
+    cable out of its foot through the rubber stop ball to the snap hook and the strap D handle. Returns (v, z) of the
+    housing's top, where the cable comes in."""
+    w, h = HOUSING
     prof = _corners(w, h, (0.068, 0.022, 0.03, 0.068))   # (v, z): round on +v, square-ish at the track
     for su in (-1, 1):                                  # the two plates, the pulley's rim between them
         f.sweep("plastic", [(su * 0.0225 - 0.006, hv, hz), (su * 0.0225 + 0.006, hv, hz)],
@@ -681,7 +693,8 @@ def beam(k, a, b, z, handles="flat", caps=True):
             t = tm(d0)
             collar(t)
             p1, p2 = at(t, s_ * 0.05, 0, -0.09), at(t, s_ * 0.27, 0, -0.17)
-            k.sweep("frame", [at(t, 0, 0, -R + 0.01), p1, p2], k.circle(0.016, 18), bend=0.04, soft=0.0)
+            k.sweep("frame", [at(t, 0, 0, -R - 0.005), at(t, 0, 0, -R - 0.03), p1, p2], k.circle(0.016, 18), bend=0.03,
+                    soft=0.0)                           # down off the collar, then angled out
             k.tube("rubber", at(t, s_ * 0.11, 0, -0.112), p2, 0.02, soft=0.003)
             k.cyl("plastic", at(t, s_ * 0.276, 0, -0.172), 0.022, 0.012, axis=ax_u, seg=20, soft=0.003)
     elif handles == "flat":                             # a straight pull-up bar hung level under the crossbar
@@ -700,7 +713,7 @@ def beam(k, a, b, z, handles="flat", caps=True):
         for d0 in (-0.26, 0.26):
             t = tm(d0)
             collar(t)
-            k.tube("frame", at(t, 0, 0, -R + 0.01), at(t, 0, 0, zb + 0.03), 0.02, seg=20)
+            k.tube("frame", at(t, 0, 0, -R - 0.004), at(t, 0, 0, zb + 0.045), 0.022, seg=20)
             k.bar("frame", at(t, -0.13, 0, zb + 0.03), at(t, 0.13, 0, zb + 0.03), 0.03, 0.03, up=(0, 0, 1))
             for du in (-0.11, 0.11):
                 k.tube("frame", at(t, du, 0, zb + 0.015), at(t, du, 0, zb - 0.005), 0.012, seg=14)
@@ -731,6 +744,71 @@ def tower(k, c, out):
     return f.p(0.0, 0.0, zt0 + LEG / 2 + 0.012)
 
 
+def panel(k, c, out):
+    """Station Panel (LPP-PA, the manual's drawing): a face closed by a black sheet between its legs from the bottom
+    cross-member up to the top rail, in front of both, the LF roundel low on it."""
+    f = Face(k, c, out)
+    vp = A + CM[0] / 2 + 0.003
+    z0, z1 = ZBC - CM[1] / 2, ZTC + RTR
+    f.box("placard", (0.0, vp, (z0 + z1) / 2), (2 * (A - LEG / 2), 0.004, z1 - z0), soft=0.0012)
+    f.disc("label", (-0.12, vp + 0.0025, 0.42), 0.075, 0.066, 0.001, axis="v", seg=48)
+    f.text("label", "LF", (-0.12, vp + 0.0022, 0.42), 0.075, depth=0.0006)
+
+
+def _mount(f, z):
+    """A station's mounting bar across a face between its legs at height z, welded to their inner faces, flush with
+    their fronts (clear of the stack behind). Returns its front (v)."""
+    f.bar("frame", (-A + LEG / 2, A + 0.018, z), (A - LEG / 2, A + 0.018, z), 0.04, 0.07, up="z",
+          cut0=((-A + LEG / 2, 0, 0), (1, 0, 0)), cut1=((A - LEG / 2, 0, 0), (1, 0, 0)), weld=True)
+    return A + 0.038
+
+
+def dual_cable(k, c, out, high=True):
+    """Dual Cable High / Low (LPP-DH / LPP-DL, the manual's drawings): the stack behind the face, the cable over the
+    top pulley and down the face to the swing arm's pivot on a mounting bar (high under the top, low over the stack's
+    foot); the square arm out from its pivot hub, bending down (high) or reaching down to the floor (low), the swivel
+    pulley housing hung at its tip with the strap handle (the cable runs inside the arm)."""
+    f = Face(k, c, out)
+    zt = f.stack(VS, A, hang=False)
+    vo, zo = top_mount(f, 0.06, zt)
+    zpv = 1.86 if high else 0.95
+    vm = _mount(f, zpv)
+    f.box("frame", (0.0, vm + 0.03, zpv), (0.09, 0.06, 0.05), soft=0.004)                    # the hub's bracket
+    hv0 = vm + 0.06 + 0.046                             # the pivot hub, its cap; the cable down into it
+    f.cyl("frame", (0.0, hv0, zpv), 0.05, 0.12, seg=36, soft=0.006)
+    f.cyl("plastic", (0.0, hv0, zpv + 0.064), 0.04, 0.008, seg=32, soft=0.002)
+    f.cable([(0.0, vo, zo), (0.0, vo, zpv + 0.11), (0.0, hv0, zpv + 0.072)])
+    if high:                                            # out level from the hub, then bending down to the tip
+        arm = [(0.0, hv0 + 0.044, zpv), (0.0, hv0 + 0.12, zpv), (0.0, A + 0.45, zpv + 0.03), (0.0, A + 0.66, zpv - 0.16)]
+    else:                                               # reaching out and down so the pulley sits low
+        arm = [(0.0, hv0 + 0.044, zpv), (0.0, hv0 + 0.12, zpv), (0.0, A + 0.42, zpv - 0.08), (0.0, A + 0.64, 0.62)]
+    f.sweep("frame", arm, f.k.rect(0.065, 0.065, 0.012), bend=0.14, up="u", soft=0.0)
+    tv, tz = arm[-1][1], arm[-1][2]
+    f.cyl("plastic", (0.0, tv, tz - 0.02), 0.036, 0.012, seg=28, soft=0.003)                 # the arm's end cap
+    f.cyl("frame", (0.0, tv, tz - 0.05), 0.02, 0.05, seg=20, soft=0.003)                      # the swivel's knuckle
+    housing(f, tv + 0.01, tz - 0.075 - HOUSING[1] / 2)
+    placard(f, A, 1.25, "dualhigh" if high else "duallow")
+
+
+def dip(k, c, out):
+    """Dip (LPP-DI, the manual's drawing): two padded grips straight out from a face, shoulder width apart, on their
+    bracket bolted to a mounting bar across the face."""
+    f = Face(k, c, out)
+    zd = 1.18
+    vm = _mount(f, zd)
+    f.box("frame", (0.0, vm + 0.02, zd), (0.64, 0.04, 0.12), soft=0.006)                      # the bracket plate
+    for su in (-1, 1):
+        u = su * 0.28
+        f.sweep("frame", [(u, vm + 0.037, zd), (u, A + 0.20, zd), (u, A + 0.30, zd + 0.06)], f.k.circle(0.019, 20),
+                bend=0.06, soft=0.0)
+        f.tube("frame", (u, A + 0.30, zd + 0.06), (u, A + 0.62, zd + 0.06), 0.019, seg=20)
+        f.tube("rubber", (u, A + 0.34, zd + 0.06), (u, A + 0.62, zd + 0.06), 0.024, soft=0.004)
+        f.cyl("plastic", (u, A + 0.626, zd + 0.06), 0.025, 0.012, axis="v", seg=24, soft=0.003)
+        for dz in (-0.035, 0.035):
+            f.bolt((u - 0.06 * su, vm + 0.04, zd + dz), "+v", size=0.014)
+    placard(f, A, 1.25, "dip")
+
+
 # ---- layouts: a set or a maze of Cores as data
 FACES = {"S": (0, -1), "E": (1, 0), "N": (0, 1), "W": (-1, 0)}
 CONNECTORS = {"short": 1.867, "medium": 2.172, "long": 2.477, "xlong": 2.553}   # the crossbars, clear between Cores (m)
@@ -745,7 +823,7 @@ def spacing(conn):
 def build_layout(k, L):
     """Build a layout: L = dict(cores={name: (x, y)}, faces={(name, "S"): station}, bars=[(name, name, handles)]).
     Stations: pulldown, row, triceps, adjustable (a carriage post), crossover (the post under a crossbar's boom; an
-    adjustable face with a crossbar is one), or None. A crossbar runs along x or y between two Cores a connector's
+    adjustable face with a crossbar is one), dualhigh, duallow, dip, panel (a blank face), or None. A crossbar runs along x or y between two Cores a connector's
     spacing apart, its ends on the facing faces' booms; it can't land on a pulldown's or a triceps' face. Returns each
     station's points by (core, face)."""
     barfaces = {}
@@ -784,6 +862,12 @@ def build_layout(k, L):
             pts[key] = row(k, c, o)
         elif st == "triceps":
             triceps(k, c, o)
+        elif st == "panel":
+            panel(k, c, o)
+        elif st in ("dualhigh", "duallow"):
+            dual_cable(k, c, o, high=st == "dualhigh")
+        elif st == "dip":
+            dip(k, c, o)
         elif st is not None:
             raise ValueError(f"{key}: no station {st!r}")
         if bar:                                         # a plain boom out to the crossbar's joint
