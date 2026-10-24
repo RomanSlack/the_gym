@@ -37,8 +37,8 @@ DETAILS = {
     "detail_handles": ((1.0, 1.5, 1.25), (0.0, 0.5, 0.82), 40),          # A's handle storage
     "detail_step": ((2 * D - 1.6, -1.2, 1.2), (2 * D - 0.7, 0.0, 0.42), 40),     # C's step
     "detail_stall_bars": ((D + 2.0, D - 1.6, 1.6), (D + 0.5, D, 1.2), 40),      # E's stall bars
-    "detail_rope_pull": ((2 * D - 1.9, D - 1.5, 1.5), (2 * D - 0.5, D, 1.1), 40),  # F's rope pull
-    "detail_power_pivot": ((2 * D + 2.0, D - 2.0, 1.4), (2 * D + 1.0, D, 0.5), 40),  # F's power pivot
+    "detail_rope_pull": ((2 * D - 2.4, D + 0.5, 1.4), (2 * D - 0.55, D, 1.05), 38),  # F's rope pull
+    "detail_power_pivot": ((2 * D + 2.2, D - 1.6, 2.0), (2 * D + 0.9, D, 0.4), 40),  # F's power pivot
 }
 
 
