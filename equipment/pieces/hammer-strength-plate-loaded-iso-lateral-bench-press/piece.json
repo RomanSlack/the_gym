@@ -1,0 +1,85 @@
+{
+ "id": "hammer-strength-plate-loaded-iso-lateral-bench-press",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
+ "title": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-bench-press",
+ "items": [
+  "iso-chest"
+ ],
+ "item_names": [
+  "Iso-lateral chest press (plate-loaded)"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 4135.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:57:38+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Bench_Press_IL-BP_-_Render_1.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_10.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_11.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_17.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_28.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_20.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_27.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_29.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_25.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_1.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_7.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_3.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_9.jpg?v=1765472427"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Bench_Press_IL-BP_23.jpg?v=1765472427"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:57:38+00:00",
+  "how": "shopify json"
+ }
+}

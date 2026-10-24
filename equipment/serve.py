@@ -36,7 +36,7 @@ def save(state):
 def apply(state, a):
     it = state["items"].setdefault(a["id"], {"links": [], "skipped": False}) if "id" in a else None
     if a["action"] == "add_link" and a["url"] not in [l["url"] for l in it["links"]]:
-        it["links"].append({"url": a["url"], "added": a["t"]})
+        it["links"].append({"url": a["url"], "added": a["t"], **({"by": a["by"]} if a.get("by") else {})})
     elif a["action"] == "remove_link":
         it["links"] = [l for l in it["links"] if l["url"] != a["url"]]
     elif a["action"] == "skip":

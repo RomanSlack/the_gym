@@ -778,6 +778,139 @@
     }
    ],
    "skipped": false
+  },
+  "iso-chest": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-bench-press",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Bench_Press_IL-BP_-_Render_1.jpg?v=1765472427"
+    }
+   ],
+   "skipped": false
+  },
+  "iso-incline": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-incline-press",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Iso-Lateral Incline Press",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-incline-press-charcoal-black-1000x1000.jpg?v=1748945164"
+    }
+   ],
+   "skipped": false
+  },
+  "iso-row": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-row",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Iso-Lateral Row",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-plate-loaded-iso-later-rowing-machine-charcoal-charcoal-front-1000x1000.jpg?v=1748945275"
+    }
+   ],
+   "skipped": false
+  },
+  "iso-pulldown": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Iso-Lateral Front Lat Pulldown",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-iso-lateral-front-lat-pulldown-charcoal-black-1000x1000.jpg?v=1748945158"
+    }
+   ],
+   "skipped": false
+  },
+  "shoulder-press": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-shoulder-press",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-plate-loaded-iso-lateral-shoulder-press-charcoal-black-1000x1000.jpg?v=1748945153"
+    }
+   ],
+   "skipped": false
+  },
+  "chest-press": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-select-chest-press",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Select Chest Press",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-selectchest-press-charcoal-black-1000x1000.jpg?v=1748945070"
+    }
+   ],
+   "skipped": false
+  },
+  "pec-deck": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-select-pectoral-fly-rear-deltoid",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-select-pectoral-fly-rear-deltoid-charcoal-black-1000x1000.jpg?v=1748945069"
+    }
+   ],
+   "skipped": false
+  },
+  "tbar-row": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-t-bar-row",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded T-Bar Row",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/t-bar-row-charcoal-1000x1000.jpg?v=1748945102"
+    }
+   ],
+   "skipped": false
+  },
+  "ab-crunch": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-abdominal-oblique-crunch-1",
+     "added": "2026-10-24T03:56:50+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Plate Loaded Abdominal Oblique Crunch",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-plate-loadedabdominal-oblique-crunch-charcoal-black-1000x1000.jpg?v=1748945121"
+    }
+   ],
+   "skipped": false
+  },
+  "lat-pulldown": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
+  },
+  "seated-row": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
+  },
+  "tricep": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
+  },
+  "assisted-pullup": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
+  },
+  "landmine": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
   }
  },
  "custom": []

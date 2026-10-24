@@ -1,0 +1,33 @@
+{
+ "id": "hammer-strength-select-pectoral-fly-rear-deltoid",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+ "title": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-select-pectoral-fly-rear-deltoid",
+ "items": [
+  "pec-deck"
+ ],
+ "item_names": [
+  "Pec deck / rear delt"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 5972.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:59:27+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-select-pectoral-fly-rear-deltoid-charcoal-black-1000x1000.jpg?v=1748945069"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:59:27+00:00",
+  "how": "shopify json"
+ }
+}

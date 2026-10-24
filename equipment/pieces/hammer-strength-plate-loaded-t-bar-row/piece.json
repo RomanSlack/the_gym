@@ -1,0 +1,85 @@
+{
+ "id": "hammer-strength-plate-loaded-t-bar-row",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Plate Loaded T-Bar Row",
+ "title": "Hammer Strength Plate Loaded T-Bar Row",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-t-bar-row",
+ "items": [
+  "tbar-row"
+ ],
+ "item_names": [
+  "Chest-supported T-bar row"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 3032.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:59:19+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/t-bar-row-charcoal-1000x1000.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_26__mr.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_12__mr.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_27__mr.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_20__mr.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_19__mr.jpg?v=1748945102"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_22__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_23__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_24__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_9__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_5__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_7__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_8__mr.jpg?v=1748945103"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-PlateLoaded-T-BarRow_PL-TBR-01_32__mr.jpg?v=1748945103"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:59:19+00:00",
+  "how": "shopify json"
+ }
+}

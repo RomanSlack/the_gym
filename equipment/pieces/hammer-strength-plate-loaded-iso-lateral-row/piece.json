@@ -1,0 +1,77 @@
+{
+ "id": "hammer-strength-plate-loaded-iso-lateral-row",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Plate Loaded Iso-Lateral Row",
+ "title": "Hammer Strength Plate Loaded Iso-Lateral Row",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-row",
+ "items": [
+  "iso-row"
+ ],
+ "item_names": [
+  "Iso-lateral row (plate-loaded)"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 4135.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:58:39+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-plate-loaded-iso-later-rowing-machine-charcoal-charcoal-front-1000x1000.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-7.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-2.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-3.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-4.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-5.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Strength-PlateLoaded-IsoLateralRow-6.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-il-row-barn-saladino-4-1000x1000.jpg?v=1748945275"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-il-row-barn-saladino-3-1000x1000.jpg?v=1748945276"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-il-row-barn-saladino-1-1000x1000.jpg?v=1748945276"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-il-row-barn-saladino-2-1000x1000.jpg?v=1748945276"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-plate-loaded-iso-later-rowing-machine-charcoal-black-1000x1000.jpg?v=1748945276"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:58:39+00:00",
+  "how": "shopify json"
+ }
+}

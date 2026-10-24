@@ -1,0 +1,77 @@
+{
+ "id": "hammer-strength-plate-loaded-iso-lateral-shoulder-press",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+ "title": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-shoulder-press",
+ "items": [
+  "shoulder-press"
+ ],
+ "item_names": [
+  "Shoulder press"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 4135.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:58:58+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-plate-loaded-iso-lateral-shoulder-press-charcoal-black-1000x1000.jpg?v=1748945153"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_23.jpg?v=1748945153"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_22.jpg?v=1748945153"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_15.jpg?v=1748945153"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_14.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_17.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_5.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_19.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_7.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_1.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_3.jpg?v=1748945154"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_-_Shoulder_Press_IL-SP_4.jpg?v=1748945154"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:58:58+00:00",
+  "how": "shopify json"
+ }
+}

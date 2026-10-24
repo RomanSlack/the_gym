@@ -1,0 +1,81 @@
+{
+ "id": "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Plate Loaded Iso-Lateral Front Lat Pulldown",
+ "title": "Hammer Strength Plate Loaded Iso-Lateral Front Lat Pulldown",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown",
+ "items": [
+  "iso-pulldown"
+ ],
+ "item_names": [
+  "Iso-lateral front pulldown (plate-loaded)"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 4135.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:57:59+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-iso-lateral-front-lat-pulldown-charcoal-black-1000x1000.jpg?v=1748945158"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_9.jpg?v=1748945158"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_8.jpg?v=1748945158"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_12.jpg?v=1748945158"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_11.jpg?v=1748945158"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_13.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_14.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_17.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_1.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_15.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_7.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_3.jpg?v=1748945159"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Plate_Loaded_-_Iso-Lateral_Front_Lat_Pulldown_IL-PD_4.jpg?v=1748945159"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:57:59+00:00",
+  "how": "shopify json"
+ }
+}

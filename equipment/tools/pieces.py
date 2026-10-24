@@ -65,7 +65,7 @@ def sync():
             url = clean_url(l["url"])
             key = urlparse(url)._replace(query="", fragment="").geturl().rstrip("/")
             title = l.get("title") or urlparse(url).path.rstrip("/").split("/")[-1].replace("-", " ")
-            p = found.setdefault(key, {"title": title, "url": url, "items": [], "picked": l["added"]})
+            p = found.setdefault(key, {"title": title, "url": url, "items": [], "picked": l["added"], "by": l.get("by")})
             if item not in p["items"]:
                 p["items"].append(item)
     ids = {}
@@ -78,7 +78,8 @@ def sync():
         old = json.loads(f.read_text()) if f.exists() else {}
         new = {"id": pid, "brand": brand, "model": model, "title": p["title"], "url": p["url"],
                "items": p["items"], "item_names": [names.get(i, i) for i in p["items"]], "picked": p["picked"],
-               "source": "Roman's pick", "price": None, "refs": [], "status": "picked", "notes": ""}
+               "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)" if p["by"] == "claude"
+               else "Roman's pick", "price": None, "refs": [], "status": "picked", "notes": ""}
         new.update({k: v for k, v in old.items() if k not in ("items", "item_names")})  # manual + fetched fields survive
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text(json.dumps(new, indent=1, ensure_ascii=False) + "\n")
@@ -151,7 +152,7 @@ def page_data(pid, url):
 def fetch():
     for f in sorted(PIECES.glob("*/piece.json")):
         p = json.loads(f.read_text())
-        if p.get("fetched"):
+        if p.get("fetched") or p.get("refs"):          # photos already there (some added by hand): never refetched
             continue
         try:
             price, cur, imgs, how = page_data(p["id"], p["url"])

@@ -1,0 +1,41 @@
+{
+ "id": "hammer-strength-select-chest-press",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Select Chest Press",
+ "title": "Hammer Strength Select Chest Press",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-select-chest-press",
+ "items": [
+  "chest-press"
+ ],
+ "item_names": [
+  "Chest press (flat + incline)"
+ ],
+ "picked": "2026-10-24T03:56:50+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 5972.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T03:59:25+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-selectchest-press-charcoal-black-1000x1000.jpg?v=1748945070"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrengthSelectChestPressV2Crunch.jpg?v=1748945070"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrengthSelectChestPressV1Crunch.jpg?v=1748945070"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T03:59:25+00:00",
+  "how": "shopify json"
+ }
+}
