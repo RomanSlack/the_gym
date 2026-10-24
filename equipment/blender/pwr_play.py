@@ -411,27 +411,56 @@ def triceps(k, c, out):
     placard(f, A, 1.25)
 
 
-def carriage_body(f, v, zc, track_w=0.055):
-    """An adjustable carriage riding a track at (0, v) of face/frame f, its pulley facing +v (ref_02 / ref_03 / your
-    PWR Play render): the black body round the track, the pop pin and its knob on +u, the swivel arm, the big black
-    pulley housing (no yellow ring: Roman, 2026-10-23) and the warning label, the cable out of its foot to the snap hook
-    and the strap D handle."""
-    f.box("frame", (0.0, v, zc), (track_w + 0.045, 0.09, 0.17), soft=0.008)
-    f.tube("chrome", (-(track_w / 2 + 0.0225), v, zc + 0.04), (-(track_w / 2 + 0.05), v, zc + 0.04), 0.007, seg=12)
-    f.cyl("plastic", (-(track_w / 2 + 0.067), v, zc + 0.04), 0.026, 0.034, axis="u", soft=0.006)      # the pop pin's knob
-    f.box("white", (-(track_w / 2 + 0.0226), v, zc - 0.05), (0.0012, 0.05, 0.03), soft=0.0)          # its warning label
-    f.box("frame", (0.0, v + 0.065, zc - 0.03), (0.045, 0.04, 0.05), soft=0.004)
-    hv, hz, hr = v + 0.13, zc - 0.03, 0.08
-    f.cyl("plastic", (0.0, hv, hz), hr, 0.045, axis="u", soft=0.006)
-    for su in (-1, 1):
-        f.cyl("chrome", (su * 0.0232, hv, hz + 0.01), 0.012, 0.0024, axis="u", seg=16)
-        f.box("white", (su * 0.0232, hv + 0.02, hz - 0.05), (0.0012, 0.04, 0.02), soft=0.0)
-    zh = hz - hr - 0.20
-    f.cable([(0.0, hv + 0.03, hz - hr + 0.005), (0.0, hv + 0.03, zh + 0.07)])
-    f.disc("chrome", (0.0, hv + 0.03, zh + 0.06), 0.016, 0.011, 0.005, axis="u", seg=20)            # the snap hook
-    f.sweep("rubber", [(0.0, hv + 0.03, zh + 0.05), (-0.065, hv + 0.03, zh - 0.005), (0.065, hv + 0.03, zh - 0.005),
-                       (0.0, hv + 0.03, zh + 0.05)], f.k.rect(0.003, 0.022, 0.001), bend=0.015, up="v", soft=0.0)
-    f.tube("rubber", (-0.06, hv + 0.03, zh - 0.01), (0.06, hv + 0.03, zh - 0.01), 0.016, soft=0.003)
+def _corners(w, h, r, seg=6):
+    """A w x h outline (centred) with its own radius per corner: r = (+w+h, -w+h, -w-h, +w-h)."""
+    pts = []
+    for (sx, sy), rr, a0 in zip(((1, 1), (-1, 1), (-1, -1), (1, -1)), r, (0, 90, 180, 270)):
+        cx, cy = sx * (w / 2 - rr), sy * (h / 2 - rr)
+        for i in range(seg + 1):
+            a = math.radians(a0 + 90 * i / seg)
+            pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
+    return pts
+
+
+def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
+    """An adjustable carriage riding a track at (0, v) of face/frame f (ref_02 / ref_03 close up): the rounded black
+    body round the track, the pop pin's round knob on its front (-u) over the warning label, the T release lever on
+    its -v side; on its +v side the swivel's knuckle and arm to the pulley housing: two D-shaped black plates (round
+    away from the track, squarer at the track) with the pulley's rim between them and the axle's bolts through (no
+    yellow: Roman, 2026-10-23); the cable out of the housing's foot to the snap hook and the strap D handle.
+    Returns (v, z) of the housing's top, where the cable comes in."""
+    bu, bv = track_w + 0.03, track_d + 0.04
+    f.box("frame", (0.0, v, zc), (bu, bv, 0.15), soft=0.012)
+    f.cyl("chrome", (-(bu / 2 + 0.002), v, zc + 0.025), 0.02, 0.004, axis="u", seg=24)
+    f.cyl("plastic", (-(bu / 2 + 0.015), v, zc + 0.025), 0.017, 0.024, axis="u", seg=24, soft=0.005)  # the pop pin's knob
+    f.box("white", (-(bu / 2 + 0.0006), v, zc - 0.04), (0.0012, bv - 0.014, 0.036), soft=0.0)        # the warning label
+    f.box("red", (-(bu / 2 + 0.0008), v, zc - 0.0255), (0.0012, bv - 0.014, 0.007), soft=0.0)
+    lv = v - bv / 2                                     # the T release lever, toward the Core
+    f.tube("plastic", (0.0, lv + 0.004, zc + 0.03), (0.0, lv - 0.032, zc + 0.03), 0.008, seg=14)
+    f.tube("plastic", (0.0, lv - 0.032, zc + 0.002), (0.0, lv - 0.032, zc + 0.058), 0.0095, seg=16, soft=0.003)
+    kv = v + bv / 2 + 0.013                             # the swivel: its knuckle on a vertical pin, the arm out
+    f.cyl("frame", (0.0, kv, zc), 0.016, 0.10, seg=24, soft=0.004)
+    for z in (zc - 0.053, zc + 0.053):
+        f.cyl("chrome", (0.0, kv, z), 0.009, 0.006, seg=16)
+    hv, hz, w, h = kv + 0.085, zc - 0.005, 0.15, 0.155
+    f.box("frame", (0.0, kv + 0.02, zc), (0.026, 0.03, 0.07), soft=0.005)
+    prof = _corners(w, h, (0.068, 0.022, 0.03, 0.068))   # (v, z): round on +v, square-ish at the track
+    for su in (-1, 1):                                  # the two plates, the pulley's rim between them
+        f.sweep("plastic", [(su * 0.0225 - 0.006, hv, hz), (su * 0.0225 + 0.006, hv, hz)],
+                [(dv, dz) for dv, dz in prof], up="z", soft=0.003)
+        for dv, dz in ((0.0, 0.0), (0.012, -0.05)):
+            f.cyl("chrome", (su * 0.0295, hv + dv, hz + dz), 0.008 if dz == 0 else 0.0065, 0.004, axis="u", seg=16)
+    f.cyl("rubber", (0.0, hv, hz), 0.064, 0.034, axis="u", seg=40, soft=0.002)
+    f.box("frame", (0.0, hv - w / 2 + 0.012, hz), (0.034, 0.024, h - 0.05), soft=0.003)        # the spacer at the track
+    zh = hz - h / 2 - 0.20
+    cv = hv + 0.03
+    f.cable([(0.0, cv, hz - 0.062), (0.0, cv, zh + 0.07)])
+    f.cyl("rubber", (0.0, cv, hz - h / 2 - 0.009), 0.02, 0.022, seg=20, soft=0.004)             # the stop ball
+    f.disc("chrome", (0.0, cv, zh + 0.06), 0.016, 0.011, 0.005, axis="u", seg=20)            # the snap hook
+    f.sweep("rubber", [(0.0, cv, zh + 0.05), (-0.065, cv, zh - 0.005), (0.065, cv, zh - 0.005),
+                       (0.0, cv, zh + 0.05)], f.k.rect(0.003, 0.022, 0.001), bend=0.015, up="v", soft=0.0)
+    f.tube("rubber", (-0.06, cv, zh - 0.01), (0.06, cv, zh - 0.01), 0.016, soft=0.003)
+    return hv - w / 2 + 0.03, hz + h / 2 - 0.004
 
 
 HANG = (0.11, 0.055)                # a carriage post's hanger pulley: its centre below the bar's underside, its radius
@@ -468,8 +497,8 @@ def carriage_post(k, base, toward, z_top, zc=1.30, link=None):
     f.tube("chrome", (-0.036, pv, pz), (0.036, pv, pz), 0.008, seg=12)
     for su in (-1, 1):
         f.cyl("chrome", (su * 0.015, pv, pz), 0.022, 0.006, axis="u", seg=24)
-    carriage_body(f, 0.0, zc, tw)
-    f.cable([(0.0, pv + 0.86 * HANG[1] - 0.003, pz), (0.0, 0.16, zc - 0.03 + 0.072)])                 # down to the housing's rim
+    cv, cz = carriage_body(f, 0.0, zc, tw, td)
+    f.cable([(0.0, pv + 0.86 * HANG[1] - 0.003, pz), (0.0, cv, cz)])                                 # down to the housing's top
     return f
 
 
