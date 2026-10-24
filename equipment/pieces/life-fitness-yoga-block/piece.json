@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-24T04:08:25+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 10.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:14:27+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/life-fitness-Yoga_Block_057-1000x1000.png?v=1748945331"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:14:27+00:00",
+  "how": "shopify json"
+ }
 }

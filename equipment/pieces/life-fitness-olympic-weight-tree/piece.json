@@ -12,8 +12,26 @@
  ],
  "picked": "2026-10-24T04:08:25+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 800.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:13:37+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-signature-seriesolympic-weight-treebase-charcoal-1000x1000.jpg?v=1748945299"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/life-fitness-signature-seriesolympic-weight-treebase-1000x1000.jpg?v=1748945300"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:13:37+00:00",
+  "how": "shopify json"
+ }
 }

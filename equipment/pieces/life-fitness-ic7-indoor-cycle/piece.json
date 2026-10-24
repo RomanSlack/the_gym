@@ -12,8 +12,74 @@
  ],
  "picked": "2026-10-24T04:08:25+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 4367.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:13:08+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/icg-lf-ic7-indoor-cycle-side-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-back-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-light-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-knob-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-pedals-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-seat-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/new-ic7-indoor-cycle-2024-switch-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/icg-lf-ic7-indoor-cycle-console-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-female-riding-screencasting-1000x1000.jpg?v=1748945406"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-man-riding-1000x1000.jpg?v=1748945407"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-man-adjusting-1000x1000.jpg?v=1748945407"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-flywheel-1000x1000.jpg?v=1748945407"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-tft-console-1000x1000.jpg?v=1748945407"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/ic7-icg-man-riding-forward-outside-1000x1000.jpg?v=1748945407"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:13:08+00:00",
+  "how": "shopify json"
+ }
 }

@@ -12,8 +12,70 @@
  ],
  "picked": "2026-10-24T04:08:25+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 9750.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:57+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-elliptical-se4-black-1000x1000.jpg?v=1748945426"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFCNC_0856_LFHSHomeConsumerShoot20250923_1395.jpg?v=1761228358"
+  },
+  {
+   "file": "refs/ref_03.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-elliptical-tb3.webp?v=1788557294"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFCNC_0856_LFHSHomeConsumerShoot20250923_1420.jpg?v=1760455924"
+  },
+  {
+   "file": "refs/ref_05.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-elliptical-tb4.webp?v=1788557294"
+  },
+  {
+   "file": "refs/ref_06.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-elliptical-pedals.webp?v=1788557294"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFCNC_0856_LFHSHomeConsumerShoot20250923_1423.jpg?v=1760455924"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFCNC_0856_LFHSHomeConsumerShoot20250923_1558.jpg?v=1760455924"
+  },
+  {
+   "file": "refs/ref_09.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-elliptical-tb2.webp?v=1788557294"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-elliptical-tb5.jpg?v=1788557294"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-elliptical-titanium-sl-new-1000x1000.jpg?v=1760455924"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-elliptical-black-sl-new-1000x1000.jpg?v=1760455924"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-elliptical-se4-titanium-1000x1000.jpg?v=1760455924"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:57+00:00",
+  "how": "shopify json"
+ }
 }

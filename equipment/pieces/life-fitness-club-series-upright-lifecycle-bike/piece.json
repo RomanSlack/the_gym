@@ -12,8 +12,58 @@
  ],
  "picked": "2026-10-24T04:08:25+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 7699.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:12:23+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-upright-bike-se4-black-1000x1000.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LFCNC_0856_LFHSHomeConsumerShoot20250922_0743.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_03.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-uprightbike-pedals.webp?v=1788974144"
+  },
+  {
+   "file": "refs/ref_04.webp",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-uprightbike-seat.webp?v=1788974143"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-integrity-series-upright-bike-details-4-data.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-integrity-series-upright-bike-details-3-data.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-integrity-series-upright-bike-se4.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-upright-bike-sl-black-update-1000x1000.jpg?v=1769114408"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-upright-bike-sl-titanium-update-1000x1000.jpg?v=1761664957"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-upright-bike-se4-titanium-1000x1000.jpg?v=1761664957"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:12:23+00:00",
+  "how": "shopify json"
+ }
 }
