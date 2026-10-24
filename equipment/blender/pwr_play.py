@@ -13,6 +13,7 @@ Coordinates: a station is built in its face's frame (u along the face, the user'
 from the Core's centre; z up) and turned into the world by quarter turns, so boxes and stacks stay square.
 """
 import math
+from pathlib import Path
 
 LOOK = {
     "frame": dict(color=(0.042, 0.043, 0.047), rough=0.42, metal=0.35, coat=0.0, bump=(1400, 0.06)),   # Charcoal
@@ -30,7 +31,6 @@ LOOK = {
     "cable": dict(color=(0.05, 0.05, 0.055), rough=0.4, coat=0.0),
     "hole": dict(color=(0.004, 0.004, 0.004), rough=0.9),
     "placard": dict(color=(0.02, 0.02, 0.022), rough=0.4, coat=0.0),
-    "blue": dict(color=(0.08, 0.35, 0.7), rough=0.4, coat=0.0),
     "label": dict(color=(0.75, 0.75, 0.77), rough=0.4, coat=0.0),
     "rope": dict(color=(0.02, 0.02, 0.022), rough=0.8, coat=0.0, bump=(900, 0.3)),
     "bolt": dict(color=(0.55, 0.55, 0.56), rough=0.3, metal=1.0),
@@ -226,8 +226,8 @@ def top_mount(f, length, zt):
     lo, hi = vp - g + 0.012, vp + 0.10                 # the saddle on the rail: clear of the cable rising at vp - g
     zs0 = ZTC + RTR
     f.box("boom", (0.0, (lo + hi) / 2, zs0 + 0.005), (0.08, hi - lo, 0.010), soft=0.003)
-    for su in (-1, 1):                                  # the cheeks up from it round the pulley, their tops under the cable
-        f.box("boom", (su * 0.036, (lo + hi) / 2, (zs0 + ZTP + 0.04) / 2), (0.008, hi - lo, ZTP + 0.04 - zs0), soft=0.02)
+    for su in (-1, 1):                                  # a narrow strap up each side to the axle: the pulley open (ref_07)
+        f.box("boom", (su * 0.036, vp, (zs0 + ZTP + 0.025) / 2), (0.008, 0.045, ZTP + 0.025 - zs0), soft=0.012)
     f.bolt((0.0, A, zs0 + 0.010), "+z", size=0.014)
     f.pulley((0.0, vp, ZTP), RP, axis="u")
     f.tube("chrome", (-0.04, vp, ZTP), (0.04, vp, ZTP), 0.009, seg=12)
@@ -257,7 +257,7 @@ def boom_mount(f, reach, zt, end=True):
     for vp in ((vi, vo) if end else (vi,)):
         for su in (-1, 1):
             ztop = ZBM - bh / 2 + 0.006                 # up into the boom's rounded underside
-            f.box("boom", (su * 0.036, vp, (ztop + zp - 0.04) / 2), (0.008, 0.13, ztop - zp + 0.04), soft=0.02)
+            f.box("boom", (su * 0.036, vp, (ztop + zp - 0.025) / 2), (0.008, 0.05, ztop - zp + 0.025), soft=0.012)
             f.bolt((su * 0.04, vp, zp), "+u" if su > 0 else "-u", size=0.016)
         f.pulley((0.0, vp, zp), RPB, axis="u")
         f.tube("chrome", (-0.04, vp, zp), (0.04, vp, zp), 0.009, seg=12)
@@ -268,10 +268,15 @@ def boom_mount(f, reach, zt, end=True):
     return (vo + g, zp)
 
 
-def placard(f, u, z):
-    f.box("placard", (u, A + LEG / 2 + 0.001, z), (0.07, 0.002, 0.30), soft=0.0)
-    for i in range(3):
-        f.box("blue", (u, A + LEG / 2 + 0.0024, z + 0.09 - i * 0.075), (0.05, 0.0008, 0.06), soft=0.0)
+ART = Path(__file__).resolve().parent / "art" / "pwr_play"     # our placards (make_placards.py)
+
+
+def placard(f, u, z, station):
+    """The station's placard on the front of the face's leg at u (ref_03): our drawing of the warning label, the mark,
+    the station's name and the step panels, on the leg's flat face."""
+    f.box("placard", (u, A + LEG / 2 + 0.0005, z), (0.05, 0.001, 0.30), soft=0.0)
+    facing = {(1, 0): "+x", (-1, 0): "-x", (0, 1): "+y", (0, -1): "-y"}[tuple(f.o)]
+    f.k.decal(ART / f"placard_{station}.png", f.p(u, A + LEG / 2 + 0.0012, z), 0.05, 0.30, facing=facing, rough=0.35)
 
 
 def guard(f, z=0.88, bow=0.10):
@@ -362,7 +367,7 @@ def pulldown(k, c, out):
     for s in (-1, 1):
         f.tube("pad", (s * 0.065, vk, zk), (s * 0.30, vk, zk), 0.066, seg=40, soft=0.012)
         f.cyl("plastic", (s * 0.305, vk, zk), 0.05, 0.012, axis="u", seg=28, soft=0.003)
-    placard(f, A, 1.25)
+    placard(f, A, 1.25, "pulldown")
     return dict(seat=(vs, zs), knee=(vk, zk), bar=(vo, zb))
 
 
@@ -414,7 +419,7 @@ def row(k, c, out):
             f.k.circle(0.012, 16), bend=0.03, soft=0.0)
     for s in (-1, 1):
         f.tube("grip", (s * 0.08, va + 0.22, zl - 0.02), (s * 0.08, va + 0.32, zl - 0.04), 0.017, soft=0.003)
-    placard(f, -A, 1.25)
+    placard(f, -A, 1.25, "row")
     return dict(seat=(A + 1.00, zp), foot=(vc, zc - 0.03), handle=(va + 0.27, zl))
 
 
@@ -447,7 +452,7 @@ def triceps(k, c, out):
         f.sweep("rope", [(0.0, vo, zr + 0.035), (s * 0.03, vo, zr - 0.02), (s * 0.05, vo, zr - 0.34)], f.k.circle(0.013, 14),
                 bend=0.05, soft=0.0)
         f.cyl("rubber", (s * 0.05, vo, zr - 0.36), 0.024, 0.045, soft=0.006)
-    placard(f, A, 1.25)
+    placard(f, A, 1.25, "triceps")
 
 
 def _corners(w, h, r, seg=6):
@@ -585,7 +590,7 @@ def crossover_station(k, c, out, post_v, z_bar):
     f.cable([(0.0, vo - 0.86 * RP + 0.003, zo + 0.86 * RP - 0.003), (0.0, post_v, z_bar - HANG[0] + 0.86 * HANG[1] - 0.003)])
     base = f.p(0.0, post_v, 0.0)[:2]
     carriage_post(k, base, out, z_bar, link=-(post_v - A - CM[0] / 2))
-    placard(f, A, 1.25)
+    placard(f, A, 1.25, "crossover")
 
 
 def adjustable_station(k, c, out, post_v=None, zc=1.30):
@@ -600,7 +605,7 @@ def adjustable_station(k, c, out, post_v=None, zc=1.30):
     z_top = ZBM - 0.045
     carriage_post(k, f.p(0.0, post_v, 0.0)[:2], out, z_top, zc=zc, link=-(post_v - A - CM[0] / 2), boom=(0.05, 0.045))
     f.cable([(0.0, vo, zo), (0.0, post_v, z_top - HANG[0] + 0.86 * HANG[1] - 0.003)])
-    placard(f, A, 1.25)
+    placard(f, A, 1.25, "adjustable")
 
 
 def beam(k, a, b, z, handles="flat", caps=True):
