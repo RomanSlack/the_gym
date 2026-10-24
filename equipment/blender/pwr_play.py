@@ -848,11 +848,11 @@ def handle_storage(k, c, out):
         f.tube("rubber", (du - 0.055, vt + 0.07, zt - 0.105), (du + 0.055, vt + 0.07, zt - 0.105), 0.016, soft=0.003)
     zt = zh - 0.045 - 0.085                             # the rope over the third hook
     f.disc("chrome", (0.05, vt + 0.07, zt + 0.012), 0.025, 0.017, 0.006, axis="u", seg=28)
-    rope = [(0.02, vt + 0.07, zt - 0.32), (0.035, vt + 0.07, zt - 0.03), (0.045, vt + 0.07, zt + 0.007),
-            (0.055, vt + 0.07, zt + 0.007), (0.065, vt + 0.07, zt - 0.03), (0.08, vt + 0.07, zt - 0.32)]
-    f.sweep("rope", rope, f.k.circle(0.012, 14), bend=0.02, soft=0.0)
+    rope = [(0.02, vt + 0.07, zt - 0.34), (0.035, vt + 0.07, zt - 0.054), (0.045, vt + 0.07, zt - 0.017),
+            (0.055, vt + 0.07, zt - 0.017), (0.065, vt + 0.07, zt - 0.054), (0.08, vt + 0.07, zt - 0.34)]
+    f.sweep("rope", rope, f.k.circle(0.012, 14), bend=0.02, soft=0.0)     # hanging in the ring, below the hook
     for du in (0.02, 0.08):
-        f.cyl("rubber", (du, vt + 0.07, zt - 0.34), 0.022, 0.04, soft=0.006)
+        f.cyl("rubber", (du, vt + 0.07, zt - 0.36), 0.022, 0.04, soft=0.006)
 
 
 def stall_bars(k, c, out):
