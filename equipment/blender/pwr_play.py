@@ -124,12 +124,12 @@ class Face:
         rz = math.atan2(self.o[1], self.o[0]) + math.pi / 2
         self.k.text(mat, body, self.p(*c), size, rz=rz, depth=depth, spin=spin)
 
-    def stack(self, v, vcm, n=16, rods=0.22, pin_at=5, hang=True):
+    def stack(self, v, vcm, n=16, rods=0.22, pin_at=5, hang=True, step=7.5):
         """A selectorized stack at (0, v), its frame's cross-members at vcm, as Life Fitness's look in the photos
         (ref_05 / ref_06): the base plate on the bottom cross-member, a round rubber cushion round each guide rod, n
         charcoal plates 0.30 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the pin's hole in the
         middle of each plate's front (no slot showing), the white numbers either side of it (ref_05: 5 on the top
-        plate, 12.5, 20 ... down the stack), the pin with its black knob; the thick top plate with the cable's boss, the
+        plate, then `step` more per plate down the stack), the pin with its black knob; the thick top plate with the cable's boss, the
         bushings and red collars on the rods; the chrome rods up to the rod plate (hung on two straps below a top
         mount's pulley, or right under the top rail). Returns the top of the cable's boss."""
         z0 = ZBC + CM[1] / 2
@@ -143,8 +143,8 @@ class Face:
         for i in range(n):
             zc = zb + i * t + t / 2
             self.box("plate", (0.0, v, zc), (W, Dp, t - 0.0025), soft=0.005)
-            for su in (-1, 1):                          # the total lifted with the pin here: 5 on the top plate, +7.5 each
-                self.text("white", f"{5 + (n - i) * 7.5:g}", (su * 0.036, v + Dp / 2 + 0.0004, zc), 0.0135, depth=0.0004)
+            for su in (-1, 1):                          # the total lifted with the pin here: 5 on the top plate, +step each
+                self.text("white", f"{5 + (n - i) * step:g}", (su * 0.036, v + Dp / 2 + 0.0004, zc), 0.0135, depth=0.0004)
             self.cyl("hole", (0.0, v + Dp / 2 + 0.0002, zc), 0.0065, 0.001, axis="v", seg=16)   # the pin's hole
         self.tube("chrome", (0.0, v, zb), (0.0, v, zb + n * t + 0.01), 0.0095, seg=14)            # the stem in it
         zp = zb + pin_at * t + t / 2
@@ -289,7 +289,7 @@ def pulldown(k, c, out):
     nearer the Core the knee pads, the adjustment handle on its top; laid out for a seated 1.78 m user (hips under the
     bar, thighs under the pads, hands up to the bar)."""
     f = Face(k, c, out)
-    zt = f.stack(VS, A, hang=False)
+    zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
     vo, zo = boom_mount(f, 0.52, zt)                    # the boom out over the user (ref_08)
     zb = 1.95                                           # the bar at rest, hung from the boom's end over the hips
     f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.06)])
@@ -334,7 +334,7 @@ def row(k, c, out):
     perforated foot plate on its face; the V handle resting at the pulley; the long bench pad on its beam, the small
     angled foot stop at its near end, the single far leg."""
     f = Face(k, c, out)
-    zt = f.stack(VS, A, hang=False)
+    zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
     vo, zo = top_mount(f, 0.06, zt)
     guard(f)
     # the bench beam from the bottom cross-member out to the far leg
