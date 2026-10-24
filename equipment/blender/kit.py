@@ -618,7 +618,9 @@ class Kit:
             print(f"  gap {g * 1000:.0f} mm: {items[i]['what']} {items[i]['where']} / {items[j]['what']} {items[j]['where']}"
                   f" at {tuple(round(float(x), 3) for x in items[i]['c'])}: close it or open it up", flush=True)
         self.gaps = near
-        self.through = self._through(items, pairs)
+        self.through = [] if getattr(self, "quick", False) else self._through(items, pairs)
+        if getattr(self, "quick", False):
+            print("  (quick check: no pass-through test; the modules are checked in full in their own pieces)", flush=True)
         return self.floating
 
     def _through(self, items, pairs, most=PASS):

@@ -67,6 +67,7 @@ RES = getattr(pm, "RES", (1200, 900))   # a piece may ask for its own frame (a 1
 scene.render.resolution_x, scene.render.resolution_y = RES
 coll = bpy.data.collections.new(PIECE); scene.collection.children.link(coll)
 k = kit.Kit(PIECE, coll, getattr(pm, "LOOK", None))
+k.quick = getattr(pm, "QUICK_CHECK", False)   # a big assembly of modules already checked in full elsewhere
 pm.build(k)
 obs = k.finish()
 bpy.context.view_layer.update()
