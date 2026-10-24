@@ -124,10 +124,10 @@ class Face:
         rz = math.atan2(self.o[1], self.o[0]) + math.pi / 2
         self.k.text(mat, body, self.p(*c), size, rz=rz, depth=depth, spin=spin)
 
-    def stack(self, v, vcm, n=16, rods=0.22, pin_at=5, hang=True, step=7.5):
+    def stack(self, v, vcm, n=16, rods=0.30, pin_at=5, hang=True, step=7.5):
         """A selectorized stack at (0, v), its frame's cross-members at vcm, as Life Fitness's look in the photos
         (ref_05 / ref_06): the base plate on the bottom cross-member, a round rubber cushion round each guide rod, n
-        charcoal plates 0.30 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the pin's hole in the
+        charcoal plates 0.38 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the pin's hole in the
         middle of each plate's front (no slot showing), the white numbers either side of it (ref_05: 5 on the top
         plate, then `step` more per plate down the stack), the pin with its black knob; the thick top plate with the cable's boss, the
         bushings and red collars on the rods; the chrome rods up to the rod plate (hung on two straps below a top
@@ -136,7 +136,7 @@ class Face:
         lo, hi = min(v - 0.09, vcm - CM[0] / 2), max(v + 0.09, vcm + CM[0] / 2)
         self.box("frame", (0.0, (lo + hi) / 2, z0 + 0.005), (0.42, hi - lo, 0.010), soft=0.002)
         z0 += 0.010
-        W, Dp, t = 0.30, 0.16, 0.0254
+        W, Dp, t = 0.38, 0.16, 0.0254                  # wide: most of the face between the legs (ref_07 / ref_08)
         for su in (-1, 1):                              # the cushions the stack rests on, round the rods
             self.cyl("rubber", (su * rods / 2, v, z0 + 0.03), 0.032, 0.06, seg=28, soft=0.006)
         zb = z0 + 0.06
@@ -540,6 +540,10 @@ def carriage_post(k, base, toward, z_top, zc=1.30, link=None, boom=None):
         lv = link                                       # bottom cross-member (ref_08)
         f.box("frame", (0.0, (lv - 0.08) / 2, 0.006), (0.14, abs(lv) + 0.08, 0.012), soft=0.003)
         f.box("frame", (0.0, lv + 0.006, (0.012 + ZBC - CM[1] / 2) / 2), (0.12, 0.012, ZBC - CM[1] / 2 - 0.012), soft=0.002)
+        e0, rg = -td / 2, 0.24                          # the curved gusset up the post's side toward the Core (ref_08)
+        gus = [(e0, 0.012), (e0, 0.012 + rg)] + [(e0 - rg + rg * math.cos(math.radians(a)), 0.012 + rg + rg * math.sin(math.radians(a)))
+                                                 for a in range(-10, -91, -10)]
+        f.sweep("frame", [(-0.004, 0.0, 0.0), (0.004, 0.0, 0.0)], gus, up="z", soft=0.002)
     if boom:                                            # the saddle's section: over the boom's box, or arched over the
         hw, hh = boom                                   # round crossbar, its legs down the sides to a foot under it
         zb_ = z_top + hh
