@@ -161,7 +161,8 @@ class Face:
             self.cyl("red", (su * rods / 2, v, ztop + 0.0595), 0.0165, 0.007, seg=24)
         zr = 1.80 if hang else ZTC - RTR - 0.012
         hi2 = vcm - CM[0] / 2 - 0.004 if hang else vcm
-        self.box("frame", (0.0, (lo + hi2) / 2, zr + 0.006), (0.42, hi2 - lo, 0.012), soft=0.002)
+        for su in (-1, 1):                              # the rod plate, slotted where the cable runs up through it
+            self.box("frame", (su * 0.109, (lo + hi2) / 2, zr + 0.006), (0.202, hi2 - lo, 0.012), soft=0.002)
         if hang:
             for su in (-1, 1):
                 self.box("frame", (su * 0.21, vcm - CM[0] / 2 - 0.009, (zr + ZTC - CM[1] / 2) / 2), (0.03, 0.01, ZTC - CM[1] / 2 - zr),
@@ -241,22 +242,61 @@ ZBM = 2.31                          # a pulldown / pushdown boom's centre: level
 RPB = 0.07                          # the pulleys under a boom
 
 
-def boom_mount(f, reach, zt, end=True):
+BOOM = (0.10, 0.09)                 # a boom's section: across, tall
+
+
+RB = 0.04                           # a round boom's radius: the crossbar's (ref_03: the post's boom and the bar alike)
+
+
+def boom(f, reach, round_=False, cap=True):
+    """A boom (the manual's top mount assembly) straight out from the Core's top cap at the very top, `reach` past the
+    face: the heavy rounded box of a pulldown's or a pushdown's (ref_08), or round like the crossbar it carries on
+    (a post's, a crossbar's; ref_03); its end capped unless a crossbar butts onto it. Returns its end (v)."""
+    bw, bh = BOOM
+    v1 = A + reach
+    if round_:
+        f.tube("frame", (0.0, HUB[0] - 0.003, ZBM), (0.0, v1, ZBM), RB, seg=32)
+        if cap:
+            f.cyl("plastic", (0.0, v1 + 0.006, ZBM), RB + 0.003, 0.012, axis="v", seg=32, soft=0.003)
+        return v1
+    f.bar("boom", (0.0, HUB[0] - 0.003, ZBM), (0.0, v1, ZBM), bw, bh, r=0.035, up="z")
+    f.box("plastic", (0.0, v1 + 0.005, ZBM), (bw - 0.01, 0.012, bh - 0.01), soft=0.02)            # its end cap
+    return v1
+
+
+BAR_REACH = 0.55                    # a crossbar's boom: past the face, beyond the carriage post (ref_03)
+ZBAR = ZBM                          # the crossbar: in line with its booms
+
+
+def joint(f, v1):
+    """Where a crossbar butts onto its boom's end (the manual's Install Crossbar Connectors; ref_02 / ref_03 close up):
+    a thin sleeve over the joint barely wider than the bar, a narrow flat strip along its top, a row of four small
+    socket screws low down each side. Returns the bar's end (x, y) in the world."""
+    rs, ls = RB + 0.004, 0.20
+    f.tube("frame", (0.0, v1 - ls / 2, ZBM), (0.0, v1 + ls / 2, ZBM), rs, seg=40)
+    f.box("frame", (0.0, v1, ZBM + rs + 0.0015), (0.026, ls - 0.01, 0.004), soft=0.0012)
+    zs = ZBM - 0.022
+    us = math.sqrt(rs * rs - 0.022 ** 2)
+    for su in (-1, 1):
+        for i in range(4):
+            f.cyl("bolt", (su * (us + 0.001), v1 - 0.06 + i * 0.04, zs), 0.0045, 0.004, axis="u", seg=12)
+    return f.p(0.0, v1, 0.0)[:2]
+
+
+def boom_mount(f, reach, zt, end=True, round_=False, cap=True):
     """The big boom a pulldown (or a pushdown) hangs from (ref_08 / ref_07; the manual's LPP-PD and LPP-TP drawings):
     a heavy rounded tube straight out from the Core's top cap, at the very top, `reach` past the face, its end capped; a
     pulley hung under it over the stack and one at its end, each between two cheek plates; the cable up from the stack's
     top plate (zt), over the inner pulley, out along under the boom, over the end pulley and down. Returns (v, z) where
     the cable drops off the end pulley."""
     g = 0.86 * RPB - 0.003
-    bw, bh = 0.10, 0.09
-    v1 = A + reach
+    bh = 2 * RB if round_ else BOOM[1]
+    v1 = boom(f, reach, round_, cap)
     zp = ZBM - bh / 2 - 0.012 - RPB
     vi, vo = VS + g, v1 - 0.09
-    f.bar("boom", (0.0, HUB[0] - 0.003, ZBM), (0.0, v1, ZBM), bw, bh, r=0.035, up="z")
-    f.box("plastic", (0.0, v1 + 0.005, ZBM), (bw - 0.01, 0.012, bh - 0.01), soft=0.02)            # its end cap
     for vp in ((vi, vo) if end else (vi,)):
         for su in (-1, 1):
-            ztop = ZBM - bh / 2 + 0.006                 # up into the boom's rounded underside
+            ztop = ZBM - (0.018 if round_ else bh / 2 - 0.006)    # up into the boom's rounded underside
             f.box("boom", (su * 0.036, vp, (ztop + zp - 0.025) / 2), (0.008, 0.05, ztop - zp + 0.025), soft=0.012)
             f.bolt((su * 0.04, vp, zp), "+u" if su > 0 else "-u", size=0.016)
         f.pulley((0.0, vp, zp), RPB, axis="u")
@@ -331,7 +371,7 @@ def pulldown(k, c, out):
     # the holes round a sector plate on the upright's side (Roman: the knee pads adjustable)
     vs, zs = vo + 0.02, 0.45                            # the seat: the hips right under the bar
     zb0 = ZBC + 0.038                                   # the floor beam's top
-    vb, vt, zut = vs - 0.26, vs - 0.42, 1.00            # the upright: its foot, its top
+    vb, vt, zut = vs - 0.26, vs - 0.33, 1.00            # the upright: its foot, its top (clear of the guard bar)
     def vu(z):
         return vb + (vt - vb) * (z - zb0) / (zut - zb0)
     f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vb + 0.04, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
@@ -350,7 +390,7 @@ def pulldown(k, c, out):
     f.box("pad", (0.0, vs + 0.02, zsp + 0.006 + 0.045), (0.38, 0.34, 0.09), soft=0.035)
     zpv = 0.84                                          # the knee pads' pivot, through the upright
     P = (vu(zpv), zpv)
-    vk, zk = vs - 0.30, 0.66                            # the pads' axle at the middle setting: over the thighs
+    vk, zk = vs - 0.24, 0.66                            # the pads' axle at the middle setting: over the thighs
     L = math.hypot(vk - P[0], zk - P[1]); th = math.atan2(zk - P[1], vk - P[0])
     ext = (P[0] + (vk - P[0]) * (L + 0.03) / L, P[1] + (zk - P[1]) * (L + 0.03) / L)
     pre = (P[0] - (vk - P[0]) * 0.035 / L, P[1] - (zk - P[1]) * 0.035 / L)
@@ -394,7 +434,7 @@ def row(k, c, out):
     f.sweep("frame", [(0.0, vb1, zbm), (0.0, vj, zbm), (0.0, vj, zj)], f.k.circle(rb, 28), bend=0.25, soft=0.0)
     f.cyl("plastic", (0.0, vj, zj + 0.004), rb, 0.008, seg=28, soft=0.002)                        # its top cap
     f.cyl("plastic", (0.0, vb1 + 0.004, zbm), rb, 0.008, axis="v", seg=28, soft=0.002)
-    f.bar("frame", (0.0, vb1 - 0.05, FOOT_H), (0.0, vb1 - 0.05, zbm - 0.02), 0.06, 0.06, up="v", cut0=((0, 0, FOOT_H), (0, 0, 1)))
+    f.bar("frame", (0.0, vb1 - 0.05, FOOT_H), (0.0, vb1 - 0.05, zbm - 0.028), 0.05, 0.05, up="v", cut0=((0, 0, FOOT_H), (0, 0, 1)))
     f.box("rubber", (0.0, vb1 - 0.05, FOOT_H / 2), (0.20, 0.12, FOOT_H), soft=0.006)
     zpl = zbm + rb - 0.002 + 0.012                      # the bench's plate on the beam's top, the pad on it
     zp = zpl + 0.012 + 0.075 / 2 - 0.003 - 0.008
@@ -420,7 +460,7 @@ def row(k, c, out):
         f.box("frame", (su * 0.12, vl, (zbm + zh) / 2), (0.03, 0.03, zbm - zh + 0.016), soft=0.004)
     # the V handle resting at the pulley
     zl = za - 0.04
-    f.cable([(0.0, va + 0.054, za), (0.0, va + 0.12, zl)])
+    f.cable([(0.0, va + 0.054, za), (0.0, va + 0.1135, zl)])
     f.box("steel", (0.0, va + 0.122, zl), (0.03, 0.016, 0.02), soft=0.002)
     f.sweep("steel", [(-0.08, va + 0.22, zl - 0.02), (-0.02, va + 0.14, zl), (0.02, va + 0.14, zl), (0.08, va + 0.22, zl - 0.02)],
             f.k.circle(0.012, 16), bend=0.03, soft=0.0)
@@ -453,11 +493,11 @@ def triceps(k, c, out):
     zt = f.stack(VS, A, hang=False)
     vo, zo = boom_mount(f, 0.36, zt)
     zr = 1.62
-    f.disc("chrome", (0.0, vo, zr + 0.04), 0.017, 0.011, 0.006, axis="u", seg=24)      # the rope's ring (ref_06)
-    f.cable([(0.0, vo, zo), (0.0, vo, clip(f, 0.0, vo, zr + 0.047))])
+    f.disc("chrome", (0.0, vo, zr + 0.04), 0.025, 0.017, 0.006, axis="u", seg=28)     # the rope's ring (ref_06)
+    f.cable([(0.0, vo, zo), (0.0, vo, clip(f, 0.0, vo, zr + 0.055))])
+    rope = [(-0.05, vo, zr - 0.34), (-0.035, vo, zr - 0.03), (-0.012, vo, zr + 0.035), (0.012, vo, zr + 0.035), (0.035, vo, zr - 0.03), (0.05, vo, zr - 0.34)]
+    f.sweep("rope", rope, f.k.circle(0.012, 14), bend=0.03, soft=0.0)     # one rope, looped through the ring
     for s in (-1, 1):
-        f.sweep("rope", [(0.0, vo, zr + 0.02), (s * 0.03, vo, zr - 0.03), (s * 0.05, vo, zr - 0.34)], f.k.circle(0.013, 14),
-                bend=0.05, soft=0.0)
         f.cyl("rubber", (s * 0.05, vo, zr - 0.36), 0.024, 0.045, soft=0.006)
     placard(f, A, 1.25, "triceps")
 
@@ -481,7 +521,9 @@ def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
     yellow: Roman, 2026-10-23); the cable out of the housing's foot to the snap hook and the strap D handle.
     Returns (v, z) of the housing's top, where the cable comes in."""
     bu, bv = track_w + 0.03, track_d + 0.04
-    f.box("frame", (0.0, v, zc), (bu, bv, 0.15), soft=0.012)
+    for su in (-1, 1):                                  # round the track, open in the middle where it runs
+        f.box("frame", (su * (bu + track_w) / 4, v, zc), ((bu - track_w) / 2, bv, 0.15), soft=0.006)
+        f.box("frame", (0.0, v + su * (bv + track_d) / 4, zc), (track_w, (bv - track_d) / 2, 0.15), soft=0.004)
     f.cyl("chrome", (-(bu / 2 + 0.002), v, zc + 0.025), 0.02, 0.004, axis="u", seg=24)
     f.cyl("plastic", (-(bu / 2 + 0.015), v, zc + 0.025), 0.017, 0.024, axis="u", seg=24, soft=0.005)  # the pop pin's knob
     f.box("white", (-(bu / 2 + 0.0006), v, zc - 0.04), (0.0012, bv - 0.014, 0.036), soft=0.0)        # the warning label
@@ -494,7 +536,7 @@ def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
     for z in (zc - 0.053, zc + 0.053):
         f.cyl("chrome", (0.0, kv, z), 0.009, 0.006, seg=16)
     hv, hz, w, h = kv + 0.085, zc - 0.005, 0.15, 0.155
-    f.box("frame", (0.0, kv + 0.02, zc), (0.026, 0.03, 0.07), soft=0.005)
+    f.box("frame", (0.0, (kv + 0.012 + hv - 0.069) / 2, zc), (0.026, hv - 0.069 - kv - 0.012, 0.07), soft=0.004)
     prof = _corners(w, h, (0.068, 0.022, 0.03, 0.068))   # (v, z): round on +v, square-ish at the track
     for su in (-1, 1):                                  # the two plates, the pulley's rim between them
         f.sweep("plastic", [(su * 0.0225 - 0.006, hv, hz), (su * 0.0225 + 0.006, hv, hz)],
@@ -502,11 +544,13 @@ def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
         for dv, dz in ((0.0, 0.0), (0.012, -0.05)):
             f.cyl("chrome", (su * 0.0295, hv + dv, hz + dz), 0.008 if dz == 0 else 0.0065, 0.004, axis="u", seg=16)
     f.cyl("rubber", (0.0, hv, hz), 0.064, 0.034, axis="u", seg=40, soft=0.002)
-    f.box("frame", (0.0, hv - w / 2 + 0.012, hz), (0.034, 0.024, h - 0.05), soft=0.003)        # the spacer at the track
+    f.box("frame", (0.0, hv - w / 2 + 0.0055, hz), (0.034, 0.011, h - 0.05), soft=0.002)       # the spacer at the track
     zh = hz - h / 2 - 0.20
     cv = hv + 0.03
-    f.cable([(0.0, cv, hz - 0.062), (0.0, cv, zh + 0.07)])
-    f.cyl("rubber", (0.0, cv, hz - h / 2 - 0.009), 0.02, 0.022, seg=20, soft=0.004)             # the stop ball
+    zbl = hz - h / 2 - 0.009                            # the stop ball, threaded on the cable
+    f.cable([(0.0, cv, hz - 0.062), (0.0, cv, zbl + 0.011)])
+    f.cable([(0.0, cv, zbl - 0.011), (0.0, cv, zh + 0.07)])
+    f.cyl("rubber", (0.0, cv, zbl), 0.02, 0.022, seg=20, soft=0.004)
     f.disc("chrome", (0.0, cv, zh + 0.06), 0.016, 0.011, 0.005, axis="u", seg=20)            # the snap hook
     f.sweep("rubber", [(0.0, cv, zh + 0.05), (-0.065, cv, zh - 0.005), (0.065, cv, zh - 0.005),
                        (0.0, cv, zh + 0.05)], f.k.rect(0.003, 0.022, 0.001), bend=0.015, up="v", soft=0.0)
@@ -540,9 +584,9 @@ def carriage_post(k, base, toward, z_top, zc=1.30, link=None, boom=None):
         lv = link                                       # bottom cross-member (ref_08)
         f.box("frame", (0.0, (lv - 0.08) / 2, 0.006), (0.14, abs(lv) + 0.08, 0.012), soft=0.003)
         f.box("frame", (0.0, lv + 0.006, (0.012 + ZBC - CM[1] / 2) / 2), (0.12, 0.012, ZBC - CM[1] / 2 - 0.012), soft=0.002)
-        e0, rg = -td / 2, 0.24                          # the curved gusset up the post's side toward the Core (ref_08)
-        gus = [(e0, 0.012), (e0, 0.012 + rg)] + [(e0 - rg + rg * math.cos(math.radians(a)), 0.012 + rg + rg * math.sin(math.radians(a)))
-                                                 for a in range(-10, -91, -10)]
+        e0, rg = -td / 2, 0.24                          # the curved gusset up the post's side toward the Core (ref_08),
+        gus = [(-0.04, 0.012), (-0.04, zb), (e0, zb), (e0, 0.012 + rg)]               # stepped round the base block
+        gus += [(e0 - rg + rg * math.cos(math.radians(a)), 0.012 + rg + rg * math.sin(math.radians(a))) for a in range(-10, -91, -10)]
         f.sweep("frame", [(-0.004, 0.0, 0.0), (0.004, 0.0, 0.0)], gus, up="z", soft=0.002)
     if boom:                                            # the saddle's section: over the boom's box, or arched over the
         hw, hh = boom                                   # round crossbar, its legs down the sides to a foot under it
@@ -590,33 +634,21 @@ def face_carriage(f, v_face, zc):
     carriage_body(f, vt, zc)
 
 
-def crossover_station(k, c, out, post_v, z_bar):
-    """The Core's side of the cable crossover (LPP-CX, your render): the stack inside the face, a short top mount, the
-    stand-alone carriage post at post_v under the crossbar (its pulley facing away from the Core), the floor bar back to
-    the Core, the cable from the top mount up to the post's pulley."""
-    f = Face(k, c, out)
-    zt = f.stack(VS, A, hang=False)
-    vo, zo = top_mount(f, 0.12, zt)
-    pz = z_bar - 0.07
-    f.cable([(0.0, vo - 0.86 * RP + 0.003, zo + 0.86 * RP - 0.003), (0.0, post_v, z_bar - HANG[0] + 0.86 * HANG[1] - 0.003)])
-    base = f.p(0.0, post_v, 0.0)[:2]
-    carriage_post(k, base, out, z_bar, link=-(post_v - A - CM[0] / 2))
-    placard(f, A, 1.25, "crossover")
-
-
-def adjustable_station(k, c, out, post_v=None, zc=1.30):
-    """Adjustable Pulley 2:1 (LPP-AC) on an outer face (Roman: the carriage that slides up and down, on the outside
-    edge): the stack behind the face, a short boom off the top cap out over the post, the carriage post right in front
-    of the face on its floor plate back to the Core, clamped under the boom's end, the cable from the boom down to the
-    post's hanger pulley, the carriage on it."""
+def post_station(k, c, out, bar=False, post_v=None, zc=1.30):
+    """A carriage post off a face: the Adjustable Pulley 2:1 (LPP-AC, Roman: the carriage that slides up and down, on
+    the outside edge) or, with `bar`, the cable crossover's end of a crossbar (LPP-CX, ref_02 / ref_03): the stack behind
+    the face, a boom off the top cap out over the post (on past it to the crossbar's joint with `bar`), the stainless
+    post right in front of the face on its floor plate back to the Core, clamped under the boom, the cable from the boom
+    down to the post's hanger pulley, the carriage on it. Returns the crossbar's end (x, y) with `bar`."""
     f = Face(k, c, out)
     post_v = A + 0.16 if post_v is None else post_v
     zt = f.stack(VS, A, hang=False)
-    vo, zo = boom_mount(f, post_v - A + 0.10, zt, end=False)
-    z_top = ZBM - 0.045
-    carriage_post(k, f.p(0.0, post_v, 0.0)[:2], out, z_top, zc=zc, link=-(post_v - A - CM[0] / 2), boom=(0.05, 0.045))
+    vo, zo = boom_mount(f, BAR_REACH if bar else post_v - A + 0.10, zt, end=False, round_=True, cap=not bar)
+    z_top = ZBM - RB
+    carriage_post(k, f.p(0.0, post_v, 0.0)[:2], out, z_top, zc=zc, link=-(post_v - A - CM[0] / 2))
     f.cable([(0.0, vo, zo), (0.0, post_v, z_top - HANG[0] + 0.86 * HANG[1] - 0.003)])
-    placard(f, A, 1.25, "adjustable")
+    placard(f, A, 1.25, "crossover" if bar else "adjustable")
+    return joint(f, A + BAR_REACH) if bar else None
 
 
 def beam(k, a, b, z, handles="flat", caps=True):
@@ -642,13 +674,11 @@ def beam(k, a, b, z, handles="flat", caps=True):
     def collar(t):
         p0, p1 = at(t, -0.04), at(t, 0.04)
         k.tube("frame", p0, p1, R + 0.007, seg=32)
-    for e0 in (0.0, L):                                 # the connector sleeves by the posts, their bolts underneath (ref_03)
-        sd = 1 if e0 == 0.0 else -1
-        k.tube("frame", at(0, e0 + sd * 0.45), at(0, e0 + sd * 0.59), R + 0.006, seg=32)
-        for d_ in (0.48, 0.52, 0.56):
-            k.bolt(at(0, e0 + sd * d_, 0, -R - 0.006), "-z", size=0.012)
+    def tm(d):                                          # a point d metres from the bar's middle
+        return 0.5 + d / L
     if handles == "angled":                             # two grips angled down and out along the bar
-        for t, s_ in ((0.44, -1), (0.56, 1)):
+        for d0, s_ in ((-0.09, -1), (0.09, 1)):
+            t = tm(d0)
             collar(t)
             p1, p2 = at(t, s_ * 0.05, 0, -0.09), at(t, s_ * 0.27, 0, -0.17)
             k.sweep("frame", [at(t, 0, 0, -R + 0.01), p1, p2], k.circle(0.016, 18), bend=0.04, soft=0.0)
@@ -656,19 +686,19 @@ def beam(k, a, b, z, handles="flat", caps=True):
             k.cyl("plastic", at(t, s_ * 0.276, 0, -0.172), 0.022, 0.012, axis=ax_u, seg=20, soft=0.003)
     elif handles == "flat":                             # a straight pull-up bar hung level under the crossbar
         zb = -0.20
-        for t in (0.36, 0.64):
-            collar(t)
-            k.tube("frame", at(t, 0, 0, -R - 0.004), at(t, 0, 0, zb + 0.02), 0.024, seg=20)      # the drops, 1.9 in tube,
-            # from the collar's underside
-            k.box("frame", at(t, 0, 0, zb), (0.055, 0.055, 0.045), soft=0.01)
-        k.tube("frame", at(0.30, 0, 0, zb), at(0.70, 0, 0, zb), 0.017, seg=20)
-        for t0, t1 in ((0.305, 0.35), (0.37, 0.47), (0.53, 0.63), (0.65, 0.695)):
-            k.tube("rubber", at(t0, 0, 0, zb), at(t1, 0, 0, zb), 0.021, soft=0.003)
-        for t in (0.30, 0.70):
-            k.cyl("plastic", at(t, -0.006 if t < 0.5 else 0.006, 0, zb), 0.022, 0.012, axis=ax_u, seg=20, soft=0.003)
+        for d0 in (-0.42, 0.42):
+            collar(tm(d0))
+            k.tube("frame", at(tm(d0), 0, 0, -R - 0.004), at(tm(d0), 0, 0, zb + 0.02), 0.024, seg=20)   # the drops, 1.9 in
+            k.box("frame", at(tm(d0), 0, 0, zb), (0.055, 0.055, 0.045), soft=0.01)                     # tube, off the collars
+        k.tube("frame", at(tm(-0.58), 0, 0, zb), at(tm(0.58), 0, 0, zb), 0.017, seg=20)
+        for d0, d1 in ((-0.575, -0.45), (-0.39, -0.06), (0.06, 0.39), (0.45, 0.575)):
+            k.tube("rubber", at(tm(d0), 0, 0, zb), at(tm(d1), 0, 0, zb), 0.021, soft=0.003)
+        for d0 in (-0.58, 0.58):
+            k.cyl("plastic", at(tm(d0), 0.006 if d0 > 0 else -0.006, 0, zb), 0.022, 0.012, axis=ax_u, seg=20, soft=0.003)
     elif handles == "neutral":                          # two pairs of parallel grips across the bar, palms facing
         zb = -0.16
-        for t in (0.40, 0.60):
+        for d0 in (-0.26, 0.26):
+            t = tm(d0)
             collar(t)
             k.tube("frame", at(t, 0, 0, -R + 0.01), at(t, 0, 0, zb + 0.03), 0.02, seg=20)
             k.bar("frame", at(t, -0.13, 0, zb + 0.03), at(t, 0.13, 0, zb + 0.03), 0.03, 0.03, up=(0, 0, 1))
@@ -676,6 +706,7 @@ def beam(k, a, b, z, handles="flat", caps=True):
                 k.tube("frame", at(t, du, 0, zb + 0.015), at(t, du, 0, zb - 0.005), 0.012, seg=14)
                 k.tube("frame", at(t, du, -0.13, zb - 0.015), at(t, du, 0.13, zb - 0.015), 0.014, seg=18)
                 k.tube("rubber", at(t, du, -0.11, zb - 0.015), at(t, du, 0.11, zb - 0.015), 0.019, soft=0.003)
+
 
 def tower(k, c, out):
     """The attached crossover's own tower (37 x 47 x 234 cm): two uprights arched over the top, the base, the stack
@@ -698,3 +729,71 @@ def tower(k, c, out):
     face_carriage(f, CM[0] / 2, 1.40)
     f.box("frame", (0.0, 0.0, zt0 + LEG / 2 + 0.006), (0.16, 0.16, 0.012), soft=0.003)
     return f.p(0.0, 0.0, zt0 + LEG / 2 + 0.012)
+
+
+# ---- layouts: a set or a maze of Cores as data
+FACES = {"S": (0, -1), "E": (1, 0), "N": (0, 1), "W": (-1, 0)}
+CONNECTORS = {"short": 1.867, "medium": 2.172, "long": 2.477, "xlong": 2.553}   # the crossbars, clear between Cores (m)
+NO_BAR = ("pulldown", "triceps")    # their booms end in a pulley: no crossbar lands on them
+
+
+def spacing(conn):
+    """The Cores' centres apart for a connector (the manual measures it clear between the Cores' legs)."""
+    return CONNECTORS[conn] + 2 * A + LEG
+
+
+def build_layout(k, L):
+    """Build a layout: L = dict(cores={name: (x, y)}, faces={(name, "S"): station}, bars=[(name, name, handles)]).
+    Stations: pulldown, row, triceps, adjustable (a carriage post), crossover (the post under a crossbar's boom; an
+    adjustable face with a crossbar is one), or None. A crossbar runs along x or y between two Cores a connector's
+    spacing apart, its ends on the facing faces' booms; it can't land on a pulldown's or a triceps' face. Returns each
+    station's points by (core, face)."""
+    barfaces = {}
+    for a, b, _ in L["bars"]:
+        (xa, ya), (xb, yb) = L["cores"][a], L["cores"][b]
+        dx, dy = xb - xa, yb - ya
+        if abs(dx) > 1e-6 and abs(dy) > 1e-6:
+            raise ValueError(f"crossbar {a}-{b}: crossbars run along x or y")
+        d = abs(dx) + abs(dy)
+        if not any(abs(d - spacing(cn)) < 0.005 for cn in CONNECTORS):
+            raise ValueError(f"crossbar {a}-{b}: {d:.3f} m apart; connectors need "
+                             + ", ".join(f"{cn} {spacing(cn):.3f}" for cn in CONNECTORS))
+        o = (int(math.copysign(1, dx)) if dx else 0, int(math.copysign(1, dy)) if dy else 0)
+        fa = next(n for n, v in FACES.items() if v == o)
+        fb = next(n for n, v in FACES.items() if v == (-o[0], -o[1]))
+        for key in ((a, fa), (b, fb)):
+            if key in barfaces:
+                raise ValueError(f"two crossbars on {key}")
+            if L["faces"].get(key) in NO_BAR:
+                raise ValueError(f"crossbar {a}-{b} lands on {key}'s {L['faces'][key]} boom")
+            barfaces[key] = True
+    for c in L["cores"].values():
+        core(k, c)
+    pts, ends = {}, {}
+    for key in sorted(set(L["faces"]) | set(barfaces)):
+        name, fn = key
+        c, o, st, bar = L["cores"][name], FACES[fn], L["faces"].get(key), key in barfaces
+        if st in ("adjustable", "crossover"):
+            e = post_station(k, c, o, bar=bar)
+            if bar:
+                ends[key] = e
+            continue
+        if st == "pulldown":
+            pts[key] = pulldown(k, c, o)
+        elif st == "row":
+            pts[key] = row(k, c, o)
+        elif st == "triceps":
+            triceps(k, c, o)
+        elif st is not None:
+            raise ValueError(f"{key}: no station {st!r}")
+        if bar:                                         # a plain boom out to the crossbar's joint
+            f = Face(k, c, o)
+            boom(f, BAR_REACH, round_=True, cap=False)
+            ends[key] = joint(f, A + BAR_REACH)
+    for a, b, handles in L["bars"]:
+        (xa, ya), (xb, yb) = L["cores"][a], L["cores"][b]
+        o = (math.copysign(1, xb - xa) if xb != xa else 0, math.copysign(1, yb - ya) if yb != ya else 0)
+        fa = next(n for n, v in FACES.items() if v == o)
+        fb = next(n for n, v in FACES.items() if v == (-o[0], -o[1]))
+        beam(k, ends[(a, fa)], ends[(b, fb)], ZBAR, handles=handles, caps=False)
+    return pts

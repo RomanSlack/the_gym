@@ -21,10 +21,9 @@ import pwr_play as pp
 LOOK = dict(pp.LOOK)
 VIEWS = {"three_quarter": (-20, 12, 1.0), "front": (0, 5, 1.0), "side": (90, 5, 1.0), "back_three_quarter": (150, 20, 1.0),
          "top": (0, 78, 1.0), "render": (10, 7, 1.45)}     # "render": Roman's render's / ref_08's angle, to compare
-D = 3.22                            # the Cores' centres apart (Roman's render / ref_08: 2.4 m clear between them)
-ZB = 2.34                           # the crossbar's centre: on the hubs' sides, just under the caps' tops
+D = pp.spacing("long")              # the Cores' centres apart: the Long connector (Roman's render / ref_08: ~2.4 m clear)
 HANDLES = os.environ.get("PWRPLAY_HANDLES", "flat")   # the crossbar's pull-up handles: "flat", "neutral", "angled"
-POST = pp.A + 0.14                  # each carriage post: right beside its Core (ref_08), on the centreline under the bar
+POST = pp.A + 0.16                  # each carriage post: right beside its Core (ref_08), under its boom
 DETAILS = {
     "detail_core_top": ((0.75, -1.05, 2.85), (0.0, 0.0, 2.10), 45),       # the hub, the legs' bends, the top mounts
     "detail_stack": ((0.30, -1.40, 1.05), (0.0, -0.20, 0.70), 40),        # the pulldown's stack, the seat, the knee pads
@@ -34,23 +33,24 @@ DETAILS = {
     "detail_post_top": ((POST + 0.45, -0.85, 2.05), (POST, 0.0, 2.22), 40),  # the post's saddle on the bar, its pulley
     "detail_knee": ((-0.80, -1.05, 1.05), (-0.03, -0.52, 0.66), 40),     # the knee pads' pivot, sector plate, pop pin
     "detail_rope": ((-1.25, -0.55, 1.75), (-0.69, 0.0, 1.62), 40),       # the triceps rope's ring, clip and stop
+    "detail_joint": ((pp.A + 0.75, -0.55, 2.40), (pp.A + pp.BAR_REACH, 0.0, 2.30), 40),   # the crossbar's sleeve joint
     "detail_bar": ((D / 2, -1.30, 2.55), (D / 2, 0.0, 2.25), 45),         # the crossbar, the handles, the post's clamp
     "detail_row": ((D + 1.6, -1.1, 1.0), (D + 0.7, 0.0, 0.45), 40),       # the row's bench, foot plate, low pulley
 }
 
 
+LAYOUT = dict(
+    cores={"A": (0.0, 0.0), "B": (D, 0.0)},
+    faces={("A", "S"): "pulldown", ("A", "W"): "triceps", ("A", "E"): "crossover",
+           ("B", "E"): "row", ("B", "W"): "crossover", ("B", "S"): "adjustable"},
+    bars=[("A", "B", HANDLES)],
+)
+
+
 def build(k):
-    a, b = (0.0, 0.0), (D, 0.0)
-    pp.core(k, a)
-    pp.core(k, b)
     global PD, RW
-    PD = pp.pulldown(k, a, (0, -1))
-    RW = pp.row(k, b, (1, 0))
-    pp.triceps(k, a, (-1, 0))                           # the shorter boom, no bench, on the left Core's outer face
-    pp.adjustable_station(k, b, (0, -1))                # the adjustable pulley on the right Core's front, outside
-    pp.crossover_station(k, a, (1, 0), POST, ZB - 0.04)
-    pp.crossover_station(k, b, (-1, 0), POST, ZB - 0.04)
-    pp.beam(k, (pp.HUB[0] - 0.003, 0.0), (D - pp.HUB[0] + 0.003, 0.0), ZB, handles=HANDLES, caps=False)   # hub to hub
+    pts = pp.build_layout(k, LAYOUT)
+    PD, RW = pts[("A", "S")], pts[("B", "E")]
 
 
 FIT_VIEWS = ("three_quarter", "front")

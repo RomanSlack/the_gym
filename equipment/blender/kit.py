@@ -528,7 +528,7 @@ class Kit:
                 if not polys:
                     continue
                 A = np.array([tuple(v) for v in co])
-                items.append(dict(pt, co=co, probe=co + probe, tree=BVHTree.FromPolygons(co, polys), lo=A.min(0) - tol, hi=A.max(0) + tol,
+                items.append(dict(pt, co=co, polys=polys, probe=co + probe, tree=BVHTree.FromPolygons(co, polys), lo=A.min(0) - tol, hi=A.max(0) + tol,
                                   c=A.mean(0), hw=all(key[0] in HARDWARE for key in pt["rng"])))
         n = len(items)
         par = list(range(n))
@@ -619,7 +619,8 @@ class Kit:
 
     def _through(self, items, pairs, most=PASS):
         """Parts that pass through each other (Roman: "stuff going through itself, wires going through other material"):
-        for each touching pair, how deep one's vertices sit inside the other (ray parity against its closed mesh, the
+        for each touching pair, how deep one's surface (its vertices and points along its edges) sits inside the other (ray
+        parity against its closed mesh, the
         depth = the distance back to its surface). Rods (axles, guide rods, stems) may run through what they carry and a
         cable may run in a pulley's groove; everything else deeper than `most` is reported."""
         dirs = (Vector((0.5773, 0.5774, 0.5775)), Vector((-0.4472, 0.0, 0.8944)))
@@ -637,9 +638,26 @@ class Kit:
                 votes += hits % 2
             return votes == len(dirs)
 
+        def samples(a, step=0.01):
+            """Its vertices and points every `step` along its edges: a straight cable or a long bar has its vertices
+            only at its ends, and could cross a plate between them unseen."""
+            if "samp" not in a:
+                pts, seen = list(a["co"]), set()
+                for poly in a["polys"]:
+                    for e0, e1 in zip(poly, poly[1:] + poly[:1]):
+                        key = (min(e0, e1), max(e0, e1))
+                        if key in seen:
+                            continue
+                        seen.add(key)
+                        p0, p1 = a["co"][e0], a["co"][e1]
+                        m = int((p1 - p0).length / step)
+                        pts.extend(p0.lerp(p1, (t + 1) / (m + 1)) for t in range(m))
+                a["samp"] = pts
+            return a["samp"]
+
         def depth(a, b):
             best = 0.0
-            for v in a["co"]:
+            for v in samples(a):
                 if not (b["lo"][0] <= v.x <= b["hi"][0] and b["lo"][1] <= v.y <= b["hi"][1] and b["lo"][2] <= v.z <= b["hi"][2]):
                     continue
                 if inside(v, b):
@@ -661,7 +679,8 @@ class Kit:
                 out.append((d, i, j))
         for d, i, j in sorted(out, reverse=True):
             print(f"  through {d * 1000:.0f} mm: {items[i]['what']} {items[i]['where']} / {items[j]['what']} {items[j]['where']}"
-                  f" at {tuple(round(float(x), 3) for x in items[i]['c'])}", flush=True)
+                  f" at {tuple(round(float(x), 3) for x in items[i]['c'])} / {tuple(round(float(x), 3) for x in items[j]['c'])}",
+                  flush=True)
         return out
 
     # -- output
