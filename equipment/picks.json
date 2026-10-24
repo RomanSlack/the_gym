@@ -911,6 +911,1182 @@
    "links": [],
    "skipped": false,
    "note": "Covered by the PWR Play maze (life-fitness-pwr-play-maze: pulldown, row, triceps, assisted dip/chin, Power Pivot stations); Roman: standalone upper-body machines only where the modules can't do it."
+  },
+  "trap-bar": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-hex-bar",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Hex Bar",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-Hex-Bar-1000x1000.jpg?v=1748945327"
+    }
+   ],
+   "skipped": false
+  },
+  "swiss-bar": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/multi-grip-bar",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Multi Grip Bar",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-swiss-bar-1000x1000.jpg?v=1748945326"
+    }
+   ],
+   "skipped": false
+  },
+  "ez-bar-olympic": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-curl-bars",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Curl Bars",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Hammer-Strength-Straight-Bar-1800x1800.png?v=1748945389"
+    }
+   ],
+   "skipped": false
+  },
+  "fixed-barbells": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-4-sided-urethane-fixed-barbells",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength 4-Sided Urethane Fixed Barbells",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-pair-1000x1000.jpg?v=1750962694"
+    }
+   ],
+   "skipped": false
+  },
+  "fixed-ez-bars": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/12-sided-fixed-urethane-barbells",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "12-Sided Fixed Urethane Barbells",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Accessories-40lb-12-sided-urethane-straight-fixed-barbell.jpg?v=1748945179"
+    }
+   ],
+   "skipped": false
+  },
+  "fixed-bar-rack": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-barbell-rack",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Barbell Rack",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/signature-seriesbarbell-rack-charcoal-1000x1000.jpg?v=1748945188"
+    }
+   ],
+   "skipped": false
+  },
+  "collars": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/lock-jaw-oly-2-collar",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Lock-Jaw OLY 2 Collars",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/lock-jaw-OL2_BLK2_SHOP-950x950.jpg?v=1748945357"
+    }
+   ],
+   "skipped": false
+  },
+  "training-bumpers": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-premium-rubber-black-bumpers",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Premium Rubber Black Bumpers",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-45-1800x1800.png?v=1748945390"
+    }
+   ],
+   "skipped": false
+  },
+  "machine-plates": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-urethane-round-olympic-plates",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Urethane Round Olympic Plates",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Round-Urethane-WeightPlate-45-1800x1800_1800x1800_png.jpg?v=1748945402"
+    }
+   ],
+   "skipped": false
+  },
+  "plate-tree": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/olympic-weight-tree",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Olympic Weight Tree",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-signature-seriesolympic-weight-treebase-charcoal-1000x1000.jpg?v=1748945299"
+    }
+   ],
+   "skipped": false
+  },
+  "db-set-pod": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-4-sided-urethane-dumbbells",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength 4-Sided Urethane Dumbbells",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-4sided-dumbbells-50lb-1000x1000.jpg?v=1748945244"
+    }
+   ],
+   "skipped": false
+  },
+  "db-rack": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-three-tier-dumbbell-rack",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Three Tier Dumbbell Rack",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-benches-and-racksthree-tier-dumbbell-rackbase.jpg?v=1748945282"
+    }
+   ],
+   "skipped": false
+  },
+  "kb-comp": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-competition-kettlebells",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Competition Kettlebells",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-32KG-red-1000x1000.jpg?v=1748945258"
+    }
+   ],
+   "skipped": false
+  },
+  "kb-cast": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/cast-iron-kettlebell",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Cast Iron Kettlebells",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/KettleBell_24KG_044-1000x100.jpg?v=1748945330"
+    }
+   ],
+   "skipped": false
+  },
+  "kb-rack": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-3-tier-accessory-rack",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness 3-Tier Accessory Rack",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/axiom-3-tier-accessories-rack-charcoal-1000x1000.jpg?v=1748945216"
+    }
+   ],
+   "skipped": false
+  },
+  "elliptical": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/club-series-elliptical-cross-trainer",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Club Series+ Elliptical Cross-Trainer",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-elliptical-se4-black-1000x1000.jpg?v=1748945426"
+    }
+   ],
+   "skipped": false
+  },
+  "upright-bike": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/club-series-plus-upright-lifecycle-bike",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Club Series+ Upright Lifecycle® Bike",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-upright-bike-se4-black-1000x1000.jpg?v=1769114408"
+    }
+   ],
+   "skipped": false
+  },
+  "recumbent-bike": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/club-series-recumbent",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Club Series+ Recumbent Lifecycle® Bike",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/club-series-plus-recumbent-bike-se4-black-1000x1000.jpg?v=1769114359"
+    }
+   ],
+   "skipped": false
+  },
+  "indoor-cycle": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/ic7-indoor-cycle",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "IC7 Indoor Cycle",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/icg-lf-ic7-indoor-cycle-side-1000x1000.jpg?v=1748945406"
+    }
+   ],
+   "skipped": false
+  },
+  "rower": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/row-hx-trainer",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Row HX Trainer",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Row-HX-Trainer-Standard-Angled-l.jpg?v=1748945370"
+    }
+   ],
+   "skipped": false
+  },
+  "air-bike": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-hd-air-bike",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength HD Air Bike",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-1000x1000.jpg?v=1748945270"
+    }
+   ],
+   "skipped": false
+  },
+  "wall-balls": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/escape-endura-wall-balls",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Escape Endura Wall Balls",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/endura-fitness-wall-balls-1000x1000.jpg?v=1748945190"
+    }
+   ],
+   "skipped": false
+  },
+  "med-balls": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-medicine-balls",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Medicine Balls",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/medicine-balls-life-fitness-detail-red-1000x1000.jpg?v=1748945260"
+    }
+   ],
+   "skipped": false
+  },
+  "slam-balls": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-slam-balls",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Slam Balls",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/HS-Slamball-15lb-straight-1000x1000.jpg?v=1748945334"
+    }
+   ],
+   "skipped": false
+  },
+  "plyo-wood": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-3-in-1-wood-plyo-box",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength 3-in-1 Wood Plyo Box",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-3in1-wood-plyo-box-550x550.jpg?v=1748945355"
+    }
+   ],
+   "skipped": false
+  },
+  "plyo-foam": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-3-in-1-soft-plyo-box",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength 3-in-1 Soft Plyo Box",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-soft-plyobox-horizontal-1000x1000.jpg?v=1748945195"
+    }
+   ],
+   "skipped": false
+  },
+  "battle-rope": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/battle-rope",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Battle Rope",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/life-fitness-battle-rope-1000x1000.jpg?v=1748945255"
+    }
+   ],
+   "skipped": false
+  },
+  "jump-ropes": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/jump-rope",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Jump Rope",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/LF_Jump_Rope_Blue1000x1000_1.jpg?v=1748945350"
+    }
+   ],
+   "skipped": false
+  },
+  "agility-ladder": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/adjustable-hurdle",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Adjustable Hurdles",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/adjustable-hurdle-tall-life-fitness-1000x1000.jpg?v=1748945267"
+    },
+    {
+     "url": "https://shop.lifefitness.com/products/speed-cones-set",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Speed Cones (Set of 6)",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/speed-cones-family-life-fitness-1000x1000.jpg?v=1748945268"
+    }
+   ],
+   "skipped": false
+  },
+  "functional-storage": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-vertical-medicine-ball-storage",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Vertical Medicine Ball Storage",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/axiom-vertical-medicine-ball-storage-charcoal-withballs-1000x1000.jpg?v=1748945215"
+    }
+   ],
+   "skipped": false
+  },
+  "push-sled": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/push-pull-weight-sled",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Push-Pull Weight Sled",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-push-pull-weight-sled-1000x1000.jpg?v=1749142433"
+    }
+   ],
+   "skipped": false
+  },
+  "pull-sled": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-acft-sled-w-strap-outlet",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness ACFT Sled with Strap - Outlet",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/ACFT-Overview-Spec-Sheet-vf-13.jpg?v=1757602563"
+    }
+   ],
+   "skipped": false
+  },
+  "exercise-mat": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/core-mats",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Core Mats",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/core-mat-black-1000x1000.jpg?v=1748945256"
+    }
+   ],
+   "skipped": false
+  },
+  "yoga-mat": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/premium-yoga-mat",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Yoga Mat",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/yoga-mat-life-fitness-black-1000x1000.jpg?v=1748945348"
+    }
+   ],
+   "skipped": false
+  },
+  "mat-rack": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/adjustable-wall-mounted-mat-rack",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Adjustable Wall Mounted Mat Rack",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/perform-better-mat-rack-1000x1000.jpg?v=1749151275"
+    }
+   ],
+   "skipped": false
+  },
+  "foam-roller": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/foam-roller",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Foam Roller",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Life-Fitness-FoamRoller-L.jpg?v=1748945363"
+    }
+   ],
+   "skipped": false
+  },
+  "bands-loop": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/power-bands",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Power Bands",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/power-bands-group-1000x1000.jpg?v=1748945353"
+    }
+   ],
+   "skipped": false
+  },
+  "mini-bands": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/mini-power-bands",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Mini Power Bands",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/mini-power-bands-life-fitness-group-1000x1000.jpg?v=1748945280"
+    }
+   ],
+   "skipped": false
+  },
+  "tube-bands": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/resistance-tubes",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Resistance Tubes",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/YellowResistanceBand1000x1000.jpg?v=1748945360"
+    }
+   ],
+   "skipped": false
+  },
+  "yoga-block": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/yoga-block",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Yoga Block - Outlet",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/life-fitness-Yoga_Block_057-1000x1000.png?v=1748945331"
+    }
+   ],
+   "skipped": false
+  },
+  "stability-ball": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/hammer-strength-stability-ball",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Hammer Strength Stability Ball",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/HS_StabilityBall75_106-1000x1000_3aa8fc80-a67e-4f3a-8c44-de7bee8268f3.jpg?v=1623420191"
+    }
+   ],
+   "skipped": false
+  },
+  "bosu": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/bosu®-pro-balance-trainer",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "BOSU® Pro Balance Trainer",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/life-fitness-bosu-pro-balance-trainer-updated-1000x1000.jpg?v=1748945329"
+    }
+   ],
+   "skipped": false
+  },
+  "stretch-station": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-flexibility-trainer-outlet-copy",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Flexibility Trainer",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/LF-optima-flexibility-trainer-charcoal-1000x1000.jpg?v=1748945198"
+    }
+   ],
+   "skipped": false
+  },
+  "small-kit-storage": {
+   "links": [
+    {
+     "url": "https://shop.lifefitness.com/products/life-fitness-accessory-rack",
+     "added": "2026-10-24T04:08:25+00:00",
+     "by": "claude",
+     "title": "Life Fitness Accessory Rack",
+     "image": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/signature-accessory-rack-charcoal-1000x1000.jpg?v=1726772085"
+    }
+   ],
+   "skipped": false
+  },
+  "ssb": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/sb-1-rogue-safety-squat-bar",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue SB-1 Safety Squat Bar"
+    }
+   ],
+   "skipped": false
+  },
+  "cambered-bar": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/cb-1-rogue-camber-bar",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue CB-1 Camber Bar"
+    }
+   ],
+   "skipped": false
+  },
+  "bar-holder": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-10-bar-holder",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue 10-Bar Holder"
+    }
+   ],
+   "skipped": false
+  },
+  "db-loadable": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-loadable-dumbbells",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Loadable Dumbbells"
+    }
+   ],
+   "skipped": false
+  },
+  "rig": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-rig-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Rig 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "rings": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-wood-rings",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Wood Gymnastics Rings"
+    }
+   ],
+   "skipped": false
+  },
+  "climbing-rope": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/climbing-ropes",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Climbing Ropes"
+    }
+   ],
+   "skipped": false
+  },
+  "sandbags": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-sandbag-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Sandbag 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "weight-vest": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-echo-weight-vest",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Echo Weight Vest"
+    }
+   ],
+   "skipped": false
+  },
+  "dip-belt": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-dip-belt",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Dip Belt"
+    }
+   ],
+   "skipped": false
+  },
+  "wod-clock": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-echo-gym-timer-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Echo Gym Timer 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "abmats": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/the-original-abmat",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "AbMat Original"
+    }
+   ],
+   "skipped": false
+  },
+  "yoke": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-yoke",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Yoke"
+    }
+   ],
+   "skipped": false
+  },
+  "atlas-stones": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-rubber-atlas-stones",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Rubber Atlas Stones"
+    }
+   ],
+   "skipped": false
+  },
+  "log-bar": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/log-bar",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Log Bar"
+    }
+   ],
+   "skipped": false
+  },
+  "axle-bar": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/the-rogue-axle",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Axle Bar"
+    }
+   ],
+   "skipped": false
+  },
+  "farmers-handles": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-farmers-walk",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Farmers Walk Handles"
+    }
+   ],
+   "skipped": false
+  },
+  "strongman-sandbag": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-strongman-sandbags",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Strongman Sandbags"
+    }
+   ],
+   "skipped": false
+  },
+  "harness": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-sled-harness",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Sled Harness"
+    }
+   ],
+   "skipped": false
+  },
+  "parallettes": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-bolt-together-parallette-set",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Bolt-Together Parallette Set"
+    }
+   ],
+   "skipped": false
+  },
+  "parallel-bars": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-rig-mount-parallel-bars",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Rig Mount Parallel Bars"
+    }
+   ],
+   "skipped": false
+  },
+  "cali-station": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-monster-lite-monkey-rig-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Lite Monkey Rig 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "pullup-bars": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-mg-1-multi-grip-bar-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue MG-1 Multi-Grip Bar 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "pinch-blocks": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-pinch-blocks",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Pinch Blocks"
+    }
+   ],
+   "skipped": false
+  },
+  "grip-tools": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/captains-of-crush-grippers",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Captains of Crush Grippers"
+    },
+    {
+     "url": "https://www.roguefitness.com/rogue-wrist-roller",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Wrist Roller"
+    },
+    {
+     "url": "https://www.roguefitness.com/fat-gripz",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Fat Gripz"
+    }
+   ],
+   "skipped": false
+  },
+  "hanging-holds": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/cannonball-grips",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Cannonball Grips"
+    }
+   ],
+   "skipped": false
+  },
+  "massage-balls": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-lacrosse-balls",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Lacrosse Balls"
+    }
+   ],
+   "skipped": false
+  },
+  "stretch-strap": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/pro-tec-stretch-band",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Pro-Tec Stretch Band"
+    }
+   ],
+   "skipped": false
+  },
+  "balance-board": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/revbalance-101-mini",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "RevBalance 101 Mini Balance Board"
+    }
+   ],
+   "skipped": false
+  },
+  "chalk-bowl": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-freestanding-chalk-stand",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Freestanding Chalk Stand"
+    }
+   ],
+   "skipped": false
+  },
+  "chalk": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-gym-chalk",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Gym Chalk"
+    },
+    {
+     "url": "https://www.roguefitness.com/spider-chalk-liquid-chalk",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Spider Chalk Liquid Chalk"
+    }
+   ],
+   "skipped": false
+  },
+  "rack-landmine": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-monster-landmine-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Landmine 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "band-pegs": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-band-pegs-2-0-4-pack",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Band Pegs 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "chains": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-chain-kits",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Chain Kits"
+    }
+   ],
+   "skipped": false
+  },
+  "spotter-arms": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-safety-spotter-arms-2-0",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Safety Spotter Arms 2.0"
+    }
+   ],
+   "skipped": false
+  },
+  "lifting-belt": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-ohio-lifting-belt",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Ohio Lifting Belt"
+    }
+   ],
+   "skipped": false
+  },
+  "lifting-straps": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-ohio-lifting-straps",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Ohio Lifting Straps"
+    }
+   ],
+   "skipped": false
+  },
+  "wrist-wraps": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-wrist-wraps",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Wrist Wraps"
+    }
+   ],
+   "skipped": false
+  },
+  "knee-sleeves": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-7-mm-knee-sleeve-black-pair",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue 7mm Knee Sleeve"
+    }
+   ],
+   "skipped": false
+  },
+  "belt-rack": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/belt-and-band-hanger",
+     "added": "2026-10-24T04:10:07+00:00",
+     "by": "claude",
+     "title": "Rogue Belt and Band Hanger"
+    }
+   ],
+   "skipped": false
+  },
+  "pegboard": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/rogue-pine-maple-peg-board",
+     "added": "2026-10-24T04:10:19+00:00",
+     "by": "claude",
+     "title": "Rogue Pine Maple Peg Board"
+    }
+   ],
+   "skipped": false
+  },
+  "bumper-cart": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-bumper-rack",
+     "added": "2026-10-24T04:10:19+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Bumper Rack"
+    }
+   ],
+   "skipped": false
+  },
+  "massage-gun": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/theragun-pro-plus",
+     "added": "2026-10-24T04:10:19+00:00",
+     "by": "claude",
+     "title": "Theragun PRO Plus"
+    }
+   ],
+   "skipped": false
+  },
+  "dip-attachment": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/mutant-metals-ultimate-dip-attachments-uda",
+     "added": "2026-10-24T04:10:19+00:00",
+     "by": "claude",
+     "title": "Mutant Metals Ultimate Dip Attachment"
+    }
+   ],
+   "skipped": false
+  },
+  "sled-storage": {
+   "links": [
+    {
+     "url": "https://www.roguefitness.com/monster-mass-storage",
+     "added": "2026-10-24T04:10:19+00:00",
+     "by": "claude",
+     "title": "Rogue Monster Mass Storage"
+    }
+   ],
+   "skipped": false
+  },
+  "calibrated-plates": {
+   "links": [
+    {
+     "url": "https://eleiko.com/equipment/plates/powerlifting/3060350-25-eleiko-ipf-powerlifting-competition-plate-25-kg",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Eleiko IPF Powerlifting Competition Plates"
+    }
+   ],
+   "skipped": false
+  },
+  "comp-bumpers": {
+   "links": [
+    {
+     "url": "https://eleiko.com/equipment/plates/weightlifting/3085231-25-eleiko-iwf-weightlifting-competition-plate-25-kg",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Eleiko IWF Weightlifting Competition Plates"
+    }
+   ],
+   "skipped": false
+  },
+  "change-plates": {
+   "links": [
+    {
+     "url": "https://eleiko.com/en-ca/equipment/outletus/outgoingus/3000239-eleiko-ipf-powerlifting-competition-change-plate-0-25-kg",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Eleiko IPF Powerlifting Competition Change Plates"
+    }
+   ],
+   "skipped": false
+  },
+  "fractional-plates": {
+   "links": [
+    {
+     "url": "https://eleiko.com/en-ca/equipment/outletus/outgoingus/3000239-eleiko-ipf-powerlifting-competition-change-plate-0-25-kg",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Eleiko IPF Powerlifting Competition Change Plates"
+    }
+   ],
+   "skipped": false
+  },
+  "comp-collars": {
+   "links": [
+    {
+     "url": "https://eleiko.com/en-us/equipment/collars/3002404-eleiko-iwf-competition-barbell-collars-pair",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Eleiko IWF Competition Barbell Collars"
+    }
+   ],
+   "skipped": false
+  },
+  "skierg": {
+   "links": [
+    {
+     "url": "https://www.concept2.com/skierg",
+     "added": "2026-10-24T04:10:56+00:00",
+     "by": "claude",
+     "title": "Concept2 SkiErg"
+    }
+   ],
+   "skipped": false
+  },
+  "posing-stage": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: designed and built as the south annex rooms' furniture (furniture.py: posing_stage, stage_rig / light_boom, pod_wall + ceiling_speaker, hypoxic_plant / altitude_station)."
+  },
+  "posing-lights": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: designed and built as the south annex rooms' furniture (furniture.py: posing_stage, stage_rig / light_boom, pod_wall + ceiling_speaker, hypoxic_plant / altitude_station)."
+  },
+  "pod-av": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: designed and built as the south annex rooms' furniture (furniture.py: posing_stage, stage_rig / light_boom, pod_wall + ceiling_speaker, hypoxic_plant / altitude_station)."
+  },
+  "hypoxic-system": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: designed and built as the south annex rooms' furniture (furniture.py: posing_stage, stage_rig / light_boom, pod_wall + ceiling_speaker, hypoxic_plant / altitude_station)."
+  },
+  "recovery-recliner": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: the F4 recovery lounge's daybeds and loungers (furniture.py recovery_bay / pool_lounger, Remedy Place refs)."
+  },
+  "zero-g-lounger": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: the F4 recovery lounge's daybeds and loungers (furniture.py recovery_bay / pool_lounger, Remedy Place refs)."
+  },
+  "hangboard": {
+   "links": [
+    {
+     "url": "https://madrock.com/products/beastmaker-2000-series",
+     "added": "2026-10-24T04:11:18+00:00",
+     "by": "claude",
+     "title": "Beastmaker 2000 Series Hangboard"
+    }
+   ],
+   "skipped": false
+  },
+  "wall-bars": {
+   "links": [
+    {
+     "url": "https://www.gymleco.com/?p=17242931",
+     "added": "2026-10-24T04:11:18+00:00",
+     "by": "claude",
+     "title": "Gymleco Wooden Wall Bars with Chins Rack"
+    }
+   ],
+   "skipped": false
+  },
+  "compression-boots": {
+   "links": [],
+   "skipped": false,
+   "note": "Covered by the building: the F4 recovery bay already has the compression boots and their pump (furniture.py _air_boot)."
+  },
+  "spray-bottles": {
+   "links": [],
+   "skipped": false,
+   "note": "Not modelled: a consumable; placed as generic bottles if needed."
   }
  },
  "custom": []

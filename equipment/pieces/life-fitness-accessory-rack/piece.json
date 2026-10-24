@@ -1,0 +1,41 @@
+{
+ "id": "life-fitness-accessory-rack",
+ "brand": "Life Fitness",
+ "model": "Life Fitness Accessory Rack",
+ "title": "Life Fitness Accessory Rack",
+ "url": "https://shop.lifefitness.com/products/life-fitness-accessory-rack",
+ "items": [
+  "small-kit-storage"
+ ],
+ "item_names": [
+  "Storage for small kit (rollers, bands, guns)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 1802.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:03+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/signature-accessory-rack-charcoal-1000x1000.jpg?v=1726772085"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Signature-Accessory-Rack-endurance_816cdecf-23d1-4ae0-abae-996feb4e00b7.jpg?v=1767030510"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Signature-Accessory-Rack-endurance_with_accessories.jpg?v=1767030864"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:03+00:00",
+  "how": "shopify json"
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "id": "hammer-strength-4-sided-urethane-fixed-barbells",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength 4-Sided Urethane Fixed Barbells",
+ "title": "Hammer Strength 4-Sided Urethane Fixed Barbells",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-4-sided-urethane-fixed-barbells",
+ "items": [
+  "fixed-barbells"
+ ],
+ "item_names": [
+  "Fixed straight barbells, 10-50 kg set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 6084.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:09:18+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-pair-1000x1000.jpg?v=1750962694"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-ez-curl-1000x1000_c7526a3a-ac2e-4f24-9831-d25ef9138d2d.jpg?v=1750962694"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-straight-1000x1000_a8aba9de-b5d2-4b0a-9726-019e7c99c6d8.jpg?v=1750962694"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-60lb-inside-1000x1000.jpg?v=1750962694"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-fixed-barbell-4-sided-urethane-60lb-head-1000x1000.jpg?v=1750962694"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:09:18+00:00",
+  "how": "shopify json"
+ }
+}

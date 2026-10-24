@@ -1,0 +1,45 @@
+{
+ "id": "life-fitness-12-sided-fixed-urethane-barbells",
+ "brand": "Life Fitness",
+ "model": "12-Sided Fixed Urethane Barbells",
+ "title": "12-Sided Fixed Urethane Barbells",
+ "url": "https://shop.lifefitness.com/products/12-sided-fixed-urethane-barbells",
+ "items": [
+  "fixed-ez-bars"
+ ],
+ "item_names": [
+  "Fixed EZ curl barbells, 10-50 kg set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 8150.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:56+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Accessories-40lb-12-sided-urethane-straight-fixed-barbell.jpg?v=1748945179"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Fixed-Barbell-20lb.jpg?v=1748945179"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Fixed-Barbell-40lb.jpg?v=1748945179"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Fixed-Barbell-60lb.jpg?v=1748945179"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:56+00:00",
+  "how": "shopify json"
+ }
+}

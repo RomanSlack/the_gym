@@ -1,0 +1,19 @@
+{
+ "id": "life-fitness-power-bands",
+ "brand": "Life Fitness",
+ "model": "Power Bands",
+ "title": "Power Bands",
+ "url": "https://shop.lifefitness.com/products/power-bands",
+ "items": [
+  "bands-loop"
+ ],
+ "item_names": [
+  "Resistance bands (loop, all strengths)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [],
+ "status": "picked",
+ "notes": ""
+}

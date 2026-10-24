@@ -1,0 +1,49 @@
+{
+ "id": "life-fitness-barbell-rack",
+ "brand": "Life Fitness",
+ "model": "Life Fitness Barbell Rack",
+ "title": "Life Fitness Barbell Rack",
+ "url": "https://shop.lifefitness.com/products/life-fitness-barbell-rack",
+ "items": [
+  "fixed-bar-rack"
+ ],
+ "item_names": [
+  "Fixed barbell rack (vertical)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 1659.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:21+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/signature-seriesbarbell-rack-charcoal-1000x1000.jpg?v=1748945188"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-barbell-rack-charcoal-1000x1000_7e03c825-705c-4c3f-8cd9-2ec560b3635a.jpg?v=1748945188"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/OP-BBR_w_LBS_1.jpg?v=1748945189"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/life-fitness-barbell-rack-platinum-1000x1000.jpg?v=1748945189"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/OP-BBR.jpg?v=1748945189"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:21+00:00",
+  "how": "shopify json"
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "id": "hammer-strength-4-sided-urethane-dumbbells",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength 4-Sided Urethane Dumbbells",
+ "title": "Hammer Strength 4-Sided Urethane Dumbbells",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-4-sided-urethane-dumbbells",
+ "items": [
+  "db-set-pod"
+ ],
+ "item_names": [
+  "Dumbbells 2.5-30 kg for a pod, set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 2237.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:09:10+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-4sided-dumbbells-50lb-1000x1000.jpg?v=1748945244"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-4sided-dumbbells-FAMILY-1000x1000.jpg?v=1748945244"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/L1160549.jpg?v=1760120465"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A3268.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A3049.jpg?v=1760120465"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/L1150543.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A3100.jpg?v=1760120465"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A3224.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A2980.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A0006.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A2994.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-4sided-dumbbells-11-1000x1000.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_7_b41b8108-6d20-43e4-b33e-ca24125c85cd.jpg?v=1760119979"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/MH-A_6_9e4e9819-d266-488f-8396-3f101e9d1bf0.jpg?v=1760119979"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:09:10+00:00",
+  "how": "shopify json"
+ }
+}

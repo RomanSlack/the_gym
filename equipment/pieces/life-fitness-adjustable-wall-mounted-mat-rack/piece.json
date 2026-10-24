@@ -1,0 +1,37 @@
+{
+ "id": "life-fitness-adjustable-wall-mounted-mat-rack",
+ "brand": "Life Fitness",
+ "model": "Adjustable Wall Mounted Mat Rack",
+ "title": "Adjustable Wall Mounted Mat Rack",
+ "url": "https://shop.lifefitness.com/products/adjustable-wall-mounted-mat-rack",
+ "items": [
+  "mat-rack"
+ ],
+ "item_names": [
+  "Mat hanging rack"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 75.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:13+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/perform-better-mat-rack-1000x1000.jpg?v=1749151275"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/perform-better-mat-rack-mat1000x1000.jpg?v=1749151275"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:13+00:00",
+  "how": "shopify json"
+ }
+}

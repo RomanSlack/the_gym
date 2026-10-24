@@ -1,0 +1,49 @@
+{
+ "id": "hammer-strength-premium-rubber-black-bumpers",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Premium Rubber Black Bumpers",
+ "title": "Hammer Strength Premium Rubber Black Bumpers",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-premium-rubber-black-bumpers",
+ "items": [
+  "training-bumpers"
+ ],
+ "item_names": [
+  "Training bumper plates, set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 190.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:07+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-45-1800x1800.png?v=1748945390"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-25-1800x1800.png?v=1748945390"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-35-1800x1800.png?v=1748945390"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-55-1800x1800.png?v=1748945390"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Premium-Rubber-BumperPlate-Family-1800x1800.png?v=1748945391"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:07+00:00",
+  "how": "shopify json"
+ }
+}

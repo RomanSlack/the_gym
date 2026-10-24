@@ -1,0 +1,65 @@
+{
+ "id": "hammer-strength-three-tier-dumbbell-rack",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Three Tier Dumbbell Rack",
+ "title": "Hammer Strength Three Tier Dumbbell Rack",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-three-tier-dumbbell-rack",
+ "items": [
+  "db-rack"
+ ],
+ "item_names": [
+  "Dumbbell rack (2 or 3 tier)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 2040.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:27+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/hammer-strength-benches-and-racksthree-tier-dumbbell-rackbase.jpg?v=1748945282"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_7.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_2.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_5.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_4.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_6.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_8.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_11.jpg?v=1769620899"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/Hammer_Strength_-_Benches_Racks_-_Three_Tier_Dumbbell_Rack_FW-DR3_1.jpg?v=1769620899"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:27+00:00",
+  "how": "shopify json"
+ }
+}

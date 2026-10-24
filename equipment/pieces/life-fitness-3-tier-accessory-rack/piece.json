@@ -1,0 +1,37 @@
+{
+ "id": "life-fitness-3-tier-accessory-rack",
+ "brand": "Life Fitness",
+ "model": "Life Fitness 3-Tier Accessory Rack",
+ "title": "Life Fitness 3-Tier Accessory Rack",
+ "url": "https://shop.lifefitness.com/products/life-fitness-3-tier-accessory-rack",
+ "items": [
+  "kb-rack"
+ ],
+ "item_names": [
+  "Kettlebell rack"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 1549.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:59+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/axiom-3-tier-accessories-rack-charcoal-1000x1000.jpg?v=1748945216"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/axiom-3-tier-accessories-rack-platinum-1000x1000.jpg?v=1748945216"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:59+00:00",
+  "how": "shopify json"
+ }
+}

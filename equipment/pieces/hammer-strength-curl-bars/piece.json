@@ -1,0 +1,33 @@
+{
+ "id": "hammer-strength-curl-bars",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Curl Bars",
+ "title": "Hammer Strength Curl Bars",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-curl-bars",
+ "items": [
+  "ez-bar-olympic"
+ ],
+ "item_names": [
+  "Olympic EZ curl bar"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 238.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:09:43+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Hammer-Strength-Straight-Bar-1800x1800.png?v=1748945389"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:09:43+00:00",
+  "how": "shopify json"
+ }
+}

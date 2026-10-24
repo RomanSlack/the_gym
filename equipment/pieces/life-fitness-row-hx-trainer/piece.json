@@ -1,0 +1,19 @@
+{
+ "id": "life-fitness-row-hx-trainer",
+ "brand": "Life Fitness",
+ "model": "Row HX Trainer",
+ "title": "Row HX Trainer",
+ "url": "https://shop.lifefitness.com/products/row-hx-trainer",
+ "items": [
+  "rower"
+ ],
+ "item_names": [
+  "Rower (Concept2 class)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [],
+ "status": "picked",
+ "notes": ""
+}

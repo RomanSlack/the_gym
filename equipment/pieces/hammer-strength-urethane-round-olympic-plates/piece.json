@@ -1,0 +1,85 @@
+{
+ "id": "hammer-strength-urethane-round-olympic-plates",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Urethane Round Olympic Plates",
+ "title": "Hammer Strength Urethane Round Olympic Plates",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-urethane-round-olympic-plates",
+ "items": [
+  "machine-plates"
+ ],
+ "item_names": [
+  "Plates for plate-loaded machines (grip plates), set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 21.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:50+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/Accessories-Round-Urethane-WeightPlate-45-1800x1800_1800x1800_png.jpg?v=1748945402"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A1563_e45a9680-a8db-4eb4-9d4d-85e369dc6341.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A1590_e80ffbb6-80f3-40e7-8725-7c6d860f7b9b.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A1650_27bb0aae-6700-489a-859f-31f85a5f14e6.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/4B9A3149_17f0f408-ea7c-420d-a740-31a65c451b26.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/L1160541_d0945b02-778a-4eb1-8b4f-36619bfdbe57.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/SYN2314_LFHS_Product_Film_Multi-Squat_V1_S1.00_04_38_10.Still001_27bd6dd1-b68e-4d08-b8fa-334625dfdf71.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-8.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-11.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-9.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-10.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-14.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength.jpg?v=1760121649"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-2.jpg?v=1760121649"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:50+00:00",
+  "how": "shopify json"
+ }
+}

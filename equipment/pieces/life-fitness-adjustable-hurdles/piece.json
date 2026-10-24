@@ -1,0 +1,41 @@
+{
+ "id": "life-fitness-adjustable-hurdles",
+ "brand": "Life Fitness",
+ "model": "Adjustable Hurdles",
+ "title": "Adjustable Hurdles",
+ "url": "https://shop.lifefitness.com/products/adjustable-hurdle",
+ "items": [
+  "agility-ladder"
+ ],
+ "item_names": [
+  "Agility ladder, hurdles + cones, set"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 33.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:10+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/adjustable-hurdle-tall-life-fitness-1000x1000.jpg?v=1748945267"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/adjustable-hurdle-short-life-fitness-1000x1000.jpg?v=1748945267"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/adjustable-hurdle-close-up-life-fitness-1000x1000.jpg?v=1748945267"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:10+00:00",
+  "how": "shopify json"
+ }
+}

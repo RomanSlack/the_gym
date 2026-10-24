@@ -1,0 +1,33 @@
+{
+ "id": "hammer-strength-3-in-1-wood-plyo-box",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength 3-in-1 Wood Plyo Box",
+ "title": "Hammer Strength 3-in-1 Wood Plyo Box",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-3-in-1-wood-plyo-box",
+ "items": [
+  "plyo-wood"
+ ],
+ "item_names": [
+  "Plyo box (wood, 3 heights)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 349.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:08:49+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-3in1-wood-plyo-box-550x550.jpg?v=1748945355"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:08:49+00:00",
+  "how": "shopify json"
+ }
+}

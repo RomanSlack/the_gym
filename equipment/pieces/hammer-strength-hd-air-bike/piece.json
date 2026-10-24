@@ -1,0 +1,61 @@
+{
+ "id": "hammer-strength-hd-air-bike",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength HD Air Bike",
+ "title": "Hammer Strength HD Air Bike",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-hd-air-bike",
+ "items": [
+  "air-bike"
+ ],
+ "item_names": [
+  "Air bike"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 2784.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:09:55+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-back-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-lined-up-lifestyle-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-adjusting-airguard-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-adjusting-seat-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-pedals-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-moving-1000x1000.jpg?v=1748945270"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-hd-air-bike-features-1000x1000.jpg?v=1748945270"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:09:55+00:00",
+  "how": "shopify json"
+ }
+}

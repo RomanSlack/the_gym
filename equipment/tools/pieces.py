@@ -82,7 +82,9 @@ def sync():
                else "Roman's pick", "price": None, "refs": [], "status": "picked", "notes": ""}
         new.update({k: v for k, v in old.items() if k not in ("items", "item_names")})  # manual + fetched fields survive
         f.parent.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps(new, indent=1, ensure_ascii=False) + "\n")
+        text = json.dumps(new, indent=1, ensure_ascii=False) + "\n"
+        if not f.exists() or f.read_text().rstrip() != text.rstrip():      # unchanged pieces stay untouched
+            f.write_text(text)
     print(f"{len(found)} pieces in {PIECES}")
 
 

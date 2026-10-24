@@ -6,6 +6,7 @@ so no product page is requested again; pieces.py fetch then reads the seeded cac
 
     python3 equipment/tools/claude_pick.py <list item> <shop handle> [<list item> <shop handle> ...]
     python3 equipment/tools/claude_pick.py --note <list item> "<note>"
+    python3 equipment/tools/claude_pick.py --url <list item> <url> "<title>" [...]
 """
 import json
 import sys
@@ -48,6 +49,12 @@ def seed(handle, p):
 def main(args):
     if args[:1] == ["--note"]:
         log({"action": "note", "id": args[1], "value": args[2], "by": "claude"})
+        return
+    if args[:1] == ["--url"]:                           # any shop: item url "title" triples; the page is read once
+        for item, url, title in zip(args[1::3], args[2::3], args[3::3]):     # later, by pieces.py fetch
+            log({"action": "add_link", "id": item, "url": url, "by": "claude"})
+            log({"action": "link_meta", "id": item, "url": url, "title": title, "by": "claude"})
+            print(f"{item}: {title}")
         return
     cat = catalogue()
     seeds = json.loads((EQ / ".cache" / "claude_seeds.json").read_text()) if (EQ / ".cache" / "claude_seeds.json").exists() else {}

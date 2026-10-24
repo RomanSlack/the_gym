@@ -1,0 +1,33 @@
+{
+ "id": "life-fitness-acft-sled-with-strap",
+ "brand": "Life Fitness",
+ "model": "Life Fitness ACFT Sled with Strap",
+ "title": "Life Fitness ACFT Sled with Strap - Outlet",
+ "url": "https://shop.lifefitness.com/products/life-fitness-acft-sled-w-strap-outlet",
+ "items": [
+  "pull-sled"
+ ],
+ "item_names": [
+  "Pull / drag sled"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 243.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:11:05+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/ACFT-Overview-Spec-Sheet-vf-13.jpg?v=1757602563"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:11:05+00:00",
+  "how": "shopify json"
+ }
+}

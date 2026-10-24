@@ -1,0 +1,33 @@
+{
+ "id": "hammer-strength-stability-ball",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Stability Ball",
+ "title": "Hammer Strength Stability Ball",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-stability-ball",
+ "items": [
+  "stability-ball"
+ ],
+ "item_names": [
+  "Stability (balance) ball"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 161.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:10:12+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/HS_StabilityBall75_106-1000x1000_3aa8fc80-a67e-4f3a-8c44-de7bee8268f3.jpg?v=1623420191"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:10:12+00:00",
+  "how": "shopify json"
+ }
+}

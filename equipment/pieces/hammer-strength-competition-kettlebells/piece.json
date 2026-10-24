@@ -1,0 +1,85 @@
+{
+ "id": "hammer-strength-competition-kettlebells",
+ "brand": "Hammer Strength",
+ "model": "Hammer Strength Competition Kettlebells",
+ "title": "Hammer Strength Competition Kettlebells",
+ "url": "https://shop.lifefitness.com/products/hammer-strength-competition-kettlebells",
+ "items": [
+  "kb-comp"
+ ],
+ "item_names": [
+  "Competition kettlebells 8-48 kg, set (pairs)"
+ ],
+ "picked": "2026-10-24T04:08:25+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 109.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:09:42+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-32KG-red-1000x1000.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-5.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/files/HammerStrength-4_461d944c-4683-42a7-a637-bf1af298d6c3.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-competition-kettlebells-overhead-press-1000x1000.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-competition-kettlebells-gym-rack-1000x1000.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-competition-kettlebells-workout-1000x1000.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/HS-Competition-kettlebells-family-stagerred-7710-1000x1000.jpg?v=1748945258"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/hammer-strength-competition-kettlebells-gym-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-12KG-blue-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-8KG-pink-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-16KG-yellow-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-20KG-purple-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_13.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-24KG-green-1000x1000.jpg?v=1748945259"
+  },
+  {
+   "file": "refs/ref_14.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0538/8307/6805/products/competition-kettlebells-hammer-strength-detail-1000x1000.jpg?v=1748945259"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:09:42+00:00",
+  "how": "shopify json"
+ }
+}
