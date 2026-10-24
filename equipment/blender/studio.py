@@ -63,6 +63,8 @@ scene.render.image_settings.file_format = "JPEG"; scene.render.image_settings.qu
 # ---- the piece
 spec = importlib.util.spec_from_file_location("piece_model", EQ / "pieces" / PIECE / "model.py")
 pm = importlib.util.module_from_spec(spec); spec.loader.exec_module(pm)
+RES = getattr(pm, "RES", (1200, 900))   # a piece may ask for its own frame (a 16:9 hero for a post)
+scene.render.resolution_x, scene.render.resolution_y = RES
 coll = bpy.data.collections.new(PIECE); scene.collection.children.link(coll)
 k = kit.Kit(PIECE, coll, getattr(pm, "LOOK", None))
 pm.build(k)
@@ -80,6 +82,7 @@ print("geometry:", glb)
 lo = Vector((min(c[i] for o in obs for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
 hi = Vector((max(c[i] for o in obs for c in (o.matrix_world @ Vector(b) for b in o.bound_box)) for i in range(3)))
 centre, size = (lo + hi) / 2, hi - lo
+sc = max(1.0, size.length / 6.0)    # a big assembly (a maze of modules): the backdrop and lights grow with it
 print(f"bounding box: {size.x:.3f} x {size.y:.3f} x {size.z:.3f} m (w x d x h)")
 
 # ---- the studio: a seamless mid-grey sweep, big soft lights
@@ -90,10 +93,10 @@ floor = bpy.data.materials.new("sweep"); floor.use_nodes = True
 fb = floor.node_tree.nodes["Principled BSDF"]; fb.inputs["Base Color"].default_value = (0.32, 0.32, 0.33, 1); fb.inputs["Roughness"].default_value = 0.6
 import bmesh  # noqa: E402
 bm = bmesh.new()
-R, back = 2.0, 6.0  # floor runs to a curved wall behind the piece (cyclorama)
-prof = [(-12.0, 0.0)] + [(back - R + R * math.sin(a * math.pi / 2 / 12), R - R * math.cos(a * math.pi / 2 / 12)) for a in range(13)] + [(back, 8.0)]
+R, back = 2.0 * sc, 6.0 * sc  # floor runs to a curved wall behind the piece (cyclorama)
+prof = [(-12.0 * sc, 0.0)] + [(back - R + R * math.sin(a * math.pi / 2 / 12), R - R * math.cos(a * math.pi / 2 / 12)) for a in range(13)] + [(back, 8.0 * sc)]
 rows = []
-for x in (-14, 14):
+for x in (-14 * sc, 14 * sc):
     rows.append([bm.verts.new((x, y, z)) for y, z in prof])
 for i in range(len(prof) - 1):
     bm.faces.new((rows[0][i], rows[0][i + 1], rows[1][i + 1], rows[1][i]))
@@ -111,7 +114,6 @@ def area(name, loc, energy, size, target):
 
 
 c = centre
-sc = max(1.0, size.length / 6.0)    # a big assembly (a maze of modules): the lights stand off and grow with it
 area("key", c + Vector((-2.6, -3.0, 2.8)) * sc, 420 * sc * sc, 2.5 * sc, c)
 area("fill", c + Vector((3.2, -2.2, 1.4)) * sc, 110 * sc * sc, 3.0 * sc, c)
 area("rim", c + Vector((1.5, 3.2, 3.0)) * sc, 320 * sc * sc, 2.0 * sc, c)
@@ -123,7 +125,7 @@ cam.data.lens = 50; cam.data.sensor_width = 36
 VIEWS = {"three_quarter": (-38, 14, 1.0), "front": (0, 6, 1.0), "side": (90, 6, 1.0), "back_three_quarter": (150, 18, 1.0)}
 VIEWS.update(getattr(pm, "VIEWS", {}))
 rad = 0.5 * size.length
-fov = 2 * math.atan(18 / cam.data.lens) * (900 / 1200)  # the narrower (vertical) angle
+fov = 2 * math.atan(18 / cam.data.lens) * (RES[1] / RES[0])  # the narrower (vertical) angle
 for name, (az, el, zoom) in VIEWS.items():
     a, e = math.radians(az), math.radians(el)
     d = Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
@@ -164,7 +166,7 @@ for name, az in getattr(pm, "ORTHO", {}).items():
     scene.render.film_transparent = False; scene.cycles.samples = 48 if DRAFT else 160; sw.hide_render = hid
     scene.render.image_settings.file_format = "JPEG"; scene.render.image_settings.color_mode = "RGB"
 cam.data.type = "PERSP"; sw.hide_render = False
-scene.render.resolution_x, scene.render.resolution_y = 1200, 900
+scene.render.resolution_x, scene.render.resolution_y = RES
 for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
     cam.location = Vector(eye); cam.rotation_euler = (Vector(target) - Vector(eye)).to_track_quat("-Z", "Y").to_euler()
     cam.data.lens = lens

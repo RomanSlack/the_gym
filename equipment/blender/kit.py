@@ -561,8 +561,12 @@ class Kit:
 
         seated, nb, near = set(), {}, []   # hardware on some structural part; who touches whom; gaps that look like misses
         pairs = []                         # touching structural pairs (and cables), for the pass-through test
-        for i in range(n):
-            for j in range(i + 1, n):
+        order = sorted(range(n), key=lambda i: items[i]["lo"][0])     # sweep along x: only parts whose x spans
+        for p_, i0 in enumerate(order):                                  # come within GAP of each other can meet
+            for j0 in order[p_ + 1:]:
+                if items[j0]["lo"][0] > items[i0]["hi"][0] + GAP:
+                    break
+                i, j = min(i0, j0), max(i0, j0)
                 a, b = items[i], items[j]
                 if a["hw"] and b["hw"]:
                     continue
