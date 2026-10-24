@@ -128,10 +128,10 @@ class Face:
         """A selectorized stack at (0, v), its frame's cross-members at vcm, as Life Fitness's look in the photos
         (ref_05 / ref_06): the base plate on the bottom cross-member, a round rubber cushion round each guide rod, n
         charcoal plates 0.30 (u) x 0.16 (v), each with rounded edges and a fine seam to the next, the pin's hole in the
-        middle of each plate's front (no slot showing), the white number on each plate's front, the pin with its black
-        knob; the thick top plate with the cable's boss, the bushings and red collars on the rods; the chrome rods up to
-        the rod plate (hung on two straps below a top mount's pulley, or right under the top rail).
-        Returns the top of the cable's boss."""
+        middle of each plate's front (no slot showing), the white numbers either side of it (ref_05: 5 on the top
+        plate, 12.5, 20 ... down the stack), the pin with its black knob; the thick top plate with the cable's boss, the
+        bushings and red collars on the rods; the chrome rods up to the rod plate (hung on two straps below a top
+        mount's pulley, or right under the top rail). Returns the top of the cable's boss."""
         z0 = ZBC + CM[1] / 2
         lo, hi = min(v - 0.09, vcm - CM[0] / 2), max(v + 0.09, vcm + CM[0] / 2)
         self.box("frame", (0.0, (lo + hi) / 2, z0 + 0.005), (0.42, hi - lo, 0.010), soft=0.002)
@@ -143,7 +143,8 @@ class Face:
         for i in range(n):
             zc = zb + i * t + t / 2
             self.box("plate", (0.0, v, zc), (W, Dp, t - 0.0025), soft=0.005)
-            self.text("white", f"{5 + i * 7.5:g}", (-0.105, v + Dp / 2 + 0.0004, zc), 0.0135, depth=0.0004)
+            for su in (-1, 1):                          # the total lifted with the pin here: 5 on the top plate, +7.5 each
+                self.text("white", f"{5 + (n - i) * 7.5:g}", (su * 0.036, v + Dp / 2 + 0.0004, zc), 0.0135, depth=0.0004)
             self.cyl("hole", (0.0, v + Dp / 2 + 0.0002, zc), 0.0065, 0.001, axis="v", seg=16)   # the pin's hole
         self.tube("chrome", (0.0, v, zb), (0.0, v, zb + n * t + 0.01), 0.0095, seg=14)            # the stem in it
         zp = zb + pin_at * t + t / 2
@@ -151,6 +152,8 @@ class Face:
         self.cyl("plastic", (0.0, v + Dp / 2 + 0.05, zp), 0.019, 0.032, axis="v", seg=24, soft=0.006)  # its knob
         ztop = zb + n * t
         self.box("plate", (0.0, v, ztop + 0.0225), (W, Dp, 0.045), soft=0.01)                     # the top plate
+        self.text("white", "5", (-0.036, v + Dp / 2 + 0.0004, ztop + 0.0225), 0.0135, depth=0.0004)
+        self.cyl("hole", (0.0, v + Dp / 2 + 0.0002, ztop + 0.0225), 0.0065, 0.001, axis="v", seg=16)
         self.cyl("plate", (0.0, v, ztop + 0.06), 0.032, 0.03, seg=28, soft=0.006)                  # the cable's boss
         self.cyl("chrome", (0.0, v, ztop + 0.08), 0.012, 0.012, seg=16)
         for su in (-1, 1):                              # the bushings and the red collars where the rods run through

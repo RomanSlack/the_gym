@@ -29,6 +29,7 @@ DETAILS = {
     "detail_core_top": ((0.75, -1.05, 2.85), (0.0, 0.0, 2.10), 45),       # the hub, the legs' bends, the top mounts
     "detail_stack": ((0.30, -1.40, 1.05), (0.0, -0.20, 0.70), 40),        # the pulldown's stack, the seat, the knee pads
     "detail_carriage": ((0.60, -1.10, 1.55), (POST, 0.0, 1.30), 45),      # the post, the carriage, its pulley, the handle
+    "detail_plates": ((-1.15, -0.10, 0.62), (-0.275, 0.0, 0.52), 45),     # a bare stack (the triceps'): numbers, pin
     "detail_bar": ((D / 2, -1.30, 2.55), (D / 2, 0.0, 2.25), 45),         # the crossbar, the handles, the post's clamp
     "detail_row": ((D + 1.6, -1.1, 1.0), (D + 0.7, 0.0, 0.45), 40),       # the row's bench, foot plate, low pulley
 }
