@@ -1,0 +1,41 @@
+{
+ "id": "beastmaker-2000-series-hangboard",
+ "brand": "Beastmaker",
+ "model": "Beastmaker 2000 Series Hangboard",
+ "title": "Beastmaker 2000 Series Hangboard",
+ "url": "https://madrock.com/products/beastmaker-2000-series",
+ "items": [
+  "hangboard"
+ ],
+ "item_names": [
+  "Hangboard"
+ ],
+ "picked": "2026-10-24T04:11:18+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 138.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:16:07+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0272/5951/files/BEASTMAKER-2000-SERIES.jpg?v=1685734497"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0272/5951/products/beastmaker-2000-product-left_1200x_e8ddc869-ac15-491e-b756-c890d371db75.jpg?v=1685734497"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0272/5951/products/beastmaker-2000-product-right_1200x_3a47661f-224b-438d-9852-2edc91b8711d.jpg?v=1685734497"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:16:07+00:00",
+  "how": "shopify json"
+ }
+}

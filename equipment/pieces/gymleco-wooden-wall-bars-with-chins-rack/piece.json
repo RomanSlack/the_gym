@@ -1,0 +1,28 @@
+{
+ "id": "gymleco-wooden-wall-bars-with-chins-rack",
+ "brand": "Gymleco",
+ "model": "Gymleco Wooden Wall Bars with Chins Rack",
+ "title": "Gymleco Wooden Wall Bars with Chins Rack",
+ "url": "https://www.gymleco.com/",
+ "items": [
+  "wall-bars"
+ ],
+ "item_names": [
+  "Wall bars (ribbevegg), section"
+ ],
+ "picked": "2026-10-24T04:11:18+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "http://gymleco.com/cdn/shop/files/share-image.png?crop=center&height=1200&v=1742543617&width=1200"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:15:56+00:00",
+  "how": "page"
+ }
+}

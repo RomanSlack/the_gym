@@ -12,8 +12,34 @@
  ],
  "picked": "2026-10-24T04:10:19+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 200.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:24:06+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Peg%20Boards/RA2684/Updated%20Images%202023/RA2684-H-gfx_yvbri3.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Peg%20Boards/RA2684/Updated%20Images%202023/RA2684-web3_UNFINISHED_PINE_yf4ikg.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Peg%20Boards/RA2684/Updated%20Images%202023/RA2684-web2_FINISHED_PINE_gwinip.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Peg%20Boards/RA2684/Updated%20Images%202023/RA2684-web1-MAPLE_w6p9ar.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:24:06+00:00",
+  "how": "page"
+ }
 }

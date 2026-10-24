@@ -12,8 +12,38 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 730.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:25:06+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Atlas%20Stones/IP0532/IP0532-H_bo2tnk.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Atlas%20Stones/EU-IP0532/EU-IP0532-WEB5_e9oko0.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Atlas%20Stones/IP0532/IP0532-WEB1_pm43vd.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Atlas%20Stones/IP0532/IP0532-WEB2_alzt0z.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Atlas%20Stones/IP0532/IP0532-WEB3_rcvftt.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:25:06+00:00",
+  "how": "page"
+ }
 }

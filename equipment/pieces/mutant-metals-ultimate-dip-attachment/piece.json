@@ -1,0 +1,49 @@
+{
+ "id": "mutant-metals-ultimate-dip-attachment",
+ "brand": "Mutant Metals",
+ "model": "Mutant Metals Ultimate Dip Attachment",
+ "title": "Mutant Metals Ultimate Dip Attachment",
+ "url": "https://www.roguefitness.com/mutant-metals-ultimate-dip-attachments-uda",
+ "items": [
+  "dip-attachment"
+ ],
+ "item_names": [
+  "Rack dip attachment"
+ ],
+ "picked": "2026-10-24T04:10:19+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 360.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:23:06+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/RA2860/2025%20Updated%20images/RA2860-TXT-BLACK-B-H_vgqnnt_vsyah6.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/RA2860/2025%20Updated%20images/RA2860-web4_ahhpku_cm2fmt.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/RA2860/2025%20Updated%20images/RA2860-web5_vhw9ln_xwza7i.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/RA2860/RA2860-web7_pbgfl7.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/RA2860/RA2860-web6_ncacex.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:23:06+00:00",
+  "how": "page"
+ }
+}

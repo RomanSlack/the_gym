@@ -12,8 +12,38 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 220.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:19:01+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Timers/IP0490/IP0490-web7_e8gkxn.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Timers/IP0490/IP0490-Split_bon4y4.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Timers/IP0490/IP0490-web19_xiq3oz.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Timers/IP0490/ip0490-web18_o4wpbb.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Timers/IP0490/IP0490-web-10_w0g7vs.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:19:01+00:00",
+  "how": "page"
+ }
 }

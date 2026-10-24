@@ -12,8 +12,22 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 16.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:20:13+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Gym%20Chalk/XX7131/XX7131-H_xnzdq3.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:20:13+00:00",
+  "how": "page"
+ }
 }

@@ -12,8 +12,42 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 310.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:22:53+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/RA1235-H_zgaypv.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/RA1235-Web1_yxpmf6.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/RA1235-Web2_yldgqr.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/RA1235-Web3_y8shzh.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Rigs%20and%20Racks/Rig%20and%20Rack%20Accessories/Monster%20Accessories/RA1235-FBS6-C2476/RA1235-FBS6-C2476-H_wtyl1h.png"
+  },
+  {
+   "file": "refs/ref_06.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/RA1235-TH_relpjp.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:22:53+00:00",
+  "how": "page"
+ }
 }

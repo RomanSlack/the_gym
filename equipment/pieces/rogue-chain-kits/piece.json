@@ -12,8 +12,38 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 90.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:18:14+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Chains/XX818/XX818-H_dzuy1k.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Chains/XX818/XX818-HOVER_udvzql.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Chains/XX818/XX818-WEB1_a0m2dv.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Chains/XX818/XX818-WEB2_dlsf5t.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strength%20Equipment/Training%20Accessories%20/Chains/XX818/XX818-WEB3_tfnsnb.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:18:14+00:00",
+  "how": "page"
+ }
 }

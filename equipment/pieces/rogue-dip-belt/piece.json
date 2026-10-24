@@ -12,8 +12,38 @@
  ],
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
- "price": null,
- "refs": [],
+ "price": {
+  "amount": 65.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:18:46+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Dip%20Belts/RA2871/RA2871-BLK-H_ffe9et.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Dip%20Belts/RA2871/RA2871-BLK-web2_shfojb.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Dip%20Belts/RA2871/RA2871-BLK-web1_dd1dfr.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Dip%20Belts/RA2871/RA2871-BLK-web3_drwxnc.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Bodyweight%20and%20Gymnastics/Bodyweight%20/Dip%20Belts/RA2871/RA2871-web4_xapgxt.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:18:46+00:00",
+  "how": "page"
+ }
 }

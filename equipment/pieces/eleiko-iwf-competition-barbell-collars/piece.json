@@ -15,5 +15,9 @@
  "price": null,
  "refs": [],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:15:36+00:00",
+  "error": "HTTP Error 404: Not Found"
+ }
 }

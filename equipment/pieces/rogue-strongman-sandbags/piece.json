@@ -13,7 +13,32 @@
  "picked": "2026-10-24T04:10:07+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
  "price": null,
- "refs": [],
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Strongman%20Sandbags/RA1160/RA1160-H_V1_ypsmf5.jpg"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Strongman%20Sandbags/RA1160/RA1160-web7_castou.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Strongman%20Sandbags/RA1160/RA1160-web-1_odq2ul.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Strongman%20Sandbags/RA1160/RA1160-web-2_eojwua.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Sandbags%20and%20Stone%20Molds/Strongman%20Sandbags/RA1160/RA1160-web-3_otkli8.png"
+  }
+ ],
  "status": "picked",
- "notes": ""
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:26:17+00:00",
+  "how": "page"
+ }
 }

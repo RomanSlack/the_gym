@@ -1,0 +1,49 @@
+{
+ "id": "pro-tec-stretch-band",
+ "brand": "Pro-Tec",
+ "model": "Pro-Tec Stretch Band",
+ "title": "Pro-Tec Stretch Band",
+ "url": "https://www.roguefitness.com/pro-tec-stretch-band",
+ "items": [
+  "stretch-strap"
+ ],
+ "item_names": [
+  "Stretching strap"
+ ],
+ "picked": "2026-10-24T04:10:07+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 29.95,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:24:20+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/Bands/PT0005/PT0005-H_mdjyhh.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/Bands/PT0005/PT0005-WEB1_dkokei.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/Bands/PT0005/PT0005-WEB2_kmvvve.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/Bands/PT0005/PT0005-WEB3_akvmxt.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/Bands/PT0005/PT0005-WEB4_xwic3x.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:24:20+00:00",
+  "how": "page"
+ }
+}

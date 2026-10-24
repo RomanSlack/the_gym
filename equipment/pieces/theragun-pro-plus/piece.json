@@ -1,0 +1,49 @@
+{
+ "id": "theragun-pro-plus",
+ "brand": "Theragun",
+ "model": "Theragun PRO Plus",
+ "title": "Theragun PRO Plus",
+ "url": "https://www.roguefitness.com/theragun-pro-plus",
+ "items": [
+  "massage-gun"
+ ],
+ "item_names": [
+  "Massage gun"
+ ],
+ "picked": "2026-10-24T04:10:19+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 649.99,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:26:32+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/THG0020/TTHG0020-H_lpuisn.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/THG0020/TTHG0020-Web2_qwd56h.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/THG0020/TTHG0020-Web5_txoirp.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/THG0020/TTHG0020-Web1_xqp4to.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Mobility/Mobility%20Tools%20/THG0020/TTHG0020-Web4_ubcalo.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:26:32+00:00",
+  "how": "page"
+ }
+}

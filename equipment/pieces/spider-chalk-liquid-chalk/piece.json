@@ -1,0 +1,44 @@
+{
+ "id": "spider-chalk-liquid-chalk",
+ "brand": "Spider Chalk",
+ "model": "Spider Chalk Liquid Chalk",
+ "title": "Spider Chalk Liquid Chalk",
+ "url": "https://www.roguefitness.com/spider-chalk-liquid-chalk",
+ "items": [
+  "chalk"
+ ],
+ "item_names": [
+  "Chalk (blocks + liquid)"
+ ],
+ "picked": "2026-10-24T04:10:07+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/SPC001-H_y8kq5v.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Gym%20Chalk/SPC000/SPC000-web-2_cr360u.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Gym%20Chalk/SPC000/SPC000-web-3_lfwvcj.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/SPC002-H_whp5s3.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Gear%20and%20Accessories/Gym%20Essentials%20/Gym%20Chalk/SPC000/SPC000-web-1_yetdxd.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:26:02+00:00",
+  "how": "page"
+ }
+}

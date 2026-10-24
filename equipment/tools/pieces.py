@@ -28,7 +28,9 @@ BRANDS = {"shop.lifefitness.com": "Life Fitness", "www.roguefitness.com": "Rogue
           "giantlifting.com": "GIANT", "strencor.com": "Strencor", "gmwdfitness.com": "GMWD"}
 # brands named in the product title win over the shop (Hammer Strength is sold by Life Fitness, Precor by dealers)
 TITLE_BRANDS = ["Hammer Strength", "Life Fitness", "Precor", "StairMaster", "VersaClimber", "Woodway", "Body-Solid",
-                "Concept2", "Eleiko", "Rogue", "Titan", "Atlantis", "The abs Company", "AbMat", "TITAN"]
+                "Concept2", "Eleiko", "Rogue", "Titan", "Atlantis", "The abs Company", "AbMat", "TITAN",
+                "Captains of Crush", "Theragun", "Fat Gripz", "Spider Chalk", "RevBalance", "Mutant Metals", "Pro-Tec",
+                "Beastmaker", "Gymleco"]
 now = lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
@@ -109,7 +111,7 @@ def page_data(pid, url):
             price = (v or j).get("price")
             imgs = [urljoin(url, i if i.startswith("http") or i.startswith("//") else i) for i in j.get("images", [])]
             imgs = ["https:" + i if i.startswith("//") else i for i in imgs]
-            return (price / 100 if isinstance(price, int) else None), "USD", imgs, "shopify json"
+            return (price / 100 if isinstance(price, int) and price > 0 else None), "USD", imgs, "shopify json"
         except Exception:
             c.unlink(missing_ok=True)
     c = CACHE / f"{pid}.html"
@@ -148,7 +150,7 @@ def page_data(pid, url):
                 pass
         elif "currency" in tag and not cur:
             cur = val
-    return price, cur, [urljoin(url, i) for i in imgs if i], "page"
+    return (price or None), cur, [urljoin(url, i) for i in imgs if i], "page"           # a 0 is no price shown
 
 
 def fetch():

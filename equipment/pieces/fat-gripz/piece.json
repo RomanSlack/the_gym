@@ -1,0 +1,49 @@
+{
+ "id": "fat-gripz",
+ "brand": "Fat Gripz",
+ "model": "Fat Gripz",
+ "title": "Fat Gripz",
+ "url": "https://www.roguefitness.com/fat-gripz",
+ "items": [
+  "grip-tools"
+ ],
+ "item_names": [
+  "Grip tools: thick grips, wrist roller, grippers, set"
+ ],
+ "picked": "2026-10-24T04:10:07+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 29.95,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:19:47+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Grip%20Strength/Fat%20Grips/FG0001/FG0001-H_odgpeg.png"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Grip%20Strength/Fat%20Grips/FG0001/FG0001-Web1_ad5xo0.png"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Grip%20Strength/Fat%20Grips/FG0001/FG0001-Web5_qaigpo.png"
+  },
+  {
+   "file": "refs/ref_04.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Grip%20Strength/Fat%20Grips/FG0001/FG0001-Web2_xg1opb.png"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://assets.roguefitness.com/f_auto,q_auto,c_limit,w_1600,b_rgb:ffffff/v1/catalog/Strongman/Grip%20Strength/Fat%20Grips/FG0001/FG0001-Web6_qgi6hz.png"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:19:47+00:00",
+  "how": "page"
+ }
+}
