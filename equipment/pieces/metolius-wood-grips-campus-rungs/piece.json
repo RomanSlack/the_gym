@@ -1,0 +1,33 @@
+{
+ "id": "metolius-wood-grips-campus-rungs",
+ "brand": "Metolius",
+ "model": "Metolius Wood Grips Campus Rungs",
+ "title": "Metolius Wood Grips Campus Rungs",
+ "url": "https://www.rockrun.com/products/metolius-campus-rungs",
+ "items": [
+  "campus-board"
+ ],
+ "item_names": [
+  "Campus rungs board"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 67.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:30:26+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/1554/2851/files/metolius-campus-medium.jpg?v=1785451745"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:30:26+00:00",
+  "how": "shopify json"
+ }
+}

@@ -30,7 +30,7 @@ BRANDS = {"shop.lifefitness.com": "Life Fitness", "www.roguefitness.com": "Rogue
 TITLE_BRANDS = ["Hammer Strength", "Life Fitness", "Precor", "StairMaster", "VersaClimber", "Woodway", "Body-Solid",
                 "Concept2", "Eleiko", "Rogue", "Titan", "Atlantis", "The abs Company", "AbMat", "TITAN",
                 "Captains of Crush", "Theragun", "Fat Gripz", "Spider Chalk", "RevBalance", "Mutant Metals", "Pro-Tec",
-                "Beastmaker", "Gymleco"]
+                "Beastmaker", "Gymleco", "Metolius", "Tib Bar Guy", "Manduka", "Fit3D"]
 now = lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
 slug = lambda s: re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 

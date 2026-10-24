@@ -1,0 +1,41 @@
+{
+ "id": "manduka-meditation-cushion",
+ "brand": "Manduka",
+ "model": "Manduka Meditation Cushion",
+ "title": "Manduka Meditation Cushion",
+ "url": "https://heima.com.hk/products/manduka-meditation-cushion-sand",
+ "items": [
+  "meditation-cushion"
+ ],
+ "item_names": [
+  "Meditation cushion"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 790.0,
+  "currency": "HKD",
+  "kind": "list price on the linked page (a Hong Kong retailer)",
+  "at": "2026-10-24T04:30:14+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.shopify.com/s/files/1/0702/0747/1830/files/png_4d300f85-e1e5-4692-a6e1-2e00abb904b6.png?v=1762248593"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://cdn.shopify.com/s/files/1/0702/0747/1830/files/MEDITATION-COVER_SAND_01-fotor-bg-remover-2024060219353.png?v=1762248593"
+  },
+  {
+   "file": "refs/ref_03.png",
+   "url": "https://cdn.shopify.com/s/files/1/0702/0747/1830/files/MEDITATION-COVER_SAND_03-fotor-bg-remover-2024060219412.png?v=1762248593"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:30:14+00:00",
+  "how": "shopify json"
+ }
+}

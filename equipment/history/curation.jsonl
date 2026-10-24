@@ -371,3 +371,15 @@
 {"action": "link_meta", "id": "wall-bars", "url": "https://www.gymleco.com/?p=17242931", "title": "Gymleco Wooden Wall Bars with Chins Rack", "by": "claude", "t": "2026-10-24T04:11:18+00:00"}
 {"action": "note", "id": "compression-boots", "value": "Covered by the building: the F4 recovery bay already has the compression boots and their pump (furniture.py _air_boot).", "by": "claude", "t": "2026-10-24T04:11:18+00:00"}
 {"action": "note", "id": "spray-bottles", "value": "Not modelled: a consumable; placed as generic bottles if needed.", "by": "claude", "t": "2026-10-24T04:11:18+00:00"}
+{"action": "add_link", "id": "campus-board", "url": "https://www.rockrun.com/products/metolius-campus-rungs", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "campus-board", "url": "https://www.rockrun.com/products/metolius-campus-rungs", "title": "Metolius Wood Grips Campus Rungs", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "add_link", "id": "slant-board", "url": "https://thetibbarguy.com/products/the-slant-board", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "slant-board", "url": "https://thetibbarguy.com/products/the-slant-board", "title": "Tib Bar Guy Slant Board", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "add_link", "id": "bolster", "url": "https://manduka.com/en-ca/products/enlight-rectangular-bolster", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "bolster", "url": "https://manduka.com/en-ca/products/enlight-rectangular-bolster", "title": "Manduka enlight Rectangular Bolster", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "add_link", "id": "meditation-cushion", "url": "https://heima.com.hk/products/manduka-meditation-cushion-sand", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "meditation-cushion", "url": "https://heima.com.hk/products/manduka-meditation-cushion-sand", "title": "Manduka Meditation Cushion", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "add_link", "id": "body-scanner", "url": "https://www.aniwaa.com/product/3d-scanners/fit3d-proscanner/", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "body-scanner", "url": "https://www.aniwaa.com/product/3d-scanners/fit3d-proscanner/", "title": "Fit3D ProScanner", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "add_link", "id": "stone-platform", "url": "https://titan.fitness/products/atlas-stone-platform-t3-series-rack-yoke-compatible", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}
+{"action": "link_meta", "id": "stone-platform", "url": "https://titan.fitness/products/atlas-stone-platform-t3-series-rack-yoke-compatible", "title": "Titan Atlas Stone Platform", "by": "claude", "t": "2026-10-24T04:29:45+00:00"}

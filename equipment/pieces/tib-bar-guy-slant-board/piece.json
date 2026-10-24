@@ -1,0 +1,77 @@
+{
+ "id": "tib-bar-guy-slant-board",
+ "brand": "Tib Bar Guy",
+ "model": "Tib Bar Guy Slant Board",
+ "title": "Tib Bar Guy Slant Board",
+ "url": "https://thetibbarguy.com/products/the-slant-board",
+ "items": [
+  "slant-board"
+ ],
+ "item_names": [
+  "Slant board"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 59.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:30:56+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-9635011.jpg?v=1791964943"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-5481958.jpg?v=1791964943"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-9045740.jpg?v=1791964943"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-2054333.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_05.png",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-2439418.png?v=1791964943"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-9631941.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_07.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-4758135.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_08.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-5175561.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_09.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-4245178.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_10.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-2541667.jpg?v=1791964944"
+  },
+  {
+   "file": "refs/ref_11.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-2440805.jpg?v=1791964990"
+  },
+  {
+   "file": "refs/ref_12.jpg",
+   "url": "https://cdn.shopify.com/s/files/1/0550/4663/5688/files/the-slant-board-5285357.jpg?v=1791964990"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:30:56+00:00",
+  "how": "shopify json"
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "id": "fit3d-proscanner",
+ "brand": "Fit3D",
+ "model": "Fit3D ProScanner",
+ "title": "Fit3D ProScanner",
+ "url": "https://www.aniwaa.com/product/3d-scanners/fit3d-proscanner/",
+ "items": [
+  "body-scanner"
+ ],
+ "item_names": [
+  "3D body scanner"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:29:47+00:00",
+  "error": "HTTP Error 500: Internal Server Error"
+ }
+}

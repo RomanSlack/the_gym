@@ -1,0 +1,37 @@
+{
+ "id": "manduka-enlight-rectangular-bolster",
+ "brand": "Manduka",
+ "model": "Manduka enlight Rectangular Bolster",
+ "title": "Manduka enlight Rectangular Bolster",
+ "url": "https://manduka.com/en-ca/products/enlight-rectangular-bolster",
+ "items": [
+  "bolster"
+ ],
+ "item_names": [
+  "Bolster"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": {
+  "amount": 82.0,
+  "currency": "USD",
+  "kind": "list price on the linked page",
+  "at": "2026-10-24T04:30:00+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://www.manduka.com/cdn/shop/files/91201A876_BOLSTER_COVER_REC_SOLANA_SAND_01.jpg?v=1770740126&width=871"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "http://www.manduka.com/cdn/shop/products/43201AT20-Props-BolsterRectangle-Sand-01.jpg?v=1770740332"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:30:00+00:00",
+  "how": "page"
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "id": "titan-atlas-stone-platform",
+ "brand": "Titan",
+ "model": "Titan Atlas Stone Platform",
+ "title": "Titan Atlas Stone Platform",
+ "url": "https://titan.fitness/products/atlas-stone-platform-t3-series-rack-yoke-compatible",
+ "items": [
+  "stone-platform"
+ ],
+ "item_names": [
+  "Atlas stone platforms / loading platform"
+ ],
+ "picked": "2026-10-24T04:29:45+00:00",
+ "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
+ "price": null,
+ "refs": [
+  {
+   "file": "refs/ref_01.webp",
+   "url": "http://titan.fitness/cdn/shop/collections/category-yokes.webp?v=1702050755"
+  }
+ ],
+ "status": "picked",
+ "notes": "",
+ "fetched": {
+  "at": "2026-10-24T04:31:07+00:00",
+  "how": "page"
+ }
+}

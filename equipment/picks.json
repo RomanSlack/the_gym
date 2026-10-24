@@ -2087,6 +2087,72 @@
    "links": [],
    "skipped": false,
    "note": "Not modelled: a consumable; placed as generic bottles if needed."
+  },
+  "campus-board": {
+   "links": [
+    {
+     "url": "https://www.rockrun.com/products/metolius-campus-rungs",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Metolius Wood Grips Campus Rungs"
+    }
+   ],
+   "skipped": false
+  },
+  "slant-board": {
+   "links": [
+    {
+     "url": "https://thetibbarguy.com/products/the-slant-board",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Tib Bar Guy Slant Board"
+    }
+   ],
+   "skipped": false
+  },
+  "bolster": {
+   "links": [
+    {
+     "url": "https://manduka.com/en-ca/products/enlight-rectangular-bolster",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Manduka enlight Rectangular Bolster"
+    }
+   ],
+   "skipped": false
+  },
+  "meditation-cushion": {
+   "links": [
+    {
+     "url": "https://heima.com.hk/products/manduka-meditation-cushion-sand",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Manduka Meditation Cushion"
+    }
+   ],
+   "skipped": false
+  },
+  "body-scanner": {
+   "links": [
+    {
+     "url": "https://www.aniwaa.com/product/3d-scanners/fit3d-proscanner/",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Fit3D ProScanner"
+    }
+   ],
+   "skipped": false
+  },
+  "stone-platform": {
+   "links": [
+    {
+     "url": "https://titan.fitness/products/atlas-stone-platform-t3-series-rack-yoke-compatible",
+     "added": "2026-10-24T04:29:45+00:00",
+     "by": "claude",
+     "title": "Titan Atlas Stone Platform"
+    }
+   ],
+   "skipped": false
   }
  },
  "custom": []
