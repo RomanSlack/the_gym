@@ -282,6 +282,17 @@ def guard(f, z=0.88, bow=0.10):
             soft=0.0, cut0=((-e, 0, 0), (1, 0, 0)), cut1=((e, 0, 0), (1, 0, 0)), weld=True)    # cut flush to the legs' faces
 
 
+def hook(f, u, v, z):
+    """A handle's hookup (ref_04 / ref_05): a triangular tab standing on the handle at (u, v, z), the chrome carabiner
+    through its hole, the black rubber stop on the cable's end above it (its top at z + 0.135)."""
+    tri = [(-0.035, 0.0), (0.035, 0.0), (0.008, 0.045), (-0.008, 0.045)]
+    f.sweep("frame", [(u, v - 0.003, z - 0.004), (u, v + 0.003, z - 0.004)], tri, up="z", soft=0.002)
+    f.cyl("hole", (u, v, z + 0.03), 0.006, 0.0062, axis="v", seg=16)
+    loop = [(u - 0.012 * math.sin(math.radians(a)), v, z + 0.065 + 0.037 * math.cos(math.radians(a))) for a in range(0, 361, 20)]
+    f.sweep("chrome", loop, f.k.circle(0.0032, 10), soft=0.0)
+    f.cyl("rubber", (u, v, z + 0.1185), 0.009, 0.033, seg=20, soft=0.003)
+
+
 def pulldown(k, c, out):
     """Pulldown (LPP-PD), as the render has it (ref_08 / ref_07; the manual's LPP-PD drawing): the stack right behind
     the face; the big boom straight out from the Core's top cap at the very top, the lat bar hung from its end out over
@@ -292,15 +303,15 @@ def pulldown(k, c, out):
     zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
     vo, zo = boom_mount(f, 0.52, zt)                    # the boom out over the user (ref_08)
     zb = 1.95                                           # the bar at rest, hung from the boom's end over the hips
-    f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.06)])
-    f.box("steel", (0.0, vo, zb + 0.035), (0.03, 0.02, 0.05), soft=0.002)
+    hook(f, 0.0, vo, zb + 0.0145)                       # the tab on the bar, the carabiner, the cable's rubber stop
+    f.cable([(0.0, vo, zo), (0.0, vo, zb + 0.0145 + 0.135)])
     bar = [(-0.60, vo + 0.03, zb - 0.09), (-0.46, vo, zb), (0.46, vo, zb), (0.60, vo + 0.03, zb - 0.09)]
-    f.sweep("frame", bar, f.k.circle(0.0145, 18), bend=0.08, soft=0.0)
+    f.sweep("grip", bar, f.k.circle(0.0145, 18), bend=0.08, soft=0.0)    # grey all over (ref_04 / ref_05)
     for e, n_ in ((bar[0], bar[1]), (bar[-1], bar[-2])):
         d = [e[i] - n_[i] for i in range(3)]; ln = math.sqrt(sum(x * x for x in d)); d = [x / ln for x in d]
-        f.tube("chrome", e, tuple(e[i] + d[i] * 0.012 for i in range(3)), 0.0155, seg=18)
-    for s in (-1, 1):                                   # the grey grips most of its length (ref_04 / ref_05)
-        f.tube("grip", (s * 0.06, vo, zb), (s * 0.45, vo, zb), 0.019, soft=0.003)
+        f.tube("chrome", e, tuple(e[i] + d[i] * 0.004 for i in range(3)), 0.0145, seg=18)
+    for s in (-1, 1):                                   # the chrome bands where the ends turn down
+        f.tube("chrome", (s * 0.40, vo, zb), (s * 0.412, vo, zb), 0.0152, seg=20)
     guard(f)
     # the station's upright (the manual's LPP-PD drawing; ref_05): on the floor beam out from the bottom cross-member,
     # leaning in toward the Core as it rises; the seat cantilevered out from its foot on an arm; the knee pads on an
@@ -356,44 +367,45 @@ def pulldown(k, c, out):
 
 
 def row(k, c, out):
-    """Row (LPP-RW), as the render has it (ref_08 / ref_07): the stack right behind the face, the cable from a short top
-    mount down at a slant to the low pulley on top of the row arm; the arm rising from the bench beam with the big
-    perforated foot plate on its face; the V handle resting at the pulley; the long bench pad on its beam, the small
-    angled foot stop at its near end, the single far leg."""
+    """Row (LPP-RW), as the render has it (ref_08 / ref_07 / ref_04): the stack right behind the face, the cable from a
+    short top mount down to the low pulley at the top of the row's J beam; the beam from the far leg under the bench
+    sweeping up against the guard bar; the two perforated foot plates either side of it; the V handle at the pulley;
+    the long bench pad on the beam, the single far leg."""
     f = Face(k, c, out)
     zt = f.stack(VS, A, n=17, hang=False, step=15)          # the heavy stack: 5 to 260
     vo, zo = top_mount(f, 0.06, zt)
     guard(f)
-    # the bench beam from the bottom cross-member out to the far leg
-    vb1, zp = A + 1.70, 0.45
-    f.bar("frame", (0.0, A + CM[0] / 2, ZBC), (0.0, vb1, ZBC), 0.076, 0.076, up="z", cut0=((0, A + CM[0] / 2, 0), (0, 1, 0)),
-          weld=True)
-    f.bar("frame", (0.0, vb1 - 0.04, FOOT_H), (0.0, vb1 - 0.04, zp - 0.05), 0.07, 0.07, up="v", cut0=((0, 0, FOOT_H), (0, 0, 1)),
-          weld=True)
-    f.box("rubber", (0.0, vb1 - 0.04, FOOT_H / 2), (0.20, 0.12, FOOT_H), soft=0.006)
-    f.bar("frame", (0.0, A + 0.85, ZBC + 0.038), (0.0, A + 0.85, zp - 0.05), 0.06, 0.06, up="v",
-          cut0=((0, 0, ZBC + 0.038), (0, 0, 1)), weld=True)
-    f.box("frame", (0.0, A + 1.20, zp - 0.04), (0.24, 0.84, 0.024), soft=0.002)
+    # the row's one round beam (ref_07 / ref_04): from the far leg under the bench toward the Core, sweeping up in a big
+    # J to stand against the guard bar; the pulley in its cheeks at the J's top; the bench pad on the beam
+    vb1, zbm, rb = A + 1.70, 0.34, 0.035
+    vj, zj = A + 0.155, 0.95                            # the J's upright: just off the guard (which bows out to A + 0.124)
+    f.sweep("frame", [(0.0, vb1, zbm), (0.0, vj, zbm), (0.0, vj, zj)], f.k.circle(rb, 28), bend=0.25, soft=0.0)
+    f.cyl("plastic", (0.0, vj, zj + 0.004), rb, 0.008, seg=28, soft=0.002)                        # its top cap
+    f.cyl("plastic", (0.0, vb1 + 0.004, zbm), rb, 0.008, axis="v", seg=28, soft=0.002)
+    f.bar("frame", (0.0, vb1 - 0.05, FOOT_H), (0.0, vb1 - 0.05, zbm - 0.02), 0.06, 0.06, up="v", cut0=((0, 0, FOOT_H), (0, 0, 1)))
+    f.box("rubber", (0.0, vb1 - 0.05, FOOT_H / 2), (0.20, 0.12, FOOT_H), soft=0.006)
+    zpl = zbm + rb - 0.002 + 0.012                      # the bench's plate on the beam's top, the pad on it
+    zp = zpl + 0.012 + 0.075 / 2 - 0.003 - 0.008
+    f.box("frame", (0.0, A + 1.20, zpl), (0.24, 0.84, 0.024), soft=0.002)
     f.box("pad", (0.0, A + 1.20, zp + 0.008), (0.30, 0.92, 0.075), soft=0.03)
-    stop = [(0.0, A + 0.70, ZBC + 0.038), (0.0, A + 0.72, 0.40)]                  # the angled foot stop at the bench's near end
-    f.sweep("frame", stop, f.k.rect(0.05, 0.05, 0.008), up="u", cut0=((0, 0, ZBC + 0.038), (0, 0, 1)), weld=True)
-    _plate(f, (0.0, A + 0.70, 0.44), 0.20, 0.13, math.radians(40))
-    # the row arm: up from the beam, leaning back to the Core, the pulley's cheeks on its top, the pulley, its axle
-    va, za = A + 0.34, 0.60
-    lean = math.atan2(0.10, 0.282)                      # the arm's lower run and the foot plate on it lean back together
-    arm = [(0.0, A + 0.50, ZBC + 0.038), (0.0, A + 0.40, 0.45), (0.0, va, za - 0.07)]
-    f.sweep("frame", arm, f.k.rect(0.07, 0.07, 0.012), bend=0.10, up="u", cut0=((0, 0, ZBC + 0.038), (0, 0, 1)), weld=True)
+    va, za = vj + rb + 0.075, zj - 0.06                 # the pulley beside the J's top, on the bench's side
     for su in (-1, 1):
-        f.box("frame", (su * 0.034, va, za - 0.02), (0.008, 0.10, 0.12), soft=0.002)
+        f.box("frame", (su * 0.034, (vj + va + 0.05) / 2, za + 0.005), (0.008, va + 0.05 - vj, 0.13), soft=0.01)
     f.pulley((0.0, va, za), 0.065, axis="u")
-    f.tube("chrome", (-0.036, va, za), (0.036, va, za), 0.008, seg=12)
+    f.tube("chrome", (-0.04, va, za), (0.04, va, za), 0.008, seg=12)
     for su in (-1, 1):
-        f.cyl("chrome", (su * 0.015, va, za), 0.022, 0.006, axis="u", seg=24)
+        f.cyl("chrome", (su * 0.02, va, za), 0.022, 0.006, axis="u", seg=24)
     f.cable([(0.0, vo, zo), (0.0, va - 0.054, za + 0.01)])
-    # the big perforated foot plate on the arm's face, leaning back to the rower (ref_08)
-    zc = 0.36
-    vc = A + 0.50 - 0.10 * (zc - ZBC - 0.038) / (0.45 - ZBC - 0.038)
-    _plate(f, (0.0, vc + 0.042 * math.cos(lean), zc + 0.042 * math.sin(lean)), 0.42, 0.40, lean, dots=True)
+    # the two foot plates either side of the beam, leaning back, each on a stub from the beam and its heel lip (ref_07)
+    lean, vc, zc, hp = math.radians(35), A + 0.50, 0.40, 0.30
+    vh, zh = vc + hp / 2 * math.sin(lean), zc - hp / 2 * math.cos(lean)
+    for su in (-1, 1):
+        _plate(f, (su * 0.12, vc, zc), 0.14, hp, lean, dots=True)
+        f.box("frame", (su * 0.12, vh + 0.02 * math.cos(lean), zh + 0.02 * math.sin(lean) - 0.004), (0.15, 0.03, 0.03),
+              soft=0.006)                                                                                # the heel lip
+        vl = vh + 0.02 * math.cos(lean)
+        f.tube("frame", (su * 0.02, vl, zbm), (su * 0.12, vl, zbm), 0.016, seg=18)
+        f.box("frame", (su * 0.12, vl, (zbm + zh) / 2), (0.03, 0.03, zbm - zh + 0.016), soft=0.004)
     # the V handle resting at the pulley
     zl = za - 0.04
     f.cable([(0.0, va + 0.054, za), (0.0, va + 0.12, zl)])
@@ -403,7 +415,7 @@ def row(k, c, out):
     for s in (-1, 1):
         f.tube("grip", (s * 0.08, va + 0.22, zl - 0.02), (s * 0.08, va + 0.32, zl - 0.04), 0.017, soft=0.003)
     placard(f, -A, 1.25)
-    return dict(seat=(A + 1.00, zp), foot=(A + 0.47, 0.36), handle=(va + 0.27, zl))
+    return dict(seat=(A + 1.00, zp), foot=(vc, zc - 0.03), handle=(va + 0.27, zl))
 
 
 def _plate(f, c, w, h, lean, dots=False):
@@ -414,12 +426,12 @@ def _plate(f, c, w, h, lean, dots=False):
     n = f.d(0, cs, sn)                                  # its face's normal, in the world
     for mat, off, ww, hh, th in (("frame", 0.0, w, h, 0.014), ("rubber", 0.0085, w - 0.03, h - 0.03, 0.003)):
         cv, cz = v + off * cs, z + off * sn
-        f.k.bar(mat, f.p(-ww / 2, cv, cz), f.p(ww / 2, cv, cz), hh, th, up=n, soft=0.003)
+        f.k.bar(mat, f.p(u - ww / 2, cv, cz), f.p(u + ww / 2, cv, cz), hh, th, up=n, soft=0.003)
     if dots:                                            # the grip dots over the tread (ref_08)
         for i in range(7):
             for j in range(9):
                 du, dh = -w / 2 + 0.04 + i * (w - 0.08) / 6, -h / 2 + 0.035 + j * (h - 0.07) / 8
-                q = f.p(du, v + 0.0095 * cs - dh * sn, z + 0.0095 * sn + dh * cs)
+                q = f.p(u + du, v + 0.0095 * cs - dh * sn, z + 0.0095 * sn + dh * cs)
                 f.k.tube("hole", q, (q[0] + n[0] * 0.0016, q[1] + n[1] * 0.0016, q[2] + n[2] * 0.0016), 0.0055, seg=10)
 
 
