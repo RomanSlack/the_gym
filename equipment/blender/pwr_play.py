@@ -22,7 +22,7 @@ LOOK = {
     "grip": dict(color=(0.11, 0.11, 0.12), rough=0.7, coat=0.0, bump=(2500, 0.12)),
     "red": dict(color=(0.42, 0.03, 0.025), rough=0.4, coat=0.0),
     "white": dict(color=(0.85, 0.85, 0.86), rough=0.4, coat=0.0),
-    "stainless": dict(color=(0.86, 0.86, 0.87), rough=0.38, metal=0.55, aniso=0.3),          # satin aluminium (ref_08)
+    "stainless": dict(color=(0.78, 0.78, 0.79), rough=0.26, metal=1.0, aniso=0.5),           # brushed stainless (ref_02 / ref_03)
     "chrome": dict(color=(0.8, 0.8, 0.82), rough=0.08, metal=1.0, coat=0.0),
     "steel": dict(color=(0.62, 0.62, 0.64), rough=0.25, metal=1.0, aniso=0.3),
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
@@ -466,11 +466,12 @@ def carriage_body(f, v, zc, track_w=0.055, track_d=0.035):
 HANG = (0.11, 0.055)                # a carriage post's hanger pulley: its centre below the bar's underside, its radius
 
 
-def carriage_post(k, base, toward, z_top, zc=1.30, link=None):
+def carriage_post(k, base, toward, z_top, zc=1.30, link=None, boom=None):
     """The crossover's stand-alone carriage post (ref_02 / ref_04): a stainless channel from its black floor bracket up
     to the crossbar, its row of holes facing `toward`, clamped to the crossbar at z_top (the bar's underside) with the
     pulley the cable comes over; the carriage on it at zc; `link` = (v, z) of a floor bar back to the Core (in the
-    post's frame, v negative toward the Core)."""
+    post's frame, v negative toward the Core); `boom` = (half width, half height) when it hangs from a boom's box
+    instead of the round crossbar."""
     looks(k)
     f = Face(k, base, toward)
     tw, td = 0.055, 0.035
@@ -488,11 +489,31 @@ def carriage_post(k, base, toward, z_top, zc=1.30, link=None):
         lv = link                                       # bottom cross-member (ref_08)
         f.box("frame", (0.0, (lv - 0.08) / 2, 0.006), (0.14, abs(lv) + 0.08, 0.012), soft=0.003)
         f.box("frame", (0.0, lv + 0.006, (0.012 + ZBC - CM[1] / 2) / 2), (0.12, 0.012, ZBC - CM[1] / 2 - 0.012), soft=0.002)
-    f.box("frame", (0.0, 0.0, z_top - 0.03), (0.10, 0.09, 0.06), soft=0.008)                     # the clamp under the bar
+    if boom:                                            # the saddle's section: over the boom's box, or arched over the
+        hw, hh = boom                                   # round crossbar, its legs down the sides to a foot under it
+        zb_ = z_top + hh
+        sad = [(hw + 0.006, -hh - 0.035), (hw + 0.006, hh + 0.006), (-hw - 0.006, hh + 0.006), (-hw - 0.006, -hh - 0.035),
+               (-hw - 0.0005, -hh - 0.035), (-hw - 0.0005, hh + 0.0005), (hw + 0.0005, hh + 0.0005), (hw + 0.0005, -hh - 0.035)]
+    else:
+        hw = hh = 0.04
+        zb_ = z_top + hh
+        ro, ri = hh + 0.006, hh + 0.0005
+        sad = [(ro * math.cos(math.radians(a)), ro * math.sin(math.radians(a))) for a in range(0, 181, 10)]
+        sad += [(-ro, -hh - 0.035), (-ri, -hh - 0.035)]
+        sad += [(ri * math.cos(math.radians(a)), ri * math.sin(math.radians(a))) for a in range(180, -1, -10)]
+        sad += [(ri, -hh - 0.035), (ro, -hh - 0.035)]
+    f.sweep("frame", [(0.0, -0.05, zb_), (0.0, 0.05, zb_)], sad, up="z", soft=0.003)   # the saddle (ref_03)
+    for sv in (-1, 1):
+        for su in (-1, 1):
+            f.bolt((su * (hw + 0.006), sv * 0.032, z_top - 0.006), ("+u" if su > 0 else "-u"), size=0.012)
+    f.box("frame", (0.0, 0.0, z_top - 0.035), (2 * hw + 0.012, 0.10, 0.014), soft=0.003)                # its foot
     pv, pz = 0.0, z_top - HANG[0]
-    for su in (-1, 1):                                  # the hanger's cheeks down round the pulley onto the post's sides
-        f.box("frame", (su * (tw / 2 + 0.004), 0.0, (z_top - 0.06 + zpt - 0.05) / 2), (0.008, 0.09, z_top - 0.06 - zpt + 0.05),
-              soft=0.01)
+    tongue = [(0.05, 0.0), (-0.05, 0.0), (-0.024, -0.075), (-0.024, -(z_top - 0.042 - zpt + 0.05)),
+              (0.024, -(z_top - 0.042 - zpt + 0.05)), (0.024, -0.075)]
+    for su in (-1, 1):                                  # the tongue, tapering down round the pulley onto the post's top
+        f.sweep("frame", [(su * (tw / 2 + 0.0005), 0.0, z_top - 0.042), (su * (tw / 2 + 0.0085), 0.0, z_top - 0.042)],
+                tongue, up="z", soft=0.002)
+        f.bolt((su * (tw / 2 + 0.0085), 0.0, zpt - 0.025), ("+u" if su > 0 else "-u"), size=0.012)
     f.pulley((0.0, pv, pz), HANG[1], axis="u")
     f.tube("chrome", (-0.036, pv, pz), (0.036, pv, pz), 0.008, seg=12)
     for su in (-1, 1):
@@ -538,7 +559,7 @@ def adjustable_station(k, c, out, post_v=None, zc=1.30):
     zt = f.stack(VS, A, hang=False)
     vo, zo = boom_mount(f, post_v - A + 0.10, zt, end=False)
     z_top = ZBM - 0.045
-    carriage_post(k, f.p(0.0, post_v, 0.0)[:2], out, z_top, zc=zc, link=-(post_v - A - CM[0] / 2))
+    carriage_post(k, f.p(0.0, post_v, 0.0)[:2], out, z_top, zc=zc, link=-(post_v - A - CM[0] / 2), boom=(0.05, 0.045))
     f.cable([(0.0, vo, zo), (0.0, post_v, z_top - HANG[0] + 0.86 * HANG[1] - 0.003)])
     placard(f, A, 1.25)
 
