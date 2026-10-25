@@ -200,7 +200,7 @@ Gym equipment comes from `docs/FIT_STUDY.md` and is hand-designed by us, like th
 - **3D renders:** `.capture/renders/replay.html`, rebuilt every turn by `tools/replay/render_history.py`. Any camera, every version, with its prompts.
 
 ## Known open items
-- **Third-party reference photos in local history (ask Roman before pushing):** the Remedy Place photos (magazine-credited) were swept into the auto checkpoint commit b4e3807. They are now untracked + gitignored (`reference/f4_recovery/`), but the commit still holds them. The repo is public, so they must not be pushed. Scrubbing them means rewriting unpushed history: Roman has not answered yet, so don't do it without his yes.
+- **Large .glb files:** GitHub rejects files over 100 MB. The PWR Play mega's .glb (386 MB per version) is kept on disk only and gitignored (dropped from history before the 2026-10-25 push). Check a new .glb's size before committing it. (The Remedy Place photos in b4e3807 were pushed as-is on 2026-10-25, Roman's call.)
 - **F4 follow-ups offered, not decided:** the thermal suite reads dark and moody (offered: ink tile with black only round the plunges); the compression boots are fine at room scale but plain up close (offered: a multi-angle reference build as for the leg extensions).
 - **The trail runs through Kulpen.** `site.features.trail` was routed before the sauna grew a berm: it passes the porch and under the west berm (keep_out is the old 6 x 9 m box). Re-route it west round the mound (bigger keep_out in `terrain/route_trail.py`, then the features raster in `terrain/ravine.py`) when stage 6 does the trail.
 - **Entrance stone strip** inside the doors reads dark. With the vestibule now outside it could become oak plus a recessed mat; offered, not decided.
