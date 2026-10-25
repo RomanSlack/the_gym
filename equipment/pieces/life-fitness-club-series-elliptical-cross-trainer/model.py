@@ -46,7 +46,7 @@ LOOK = {
     "vent": dict(color=(0.08, 0.08, 0.085), rough=0.6, coat=0.0),
 }
 VIEWS = {"three_quarter": (-40, 12, 1.1), "front": (0, 5, 1.1), "side": (90, 3, 1.1), "back_three_quarter": (140, 16, 1.1),
-         "ref_view": (-118, 10, 1.15)}  # ref_14's angle: from behind the user's left
+         "ref_view": (-128, 22, 1.25)}  # ref_01's angle: from behind the user's left, above
 DETAILS = {
     "detail_hub": ((0.90, -1.35, 1.75), (0.0, -0.72, 1.30), 45),          # the hub, the swing arms, the console
     "detail_pedal": ((0.80, -0.95, 0.95), (0.17, -0.35, 0.45), 45),        # a pedal, its arm, the link to the swing arm
@@ -160,7 +160,7 @@ def column(k):
     k.tube("steel", (-(X_SW + 0.04), S[0], zh), (X_SW + 0.04, S[0], zh), 0.02, seg=20)          # the axle
     # the console: tilted back, its face up toward the user's eyes, on a neck straight up off the hub
     tl = math.radians(25)
-    cn = (0, -0.74, 1.56)                               # its lower edge over the hub, its neck on the hub
+    cn = (0, -0.74, 1.585)                              # its lower edge over the hub, its neck on the hub
     fn = (0.0, math.cos(tl), math.sin(tl))
     fu = (0.0, -math.sin(tl), math.cos(tl))
     bk = (0, cn[1] - fn[1] * 0.045, cn[2] - fn[2] * 0.045)
@@ -169,8 +169,8 @@ def column(k):
     tn = (0.0, (yst - S[0]) / 0.09, (zs0 - zh) / 0.09)
     k.bar("shroud", (0, yst, zs0 - 0.02), (0, yst, bk[2] + 0.08), 0.12, 0.07, up=(0, 1, 0), r=0.02,
           cut0=((0, yst, zs0 - 0.001), tn), cut1=(bk, fn), weld=False)
-    k.box("shroud", cn, (0.58, 0.09, 0.34), rx=tl, soft=0.03)                                     # 24 in, its housing
-    k.box("screen", (0, cn[1] + fn[1] * 0.0455, cn[2] + fn[2] * 0.0455), (0.53, 0.003, 0.29), rx=tl, soft=0.0)
+    k.box("shroud", cn, (0.64, 0.09, 0.40), rx=tl, soft=0.03)                                     # 24 in, its housing
+    k.box("screen", (0, cn[1] + fn[1] * 0.0455, cn[2] + fn[2] * 0.0455), (0.60, 0.003, 0.36), rx=tl, soft=0.0)
     k.box("glow", (0.12, cn[1] + fn[1] * 0.0475 + fu[1] * 0.08, cn[2] + fn[2] * 0.0475 + fu[2] * 0.08), (0.10, 0.002, 0.05),
           rx=tl, soft=0.0)
     # the fixed handlebars: off the console's lower corners, down and back toward the user (ref_11)
@@ -188,12 +188,13 @@ def body_curve(n=30):
     sweep and the pods (they slide in at the front), rounded at the back (ref_01)."""
     yf, yb, zb, zt, hw = HOUS
     pts = []
-    p0, c1, p1 = (yf, zt - 0.05), (yf + 0.18, zt + 0.01), (yf + 0.45, zt)
+    p0, c1, p1 = (yf, zt - 0.035), (yf + 0.30, zt + 0.03), (yf + 0.56, zt + 0.08)   # a wedge: rising to the back
     for i in range(n // 2):
         t = i / (n // 2)
         pts.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c1[0] + t * t * p1[0],
                     (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c1[1] + t * t * p1[1]))
-    r = 0.22
+    zt = zt + 0.08
+    r = 0.26
     cy, cz = yb - r, zt - r
     for i in range(n // 2 + 1):
         a = math.radians(90 - 90 * i / (n // 2))
@@ -214,7 +215,8 @@ def housing(k):
     cy_, cz_ = (yf + yb) / 2, (zb + zt) / 2             # the profile's origin (the sweep maps u -> -y, v -> z)
     prof = [(-(y - cy_), z - cz_) for y, z in outline]
     for s in (1, -1):
-        k.sweep("shroud", [(s * (hw - 0.014), cy_, cz_), (s * hw, cy_, cz_)], prof, up=(0, 0, 1), soft=0.005)
+        x0, x1 = sorted((s * (hw - 0.014), s * hw))   # swept along +x on both sides (along -x mirrors the profile)
+        k.sweep("shroud", [(x0, cy_, cz_), (x1, cy_, cz_)], prof, up=(0, 0, 1), soft=0.005)
         k.cyl("plastic", (s * (hw + 0.002), C[0], C[1]), 0.24, 0.004, axis="x", seg=72)       # the round inset
         k.box("vent", (s * (hw + 0.001), yb - 0.10, (zb + zt) / 2), (0.002, 0.03, 0.30), soft=0.0)
     inner = []
@@ -266,14 +268,17 @@ def linkage(k, s):
     xp = s * X_PED
     k.box("lever", (s * (X_PED + X_PA) / 2, pc[0] - nrm[0] * 0.0225, pc[1] - nrm[1] * 0.0225), (X_PA - X_PED + 0.06, 0.14, 0.015),
           rx=tilt, soft=0.004)                                                                    # the pedal's bracket
-    k.box("shroud", (xp, pc[0], pc[1]), (PEDAL[1], PEDAL[0], 0.03), rx=tilt, soft=0.01)        # the pedal: its tray
-    k.box("tread", (xp, pc[0] + nrm[0] * 0.0155, pc[1] + nrm[1] * 0.0155), (PEDAL[1] - 0.03, PEDAL[0] - 0.05, 0.002),
+    # the pedal (ref_06 / ref_07): a deep rounded tray, its rim all round, higher at the toe, the rubber tread inside
+    k.box("shroud", (xp, pc[0], pc[1]), (PEDAL[1], PEDAL[0], 0.03), rx=tilt, soft=0.014)
+    k.box("tread", (xp, pc[0] + nrm[0] * 0.0155, pc[1] + nrm[1] * 0.0155), (PEDAL[1] - 0.034, PEDAL[0] - 0.06, 0.002),
           rx=tilt, soft=0.0)
-    for d in (1, -1):                                   # its rim: the side walls and the raised toe
-        k.box("shroud", (xp + d * (PEDAL[1] / 2 - 0.006), pc[0] + nrm[0] * 0.03, pc[1] + nrm[1] * 0.03),
-              (0.012, PEDAL[0] - 0.07, 0.03), rx=tilt, soft=0.004)
-    toe = (pc[0] + u[0] * (PEDAL[0] / 2 - 0.01), pc[1] + u[1] * (PEDAL[0] / 2 - 0.01))
-    k.box("shroud", (xp, toe[0] + nrm[0] * 0.04, toe[1] + nrm[1] * 0.04), (PEDAL[1], 0.025, 0.05), rx=tilt, soft=0.008)
+    for d in (1, -1):                                   # the side rims, rounded over
+        k.box("shroud", (xp + d * (PEDAL[1] / 2 - 0.008), pc[0] - u[0] * 0.01 + nrm[0] * 0.032, pc[1] - u[1] * 0.01 + nrm[1] * 0.032),
+              (0.016, PEDAL[0] - 0.08, 0.034), rx=tilt, soft=0.007)
+    heel = (pc[0] - u[0] * (PEDAL[0] / 2 - 0.012), pc[1] - u[1] * (PEDAL[0] / 2 - 0.012))
+    k.box("shroud", (xp, heel[0] + nrm[0] * 0.03, heel[1] + nrm[1] * 0.03), (PEDAL[1], 0.024, 0.03), rx=tilt, soft=0.009)
+    toe = (pc[0] + u[0] * (PEDAL[0] / 2 - 0.014), pc[1] + u[1] * (PEDAL[0] / 2 - 0.014))
+    k.box("shroud", (xp, toe[0] + nrm[0] * 0.045, toe[1] + nrm[1] * 0.045), (PEDAL[1], 0.028, 0.06), rx=tilt, soft=0.012)
     # the link: the beam's front eye, a cross pin out to the swing arm's lower end
     k.cyl("lever", (xa, L[0], L[1]), 0.04, 0.08, axis="x", seg=32, soft=0.004)
     k.tube("steel", (xa, L[0], L[1]), (s * (X_SW + 0.03), L[0], L[1]), 0.014, seg=16)
