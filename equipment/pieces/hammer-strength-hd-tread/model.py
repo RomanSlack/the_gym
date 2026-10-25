@@ -5,6 +5,22 @@ bridge and console square on, ref_05 / ref_06 the deck from behind, ref_08 the c
 the support arm, ref_11 the annotated sheet), held to Life Fitness's 66.6 x 34.7 x 63.7 in (169 x 88 x 161 cm), an 18 in
 running surface and a 14 in step-up. Side-view numbers off ref_02 at 2.02 mm/px (the 161 cm height), as (y, z):
 y = (px - 500) * 0.00202, z = (867 - py) * 0.00202.
+DESIGN SPEC (gate 1, written 2026-10-25 for v004: the piece predates the gates)
+1. Use. The user steps up 14 in onto the curve's back and runs (or walks, or pushes); the curve does the work: running
+   up its front slope drives the belt back, so pace is the user's position on the curve (forward faster, back slower).
+   Hands free while running; for push work the user leans in on the support arms.
+2. Moving parts, each mass named: the belt, a chain of rubber-topped slats on bearings round the front and back drums,
+   held in its curve by the side frames' tracks (a flywheel and a brake inside, not drawn); the side frames, the curve's
+   carriers and the covers; the front frame, a post each side bolted to its side frame, arching over into the bridge
+   (the console); the support arms, a long bar each side bolted to the post, a curved brace under it (push work and a
+   steadying hand). The transport wheels under the front, the handle at the back.
+3. Adjustments. None on the frame; the belt's resistance (the brake) at the console.
+4. Load path. The feet on the slats, their bearings in the side frames' tracks, the levellers and the wheels. The
+   hands on the arms into the posts, the side frames.
+5. Fit range. 1.55 / 1.78 / 1.95 m running mid-stance in the curve's low middle: the support arms at 1.20 m, about the
+   hips (1.55 m: 1.18; 1.95 m: 1.39 with the deck), clear of the arm swing (the arms at x 0.42, the hands at 0.2); the
+   bridge 1.46 m up but 0.8 m ahead of the runner, clear of the head.
+6. Size. 169 x 88 x 161 cm, as above.
 Axes: metres, floor z = 0; the user runs facing +y toward the console; +x is the side ref_02 shows.
 Structure: the two side frames following the deck's curve (rounded ends, the red pinstripe, the HAMMER STRENGTH mark)
 on levellers at the back and the transport wheels under the front housing; the slatted belt between them in its curve
@@ -146,7 +162,7 @@ def fit():
     """Running in the curve's low middle, mid-stance, upright with the slight forward lean, the arms bent; a short, a
     middle and a tall user."""
     out = {}
-    for label, H in (("short", 1.60), ("middle", 1.78), ("tall", 1.95)):
+    for label, H in (("short", 1.55), ("middle", 1.78), ("tall", 1.95)):
         out[label] = dict(H=H, ball=(0.0, -0.10, zs(-0.10) + 0.006), face=(0, 1), sole=0, shank=10, thigh=-6, trunk=8,
                           neck=4, arm=195, forearm=100, arm_out=8)
     return out
