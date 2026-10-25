@@ -8,10 +8,11 @@ DESIGN SPEC (gate 1)
 1. Use. Standing on the two pedals facing -y (the console), the hands on the moving handles (or the fixed ones), the
    feet tracing ellipses, the arms pushing and pulling against them. Rear drive.
 2. Moving parts (a real four-bar linkage per side, solved, not posed):
-   - The crank: one axle across the narrow flywheel housing at the back, the flywheel inside it, a crank each side
-     outside it, 180 deg apart (ref_14 / ref_15: the cranks outside the housing, under the pedal arms' pods).
-   - Each pedal arm: its back end a big shrouded pod riding its crank's pin ("Life Fitness" on it), a beam forward to
-     the rimmed pedal near the front, on to a pin at its swing arm's lower end.
+   - The crank: one axle across the narrow body at the back (the flywheel inside), a big round disc on each end outside
+     the body's walls, 180 deg apart: the disc is the crank (ref_02 / ref_15: the round "inset" on the side is the disc,
+     the pod's back end rides on it, outside the body).
+   - Each pedal arm: its back end a big shrouded pod ("Life Fitness" on it) on its disc's crank pin, outboard of the
+     disc, a beam forward to the rimmed pedal near the front, on to a pin at its swing arm's lower end.
    - Each swing arm: on the hub's axle at the column's top; below it carries the pedal arm's front end, above it is the
      moving handle. Its angle comes from the crank's: the pedal arm's length fixed between the crank pin and the link.
 3. Adjustments. None on the machine (a fixed 51 cm stride, Life Fitness); the range is the user's: the moving handles
@@ -58,26 +59,30 @@ SETTING_VIEWS = ("side", "three_quarter")
 FIT_VIEWS = ("side", "three_quarter")
 
 # ---- the base (ref_14: a flat grey rail on a rear stabilizer with wheels, a sculpted foot block under the column)
-Y_FRONT, Y_REAR = -0.96, 1.05        # the front foot block's and the rear stabilizer's centres
+Y_FRONT, Y_REAR = -0.96, 1.08        # the front foot block's and the rear stabilizer's centres
 X_STAB = 0.30                        # the rear stabilizer's half length (the wheels outside it: 73 cm)
 SPINE_Z = 0.10                       # the spine's centre (a 120 x 100 box beam, under the pedals' lowest)
 Y_COL = -0.72                        # the front column
 # ---- the linkage (y, z), per side; spec 2
-C = (0.80, 0.36)                     # the crank axle, in the body: as low as the flywheel allows (the body low)
+C = (0.82, 0.42)                     # the crank axle, in the body: the disc's centre (ref_11: the disc fills the side)
 R_C = 0.25                           # the crank's radius: its diameter sets the stride (51 cm, spec 4)
 S = (-0.72, 1.24)                    # the swing arms' pivot on the hub
 L_S = 0.84                           # the pivot to the swing arm's lower link
 L_P = math.hypot(C[0] - S[0], C[1] - (S[1] - L_S))   # the pedal arm: pin to link (the swing hanging straight at 90 deg)
-X_PA = 0.21                          # the pedal arms (x): on the cranks, inside the body's walls
+HB = 0.17                            # the body's half width (narrow: the discs and pods outside it make the 73 cm)
+R_D = 0.235                          # the crank disc's radius (ref_15: nearly the body's height)
+T_D = 0.014                          # the disc's thickness, on the body's wall
+X_PA = HB + T_D + 0.016 + 0.055      # the pedal arms (x): the pod's middle, outboard of the disc (the boss between)
 X_SW = 0.34                          # the swing arms (x), outside the hub's ends
 D_PED = 0.33                         # the pedal's centre back from the pedal arm's front link
 PEDAL = (0.38, 0.17)                 # length, width (38 cm, Life Fitness)
 X_PED = 0.15                         # the pedals' centres (x): in from the arms (ref_06: the pedal over the arm's inside)
 PHI = 0.0                            # the left crank's angle (deg, from +y toward +z); the right one 180 deg on: level,
                                      # the pedal arms parallel, as the photos show it
-HOUS = (0.30, 1.26, 0.10, 0.72, 0.32)   # the body: front and back (y), bottom and top (z), half width (a low skirt)
-POD = (0.62, 0.27, 0.14, -0.38)      # each pod: length, height, width; where it starts ahead of the crank pin (the
-                                     # cover on the arm that slides into the housing's open front)
+HOUS = (0.52, 1.28, 0.15, 0.74)      # the body: front and back (y), bottom (on the spine) and top at the front (z)
+POD = (0.11, 0.56, -0.07, 0.18, 0.11)   # each pod (the pedal arm's back end, ref_15): behind the pin, ahead of it, its
+                                        # foot and top off the pin (it sits high: the disc shows under it), its width
+TAIL = 0.20                          # the tail: the rounded cap across the body's back (ref_11 / ref_01), its length
 
 
 def setting(name):
@@ -132,8 +137,8 @@ def build(k):
 
 
 def base(k):
-    """The rear stabilizer under the housing (its wheels at the ends), the spine (a black box beam) from the housing's
-    front low down to the front stabilizer (a bar across, its feet at the ends), the column's foot on their joint."""
+    """The rear stabilizer under the body (its wheels at the ends), the spine (a black box beam) from the rear
+    stabilizer under the body to the front stabilizer (a bar across, its feet at the ends), the column's foot on their joint."""
     k.box("frame", (0, Y_REAR, 0.045), (2 * X_STAB, 0.12, 0.07), soft=0.02)                     # the rear stabilizer
     for s in (1, -1):
         k.cyl("plastic", (s * (X_STAB + 0.045), Y_REAR + 0.02, 0.045), 0.045, 0.04, axis="x", seg=36, soft=0.004)
@@ -144,7 +149,7 @@ def base(k):
         k.cyl("plastic", (s * 0.366, Y_FRONT, 0.05), 0.04, 0.012, axis="x", seg=32, soft=0.003)
         k.box("rubber", (s * 0.30, Y_FRONT, 0.006), (0.08, 0.07, 0.012), soft=0.003)
     zs = SPINE_Z
-    k.bar("frame", (0, HOUS[0] + 0.06, zs), (0, Y_FRONT, zs), 0.12, 0.10, up=(0, 0, 1), r=0.02,
+    k.bar("frame", (0, Y_REAR - 0.06, zs), (0, Y_FRONT, zs), 0.12, 0.10, up=(0, 0, 1), r=0.02,
           cut1=((0, Y_FRONT + 0.038, 0), (0, -1, 0)), weld=True)                                  # the spine
 
 
@@ -183,71 +188,38 @@ def column(k):
         k.sweep("plastic", [a2, tuple(a2[i] + ue[i] * 0.01 for i in range(3))], k.circle(0.024, 20), soft=0.002)
 
 
-def body_curve(n=30):
-    """The body's outer edge (y, z) from its front top over the crank and down its back: high enough over the arms'
-    sweep and the pods (they slide in at the front), rounded at the back (ref_01)."""
-    yf, yb, zb, zt, hw = HOUS
-    pts = []
-    p0, c1, p1 = (yf, 0.44), (yf + 0.10, zt + 0.06), (yf + 0.56, zt + 0.09)   # the nose sloping up from the pods, the
-                                                         # top rising to the back (ref_01)
-    for i in range(n // 2):
-        t = i / (n // 2)
-        pts.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c1[0] + t * t * p1[0],
-                    (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c1[1] + t * t * p1[1]))
-    zt = zt + 0.09
-    r = 0.32
-    cy, cz = yb - r, zt - r
-    for i in range(n // 2 + 1):
-        a = math.radians(90 - 90 * i / (n // 2))
-        pts.append((cy + r * math.cos(a), cz + r * math.sin(a)))
-    pts.append((yb, zb + 0.02))
-    return pts
+def arc(c, r, a0, a1, n=8):
+    """Points on a circle (y, z) from angle a0 to a1 (deg, from +y toward +z)."""
+    return [(c[0] + r * math.cos(math.radians(a0 + (a1 - a0) * i / n)), c[1] + r * math.sin(math.radians(a0 + (a1 - a0) * i / n)))
+            for i in range(n + 1)]
+
+
+def body_outline():
+    """The body's side (y, z) from the front's foot (ref_11 / ref_01): a near-upright front, a round over the top front,
+    the top falling a little to the back, where the tail caps it."""
+    yf, yb, zb, zt = HOUS
+    yt = yb - TAIL + 0.006                              # into the tail
+    return ([(yf + 0.03, zb), (yt, zb), (yt, zt - 0.07)] + arc((yf + 0.12, zt - 0.12), 0.12, 90, 180, 10)
+            + arc((yf + 0.03, zb + 0.03), 0.03, 180, 270, 3))
+
+
+def tail_outline():
+    """The tail (y, z): the body's back, a rounded hood a step proud of the body all round (ref_11's crease)."""
+    yf, yb, zb, zt = HOUS
+    yt = yb - TAIL
+    return (arc((yb - 0.03, zb + 0.03), 0.03, -90, 0, 3) + arc((yb - 0.15, zt - 0.20), 0.15, 0, 90, 10)
+            + arc((yt + 0.04, zt - 0.09), 0.04, 90, 180, 6) + arc((yt + 0.03, zb + 0.03), 0.03, 180, 270, 3))
 
 
 def housing(k):
-    """The body: two sculpted side walls to the outline (a big round inset each, a vent strip at the back), a curved
-    shell over the top and down the back between them; open at the front for the pedal arms and their pods, open below.
-    On a cross plate over the spine's end and two posts on the rear stabilizer. Inside: the crank axle in bearings in
-    the walls, the flywheel on it."""
-    yf, yb, zb, zt, hw = HOUS
-    top = body_curve()
-    outline = top + [(yb, zb)] + [(yf + 0.12 - 0.12 * math.sin(math.radians(a)), zb + 0.12 - 0.12 * math.cos(math.radians(a)))
-                                   for a in range(0, 91, 10)]   # the nose: rounded at the bottom front
-    cy_, cz_ = (yf + yb) / 2, (zb + zt) / 2             # the profile's origin (the sweep maps u -> -y, v -> z)
-    prof = [(-(y - cy_), z - cz_) for y, z in outline]
+    """The body: one moulded shroud, narrow, its edges rounded (ref_11), capped at the back by the tail (a little wider
+    and taller), on the spine and two posts off the rear stabilizer; a vent strip by the tail."""
+    yf, yb, zb, zt = HOUS
+    k.slab("shroud", body_outline(), -HB, HB, 0.06, seg=8)
+    k.slab("shroud", tail_outline(), -(HB + 0.012), HB + 0.012, 0.06, seg=8)
     for s in (1, -1):
-        x0, x1 = sorted((s * (hw - 0.014), s * hw))   # swept along +x on both sides (along -x mirrors the profile)
-        k.sweep("shroud", [(x0, cy_, cz_), (x1, cy_, cz_)], prof, up=(0, 0, 1), soft=0.005)
-        k.cyl("plastic", (s * (hw + 0.002), C[0] + 0.04, C[1] + 0.06), 0.31, 0.004, axis="x", seg=96)   # the round inset
-        k.disc("shroud", (s * (hw + 0.004), C[0] + 0.04, C[1] + 0.06), 0.31, 0.295, 0.004, axis="x", seg=96)  # its bevel
-        k.box("vent", (s * (hw + 0.001), yb - 0.10, (zb + zt) / 2), (0.002, 0.03, 0.30), soft=0.0)
-    inner = []
-    for i, (y, z) in enumerate(top):
-        a = top[max(0, i - 1)]
-        b_ = top[min(len(top) - 1, i + 1)]
-        ty, tz = b_[0] - a[0], b_[1] - a[1]
-        tl = math.hypot(ty, tz)
-        inner.append((y + tz / tl * 0.02, z - ty / tl * 0.02))   # 2 cm in (the curve runs front to back, clockwise)
-    # the shell: its front part (the sloping nose) slotted where the pods pass, the rest whole
-    sx0, sx1 = X_PA - 0.076, X_PA + 0.076
-    isp = next(i for i, (y, z) in enumerate(top) if y >= yf + 0.42)
-    for part, spans in ((slice(0, isp + 1), ((-(hw - 0.014), -sx1), (-sx0, sx0), (sx1, hw - 0.014))),
-                        (slice(isp, None), ((-(hw - 0.014), hw - 0.014),))):
-        pts_o, pts_i = top[part], inner[part]
-        band = [(-(y - cy_), z - cz_) for y, z in pts_o + pts_i[::-1]]
-        for xa_, xb_ in spans:
-            k.sweep("shroud", [(xa_, cy_, cz_), (xb_, cy_, cz_)], band, up=(0, 0, 1), soft=0.004)
-    # the front: closed but for a slot each side the pedal arm's pod slides in through (ref_01)
-    zft = body_curve()[0][1]                            # the front's top
-    zp = SPINE_Z + 0.05                                 # the middle panel: down onto the spine's top
-    k.box("shroud", (0, yf + 0.01, (zp + zft) / 2), (2 * sx0, 0.02, zft - zp), soft=0.004)
-
-    for s in (1, -1):
-        k.box("frame", (s * (hw - 0.03), Y_REAR, (0.08 + zb) / 2), (0.06, 0.06, zb - 0.08 + 0.004), soft=0.004)
-    k.tube("steel", (-(hw - 0.014), C[0], C[1]), (hw - 0.014, C[0], C[1]), 0.02, seg=24)         # the crank axle
-    k.disc("lever", (0, C[0], C[1]), 0.20, 0.05, 0.05, axis="x", seg=64)                          # the flywheel (dark,
-                                                                                                  # as behind the real slots)
-    k.cyl("lever", (0, C[0], C[1]), 0.05, 0.07, axis="x", seg=40, soft=0.003)
+        k.box("frame", (s * (HB - 0.05), Y_REAR, (0.08 + zb) / 2), (0.06, 0.06, zb - 0.08 + 0.004), soft=0.004)
+        k.box("vent", (s * (HB + 0.0005), yb - TAIL - 0.05, zb + 0.24), (0.002, 0.025, 0.24), soft=0.0)
 
 
 def linkage(k, s):
@@ -255,29 +227,31 @@ def linkage(k, s):
     link to the swing arm, the swing arm and its moving handle, all at this build's crank angle."""
     phi = PHI if s > 0 else PHI + 180.0
     P, psi, L, u, nrm, pc, tilt = beam(phi)
-    xc = s * (X_PA - 0.045)                             # the crank: a plate on the axle inside the body, by the arm
-    k.cyl("lever", (xc, C[0], C[1]), 0.045, 0.024, axis="x", seg=32, soft=0.003)
-    k.bar("lever", (xc, C[0] + (P[0] - C[0]) / R_C * 0.04, C[1] + (P[1] - C[1]) / R_C * 0.04), (xc, P[0], P[1]), 0.07, 0.024,
-          up=(1, 0, 0))
+    # the crank: the disc on the axle's end, flat on the wall; the pin's boss out of it to the pod (ref_15)
+    k.cyl("shroud", (s * (HB + T_D / 2), C[0], C[1]), R_D, T_D, axis="x", seg=96, soft=0.004)            # the disc
+    k.disc("vent", (s * (HB + T_D + 0.0005), C[0], C[1]), R_D - 0.016, R_D - 0.020, 0.001, axis="x", seg=96)  # its step
     xa = s * X_PA
-    k.tube("steel", (xc, P[0], P[1]), (xa, P[0], P[1]), 0.014, seg=16)                         # the crank pin
-    k.cyl("lever", (xa, P[0], P[1]), 0.045, 0.06, axis="x", seg=32, soft=0.004)                # the arm's eye
-    # the beam from the eye to the link; the pod round it ahead of the pin ("Life Fitness" on it), the pedal on it
-    pl, ph, pw, pa = POD
-    p0 = (P[0] - u[0] * pa, P[1] - u[1] * pa)           # the pod's back end
-    p1 = (p0[0] + u[0] * pl, p0[1] + u[1] * pl)         # its front end
-    k.bar("lever", (xa, P[0] + u[0] * 0.044, P[1] + u[1] * 0.044), (xa, p0[0] + u[0] * 0.006, p0[1] + u[1] * 0.006), 0.08,
-          0.06, up=(1, 0, 0), r=0.012)                  # the beam: the eye into the pod, the pod out to the link
-    k.bar("lever", (xa, p1[0] - u[0] * 0.006, p1[1] - u[1] * 0.006), (xa, L[0] - u[0] * 0.035, L[1] - u[1] * 0.035), 0.08,
-          0.06, up=(1, 0, 0), r=0.012)
-    pm = (p0[0] + u[0] * pl / 2, p0[1] + u[1] * pl / 2)
-    k.box("shroud", (xa, pm[0], pm[1]), (pw, pl, ph), rx=tilt, soft=0.06)
-    k.box("shroud", (xa + s * (pw / 2 + 0.004), pm[0] + u[0] * 0.03, pm[1] + u[1] * 0.03), (0.008, pl - 0.20, ph - 0.09),
-          rx=tilt, soft=0.003)                          # the raised logo panel
-    k.text("label", "Life Fitness", (xa + s * (pw / 2 + 0.0085), pm[0] + u[0] * 0.03, pm[1] + u[1] * 0.03), 0.05,
-           rz=math.pi / 2 * s, spin=tilt, depth=0.0006)
+    k.cyl("lever", (s * (HB + T_D + 0.008), P[0], P[1]), 0.045, 0.016, axis="x", seg=32, soft=0.002)   # the pin's boss
+    # the pod: the pedal arm's back end, round over the pin, its front's foot cut back ("Life Fitness" on a panel)
+    pb, pf, pl, ph, pw = POD
+
+    def yz(sn):
+        return (P[0] + u[0] * sn[0] + nrm[0] * sn[1], P[1] + u[1] * sn[0] + nrm[1] * sn[1])
+
+    pod = k.rounded([(-pb, pl), (pf - 0.20, pl), (pf, pl + 0.025), (pf, ph), (-pb, ph)], 0.05, 6)
+    xo = sorted((s * (X_PA - pw / 2), s * (X_PA + pw / 2)))
+    k.slab("shroud", [yz(q) for q in pod], xo[0], xo[1], 0.024, seg=6)
+    panel = k.rounded([(-0.03, pl + 0.035), (pf - 0.22, pl + 0.035), (pf - 0.035, pl + 0.055), (pf - 0.035, ph - 0.035),
+                       (-0.03, ph - 0.035)], 0.012, 3)
+    xq = sorted((s * (X_PA + pw / 2 - 0.001), s * (X_PA + pw / 2 + 0.004)))
+    k.slab("shroud", [yz(q) for q in panel], xq[0], xq[1], 0.002, seg=2)                               # the logo panel
+    pm = yz(((pf - 0.06) / 2, (pl + ph) / 2))
+    k.text("label", "Life Fitness", (s * (X_PA + pw / 2 + 0.0045), pm[0], pm[1]), 0.05, rz=math.pi / 2 * s, spin=tilt,
+           depth=0.0006)
+    k.bar("lever", (xa, *yz((pf - 0.006, 0.0))), (xa, L[0] - u[0] * 0.035, L[1] - u[1] * 0.035), 0.08, 0.06, up=(1, 0, 0),
+          r=0.012)                                      # the beam: out of the pod's front to the link
     xp = s * X_PED
-    k.box("lever", (s * (X_PED + X_PA) / 2, pc[0] - nrm[0] * 0.0225, pc[1] - nrm[1] * 0.0225), (X_PA - X_PED + 0.06, 0.14, 0.015),
+    k.box("lever", (s * (X_PED + X_PA) / 2, pc[0] - nrm[0] * 0.0245, pc[1] - nrm[1] * 0.0245), (X_PA - X_PED + 0.06, 0.14, 0.021),
           rx=tilt, soft=0.004)                                                                    # the pedal's bracket
     # the pedal (ref_06 / ref_07): a deep rounded tray, its rim all round, higher at the toe, the rubber tread inside
     k.box("shroud", (xp, pc[0], pc[1]), (PEDAL[1], PEDAL[0], 0.03), rx=tilt, soft=0.014)
@@ -291,7 +265,7 @@ def linkage(k, s):
     toe = (pc[0] + u[0] * (PEDAL[0] / 2 - 0.014), pc[1] + u[1] * (PEDAL[0] / 2 - 0.014))
     k.box("shroud", (xp, toe[0] + nrm[0] * 0.045, toe[1] + nrm[1] * 0.045), (PEDAL[1], 0.028, 0.06), rx=tilt, soft=0.012)
     # the link: the beam's front eye, a cross pin out to the swing arm's lower end
-    k.cyl("lever", (xa, L[0], L[1]), 0.04, 0.08, axis="x", seg=32, soft=0.004)
+    k.cyl("lever", (s * (X_PA + 0.0025), L[0], L[1]), 0.04, 0.09, axis="x", seg=32, soft=0.004)
     k.tube("steel", (xa, L[0], L[1]), (s * (X_SW + 0.03), L[0], L[1]), 0.014, seg=16)
     # the swing arm: from the hub down to the link (its lower housing), up as the moving handle
     xs = s * X_SW

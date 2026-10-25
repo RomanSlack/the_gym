@@ -194,6 +194,7 @@ class Kit:
         if look:
             self.look(**look)
         self.rect, self.oval, self.circle, self.stadium = rect, oval, circle, stadium
+        self.rounded = _round_poly   # rounded(pts, r, seg): a closed polygon with its corners rounded
 
     def look(self, **kw):
         """k.look(frame=(r,g,b)) or k.look(frame=dict(color=.., rough=..))."""
@@ -313,6 +314,32 @@ class Kit:
         R = Matrix.Rotation(rz, 3, "Z") @ Matrix.Rotation(ry, 3, "Y") @ Matrix.Rotation(rx, 3, "X")
         bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=R)
         bmesh.ops.translate(b, verts=g, vec=c)
+
+    @_part
+    def slab(self, mat, outline, x0, x1, r, seg=6, soft=0.0):
+        """A moulded shroud: a closed side outline [(y, z), ...] (either way round, densely sampled, about convex)
+        filled between x0 and x1, every edge round its two side faces rounded by r (the outline drawn in by r at the
+        faces). Round its corners first with rounded() for a moulded look."""
+        area = sum(y0 * z1 - y1 * z0 for (y0, z0), (y1, z1) in zip(outline, outline[1:] + outline[:1]))
+        P = [Vector((0.0, y, z)) for y, z in (outline if area > 0 else outline[::-1])]
+        n = len(P)
+        N = []                                      # each vertex's inward normal (the outline runs counter-clockwise)
+        for i in range(n):
+            t = (P[(i + 1) % n] - P[i - 1]).normalized()
+            N.append(Vector((0.0, -t.z, t.y)))
+        b = self.bm(mat, soft)
+        layers = []
+        for side, xf in ((-1, x0), (1, x1)):
+            for j in range(seg + 1):
+                f = j / seg if side > 0 else 1 - j / seg
+                a = math.pi / 2 * f
+                x = xf - side * (r - r * math.sin(a))
+                d = r - r * math.cos(a)
+                layers.append([b.verts.new((x, p.y + nv.y * d, p.z + nv.z * d)) for p, nv in zip(P, N)])
+        for L0, L1 in zip(layers, layers[1:]):
+            for i in range(n):
+                b.faces.new((L0[i], L0[(i + 1) % n], L1[(i + 1) % n], L1[i]))
+        b.faces.new(layers[0][::-1]); b.faces.new(layers[-1])
 
     @_part
     def pad(self, mat, c, size, r=0.03, rx=0.0, ry=0.0, rz=0.0, seam=True, board=True):
