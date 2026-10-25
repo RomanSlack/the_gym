@@ -34,16 +34,17 @@ SEAT_Y = -0.19                   # its centre (side view: d 0.20-0.53 from the f
 SEAT = (0.43, 0.32, 0.08)        # width, depth, thickness
 BACK_BOT, BACK_TOP = (-0.04, 0.60), (0.11, 1.30)  # the back pad's face, bottom and top (y, z): leaning back ~12 deg
 BACK = (0.24, 0.08)              # its width, thickness
-GRIP_Y, GRIP_Z = -0.12, 0.92     # the grips beside the chest at the start (front view z 0.94, side view d 0.43)
+GRIP_Y, GRIP_Z = -0.17, 0.90     # the grips at the drop arms' feet (side view: the arm at d 0.39, its foot z 0.83-0.90)
 GRIP_IN = 0.24                   # the grips' inner ends (x): just outside the user's shoulders
 # ---- the levers, from the side view: the pivot just above and behind the head, the arm forward and down to the horn
 X_LEV = 0.49                     # each lever's plane (front view: between the yoke posts)
 PIV = (0.18, 1.70)               # the pivot (y, z)
 FRONT = (-0.47, 1.40)            # the arm's front end, where the weight horn is (side view: d 0.07, z 1.40)
 LEV = (0.05, 0.10)               # the lever section: across (x) x tall (2 x 4 in)
-HORN_X = 0.74                    # the weight horns' tips (front view: to x 265 px)
+HORN_X = 0.85                    # the weight horns' tips: Life Fitness's 170 cm width is over them
+HORN_S = 0.78                    # the storage horns' tips (front view: a little short of the levers')
 # ---- the frame
-X_SW, X_UP = 0.49, 0.30          # the outer curved members (the swoops, carrying the storage horns) and the rear uprights
+X_SW, X_UP = 0.56, 0.30          # the outer curved members (the swoops, carrying the storage horns) and the rear uprights
 POSTS = (0.38, 0.60)             # the yoke posts each side (x)
 POST = (0.04, 0.09)              # a post: across (x) x deep (y)
 Z_TOP = 1.56                     # the top cross bar (centre), the posts stand on it
@@ -57,8 +58,11 @@ RAIL_Z = FOOT_H + BOX[1] / 2
 RAIL_TOP = FOOT_H + BOX[1]
 Y0, Y1 = -0.56, 0.50             # the side rails' ends (front, rear)
 BY_F, BY_R = -0.42, 0.40         # the front and rear cross bars
-SWOOP = [(-0.20, RAIL_TOP), (-0.02, 0.48), (0.24, 0.98), (0.22, 1.28), (Y_TOP, Z_TOP - SQ / 2)]   # (y, z), side view
-HORNS_Z = (0.35, 0.73, 1.13)     # the storage horns on each swoop (front view)
+# the swoop (ref_14, its near side): up and back off the rail, a tight bend, up and forward into the straight brace that
+# runs from below the bend's height up to the top cross bar (its lower end stands free, the warning label on it)
+SWOOP = [(-0.17, RAIL_TOP), (0.22, 0.78), (0.20, 1.02), (0.0, 1.22)]    # (y, z), its end cut on the brace
+BRACE = ((-0.06, 1.00), (Y_TOP, Z_TOP - SQ / 2))
+HORNS_Z = (0.26, 0.62, 1.07)     # the storage horns (the 5, 25 and 45 lb ones, side view)
 
 
 def lerp(a, b, f):
@@ -126,17 +130,28 @@ def tower(k, s):
     outer face), the rear upright from the rear cross bar leaning in to it, the cross bars between the uprights."""
     Z = (0, 0, 1)
     x = s * X_SW
-    k.sweep("frame", [(x, y, z) for y, z in SWOOP], k.rect(SQ, SQ, 0.008), bend=0.20, up=(1, 0, 0),
-            cut0=((0, 0, RAIL_TOP), Z), cut1=((0, 0, Z_TOP - SQ / 2), Z), weld=True)
+    (b0y, b0z), (b1y, b1z) = BRACE
+    bl = math.hypot(b1y - b0y, b1z - b0z)
+    bn = (0.0, -(b1z - b0z) / bl, (b1y - b0y) / bl)        # across the brace, facing forward and up: the swoop's end cut
+    k.sweep("frame", [(x, y, z) for y, z in SWOOP], k.rect(SQ, SQ, 0.008), bend=0.10, up=(1, 0, 0),
+            cut0=((0, 0, RAIL_TOP), Z), cut1=((x, b0y - bn[1] * SQ / 2, b0z - bn[2] * SQ / 2), bn), weld=True)
+    k.bar("frame", (x, b0y, b0z), (x, b1y, b1z), SQ, SQ, up=(1, 0, 0), cut1=((0, 0, b1z), Z), weld=True)
+    k.sweep("plastic", [(x, b0y, b0z), (x, b0y - 0.008 * (b1y - b0y) / math.hypot(b1y - b0y, b1z - b0z),
+                                         b0z - 0.008 * (b1z - b0z) / math.hypot(b1y - b0y, b1z - b0z))],
+            k.rect(SQ + 0.004, SQ + 0.004, 0.003), up=(1, 0, 0), soft=0.002)              # its end cap
     for zh in HORNS_Z:                                  # the storage horns: a collar on the outer face, the sleeve, a cap
         yh = swoop_at(zh)
         xf = x + s * SQ / 2
         k.cyl("frame", (xf + s * 0.01, yh, zh), 0.045, 0.02, axis="x", seg=32, soft=0.004)
-        k.tube("steel", (xf + s * 0.018, yh, zh), (s * HORN_X, yh, zh), 0.025, seg=32)
-        k.cyl("plastic", (s * (HORN_X + 0.006), yh, zh), 0.029, 0.012, axis="x", seg=32, soft=0.004)
-    k.box("warn", (x + s * (SQ / 2 + 0.001), swoop_at(0.9) + 0.05, 0.9), (0.002, 0.045, 0.04), soft=0.0)
-    k.text("label", "HAMMER STRENGTH", (x + s * (SQ / 2 + 0.001), swoop_at(1.2), 1.2), 0.03,
-           rz=math.pi / 2 * s, spin=math.pi / 2, depth=0.0006)
+        k.tube("steel", (xf + s * 0.018, yh, zh), (s * HORN_S, yh, zh), 0.025, seg=32)
+        k.cyl("plastic", (s * (HORN_S + 0.006), yh, zh), 0.029, 0.012, axis="x", seg=32, soft=0.004)
+    (b0y, b0z), (b1y, b1z) = BRACE
+    bz = lambda f: (b0y + (b1y - b0y) * f, b0z + (b1z - b0z) * f)
+    wy, wz = bz(0.06)
+    k.box("warn", (x + s * (SQ / 2 + 0.001), wy, wz), (0.002, 0.04, 0.04), soft=0.0)
+    ly, lz = bz(0.72)
+    k.text("label", "HAMMER STRENGTH", (x + s * (SQ / 2 + 0.001), ly, lz), 0.03,
+           rz=math.pi / 2 * s, spin=math.atan2(b1z - b0z, b1y - b0y), depth=0.0006)
     xu = s * X_UP
     k.bar("frame", (xu, BY_R, RAIL_TOP), (xu, Y_TOP, Z_TOP - SQ / 2), SQ, SQ, up=(1, 0, 0),
           cut0=((0, 0, RAIL_TOP), Z), cut1=((0, 0, Z_TOP - SQ / 2), Z), weld=True)
@@ -203,11 +218,16 @@ def lever(k, s):
     k.box("plastic", (x, GRIP_Y, GRIP_Z - 0.066), (0.054, 0.084, 0.012), soft=0.002)
     xin = x - s * 0.025
     k.box("lever", (xin - s * 0.02, GRIP_Y, GRIP_Z), (0.04, 0.07, 0.07), soft=0.005)          # the grip's boss
-    g0, g1 = (xin - s * 0.04, GRIP_Y, GRIP_Z), (s * GRIP_IN, GRIP_Y - 0.02, GRIP_Z - 0.02)
+    g0, g1 = (xin - s * 0.04, GRIP_Y, GRIP_Z), (s * GRIP_IN, GRIP_Y - 0.02, GRIP_Z + 0.07)   # rising inward (front view)
     k.tube("lever", g0, g1, 0.016, seg=20)
     k.tube("rubber", lerp(g0, g1, 0.25), g1, 0.02, soft=0.003)
     k.cyl("plastic", (g1[0] - s * 0.005, g1[1], g1[2]), 0.021, 0.01, axis="x", seg=20, soft=0.002)
     k.box("warn", (x + s * (LEV[0] / 2 + 0.001), GRIP_Y, GRIP_Z + 0.20), (0.002, 0.045, 0.04), soft=0.0)
+    # the brace (ref_14): from the arm's underside near its front end back and down into the drop arm's front face
+    q = tuple(P[i] + u[i] * (L - 0.16) - n[i] * LEV[1] / 2 for i in range(3))
+    dz = under[2] - 0.28
+    k.bar("lever", q, (x, GRIP_Y - 0.03, dz), 0.04, 0.05, up=(1, 0, 0),
+          cut0=(q, n), cut1=((x, GRIP_Y - 0.04, dz), (0, 1, 0)), weld=True)
 
 
 def seat(k):
@@ -267,6 +287,32 @@ def fit():
         a = -math.degrees(math.acos(max(-1.0, min(1.0, (hip[2] - kz) / lt))))
         ky = hip[1] - lt * math.sin(math.radians(-a))
         ball = (0.0, ky - 0.073 * H, 0.0)
+        arm, forearm, arm_out = reach(H, hip, -12)
         out[label] = dict(H=H, ball=ball, face=(0, -1), sole=0, shank=0, thigh=a, trunk=-12, neck=4,
-                          arm=205, forearm=78, arm_out=38)
+                          arm=arm, forearm=forearm, arm_out=arm_out)
     return out
+
+
+def reach(H, hip, trunk):
+    """The arm angles (body.figure's) that put the left hand's palm on the left grip's middle, the elbow back and out
+    (the press's start): a coarse search, then a fine one round the best."""
+    r = math.radians
+    sy = hip[1] - math.sin(r(trunk)) * 0.288 * H                       # the shoulders (facing -y: forward is -y)
+    sz = hip[2] + math.cos(r(trunk)) * 0.288 * H
+    sx = 0.13 * H * 0.85
+    tx, ty, tz = (X_LEV + GRIP_IN) / 2 - 0.04, GRIP_Y - 0.01, GRIP_Z + 0.035
+
+    def miss(arm, fore, out):
+        ax, ay, az = math.sin(r(out)), -math.sin(r(arm)), math.cos(r(arm))
+        n = math.sqrt(ax * ax + ay * ay + az * az)
+        ex, ey, ez = sx + ax / n * 0.186 * H, sy + ay / n * 0.186 * H, sz + az / n * 0.186 * H
+        g = 0.191 * H                                                   # the wrist and half the hand
+        hx, hy, hz = ex, ey - math.sin(r(fore)) * g, ez + math.cos(r(fore)) * g
+        return math.dist((hx, hy, hz), (tx, ty, tz)) + (0.05 if ey < sy else 0.0)   # keep the elbow back
+
+    best = min(((miss(a, f, o), a, f, o) for a in range(90, 271, 5) for f in range(-60, 181, 5) for o in range(0, 81, 5)))
+    _, a0, f0, o0 = best
+    best = min(((miss(a0 + da, f0 + df, o0 + do), a0 + da, f0 + df, o0 + do)
+                for da in range(-5, 6) for df in range(-5, 6) for do in range(-5, 6)))
+    assert best[0] < 0.02, f"the grips are out of reach ({best[0]:.3f} m short)"
+    return best[1], best[2], best[3]
