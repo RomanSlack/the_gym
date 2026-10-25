@@ -316,10 +316,11 @@ class Kit:
         bmesh.ops.translate(b, verts=g, vec=c)
 
     @_part
-    def slab(self, mat, outline, x0, x1, r, seg=6, soft=0.0):
+    def slab(self, mat, outline, x0, x1, r, seg=6, soft=0.0, halfw=None):
         """A moulded shroud: a closed side outline [(y, z), ...] (either way round, densely sampled, about convex)
         filled between x0 and x1, every edge round its two side faces rounded by r (the outline drawn in by r at the
-        faces). Round its corners first with rounded() for a moulded look."""
+        faces). Round its corners first with rounded() for a moulded look. halfw(y) -> half width: a plan that changes
+        along y (a saddle narrowing to its nose), centred on x = (x0 + x1) / 2."""
         area = sum(y0 * z1 - y1 * z0 for (y0, z0), (y1, z1) in zip(outline, outline[1:] + outline[:1]))
         P = [Vector((0.0, y, z)) for y, z in (outline if area > 0 else outline[::-1])]
         n = len(P)
@@ -329,13 +330,14 @@ class Kit:
             N.append(Vector((0.0, -t.z, t.y)))
         b = self.bm(mat, soft)
         layers = []
+        xm = (x0 + x1) / 2
         for side, xf in ((-1, x0), (1, x1)):
             for j in range(seg + 1):
                 f = j / seg if side > 0 else 1 - j / seg
                 a = math.pi / 2 * f
-                x = xf - side * (r - r * math.sin(a))
                 d = r - r * math.cos(a)
-                layers.append([b.verts.new((x, p.y + nv.y * d, p.z + nv.z * d)) for p, nv in zip(P, N)])
+                layers.append([b.verts.new(((xm + side * halfw(p.y) if halfw else xf) - side * (r - r * math.sin(a)),
+                                            p.y + nv.y * d, p.z + nv.z * d)) for p, nv in zip(P, N)])
         for L0, L1 in zip(layers, layers[1:]):
             for i in range(n):
                 b.faces.new((L0[i], L0[(i + 1) % n], L1[(i + 1) % n], L1[i]))
