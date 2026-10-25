@@ -13,11 +13,24 @@
  "picked": "2026-10-24T04:29:45+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
  "price": null,
- "refs": [],
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://cdn.prod.website-files.com/679b389fab97d46a3c4d2390/6ac05ca29195a686853963a0_6ac05c89ea207751deb9c7ac_fit-3d-proscanner-product.png"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://microsites.bournemouth.ac.uk/ori/files/2024/11/Fit-3D-Body-Scanner.jpg"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://www.healthandfitnesstesting.nz/assets/Uploads/fit3ddd.jpg"
+  }
+ ],
  "status": "picked",
  "notes": "",
  "fetched": {
-  "at": "2026-10-24T04:29:47+00:00",
-  "error": "HTTP Error 500: Internal Server Error"
+  "at": "2026-10-25T21:00:00+00:00",
+  "how": "pages: fit3d.com (no hardware photo), business.shapescale.com, microsites.bournemouth.ac.uk, healthandfitnesstesting.nz; one request each, 6-7 s apart"
  }
 }
