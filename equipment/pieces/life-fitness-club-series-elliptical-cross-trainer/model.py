@@ -46,7 +46,7 @@ LOOK = {
     "vent": dict(color=(0.08, 0.08, 0.085), rough=0.6, coat=0.0),
 }
 VIEWS = {"three_quarter": (-40, 12, 1.1), "front": (0, 5, 1.1), "side": (90, 3, 1.1), "back_three_quarter": (140, 16, 1.1),
-         "ref_view": (-128, 22, 1.25)}  # ref_01's angle: from behind the user's left, above
+         "ref_view": (-128, 22, 1.45)}  # ref_01's angle: from behind the user's left, above
 DETAILS = {
     "detail_hub": ((0.90, -1.35, 1.75), (0.0, -0.72, 1.30), 45),          # the hub, the swing arms, the console
     "detail_pedal": ((0.80, -0.95, 0.95), (0.17, -0.35, 0.45), 45),        # a pedal, its arm, the link to the swing arm
@@ -75,7 +75,7 @@ PEDAL = (0.38, 0.17)                 # length, width (38 cm, Life Fitness)
 X_PED = 0.15                         # the pedals' centres (x): in from the arms (ref_06: the pedal over the arm's inside)
 PHI = 0.0                            # the left crank's angle (deg, from +y toward +z); the right one 180 deg on: level,
                                      # the pedal arms parallel, as the photos show it
-HOUS = (0.40, 1.22, 0.10, 0.72, 0.30)   # the body: front and back (y), bottom and top (z), half width (a low skirt)
+HOUS = (0.30, 1.26, 0.10, 0.72, 0.32)   # the body: front and back (y), bottom and top (z), half width (a low skirt)
 POD = (0.60, 0.24, 0.14, -0.38)      # each pod: length, height, width; where it starts ahead of the crank pin (the
                                      # cover on the arm that slides into the housing's open front)
 
@@ -136,8 +136,8 @@ def base(k):
     front low down to the front stabilizer (a bar across, its feet at the ends), the column's foot on their joint."""
     k.box("frame", (0, Y_REAR, 0.045), (2 * X_STAB, 0.12, 0.07), soft=0.02)                     # the rear stabilizer
     for s in (1, -1):
-        k.cyl("plastic", (s * (X_STAB + 0.022), Y_REAR + 0.02, 0.045), 0.045, 0.04, axis="x", seg=36, soft=0.004)
-        k.tube("steel", (s * (X_STAB - 0.01), Y_REAR + 0.02, 0.045), (s * (X_STAB + 0.046), Y_REAR + 0.02, 0.045), 0.012, seg=16)
+        k.cyl("plastic", (s * (X_STAB + 0.045), Y_REAR + 0.02, 0.045), 0.045, 0.04, axis="x", seg=36, soft=0.004)
+        k.tube("steel", (s * (X_STAB - 0.01), Y_REAR + 0.02, 0.045), (s * (X_STAB + 0.069), Y_REAR + 0.02, 0.045), 0.012, seg=16)
         k.box("rubber", (s * (X_STAB - 0.06), Y_REAR - 0.03, 0.006), (0.08, 0.05, 0.012), soft=0.003)
     k.tube("frame", (-0.36, Y_FRONT, 0.05), (0.36, Y_FRONT, 0.05), 0.038, seg=32)               # the front stabilizer
     for s in (1, -1):
@@ -194,7 +194,7 @@ def body_curve(n=30):
         pts.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c1[0] + t * t * p1[0],
                     (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c1[1] + t * t * p1[1]))
     zt = zt + 0.08
-    r = 0.26
+    r = 0.32
     cy, cz = yb - r, zt - r
     for i in range(n // 2 + 1):
         a = math.radians(90 - 90 * i / (n // 2))
