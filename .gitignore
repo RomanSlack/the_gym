@@ -26,3 +26,6 @@ equipment/.cache/
 
 # third-party reference photos: look, never publish
 reference/f4_recovery/
+
+# Over GitHub's 100 MB limit: kept on disk only (PWR Play mega, 386 MB each)
+equipment/pieces/life-fitness-pwr-play-mega/models/*.glb
