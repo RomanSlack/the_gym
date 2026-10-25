@@ -4,6 +4,21 @@ Built by eye from the dealer's gallery (refs/: ref_02 the true profile, ref_01 t
 in use, ref_04 / ref_05 the three-quarters with the other consoles), held to Woodway's spec: the 4Front 72 x 35 x 64 in
 (183 x 89 x 163 cm) with a 68 x 22 in running surface; with the 21 in screen (the 4Front View) 76 x 35 x 74 in. Side-view
 numbers off ref_02 at 2.6 mm/px (its 72 in overall), as (y, z): y = (410 - px) * 0.0026, z = (725 - py) * 0.0026.
+DESIGN SPEC (gate 1, written 2026-10-25 for v004: the piece predates the gates)
+1. Use. The user steps up onto the deck and runs or walks facing the screen; the motor drives the belt at the set
+   speed and the deck lifts for elevation. Hands free; the yoke's ends for a steadying hand, the stop and the lanyard.
+2. Moving parts, each mass named: the belt, rubber-topped slats on ball bearings over the front and back drums (the
+   motor and the lift inside the deck); the side frames, the deck's carriers, with the foot rails to stand on beside
+   the belt; the handrail arches, one each side bolted to its side frame behind the middle and sweeping up and forward
+   to the yoke; the yoke: the cup holders, the control strip, the 21 in screen on its stem.
+3. Adjustments. Speed and elevation (the control strip, the screen); nothing on the frame.
+4. Load path. The feet on the slats, their bearings in the side frames' tracks, the feet. A hand on the yoke into the
+   arches and the side frames.
+5. Fit range. 1.55 / 1.78 / 1.95 m running mid-stance mid-deck, between the arches (ref_03 in use): the arm swing
+   inside the arches (x 0.34 at the deck, the hands at 0.2), the yoke 1.31 m up ahead of the runner within a steadying
+   reach, the screen a little below the eyes, tilted back to them (its centre 1.59 m; the middle user's eyes about
+   1.96 with the deck).
+6. Size. 193 x 89 x 188 cm with the 21 in screen (76 x 35 x 74 in), as above.
 Axes: metres, floor z = 0; the user runs facing +y toward the console; +x is the side ref_02 shows.
 Structure: the low deck (two side frames with rounded ends on feet, the WOODWAY mark; the flat foot rails each side of
 the belt; the slatted rubber belt over its drums, the rounded rear wrap); a handrail arch each side landing on its side
@@ -130,7 +145,7 @@ def fit():
     """Running on the belt's middle, mid-stance, upright with the slight forward lean, the arms bent; a short, a middle
     and a tall user."""
     out = {}
-    for label, H in (("short", 1.60), ("middle", 1.78), ("tall", 1.95)):
+    for label, H in (("short", 1.55), ("middle", 1.78), ("tall", 1.95)):
         out[label] = dict(H=H, ball=(0.0, -0.15, ZD - 0.005), face=(0, 1), sole=0, shank=10, thigh=-6, trunk=8, neck=4,
                           arm=195, forearm=100, arm_out=8)
     return out
