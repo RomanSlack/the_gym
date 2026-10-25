@@ -7,7 +7,7 @@ DESIGN SPEC (gate 1)
 1. Use. A bolted-down frame to train in and on: pull-ups and hangs on the double crossmembers along the top, a squat /
    press station on the J-cups of the end pair (the bar across the rig's depth, the lifter outside the end facing in,
    ref_01), and the holes for every Monster attachment (spotter arms, landmine, band pegs, dip bars).
-2. Each mass named (ref_01): six 3 x 3 in 11-gauge uprights, 108 in tall (Rogue's tall option; ref_01's are 90 in:
+2. Each mass named (ref_01; the red and the plates ref_03's): six 3 x 3 in 11-gauge uprights, 108 in tall (Rogue's tall option; ref_01's are 90 in:
    Roman, 2026-10-25, "make it so even a 6ft 3 persons feet dont touch"), in two rows of three: two bays along the
    front, unequal (ref_01: the far bay reads longer than the near one: a square 49 x 49 in squat cell at the J-cup
    end, then a 72 in pull-up bay) and one bay deep (49 in); 1 in holes on a 2 in pitch up every face, numbered up the faces
@@ -15,7 +15,8 @@ DESIGN SPEC (gate 1)
    frame, no feet); the top frame: a double crossmember (two 2 in pull-up bars one above the other, a rung between
    them near the middle) on every side between neighbouring uprights, seven in all, each bar on an end plate bolted
    through its upright with two 1 in bolts; the ROGUE plate up the front corner upright's face (ref_01); a pair of
-   Monster J-cups on the end pair.
+   Monster J-cups on the end pair. The uprights in Rogue's red, the crossmembers and J-cups black, colour bumpers on
+   plate posts at the far end (Roman, 2026-10-25, from ref_03).
 3. Adjustments. The J-cups by the hole (2 in steps); every attachment by the hole.
 4. Load path. The bar on the J-cups, their sleeves round the uprights, the pins through the holes, the uprights, the
    base plates, the anchors. A hang on a crossmember: its end plates, the bolts, the uprights; the top frame ties the
@@ -53,13 +54,24 @@ SHOW = ()
 JHOLE = None                        # the J-cups' hole; None: the middle user's
 
 LOOK = {
-    "frame": dict(color=(0.012, 0.012, 0.013), rough=0.32, coat=0.25, bump=(900, 0.05)),       # black powder coat
+    "frame": dict(color=(0.50, 0.012, 0.012), rough=0.32, coat=0.25, bump=(900, 0.05)),        # Rogue red (Roman)
+    "black": dict(color=(0.012, 0.012, 0.013), rough=0.32, coat=0.25, bump=(900, 0.05)),
     "hole": dict(color=(0.0, 0.0, 0.0), rough=1.0, coat=0.0),
     "label": dict(color=(0.85, 0.85, 0.86), rough=0.4, coat=0.0),
     "bolt": dict(color=(0.62, 0.63, 0.65), rough=0.28, metal=1.0, coat=0.0),
     "plastic": dict(color=(0.02, 0.02, 0.022), rough=0.5, coat=0.0),
     "uhmw": dict(color=(0.03, 0.03, 0.032), rough=0.6, coat=0.0),
+    "steel": dict(color=(0.7, 0.7, 0.71), rough=0.22, metal=1.0),
+    "p_white": dict(color=(0.8, 0.8, 0.79), rough=0.6, coat=0.0, spec=0.3),                    # the colour bumpers
+    "p_green": dict(color=(0.02, 0.32, 0.05), rough=0.6, coat=0.0, spec=0.3),
+    "p_yellow": dict(color=(0.85, 0.62, 0.02), rough=0.6, coat=0.0, spec=0.3),
+    "p_blue": dict(color=(0.02, 0.10, 0.55), rough=0.6, coat=0.0, spec=0.3),
+    "p_ink": dict(color=(0.85, 0.85, 0.85), rough=0.5, coat=0.0),
 }
+# the plate posts (Roman: "i like those colorful olympic plates and the red color"; ref_03): on each far-end upright's
+# end face, a pair of colour bumpers on each post: (look, kg, radius, thickness, the post's height)
+PLATES = (("p_blue", 20, 0.225, 0.066, 0.255), ("p_yellow", 15, 0.225, 0.054, 0.725), ("p_green", 10, 0.225, 0.042, 1.195),
+          ("p_white", 5, 0.14, 0.03, 1.56))
 VIEWS = {"three_quarter": (-35, 14, 1.0), "front": (0, 6, 1.0), "side": (90, 6, 1.0), "back_three_quarter": (150, 16, 1.0),
          "ref_view": (-62, 4, 1.0)}                   # ref_01: from the J-cup end, the front row receding
 DETAILS = {
@@ -90,6 +102,7 @@ def build(k):
     uprights(k)
     top(k)
     jcups(k)
+    plates(k)
 
 
 def uprights(k):
@@ -126,7 +139,7 @@ def top(k):
             for (px, py), sg in ((a, 1), (b, -1)):
                 c = (px + d[0] * sg * PL / 2, py + d[1] * sg * PL / 2, z)
                 size = (PL, TB, 4 * IN) if along == "x" else (TB, PL, 4 * IN)
-                k.box("frame", c, size, soft=0.001)                                   # the end plate
+                k.box("black", c, size, soft=0.001)                                   # the end plate
                 for off in (-0.9 * IN, 0.9 * IN):                                      # its two bolts, side by side
                     bx = (px + d[0] * sg * PL, py + d[1] * sg * PL)
                     pos = (bx[0] + d[1] * off, bx[1] + d[0] * off, z)
@@ -134,10 +147,10 @@ def top(k):
                     rack.through(k, pos[0] - d[0] * sg * (PL + TB), pos[1] - d[1] * sg * (PL + TB), z,
                                  ("-x" if sg > 0 else "+x") if along == "x" else ("-y" if sg > 0 else "+y"),
                                  TB + PL, size=0.019)
-            k.tube("frame", (a[0] + d[0] * PL, a[1] + d[1] * PL, z), (b[0] - d[0] * PL, b[1] - d[1] * PL, z), R_BAR, seg=28)
+            k.tube("black", (a[0] + d[0] * PL, a[1] + d[1] * PL, z), (b[0] - d[0] * PL, b[1] - d[1] * PL, z), R_BAR, seg=28)
         t = 0.42 if i % 2 == 0 else 0.55                       # the rung, near the middle (ref_01)
         rx, ry = a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t
-        k.tube("frame", (rx, ry, Z_BARS[1] + R_BAR * 0.6), (rx, ry, Z_BARS[0] - R_BAR * 0.6), 0.6 * IN, seg=20)
+        k.tube("black", (rx, ry, Z_BARS[1] + R_BAR * 0.6), (rx, ry, Z_BARS[0] - R_BAR * 0.6), 0.6 * IN, seg=20)
 
 
 def jcups(k):
@@ -148,14 +161,35 @@ def jcups(k):
     x = XS[0]
     xf = x - TB / 2
     for y in YS:
-        k.box("frame", (xf - PL / 2, y, zj), (PL, TB + 2 * PL, 6 * IN), soft=0.001)                  # the front plate
+        k.box("black", (xf - PL / 2, y, zj), (PL, TB + 2 * PL, 6 * IN), soft=0.001)                  # the front plate
         for sy in (1, -1):
-            k.box("frame", (x, y + sy * (TB / 2 + PL / 2), zj), (TB + PL, PL, 6 * IN), soft=0.001)  # the wings
+            k.box("black", (x, y + sy * (TB / 2 + PL / 2), zj), (TB + PL, PL, 6 * IN), soft=0.001)  # the wings
         hx = xf - PL
         prof = k.rect(0.25 * IN, 2.5 * IN, 0.002)
-        k.sweep("frame", [(hx, y, zj - 1.6 * IN), (hx - 2.2 * IN, y, zj - 1.6 * IN), (hx - 2.6 * IN, y, zj - 0.2 * IN)],
+        k.sweep("black", [(hx, y, zj - 1.6 * IN), (hx - 2.2 * IN, y, zj - 1.6 * IN), (hx - 2.6 * IN, y, zj - 0.2 * IN)],
                 prof, bend=0.012, soft=0.001)
         k.box("uhmw", (hx - 1.1 * IN, y, zj - 1.6 * IN + 0.25 * IN / 2 + 0.002), (2.0 * IN, 2.4 * IN, 0.004), soft=0.001)
+
+
+def plates(k):
+    """A post on each far-end upright's end face per plate size, a pair of colour bumpers on it (ref_03): the post a
+    2 in steel pin on a bolted plate, the bumpers' steel hubs, ROGUE across each outer face."""
+    x = XS[2] + TB / 2
+    for y in YS:
+        for look, kg, r, t, z in PLATES:
+            k.box("frame", (x + PL / 2, y, z), (PL, TB, 5 * IN), soft=0.001)                         # its mount
+            for dz in (1.8 * IN, -1.8 * IN):
+                rack.through(k, XS[2] - TB / 2, y, z + dz, "-x", TB + PL, size=0.019)
+            ln = 2 * t + 0.05
+            k.tube("black", (x + PL, y, z), (x + PL + ln, y, z), 0.025, seg=24)
+            k.cyl("black", (x + PL + ln + 0.004, y, z), 0.028, 0.008, axis="x", seg=24, soft=0.002)   # its end cap
+            for i in range(2):
+                cx = x + PL + 0.02 + t / 2 + i * (t + 0.002)
+                k.disc(look, (cx, y, z), r, 0.0255, t, axis="x", seg=64)
+                k.disc("steel", (cx, y, z), 0.045, 0.0255, t + 0.002, axis="x", seg=32)                # the hub
+            xo = x + PL + 0.02 + 2 * t + 0.002 + 0.0003
+            k.text("p_ink", "ROGUE", (xo, y, z + 0.6 * r), 0.22 * r, rz=math.pi / 2, depth=0.0006)
+            k.text("p_ink", f"{kg} KG", (xo, y, z - 0.6 * r), 0.16 * r, rz=math.pi / 2, depth=0.0006)
 
 
 # ---- the fit check (spec 5)
