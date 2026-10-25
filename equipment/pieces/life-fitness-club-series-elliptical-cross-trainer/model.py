@@ -239,14 +239,14 @@ def housing(k):
             k.sweep("shroud", [(xa_, cy_, cz_), (xb_, cy_, cz_)], band, up=(0, 0, 1), soft=0.004)
     # the front: closed but for a slot each side the pedal arm's pod slides in through (ref_01)
     zft = body_curve()[0][1]                            # the front's top
-                                                        # the slots: across the pods, the front's full height
     zp = SPINE_Z + 0.05                                 # the middle panel: down onto the spine's top
     k.box("shroud", (0, yf + 0.01, (zp + zft) / 2), (2 * sx0, 0.02, zft - zp), soft=0.004)
 
     for s in (1, -1):
         k.box("frame", (s * (hw - 0.03), Y_REAR, (0.08 + zb) / 2), (0.06, 0.06, zb - 0.08 + 0.004), soft=0.004)
     k.tube("steel", (-(hw - 0.014), C[0], C[1]), (hw - 0.014, C[0], C[1]), 0.02, seg=24)         # the crank axle
-    k.disc("silver", (0, C[0], C[1]), 0.20, 0.05, 0.05, axis="x", seg=64)                         # the flywheel
+    k.disc("lever", (0, C[0], C[1]), 0.20, 0.05, 0.05, axis="x", seg=64)                          # the flywheel (dark,
+                                                                                                  # as behind the real slots)
     k.cyl("lever", (0, C[0], C[1]), 0.05, 0.07, axis="x", seg=40, soft=0.003)
 
 
