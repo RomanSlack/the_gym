@@ -445,6 +445,13 @@ class Kit:
         bmesh.ops.translate(b, verts=g, vec=c)
 
     @_part
+    def sphere(self, mat, c, r, seg=32, soft=0.0):
+        """A ball (medicine balls, knobs)."""
+        b = self.bm(mat, soft)
+        g = bmesh.ops.create_uvsphere(b, u_segments=seg, v_segments=seg // 2, radius=r)["verts"]
+        bmesh.ops.translate(b, verts=g, vec=c)
+
+    @_part
     def disc(self, mat, c, r_out, r_in, h, axis="x", seg=48, soft=0.0008):
         """A washer / pulley / plate ring (annulus) of thickness h."""
         b = self.bm(mat, soft)
