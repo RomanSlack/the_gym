@@ -29,6 +29,48 @@ It runs on its own, separate from the building pipeline, so a failure on one sid
 
 Each modelling pass is committed on its own, so the replay shows the prompt behind every version.
 
+## The two gates: no code before the design gate, nothing shown before the done gate (Roman, 2026-10-24)
+
+Why: the Select Chest Press came out "unusable" (grips 35 cm ahead of the chest, the cable routed along the floor and
+round the tower: "doesn't even physically make sense"), then the Pec Fly came out 1.7 m wide to suit one wingspan,
+with rigid arms and a decorative start adjuster ("zero thought put into it ... slopped together"). Both passed the
+clash check and the fit figure touched the grips. That was the wrong target: **the goal is a machine a gym would buy
+and anyone from 1.55 to 1.95 m could use today, not a clean check and a figure touching a grip.**
+
+### Gate 1: the design spec, written at the top of model.py before any geometry
+
+Fill every heading, from the reference photos *and* from how the machine is used. If a heading can't be filled, get
+more photos or read the maker's manual; don't build around the hole.
+
+1. **Use.** The exercise, the start and end pose, the joint the motion turns about (the shoulder for a fly, the knee
+   for a leg extension). The machine's pivot goes on that joint's axis.
+2. **Moving parts.** Every pivot, swivel, slider and cam in the reference, one line each: what it is, its axis,
+   what it's for. Go over the reference photo part by part and account for every round boss, pin and joint you can see
+   (the Pec Fly's drop swivel was in ref_01 and got welded solid).
+3. **Adjustments.** Every adjustment the real machine has (seat height, start position / range of motion, pad depth,
+   back angle, handle position or orientation): its mechanism (pop pin + hole ring, rack + pawl, lever) and its range
+   in numbers. A pin is drawn going into a hole of a part that really turns or slides; nothing decorative.
+4. **Load path.** From the handle to the weight: lever, cam or pulley, cable, stack (or the plates on the horns). Each
+   cable run straight from groove to groove, through nothing, away from the user. Check the winding direction: which
+   way the cam turns when the user pushes, and that this winds the cable in.
+5. **Fit range.** The contact points (hands, chest, back, knees, feet) for a 1.55, a 1.78 and a 1.95 m user, and
+   which adjustment brings each one there. Size the machine for the range: **if a user can't reach, use or add an
+   adjustment; never stretch the geometry to suit the figure.** Elbows and knees in a natural range (a fly starts
+   with the elbows soft, about 150-170 deg, not straight and not folded).
+6. **Size.** The maker's L x W x H. If ours is more than 10 cm off on any axis, say why in the spec.
+
+### Gate 2: the done check, before showing Roman
+
+- **Beside the reference:** the render and the photo at the same angle; walk the spec's moving parts and adjustments
+  and find each one in the render.
+- **All three users:** the short, middle and tall fits all reach with natural joints, not only the middle one.
+- **Adjustments work:** each one drawn as its real mechanism, and the machine shown at its other setting where that
+  setting changes how it's used (the Pec Fly's rear delt).
+- **The cable, end to end:** follow it in a close-up render, segment by segment.
+- **Proportions:** nothing more than 10% over the real machine without the spec's reason.
+- **The last question:** would a gym owner buy this, and could I use it today at 1.55 m and at 1.95 m? If not, it
+  isn't done.
+
 ## Start here: the checklist for a new piece (the Hammer Strength method, 2026-10-18)
 
 The Hammer Strength Iso-Lateral got to "looks amazing" in 11 versions by doing this, in this order. Follow it so the next
