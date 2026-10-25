@@ -32,7 +32,10 @@ T keys (metres): style, W (across), D (deep), H (tall), n (plates), plate (w, d,
 frame is bent round), units ("lb"/"kg") and step (the weight per plate) for the printed numbers; head=True ("open"
 only): no top pulley inside, the cable runs straight up from the top plate through holes in the rod plate and the deck
 to a head pulley on the deck (in its cheek plates), and leaves over its top toward the front (-y, local): for a machine
-whose cam sits level with the tower's top and in front of it.
+whose cam sits level with the tower's top and in front of it; head="twin" (twin=g): two head pulleys g either side of
+the centre, the two cables down through their holes to a floating pulley on the top plate (one cable looped under it):
+for a two-armed machine, each arm's cam on its own run, either arm or both lifting the stack; returns cables=[left,
+right] out points.
 Roles: "frame" (the machine's frame colour), "shroud" + "shroud2" (the closed tower's panels), "plate", "chrome",
 "acrylic", "placard" + "ink" (the placard and its lettering), "label" (printed numbers), "rubber", "plastic",
 "cable".
@@ -57,6 +60,18 @@ LOOK = {   # defaults, a piece's LOOK overrides any of them
     "logo": dict(color=(0.62, 0.04, 0.05), rough=0.35, coat=0.2),                                    # Atlantis red
     "blue": dict(color=(0.10, 0.45, 0.85), rough=0.4, coat=0.0),                                     # the placard's figure
 }
+
+
+def _holed(t, cx, cy, z, w, d, th, hxs, hy, hw=0.015):
+    """A plate w x d x th centred (cx, cy, z) with square holes (half width hw) at x = cx + each of hxs, y = hy."""
+    y0, y1 = cy - d / 2, cy + d / 2
+    t.box("frame", (cx, (hy + hw + y1) / 2, z), (w, y1 - hy - hw, th), soft=0.002)
+    if hy - hw > y0:
+        t.box("frame", (cx, (y0 + hy - hw) / 2, z), (w, hy - hw - y0, th), soft=0.002)
+    xs = [cx - w / 2] + [v for hx in sorted(hxs) for v in (cx + hx - hw, cx + hx + hw)] + [cx + w / 2]
+    for a, b in zip(xs[::2], xs[1::2]):
+        if b - a > 0.001:
+            t.box("frame", ((a + b) / 2, hy, z), (b - a, 2 * hw, th), soft=0.002)
 
 
 def _arc(cx, cz, r, a0, a1, y, n=10):
@@ -88,24 +103,34 @@ def tower(k, T, c, rz=0.0, name="tower"):
     # (the rod plate holed where the cable runs up through it, the pulley's bracket behind the cable: the cable goes
     # straight up from the top plate to the pulley's front, through nothing)
     head = T.get("head", False)
-    rh = 0.04                                            # the head pulley's radius
-    yc, hw = (cy + rh if head else cy - 0.045), 0.015    # the cable's line (y), the hole's half width
-    yb0 = yc + hw
-    t.box("frame", (cx, (yb0 + cy + rp[1] / 2) / 2, rod_top + 0.01), (rp[0], cy + rp[1] / 2 - yb0, 0.02), soft=0.002)
-    yf0, yf1 = cy - rp[1] / 2, yc - hw
-    if yf1 > yf0:
-        t.box("frame", (cx, (yf0 + yf1) / 2, rod_top + 0.01), (rp[0], yf1 - yf0, 0.02), soft=0.002)
-    for sx in (1, -1):
-        x0, x1 = cx + sx * hw, cx + sx * rp[0] / 2
-        t.box("frame", ((x0 + x1) / 2, (yf1 + yb0) / 2, rod_top + 0.01), (abs(x1 - x0), yb0 - yf1, 0.02), soft=0.002)
-    if head:                                             # up through the deck to the head pulley, out over its top
+    rh = 0.04                                            # the head pulleys' radius
+    groove = lambda r: 0.86 * r + 0.0028                 # where a cable lies in a pulley's groove (kit.pulley)
+    g = T.get("twin", 0.07) if head == "twin" else 0.0
+    gx = groove(g) if head == "twin" else 0.0            # the twin runs: either side of the floating pulley's groove
+    hxs = (-gx, gx) if head == "twin" else (0.0,)
+    yc = cy + groove(rh) if head else cy - 0.045         # the cable's line (y): down the head pulleys' backs
+    _holed(t, cx, cy, rod_top + 0.01, rp[0], rp[1], 0.02, hxs, yc)
+    if head:                                             # up through the deck to the head pulley(s), out over the top
         zh = H + rh + 0.008
-        t.pulley((cx, cy, zh), rh, axis="x")
-        for sx in (1, -1):                               # its cheek plates on the deck, the axle through them
-            t.box("frame", (cx + sx * 0.0205, cy, (H + zh + 0.03) / 2), (0.006, 0.09, zh + 0.03 - H), soft=0.001)
-            t.bolt((cx + sx * 0.0235, cy, zh), "+x" if sx > 0 else "-x", size=0.014)
-        t.cable([(cx, yc, ztop - 0.001), (cx, yc, zh)])   # off the top plate's eye
-        out = (cx, cy, zh + rh)
+        outs = []
+        for hx in hxs:
+            t.pulley((cx + hx, cy, zh), rh, axis="x")
+            for sx in (1, -1):                           # its cheek plates on the deck, the axle through them
+                t.box("frame", (cx + hx + sx * 0.0205, cy, (H + zh + 0.02) / 2), (0.006, 0.09, zh + 0.02 - H),
+                      soft=0.001)
+                t.bolt((cx + hx + sx * 0.0235, cy, zh), "+x" if sx > 0 else "-x", size=0.014)
+            outs.append((cx + hx, cy, zh + groove(rh)))
+        if head == "twin":                               # the floating pulley on the top plate, the cable looped under
+            zf = ztop + g + 0.035
+            t.pulley((cx, yc, zf), g, axis="y")
+            for sy in (1, -1):
+                t.box("frame", (cx, yc + sy * 0.0205, (ztop + zf + 0.02) / 2), (0.05, 0.006, zf + 0.02 - ztop),
+                      soft=0.001)
+            loop = [(cx + gx * math.cos(math.radians(a)), yc, zf + gx * math.sin(math.radians(a))) for a in range(180, 361, 15)]
+            t.cable([(cx - gx, yc, zh)] + loop + [(cx + gx, yc, zh)])
+        else:
+            t.cable([(cx, yc, ztop - 0.001), (cx, yc, zh)])   # off the top plate's eye
+        out = outs[0]
     else:
         zp = rod_top + 0.10
         t.box("frame", (cx, cy + 0.02, (rod_top + 0.02 + zp - 0.04) / 2), (0.05, 0.06, zp - 0.04 - rod_top - 0.02),
@@ -113,6 +138,7 @@ def tower(k, T, c, rz=0.0, name="tower"):
         t.pulley((cx, cy, zp), 0.045, axis="x")
         t.cable([(cx, yc, ztop - 0.01), (cx, yc, zp)])
         out = (cx, cy - 0.046, zp)
+        outs = [out]
     if T["style"] == "open":
         _open(t, T, cx, cy, W, D, H, n, pt, ztop)
     elif T["style"] == "insignia":
@@ -123,7 +149,7 @@ def tower(k, T, c, rz=0.0, name="tower"):
         _atlantis(t, T, cx, cy, W, D, H, n, pt, ztop)
     else:
         _shroud(t, T, cx, cy, W, D, H, n, pt)
-    return dict(cable=out, sub=t)
+    return dict(cable=out, cables=outs, sub=t)
 
 
 def _placard(t, T, cx, y, z, w, h, facing=-1, rz=0.0):
@@ -252,12 +278,9 @@ def _open(t, T, cx, cy, W, D, H, n, pt, ztop):
         path = [a, b] + arc + [(cx + rs * xs, y, zb)]
         t.sweep("frame", path, kit.rect(0.076, 0.05, 0.006), up=(0, 1, 0), soft=0.002)
     dw, dd = W - 0.2, D - 0.10                                                                       # the top deck
-    if T.get("head"):                                    # holed where the cable rises to the head pulley
-        yc, hw = cy + 0.04, 0.015
-        t.box("frame", (cx, (yc + hw + cy + dd / 2) / 2, H - 0.012), (dw, cy + dd / 2 - yc - hw, 0.024), soft=0.002)
-        t.box("frame", (cx, (cy - dd / 2 + yc - hw) / 2, H - 0.012), (dw, yc - hw - cy + dd / 2, 0.024), soft=0.002)
-        for sx in (1, -1):
-            t.box("frame", (cx + sx * (hw + dw / 2) / 2, yc, H - 0.012), (dw / 2 - hw, 2 * hw, 0.024), soft=0.002)
+    if T.get("head"):                                    # holed where the cable(s) rise to the head pulley(s)
+        g = 0.86 * T.get("twin", 0.07) + 0.0028 if T["head"] == "twin" else 0.0
+        _holed(t, cx, cy, H - 0.012, dw, dd, 0.024, (-g, g) if g else (0.0,), cy + 0.86 * 0.04 + 0.0028)
     else:
         t.box("frame", (cx, cy, H - 0.012), (dw, dd, 0.024), soft=0.002)
     # the front is open (ref photos of a used unit, 2026-10-22): the placard across its top; the weights printed on

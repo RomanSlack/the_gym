@@ -18,8 +18,10 @@ LOOK = {"body": dict(color=(0.50, 0.58, 0.70), rough=0.6, coat=0.0)}
 
 
 def figure(k, H, ball, face, sole=0.0, shank=0.0, thigh=0.0, trunk=0.0, neck=0.0, arm=180.0, forearm=180.0,
-           stance=None, arm_out=0.0):
-    """Build the figure into kit k; returns its key points (dict of Vectors, the right side's for limbs)."""
+           stance=None, arm_out=0.0, arm_lat=None, fore_lat=None):
+    """Build the figure into kit k; returns its key points (dict of Vectors, the right side's for limbs).
+    arm_lat / fore_lat (degrees, optional): a true raise out to the side for the upper arm / the forearm (the segment
+    leaves the body's side plane by that angle: 90 = straight out sideways), for a fly; else arm_out as before."""
     s = H / 1.78
     f = Vector((face[0], face[1], 0.0)).normalized()
     up = Vector((0, 0, 1))
@@ -57,10 +59,15 @@ def figure(k, H, ball, face, sole=0.0, shank=0.0, thigh=0.0, trunk=0.0, neck=0.0
     pts["head"] = head
     for side in (1, -1):
         shp = sh + left * side * 0.13 * H * 0.85
-        a = d(arm) + left * side * math.sin(math.radians(arm_out))
+        if arm_lat is None:
+            a = d(arm) + left * side * math.sin(math.radians(arm_out))
+        else:
+            a = d(arm) * math.cos(math.radians(arm_lat)) + left * side * math.sin(math.radians(arm_lat))
+        fa = d(forearm) if fore_lat is None else (d(forearm) * math.cos(math.radians(fore_lat))
+                                                 + left * side * math.sin(math.radians(fore_lat)))
         el = shp + a.normalized() * 0.186 * H
-        wr = el + d(forearm) * 0.146 * H
-        hd = wr + d(forearm) * 0.08 * H
+        wr = el + fa * 0.146 * H
+        hd = wr + fa * 0.08 * H
         _cap(k, shp, el, 0.045 * s, 0.04 * s)
         _cap(k, el, wr, 0.035 * s, 0.03 * s)
         _cap(k, wr, hd, 0.03 * s, 0.025 * s)
