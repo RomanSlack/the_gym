@@ -188,7 +188,8 @@ def body_curve(n=30):
     sweep and the pods (they slide in at the front), rounded at the back (ref_01)."""
     yf, yb, zb, zt, hw = HOUS
     pts = []
-    p0, c1, p1 = (yf, zt), (yf + 0.30, zt + 0.05), (yf + 0.56, zt + 0.09)   # a wedge: rising to the back
+    p0, c1, p1 = (yf, 0.44), (yf + 0.10, zt + 0.06), (yf + 0.56, zt + 0.09)   # the nose sloping up from the pods, the
+                                                         # top rising to the back (ref_01)
     for i in range(n // 2):
         t = i / (n // 2)
         pts.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c1[0] + t * t * p1[0],
@@ -227,11 +228,18 @@ def housing(k):
         ty, tz = b_[0] - a[0], b_[1] - a[1]
         tl = math.hypot(ty, tz)
         inner.append((y + tz / tl * 0.02, z - ty / tl * 0.02))   # 2 cm in (the curve runs front to back, clockwise)
-    band = [(-(y - cy_), z - cz_) for y, z in top + inner[::-1]]
-    k.sweep("shroud", [(-(hw - 0.014), cy_, cz_), (hw - 0.014, cy_, cz_)], band, up=(0, 0, 1), soft=0.004)
+    # the shell: its front part (the sloping nose) slotted where the pods pass, the rest whole
+    sx0, sx1 = X_PA - 0.076, X_PA + 0.076
+    isp = next(i for i, (y, z) in enumerate(top) if y >= yf + 0.42)
+    for part, spans in ((slice(0, isp + 1), ((-(hw - 0.014), -sx1), (-sx0, sx0), (sx1, hw - 0.014))),
+                        (slice(isp, None), ((-(hw - 0.014), hw - 0.014),))):
+        pts_o, pts_i = top[part], inner[part]
+        band = [(-(y - cy_), z - cz_) for y, z in pts_o + pts_i[::-1]]
+        for xa_, xb_ in spans:
+            k.sweep("shroud", [(xa_, cy_, cz_), (xb_, cy_, cz_)], band, up=(0, 0, 1), soft=0.004)
     # the front: closed but for a slot each side the pedal arm's pod slides in through (ref_01)
     zft = body_curve()[0][1]                            # the front's top
-    sx0, sx1 = X_PA - 0.076, X_PA + 0.076               # the slots: across the pods, the front's full height
+                                                        # the slots: across the pods, the front's full height
     zp = SPINE_Z + 0.05                                 # the middle panel: down onto the spine's top
     k.box("shroud", (0, yf + 0.01, (zp + zft) / 2), (2 * sx0, 0.02, zft - zp), soft=0.004)
 
