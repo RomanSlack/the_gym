@@ -76,7 +76,7 @@ X_PED = 0.15                         # the pedals' centres (x): in from the arms
 PHI = 0.0                            # the left crank's angle (deg, from +y toward +z); the right one 180 deg on: level,
                                      # the pedal arms parallel, as the photos show it
 HOUS = (0.30, 1.26, 0.10, 0.72, 0.32)   # the body: front and back (y), bottom and top (z), half width (a low skirt)
-POD = (0.60, 0.24, 0.14, -0.38)      # each pod: length, height, width; where it starts ahead of the crank pin (the
+POD = (0.62, 0.27, 0.14, -0.38)      # each pod: length, height, width; where it starts ahead of the crank pin (the
                                      # cover on the arm that slides into the housing's open front)
 
 
@@ -188,12 +188,12 @@ def body_curve(n=30):
     sweep and the pods (they slide in at the front), rounded at the back (ref_01)."""
     yf, yb, zb, zt, hw = HOUS
     pts = []
-    p0, c1, p1 = (yf, zt - 0.035), (yf + 0.30, zt + 0.03), (yf + 0.56, zt + 0.08)   # a wedge: rising to the back
+    p0, c1, p1 = (yf, zt), (yf + 0.30, zt + 0.05), (yf + 0.56, zt + 0.09)   # a wedge: rising to the back
     for i in range(n // 2):
         t = i / (n // 2)
         pts.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * c1[0] + t * t * p1[0],
                     (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c1[1] + t * t * p1[1]))
-    zt = zt + 0.08
+    zt = zt + 0.09
     r = 0.32
     cy, cz = yb - r, zt - r
     for i in range(n // 2 + 1):
@@ -217,7 +217,8 @@ def housing(k):
     for s in (1, -1):
         x0, x1 = sorted((s * (hw - 0.014), s * hw))   # swept along +x on both sides (along -x mirrors the profile)
         k.sweep("shroud", [(x0, cy_, cz_), (x1, cy_, cz_)], prof, up=(0, 0, 1), soft=0.005)
-        k.cyl("plastic", (s * (hw + 0.002), C[0], C[1]), 0.24, 0.004, axis="x", seg=72)       # the round inset
+        k.cyl("plastic", (s * (hw + 0.002), C[0] + 0.04, C[1] + 0.06), 0.31, 0.004, axis="x", seg=96)   # the round inset
+        k.disc("shroud", (s * (hw + 0.004), C[0] + 0.04, C[1] + 0.06), 0.31, 0.295, 0.004, axis="x", seg=96)  # its bevel
         k.box("vent", (s * (hw + 0.001), yb - 0.10, (zb + zt) / 2), (0.002, 0.03, 0.30), soft=0.0)
     inner = []
     for i, (y, z) in enumerate(top):
@@ -263,8 +264,10 @@ def linkage(k, s):
           0.06, up=(1, 0, 0), r=0.012)
     pm = (p0[0] + u[0] * pl / 2, p0[1] + u[1] * pl / 2)
     k.box("shroud", (xa, pm[0], pm[1]), (pw, pl, ph), rx=tilt, soft=0.06)
-    k.text("label", "Life Fitness", (xa + s * (pw / 2 + 0.001), pm[0], pm[1]), 0.045, rz=math.pi / 2 * s, spin=tilt,
-           depth=0.0006)
+    k.box("shroud", (xa + s * (pw / 2 + 0.004), pm[0] + u[0] * 0.03, pm[1] + u[1] * 0.03), (0.008, pl - 0.20, ph - 0.09),
+          rx=tilt, soft=0.003)                          # the raised logo panel
+    k.text("label", "Life Fitness", (xa + s * (pw / 2 + 0.0085), pm[0] + u[0] * 0.03, pm[1] + u[1] * 0.03), 0.05,
+           rz=math.pi / 2 * s, spin=tilt, depth=0.0006)
     xp = s * X_PED
     k.box("lever", (s * (X_PED + X_PA) / 2, pc[0] - nrm[0] * 0.0225, pc[1] - nrm[1] * 0.0225), (X_PA - X_PED + 0.06, 0.14, 0.015),
           rx=tilt, soft=0.004)                                                                    # the pedal's bracket
