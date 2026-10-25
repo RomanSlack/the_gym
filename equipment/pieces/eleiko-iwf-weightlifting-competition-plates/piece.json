@@ -17,6 +17,18 @@
   {
    "file": "refs/ref_01.jpg",
    "url": "https://media.eleiko.com/images/upload/4x5/3085231-25_10.jpg"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3085231-25_20.jpg"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3085231-25_30.jpg"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3085231-25_40.jpg"
   }
  ],
  "status": "picked",
