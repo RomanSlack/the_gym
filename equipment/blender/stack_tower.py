@@ -82,11 +82,21 @@ def tower(k, T, c, rz=0.0, name="tower"):
     ztop = t.stack(k_floor, n=n, w=pw, d=pd, t=pt, rods=T["rods"], top=rod_top - k_floor[2], pin_at=T.get("pin_at", 5))
     # the rod plate across the top of the rods (both styles), the top pulley under the deck, the cable up to it
     rp = {"open": (T["rods"] + 0.08, D - 0.10), "insignia": (W - 0.18, D - 0.08), "axiom": (W - 0.08, D - 0.08), "atlantis": (W - 0.14, D - 0.06)}.get(T["style"], (W - 0.024, D - 0.024))
-    t.box("frame", (cx, cy, rod_top + 0.01), (rp[0], rp[1], 0.02), soft=0.002)
+    # (the rod plate holed where the cable runs up through it, the pulley's bracket behind the cable: the cable goes
+    # straight up from the top plate to the pulley's front, through nothing)
+    yc, hw = cy - 0.045, 0.015                           # the cable's line (y), the hole's half width
+    yb0 = yc + hw
+    t.box("frame", (cx, (yb0 + cy + rp[1] / 2) / 2, rod_top + 0.01), (rp[0], cy + rp[1] / 2 - yb0, 0.02), soft=0.002)
+    yf0, yf1 = cy - rp[1] / 2, yc - hw
+    if yf1 > yf0:
+        t.box("frame", (cx, (yf0 + yf1) / 2, rod_top + 0.01), (rp[0], yf1 - yf0, 0.02), soft=0.002)
+    for sx in (1, -1):
+        x0, x1 = cx + sx * hw, cx + sx * rp[0] / 2
+        t.box("frame", ((x0 + x1) / 2, (yf1 + yb0) / 2, rod_top + 0.01), (abs(x1 - x0), yb0 - yf1, 0.02), soft=0.002)
     zp = rod_top + 0.10
-    t.box("frame", (cx, cy, (rod_top + 0.02 + zp - 0.04) / 2), (0.05, 0.06, zp - 0.04 - rod_top - 0.02), soft=0.002)
+    t.box("frame", (cx, cy + 0.02, (rod_top + 0.02 + zp - 0.04) / 2), (0.05, 0.06, zp - 0.04 - rod_top - 0.02), soft=0.002)
     t.pulley((cx, cy, zp), 0.045, axis="x")
-    t.cable([(cx, cy, ztop - 0.01), (cx, cy, ztop + 0.10), (cx, cy - 0.045, zp - 0.02), (cx, cy - 0.045, zp)])
+    t.cable([(cx, yc, ztop - 0.01), (cx, yc, zp)])
     out = (cx, cy - 0.046, zp)
     if T["style"] == "open":
         _open(t, T, cx, cy, W, D, H, n, pt, ztop)
