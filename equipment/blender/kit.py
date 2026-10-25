@@ -316,6 +316,14 @@ class Kit:
         bmesh.ops.translate(b, verts=g, vec=c)
 
     @_part
+    def block(self, mat, corner, soft=0.0015):
+        """A box with its eight corners placed: corner(sx, sy, sz) -> (x, y, z), each s -1 or 1 (a tapered or leaning
+        beam)."""
+        b = self.bm(mat, soft)
+        for v in bmesh.ops.create_cube(b, size=1.0)["verts"]:
+            v.co = Vector(corner(*(1 if c > 0 else -1 for c in v.co)))
+
+    @_part
     def slab(self, mat, outline, x0, x1, r, seg=6, soft=0.0, halfw=None):
         """A moulded shroud: a closed side outline [(y, z), ...] (either way round, densely sampled, about convex)
         filled between x0 and x1, every edge round its two side faces rounded by r (the outline drawn in by r at the
@@ -489,8 +497,9 @@ class Kit:
         return ztop + 0.06
 
     @_part
-    def text(self, mat, body, c, size, rz=0.0, rx=math.pi / 2, depth=0.001, spin=0.0):
-        """Raised lettering (labels on shrouds, weight numbers). Default faces -y (the user); spin turns it in its own plane."""
+    def text(self, mat, body, c, size, rz=0.0, rx=math.pi / 2, depth=0.001, spin=0.0, ry=0.0):
+        """Raised lettering (labels on shrouds, weight numbers). Default faces -y (the user); spin turns it in its own plane,
+        ry then tilts it about y (onto a leaning face)."""
         cu = bpy.data.curves.new("txt", "FONT"); cu.body = body; cu.size = size; cu.extrude = depth / 2
         cu.align_x = "CENTER"; cu.align_y = "CENTER"
         try:
@@ -500,7 +509,7 @@ class Kit:
         ob = bpy.data.objects.new("txt", cu); bpy.context.scene.collection.objects.link(ob)
         me = bpy.data.meshes.new_from_object(ob.evaluated_get(bpy.context.evaluated_depsgraph_get()))
         bpy.data.objects.remove(ob); bpy.data.curves.remove(cu)
-        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Rotation(rx, 4, "X") @ Matrix.Rotation(spin, 4, "Z"))
+        me.transform(Matrix.Translation(Vector(c)) @ Matrix.Rotation(ry, 4, "Y") @ Matrix.Rotation(rz, 4, "Z") @ Matrix.Rotation(rx, 4, "X") @ Matrix.Rotation(spin, 4, "Z"))
         self.bm(mat, 0).from_mesh(me); bpy.data.meshes.remove(me)
 
     def decal(self, img, c, w, h, facing="+x", rough=0.3):

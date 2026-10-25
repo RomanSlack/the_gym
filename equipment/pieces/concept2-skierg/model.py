@@ -69,7 +69,8 @@ COL_D = 0.216                        # the column's depth below the joint (455-5
 COL_W = 0.10                         # its width (ref_03)
 Z_JOINT = 1.09                       # the joint (495 px): the V opens above it
 Z_TOP = 2.16                         # the top (216 cm)
-TOP_D = 0.168                        # the depth at the top (455-525 px)
+TOP_D = 0.14                         # the depth at the top
+LEAN = 0.035                         # the arms' lean toward the user over their length
 X_TOPBAR = 0.26                      # the top bar's half length (52 cm)
 FW = (0.084, 0.36)                   # the flywheel: its centre (420, 800 px)
 R_FW, D_FW = 0.24, 0.168             # its radius (48 cm across) and depth
@@ -83,7 +84,7 @@ USERS = (("short", 1.55), ("middle", 1.78), ("tall", 1.95))
 
 
 def pulley(s):
-    return (s * (X_TOPBAR - 0.03), 0.035, Z_TOP - 0.07)
+    return (s * (X_TOPBAR - 0.03), LEAN + 0.03, Z_TOP - 0.07)
 
 
 def start_pose(H):
@@ -145,22 +146,29 @@ def stand(k):
 
 
 def column(k):
-    """The column: the box beam up to the joint, the V of two arms above it to the top bar, the pulley housings."""
+    """The column: the box beam up to the joint, the V of two arms above it to the top bar, the pulley housings. From
+    the side (ref_11) the arms lean toward the user and taper: 0.20 deep at the joint, TOP_D at the top."""
     z1 = BOARD[3]
     k.box("frame", (0, -COL_D / 2, (z1 + Z_JOINT) / 2), (COL_W, COL_D, Z_JOINT - z1), soft=0.004)
-    k.box("plastic", (0, -COL_D / 2, Z_JOINT + 0.03), (COL_W + 0.01, COL_D + 0.006, 0.06), soft=0.006)   # the joint
-    for s in (1, -1):                                   # the V's arms, their depth tapering to the top
-        a0 = (s * 0.03, 0.0, Z_JOINT + 0.055)
-        a1 = (s * (X_TOPBAR - 0.05), 0.0, Z_TOP - 0.05)
-        k.sweep("frame", [(a0[0], -COL_D / 2, a0[2]), (a1[0], -TOP_D / 2, a1[2])], k.rect(0.05, COL_D * 0.9, 0.006),
-                up=(0, 1, 0))
-    k.box("frame", (0, -TOP_D / 2, Z_TOP - 0.025), (2 * X_TOPBAR - 0.04, TOP_D, 0.05), soft=0.005)    # the top bar
+    za, zb = Z_JOINT, Z_TOP - 0.05
+    for s in (1, -1):                                   # the V's arms: a tapered, leaning beam each
+        def corner(sx, sy, sz, s=s):
+            top = sz > 0
+            xi, xo = (X_TOPBAR - 0.075, X_TOPBAR - 0.025) if top else (0.0, COL_W / 2)
+            yf = LEAN if top else 0.0
+            return (s * (xo if sx * s > 0 else xi), yf if sy > 0 else yf - (TOP_D if top else 0.20), zb if top else za)
+        k.block("frame", corner, soft=0.004)
+    k.box("frame", (0, LEAN - TOP_D / 2, Z_TOP - 0.025), (2 * X_TOPBAR - 0.04, TOP_D, 0.05), soft=0.005)    # the top bar
     for s in (1, -1):
         p = pulley(s)
-        k.box("plastic", (p[0], p[1] + 0.001, p[2] + 0.01), (0.05, 0.07, 0.08), soft=0.008)         # its housing, on the
+        k.box("plastic", (p[0], p[1] - 0.01, p[2] + 0.01), (0.05, 0.05, 0.08), soft=0.008)         # its housing, on the
                                                         # top bar's front
         k.disc("steel", p, 0.022, 0.008, 0.012, axis="x", seg=24)
-    k.text("logo", "concept 2", (COL_W / 2 + 0.0003, -COL_D / 2, 0.80), 0.06, rz=math.pi / 2, spin=-math.pi / 2, depth=0.0006)
+    t = math.atan((X_TOPBAR - 0.025 - COL_W / 2) / (zb - za))   # the arm's outer face, off upright
+    zl = 1.58                                          # the logo on the arm the ref_view sees (ref_11)
+    u = (zl - za) / (zb - za)
+    k.text("logo", "concept 2", (-COL_W / 2 - (X_TOPBAR - 0.025 - COL_W / 2) * u - 0.0004, LEAN * u - (0.20 - (0.20 - TOP_D) * u) / 2,
+           zl), 0.06, rz=-math.pi / 2, spin=-math.pi / 2, depth=0.0006, ry=-t)
     for s in (1, -1):                                   # the handles' holders on the column's sides (ref_08)
         k.box("plastic", (s * (COL_W / 2 + 0.012), 0.02, Z_PM5 + 0.06), (0.024, 0.04, 0.05), soft=0.004)
 
