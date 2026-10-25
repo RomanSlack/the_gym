@@ -5,12 +5,28 @@ toward the camera; ref_14 the mast's face close up, the red VERSACLIMBER, a grip
 free-standing unit (the pedals, the rails, the hood from the front three-quarter); ref_05-ref_07 the wall-mount from the
 front, the tablet), held to the maker's 7 ft 10 in height. Side-view numbers off ref_08 at 3.27 mm/px (the 2.39 m height),
 as (y, z): y = (460 - px) * 0.00327, z = (745 - py) * 0.00327.
+DESIGN SPEC (gate 1, written 2026-10-25 for v004: the piece predates the gates)
+1. Use. The user stands on the two pedals facing the mast, a grip in each hand, and climbs: each hand moves with the
+   opposite foot (contralateral), the strokes as long or short as they choose, against the magnetic resistance.
+2. Moving parts, each mass named: the mast, a box beam leaning back 15 deg, the chain track up its face; the pedal
+   carriages riding the face, a tread out each side (heel cup, toe strap); the grip carriages riding the mast's SIDES
+   (ref_14; v003 had them on the face, where the tablet's bracket would stop them), a straight grip out from each with
+   its quick-release; the resistance unit under the hood at the top; the hip rails, one padded U clamped to the mast's
+   back; the tablet on the face under the hood; the floor mount (flange, foot block, floor bar, brace).
+3. Adjustments. The grips' height on their carriages (the quick-release), the stroke length (free), the resistance.
+4. Load path. The feet and hands into the carriages, the chain, the resistance unit; the mast into the foot block and
+   the brace, the flange bolted down, the floor bar's leveller behind.
+5. Fit range. 1.55 / 1.78 / 1.95 m at mid-stroke (the pedals level at 0.44, where they pass), heels in the cups, the
+   body leaning in parallel to the mast; the grips set 15 cm over the shoulders (no higher than 2.10, under the hood):
+   1.83 / 2.02 / 2.10 m, elbows 86 / 72 / 59 deg, solved (reach.py). The default build is ref_08's stroke;
+   climb_short / climb_middle / climb_tall each set the machine for its user.
+6. Size. 2.39 m tall (7 ft 10 in), as above.
 Axes: metres, floor z = 0; the user stands at -y facing +y, climbing up the mast's front face; the mast leans back
 15 deg, away from the user.
 Structure: the foot block bolted to the floor on its flange, the floor bar back from it to a leveller, the brace up to
 the mast; the mast (a box beam) with the chain track up its front face, the red lettering on its stripe; the two pedal
-carriages (each pedal out to its side, a tread with a heel cup and toe strap) and the two grip carriages (each straight
-grip out to its side, quick-release, rubber-gripped); the padded side rails, one U bent round behind the mast and clamped
+carriages (each pedal out to its side, a tread with a heel cup and toe strap) and the two grip carriages on the mast's sides (each
+straight grip out from it, quick-release, rubber-gripped); the padded side rails, one U bent round behind the mast and clamped
 to its back; the tablet console on its bracket at the top of the face; the hood over the magnetic resistance unit at the
 top's back.
 """
@@ -110,16 +126,18 @@ def build(k):
         k.box("frame", ((x0 + x1) / 2 + side * 0.01, cy - 0.04, zp + 0.045), (0.125, 0.03, 0.01), soft=0.003)
         for xs in (-1, 1):
             k.box("frame", ((x0 + x1) / 2 + side * 0.01 + xs * 0.061, cy - 0.04, zp + 0.022), (0.004, 0.03, 0.045), soft=0.0)
-    # ---- the grip carriages: a block on the face, the straight grip out to its side, the rubber grip, the
-    # quick-release knob (ref_14)
+    # ---- the grip carriages, each riding its side of the mast (ref_14: the grips' shafts come out of the sides, clear
+    # of the face and the tablet): a block on the side, the straight grip out from it, the rubber grip, the
+    # quick-release knob on the block's front
     for side, zg in GRIPS:
-        cy, cz = face(zg, 0.03)
-        k.box("frame", (side * 0.03, cy, cz), (0.05, 0.06, 0.14), rx=-tilt, soft=0.004)
-        k.tube("chrome", (side * 0.055, cy - 0.01, cz), (side * 0.30, cy - 0.01, cz), 0.0125, seg=20)
-        k.tube("rubber", (side * 0.17, cy - 0.01, cz), (side * 0.295, cy - 0.01, cz), 0.018, seg=24, soft=0.003)
-        k.cyl("plastic", (side * 0.302, cy - 0.01, cz), 0.022, 0.012, axis="x", seg=24, soft=0.003)
-        k.cyl("plastic", (side * 0.03, cy - 0.03 * math.cos(tilt) - 0.012, cz + 0.03 * math.sin(tilt)), 0.012, 0.02,
-              axis="y", seg=20, soft=0.003)
+        cy, cz = ax(zg), zg
+        xs = side * (MW / 2 + 0.02)
+        k.box("frame", (xs, cy, cz), (0.04, MD + 0.01, 0.14), rx=-tilt, soft=0.004)
+        k.tube("chrome", (side * (MW / 2 + 0.04), cy, cz), (side * 0.30, cy, cz), 0.0125, seg=20)
+        k.tube("rubber", (side * 0.17, cy, cz), (side * 0.295, cy, cz), 0.018, seg=24, soft=0.003)
+        k.cyl("plastic", (side * 0.302, cy, cz), 0.022, 0.012, axis="x", seg=24, soft=0.003)
+        k.cyl("plastic", (xs, cy - (MD + 0.01) / 2 * math.cos(tilt) - 0.01, cz + (MD + 0.01) / 2 * math.sin(tilt)), 0.012,
+              0.02, axis="y", seg=20, soft=0.003)
     # ---- the padded side rails: one U bent round behind the mast, clamped to its back, both arms forward and down
     # to the user's side (ref_08), foam over the arms
     yb = ax(ZR) + MD / 2 / math.cos(LEAN)
@@ -150,15 +168,47 @@ def build(k):
 
 
 FIT_VIEWS = ("side", "three_quarter")
+SETTINGS = ("climb_short", "climb_middle", "climb_tall")
+SETTING_VIEWS = ("side",)
+USERS = (("short", 1.55), ("middle", 1.78), ("tall", 1.95))
+SHOW = ()                           # the default build: the stroke as ref_08, no user
+Z_MID = sum(z for _, z in PEDALS) / 2    # mid-stroke, where the pedals pass each other (ref_08's stroke: 0.44)
+Z_GRIP_MAX = 2.10                         # the grips' carriages run up the mast's sides to under the hood
+
+
+def _climb(H):
+    """Mid-stroke (spec 5): (the pose, the arms, the grips' height). The feet on the level pedals, heels in the cups,
+    the body leaning in parallel to the mast; the grips (their quick-release sets them on the carriage) where the hands
+    meet them 15 cm over the shoulders, the elbows bent, the hands about the face (at the stroke's top the arms reach
+    near straight)."""
+    import reach
+    cy, _ = face(Z_MID + 0.02, 0.03)
+    ball = (0.0, cy - 0.26 + 0.73 * 0.152 * H + 0.01, Z_MID + 0.008)   # the heel against its cup
+    pose = dict(H=H, ball=ball, face=(0, 1), sole=0, shank=14, thigh=11, trunk=14, neck=8, stance=0.23)
+    zg = min(reach.shoulder(pose)[2] + 0.15, Z_GRIP_MAX)
+    return pose, reach.reach(pose, (0.23, ax(zg), zg), elbow=110), zg
+
+
+def setting(name):
+    global PEDALS, GRIPS, SHOW
+    label = name.split("_")[1]
+    SHOW = (label,)
+    _, _, zg = _climb(dict(USERS)[label])
+    PEDALS = ((-1, Z_MID), (1, Z_MID))
+    GRIPS = ((-1, zg), (1, zg))
 
 
 def fit():
-    """Climbing: standing on the pedals (the ball on the lower tread near the mast), the body leaning in parallel to
-    the mast, the arms up to the grips; a short, a middle and a tall user."""
+    """Climbing at mid-stroke, each user on their setting."""
+    import reach
     out = {}
-    side, zp = PEDALS[0]
-    cy, _ = face(zp + 0.02, 0.03)
-    for label, H in (("short", 1.60), ("middle", 1.78), ("tall", 1.95)):
-        out[label] = dict(H=H, ball=(0.0, cy - 0.08, zp + 0.008), face=(0, 1), sole=0, shank=14, thigh=10, trunk=14,
-                          neck=8, arm=82, forearm=66, arm_out=14)
+    for label, H in USERS:
+        if label not in SHOW:
+            continue
+        pose, a, zg = _climb(H)
+        sh = reach.shoulder(pose)
+        print(f"fit {label}: the hands on the grips at {zg:.2f} m ({zg - sh[2]:+.2f} from the "
+              f"shoulders), elbows {a['elbow']:.0f} deg (miss {a['err'] * 100:.1f} cm); the shoulders {face(sh[2])[0] - sh[1]:.2f} m off the mast's face",
+              flush=True)
+        out[label] = dict(pose, arm=a["arm"], forearm=a["forearm"], arm_lat=a["arm_lat"], fore_lat=a["fore_lat"])
     return out
