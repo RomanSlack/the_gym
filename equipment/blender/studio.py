@@ -71,8 +71,29 @@ k.quick = getattr(pm, "QUICK_CHECK", False)   # a big assembly of modules alread
 pm.build(k)
 obs = k.finish()
 bpy.context.view_layer.update()
+
+
+def rebuild(setting):
+    """The piece again at another of its SETTINGS (pm.setting(name) sets its constants: the rear-delt arms, a seat
+    position), into the same collection; returns the new parts and the kit."""
+    for o in list(coll.all_objects):
+        bpy.data.objects.remove(o)
+    pm.setting(setting)
+    kk = kit.Kit(PIECE, coll, getattr(pm, "LOOK", None))
+    kk.quick = getattr(pm, "QUICK_CHECK", False)
+    pm.build(kk)
+    o_ = kk.finish()
+    bpy.context.view_layer.update()
+    return o_, kk
+
+
 if CHECK:
-    os._exit(4 if k.floating else 0)
+    bad = bool(k.floating)
+    for sname in getattr(pm, "SETTINGS", ()):          # a piece's other settings get the same joint check
+        print(f"setting {sname}:", flush=True)
+        _, kk = rebuild(sname)
+        bad = bad or bool(kk.floating)
+    os._exit(4 if bad else 0)
 
 glb = versions.model_path(PIECE, V)
 for o in bpy.data.objects:
@@ -181,7 +202,7 @@ for name, (eye, target, lens) in getattr(pm, "DETAILS", {}).items():
 # ---- the fit check: stand-in users (blender/body.py) posed in the machine by the piece's fit() -> {label: figure
 # kwargs}, each rendered on its own as fit_<label>_<view> (FIT_VIEWS, default the side and the three-quarter); never in
 # the piece, its .glb or its joint check
-if hasattr(pm, "fit"):
+def render_fits(prefix=""):
     import body  # noqa: E402
     for label, kw in pm.fit().items():
         fc = bpy.data.collections.new(f"fit_{label}"); scene.collection.children.link(fc)
@@ -196,11 +217,33 @@ if hasattr(pm, "fit"):
             cam.location = c + d * (rad / math.sin(fov / 2) * 1.02 / zoom)
             cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
             sw.rotation_euler = (0, 0, a)
-            scene.render.filepath = str(versions.path(PIECE, f"fit_{label}_{name}", V))
+            scene.render.filepath = str(versions.path(PIECE, f"{prefix}fit_{label}_{name}", V))
             bpy.ops.render.render(write_still=True)
             print("view:", scene.render.filepath, flush=True)
         for o in fobs:
             bpy.data.objects.remove(o)
+
+
+if hasattr(pm, "fit"):
+    render_fits()
+
+# ---- the piece's other settings (SETTINGS, pm.setting(name)): rebuilt and rendered as <setting>_<view> and
+# <setting>_fit_<label>_<view> (SETTING_VIEWS, default the three-quarter and the side), the gate-2 proof that an
+# adjustment really changes the machine and its use
+for sname in getattr(pm, "SETTINGS", ()):
+    rebuild(sname)
+    for name in getattr(pm, "SETTING_VIEWS", ("three_quarter", "side")):
+        az, el, zoom = VIEWS[name]
+        a, e = math.radians(az), math.radians(el)
+        d = Vector((math.sin(a) * math.cos(e), -math.cos(a) * math.cos(e), math.sin(e)))
+        cam.location = c + d * (rad / math.sin(fov / 2) * 1.02 / zoom)
+        cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
+        sw.rotation_euler = (0, 0, a)
+        scene.render.filepath = str(versions.path(PIECE, f"{sname}_{name}", V))
+        bpy.ops.render.render(write_still=True)
+        print("view:", scene.render.filepath, flush=True)
+    if hasattr(pm, "fit"):
+        render_fits(f"{sname}_")
 
 # ---- the reference cameras (equipment/tools/camsolve.py): our model seen exactly as each photo, for the overlays
 mfile = EQ / "pieces" / PIECE / "match.json"
