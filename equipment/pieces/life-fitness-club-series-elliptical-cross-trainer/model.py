@@ -16,8 +16,8 @@ DESIGN SPEC (gate 1)
    - Each swing arm: on the hub's axle at the column's top; below it carries the pedal arm's front end, above it is the
      moving handle. Its angle comes from the crank's: the pedal arm's length fixed between the crank pin and the link.
 3. Adjustments. None on the machine (a fixed 51 cm stride, Life Fitness); the range is the user's: the moving handles
-   are long curved grips (any height along them), the fixed handlebars round the console, 25 resistance levels on the
-   console. The render shows the cranks level (the photos' pose); feet_level turns them a quarter on, where the fit
+   are long curved grips (any height along them, the resistance button on them, ref_08), 25 resistance levels on the
+   console. No fixed handlebars (none in the photos). The render shows the cranks level (the photos' pose); feet_level turns them a quarter on, where the fit
    users stand.
 4. Load path. The feet on the pedals: the pedal arms turn the cranks; the axle turns the flywheel in its housing (its
    eddy brake inside, not drawn). The hands: the swing arms, the same linkage. The stride: the swing arm's lower end
@@ -25,8 +25,9 @@ DESIGN SPEC (gate 1)
 5. Fit range. The pedals' tops about 0.36-0.47 up (the step-up), 0.18 apart inside. Standing on them a 1.55-1.95 m
    user's hands reach the moving grips (1.20-1.64 m, curving back toward the user), the elbows bent in front; the fit
    run prints each elbow. The head clears the console (its top at 1.63, 0.35 m ahead).
-6. Size. Life Fitness: 218 x 73 x 163 cm (L x W x H), stride 51 cm, 38 cm pedals. Ours about 2.20 x 0.76 x 1.75: the
-   24 in SE4 console (the photos') stands over the hub; Life Fitness's 163 cm fits its smaller SL console.
+6. Size. Life Fitness: 218 x 73 x 163 cm (L x W x H), stride 51 cm, 38 cm pedals. Ours about 2.31 x 0.76 x 1.86: the
+   24 in SE4 console (the photos') stands over the hub (Life Fitness's 163 cm fits its smaller SL console); 13 cm
+   longer, mostly the body's tail and the front foot block (to tighten).
 Axes: metres, floor z = 0, the user faces -y, x+ = the user's left; s = +1 left, -1 right.
 """
 import math
@@ -66,21 +67,24 @@ Y_COL = -0.72                        # the front column
 # ---- the linkage (y, z), per side; spec 2
 C = (0.82, 0.42)                     # the crank axle, in the body: the disc's centre (ref_11: the disc fills the side)
 R_C = 0.25                           # the crank's radius: its diameter sets the stride (51 cm, spec 4)
-S = (-0.72, 1.24)                    # the swing arms' pivot on the hub
+S = (-0.42, 1.24)                    # the swing arms' pivot on the hub
 L_S = 0.84                           # the pivot to the swing arm's lower link
 L_P = math.hypot(C[0] - S[0], C[1] - (S[1] - L_S))   # the pedal arm: pin to link (the swing hanging straight at 90 deg)
 HB = 0.17                            # the body's half width (narrow: the discs and pods outside it make the 73 cm)
 R_D = 0.235                          # the crank disc's radius (ref_15: nearly the body's height)
 T_D = 0.014                          # the disc's thickness, on the body's wall
 X_PA = HB + T_D + 0.016 + 0.055      # the pedal arms (x): the pod's middle, outboard of the disc (the boss between)
-X_SW = 0.34                          # the swing arms (x), outside the hub's ends
-D_PED = 0.33                         # the pedal's centre back from the pedal arm's front link
+X_SW = 0.34                          # the swing arms' lower ends (x): splayed out from the hub's ends
+X_HUB = 0.31                         # the hub's half length (its two halves turn on the shaft)
+R_HUB = 0.085                        # its radius (ref_01: thick)
+X_H = 0.11                           # the moving handles (x): out of the hub's top beside the head block (ref_01)
+D_PED = 0.24                         # the pedal's centre back from the pedal arm's front link
 PEDAL = (0.38, 0.17)                 # length, width (38 cm, Life Fitness)
 X_PED = 0.15                         # the pedals' centres (x): in from the arms (ref_06: the pedal over the arm's inside)
 PHI = 0.0                            # the left crank's angle (deg, from +y toward +z); the right one 180 deg on: level,
                                      # the pedal arms parallel, as the photos show it
 HOUS = (0.52, 1.28, 0.15, 0.74)      # the body: front and back (y), bottom (on the spine) and top at the front (z)
-POD = (0.11, 0.56, -0.07, 0.18, 0.11)   # each pod (the pedal arm's back end, ref_15): behind the pin, ahead of it, its
+POD = (0.11, 0.66, -0.07, 0.18, 0.11)   # each pod (the pedal arm's back end, ref_15): behind the pin, ahead of it, its
                                         # foot and top off the pin (it sits high: the disc shows under it), its width
 TAIL = 0.20                          # the tail: the rounded cap across the body's back (ref_11 / ref_01), its length
 
@@ -124,7 +128,8 @@ def rot(p, about, deg):
 
 
 # the moving handle in the swing arm's own frame (psi = 0): up from the pivot, curving back to the user (y, z)
-HANDLE = [(S[0] + 0.0, S[1] + 0.058), (S[0] - 0.02, S[1] + 0.26), (S[0] + 0.10, S[1] + 0.38), (S[0] + 0.24, S[1] + 0.40)]
+HANDLE = [(S[0] + 0.0, S[1] + 0.087), (S[0] + 0.03, S[1] + 0.20), (S[0] + 0.08, S[1] + 0.30), (S[0] + 0.09, S[1] + 0.44),
+          (S[0] + 0.03, S[1] + 0.52)]   # up off the hub, back toward the user, up, the top hooked forward (ref_01)
 
 
 def build(k):
@@ -154,38 +159,44 @@ def base(k):
 
 
 def column(k):
-    """The column up off the foot block to the hub, leaning back a little; the hub across (the swing arms' axle through
-    it); the console on its neck off the hub, the fixed handlebars round its sides."""
+    """The foot block on the spine's front (ref_02); the column up out of it to the hub, leaning back; the hub across,
+    in two halves that turn (each carries its swing arm at its outer end, its moving handle at its inner end, ref_01);
+    the head block on the column's top over the hub's middle; the console on a short neck off the head block, a mount
+    box on its back. No fixed handlebars (none in the photos: the grips' button is on the moving handles, ref_08)."""
     zh = S[1]
-    c0 = (0, Y_FRONT + 0.10, SPINE_Z + 0.05)             # on the spine's top, behind the stabilizer
-    c1 = (0, S[0], zh - 0.09 + 0.004)                   # its top into the hub's underside
-    k.bar("frame", c0, c1, 0.13, 0.10, up=(0, 1, 0), r=0.035, cut0=((0, 0, SPINE_Z + 0.05), (0, 0, 1)))
-    k.cyl("shroud", (0, S[0], zh), 0.09, 2 * X_SW - 0.09, axis="x", seg=48, soft=0.012)         # the hub
-    k.cyl("label", (0, S[0] - 0.091, zh), 0.03, 0.002, axis="y", seg=32)                         # its LF badge
-    k.tube("steel", (-(X_SW + 0.04), S[0], zh), (X_SW + 0.04, S[0], zh), 0.02, seg=20)          # the axle
-    # the console: tilted back, its face up toward the user's eyes, on a neck straight up off the hub
-    tl = math.radians(25)
-    cn = (0, -0.74, 1.585)                              # its lower edge over the hub, its neck on the hub
+    zf = SPINE_Z + 0.05 + 0.12                          # the foot block's top
+    k.slab("shroud", k.rounded([(Y_FRONT - 0.07, SPINE_Z + 0.05), (Y_FRONT + 0.25, SPINE_Z + 0.05), (Y_FRONT + 0.25, zf - 0.03),
+                                (Y_FRONT + 0.16, zf), (Y_FRONT - 0.02, zf), (Y_FRONT - 0.07, zf - 0.06)], 0.03, 4),
+           -0.10, 0.10, 0.03, seg=4)                    # the foot block, on the spine's top
+    c0 = (0, Y_FRONT + 0.10, zf - 0.004)
+    c1 = (0, S[0], zh - R_HUB + 0.002)                  # its top into the hub's underside
+    k.bar("frame", c0, c1, 0.13, 0.09, up=(0, 1, 0), r=0.03, cut0=((0, 0, zf - 0.004), (0, 0, 1)),
+          cut1=(c1, (0, 0, 1)))
+    for s in (1, -1):                                   # the hub's halves, an end cap on each
+        k.cyl("shroud", (s * (0.005 + X_HUB) / 2, S[0], zh), R_HUB, X_HUB - 0.005, axis="x", seg=48, soft=0.012)
+        k.cyl("plastic", (s * (X_HUB + 0.002), S[0], zh), R_HUB - 0.045, 0.004, axis="x", seg=48, soft=0.001)
+    # the head block: on the hub's top and out ahead of it (ref_02), its foot wrapped round the hub; LF on its back
+    head = ([(S[0] - 0.28, zh)] + arc((S[0], zh), R_HUB + 0.0005, 180, 40, 10)
+            + [(S[0] + 0.10, zh + 0.08), (S[0] + 0.04, zh + 0.17), (S[0] - 0.22, zh + 0.20), (S[0] - 0.29, zh + 0.19),
+               (S[0] - 0.30, zh + 0.12), (S[0] - 0.30, zh + 0.04)])
+    k.slab("shroud", head, -0.075, 0.075, 0.015, seg=3)
+    k.text("label", "LF", (0.0, S[0] + 0.07 + 0.83 * 0.0004, zh + 0.125 + 0.55 * 0.0004), 0.045, rz=math.pi,
+           rx=math.radians(56), depth=0.0008)
+    # the console: 24 in, tilted back 18 deg, its face toward the user
+    tl = math.radians(18)
+    cn = (0, S[0] - 0.22, 1.66)                               # ahead of the hub, clear of the handles' swing
     fn = (0.0, math.cos(tl), math.sin(tl))
     fu = (0.0, -math.sin(tl), math.cos(tl))
-    bk = (0, cn[1] - fn[1] * 0.045, cn[2] - fn[2] * 0.045)
-    yst = bk[1]
-    zs0 = zh + math.sqrt(0.09 ** 2 - (yst - S[0]) ** 2)
-    tn = (0.0, (yst - S[0]) / 0.09, (zs0 - zh) / 0.09)
-    k.bar("shroud", (0, yst, zs0 - 0.02), (0, yst, bk[2] + 0.08), 0.12, 0.07, up=(0, 1, 0), r=0.02,
-          cut0=((0, yst, zs0 - 0.001), tn), cut1=(bk, fn), weld=False)
-    k.box("shroud", cn, (0.64, 0.09, 0.40), rx=tl, soft=0.03)                                     # 24 in, its housing
-    k.box("screen", (0, cn[1] + fn[1] * 0.0455, cn[2] + fn[2] * 0.0455), (0.60, 0.003, 0.36), rx=tl, soft=0.0)
-    k.box("glow", (0.12, cn[1] + fn[1] * 0.0475 + fu[1] * 0.08, cn[2] + fn[2] * 0.0475 + fu[2] * 0.08), (0.10, 0.002, 0.05),
+    k.box("shroud", cn, (0.64, 0.05, 0.40), rx=tl, soft=0.02)
+    k.box("screen", (0, cn[1] + fn[1] * 0.0255, cn[2] + fn[2] * 0.0255), (0.60, 0.003, 0.36), rx=tl, soft=0.0)
+    k.box("glow", (0.12, cn[1] + fn[1] * 0.0275 + fu[1] * 0.08, cn[2] + fn[2] * 0.0275 + fu[2] * 0.08), (0.10, 0.002, 0.05),
           rx=tl, soft=0.0)
-    # the fixed handlebars: off the console's lower corners, down and back toward the user (ref_11)
-    for s in (1, -1):                                   # the fixed handlebars: out of the neck's sides, round toward the user
-        a0 = (s * 0.058, yst, 1.365)
-        a1, a2 = (s * 0.21, yst + 0.04, 1.365), (s * 0.23, -0.56, 1.345)   # between the hub and the console
-        k.sweep("frame", [a0, a1, a2], k.circle(0.018, 20), bend=0.05)
-        k.tube("rubber", tuple(a1[i] + (a2[i] - a1[i]) * 0.15 for i in range(3)), a2, 0.023, soft=0.003)
-        ue = tuple((a2[i] - a1[i]) / math.dist(a1, a2) for i in range(3))
-        k.sweep("plastic", [a2, tuple(a2[i] + ue[i] * 0.01 for i in range(3))], k.circle(0.024, 20), soft=0.002)
+    mb = (0, cn[1] - fn[1] * 0.049, cn[2] - fn[2] * 0.049)
+    k.box("shroud", mb, (0.24, 0.05, 0.18), rx=tl, soft=0.012)                                   # its mount box
+    k.text("label", "Life Fitness", (0, mb[1] - fn[1] * 0.0249 + fu[1] * 0.03, mb[2] - fn[2] * 0.0249 + fu[2] * 0.03), 0.025,
+           rx=math.pi / 2 + tl, depth=0.0005)
+    mlow = (0, mb[1] - fu[1] * 0.089, mb[2] - fu[2] * 0.089)
+    k.bar("shroud", (0, mlow[1], zh + 0.193), mlow, 0.10, 0.06, up=(0, 1, 0), r=0.02)   # the neck: up off the head block
 
 
 def arc(c, r, a0, a1, n=8):
@@ -215,8 +226,8 @@ def housing(k):
     """The body: one moulded shroud, narrow, its edges rounded (ref_11), capped at the back by the tail (a little wider
     and taller), on the spine and two posts off the rear stabilizer; a vent strip by the tail."""
     yf, yb, zb, zt = HOUS
-    k.slab("shroud", body_outline(), -HB, HB, 0.06, seg=8)
-    k.slab("shroud", tail_outline(), -(HB + 0.012), HB + 0.012, 0.06, seg=8)
+    k.slab("shroud", body_outline(), -HB, HB, 0.09, seg=10)
+    k.slab("shroud", tail_outline(), -(HB + 0.012), HB + 0.012, 0.09, seg=10)
     for s in (1, -1):
         k.box("frame", (s * (HB - 0.05), Y_REAR, (0.08 + zb) / 2), (0.06, 0.06, zb - 0.08 + 0.004), soft=0.004)
         k.box("vent", (s * (HB + 0.0005), yb - TAIL - 0.05, zb + 0.24), (0.002, 0.025, 0.24), soft=0.0)
@@ -267,20 +278,24 @@ def linkage(k, s):
     # the link: the beam's front eye, a cross pin out to the swing arm's lower end
     k.cyl("lever", (s * (X_PA + 0.0025), L[0], L[1]), 0.04, 0.09, axis="x", seg=32, soft=0.004)
     k.tube("steel", (xa, L[0], L[1]), (s * (X_SW + 0.03), L[0], L[1]), 0.014, seg=16)
-    # the swing arm: from the hub down to the link (its lower housing), up as the moving handle
-    xs = s * X_SW
-    k.cyl("lever", (xs, S[0], S[1]), 0.06, 0.07, axis="x", seg=40, soft=0.005)                 # its hub
+    # the swing arm: a thick tube off its hub half's outer end down to the lower housing (the link's pin in its foot);
+    # the moving handle up off the same half's inner end
     dn = ((L[0] - S[0]) / L_S, (L[1] - S[1]) / L_S)
-    k.bar("lever", (xs, S[0] + dn[0] * 0.058, S[1] + dn[1] * 0.058), (xs, L[0] - dn[0] * 0.11, L[1] - dn[1] * 0.11),
-          0.07, 0.05, up=(1, 0, 0), r=0.012)
-    k.box("shroud", (xs, L[0] - dn[0] * 0.04, L[1] - dn[1] * 0.04), (0.08, 0.09, 0.14), rx=math.radians(psi),
-          soft=0.02)                                                                              # the lower housing
+    xs = s * X_SW
+
+    def at(d, x):
+        return (x, S[0] + dn[0] * d, S[1] + dn[1] * d)
+
+    k.tube("lever", at(R_HUB - 0.004, s * (X_HUB - 0.02)), at(L_S - 0.238, xs), 0.032, seg=28)
+    k.box("shroud", at(L_S - 0.105, xs), (0.09, 0.10, 0.27), rx=math.radians(psi), soft=0.02)      # the lower housing
     hp = [rot(p, S, psi) for p in HANDLE]
-    k.sweep("lever", [(xs, y, z) for y, z in hp], k.circle(0.021, 24), bend=0.06)
-    g = [(xs, y, z) for y, z in hp[1:]]
+    xh = s * X_H
+    k.sweep("lever", [(xh, y, z) for y, z in hp], k.circle(0.021, 24), bend=0.06)
+    g = [(xh, y, z) for y, z in hp[2:]]
     k.sweep("rubber", g, k.circle(0.026, 24), bend=0.06, soft=0.003)
-    e = g[-1]
-    k.cyl("plastic", (xs, e[1] + 0.006, e[2]), 0.027, 0.012, axis="y", seg=24, soft=0.003)
+    e, e0 = g[-1], g[-2]
+    ue = tuple((e[i] - e0[i]) / math.dist(e, e0) for i in range(3))
+    k.sweep("plastic", [e, tuple(e[i] + ue[i] * 0.012 for i in range(3))], k.circle(0.027, 24), soft=0.003)
 
 
 # ---- the fit check (spec 5)
@@ -326,8 +341,8 @@ def reach(H, sh):
     for (y0, z0), (y1, z1) in zip(hp[1:], hp[2:]):
         for i in range(11):
             t = i / 10
-            q = (X_SW, y0 + (y1 - y0) * t, z0 + (z1 - z0) * t)
-            d = abs(q[2] - (sh[2] - 0.22))
+            q = (X_H, y0 + (y1 - y0) * t, z0 + (z1 - z0) * t)
+            d = abs(q[2] - (sh[2] - 0.38))
             if best is None or d < best[0]:
                 best = (d, q)
     g = best[1]
