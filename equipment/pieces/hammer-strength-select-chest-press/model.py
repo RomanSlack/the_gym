@@ -1,15 +1,21 @@
-"""Hammer Strength Select Chest Press (HS-CP), Charcoal Frame / Black Upholstery, the arms at their start. Claude's pick
-(Roman, 2026-10-23: a free hand, Life Fitness preferred).
+"""Hammer Strength Select Chest Press (HS-CP) as we design it, Charcoal Frame / Black Upholstery, the arms at their start.
+Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred).
 
-Built by eye from refs/: the maker's renders, ref_01 the front three-quarter, ref_02 from the tower's side, ref_03 from
-the other front corner; held to Life Fitness's 41 x 57 x 64 in (104 x 145 x 163 cm, L x W x H), a 295 lb stack (20
-plates of 15 lb, the top one 10 lb, numbered 10 to 295 as on the Select Leg Extension).
-Axes: metres, floor z = 0, the user sits facing -y, x+ = the user's left; the tower behind the user's right shoulder.
-Structure: the stack tower (shared builder: equipment/blender/stack_tower.py, "open" style) behind and to the right; a
-spine from the tower forward to the front beam; the press arms pivoting low at the beam's ends in boxed brackets (a
-shaft across between them), rising past the seat to the handles beside the chest; a cam on the right arm's pivot, the
-cable back along the floor and up the tower's face to the stack; the seat on its adjustable post (the pop pin's
-handle), the tall back pad on a curved column off the spine.
+Roman, 2026-10-24, on the version copied off the maker's renders: "it sucks and doesn't even physically make sense ...
+where the wire is running ... design your own, something that actually ergonomically and mechanically makes sense". So
+the mechanism is ours, the look Hammer Strength's (refs/ ref_01-ref_03, Charcoal, the open Select tower):
+  - one shaft across overhead, above and just behind the user's shoulders, in bearing blocks on two side uprights (a
+    cross beam over their tops);
+  - both press arms keyed to it, hanging forward and down to the grips beside the chest: pressing swings the grips
+    forward and a little up, the converging arc of a plate-loaded press;
+  - one cam on the shaft's middle, over the user's head: pressing turns the shaft and the cam's underside winds the
+    cable in; the cable runs level straight back to the head pulley on the stack tower's deck and drops straight down
+    to the top plate (stack_tower "head" option). One straight run, nothing in its way, nothing at the user;
+  - the tower centred behind the back pad; the seat on its adjustable post; a rubber stop on each upright the arms
+    rest against at the start (the stack's weight holds them there).
+Held to the catalogue's 145 cm width and 295 lb stack (20 x 15 lb, numbered 10 to 295); the overhead shaft makes it
+taller than the maker's 163 cm (about 2.0 m) and longer (about 1.36 m).
+Axes: metres, floor z = 0, the user sits facing -y, x+ = the user's left.
 """
 import math
 
@@ -32,30 +38,36 @@ LOOK = {
     "rubber": dict(color=(0.012, 0.012, 0.012), rough=0.85, coat=0.0, spec=0.2),
     "plastic": dict(color=(0.03, 0.03, 0.032), rough=0.45, coat=0.0),
 }
-VIEWS = {"three_quarter": (-35, 12, 1.0), "front": (0, 5, 1.0), "side": (90, 3, 1.0), "back_three_quarter": (150, 16, 1.0)}
+VIEWS = {"three_quarter": (-35, 12, 1.2), "front": (0, 5, 1.2), "side": (90, 3, 1.2), "back_three_quarter": (150, 16, 1.2)}
 DETAILS = {
-    "detail_pivot": ((-1.20, -1.10, 0.60), (-0.50, -0.45, 0.15), 45),     # a bracket, the hub, the cam, the shaft
-    "detail_handles": ((0.95, -1.10, 1.35), (0.38, -0.15, 1.00), 45),     # the arm's top and its grip
-    "detail_seat": ((0.80, -1.20, 0.80), (0.0, 0.0, 0.45), 45),           # the seat's post, the pop pin's handle
+    "detail_shaft": ((0.95, -1.00, 2.30), (0.0, 0.15, 1.78), 50),         # the shaft, the cam, the hubs, the cable
+    "detail_head": ((0.70, 1.30, 2.10), (0.0, 0.48, 1.68), 45),           # the head pulley on the deck, the cable down
+    "detail_grip": ((0.95, -1.00, 1.30), (0.38, -0.12, 1.02), 45),        # an arm's foot, its grip, the stop above
 }
 
 TOWER = dict(style="open", W=0.56, D=0.30, H=64 * IN, n=20, plate=(0.26, 0.125, 0.0254), rods=0.40,
-             title="CHEST PRESS", brand="HAMMER STRENGTH", round=1, step=15, start=-5)
-TC = (-0.45, 0.36)                   # the tower's footprint centre: behind the user's right shoulder (ref_01)
-TY_FRONT = TC[1] - TOWER["D"] / 2    # its front face (y)
+             title="CHEST PRESS", brand="HAMMER STRENGTH", round=1, step=15, start=-5, head=True)
+TC = (0.0, 0.48)                     # the tower: centred behind the back pad
+TY_F, TY_B = TC[1] - TOWER["D"] / 2, TC[1] + TOWER["D"] / 2
 FOOT_H = 0.015
 RAIL = (0.076, 0.05)
 RAIL_Z = FOOT_H + RAIL[1] / 2
 RAIL_TOP = FOOT_H + RAIL[1]
-Y_BEAM = -0.45                       # the front beam (the arms' pivots on its ends)
-X_BR = 0.58                          # the pivot brackets (x)
-PIV_Z = 0.14
-X_ARM = 0.45                         # the arms' plane
-ARM = [(-0.45, PIV_Z), (-0.33, 0.58), (-0.12, 1.02)]   # each arm (y, z): up and back from the pivot (ref_03), the grip beside the chest
-GRIP = 0.30                          # the grips' inner ends (x)
-SEAT = (0.0, -0.01, 0.55)            # the seat's top centre (ref_01)
-SEAT_P = (0.42, 0.30, 0.08)
-BACK_BOT, BACK_TOP = (0.12, 0.62), (0.20, 1.40)   # the back pad's face (y, z): tall, reclined a little
+SQ = 0.076
+X_UP = 0.62                          # the side uprights and rails (x): Life Fitness's 145 cm width over the rails' caps
+Y0, Y1 = -0.66, TY_B + 0.076         # the side rails' ends
+Y_FRONT = -0.62                      # the front cross bar
+CAM_R = 0.08                         # the cam's groove (the cable's bed); its flanges stand 1 cm proud
+# the shaft: its cam's underside level with the head pulley's top, so the cable runs dead level between them
+Z_RUN = TOWER["H"] + 0.04 + 0.008 + 0.04
+SHAFT = (0.10, Z_RUN + CAM_R + 0.0028)   # (y, z): above and just behind the shoulders
+Z_BEAM = SHAFT[1] + CAM_R + 0.08     # the cross beam over the uprights, clear of the cam
+X_ARM = 0.45
+FOOT = (-0.14, 1.00)                 # each arm's foot (y, z): the grip there, beside the chest at the start
+GRIP = 0.27                          # the grips' inner ends (x)
+SEAT = (0.0, -0.04, 0.50)            # the seat's top centre
+SEAT_P = (0.42, 0.32, 0.08)
+BACK_BOT, BACK_TOP = (0.10, 0.60), (0.15, 1.36)   # the back pad's face (y, z)
 BACK = (0.30, 0.08)
 
 
@@ -63,110 +75,119 @@ def foot(k, x, y, w=0.09, d=0.09):
     k.box("rubber", (x, y, FOOT_H / 2 + 0.001), (w, d, FOOT_H + 0.002), soft=0.003)
 
 
+def bar_x(k, y, z, x0, x1, w=SQ, h=RAIL[1]):
+    k.bar("frame", (x0, y, z), (x1, y, z), w, h, cut0=((x0, 0, 0), (1, 0, 0)), cut1=((x1, 0, 0), (1, 0, 0)), weld=True)
+
+
 def build(k):
     Z, Y = (0, 0, 1), (0, 1, 0)
     tw = stack_tower.tower(k, TOWER, TC, 0.0)
-    # ---- the base: the front beam across, the spine back to the tower's face, a foot under each beam end
-    xe = X_BR + 0.04                                    # the beam's ends: under the brackets' outer faces
-    k.bar("frame", (-xe, Y_BEAM, RAIL_Z), (xe, Y_BEAM, RAIL_Z), 0.10, RAIL[1], r=0.008)
+    # ---- the base: side rails, the front cross bar, the rear one against the tower's back, the spine to its front
     for s in (1, -1):
-        k.box("plastic", (s * (xe + 0.004), Y_BEAM, RAIL_Z), (0.008, 0.104, RAIL[1] + 0.004), soft=0.002)
-        foot(k, s * X_BR, Y_BEAM, 0.12, 0.14)
-    yr = TY_FRONT + 0.025                               # the rear cross bar: into the tower's front post (its left one)
-    xt = TC[0] + TOWER["W"] / 2                         # the tower's left side
-    k.bar("frame", (0.14, yr, RAIL_Z), (xt, yr, RAIL_Z), 0.076, RAIL[1], r=0.006, cut1=((xt, 0, 0), (1, 0, 0)), weld=True)
-    k.box("plastic", (0.144, yr, RAIL_Z), (0.008, 0.08, RAIL[1] + 0.004), soft=0.002)
-    foot(k, 0.10, yr)
-    ys = Y_BEAM + 0.05
-    k.bar("frame", (0, ys, RAIL_Z), (0, yr - 0.038, RAIL_Z), 0.10, RAIL[1], r=0.008, cut0=((0, ys, 0), Y),
-          cut1=((0, yr - 0.038, 0), Y), weld=True)
-    k.box("warn", (0.25, Y_BEAM - 0.051, RAIL_Z), (0.045, 0.002, 0.03), soft=0.0)
-    # ---- the pivot brackets on the beam's ends, the shaft across, the arms' hubs on it, the cam on the right
+        x = s * X_UP
+        k.bar("frame", (x, Y0, RAIL_Z), (x, Y1, RAIL_Z), RAIL[0], RAIL[1], r=0.006)
+        for ye, d in ((Y0, -1), (Y1, 1)):
+            k.box("plastic", (x, ye + d * 0.004, RAIL_Z), (RAIL[0] + 0.004, 0.008, RAIL[1] + 0.004), soft=0.002)
+            foot(k, x, ye - d * 0.05)
+    xi = X_UP - RAIL[0] / 2
+    bar_x(k, Y_FRONT, RAIL_Z, -xi, xi)
+    bar_x(k, TY_B + SQ / 2, RAIL_Z, -xi, xi)
+    k.bar("frame", (0, Y_FRONT + SQ / 2, RAIL_Z), (0, TY_F + 0.01, RAIL_Z), 0.10, RAIL[1], r=0.008,
+          cut0=((0, Y_FRONT + SQ / 2, 0), Y), cut1=((0, TY_F + 0.01, 0), Y), weld=True)
+    k.box("warn", (0.25, Y_FRONT - SQ / 2 - 0.001, RAIL_Z), (0.045, 0.002, 0.03), soft=0.0)
+    # ---- the uprights off the side rails, the cross beam over them, the bearing blocks, the shaft
+    ys, zs = SHAFT
     for s in (1, -1):
-        x = s * X_BR
-        k.box("frame", (x, Y_BEAM, (RAIL_TOP + PIV_Z + 0.07) / 2), (0.08, 0.12, PIV_Z + 0.07 - RAIL_TOP), soft=0.006)
-        k.bolt((x + s * 0.04, Y_BEAM, PIV_Z), "+x" if s > 0 else "-x", size=0.026)
-    k.tube("lever", (-(X_BR - 0.04), Y_BEAM, PIV_Z), (X_BR - 0.04, Y_BEAM, PIV_Z), 0.02, seg=24)           # the shaft
-    xc = -(X_BR + 0.08)                                 # the cam outside the right bracket, clear of the beam's end
-    k.tube("steel", (-(X_BR + 0.04), Y_BEAM, PIV_Z), (xc - 0.02, Y_BEAM, PIV_Z), 0.02, seg=20)
-    k.cyl("cam", (xc, Y_BEAM, PIV_Z), 0.095, 0.03, axis="x", seg=48, soft=0.003)
-    k.disc("steel", (xc, Y_BEAM, PIV_Z), 0.112, 0.095, 0.026, axis="x", seg=48)          # its grooved rim
-    k.bolt((xc - 0.015, Y_BEAM, PIV_Z), "-x", size=0.022)
-    # the cable: off the cam's top up and back past the tower's right front post to a pulley beside the tower (on an
-    # arm off that post's back face), over it and straight in between the posts to the stack's top pulley
+        x = s * X_UP
+        k.bar("frame", (x, ys, RAIL_TOP), (x, ys, Z_BEAM - SQ / 2), SQ, SQ, cut0=((0, 0, RAIL_TOP), Z), weld=True)
+        k.box("frame", (s * (X_UP - SQ / 2 - 0.03), ys, zs), (0.06, 0.11, 0.13), soft=0.006)     # the bearing block
+        for dz in (-0.045, 0.045):
+            k.bolt((s * (X_UP + SQ / 2), ys, zs + dz), "+x" if s > 0 else "-x", size=0.014)
+        k.text("label", "HAMMER STRENGTH", (s * (X_UP + SQ / 2 + 0.001), ys, 1.05), 0.03, rz=math.pi / 2 * s,
+               spin=math.pi / 2, depth=0.0006)
+    k.bar("frame", (-(X_UP + SQ / 2), ys, Z_BEAM), (X_UP + SQ / 2, ys, Z_BEAM), SQ, SQ)
+    for s in (1, -1):
+        k.box("plastic", (s * (X_UP + SQ / 2 + 0.004), ys, Z_BEAM), (0.008, SQ + 0.004, SQ + 0.004), soft=0.002)
+    xb = X_UP - SQ / 2 - 0.06
+    k.tube("steel", (-xb, ys, zs), (xb, ys, zs), 0.02, seg=24)                                   # the shaft
+    # ---- the cam on the shaft's middle, the cable off its underside level back to the head pulley
+    k.cyl("cam", (0, ys, zs), CAM_R, 0.024, axis="x", seg=48, soft=0.002)                       # the cable's bed
+    for s in (1, -1):
+        k.cyl("cam", (s * 0.015, ys, zs), CAM_R + 0.01, 0.006, axis="x", seg=48, soft=0.001)    # its flanges
+    for s in (1, -1):
+        k.cyl("cam", (s * 0.025, ys, zs), 0.035, 0.014, axis="x", seg=32, soft=0.003)            # its keyed collars
     ox, oy, oz = tw["cable"]
-    xr = TC[0] - TOWER["W"] / 2                         # the tower's right side (x)
-    yb = TC[1] - TOWER["D"] / 2 + 0.05                  # the right front post's back face (y)
-    xp, zp = xr - 0.05, oz - 0.045                      # the pulley (axis y), its top level with the run in
-    k.pulley((xp, oy, zp), 0.045, axis="y")
-    k.box("frame", (xr - 0.02, (yb + oy - 0.013) / 2, zp), (0.10, oy - 0.013 - yb, 0.05), soft=0.002)   # its arm
-    # the low pulley at the tower's foot (on its own floor bracket): the cable from the cam's bottom back along the
-    # floor to it, round it and straight up to the top pulley's outer side (ref_01: the cable up the tower's corner)
-    xl, yl, zl = xp - 0.045, oy - 0.045, 0.10
-    k.pulley((xl, yl, zl), 0.045, axis="x")
-    k.box("frame", (xl + 0.033, yl, (zl + 0.025) / 2), (0.04, 0.05, zl + 0.025), soft=0.002)
-    k.box("rubber", (xl + 0.033, yl, 0.004), (0.06, 0.08, 0.008), soft=0.002)
-    zc = PIV_Z - 0.112                                  # off the cam's bottom, level until clear of its rim
-    k.cable([(xc, Y_BEAM + 0.01, zc), (xc, Y_BEAM + 0.15, zc), (xl, yl - 0.10, zl - 0.045), (xl, yl, zl - 0.045)])
-    k.cable([(xl, yl + 0.043, zl), (xl + 0.002, oy, zp)])
-    k.cable([(xp, oy, zp + 0.045), (ox, oy, oz)])
-    # ---- the arms: the hub round the shaft, up and back to the top, the grip in toward the user
+    k.cable([(0, ys, zs - CAM_R - 0.0028), (ox, oy, oz)])
+    # ---- the arms: keyed hubs on the shaft, down and forward to the feet, the grips in toward the user
+    py, pz = SHAFT
+    fy, fz = FOOT
+    L = math.hypot(fy - py, fz - pz)
+    u = (0.0, (fy - py) / L, (fz - pz) / L)             # down the arm
+    nb = (0.0, -u[2], u[1])                             # the arm's back face's normal (toward +y)
+    nb = nb if nb[1] > 0 else tuple(-c for c in nb)
     for s in (1, -1):
         x = s * X_ARM
-        k.tube("lever", (x - 0.045, Y_BEAM, PIV_Z), (x + 0.045, Y_BEAM, PIV_Z), 0.05, seg=32)
-        pts = [(x, y, z) for y, z in ARM]
-        u = (0.0, ARM[1][0] - ARM[0][0], ARM[1][1] - ARM[0][1])
-        ul = math.hypot(u[1], u[2])
-        pts[0] = (x, Y_BEAM + u[1] / ul * 0.048, PIV_Z + u[2] / ul * 0.048)
-        k.sweep("lever", pts, k.rect(0.08, 0.06, 0.008), bend=0.12, up=(1, 0, 0), soft=0.003)
-        top = pts[-1]
-        ut = (0.0, ARM[2][0] - ARM[1][0], ARM[2][1] - ARM[1][1])
-        utl = math.hypot(ut[1], ut[2])
-        k.sweep("plastic", [top, (x, top[1] + ut[1] / utl * 0.01, top[2] + ut[2] / utl * 0.01)],
-                k.rect(0.084, 0.064, 0.003), up=(1, 0, 0), soft=0.002)
-        g0 = (x - s * 0.03, top[1] - 0.02, top[2] - 0.03)
-        g1 = (s * GRIP, top[1] + 0.16, top[2] - 0.05)
+        k.tube("lever", (x - 0.045, py, pz), (x + 0.045, py, pz), 0.05, seg=32)                  # the hub
+        k.bolt((x + s * 0.045, py, pz + 0.03), "+x" if s > 0 else "-x", size=0.012)              # its key bolt
+        top = (x, py + u[1] * 0.048, pz + u[2] * 0.048)
+        E = (x, fy, fz)
+        k.sweep("lever", [top, E], k.rect(0.09, 0.05, 0.008), up=(1, 0, 0), soft=0.003)
+        k.sweep("plastic", [E, (x, fy + u[1] * 0.01, fz + u[2] * 0.01)], k.rect(0.094, 0.054, 0.003), up=(1, 0, 0),
+                soft=0.002)
+        gb = (x, fy - u[1] * 0.05, fz - u[2] * 0.05)
+        g0 = (x - s * 0.021, gb[1], gb[2])
+        g1 = (s * GRIP, gb[1] + 0.04, gb[2] - 0.01)
         k.tube("lever", g0, g1, 0.016, seg=20)
         k.tube("rubber", tuple(g0[i] + (g1[i] - g0[i]) * 0.3 for i in range(3)), g1, 0.021, soft=0.003)
         ug = tuple((g1[i] - g0[i]) / math.dist(g0, g1) for i in range(3))
         k.sweep("chrome", [g1, tuple(g1[i] + ug[i] * 0.012 for i in range(3))], k.circle(0.021, 20), soft=0.002)
-        k.box("warn", (x + s * 0.031, -0.43, 0.40), (0.002, 0.04, 0.04), soft=0.0)
+        k.box("warn", (x + s * 0.026, (py + fy) / 2, (pz + fz) / 2), (0.002, 0.04, 0.04), soft=0.0)
+        # the start stop: a stub in off the upright behind the arm, its rubber pad against the arm's back face
+        q = (py + (fy - py) * 0.55, pz + (fz - pz) * 0.55)
+        dpad, dstub = 0.045 + 0.006, 0.045 + 0.012 + 0.016           # the pad's and the stub's offsets off the arm
+        st = (q[0] + nb[1] * dstub, q[1] + nb[2] * dstub)
+        k.tube("frame", (s * (X_UP - SQ / 2), st[0], st[1]), (s * (X_ARM - 0.02), st[0], st[1]), 0.016, seg=20)
+        rx = math.atan2(-nb[1], nb[2])
+        k.box("rubber", (s * X_ARM, q[0] + nb[1] * dpad, q[1] + nb[2] * dpad), (0.04, 0.05, 0.012), rx=rx, soft=0.002)
     # ---- the seat on its post (sleeve, holes, the pop pin's handle reaching forward)
     sx, sy, sz = SEAT
     bw = 0.076
-    zs = 0.32
+    zt0 = 0.30
     wt = (bw - 0.058) / 2
     for qx, qy, w_, d_ in ((1, 0, wt, bw), (-1, 0, wt, bw), (0, 1, 0.058, wt), (0, -1, 0.058, wt)):
-        k.box("frame", (qx * (bw - wt) / 2, sy + qy * (bw - wt) / 2, (RAIL_TOP + zs) / 2), (w_, d_, zs - RAIL_TOP),
+        k.box("frame", (qx * (bw - wt) / 2, sy + qy * (bw - wt) / 2, (RAIL_TOP + zt0) / 2), (w_, d_, zt0 - RAIL_TOP),
               soft=0.002)
     for i in range(5):
-        k.cyl("hole", (0, sy - bw / 2 - 0.0005, 0.14 + i * 0.035), 0.007, 0.001, axis="y", seg=14)
+        k.cyl("hole", (0, sy - bw / 2 - 0.0005, 0.12 + i * 0.035), 0.007, 0.001, axis="y", seg=14)
     zt = sz - SEAT_P[2] - 0.012
-    k.bar("frame", (0, sy, zs - 0.06), (0, sy, zt), 0.058, 0.058, up=(0, 1, 0))
+    k.bar("frame", (0, sy, zt0 - 0.06), (0, sy, zt), 0.058, 0.058, up=(0, 1, 0))
     k.box("frame", (0, sy, zt + 0.006), (0.28, 0.22, 0.012), soft=0.002)
     k.pad("pad", (0, sy, sz - SEAT_P[2] / 2), SEAT_P, r=0.035)
-    pin = (0, sy - bw / 2, zs - 0.03)
-    k.tube("steel", (0, sy - 0.02, pin[2]), (0, sy - bw / 2 - 0.03, pin[2]), 0.007)
-    k.sweep("frame", [(0, sy - bw / 2 - 0.03, pin[2]), (0, sy - bw / 2 - 0.09, pin[2] - 0.01),
-                      (-0.12, sy - bw / 2 - 0.12, pin[2] - 0.03)], k.circle(0.009, 14), bend=0.03)   # its handle
-    k.cyl("plastic", (0, sy - bw / 2 - 0.03, pin[2]), 0.016, 0.02, axis="y", seg=20, soft=0.004)
-    # ---- the back pad on its curved column off the spine
+    pin_z = zt0 - 0.03
+    k.tube("steel", (0, sy - 0.02, pin_z), (0, sy - bw / 2 - 0.03, pin_z), 0.007)
+    k.sweep("frame", [(0, sy - bw / 2 - 0.03, pin_z), (0, sy - bw / 2 - 0.09, pin_z - 0.01),
+                      (-0.12, sy - bw / 2 - 0.12, pin_z - 0.03)], k.circle(0.009, 14), bend=0.03)
+    k.cyl("plastic", (0, sy - bw / 2 - 0.03, pin_z), 0.016, 0.02, axis="y", seg=20, soft=0.004)
+    # ---- the back pad on its column off the spine
     (y0, z0), (y1, z1) = BACK_BOT, BACK_TOP
-    L = math.hypot(y1 - y0, z1 - z0)
-    up = (0.0, (y1 - y0) / L, (z1 - z0) / L)
+    Lb = math.hypot(y1 - y0, z1 - z0)
+    up = (0.0, (y1 - y0) / Lb, (z1 - z0) / Lb)
     face = (0.0, -up[2], up[1])
     c = (0.0, (y0 + y1) / 2 - face[1] * BACK[1] / 2, (z0 + z1) / 2 - face[2] * BACK[1] / 2)
-    k.shaped_pad("pad", [(-BACK[0] / 2, -L / 2), (BACK[0] / 2, -L / 2), (BACK[0] / 2, L / 2), (-BACK[0] / 2, L / 2)],
+    k.shaped_pad("pad", [(-BACK[0] / 2, -Lb / 2), (BACK[0] / 2, -Lb / 2), (BACK[0] / 2, Lb / 2), (-BACK[0] / 2, Lb / 2)],
                  c, face, (1, 0, 0), BACK[1], r=0.05, cushion=0.03)
     sp = tuple(c[i] - face[i] * (BACK[1] / 2 + 0.02) for i in range(3))
-    s0 = tuple(sp[i] - up[i] * L * 0.40 for i in range(3))
-    s1 = tuple(sp[i] + up[i] * L * 0.40 for i in range(3))
+    s0 = tuple(sp[i] - up[i] * Lb * 0.40 for i in range(3))
+    s1 = tuple(sp[i] + up[i] * Lb * 0.40 for i in range(3))
     k.bar("frame", s0, s1, 0.16, 0.04, up=face)                                                  # the pad's plate
-    yr = TY_FRONT + 0.025                               # the column: up off the rear cross bar, curving into the plate
-    q = tuple(s0[i] + (s1[i] - s0[i]) * 0.25 + face[i] * 0.01 for i in range(3))
-    col = [(0, yr, RAIL_TOP), (0, yr + 0.03, 0.40), q]
-    k.sweep("frame", col, k.rect(0.076, 0.076, 0.008), bend=0.12, up=(1, 0, 0),
-            cut0=((0, 0, RAIL_TOP), Z), cut1=(tuple(sp[i] - face[i] * 0.02 for i in range(3)), face), weld=True)
+    q = tuple(s0[i] + (s1[i] - s0[i]) * 0.30 for i in range(3))
+    back = tuple(q[i] - face[i] * 0.02 for i in range(3))   # on the plate's back face
+    yc = back[1] + 0.02 + SQ / 2                        # the column: straight up off the spine behind the plate
+    zc = q[2] + 0.04
+    k.bar("frame", (0, yc, RAIL_TOP), (0, yc, zc), SQ, SQ, up=(0, 1, 0), cut0=((0, 0, RAIL_TOP), Z), weld=True)
+    k.box("plastic", (0, yc, zc + 0.004), (SQ + 0.004, SQ + 0.004, 0.008), soft=0.002)
+    k.bar("frame", (0, yc, q[2]), (0, back[1] - 0.01, q[2]), 0.10, 0.05, up=(0, 0, 1),     # the bracket into the plate
+          cut0=((0, yc - SQ / 2, 0), (0, -1, 0)), cut1=(back, face), weld=True)
 
 
 FIT_VIEWS = ("side", "three_quarter")
@@ -174,18 +195,16 @@ FIT_VIEWS = ("side", "three_quarter")
 
 def fit():
     """On the seat facing -y, the back on the pad, the hands on the grips beside the chest (the start of the press),
-    the feet flat on the floor; for a short, a middle and a tall user (the seat adjusts; shown at one height)."""
+    the feet flat in front; for a short, a middle and a tall user (the seat adjusts; shown at one height)."""
     out = {}
+    r = math.radians
     lean = math.degrees(math.atan2(BACK_TOP[0] - BACK_BOT[0], BACK_TOP[1] - BACK_BOT[1]))
     for label, H in (("short", 1.60), ("middle", 1.78), ("tall", 1.95)):
         sc = H / 1.78
         hip = (0.0, BACK_BOT[0] - 0.12 * sc, SEAT[2] + 0.045 * sc)
-        # the feet flat behind the arms' shaft (the ankle at y -0.30): the shank and thigh solved from the ankle up to
-        # the hip (a two-link reach in the side plane, the knee forward)
-        ay, az = -0.30, 0.039 * H
-        best = min(((math.hypot(ay - math.sin(math.radians(sh)) * 0.246 * H - math.sin(math.radians(th)) * 0.245 * H
-                                - hip[1], az + math.cos(math.radians(sh)) * 0.246 * H
-                                + math.cos(math.radians(th)) * 0.245 * H - hip[2]), sh, th)
+        ay, az = -0.38, 0.039 * H                       # the ankle: the feet flat in front of the seat
+        best = min(((math.hypot(ay - math.sin(r(sh)) * 0.246 * H - math.sin(r(th)) * 0.245 * H - hip[1],
+                                az + math.cos(r(sh)) * 0.246 * H + math.cos(r(th)) * 0.245 * H - hip[2]), sh, th)
                     for sh in range(-30, 41) for th in range(-120, 0)))
         _, sh, th = best
         ball = (0.0, ay - 0.48 * 0.152 * H, 0.0)
@@ -201,8 +220,11 @@ def reach(H, hip, trunk):
     sy = hip[1] - math.sin(r(trunk)) * 0.288 * H
     sz = hip[2] + math.cos(r(trunk)) * 0.288 * H
     sx = 0.13 * H * 0.85
-    ty_, tz_ = ARM[-1]
-    tx, ty, tz = (X_ARM + GRIP) / 2 - 0.03, ty_ + 0.10, tz_ - 0.07
+    py, pz = SHAFT
+    fy, fz = FOOT
+    L = math.hypot(fy - py, fz - pz)
+    gy, gz = fy - (fy - py) / L * 0.05, fz - (fz - pz) / L * 0.05
+    tx, ty, tz = (X_ARM + GRIP) / 2 - 0.03, gy + 0.02, gz - 0.005
 
     def miss(arm, fore, out):
         ax, ay, az = math.sin(r(out)), -math.sin(r(arm)), math.cos(r(arm))
