@@ -139,7 +139,7 @@ def fit():
         T = frame(math.radians(-8), o)
         e = handle_end()
         g = T((X_H, e[1] * 0.68, e[2] * 0.68))          # the foam's far end, where the hands hold it
-        a = reach.reach(pose, g, elbow=60)
+        a = reach.reach(pose, g, elbow=60, low=3.0)
         print(f"fit {label}: the pad at {o[2]:.2f} m, the hands at {g[2]:.2f} m, {o[1] - g[1]:.2f} m in front of the "
               f"shaft; elbows {a['elbow']:.0f} deg (miss {a['err'] * 100:.1f} cm)", flush=True)
         out[label] = dict(pose, arm=a["arm"], forearm=a["forearm"], arm_lat=a["arm_lat"], fore_lat=a["fore_lat"])

@@ -158,6 +158,6 @@ def fit():
               f"{hole_z(n) + TOP_OVER_PIN:.2f} m)", flush=True)
         if label not in SHOW:
             continue
-        a = reach.reach(pose, (0.40, BAR_Y, bz + 0.015), elbow=60)
+        a = reach.reach(pose, (0.40, BAR_Y, bz + 0.015), elbow=60, low=3.0)
         out[label] = dict(pose, arm=a["arm"], forearm=a["forearm"], arm_lat=a["arm_lat"], fore_lat=a["fore_lat"])
     return out

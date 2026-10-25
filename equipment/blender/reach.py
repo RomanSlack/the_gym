@@ -34,9 +34,10 @@ def shoulder(pose, side=1):
     return sh + left * side * 0.13 * H * 0.85
 
 
-def reach(pose, target, elbow=150.0, step=2.0):
+def reach(pose, target, elbow=150.0, step=2.0, low=0.0):
     """Arm angles (body.figure's arm, forearm, arm_lat, fore_lat) putting the palm on target, the elbow's inside angle
-    nearest `elbow` (180 = straight). err is how far the best solution's palm misses (m): check it."""
+    nearest `elbow` (180 = straight). err is how far the best solution's palm misses (m): check it. low > 0 prefers
+    the elbow below the shoulder (a bar on the back: the elbows down, not up past the head)."""
     H = pose["H"]
     f, up, left = _frame(pose["face"])
     t = np.array(target, float)
@@ -57,7 +58,7 @@ def reach(pose, target, elbow=150.0, step=2.0):
     err = np.abs(n - L2)
     cosel = -(u[0] * r[0] + u[1] * r[1] + u[2] * r[2]) / np.maximum(n, 1e-9)   # the elbow's inside angle
     el = np.degrees(np.arccos(np.clip(cosel, -1, 1)))
-    cost = err * 100.0 + np.abs(el - elbow) / 90.0 + np.abs(np.degrees(l)) / 400.0
+    cost = err * 100.0 + np.abs(el - elbow) / 90.0 + np.abs(np.degrees(l)) / 400.0 + low * np.maximum(e[2], 0.0) / L1
     i = np.unravel_index(np.argmin(cost), cost.shape)
     v = [r[k][i] / n[i] for k in range(3)]
     fl = math.degrees(math.asin(max(-1.0, min(1.0, v[1]))))

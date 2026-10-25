@@ -81,7 +81,7 @@ def fit():
         if label not in SHOW:
             continue
         pose, (y, zt) = back(Hu)
-        a = reach.reach(pose, (0.55, y, zt + 0.01), elbow=70)
+        a = reach.reach(pose, (0.55, y, zt + 0.01), elbow=80, low=3.0)
         print(f"fit {label}: the shaft at {zt:.2f} m, the plates' centres at {zt - DROP:.2f} m; elbows "
               f"{a['elbow']:.0f} deg (miss {a['err'] * 100:.1f} cm)", flush=True)
         out[label] = dict(pose, arm=a["arm"], forearm=a["forearm"], arm_lat=a["arm_lat"], fore_lat=a["fore_lat"])
