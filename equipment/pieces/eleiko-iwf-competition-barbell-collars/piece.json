@@ -13,11 +13,16 @@
  "picked": "2026-10-24T04:10:56+00:00",
  "source": "Claude's pick (Roman, 2026-10-23: a free hand, Life Fitness preferred)",
  "price": null,
- "refs": [],
+ "refs": [
+  {
+   "file": "refs/ref_01.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3002404_10.jpg"
+  }
+ ],
  "status": "picked",
  "notes": "",
  "fetched": {
-  "at": "2026-10-24T04:15:36+00:00",
-  "error": "HTTP Error 404: Not Found"
+  "at": "2026-10-25T23:30:00+00:00",
+  "how": "the linked page no longer renders; the image by its article code; numbers from search results (Eleiko 40 mm, Fringe Sport 2.5 kg)"
  }
 }
