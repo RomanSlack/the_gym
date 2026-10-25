@@ -144,7 +144,14 @@ work this way. Each of these was a pass he had to send back:
 8. **Compare before showing.** Put each render next to the matching photo at the same angle on one sheet (PIL, 800 px
    each: ref | ours, side and three-quarter) and look for the differences above before reporting. The difference you
    find yourself is a version Roman doesn't have to send back.
-9. **Shared parts get the most care, once.** A part many machines share (the weight-stack tower: `blender/stack_tower.py`)
+9. **Name what every big shape is, mechanically, before shaping it** (the elliptical, 2026-10-25: 17 versions polished
+   a wrong reading, Roman's "looks good actually" came two passes after re-reading it). The round "inset" on the body's
+   side was the crank disc, and the "Life Fitness" pod was the pedal arm's back end riding it, outside a narrow body;
+   v001-v017 built a wide hollow box with the pods sliding into slots. Look for the photo where it moves (a user on it,
+   the two sides at different positions: ref_02) and the close-up of the joint (ref_15). Then check the proportions
+   along the user's line (pod, gap, pedal, lower housing) against the photo, not just each part on its own: moving
+   the hub 0.3 m fixed more than any shape tweak.
+10. **Shared parts get the most care, once.** A part many machines share (the weight-stack tower: `blender/stack_tower.py`)
    is built once per maker style and then every machine of that maker gets it. Measure it from a photo square on to
    it (the Insignia glute's ref_04): studio shots are turned about 40 degrees and read narrow, close phone shots read
    wide. Read how it is made (the Insignia tower: two uprights the full height and depth, a gloss cap with a crisp band
