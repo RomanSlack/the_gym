@@ -5,6 +5,22 @@ ref_01 the three-quarter, ref_02 / ref_07 / ref_09 the LED console square on, re
 from the front), held to StairMaster's 58 x 34 x 79 in (147 x 86 x 200 cm), steps 22 in wide x 10 in deep on an 8 in
 rise, a 9 in step-up. Side-view numbers off ref_04 at 1.96 mm/px (the 79 in height), as (y, z): y = (px - 600) * 0.00196,
 z = (1112 - py) * 0.00196; widths off ref_10 at the same scale (centre px 615).
+DESIGN SPEC (gate 1, written 2026-10-25 for v005: the piece predates the gates)
+1. Use. The user steps up 9 in onto the moving stair facing the console and climbs; the stair runs down under them,
+   so they hold their place by pace. Hands rest lightly on the side rails (or the HR grips, or the horns standing tall).
+2. Moving parts, each mass named: the staircase, a chain of treads round the lower and the upper drum (the grey rings
+   on the housings mark the drums' ends), the motor and the brake inside; the housings are the drums' covers and the
+   stair's walls, the top cap ties them; the handrails, fixed: the post up off each housing, the C-loop back toward
+   the entry (a hold for stepping on and off), the upper rail rising forward to the bend, the horn and the diagonal in
+   to the mast; the mast carries the console and the cup holders.
+3. Adjustments. Speed (the console, the rails' speed keys); no body adjustment: the climber picks the tread by pace.
+4. Load path. The feet on a tread, its chain, the drums' axles in the housings, the base, the levelling feet. The
+   hands' light load into the rails, their posts and the housings' tops, the diagonals into the mast.
+5. Fit range. 1.55 / 1.78 / 1.95 m on the 2nd or 3rd tread (the 4th puts the chest at the mast), toes short of the
+   next riser, hands resting on the upper rails solved per user (fit()): all three ride the 3rd tread, elbows 111 /
+   106 / 95 deg; the short user's hands at the rail's lowest part, near the chest (the rails stand 1.55-1.75 m, read
+   off ref_04; no photo of a climber exists to check them against).
+6. Size. 147 x 86 x 200 cm (58 x 34 x 79 in, the LED console), as above.
 Axes: metres, floor z = 0; the user climbs facing +y toward the console, the stair's foot at -y; +x is the side ref_04
 shows (the user's right).
 Structure: a low steel base on levelling feet in front and transport wheels at the back; two polypropylene side
@@ -198,15 +214,34 @@ def build(k):
 
 
 FIT_VIEWS = ("side", "three_quarter")
+USERS = (("short", 1.55), ("middle", 1.78), ("tall", 1.95))
 
 
 def fit():
-    """Climbing, mid-stride: standing on the second tread, the body upright with a slight lean to the console, the
-    hands lightly on the posts' heart-rate grips; a short, a middle and a tall user."""
+    """Climbing (spec 5): the climber keeps their place on the stair by pace; each user rides the 2nd or 3rd tread (on
+    the 4th the chest meets the mast), whichever suits them: the toes just short of the next riser (the heels hang off
+    the tread's back a little, as on the real stair), upright with a slight lean to the console; each hand resting on
+    its upper rail, the forearm forward (reach.py solves the arm onto it, the rail sampled from the post to the bend),
+    the elbows nearest 110 deg, the hands near the shoulders' line."""
+    import reach
     y0, z0, d, r = STEP
     out = {}
-    for label, H in (("short", 1.60), ("middle", 1.78), ("tall", 1.95)):
-        ball = (0.0, y0 + d + 0.17, z0 + r + 0.012)
-        out[label] = dict(H=H, ball=ball, face=(0, 1), sole=0, shank=8, thigh=4, trunk=8, neck=5, arm=168, forearm=118,
-                          arm_out=24)
+    for label, H in USERS:
+        best = None
+        for n in (1, 2):                                # the tread: 2nd, 3rd
+            ball = (0.0, y0 + (n + 1) * d - 0.005 - 0.27 * 0.152 * H, z0 + n * r + 0.012)
+            pose = dict(H=H, ball=ball, face=(0, 1), sole=0, shank=8, thigh=4, trunk=8, neck=5)
+            ysh = reach.shoulder(pose)[1]
+            for i in range(21):                         # along the upper rail (the hand on its top, 2 cm over the axis)
+                t = i / 20
+                y = POST[1][0] + (BEND[0] - POST[1][0]) * t
+                z = POST[1][1] + (BEND[1] - POST[1][1]) * t + 0.02
+                a = reach.reach(pose, (XR, y, z))
+                cost = abs(a["elbow"] - 110) / 30 + abs(y - ysh) / 0.2
+                if a["err"] < 0.01 and (best is None or cost < best[0]):
+                    best = (cost, n, pose, (y, z), a)
+        _, n, pose, (y, z), a = best
+        print(f"fit {label}: on tread {n + 1}, the hands on the rails at y {y:.2f}, z {z:.2f} ({y - reach.shoulder(pose)[1]:+.2f}"
+              f" from the shoulder); elbows {a['elbow']:.0f} deg", flush=True)
+        out[label] = dict(pose, arm=a["arm"], forearm=a["forearm"], arm_lat=a["arm_lat"], fore_lat=a["fore_lat"])
     return out
