@@ -68,15 +68,15 @@ R_C = 0.25                           # the crank's radius: its diameter sets the
 S = (-0.72, 1.24)                    # the swing arms' pivot on the hub
 L_S = 0.84                           # the pivot to the swing arm's lower link
 L_P = math.hypot(C[0] - S[0], C[1] - (S[1] - L_S))   # the pedal arm: pin to link (the swing hanging straight at 90 deg)
-X_PA = 0.22                          # the pedal arms (x): on the cranks, inside the housing's walls
+X_PA = 0.21                          # the pedal arms (x): on the cranks, inside the body's walls
 X_SW = 0.34                          # the swing arms (x), outside the hub's ends
 D_PED = 0.33                         # the pedal's centre back from the pedal arm's front link
 PEDAL = (0.38, 0.17)                 # length, width (38 cm, Life Fitness)
 X_PED = 0.15                         # the pedals' centres (x): in from the arms (ref_06: the pedal over the arm's inside)
 PHI = 0.0                            # the left crank's angle (deg, from +y toward +z); the right one 180 deg on: level,
                                      # the pedal arms parallel, as the photos show it
-HOUS = (0.40, 1.22, 0.16, 0.72, 0.30)   # the body: front and back (y), bottom and top (z), half width
-POD = (0.52, 0.19, 0.12, -0.40)      # each pod: length, height, width; where it starts ahead of the crank pin (the
+HOUS = (0.40, 1.22, 0.10, 0.72, 0.30)   # the body: front and back (y), bottom and top (z), half width (a low skirt)
+POD = (0.60, 0.24, 0.14, -0.38)      # each pod: length, height, width; where it starts ahead of the crank pin (the
                                      # cover on the arm that slides into the housing's open front)
 
 
@@ -209,7 +209,8 @@ def housing(k):
     the walls, the flywheel on it."""
     yf, yb, zb, zt, hw = HOUS
     top = body_curve()
-    outline = top + [(yb, zb), (yf, zb)]
+    outline = top + [(yb, zb)] + [(yf + 0.12 - 0.12 * math.sin(math.radians(a)), zb + 0.12 - 0.12 * math.cos(math.radians(a)))
+                                   for a in range(0, 91, 10)]   # the nose: rounded at the bottom front
     cy_, cz_ = (yf + yb) / 2, (zb + zt) / 2             # the profile's origin (the sweep maps u -> -y, v -> z)
     prof = [(-(y - cy_), z - cz_) for y, z in outline]
     for s in (1, -1):
@@ -227,10 +228,10 @@ def housing(k):
     k.sweep("shroud", [(-(hw - 0.014), cy_, cz_), (hw - 0.014, cy_, cz_)], band, up=(0, 0, 1), soft=0.004)
     # the front: closed but for a slot each side the pedal arm's pod slides in through (ref_01)
     zft = body_curve()[0][1]                            # the front's top
-    sx0, sx1 = X_PA - 0.068, X_PA + 0.068               # the slots: across the pods, the front's full height
-    k.box("shroud", (0, yf + 0.01, (zb + zft) / 2), (2 * sx0, 0.02, zft - zb), soft=0.004)
-    zs = SPINE_Z + 0.05                                 # the spine's top: a block up from it under the front's middle
-    k.box("frame", (0, yf + 0.03, (zs + zb) / 2), (0.12, 0.06, zb - zs + 0.002), soft=0.002)
+    sx0, sx1 = X_PA - 0.076, X_PA + 0.076               # the slots: across the pods, the front's full height
+    zp = SPINE_Z + 0.05                                 # the middle panel: down onto the spine's top
+    k.box("shroud", (0, yf + 0.01, (zp + zft) / 2), (2 * sx0, 0.02, zft - zp), soft=0.004)
+
     for s in (1, -1):
         k.box("frame", (s * (hw - 0.03), Y_REAR, (0.08 + zb) / 2), (0.06, 0.06, zb - 0.08 + 0.004), soft=0.004)
     k.tube("steel", (-(hw - 0.014), C[0], C[1]), (hw - 0.014, C[0], C[1]), 0.02, seg=24)         # the crank axle
