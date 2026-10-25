@@ -17,6 +17,26 @@
   {
    "file": "refs/ref_01.jpg",
    "url": "https://media.eleiko.com/images/upload/4x5/3060350-25_10.jpg"
+  },
+  {
+   "file": "refs/ref_02.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3060350-25_20.jpg"
+  },
+  {
+   "file": "refs/ref_03.jpg",
+   "url": "https://media.eleiko.com/images/upload/4x5/3060350-25_30.jpg"
+  },
+  {
+   "file": "refs/ref_04.jpg",
+   "url": "https://media.eleiko.com/images/upload/NXM753NH7T_normal.jpg"
+  },
+  {
+   "file": "refs/ref_05.jpg",
+   "url": "https://media.eleiko.com/images/upload/64JI0YCL5P_normal.jpg"
+  },
+  {
+   "file": "refs/ref_06.jpg",
+   "url": "https://media.eleiko.com/images/upload/3VKNP0A82L_normal.jpg"
   }
  ],
  "status": "picked",
