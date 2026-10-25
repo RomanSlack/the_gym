@@ -42,9 +42,9 @@ DESIGN SPEC (gate 1)
    0.90-1.09 m high: the shoulders of all three users at the drawn seat (0.95-1.07 m) meet them. The fit run prints
    each elbow.
 6. Size. Life Fitness: 124 x 142 x 180 cm (L x W x H), live area 261 x 173. Ours: about 148 wide at the fly's drawn
-   start (+10 deg, the grips at +/-0.72), about 1.86 m tall (the cams on the beam, level with the head pulleys), about
-   1.50 m long: 26 cm longer, because the rear-delt arms swing in front of the user to y 0.51 and the tower stands clear
-   of them (its front at 0.59).
+   start (+10 deg, the grips at +/-0.72), about 1.88 m tall (the cams on the beam, level with the head pulleys), about
+   1.17 m long (the tower's front at 0.59, clear of the rear-delt arms, which swing to y 0.51). The floor where the
+   user's feet go is clear: the seat's cross foot sits under its front edge, the tower stands on its own base (ref_01).
 Axes: metres, floor z = 0, the fly's user facing -y, x+ = the fly user's left; s = +1 / -1 the two sides.
 """
 import math
@@ -102,7 +102,6 @@ RAIL_Z = FOOT_H + RAIL[1] / 2
 RAIL_TOP = FOOT_H + RAIL[1]
 Y_FRONT = -0.156                     # the cross foot against the seat's sleeve, under its front edge (clear of the heels)
 X_FB = 0.26
-BRACE_FOOT = (0.42, 1.18)            # the tower's diagonal braces' feet (x, y): out and behind it
 Y_COL = 0.32                         # the main column, behind the pad
 # ---- the overhead (spec 1, 4)
 X_AX, Y_AX = 0.20, 0.01              # each shaft: over its shoulder
@@ -147,8 +146,8 @@ def build(k):
     tw = stack_tower.tower(k, TOWER, TC, 0.0)
     # ---- the base, kept out of the user's way (ref_01, Roman 2026-10-24: "the leg support things are different, so as
     # not to interfere with the person using the machine"): the spine from the tower's front forward to a short cross
-    # foot just under the seat's front edge, nothing on the floor where the feet go; behind, a diagonal brace off each
-    # of the tower's back posts down and out to its own foot
+    # foot just under the seat's front edge, nothing on the floor where the feet go; the tower stands on its own base
+    # (Roman: the long diagonal braces behind it, v007, are not necessary)
     k.bar("frame", (-X_FB, Y_FRONT, RAIL_Z), (X_FB, Y_FRONT, RAIL_Z), SQ, RAIL[1], r=0.006)
     for s in (1, -1):
         k.box("plastic", (s * (X_FB + 0.004), Y_FRONT, RAIL_Z), (0.008, SQ + 0.004, RAIL[1] + 0.004), soft=0.002)
@@ -156,15 +155,6 @@ def build(k):
     k.bar("frame", (0, Y_FRONT + SQ / 2, RAIL_Z), (0, TY_F + 0.01, RAIL_Z), 0.10, RAIL[1], r=0.008,
           cut0=((0, Y_FRONT + SQ / 2, 0), Y), cut1=((0, TY_F + 0.01, 0), Y), weld=True)
     k.box("warn", (0.12, Y_FRONT - SQ / 2 - 0.001, RAIL_Z), (0.045, 0.002, 0.03), soft=0.0)
-    xp = TOWER["W"] / 2                                  # the tower's sides (x), its back posts' line (y)
-    yp = TC[1] + TOWER["D"] / 2 - 0.025
-    for s in (1, -1):
-        top = (s * xp, yp, 0.80)
-        ft = (s * BRACE_FOOT[0], BRACE_FOOT[1], RAIL_TOP)
-        k.bar("frame", (s * (xp - 0.03), yp, 0.80), ft, 0.06, 0.06, up=(0, 0, 1),
-              cut0=((s * xp, 0, 0), (s, 0, 0)), cut1=((0, 0, RAIL_TOP), Z), weld=True)
-        k.box("frame", (ft[0], ft[1], RAIL_Z), (0.10, 0.12, RAIL[1]), soft=0.004)           # its foot block
-        foot(k, ft[0], ft[1], 0.12, 0.14)
     # ---- the column off the spine, its tie to the tower, the arm forward to the beam, the beam
     zc = Z_BEAM + SQ / 2
     k.bar("frame", (0, Y_COL, RAIL_TOP), (0, Y_COL, zc), SQ, SQ, up=(0, 1, 0), cut0=((0, 0, RAIL_TOP), Z), weld=True)
