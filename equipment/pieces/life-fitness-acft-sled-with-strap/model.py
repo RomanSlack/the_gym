@@ -27,12 +27,12 @@ WEB = 0.045
 
 LOOK = {
     "mat": dict(color=(0.010, 0.010, 0.011), rough=0.9, coat=0.0, spec=0.2, bump=(2400, 0.12)),
-    "bind": dict(color=(0.014, 0.014, 0.015), rough=0.75, bump=(3000, 0.1)),
+    "bind": dict(color=(0.014, 0.014, 0.015), rough=0.75, coat=0.0, bump=(3000, 0.1)),
     "stitch": dict(color=(0.75, 0.75, 0.76), rough=0.6),
     "bumper": dict(color=(0.016, 0.016, 0.017), rough=0.75, coat=0.0, bump=(1200, 0.08)),
     "steel": dict(color=(0.55, 0.55, 0.57), rough=0.25, metal=1.0),
-    "web": dict(color=(0.008, 0.008, 0.009), rough=0.95, spec=0.15, bump=(3000, 0.1)),
-    "grey": dict(color=(0.03, 0.03, 0.032), rough=0.95, spec=0.15, bump=(3000, 0.15)),
+    "web": dict(color=(0.008, 0.008, 0.009), rough=0.95, coat=0.0, spec=0.15, bump=(3000, 0.1)),
+    "grey": dict(color=(0.03, 0.03, 0.032), rough=0.95, coat=0.0, spec=0.15, bump=(3000, 0.15)),
     "yellow": dict(color=(0.55, 0.45, 0.04), rough=0.6),
 }
 VIEWS = {"three_quarter": (-35, 25, 1.0), "front": (0, 12, 1.0), "side": (90, 10, 1.0), "back_three_quarter": (150, 25, 1.0)}
