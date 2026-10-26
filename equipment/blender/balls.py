@@ -49,3 +49,14 @@ def seam(k, mat, c, r, axis_lon, w=0.0015, h=0.0006, seg=96):
         n = Vector((math.sin(axis_lon) * math.sin(t), -math.cos(axis_lon) * math.sin(t), math.cos(t)))
         pts.append(tuple(Vector(c) + n * (r + h / 2)))
     k.sweep(mat, pts, k.rect(w, h, h / 3), up=(0, 0, 1), soft=0.0)          # flat on the ball, w across
+
+
+def zone(k, mat, c, r, lat0, lat1, h=0.0012, seg=96):
+    """A stripe round the ball between latitudes lat0 < lat1: the zone of a sphere just outside the ball (a skin)."""
+    import bmesh
+    g = k.bm(mat, 0.0)
+    before = set(g.verts)
+    k.sphere(mat, c, r + h, seg=seg, soft=0.0)
+    z0, z1 = c[2] + math.sin(lat0) * (r + h), c[2] + math.sin(lat1) * (r + h)
+    cut = [v for v in g.verts if v not in before and not (z0 - 1e-6 <= v.co.z <= z1 + 1e-6)]
+    bmesh.ops.delete(g, geom=cut, context="VERTS")
