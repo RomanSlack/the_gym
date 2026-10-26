@@ -445,9 +445,10 @@ class Kit:
         bmesh.ops.translate(b, verts=g, vec=c)
 
     @_part
-    def lathe(self, mat, c, prof, seg=48, soft=0.0):
+    def lathe(self, mat, c, prof, seg=48, soft=0.0, caps=True):
         """A surface of revolution about the vertical through c: prof = [(r, z), ...] from the bottom up (z from c's z),
-        closed by a flat bottom and a flat top (cones, bells, flared bases)."""
+        closed by a flat bottom and a flat top (cones, bells, flared bases); caps=False leaves the ends open (a sleeve
+        whose profile runs up the outside and back down the inside: it closes on itself)."""
         b = self.bm(mat, soft)
         rings = []
         for r, z in prof:
@@ -456,8 +457,13 @@ class Kit:
         for lo, hi in zip(rings, rings[1:]):
             for i in range(seg):
                 b.faces.new((lo[i], lo[(i + 1) % seg], hi[(i + 1) % seg], hi[i]))
-        b.faces.new(rings[0][::-1])
-        b.faces.new(rings[-1])
+        if caps:
+            b.faces.new(rings[0][::-1])
+            b.faces.new(rings[-1])
+        else:                                       # join the last ring back to the first (a closed section)
+            lo, hi = rings[-1], rings[0]
+            for i in range(seg):
+                b.faces.new((lo[i], lo[(i + 1) % seg], hi[(i + 1) % seg], hi[i]))
 
     @_part
     def sphere(self, mat, c, r, seg=32, soft=0.0):
