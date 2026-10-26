@@ -3,7 +3,8 @@ four flats (it can't roll), a textured patch on each flat, HAMMER STRENGTH and t
 kilos and the chrome hub inside; the chrome handle knurled between the heads. (The fixed barbells' heads are the same
 design, built in their own model.)
 
-    dumbbell(k, lb, c, axis="y")    the dumbbell centred at c, its handle along axis ("x" or "y"), lying on a flat
+    dumbbell(k, lb, c, axis="y", tilt=0)    the dumbbell centred at c, its handle along axis ("x" or "y"), lying on a
+                                            flat; tilt raises the handle's +y end (a rack's sloping tray)
 """
 import math
 
@@ -85,7 +86,20 @@ def _slab_y(k, mat, outline_xz, y0, y1, r):
         v.co.x, v.co.y = cxm + y, x
 
 
-def dumbbell(k, lb, c, axis="y"):
+def dumbbell(k, lb, c, axis="y", tilt=0.0):
+    """tilt (radians, axis "y" only): the handle raised toward the back by tilt about x through c (a rack's tray)."""
+    if tilt:
+        before = {key: set(b.verts) for key, b in k.groups.items()}
+        dumbbell(k, lb, c, axis)
+        from mathutils import Matrix, Vector
+        R = Matrix.Rotation(tilt, 3, "X")
+        cv = Vector(c)
+        for key, b in k.groups.items():
+            old = before.get(key, set())
+            for v in b.verts:
+                if v not in old:
+                    v.co = R @ (v.co - cv) + cv
+        return
     s, t = size(lb)
     cx, cy, cz = c
     g = GRIP / 2
