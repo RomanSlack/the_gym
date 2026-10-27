@@ -1,0 +1,13 @@
+{
+  "prompt": "Turn this render into a photograph with about 15 to 20 diverse adults in modern athletic wear training on these strength machines: seated on the leg extension and leg curl machines, pushing the leg press and hack squat, rowing, pressing on the chest and shoulder press machines, one person doing a medicine-ball slam on the step in front, a person rolling out on the blue mat. Every person sits or stands in the machine exactly as it is meant to be used, hands on its handles, feet on its plates, at true human scale. Keep the exact camera angle, framing, stepped pale-grey concrete stage with black steel step edges, the grey gallery hall, and every piece of equipment exactly where it is in the reference image: same machines, same positions, same black frames, red Rogue rig uprights, colours and proportions. Do not add, remove or move any equipment. Make it a real photograph: soft skylight from above, natural shadows under people and machines, realistic skin, fabric and sweat, photoreal materials on the steel, upholstery and rubber. Shot like a high-end architectural / fitness editorial photo, crisp, slightly cinematic. No text overlays, no watermark.",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1536x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [
+    "/tmp/sr_machines.png"
+  ],
+  "filename": "showroompeoplemachinesv001_0.png",
+  "generated_at": "2026-10-26T19:46:04"
+}

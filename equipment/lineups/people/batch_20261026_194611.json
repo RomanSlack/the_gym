@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-10-26T19:46:11",
+  "count": 4,
+  "succeeded": 4,
+  "failed": 0,
+  "total_cost_usd": 0.66,
+  "results": [
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Turn this render into a photograph of a busy, energetic gym showcase: about 40 to 60 diverse adults (men and women, different ages and builds, modern athletic wear in mostly neutral and black tones with a few colour accents) actually using the equipment across every step of the stage: people on the benches pressing, someone squatting in the racks at the back, people on the treadmills, bikes and stair climber, someone hanging from the red monkey rig, people doing kettlebell swings and carrying dumbbells on the front steps, a coach watching. Each person correctly positioned on the machine they use, at true human scale relative to the equipment. Keep the exact camera angle, framing, stepped pale-grey concrete stage with black steel step edges, the grey gallery hall, and every piece of equipment exactly where it is in the reference image: same machines, same positions, same black frames, red Rogue rig uprights, colours and proportions. Do not add, remove or move any equipment. Make it a real photograph: soft skylight from above, natural shadows under people and machines, realistic skin, fabric and sweat, photoreal materials on the steel, upholstery and rubber. Shot like a high-end architectural / fitness editorial photo, crisp, slightly cinematic. No text overlays, no watermark.",
+      "images": [
+        "/home/roman/the_gym/equipment/lineups/people/showroompeopleherov001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Turn this render into a photograph with about 15 to 20 diverse adults in modern athletic wear training on these strength machines: seated on the leg extension and leg curl machines, pushing the leg press and hack squat, rowing, pressing on the chest and shoulder press machines, one person doing a medicine-ball slam on the step in front, a person rolling out on the blue mat. Every person sits or stands in the machine exactly as it is meant to be used, hands on its handles, feet on its plates, at true human scale. Keep the exact camera angle, framing, stepped pale-grey concrete stage with black steel step edges, the grey gallery hall, and every piece of equipment exactly where it is in the reference image: same machines, same positions, same black frames, red Rogue rig uprights, colours and proportions. Do not add, remove or move any equipment. Make it a real photograph: soft skylight from above, natural shadows under people and machines, realistic skin, fabric and sweat, photoreal materials on the steel, upholstery and rubber. Shot like a high-end architectural / fitness editorial photo, crisp, slightly cinematic. No text overlays, no watermark.",
+      "images": [
+        "/home/roman/the_gym/equipment/lineups/people/showroompeoplemachinesv001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Turn this render into a photograph with about 12 to 16 diverse adults in modern athletic wear: running on the treadmills, climbing the stair machine, pedalling the bikes, rowing on the wooden rower, someone doing pull-ups on the red rig at the back, someone squatting with a barbell in the rack, a person on the climbing rope. Every person correctly using the machine at true human scale. Keep the exact camera angle, framing, stepped pale-grey concrete stage with black steel step edges, the grey gallery hall, and every piece of equipment exactly where it is in the reference image: same machines, same positions, same black frames, red Rogue rig uprights, colours and proportions. Do not add, remove or move any equipment. Make it a real photograph: soft skylight from above, natural shadows under people and machines, realistic skin, fabric and sweat, photoreal materials on the steel, upholstery and rubber. Shot like a high-end architectural / fitness editorial photo, crisp, slightly cinematic. No text overlays, no watermark.",
+      "images": [
+        "/home/roman/the_gym/equipment/lineups/people/showroompeoplecardiov001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "Turn this render into a photograph with about 15 to 20 diverse adults in modern athletic wear: bench pressing on the Olympic benches with a spotter, doing step-ups and box jumps on the plyo boxes, lifting dumbbells, sitting on the adjustable benches, someone doing hip thrusts on the glute machine at the right, a few people picking up kettlebells and bars from the front steps. Every person correctly using the equipment at true human scale. Keep the exact camera angle, framing, stepped pale-grey concrete stage with black steel step edges, the grey gallery hall, and every piece of equipment exactly where it is in the reference image: same machines, same positions, same black frames, red Rogue rig uprights, colours and proportions. Do not add, remove or move any equipment. Make it a real photograph: soft skylight from above, natural shadows under people and machines, realistic skin, fabric and sweat, photoreal materials on the steel, upholstery and rubber. Shot like a high-end architectural / fitness editorial photo, crisp, slightly cinematic. No text overlays, no watermark.",
+      "images": [
+        "/home/roman/the_gym/equipment/lineups/people/showroompeoplefloorv001_0.png"
+      ],
+      "cost_usd": 0.165,
+      "error": null
+    }
+  ]
+}
