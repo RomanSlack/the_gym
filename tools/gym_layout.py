@@ -30,6 +30,7 @@ OUTD = ROOT / "model" / "layouts"
 M = json.loads((ROOT / "model" / "building.json").read_text())
 SIZES = json.loads((EQ / "lineups" / "showroom_sizes.json").read_text())
 PWR = json.loads((EQ / "lineups" / "pwr_play_stations.json").read_text())
+WALLS = json.loads((EQ / "lineups" / "wall_sizes.json").read_text())   # wall-mounted pieces without their display wall (wall_survey.py)
 LV = {l["id"]: l["elevation"] for l in M["levels"]}
 BBOX = (-40.0, -41.0, -5.0, 16.0)                 # the gym wing + its annexes
 SPIRAL = next(s for s in M["stairs"] if s["id"] == "spiral_west")
@@ -69,8 +70,32 @@ FACE = {"woodway-4front": "+y", "hammer-strength-hd-tread": "+y", "stairmaster-8
 AXV = {"+x": (1, 0), "-x": (-1, 0), "+y": (0, 1), "-y": (0, -1)}
 
 
-def footprint(piece):
-    """(w across the user, d along the way the user faces) from the showroom's box (the model turned by -front_az)."""
+def spec_lw(piece):
+    """The maker's L x W (m) from the piece's design spec (model.py: "held to Life Fitness's 47 x 41 x 64 in (..., L x W x H)",
+    "Life Fitness: 218 x 73 x 163 cm (L x W x H)", "... gives 88 x 40 x 53 in"), or None."""
+    import re
+    doc = (EQ / "pieces" / piece / "model.py").read_text().split('"""')[1]
+    for m_ in re.finditer(r"(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)\s*(in|cm)\b", doc):
+        ctx = doc[max(0, m_.start() - 40):m_.end() + 40]
+        if "L x W" in ctx or "held to" in ctx or "gives" in ctx or "spec" in ctx:
+            k_ = 0.0254 if m_.group(4) == "in" else 0.01
+            return float(m_.group(1)) * k_, float(m_.group(2)) * k_
+    return None
+
+
+def footprint(piece, model_only=False):
+    """(w across the user, d along the way the user faces) from the showroom's box (the model turned by -front_az); where the
+    maker's spec is bigger than our model (the size audit, 2026-10-26), the plan reserves the spec's L x W instead."""
+    if piece in WALLS:                                                  # it hangs on the real wall: its own size, the wall behind it
+        return WALLS[piece]["w"], WALLS[piece]["d"]
+    w_, d_ = _footprint(piece)
+    sp = None if model_only else spec_lw(piece)
+    if sp:
+        w_, d_ = max(w_, sp[1]), max(d_, sp[0])
+    return w_, d_
+
+
+def _footprint(piece):
     s = SIZES[piece]
     az = front_az(piece) % 360
     mx, my = (s["w"], s["d"]) if az in (0, 180) else (s["d"], s["w"])     # the model's own x / y extents
@@ -188,8 +213,10 @@ def kinds_for(pieces):
     for p_ in sorted(pieces):
         tag, mat, use = P.get(p_, (p_.split("-")[-1], "machine", (0.6, 0.4, 0.4, 0.4)))
         w, d = footprint(p_)
-        out[p_] = {"label": title(p_), "d": round(d, 3), "h": SIZES[p_]["h"], "mat": mat, "tag": tag, "use": list(use),
-                   "face": FACE.get(p_, "-y"), "piece": p_}
+        out[p_] = {"label": title(p_), "d": round(d, 3), "h": WALLS[p_]["z1"] if p_ in WALLS else SIZES[p_]["h"], "mat": mat, "tag": tag,
+                   "use": list(use), "face": FACE.get(p_, "-y"), "piece": p_}
+        if p_ in WALLS:
+            out[p_]["wall"] = True                                      # build without the display wall (k.display = False)
     return out
 
 
@@ -318,6 +345,17 @@ class Floor:
         """A piece at (x, y), its user facing rot (0 N, 90 W, -90 E, 180 S)."""
         w, d = footprint(piece)
         self.n[piece] = self.n.get(piece, 0) + 1
+        if piece in WALLS and self.walls:                                # flush to the wall behind it (its back on the wall's face)
+            from shapely.geometry import LineString as _LS, Point as _P
+            fx, fy = -math.sin(math.radians(rot)), math.cos(math.radians(rot))
+            wu = getattr(self, "_wu", None)
+            if wu is None:
+                wu = self._wu = unary_union([_LS([w["from"], w["to"]]).buffer(w["size"][0] / 2) for w in self.walls])
+            ray = _LS([(x, y), (x - fx * 2.0, y - fy * 2.0)])
+            hit = ray.intersection(wu)
+            if not hit.is_empty:
+                t = min(_P(x, y).distance(g) for g in getattr(hit, "geoms", [hit]))
+                x, y = x - fx * t + fx * (d / 2 + 0.005), y - fy * t + fy * (d / 2 + 0.005)
         it = {"id": f"{piece}-{self.n[piece]}", "room": zone, "kind": piece, "label": title(piece), "x": round(x, 3), "y": round(y, 3),
               "w": round(w, 3), "d": round(d, 3), "rot": rot, "h": SIZES[piece]["h"]}
         if note:

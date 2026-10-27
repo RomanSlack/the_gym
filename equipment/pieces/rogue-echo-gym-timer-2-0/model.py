@@ -49,7 +49,8 @@ def digit(k, ch, x, y, z):
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.6), (1.2, 0.10, 3.2), soft=0.0)                                      # display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.6), (1.2, 0.10, 3.2), soft=0.0)                                      # display wall
     k.box("case", (0, -D / 2, ZC), (L, D, H), soft=0.006)                                           # the case
     yf = -D - 0.0003
     k.box("face", (0, yf + 0.0004, ZC + 0.008), (L - 0.02, 0.0012, H - 0.03), soft=0.0)

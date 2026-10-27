@@ -101,7 +101,7 @@ def plan_f2(G):
     F.put("life-fitness-olympic-weight-tree", -12.3, -12.73, 0, "the squat hub")
 
     # --- the leg hub north of the spiral: plate-loaded machines back to back, plate trees between their horns
-    def hub(pieces, x0, yb, rot):
+    def hub(pieces, x0, yb, rot, pair=0.9):
         x, prev = x0, "tree"
         for p_ in pieces:
             if p_ == "tree":
@@ -109,7 +109,7 @@ def plan_f2(G):
                 x += 0.84 + 0.3
             else:
                 if prev != "tree":
-                    x += 0.9                              # two machines side by side: room for both sets of horns
+                    x += pair                             # two machines side by side: room for both sets of horns
                 w, d = G.footprint(p_)
                 F.put(p_, x + w / 2, yb + (-d / 2 if rot == 180 else d / 2), rot, "the leg hub")
                 x += w + 0.3
@@ -117,7 +117,7 @@ def plan_f2(G):
     lp = "hammer-strength-plate-loaded-linear-leg-press"
     hub([lp, "tree", lp, "tree", lp, "tree", "hammer-strength-plate-loaded-v-squat"], -22.2, -6.3, 180)
     hub(["hammer-strength-plate-loaded-glute-drive", "tree", "hammer-strength-plate-loaded-glute-drive", "hammer-strength-plate-loaded-belt-squat", "tree",
-         "hammer-strength-plate-loaded-belt-squat"], -22.2, -5.7, 0)
+         "hammer-strength-plate-loaded-belt-squat"], -22.2, -5.7, 0, pair=0.5)
     hub(["hammer-strength-plate-loaded-iso-lateral-leg-extension", "tree", "atlantis-incline-calf-raise-m318", "hammer-strength-plate-loaded-seated-calf-raise"], -22.2, 3.2, 180)
     hub(["life-fitness-smith-machine", "life-fitness-smith-machine", "hammer-strength-glute-ham-reverse-hyper-combo"], -22.2, 3.8, 0)
     # --- the leg extension island (Roman: "only 3 leg extensions? ... the core super popular ones there need to be enough of for
@@ -133,10 +133,10 @@ def plan_f2(G):
     # more of the busy ones (Roman, 2026-10-26: yes to the counts): a fourth leg press + a third glute drive sharing a tree at the
     # cardio's south end, a third smith by the bench island
     w, d = G.footprint(lp)
-    F.put(lp, -11.6 + w / 2, -2.6 - d / 2, 180, "the leg hub")
-    F.put("life-fitness-olympic-weight-tree", -9.5, -2.95, 0, "the leg hub")
+    F.put(lp, -11.25 + w / 2, -2.6 - d / 2, 180, "the leg hub")
+    F.put("life-fitness-olympic-weight-tree", -9.15, -2.95, 0, "the leg hub")
     w, d = G.footprint("hammer-strength-plate-loaded-glute-drive")
-    F.put("hammer-strength-plate-loaded-glute-drive", -8.95 + w / 2, -2.6 - d / 2, 180, "the leg hub")
+    F.put("hammer-strength-plate-loaded-glute-drive", -8.6 + w / 2, -2.6 - d / 2, 180, "the leg hub")
     F.put("life-fitness-smith-machine", -11.4, -30.9, 0, "free weights")
 
     # --- cardio on the river band: the seats by the glass, the standing machines behind (they see over them)

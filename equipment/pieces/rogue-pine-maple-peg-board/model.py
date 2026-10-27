@@ -40,7 +40,8 @@ DETAILS = {
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.6), (1.0, 0.10, 3.2), soft=0.0)                                      # display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.6), (1.0, 0.10, 3.2), soft=0.0)                                      # display wall
     k.box("maple", (0, -T / 2, Z0 + H / 2), (W, T, H), soft=0.01)                                   # the board
     yf = -T - 0.0004
     pitch = (H - 0.36) / 15.5                           # 32 holes, two staggered columns

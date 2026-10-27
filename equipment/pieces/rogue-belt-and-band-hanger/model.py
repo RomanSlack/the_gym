@@ -33,7 +33,8 @@ DETAILS = {
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.4), (1.2, 0.10, 2.8), soft=0.0)                                      # display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.4), (1.2, 0.10, 2.8), soft=0.0)                                      # display wall
     zc = Z + HP / 2
     k.box("frame", (0, -T / 2, zc), (L, T, HP), soft=0.001)                                         # the plate
     k.text("cut", "ROGUE", (0, -T - 0.0002, zc - 0.026), 0.068, depth=0.0006)                       # cut through: the wall

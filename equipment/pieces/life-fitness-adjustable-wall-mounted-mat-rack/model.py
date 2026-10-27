@@ -41,7 +41,8 @@ DETAILS = {
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.4), (1.4, 0.10, 2.8), soft=0.0)                                      # display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.4), (1.4, 0.10, 2.8), soft=0.0)                                      # display wall
     k.bar("frame", (-W_RAIL / 2, -TUBE / 2, Z), (W_RAIL / 2, -TUBE / 2, Z), TUBE, TUBE, r=0.003)     # the rail
     for sx in (1, -1):
         x = sx * (W_RAIL / 2 - 0.03)

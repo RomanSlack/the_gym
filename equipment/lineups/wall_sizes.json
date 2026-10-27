@@ -1,0 +1,44 @@
+{
+ "beastmaker-2000-series-hangboard": {
+  "w": 0.76,
+  "d": 0.074,
+  "z0": 2.275,
+  "z1": 2.615
+ },
+ "gymleco-wooden-wall-bars-with-chins-rack": {
+  "w": 0.81,
+  "d": 0.526,
+  "z0": 0.0,
+  "z1": 2.274
+ },
+ "life-fitness-adjustable-wall-mounted-mat-rack": {
+  "w": 0.9,
+  "d": 0.169,
+  "z0": 0.178,
+  "z1": 2.015
+ },
+ "metolius-wood-grips-campus-rungs": {
+  "w": 0.9,
+  "d": 0.051,
+  "z0": 1.2,
+  "z1": 2.7
+ },
+ "rogue-belt-and-band-hanger": {
+  "w": 0.597,
+  "d": 0.213,
+  "z0": 1.594,
+  "z1": 1.702
+ },
+ "rogue-echo-gym-timer-2-0": {
+  "w": 0.622,
+  "d": 0.065,
+  "z0": 2.298,
+  "z1": 2.502
+ },
+ "rogue-pine-maple-peg-board": {
+  "w": 0.298,
+  "d": 0.165,
+  "z0": 0.75,
+  "z1": 3.03
+ }
+}

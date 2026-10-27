@@ -56,7 +56,8 @@ def setting(name):
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.4), (1.2, 0.10, 2.8), soft=0.0)                                      # the display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.4), (1.2, 0.10, 2.8), soft=0.0)                                      # display wall
     k.box("ply", (0, -BACK / 2, ZC), (0.76, BACK, 0.34), soft=0.002)                                # the backing board
     yf = -BACK - D                                      # the board's face
     zt, zm = ZC + HB / 2, ZC - 0.005                    # its top, the split between the tiers

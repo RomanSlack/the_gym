@@ -34,7 +34,8 @@ DETAILS = {
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    k.box("wall", (0, 0.05, 1.5), (1.2, 0.10, 3.0), soft=0.0)                                      # display wall
+    if getattr(k, "display", True):                                  # the display wall (not the piece: off when it hangs on a real wall)
+        k.box("wall", (0, 0.05, 1.5), (1.2, 0.10, 3.0), soft=0.0)                                      # display wall
     k.box("ply", (0, -BT / 2, 1.95), (0.90, BT, 1.50), soft=0.002)                                  # the board
     for z in ZS:
         sec = [(-BT, z - H / 2), (-BT - D + 0.006, z - H / 2), (-BT - D, z - H / 2 + 0.006), (-BT - D, z + H / 2 - 0.012),
