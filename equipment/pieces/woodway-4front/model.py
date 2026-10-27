@@ -18,7 +18,7 @@ DESIGN SPEC (gate 1, written 2026-10-25 for v004: the piece predates the gates)
    inside the arches (x 0.34 at the deck, the hands at 0.2), the yoke 1.31 m up ahead of the runner within a steadying
    reach, the screen a little below the eyes, tilted back to them (its centre 1.59 m; the middle user's eyes about
    1.96 with the deck).
-6. Size. 193 x 89 x 188 cm with the 21 in screen (76 x 35 x 74 in), as above.
+6. Size. 193 x 89 x 188 cm with the 21 in screen (76 x 35 x 74 in), as above. Ours (v005, the size audit) 1.83 x 0.89 x 1.81.
 Axes: metres, floor z = 0; the user runs facing +y toward the console; +x is the side ref_02 shows.
 Structure: the low deck (two side frames with rounded ends on feet, the WOODWAY mark; the flat foot rails each side of
 the belt; the slatted rubber belt over its drums, the rounded rear wrap); a handrail arch each side landing on its side
@@ -56,6 +56,14 @@ XB, XO = 0.28, 0.40                 # the belt's half width (22 in) and the side
 ARCH = [(-0.356, ZD), (-0.32, 0.67), (-0.216, 0.915), (-0.044, 1.105), (0.164, 1.227), (0.338, 1.313)]   # ref_02
 XL, XT = 0.34, 0.33                 # the arches' x at the deck and at the yoke (ref_01: about as wide at the top)
 SCREEN = (0.50, 1.585, 0.50, 0.30, math.radians(16))   # the 21 in screen: y, z centre, width, height, tilt back
+# Size audit (2026-10-26, before placing it in the gym): the deck as traced came to 1.755 m long and 0.80 wide; Woodway's
+# 4Front is 72 x 35 in (1.83 x 0.89 m). The px scale had read the deck alone as 72 in: everything traced off ref_02 grows by
+# 1.83 / 1.755 (the screen's top to ~1.81 m, the spec 74 in with the 21 in screen), the side frames widen to 35 in.
+_K = 1.83 / (0.876 + 0.879)
+YF, YR, ZD = YF * _K, YR * _K, ZD * _K
+ARCH = [(y_ * _K, z_ * _K) for y_, z_ in ARCH]
+SCREEN = (SCREEN[0] * _K, SCREEN[1] * _K) + SCREEN[2:]
+XO = 0.445
 
 
 def spline(pts, n=10):
