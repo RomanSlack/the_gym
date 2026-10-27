@@ -116,9 +116,9 @@ def build(k):
     fi, fm = FX0 - FR / 2, FM + FR / 2
     for l in (LI, 0.0):
         k.bar("frame", P(fi, l, RZ), P(fm, l, RZ), FR, FR, cut0=(P(fi, 0, 0), (0, 1, 0)), cut1=(P(fm, 0, 0), (0, 1, 0)), weld=True)
-    ra = [P(fi, LO, RZ), P(-0.62, LO, RZ), P(-0.74, LO, 0.34), P(-0.98, LO, 0.34), P(FX1 + FR / 2 + 0.02, LO, RZ)]
+    ra = [P(fi, LO, RZ), P(-0.62, LO, RZ), P(-0.74, LO, 0.34), P(-0.98, LO, 0.34), P(FX1, LO, RZ)]
     k.sweep("frame", ra, k.rect(FR, FR, 0.006), bend=0.10, up=Z, cut0=(P(fi, 0, 0), (0, 1, 0)),
-            cut1=(P(FX1 + FR / 2, 0, 0), (0, -1, 0)), weld=True)
+            cut1=(P(0, 0, RZ), Z), weld=True)   # down into the rear cross bar (a vertical cut stretched the steep end 0.21 m through the floor)
     k.box("placard", P(-0.86, LO + FR / 2 + 0.001, 0.34), (0.002, 0.16, 0.05), soft=0.0)
     for i, line in enumerate(("HAMMER", "STRENGTH")):
         k.text("label", line, P(-0.86, LO + FR / 2 + 0.0024, 0.351 - i * 0.021), 0.017, rz=math.pi / 2, depth=0.0004)

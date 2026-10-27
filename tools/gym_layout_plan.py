@@ -326,7 +326,7 @@ def plan_f3(G):
 
     # --- the rig on the functional floor (north-west): pull-up / squat bays, rings + climbing ropes hung from it
     rig = F.put("rogue-monster-rig-2-0", -24.8, -1.0, 0, "functional", "rings, climbing ropes, the parallel bars + a landmine on it")
-    F.put("rogue-rig-mount-parallel-bars", -23.4, -1.0, 0, "functional", "on the rig", on=rig["id"])
+    F.put("rogue-rig-mount-parallel-bars", -23.8, -1.0, 0, "functional", "on the rig, in its east 49 in squat cell", on=rig["id"])
     F.put("rogue-10-bar-holder", -26.2, -8.2, 0, "functional", "the rig's bars")
     F.put("rogue-freestanding-chalk-stand", -22.9, -3.4, 0, "functional")
 

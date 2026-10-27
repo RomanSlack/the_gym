@@ -3876,13 +3876,13 @@
    "room": "functional",
    "kind": "rogue-rig-mount-parallel-bars",
    "label": "Rogue Rig Mount Parallel Bars",
-   "x": -23.4,
+   "x": -23.8,
    "y": -1.0,
    "w": 1.346,
    "d": 2.032,
    "rot": 0,
    "h": 1.832,
-   "note": "on the rig",
+   "note": "on the rig, in its east 49 in squat cell",
    "on": "rogue-monster-rig-2-0-1"
   },
   {

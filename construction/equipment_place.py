@@ -109,12 +109,15 @@ def build_floor(name, z, coll, protos):
         piece = K.get(kd, {}).get("piece")
         if piece and piece in ("rogue-rig-mount-parallel-bars",) and it.get("on") in byid:
             rig = byid[it["on"]]
-            mr = _model("rogue-monster-lite-monkey-rig-2-0")
-            pb = lambda pm: setattr(pm, "YU", mr.DEP / 2)
-            c, (cx, cy) = _proto(piece, protos, display=False, tweak=("monkey", pb))
+            mr = _model(rig["kind"])
+            if rig["kind"] == "rogue-monster-rig-2-0":                  # the 49 in squat cell, the bars cut to its 49 in depth
+                xu, bay = mr.BAYS[0] / 2, ((mr.XS[0] + mr.XS[1]) / 2, 0.0)
+            else:                                                       # the Monkey Rig: the east end's 43 in bay
+                xu, bay = (mr.XS[5] - mr.XS[4]) / 2, ((mr.XS[4] + mr.XS[5]) / 2, 0.0)
+            pb = lambda pm: (setattr(pm, "YU", mr.DEP / 2), setattr(pm, "XU", xu))
+            c, (cx, cy) = _proto(piece, protos, display=False, tweak=(rig["kind"], pb))
             rc, (rcx, rcy) = _proto(rig["kind"], protos)
             a = _turn(K[rig["kind"]]["face"], rig["rot"])
-            bay = ((mr.XS[4] + mr.XS[5]) / 2, 0.0)                     # the east end's 43 in bay
             Mr = Matrix.Translation((rig["x"], rig["y"], z)) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Translation((-rcx, -rcy, 0))
             _instance(c, coll, Mr @ Matrix.Translation((bay[0] - cx, bay[1] - cy, 0)) @ Matrix.Translation((cx, cy, 0)), it["id"])
             n += 1
