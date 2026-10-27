@@ -4,6 +4,8 @@ A side mission next to the architecture, and as big a job: **the most extensive 
 
 It runs on its own, separate from the building pipeline, so a failure on one side never breaks the other.
 
+**Status (2026-10-26): the library is complete as a phase.** Every product Roman picked is modelled (177 pieces); the next phase places them in the building (HANDOFF.md, "NEXT PHASE"). Pieces still get new versions when Roman reviews one.
+
 ## Roman's decisions (2026-10-17)
 
 - **Every product Roman linked is a pick, and we model it.** Where he linked several for one list item, we want all of them: four leg extensions (Hammer Strength Select, Life Fitness Insignia, Hammer Strength Plate Loaded Iso-Lateral, Precor Resolute) and two standing calf raises (Hammer Strength Select, Atlantis incline M318) are four and two separate machines in the gym. Same for the two seated calf, the flat bench stations, the platforms.
@@ -25,6 +27,7 @@ It runs on its own, separate from the building pipeline, so a failure on one sid
 | Its product photos (local only, they belong to the shops) | `pieces/<piece>/refs/` |
 | Our model, every iteration | `pieces/<piece>/models/<piece>_<view>_vNNN.jpg` + `<piece>_vNNN.glb`, never overwritten (`tools/versions.py`) |
 | Pieces from picks, then price + photos | `python3 equipment/tools/pieces.py sync` / `fetch` |
+| Everything together on one stepped stage (sizes survey + renders) | `equipment/tools/showroom.py` → `lineups/showroom_*_vNNN.jpg`, `lineups/showroom_sizes.json`; gpt-image-2 versions with people in `lineups/people/` |
 | The replay (curation, each piece's versions, overview, video mode V) | `python3 equipment/replay/build.py` → `replay/out/index.html` |
 
 Each modelling pass is committed on its own, so the replay shows the prompt behind every version.
