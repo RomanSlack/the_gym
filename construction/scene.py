@@ -76,12 +76,12 @@ CAMS = {
     # F2 (floor -4.91, eye -3.31; Roman 2026-10-27: "now do F2 and F3")
     "eq2_racks": ((-21.0, -33.6, -3.31), (-25.5, -10.0, -3.55), 20),     # up the mirror wall: the staggered racks + flat benches
     "eq2_olympic": ((-19.0, -7.0, -3.31), (-27.5, 6.0, -3.7), 20),       # the olympic platforms in their two staggered lines
-    "eq2_legs": ((-17.0, -9.6, -3.31), (-14.0, 6.0, -3.6), 20),          # off the spiral north into the leg hub
-    "eq2_legext": ((-23.0, 2.6, -3.31), (-13.0, 8.6, -3.7), 20),         # the leg extension island
+    "eq2_legs": ((-15.2, -9.7, -3.31), (-13.5, 6.0, -3.6), 18),          # off the spiral north into the leg hub
+    "eq2_legext": ((-22.2, 5.8, -3.31), (-12.0, 7.6, -3.7), 18),         # the leg extension island, down the aisle from the smiths
     "eq2_cardio": ((-15.5, -2.8, -3.31), (-8.5, 7.0, -3.5), 20),          # the cardio by the glass + the PWR Play module
-    "eq2_river": ((-10.4, -31.6, -3.31), (-8.3, -8.0, -3.6), 20),        # the selectorized legs facing the river
+    "eq2_river": ((-9.9, -33.2, -3.31), (-8.6, -8.0, -3.6), 20),        # the selectorized legs facing the river
     "eq2_spiral": ((-13.7, -16.6, -3.29), (-22.0, -27.5, -3.75), 20),    # off the spiral: the bench + dumbbell islands
-    "eq2_pod": ((-12.6, -35.15, -3.31), (-16.0, -38.6, -3.9), 16),        # inside private pod 2
+    "eq2_pod": ((-16.5, -35.0, -3.31), (-13.0, -38.8, -3.9), 16),        # inside private pod 2
     "eq2_top": ((-18.0, -14.0, 15.09), (-17.99, -14.0, -4.91), ("ORTHO", 57.0)),   # top-down, the river up (roof clipped)
     # F3 (floor -9.77, eye -8.17)
     "eq3_den": ((-20.0, -33.6, -8.17), (-26.0, -12.0, -8.45), 20),       # the den: 18 benches in two staggered rows at the mirror
@@ -89,7 +89,7 @@ CAMS = {
     "eq3_maze": ((-12.6, -5.8, -8.17), (-19.0, 3.0, -8.45), 20),          # the PWR Play maze
     "eq3_rig": ((-27.6, -9.6, -8.17), (-23.5, 1.0, -8.0), 20),            # from the open floor: the Monster Rig
     "eq3_strongman": ((-28.0, -3.6, -8.17), (-25.0, 9.5, -8.6), 20),     # past the rig to the strongman corner
-    "eq3_lane": ((-13.2, -12.4, -8.17), (-13.0, -33.0, -8.7), 20),        # down the sled lane
+    "eq3_lane": ((-12.0, -12.4, -8.17), (-12.9, -33.0, -8.7), 20),        # down the sled lane
     "eq3_river": ((-11.2, -31.6, -8.17), (-8.9, -5.0, -8.5), 20),         # the conditioning + upper machines by the river
     "eq3_altitude": ((-15.3, -34.9, -8.17), (-26.0, -38.4, -8.6), 18),   # the altitude training room
     "eq3_top": ((-18.0, -14.0, 10.23), (-17.99, -14.0, -9.77), ("ORTHO", 57.0)),   # top-down, the river up (roof clipped)
@@ -744,7 +744,7 @@ if RENDER:
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
         if cam_n.startswith("eq") and cam_n.endswith("_top"):
             scene.camera.data.clip_start = 15.75 if cam_n == "eq1_top" else 16.9   # cut 4.25 m up (F2 + F3: 3.1 m, under the pods' ceilings)
-        scene.view_settings.exposure = EXPO + (2.2 if cam_n[:2] == "eq" and cam_n[3:4] == "_" else 0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (1.0 if cam_n == "eq2_pod" else 2.2 if cam_n[:2] == "eq" and cam_n[3:4] == "_" else 0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
