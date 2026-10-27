@@ -72,7 +72,7 @@ CAMS = {
     "eq1_pull": ((-17.95, -18.6, 1.6), (-17.95, -24.0, 1.6), 24),         # standing at the pull-up bars, the rig behind
     "eq1_pwr": ((-27.0, -21.0, 1.6), (-23.5, -15.2, 1.3), 22),           # the garden-side PWR Play island
     "eq1_bikes": ((-27.6, -30.4, 1.55), (-15.0, -33.2, 0.9), 22),        # along the bikes on the south glass
-    "eq1_top": ((-17.9, -21.7, 20.0), (-17.9, -21.69, 0.0), ("ORTHO", 27.0)),   # top-down (roof clipped): the overlay check
+    "eq1_top": ((-17.9, -21.7, 20.0), (-17.9, -21.69, 0.0), ("ORTHO", 45.0)),   # top-down (roof clipped): the overlay check
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),

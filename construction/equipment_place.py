@@ -132,7 +132,7 @@ def build_floor(name, z, coll, protos):
                 c = bpy.data.collections[cname]
             else:
                 c = bpy.data.collections.new(cname); protos.children.link(c)
-                k = kit.Kit("pullup", c); k.check = lambda: None
+                k = kit.Kit("pullup", c, _model("rogue-monster-lite-monkey-rig-2-0").LOOK); k.check = lambda: None
                 pullup_station(k, span)
                 for o in k.finish():
                     if o.name not in c.objects:
