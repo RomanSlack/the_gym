@@ -2814,21 +2814,6 @@
    "face": "-x",
    "piece": "life-fitness-axiom-series-leg-curl"
   },
-  "life-fitness-club-series-elliptical-cross-trainer": {
-   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
-   "d": 2.31,
-   "h": 1.853,
-   "mat": "cardio",
-   "tag": "elliptical",
-   "use": [
-    0.3,
-    0.6,
-    0.45,
-    0.45
-   ],
-   "face": "-y",
-   "piece": "life-fitness-club-series-elliptical-cross-trainer"
-  },
   "life-fitness-club-series-upright-lifecycle-bike": {
    "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
    "d": 1.064,
@@ -3247,7 +3232,6 @@
   "hammer-strength-select-standing-calf": 1,
   "hammer-strength-three-tier-dumbbell-rack": 5,
   "life-fitness-axiom-series-leg-curl": 2,
-  "life-fitness-club-series-elliptical-cross-trainer": 3,
   "life-fitness-club-series-upright-lifecycle-bike": 3,
   "life-fitness-ic7-indoor-cycle": 2,
   "life-fitness-insignia-series-calf-extension": 1,
@@ -3273,7 +3257,7 @@
   "rogue-wood-jerk-blocks": 1,
   "titan-deadlift-pulling-blocks": 1,
   "titan-series-power-rack-lifting-platform": 6,
-  "woodway-4front": 6
+  "woodway-4front": 4
  },
  "items": [
   {
@@ -5492,64 +5476,203 @@
    "h": 1.741
   },
   {
-   "id": "woodway-4front-5",
-   "room": "cardio",
-   "kind": "woodway-4front",
-   "label": "Woodway 4Front",
-   "x": -10.627,
-   "y": 4.045,
-   "w": 0.81,
-   "d": 1.755,
-   "rot": -90,
-   "h": 1.741
+   "id": "maze-f2-core-A",
+   "room": "PWR Play island",
+   "kind": "pwr_core",
+   "label": "PWR Play Core A",
+   "x": -10.9,
+   "y": 5.6,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-f2"
   },
   {
-   "id": "woodway-4front-6",
-   "room": "cardio",
-   "kind": "woodway-4front",
-   "label": "Woodway 4Front",
-   "x": -10.627,
-   "y": 5.405,
-   "w": 0.81,
-   "d": 1.755,
-   "rot": -90,
-   "h": 1.741
+   "id": "maze-f2-core-B",
+   "room": "PWR Play island",
+   "kind": "pwr_core",
+   "label": "PWR Play Core B",
+   "x": -10.9,
+   "y": 8.873,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-f2"
   },
   {
-   "id": "life-fitness-club-series-elliptical-cross-trainer-1",
-   "room": "cardio",
-   "kind": "life-fitness-club-series-elliptical-cross-trainer",
-   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
-   "x": -10.905,
-   "y": 6.745,
-   "w": 0.77,
-   "d": 2.31,
-   "rot": -90,
-   "h": 1.853
+   "id": "maze-f2-AW-pulldown",
+   "room": "PWR Play island",
+   "kind": "pwr_pulldown",
+   "label": "PWR Play pulldown (Core A, W face)",
+   "x": -11.661,
+   "y": 5.6,
+   "w": 1.222,
+   "d": 0.592,
+   "rot": 90,
+   "group": "maze-f2",
+   "core": "A",
+   "face": "W",
+   "station": "pulldown"
   },
   {
-   "id": "life-fitness-club-series-elliptical-cross-trainer-2",
-   "room": "cardio",
-   "kind": "life-fitness-club-series-elliptical-cross-trainer",
-   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
-   "x": -10.905,
-   "y": 8.065,
-   "w": 0.77,
-   "d": 2.31,
-   "rot": -90,
-   "h": 1.853
+   "id": "maze-f2-BW-pulldown",
+   "room": "PWR Play island",
+   "kind": "pwr_pulldown",
+   "label": "PWR Play pulldown (Core B, W face)",
+   "x": -11.661,
+   "y": 8.873,
+   "w": 1.222,
+   "d": 0.592,
+   "rot": 90,
+   "group": "maze-f2",
+   "core": "B",
+   "face": "W",
+   "station": "pulldown"
   },
   {
-   "id": "life-fitness-club-series-elliptical-cross-trainer-3",
-   "room": "cardio",
-   "kind": "life-fitness-club-series-elliptical-cross-trainer",
-   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
-   "x": -10.905,
-   "y": 9.385,
-   "w": 0.77,
-   "d": 2.31,
+   "id": "maze-f2-AE-triceps",
+   "room": "PWR Play island",
+   "kind": "pwr_triceps",
+   "label": "PWR Play triceps (Core A, E face)",
+   "x": -10.302,
+   "y": 5.6,
+   "w": 0.928,
+   "d": 0.266,
    "rot": -90,
-   "h": 1.853
+   "group": "maze-f2",
+   "core": "A",
+   "face": "E",
+   "station": "triceps"
+  },
+  {
+   "id": "maze-f2-BE-handles",
+   "room": "PWR Play island",
+   "kind": "pwr_handles",
+   "label": "PWR Play handles (Core B, E face)",
+   "x": -10.341,
+   "y": 8.873,
+   "w": 0.928,
+   "d": 0.189,
+   "rot": -90,
+   "group": "maze-f2",
+   "core": "B",
+   "face": "E",
+   "station": "handles"
+  },
+  {
+   "id": "maze-f2-AS-step",
+   "room": "PWR Play island",
+   "kind": "pwr_step",
+   "label": "PWR Play step (Core A, S face)",
+   "x": -10.9,
+   "y": 4.879,
+   "w": 0.928,
+   "d": 0.513,
+   "rot": 180,
+   "group": "maze-f2",
+   "core": "A",
+   "face": "S",
+   "station": "step"
+  },
+  {
+   "id": "maze-f2-BN-crossover",
+   "room": "PWR Play island",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core B, N face)",
+   "x": -10.9,
+   "y": 9.47,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 0,
+   "group": "maze-f2",
+   "core": "B",
+   "face": "N",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-f2-AN-dualhigh",
+   "room": "PWR Play island",
+   "kind": "pwr_dualhigh",
+   "label": "PWR Play dual high (Core A, N face)",
+   "x": -10.9,
+   "y": 6.385,
+   "w": 0.928,
+   "d": 0.64,
+   "rot": 0,
+   "group": "maze-f2",
+   "core": "A",
+   "face": "N",
+   "station": "dualhigh"
+  },
+  {
+   "id": "maze-f2-BS-duallow",
+   "room": "PWR Play island",
+   "kind": "pwr_duallow",
+   "label": "PWR Play dual low (Core B, S face)",
+   "x": -10.9,
+   "y": 8.098,
+   "w": 0.928,
+   "d": 0.62,
+   "rot": 180,
+   "group": "maze-f2",
+   "core": "B",
+   "face": "S",
+   "station": "duallow"
+  },
+  {
+   "id": "maze-f2-bar-AB",
+   "room": "PWR Play island",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar A-B (pull-ups)",
+   "x": -10.9,
+   "y": 7.236,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 90,
+   "group": "maze-f2",
+   "bar": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "id": "maze-f2-meta",
+   "room": "PWR Play island",
+   "kind": "pwr_meta",
+   "label": "maze f2",
+   "group": "maze-f2",
+   "fixed": true,
+   "cores": {
+    "A": [
+     0,
+     0
+    ],
+    "B": [
+     0,
+     1
+    ]
+   },
+   "origin": [
+    -10.9,
+    5.6
+   ],
+   "spacing": 3.273,
+   "faces": {
+    "A,W": "pulldown",
+    "B,W": "pulldown",
+    "A,E": "triceps",
+    "B,E": "handles",
+    "A,S": "step",
+    "B,N": "crossover",
+    "A,N": "dualhigh",
+    "B,S": "duallow"
+   },
+   "bars": [
+    [
+     "A",
+     "B"
+    ]
+   ]
   },
   {
    "id": "rogue-monster-lite-half-rack-1",

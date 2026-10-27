@@ -134,10 +134,17 @@ def plan_f2(G):
         F.put(p_, -7.05 - d / 2, y + w / 2, -90, "cardio")
         y += w + 0.75
     y = -1.8
-    for p_ in ["woodway-4front"] * 6 + ["life-fitness-club-series-elliptical-cross-trainer"] * 3:
+    for p_ in ["woodway-4front"] * 4:
         w, d = G.footprint(p_)
         F.put(p_, -9.75 - d / 2, y + w / 2, -90, "cardio")
         y += w + 0.55
+
+    # --- a PWR Play island by the cardio (Roman: "sub islands of the play station thing ... 2 modules or so on F1 and F2 ... the
+    # consistency to hit lats or any of the cable ones for super setting"): two Cores on a crossbar, the pulldowns facing in
+    F.maze("f2", {"A": (0, 0), "B": (0, 1)},
+           {("A", "W"): "pulldown", ("B", "W"): "pulldown", ("A", "E"): "triceps", ("B", "E"): "handles",
+            ("A", "S"): "step", ("B", "N"): "crossover", ("A", "N"): "dualhigh", ("B", "S"): "duallow"},
+           [("A", "B")], origin=(-10.9, 5.6), zone="PWR Play island")
 
     # --- the three pods (south annex): the half rack on the flush platform facing the mirror (east wall), a bench, the dumbbells
     for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
@@ -346,9 +353,19 @@ def plan_f1(G):
     XWF, XEF, YSF, YNF = -28.725, -6.51, -34.04, -9.375          # the core walls' faces, the glass, the locker block's wall
 
     # --- cardio along the glass: the treadmills facing the river, the standing machines behind them, the bikes on the south glass
-    place_row(F, G, ["woodway-4front"] * 4 + ["hammer-strength-hd-tread"] * 2 + ["woodway-4front"] * 4, XEF - 0.3, -33.55, -90, 0.55, "cardio by the river")
-    place_row(F, G, ["life-fitness-club-series-elliptical-cross-trainer"] * 4 + [None] + ["stairmaster-8gx-stepmill"] * 3 + [None, "versaclimber-ts-magnetic"],
-              -10.75, -33.55, -90, 0.6, "cardio by the river")
+    place_row(F, G, ["woodway-4front"] * 5 + ["hammer-strength-hd-tread"] * 2 + ["woodway-4front"] * 5, XEF - 0.3, -33.55, -90, 0.5, "cardio by the river")
+    place_row(F, G, ["life-fitness-club-series-elliptical-cross-trainer"] * 7 + [None] + ["stairmaster-8gx-stepmill"] * 3 + ["versaclimber-ts-magnetic"],
+              -10.75, -33.55, -90, 0.5, "cardio by the river")
+
+    # --- two PWR Play islands, one either side of the spiral (lats + cables on every floor, for supersets)
+    F.maze("f1w", {"A": (0, 0), "B": (0, 1)},
+           {("A", "W"): "pulldown", ("B", "W"): "pulldown", ("A", "E"): "handles", ("B", "E"): "triceps",
+            ("A", "S"): "dualhigh", ("B", "N"): "duallow", ("A", "N"): "crossover", ("B", "S"): "crossover"},
+           [("A", "B")], origin=(-24.0, -17.0), zone="PWR Play island (garden side)")
+    F.maze("f1e", {"A": (0, 0), "B": (0, 1)},
+           {("A", "E"): "pulldown", ("B", "E"): "pulldown", ("A", "W"): "handles", ("B", "W"): "panel",
+            ("A", "S"): "step", ("B", "N"): "ropepull", ("A", "N"): "crossover", ("B", "S"): "crossover"},
+           [("A", "B")], origin=(-12.0, -17.3), zone="PWR Play island (river side)")
     x = -22.6
     for p_ in ["life-fitness-club-series-recumbent-lifecycle-bike"] * 3 + ["life-fitness-club-series-upright-lifecycle-bike"] * 3:
         w, d = G.footprint(p_)
@@ -383,12 +400,12 @@ def plan_f1(G):
         F.put("life-fitness-accessory-rack", x, -19.9, 180, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
     F.put("life-fitness-accessory-rack", -15.6, -28.9, 0, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
     F.put("hammer-strength-stability-ball", -25.0, -23.5, 90, "stretching", "stability balls, BOSUs, balance + slant boards beside")
-    F.put("life-fitness-vertical-medicine-ball-storage", -23.3, -17.6, 0, "stretching")
-    F.put("life-fitness-flexibility-trainer", -24.6, -13.6, 0, "stretching")
-    F.put("life-fitness-flexibility-trainer", -23.2, -13.6, 0, "stretching")
-    F.put("rogue-manta-ray-adjustable-bench", -24.6, -17.5, 0, "stretching", "ab bench")
+    F.put("life-fitness-vertical-medicine-ball-storage", -13.9, -27.2, 0, "stretching")
+    F.put("life-fitness-flexibility-trainer", -23.6, -21.9, 0, "stretching")
+    F.put("life-fitness-flexibility-trainer", -23.6, -24.5, 0, "stretching")
+    F.put("rogue-manta-ray-adjustable-bench", -24.0, -28.3, 90, "stretching", "ab bench")
 
-    wipes(F, G, "F1", ((-12.5, -21.4, 0), (-21.6, -12.3, 0), (-22.0, -29.2, 0)))
+    wipes(F, G, "F1", ((-21.6, -12.3, 0), (-22.0, -29.2, 0)))
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
