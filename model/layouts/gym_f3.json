@@ -1542,6 +1542,19 @@
    "h": 0.0,
    "mat": "zone"
   },
+  "select_shoulder": {
+   "label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
+   "d": 1.3,
+   "h": 1.6,
+   "mat": "machine",
+   "tag": "shoulder press",
+   "use": [
+    0.7,
+    0.4,
+    0.5,
+    0.5
+   ]
+  },
   "rig_spur": {
    "label": "Pull-up station (to model: from the Monster Lite Monkey Rig's parts): two 108 in uprights on floor plates, a pull-up bar between them at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
    "d": 0.08,
@@ -1927,6 +1940,21 @@
    ],
    "face": "-y",
    "piece": "hammer-strength-plate-loaded-abdominal-oblique-crunch"
+  },
+  "hammer-strength-plate-loaded-glute-drive": {
+   "label": "Hammer Strength Plate Loaded Glute Drive",
+   "d": 1.756,
+   "h": 1.068,
+   "mat": "plate_loaded",
+   "tag": "glute drive",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-glute-drive"
   },
   "hammer-strength-plate-loaded-iso-lateral-bench-press": {
    "label": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
@@ -2541,6 +2569,7 @@
   "hammer-strength-fixed-pad-glute-ham": 4,
   "hammer-strength-hd-air-bike": 4,
   "hammer-strength-plate-loaded-abdominal-oblique-crunch": 1,
+  "hammer-strength-plate-loaded-glute-drive": 1,
   "hammer-strength-plate-loaded-iso-lateral-bench-press": 1,
   "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown": 1,
   "hammer-strength-plate-loaded-iso-lateral-incline-press": 1,
@@ -2549,8 +2578,8 @@
   "hammer-strength-plate-loaded-t-bar-row": 1,
   "hammer-strength-seated-arm-curl": 1,
   "hammer-strength-select-biceps-curl": 1,
-  "hammer-strength-select-chest-press": 3,
-  "hammer-strength-select-pectoral-fly-rear-deltoid": 2,
+  "hammer-strength-select-chest-press": 5,
+  "hammer-strength-select-pectoral-fly-rear-deltoid": 4,
   "hammer-strength-stackable-plyo-box": 1,
   "hammer-strength-three-tier-dumbbell-rack": 4,
   "life-fitness-3-tier-accessory-rack": 2,
@@ -3738,6 +3767,93 @@
    "note": "moved down from F2 for the leg extension island"
   },
   {
+   "id": "hammer-strength-plate-loaded-glute-drive-1",
+   "room": "posterior chain",
+   "kind": "hammer-strength-plate-loaded-glute-drive",
+   "label": "Hammer Strength Plate Loaded Glute Drive",
+   "x": -15.4,
+   "y": -10.9,
+   "w": 1.608,
+   "d": 1.756,
+   "rot": 0,
+   "h": 1.068,
+   "note": "the fourth glute drive"
+  },
+  {
+   "id": "hammer-strength-select-chest-press-1",
+   "room": "upper beside the maze",
+   "kind": "hammer-strength-select-chest-press",
+   "label": "Hammer Strength Select Chest Press",
+   "x": -12.432,
+   "y": -1.73,
+   "w": 1.339,
+   "d": 1.064,
+   "rot": -90,
+   "h": 1.653,
+   "note": "facing the river"
+  },
+  {
+   "id": "hammer-strength-select-chest-press-2",
+   "room": "upper beside the maze",
+   "kind": "hammer-strength-select-chest-press",
+   "label": "Hammer Strength Select Chest Press",
+   "x": -12.432,
+   "y": 0.508,
+   "w": 1.339,
+   "d": 1.064,
+   "rot": -90,
+   "h": 1.653,
+   "note": "facing the river"
+  },
+  {
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-1",
+   "room": "upper beside the maze",
+   "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
+   "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+   "x": -12.484,
+   "y": 2.821,
+   "w": 1.486,
+   "d": 1.168,
+   "rot": -90,
+   "h": 1.876,
+   "note": "facing the river"
+  },
+  {
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-2",
+   "room": "upper beside the maze",
+   "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
+   "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+   "x": -12.484,
+   "y": 5.207,
+   "w": 1.486,
+   "d": 1.168,
+   "rot": -90,
+   "h": 1.876,
+   "note": "facing the river"
+  },
+  {
+   "id": "select-shoulder-6.9",
+   "room": "upper beside the maze",
+   "kind": "select_shoulder",
+   "label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
+   "x": -12.55,
+   "y": 7.525,
+   "w": 1.35,
+   "d": 1.3,
+   "rot": -90
+  },
+  {
+   "id": "select-shoulder-9.1",
+   "room": "upper beside the maze",
+   "kind": "select_shoulder",
+   "label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
+   "x": -12.55,
+   "y": 9.775,
+   "w": 1.35,
+   "d": 1.3,
+   "rot": -90
+  },
+  {
    "id": "rogue-monster-rig-2-0-1",
    "room": "functional",
    "kind": "rogue-monster-rig-2-0",
@@ -3922,19 +4038,19 @@
    "station": "pulldown"
   },
   {
-   "id": "maze-den-DE-triceps",
+   "id": "maze-den-DE-row",
    "room": "the maze",
-   "kind": "pwr_triceps",
-   "label": "PWR Play triceps (Core D, E face)",
-   "x": -16.129,
+   "kind": "pwr_row",
+   "label": "PWR Play row (Core D, E face)",
+   "x": -15.46,
    "y": 1.373,
    "w": 0.928,
-   "d": 0.266,
+   "d": 1.605,
    "rot": -90,
    "group": "maze-den",
    "core": "D",
    "face": "E",
-   "station": "triceps"
+   "station": "row"
   },
   {
    "id": "maze-den-FE-pulldown",
@@ -3967,19 +4083,19 @@
    "station": "powerpivot"
   },
   {
-   "id": "maze-den-BS-pulldown",
+   "id": "maze-den-BS-triceps",
    "room": "the maze",
-   "kind": "pwr_pulldown",
-   "label": "PWR Play pulldown (Core B, S face)",
+   "kind": "pwr_triceps",
+   "label": "PWR Play triceps (Core B, S face)",
    "x": -16.727,
-   "y": -2.661,
-   "w": 1.222,
-   "d": 0.592,
+   "y": -2.498,
+   "w": 0.928,
+   "d": 0.266,
    "rot": 180,
    "group": "maze-den",
    "core": "B",
    "face": "S",
-   "station": "pulldown"
+   "station": "triceps"
   },
   {
    "id": "maze-den-EN-stallbars",
@@ -3997,19 +4113,19 @@
    "station": "stallbars"
   },
   {
-   "id": "maze-den-FN-dip",
+   "id": "maze-den-FN-row",
    "room": "the maze",
-   "kind": "pwr_dip",
-   "label": "PWR Play dip (Core F, N face)",
+   "kind": "pwr_row",
+   "label": "PWR Play row (Core F, N face)",
    "x": -16.727,
-   "y": 5.374,
+   "y": 5.913,
    "w": 0.928,
-   "d": 0.527,
+   "d": 1.605,
    "rot": 0,
    "group": "maze-den",
    "core": "F",
    "face": "N",
-   "station": "dip"
+   "station": "row"
   },
   {
    "id": "maze-den-AE-crossover",
@@ -4376,12 +4492,12 @@
     "C,W": "adjustable",
     "E,W": "dipchin",
     "B,E": "pulldown",
-    "D,E": "triceps",
+    "D,E": "row",
     "F,E": "pulldown",
     "A,S": "powerpivot",
-    "B,S": "pulldown",
+    "B,S": "triceps",
     "E,N": "stallbars",
-    "F,N": "dip",
+    "F,N": "row",
     "A,E": "crossover",
     "B,W": "crossover",
     "C,E": "dualhigh",
@@ -4933,7 +5049,7 @@
    "h": 0.704
   },
   {
-   "id": "hammer-strength-select-chest-press-1",
+   "id": "hammer-strength-select-chest-press-3",
    "room": "upper by the river",
    "kind": "hammer-strength-select-chest-press",
    "label": "Hammer Strength Select Chest Press",
@@ -4945,7 +5061,7 @@
    "h": 1.653
   },
   {
-   "id": "hammer-strength-select-chest-press-2",
+   "id": "hammer-strength-select-chest-press-4",
    "room": "upper by the river",
    "kind": "hammer-strength-select-chest-press",
    "label": "Hammer Strength Select Chest Press",
@@ -4957,7 +5073,7 @@
    "h": 1.653
   },
   {
-   "id": "hammer-strength-select-chest-press-3",
+   "id": "hammer-strength-select-chest-press-5",
    "room": "upper by the river",
    "kind": "hammer-strength-select-chest-press",
    "label": "Hammer Strength Select Chest Press",
@@ -4969,7 +5085,7 @@
    "h": 1.653
   },
   {
-   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-1",
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-3",
    "room": "upper by the river",
    "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
    "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
@@ -4981,7 +5097,7 @@
    "h": 1.876
   },
   {
-   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-2",
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-4",
    "room": "upper by the river",
    "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
    "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
@@ -5283,12 +5399,12 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--12.2--6.9",
+   "id": "wipes-F3--12.2--7.3",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -12.2,
-   "y": -6.9,
+   "y": -7.3,
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
@@ -5301,6 +5417,18 @@
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -11.8,
    "y": -18.5,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F3--13.4-2.7",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -13.4,
+   "y": 2.7,
    "w": 0.36,
    "d": 0.36,
    "rot": -90,
@@ -5355,18 +5483,6 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--9.8-3.1",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -9.8,
-   "y": 3.1,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -180,
-   "note": "wipes + spray + bin"
-  },
-  {
    "id": "wipes-F3--21.8--31.3",
    "room": "",
    "kind": "wipe_station",
@@ -5385,6 +5501,18 @@
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -20.6,
    "y": -39.3,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F3--13.4-6.7",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -13.4,
+   "y": 6.7,
    "w": 0.36,
    "d": 0.36,
    "rot": -90,
@@ -5415,18 +5543,6 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--17.4-3.9",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -17.4,
-   "y": 3.9,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
    "id": "wipes-F3--14.6--26.1",
    "room": "",
    "kind": "wipe_station",
@@ -5436,6 +5552,30 @@
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F3--11.8--14.9",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -11.8,
+   "y": -14.9,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F3--9.8-3.1",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -9.8,
+   "y": 3.1,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -180,
    "note": "wipes + spray + bin"
   }
  ]

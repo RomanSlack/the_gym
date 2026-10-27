@@ -166,6 +166,8 @@ KINDS_FIXED = {
     "safety_point": {"label": "Safety point: AED, extinguisher, first aid (built)", "d": 0.15, "h": 1.5, "mat": "fixture", "tag": "AED"},
     "wipe_station": {"label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)", "d": 0.36, "h": 1.1, "mat": "fixture", "tag": "wipes", "use": [0.5, 0, 0, 0]},
     "floor_zone": {"label": "Floor zone", "d": 1.0, "h": 0.0, "mat": "zone"},
+    "select_shoulder": {"label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
+                        "d": 1.3, "h": 1.6, "mat": "machine", "tag": "shoulder press", "use": [0.7, 0.4, 0.5, 0.5]},
     "rig_spur": {"label": "Pull-up station (to model: from the Monster Lite Monkey Rig's parts): two 108 in uprights on floor plates, a pull-up bar between them at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
                  "d": 0.08, "h": 2.74, "mat": "rack", "tag": "pull-up bar", "use": [0.9, 0.9, 0.15, 0.15]},
     "pwr_core": {"label": "Life Fitness PWR Play: a Core (four faces, a station on each)", "d": PWR["core"][1], "h": 2.415, "mat": "pwr", "tag": "core"},

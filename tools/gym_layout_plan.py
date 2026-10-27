@@ -129,7 +129,15 @@ def plan_f2(G):
             x += w + gap
     LF, HS, PR = "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"
     lrow([LF, LF, PR, PR, "hammer-strength-mts-kneeling-leg-curl"], -22.2, 8.4, 0)
-    lrow([LF, HS, HS, HS], -22.2, 8.0, 180)
+    lrow([LF, HS, HS, HS, "hammer-strength-select-hip-abduction", "hammer-strength-select-hip-adduction"], -22.2, 8.0, 180)
+    # more of the busy ones (Roman, 2026-10-26: yes to the counts): a fourth leg press + a third glute drive sharing a tree at the
+    # cardio's south end, a third smith by the bench island
+    w, d = G.footprint(lp)
+    F.put(lp, -11.6 + w / 2, -2.6 - d / 2, 180, "the leg hub")
+    F.put("life-fitness-olympic-weight-tree", -9.5, -2.95, 0, "the leg hub")
+    w, d = G.footprint("hammer-strength-plate-loaded-glute-drive")
+    F.put("hammer-strength-plate-loaded-glute-drive", -8.95 + w / 2, -2.6 - d / 2, 180, "the leg hub")
+    F.put("life-fitness-smith-machine", -11.4, -30.9, 0, "free weights")
 
     # --- cardio on the river band: the seats by the glass, the standing machines behind (they see over them)
     y = -1.6
@@ -146,7 +154,7 @@ def plan_f2(G):
     # --- a PWR Play island by the cardio (Roman: "sub islands of the play station thing ... 2 modules or so on F1 and F2 ... the
     # consistency to hit lats or any of the cable ones for super setting"): two Cores on a crossbar, the pulldowns facing in
     F.maze("f2", {"A": (0, 0), "B": (0, 1)},
-           {("A", "W"): "pulldown", ("B", "W"): "pulldown", ("A", "E"): "triceps", ("B", "E"): "handles",
+           {("A", "W"): "pulldown", ("B", "W"): "pulldown", ("A", "E"): "row", ("B", "E"): "triceps",
             ("A", "S"): "step", ("B", "N"): "crossover", ("A", "N"): "dualhigh", ("B", "S"): "duallow"},
            [("A", "B")], origin=(-10.9, 5.6), zone="PWR Play island")
 
@@ -303,6 +311,18 @@ def plan_f3(G):
     for p_, y in (("hammer-strength-fixed-pad-glute-ham", -11.6), ("hammer-strength-fixed-pad-glute-ham", -8.9),
                   ("hammer-strength-back-extension", -6.3), ("hammer-strength-back-extension", -3.9)):
         F.put(p_, -13.2, y, 0, "posterior chain", "moved down from F2 for the leg extension island")
+    F.put("hammer-strength-plate-loaded-glute-drive", -15.4, -10.9, 0, "posterior chain", "the fourth glute drive")
+    y = -2.4
+    for p_ in ("hammer-strength-select-chest-press", "hammer-strength-select-chest-press", "hammer-strength-select-pectoral-fly-rear-deltoid",
+               "hammer-strength-select-pectoral-fly-rear-deltoid", "select_shoulder", "select_shoulder"):
+        if p_ == "select_shoulder":
+            w, d = 1.35, 1.3
+            F.items.append({"id": f"select-shoulder-{y:.1f}", "room": "upper beside the maze", "kind": "select_shoulder", "label": G.KINDS_FIXED["select_shoulder"]["label"],
+                            "x": round(-11.9 - d / 2, 3), "y": round(y + w / 2, 3), "w": w, "d": d, "rot": -90})
+        else:
+            w, d = G.footprint(p_)
+            F.put(p_, -11.9 - d / 2, y + w / 2, -90, "upper beside the maze", "facing the river")
+        y += w + 0.9
 
     # --- the rig on the functional floor (north-west): pull-up / squat bays, rings + climbing ropes hung from it
     rig = F.put("rogue-monster-rig-2-0", -24.8, -1.0, 0, "functional", "rings, climbing ropes, the parallel bars + a landmine on it")
@@ -314,8 +334,8 @@ def plan_f3(G):
     # the aisles, pull-up handles on every crossbar
     cores = {"A": (0, 0), "B": (1, 0), "C": (0, 1), "D": (1, 1), "E": (0, 2), "F": (1, 2)}
     faces = {("A", "W"): "row", ("C", "W"): "adjustable", ("E", "W"): "dipchin",
-             ("B", "E"): "pulldown", ("D", "E"): "triceps", ("F", "E"): "pulldown",
-             ("A", "S"): "powerpivot", ("B", "S"): "pulldown", ("E", "N"): "stallbars", ("F", "N"): "dip",
+             ("B", "E"): "pulldown", ("D", "E"): "row", ("F", "E"): "pulldown",
+             ("A", "S"): "powerpivot", ("B", "S"): "triceps", ("E", "N"): "stallbars", ("F", "N"): "row",
              ("A", "E"): "crossover", ("B", "W"): "crossover", ("C", "E"): "dualhigh", ("D", "W"): "duallow",
              ("E", "E"): "ropepull", ("F", "W"): "handles",
              ("A", "N"): "crossover", ("C", "S"): "crossover", ("C", "N"): "dip", ("E", "S"): "step",
@@ -394,7 +414,7 @@ def plan_f3(G):
     place_row(F, G, ["life-fitness-row-hx-trainer", "woodway-4front", "woodway-4front", "life-fitness-row-hx-trainer"], -20.4, -39.55, 90, 0.6, "altitude",
               "facing the altitude display")
 
-    auto_wipes(F, G, fixed, 15)
+    auto_wipes(F, G, fixed, 17)
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
@@ -480,7 +500,7 @@ def plan_f1(G):
     F.put("life-fitness-flexibility-trainer", -23.6, -24.5, 0, "stretching")
     F.put("rogue-manta-ray-adjustable-bench", -24.0, -28.3, 90, "stretching", "ab bench")
 
-    auto_wipes(F, G, fixed, 7)
+    auto_wipes(F, G, fixed, 8)
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
