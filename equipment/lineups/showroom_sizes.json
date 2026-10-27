@@ -1,0 +1,1418 @@
+{
+ "abmat-original": {
+  "cat": "Functional / CrossFit",
+  "w": 0.305,
+  "d": 0.381,
+  "h": 0.064,
+  "z0": 0.0,
+  "polys": 4253
+ },
+ "abmat-pulling-blocks": {
+  "cat": "Racks + platforms",
+  "w": 1.762,
+  "d": 0.778,
+  "h": 0.66,
+  "z0": 0.0,
+  "polys": 688
+ },
+ "atlantis-incline-calf-raise-m318": {
+  "cat": "Machines: legs",
+  "w": 0.74,
+  "d": 1.646,
+  "h": 1.742,
+  "z0": -0.037,
+  "polys": 89956
+ },
+ "atlantis-olympic-flat-bench-press-with-pivot-p337": {
+  "cat": "Racks + platforms",
+  "w": 1.696,
+  "d": 1.828,
+  "h": 1.246,
+  "z0": 0.0,
+  "polys": 8828
+ },
+ "atlantis-olympic-flat-decline-bench-press-with-pivot-p339": {
+  "cat": "Racks + platforms",
+  "w": 1.696,
+  "d": 2.263,
+  "h": 1.322,
+  "z0": 0.0,
+  "polys": 9334
+ },
+ "atlantis-olympic-incline-bench-press-with-pivot-p338": {
+  "cat": "Racks + platforms",
+  "w": 1.696,
+  "d": 1.626,
+  "h": 1.449,
+  "z0": 0.0,
+  "polys": 10198
+ },
+ "beastmaker-2000-series-hangboard": {
+  "cat": "Grip + hangboard wall",
+  "w": 1.2,
+  "d": 0.174,
+  "h": 2.8,
+  "z0": 0.0,
+  "polys": 11686
+ },
+ "body-solid-gvkr60b-vertical-knee-raise-dip": {
+  "cat": "Benches",
+  "w": 0.716,
+  "d": 0.955,
+  "h": 1.505,
+  "z0": 0.0,
+  "polys": 8521
+ },
+ "captains-of-crush-grippers": {
+  "cat": "Grip + hangboard wall",
+  "w": 0.159,
+  "d": 0.594,
+  "h": 0.025,
+  "z0": -0.001,
+  "polys": 4730
+ },
+ "concept2-skierg": {
+  "cat": "Cardio",
+  "w": 0.61,
+  "d": 1.375,
+  "h": 2.16,
+  "z0": 0.0,
+  "polys": 6533
+ },
+ "eleiko-ipf-powerlifting-competition-change-plates": {
+  "cat": "Plates + plate storage",
+  "w": 0.228,
+  "d": 0.228,
+  "h": 0.063,
+  "z0": 0.0,
+  "polys": 22458
+ },
+ "eleiko-ipf-powerlifting-competition-plates": {
+  "cat": "Plates + plate storage",
+  "w": 0.45,
+  "d": 0.366,
+  "h": 0.45,
+  "z0": 0.0,
+  "polys": 41140
+ },
+ "eleiko-iwf-competition-barbell-collars": {
+  "cat": "Barbells + specialty bars",
+  "w": 0.291,
+  "d": 0.256,
+  "h": 0.156,
+  "z0": -0.007,
+  "polys": 3336
+ },
+ "eleiko-iwf-weightlifting-competition-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.202,
+  "d": 0.071,
+  "h": 0.071,
+  "z0": 0.0,
+  "polys": 16490
+ },
+ "eleiko-iwf-weightlifting-competition-plates": {
+  "cat": "Plates + plate storage",
+  "w": 0.45,
+  "d": 0.453,
+  "h": 0.45,
+  "z0": 0.0,
+  "polys": 51752
+ },
+ "fat-gripz": {
+  "cat": "Grip + hangboard wall",
+  "w": 0.177,
+  "d": 0.121,
+  "h": 0.121,
+  "z0": 0.0,
+  "polys": 6087
+ },
+ "fit3d-proscanner": {
+  "cat": "Special rooms + tech",
+  "w": 0.97,
+  "d": 1.67,
+  "h": 1.82,
+  "z0": 0.0,
+  "polys": 3420
+ },
+ "giant-15kg-hybrid-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.012,
+  "d": 0.071,
+  "h": 0.071,
+  "z0": 0.0,
+  "polys": 12490
+ },
+ "gmwd-multi-functional-seal-row-bench-sr05": {
+  "cat": "Benches",
+  "w": 1.206,
+  "d": 1.342,
+  "h": 0.949,
+  "z0": 0.0,
+  "polys": 6412
+ },
+ "gymleco-technique-bar-for-lifting-form-and-safety": {
+  "cat": "Barbells + specialty bars",
+  "w": 1.702,
+  "d": 0.088,
+  "h": 0.088,
+  "z0": 0.0,
+  "polys": 25174
+ },
+ "gymleco-wooden-wall-bars-with-chins-rack": {
+  "cat": "Calisthenics",
+  "w": 1.4,
+  "d": 0.626,
+  "h": 2.8,
+  "z0": 0.0,
+  "polys": 1830
+ },
+ "hammer-strength-3-in-1-soft-plyo-box": {
+  "cat": "Functional / CrossFit",
+  "w": 0.502,
+  "d": 0.762,
+  "h": 0.601,
+  "z0": 0.0,
+  "polys": 9395
+ },
+ "hammer-strength-3-in-1-wood-plyo-box": {
+  "cat": "Functional / CrossFit",
+  "w": 0.502,
+  "d": 0.762,
+  "h": 0.601,
+  "z0": 0.0,
+  "polys": 9559
+ },
+ "hammer-strength-4-sided-urethane-dumbbells": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 2.028,
+  "d": 1.193,
+  "h": 0.166,
+  "z0": -0.001,
+  "polys": 403852
+ },
+ "hammer-strength-4-sided-urethane-fixed-barbells": {
+  "cat": "Barbells + specialty bars",
+  "w": 1.251,
+  "d": 5.406,
+  "h": 0.239,
+  "z0": -0.001,
+  "polys": 294872
+ },
+ "hammer-strength-assisted-nordic-ham": {
+  "cat": "Benches",
+  "w": 1.401,
+  "d": 2.12,
+  "h": 1.522,
+  "z0": -0.215,
+  "polys": 18751
+ },
+ "hammer-strength-back-extension": {
+  "cat": "Benches",
+  "w": 0.92,
+  "d": 1.41,
+  "h": 0.807,
+  "z0": 0.0,
+  "polys": 5686
+ },
+ "hammer-strength-competition-kettlebells": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 1.77,
+  "d": 0.211,
+  "h": 0.284,
+  "z0": 0.0,
+  "polys": 52881
+ },
+ "hammer-strength-curl-bars": {
+  "cat": "Barbells + specialty bars",
+  "w": 1.202,
+  "d": 0.083,
+  "h": 0.076,
+  "z0": 0.0,
+  "polys": 7852
+ },
+ "hammer-strength-fixed-pad-glute-ham": {
+  "cat": "Benches",
+  "w": 0.91,
+  "d": 1.856,
+  "h": 1.295,
+  "z0": 0.0,
+  "polys": 13075
+ },
+ "hammer-strength-glute-ham-reverse-hyper-combo": {
+  "cat": "Machines: legs",
+  "w": 0.99,
+  "d": 2.074,
+  "h": 1.617,
+  "z0": 0.0,
+  "polys": 26846
+ },
+ "hammer-strength-hd-air-bike": {
+  "cat": "Cardio",
+  "w": 0.64,
+  "d": 1.514,
+  "h": 1.384,
+  "z0": 0.0,
+  "polys": 18678
+ },
+ "hammer-strength-hd-tread": {
+  "cat": "Cardio",
+  "w": 0.911,
+  "d": 1.676,
+  "h": 1.692,
+  "z0": 0.0,
+  "polys": 22495
+ },
+ "hammer-strength-hex-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.0,
+  "d": 0.585,
+  "h": 0.07,
+  "z0": 0.0,
+  "polys": 3929
+ },
+ "hammer-strength-impact-suppression-platform": {
+  "cat": "Racks + platforms",
+  "w": 2.466,
+  "d": 1.857,
+  "h": 0.067,
+  "z0": 0.0,
+  "polys": 11146
+ },
+ "hammer-strength-mts-kneeling-leg-curl": {
+  "cat": "Machines: legs",
+  "w": 1.637,
+  "d": 0.986,
+  "h": 1.512,
+  "z0": 0.0,
+  "polys": 101976
+ },
+ "hammer-strength-olympic-weightlifting-bars": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.202,
+  "d": 0.067,
+  "h": 0.067,
+  "z0": 0.0,
+  "polys": 22942
+ },
+ "hammer-strength-plate-loaded-abdominal-oblique-crunch": {
+  "cat": "Machines: upper body",
+  "w": 1.474,
+  "d": 0.988,
+  "h": 1.559,
+  "z0": 0.0,
+  "polys": 11774
+ },
+ "hammer-strength-plate-loaded-belt-squat": {
+  "cat": "Machines: legs",
+  "w": 1.188,
+  "d": 2.013,
+  "h": 1.188,
+  "z0": 0.0,
+  "polys": 8479
+ },
+ "hammer-strength-plate-loaded-glute-drive": {
+  "cat": "Benches",
+  "w": 1.608,
+  "d": 1.756,
+  "h": 1.068,
+  "z0": 0.0,
+  "polys": 8544
+ },
+ "hammer-strength-plate-loaded-hack-squat": {
+  "cat": "Machines: legs",
+  "w": 1.584,
+  "d": 2.218,
+  "h": 2.09,
+  "z0": 0.0,
+  "polys": 11269
+ },
+ "hammer-strength-plate-loaded-iso-lateral-bench-press": {
+  "cat": "Machines: upper body",
+  "w": 1.734,
+  "d": 1.076,
+  "h": 1.842,
+  "z0": 0.0,
+  "polys": 15866
+ },
+ "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown": {
+  "cat": "Machines: upper body",
+  "w": 1.304,
+  "d": 1.656,
+  "h": 2.034,
+  "z0": 0.0,
+  "polys": 15540
+ },
+ "hammer-strength-plate-loaded-iso-lateral-incline-press": {
+  "cat": "Machines: upper body",
+  "w": 1.434,
+  "d": 1.264,
+  "h": 1.91,
+  "z0": 0.0,
+  "polys": 15786
+ },
+ "hammer-strength-plate-loaded-iso-lateral-leg-extension": {
+  "cat": "Machines: legs",
+  "w": 2.006,
+  "d": 1.612,
+  "h": 1.353,
+  "z0": 0.0,
+  "polys": 16304
+ },
+ "hammer-strength-plate-loaded-iso-lateral-row": {
+  "cat": "Machines: upper body",
+  "w": 1.304,
+  "d": 1.556,
+  "h": 1.335,
+  "z0": 0.0,
+  "polys": 14526
+ },
+ "hammer-strength-plate-loaded-iso-lateral-shoulder-press": {
+  "cat": "Machines: upper body",
+  "w": 1.544,
+  "d": 1.336,
+  "h": 1.86,
+  "z0": 0.0,
+  "polys": 13962
+ },
+ "hammer-strength-plate-loaded-linear-leg-press": {
+  "cat": "Machines: legs",
+  "w": 1.684,
+  "d": 2.632,
+  "h": 1.521,
+  "z0": 0.0,
+  "polys": 14442
+ },
+ "hammer-strength-plate-loaded-pendulum-x-squat": {
+  "cat": "Machines: legs",
+  "w": 1.472,
+  "d": 2.486,
+  "h": 1.98,
+  "z0": 0.0,
+  "polys": 14351
+ },
+ "hammer-strength-plate-loaded-seated-calf-raise": {
+  "cat": "Machines: legs",
+  "w": 1.01,
+  "d": 1.236,
+  "h": 1.01,
+  "z0": 0.0,
+  "polys": 10460
+ },
+ "hammer-strength-plate-loaded-t-bar-row": {
+  "cat": "Machines: upper body",
+  "w": 0.961,
+  "d": 2.062,
+  "h": 0.617,
+  "z0": 0.0,
+  "polys": 7823
+ },
+ "hammer-strength-plate-loaded-tibia-dorsi-flexion": {
+  "cat": "Machines: legs",
+  "w": 0.862,
+  "d": 0.415,
+  "h": 0.34,
+  "z0": 0.0,
+  "polys": 10465
+ },
+ "hammer-strength-plate-loaded-v-squat": {
+  "cat": "Machines: legs",
+  "w": 1.222,
+  "d": 2.406,
+  "h": 1.893,
+  "z0": 0.0,
+  "polys": 12835
+ },
+ "hammer-strength-premium-rubber-black-bumpers": {
+  "cat": "Plates + plate storage",
+  "w": 0.45,
+  "d": 0.49,
+  "h": 0.45,
+  "z0": 0.0,
+  "polys": 47224
+ },
+ "hammer-strength-rubber-platform": {
+  "cat": "Racks + platforms",
+  "w": 2.336,
+  "d": 1.828,
+  "h": 0.019,
+  "z0": 0.0,
+  "polys": 690
+ },
+ "hammer-strength-seated-arm-curl": {
+  "cat": "Benches",
+  "w": 0.9,
+  "d": 1.0,
+  "h": 1.1,
+  "z0": 0.0,
+  "polys": 6355
+ },
+ "hammer-strength-select-biceps-curl": {
+  "cat": "Machines: upper body",
+  "w": 0.929,
+  "d": 1.196,
+  "h": 1.397,
+  "z0": 0.0,
+  "polys": 56221
+ },
+ "hammer-strength-select-chest-press": {
+  "cat": "Machines: upper body",
+  "w": 1.339,
+  "d": 1.064,
+  "h": 1.653,
+  "z0": 0.0,
+  "polys": 81057
+ },
+ "hammer-strength-select-hip-abduction": {
+  "cat": "Machines: legs",
+  "w": 0.616,
+  "d": 1.762,
+  "h": 1.397,
+  "z0": 0.0,
+  "polys": 73121
+ },
+ "hammer-strength-select-hip-adduction": {
+  "cat": "Machines: legs",
+  "w": 0.728,
+  "d": 1.762,
+  "h": 1.397,
+  "z0": 0.0,
+  "polys": 72531
+ },
+ "hammer-strength-select-leg-extension": {
+  "cat": "Machines: legs",
+  "w": 0.944,
+  "d": 0.936,
+  "h": 1.626,
+  "z0": 0.0,
+  "polys": 71355
+ },
+ "hammer-strength-select-pectoral-fly-rear-deltoid": {
+  "cat": "Machines: upper body",
+  "w": 1.486,
+  "d": 1.168,
+  "h": 1.876,
+  "z0": 0.0,
+  "polys": 75684
+ },
+ "hammer-strength-select-standing-calf": {
+  "cat": "Machines: legs",
+  "w": 0.999,
+  "d": 1.006,
+  "h": 1.829,
+  "z0": 0.0,
+  "polys": 78517
+ },
+ "hammer-strength-slam-balls": {
+  "cat": "Functional / CrossFit",
+  "w": 1.672,
+  "d": 0.231,
+  "h": 0.229,
+  "z0": -0.001,
+  "polys": 61909
+ },
+ "hammer-strength-stability-ball": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 2.192,
+  "d": 0.752,
+  "h": 0.721,
+  "z0": -0.001,
+  "polys": 52594
+ },
+ "hammer-strength-stackable-plyo-box": {
+  "cat": "Racks + platforms",
+  "w": 0.768,
+  "d": 0.915,
+  "h": 1.602,
+  "z0": 0.0,
+  "polys": 32158
+ },
+ "hammer-strength-three-tier-dumbbell-rack": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 2.064,
+  "d": 0.915,
+  "h": 0.987,
+  "z0": 0.0,
+  "polys": 410094
+ },
+ "hammer-strength-urethane-round-olympic-plates": {
+  "cat": "Plates + plate storage",
+  "w": 0.45,
+  "d": 0.597,
+  "h": 0.45,
+  "z0": 0.0,
+  "polys": 27549
+ },
+ "life-fitness-12-sided-fixed-urethane-barbells": {
+  "cat": "Barbells + specialty bars",
+  "w": 1.151,
+  "d": 2.381,
+  "h": 0.256,
+  "z0": -0.0,
+  "polys": 115862
+ },
+ "life-fitness-3-tier-accessory-rack": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 1.092,
+  "d": 0.675,
+  "h": 0.975,
+  "z0": 0.0,
+  "polys": 51029
+ },
+ "life-fitness-accessory-rack": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 1.457,
+  "d": 0.552,
+  "h": 1.75,
+  "z0": -0.002,
+  "polys": 84965
+ },
+ "life-fitness-acft-sled-with-strap": {
+  "cat": "Sled lane",
+  "w": 0.791,
+  "d": 2.328,
+  "h": 0.186,
+  "z0": 0.0,
+  "polys": 5156
+ },
+ "life-fitness-adjustable-hurdles": {
+  "cat": "Functional / CrossFit",
+  "w": 0.632,
+  "d": 1.284,
+  "h": 0.316,
+  "z0": -0.002,
+  "polys": 13707
+ },
+ "life-fitness-adjustable-wall-mounted-mat-rack": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 1.4,
+  "d": 0.265,
+  "h": 2.8,
+  "z0": 0.0,
+  "polys": 1336
+ },
+ "life-fitness-axiom-series-leg-curl": {
+  "cat": "Machines: legs",
+  "w": 1.75,
+  "d": 1.043,
+  "h": 1.346,
+  "z0": 0.0,
+  "polys": 33554
+ },
+ "life-fitness-barbell-rack": {
+  "cat": "Barbells + specialty bars",
+  "w": 1.151,
+  "d": 1.078,
+  "h": 1.47,
+  "z0": 0.0,
+  "polys": 124815
+ },
+ "life-fitness-battle-rope": {
+  "cat": "Functional / CrossFit",
+  "w": 1.747,
+  "d": 0.746,
+  "h": 0.107,
+  "z0": -0.002,
+  "polys": 51514
+ },
+ "life-fitness-bosu-pro-balance-trainer": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.754,
+  "d": 0.7,
+  "h": 0.25,
+  "z0": 0.0,
+  "polys": 12709
+ },
+ "life-fitness-cast-iron-kettlebells": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 2.051,
+  "d": 0.241,
+  "h": 0.332,
+  "z0": 0.0,
+  "polys": 50201
+ },
+ "life-fitness-club-series-elliptical-cross-trainer": {
+  "cat": "Cardio",
+  "w": 0.77,
+  "d": 2.31,
+  "h": 1.853,
+  "z0": 0.0,
+  "polys": 17985
+ },
+ "life-fitness-club-series-recumbent-lifecycle-bike": {
+  "cat": "Cardio",
+  "w": 0.68,
+  "d": 1.92,
+  "h": 1.566,
+  "z0": 0.0,
+  "polys": 17845
+ },
+ "life-fitness-club-series-upright-lifecycle-bike": {
+  "cat": "Cardio",
+  "w": 0.641,
+  "d": 1.064,
+  "h": 1.555,
+  "z0": 0.0,
+  "polys": 18549
+ },
+ "life-fitness-core-mats": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 1.975,
+  "d": 1.3,
+  "h": 0.601,
+  "z0": -0.001,
+  "polys": 13336
+ },
+ "life-fitness-dual-height-hex-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.136,
+  "d": 0.598,
+  "h": 0.266,
+  "z0": 0.0,
+  "polys": 3420
+ },
+ "life-fitness-escape-endura-wall-balls": {
+  "cat": "Functional / CrossFit",
+  "w": 1.388,
+  "d": 0.812,
+  "h": 0.356,
+  "z0": -0.001,
+  "polys": 94503
+ },
+ "life-fitness-flexibility-trainer": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.662,
+  "d": 1.381,
+  "h": 1.509,
+  "z0": 0.0,
+  "polys": 3492
+ },
+ "life-fitness-foam-roller": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.915,
+  "d": 0.652,
+  "h": 0.152,
+  "z0": -0.0,
+  "polys": 7628
+ },
+ "life-fitness-ic7-indoor-cycle": {
+  "cat": "Cardio",
+  "w": 0.551,
+  "d": 1.42,
+  "h": 1.206,
+  "z0": 0.0,
+  "polys": 18340
+ },
+ "life-fitness-insignia-series-calf-extension": {
+  "cat": "Machines: legs",
+  "w": 1.26,
+  "d": 1.7,
+  "h": 1.48,
+  "z0": -0.013,
+  "polys": 69002
+ },
+ "life-fitness-insignia-series-glute": {
+  "cat": "Machines: legs",
+  "w": 1.043,
+  "d": 1.92,
+  "h": 1.48,
+  "z0": 0.0,
+  "polys": 66791
+ },
+ "life-fitness-insignia-series-leg-extension": {
+  "cat": "Machines: legs",
+  "w": 0.994,
+  "d": 1.376,
+  "h": 1.48,
+  "z0": -0.023,
+  "polys": 68319
+ },
+ "life-fitness-insignia-series-seated-leg-curl": {
+  "cat": "Machines: legs",
+  "w": 0.994,
+  "d": 1.599,
+  "h": 1.48,
+  "z0": -0.023,
+  "polys": 70681
+ },
+ "life-fitness-jump-rope": {
+  "cat": "Functional / CrossFit",
+  "w": 1.262,
+  "d": 0.406,
+  "h": 0.034,
+  "z0": -0.002,
+  "polys": 30132
+ },
+ "life-fitness-lock-jaw-oly-2-collars": {
+  "cat": "Barbells + specialty bars",
+  "w": 0.134,
+  "d": 0.167,
+  "h": 0.117,
+  "z0": 0.0,
+  "polys": 772
+ },
+ "life-fitness-medicine-balls": {
+  "cat": "Functional / CrossFit",
+  "w": 1.534,
+  "d": 0.649,
+  "h": 0.279,
+  "z0": 0.0,
+  "polys": 80007
+ },
+ "life-fitness-mini-power-bands": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.463,
+  "d": 0.434,
+  "h": 0.025,
+  "z0": -0.0,
+  "polys": 6810
+ },
+ "life-fitness-multi-grip-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.083,
+  "d": 0.308,
+  "h": 0.062,
+  "z0": 0.0,
+  "polys": 1628
+ },
+ "life-fitness-olympic-flat-bench": {
+  "cat": "Racks + platforms",
+  "w": 1.31,
+  "d": 1.333,
+  "h": 1.295,
+  "z0": 0.0,
+  "polys": 5434
+ },
+ "life-fitness-olympic-weight-tree": {
+  "cat": "Plates + plate storage",
+  "w": 0.845,
+  "d": 0.712,
+  "h": 1.154,
+  "z0": 0.0,
+  "polys": 59966
+ },
+ "life-fitness-power-bands": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.525,
+  "d": 0.538,
+  "h": 0.036,
+  "z0": -0.002,
+  "polys": 9534
+ },
+ "life-fitness-push-pull-weight-sled": {
+  "cat": "Sled lane",
+  "w": 0.752,
+  "d": 1.1,
+  "h": 1.0,
+  "z0": 0.0,
+  "polys": 1832
+ },
+ "life-fitness-pwr-play": {
+  "cat": "Cable stations",
+  "w": 6.074,
+  "d": 1.522,
+  "h": 2.415,
+  "z0": 0.0,
+  "polys": 299897
+ },
+ "life-fitness-resistance-tubes": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 3.163,
+  "d": 0.419,
+  "h": 0.033,
+  "z0": -0.001,
+  "polys": 57096
+ },
+ "life-fitness-row-hx-trainer": {
+  "cat": "Cardio",
+  "w": 0.572,
+  "d": 2.127,
+  "h": 0.704,
+  "z0": 0.0,
+  "polys": 16693
+ },
+ "life-fitness-smith-machine": {
+  "cat": "Machines: legs",
+  "w": 2.21,
+  "d": 1.249,
+  "h": 2.369,
+  "z0": 0.0,
+  "polys": 6299
+ },
+ "life-fitness-speed-cones-set-of-6": {
+  "cat": "Functional / CrossFit",
+  "w": 1.087,
+  "d": 0.373,
+  "h": 0.229,
+  "z0": 0.0,
+  "polys": 36818
+ },
+ "life-fitness-vertical-medicine-ball-storage": {
+  "cat": "Functional / CrossFit",
+  "w": 0.54,
+  "d": 0.6,
+  "h": 1.401,
+  "z0": 0.0,
+  "polys": 41070
+ },
+ "life-fitness-yoga-block": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.509,
+  "d": 0.153,
+  "h": 0.152,
+  "z0": 0.0,
+  "polys": 3823
+ },
+ "life-fitness-yoga-mat": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 1.83,
+  "d": 1.31,
+  "h": 0.009,
+  "z0": -0.001,
+  "polys": 10382
+ },
+ "manduka-enlight-rectangular-bolster": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.642,
+  "d": 0.305,
+  "h": 0.152,
+  "z0": 0.0,
+  "polys": 468
+ },
+ "manduka-meditation-cushion": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.428,
+  "d": 0.409,
+  "h": 0.127,
+  "z0": 0.0,
+  "polys": 5178
+ },
+ "metolius-wood-grips-campus-rungs": {
+  "cat": "Grip + hangboard wall",
+  "w": 1.2,
+  "d": 0.151,
+  "h": 3.0,
+  "z0": 0.0,
+  "polys": 22597
+ },
+ "mutant-metals-ultimate-dip-attachment": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.644,
+  "d": 0.756,
+  "h": 2.2,
+  "z0": 0.0,
+  "polys": 1000
+ },
+ "precor-resolute-series-leg-extension": {
+  "cat": "Machines: legs",
+  "w": 1.265,
+  "d": 1.559,
+  "h": 1.481,
+  "z0": -0.002,
+  "polys": 15459
+ },
+ "pro-tec-stretch-band": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 1.003,
+  "d": 0.052,
+  "h": 0.018,
+  "z0": -0.001,
+  "polys": 2736
+ },
+ "rep-pr-5000-rack-builder": {
+  "cat": "Racks + platforms",
+  "w": 1.999,
+  "d": 1.521,
+  "h": 2.426,
+  "z0": 0.0,
+  "polys": 253760
+ },
+ "revbalance-101-mini-balance-board": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.711,
+  "d": 0.491,
+  "h": 0.102,
+  "z0": -0.0,
+  "polys": 1644
+ },
+ "rogue-10-bar-holder": {
+  "cat": "Barbells + specialty bars",
+  "w": 0.848,
+  "d": 0.66,
+  "h": 0.267,
+  "z0": 0.0,
+  "polys": 5690
+ },
+ "rogue-7mm-knee-sleeve": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.303,
+  "d": 0.143,
+  "h": 0.3,
+  "z0": 0.0,
+  "polys": 11354
+ },
+ "rogue-adjustable-bench-3-0": {
+  "cat": "Benches",
+  "w": 0.629,
+  "d": 1.492,
+  "h": 1.017,
+  "z0": 0.0,
+  "polys": 11518
+ },
+ "rogue-axle-bar": {
+  "cat": "Strongman",
+  "w": 2.136,
+  "d": 0.064,
+  "h": 0.064,
+  "z0": 0.0,
+  "polys": 3375
+ },
+ "rogue-belt-and-band-hanger": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 1.2,
+  "d": 0.313,
+  "h": 2.8,
+  "z0": 0.0,
+  "polys": 6669
+ },
+ "rogue-bolt-together-parallette-set": {
+  "cat": "Calisthenics",
+  "w": 0.891,
+  "d": 0.626,
+  "h": 0.375,
+  "z0": -0.001,
+  "polys": 5558
+ },
+ "rogue-cannonball-grips": {
+  "cat": "Grip + hangboard wall",
+  "w": 0.4,
+  "d": 0.326,
+  "h": 0.074,
+  "z0": 0.0,
+  "polys": 6938
+ },
+ "rogue-cb-1-camber-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.235,
+  "d": 0.072,
+  "h": 0.445,
+  "z0": 0.0,
+  "polys": 2094
+ },
+ "rogue-chain-kits": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 1.4,
+  "d": 0.976,
+  "h": 0.055,
+  "z0": 0.0,
+  "polys": 32228
+ },
+ "rogue-climbing-ropes": {
+  "cat": "Functional / CrossFit",
+  "w": 0.101,
+  "d": 0.792,
+  "h": 4.7,
+  "z0": -0.001,
+  "polys": 15258
+ },
+ "rogue-crash-cushion": {
+  "cat": "Racks + platforms",
+  "w": 1.403,
+  "d": 0.766,
+  "h": 0.153,
+  "z0": 0.0,
+  "polys": 12754
+ },
+ "rogue-deadlift-platform": {
+  "cat": "Racks + platforms",
+  "w": 2.667,
+  "d": 1.381,
+  "h": 0.125,
+  "z0": 0.0,
+  "polys": 4869
+ },
+ "rogue-dip-belt": {
+  "cat": "Functional / CrossFit",
+  "w": 0.997,
+  "d": 0.443,
+  "h": 0.024,
+  "z0": 0.0,
+  "polys": 9465
+ },
+ "rogue-dumbbell-sets": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 2.426,
+  "d": 0.356,
+  "h": 0.2,
+  "z0": 0.0,
+  "polys": 86644
+ },
+ "rogue-echo-gym-timer-2-0": {
+  "cat": "Functional / CrossFit",
+  "w": 1.2,
+  "d": 0.165,
+  "h": 3.2,
+  "z0": 0.0,
+  "polys": 2259
+ },
+ "rogue-echo-weight-vest": {
+  "cat": "Functional / CrossFit",
+  "w": 0.412,
+  "d": 0.355,
+  "h": 0.463,
+  "z0": 0.002,
+  "polys": 4339
+ },
+ "rogue-farmers-walk-handles": {
+  "cat": "Strongman",
+  "w": 0.668,
+  "d": 1.524,
+  "h": 0.181,
+  "z0": 0.0,
+  "polys": 272
+ },
+ "rogue-flat-utility-bench-2-0": {
+  "cat": "Benches",
+  "w": 1.198,
+  "d": 0.356,
+  "h": 0.458,
+  "z0": 0.0,
+  "polys": 3053
+ },
+ "rogue-freestanding-chalk-stand": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.55,
+  "d": 0.54,
+  "h": 1.19,
+  "z0": 0.0,
+  "polys": 4173
+ },
+ "rogue-gym-chalk": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.438,
+  "d": 0.256,
+  "h": 0.229,
+  "z0": 0.0,
+  "polys": 2699
+ },
+ "rogue-lacrosse-balls": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.304,
+  "d": 0.224,
+  "h": 0.064,
+  "z0": 0.0,
+  "polys": 13050
+ },
+ "rogue-loadable-dumbbells": {
+  "cat": "Dumbbells + kettlebells",
+  "w": 0.523,
+  "d": 0.236,
+  "h": 0.076,
+  "z0": 0.0,
+  "polys": 11772
+ },
+ "rogue-log-bar": {
+  "cat": "Strongman",
+  "w": 1.956,
+  "d": 0.255,
+  "h": 0.256,
+  "z0": 0.0,
+  "polys": 6954
+ },
+ "rogue-manta-ray-adjustable-bench": {
+  "cat": "Benches",
+  "w": 0.63,
+  "d": 1.776,
+  "h": 0.488,
+  "z0": 0.0,
+  "polys": 15351
+ },
+ "rogue-mg-1-multi-grip-bar-2-0": {
+  "cat": "Calisthenics",
+  "w": 2.083,
+  "d": 0.249,
+  "h": 0.066,
+  "z0": 0.0,
+  "polys": 2873
+ },
+ "rogue-monster-band-pegs-2-0": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.914,
+  "d": 0.275,
+  "h": 0.083,
+  "z0": 0.0,
+  "polys": 9621
+ },
+ "rogue-monster-bumper-rack": {
+  "cat": "Plates + plate storage",
+  "w": 1.143,
+  "d": 0.724,
+  "h": 0.961,
+  "z0": 0.0,
+  "polys": 48501
+ },
+ "rogue-monster-half-rack": {
+  "cat": "Racks + platforms",
+  "w": 1.872,
+  "d": 1.58,
+  "h": 2.6,
+  "z0": 0.0,
+  "polys": 173365
+ },
+ "rogue-monster-landmine-2-0": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.272,
+  "d": 0.494,
+  "h": 0.917,
+  "z0": 0.0,
+  "polys": 3409
+ },
+ "rogue-monster-lite-half-rack": {
+  "cat": "Racks + platforms",
+  "w": 1.897,
+  "d": 1.58,
+  "h": 2.359,
+  "z0": 0.0,
+  "polys": 167535
+ },
+ "rogue-monster-lite-monkey-rig-2-0": {
+  "cat": "Calisthenics",
+  "w": 7.493,
+  "d": 2.106,
+  "h": 3.658,
+  "z0": 0.0,
+  "polys": 356152
+ },
+ "rogue-monster-mass-storage": {
+  "cat": "Sled lane",
+  "w": 1.282,
+  "d": 0.787,
+  "h": 2.553,
+  "z0": 0.0,
+  "polys": 70457
+ },
+ "rogue-monster-rig-2-0": {
+  "cat": "Functional / CrossFit",
+  "w": 3.598,
+  "d": 1.771,
+  "h": 2.749,
+  "z0": 0.0,
+  "polys": 69959
+ },
+ "rogue-monster-safety-spotter-arms-2-0": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 1.51,
+  "d": 0.747,
+  "h": 1.527,
+  "z0": 0.0,
+  "polys": 20092
+ },
+ "rogue-ohio-lifting-belt": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.311,
+  "d": 0.25,
+  "h": 0.113,
+  "z0": -0.011,
+  "polys": 8712
+ },
+ "rogue-ohio-lifting-straps": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.542,
+  "d": 0.118,
+  "h": 0.008,
+  "z0": -0.0,
+  "polys": 4878
+ },
+ "rogue-pinch-blocks": {
+  "cat": "Grip + hangboard wall",
+  "w": 0.4,
+  "d": 0.34,
+  "h": 0.051,
+  "z0": 0.0,
+  "polys": 4646
+ },
+ "rogue-pine-maple-peg-board": {
+  "cat": "Functional / CrossFit",
+  "w": 1.0,
+  "d": 0.238,
+  "h": 3.2,
+  "z0": 0.0,
+  "polys": 5134
+ },
+ "rogue-rig-mount-parallel-bars": {
+  "cat": "Calisthenics",
+  "w": 1.346,
+  "d": 2.032,
+  "h": 1.832,
+  "z0": 0.0,
+  "polys": 18456
+ },
+ "rogue-rubber-atlas-stones": {
+  "cat": "Strongman",
+  "w": 1.114,
+  "d": 0.357,
+  "h": 0.334,
+  "z0": 0.0,
+  "polys": 23909
+ },
+ "rogue-sandbag-2-0": {
+  "cat": "Functional / CrossFit",
+  "w": 0.997,
+  "d": 0.943,
+  "h": 0.283,
+  "z0": -0.009,
+  "polys": 15765
+ },
+ "rogue-sb-1-safety-squat-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.2,
+  "d": 0.466,
+  "h": 0.137,
+  "z0": 0.005,
+  "polys": 3257
+ },
+ "rogue-sled-harness": {
+  "cat": "Sled lane",
+  "w": 1.299,
+  "d": 1.009,
+  "h": 0.023,
+  "z0": -0.0,
+  "polys": 6734
+ },
+ "rogue-strongman-sandbags": {
+  "cat": "Strongman",
+  "w": 1.806,
+  "d": 0.956,
+  "h": 0.917,
+  "z0": 0.0,
+  "polys": 16296
+ },
+ "rogue-wood-gymnastics-rings": {
+  "cat": "Functional / CrossFit",
+  "w": 1.176,
+  "d": 0.076,
+  "h": 3.05,
+  "z0": 0.0,
+  "polys": 10188
+ },
+ "rogue-wood-jerk-blocks": {
+  "cat": "Racks + platforms",
+  "w": 1.75,
+  "d": 0.916,
+  "h": 0.685,
+  "z0": 0.0,
+  "polys": 23760
+ },
+ "rogue-wrist-roller": {
+  "cat": "Grip + hangboard wall",
+  "w": 0.556,
+  "d": 0.191,
+  "h": 2.0,
+  "z0": 0.0,
+  "polys": 7969
+ },
+ "rogue-wrist-wraps": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.537,
+  "d": 0.196,
+  "h": 0.004,
+  "z0": -0.001,
+  "polys": 4002
+ },
+ "rogue-yoke": {
+  "cat": "Strongman",
+  "w": 1.319,
+  "d": 1.277,
+  "h": 1.829,
+  "z0": 0.0,
+  "polys": 6575
+ },
+ "spider-chalk-liquid-chalk": {
+  "cat": "On the floor: accessories + loaner kit",
+  "w": 0.136,
+  "d": 0.059,
+  "h": 0.158,
+  "z0": 0.0,
+  "polys": 6422
+ },
+ "stairmaster-8gx-stepmill": {
+  "cat": "Cardio",
+  "w": 0.866,
+  "d": 1.503,
+  "h": 1.982,
+  "z0": 0.0,
+  "polys": 21417
+ },
+ "strencor-competition-weightlifting-bar": {
+  "cat": "Barbells + specialty bars",
+  "w": 2.012,
+  "d": 0.068,
+  "h": 0.068,
+  "z0": 0.0,
+  "polys": 20710
+ },
+ "the-abs-company-the-nordic-curl": {
+  "cat": "Benches",
+  "w": 0.59,
+  "d": 1.461,
+  "h": 0.748,
+  "z0": 0.0,
+  "polys": 9536
+ },
+ "theragun-pro-plus": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.248,
+  "d": 0.208,
+  "h": 0.073,
+  "z0": 0.0,
+  "polys": 1332
+ },
+ "tib-bar-guy-slant-board": {
+  "cat": "Stretching, mobility + class studio",
+  "w": 0.381,
+  "d": 0.33,
+  "h": 0.102,
+  "z0": 0.0,
+  "polys": 2691
+ },
+ "titan-atlas-stone-platform": {
+  "cat": "Strongman",
+  "w": 1.27,
+  "d": 1.346,
+  "h": 1.829,
+  "z0": 0.0,
+  "polys": 1386
+ },
+ "titan-deadlift-pulling-blocks": {
+  "cat": "Racks + platforms",
+  "w": 0.886,
+  "d": 0.4,
+  "h": 0.448,
+  "z0": 0.0,
+  "polys": 5150
+ },
+ "titan-series-power-rack-lifting-platform": {
+  "cat": "Racks + platforms",
+  "w": 3.066,
+  "d": 2.765,
+  "h": 0.049,
+  "z0": 0.0,
+  "polys": 4297
+ },
+ "versaclimber-ts-magnetic": {
+  "cat": "Cardio",
+  "w": 0.616,
+  "d": 1.079,
+  "h": 2.389,
+  "z0": -0.468,
+  "polys": 9988
+ },
+ "woodway-4front": {
+  "cat": "Cardio",
+  "w": 0.81,
+  "d": 1.755,
+  "h": 1.741,
+  "z0": -0.022,
+  "polys": 7836
+ }
+}
