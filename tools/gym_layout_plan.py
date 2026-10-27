@@ -43,16 +43,16 @@ def plan_f2(G):
     F.put("rogue-freestanding-chalk-stand", -22.4, -12.0, 0, "free weights")
 
     # --- olympic: two lines of four platforms facing the mirror, their storage at the south end
-    for row_x in (-27.27, -23.91):
-        for y in (9.6, 6.13, 2.66, -0.81):
+    for row_x, ys in ((-27.27, (9.6, 6.13, 2.66, -0.81)), (-23.91, (7.865, 4.395, 0.925, -2.545))):   # the second line staggered: it sees the mirror
+        for y in ys:
             F.put("hammer-strength-impact-suppression-platform", row_x, y, 90, "olympic", "8 x 6 ft: the bar along y, the lifter faces the mirror")
     for x in (-28.0, -26.7, -25.4):
-        F.put("rogue-monster-bumper-rack", x, -4.0, 0, "olympic", "bumpers + the competition / change plates")
-    F.put("rogue-10-bar-holder", -24.0, -4.0, 0, "olympic", "the Eleiko / Strencor / technique bars")
+        F.put("rogue-monster-bumper-rack", x, -4.6, 0, "olympic", "bumpers + the competition / change plates")
+    F.put("rogue-10-bar-holder", -24.0, -4.6, 0, "olympic", "the Eleiko / Strencor / technique bars")
     F.put("rogue-freestanding-chalk-stand", -25.55, 1.0, 0, "olympic")
     F.put("rogue-freestanding-chalk-stand", -25.55, 8.0, 0, "olympic")
-    F.put("rogue-wood-jerk-blocks", -23.91, 9.6, 90, "olympic", "set up on the last platform", on="hammer-strength-impact-suppression-platform-5")
-    F.put("titan-deadlift-pulling-blocks", -23.91, 6.13, 90, "olympic", "on a platform", on="hammer-strength-impact-suppression-platform-6")
+    F.put("rogue-wood-jerk-blocks", -23.91, 7.865, 90, "olympic", "set up on the last platform", on="hammer-strength-impact-suppression-platform-5")
+    F.put("titan-deadlift-pulling-blocks", -23.91, 4.395, 90, "olympic", "on a platform", on="hammer-strength-impact-suppression-platform-6")
     F.put("rogue-echo-gym-timer-2-0", XW + 0.09, 4.4, -90, "olympic", "on the mirror wall over the platforms")
 
     # --- the bench island: two rows of stations back to back, their plate trees + bar holder down the middle
@@ -165,7 +165,7 @@ def plan_f2(G):
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
     F.write("gym_f2", ws, sps, {"fixed": fixed, "overhead": G.overhead("F2")},
             summary=["F2 · strength (first proposal, 2026-10-26)",
-                     "Mirror wall: 6 power racks + 2 half racks + a deadlift platform facing the mirror; 8 olympic platforms in two lines.",
+                     "Mirror wall: 6 power racks + 2 half racks + a deadlift platform facing the mirror; 8 olympic platforms in two staggered lines.",
                      "Islands: the bench island (7 stations round their trees + bar holder), the dumbbell island, the leg hub.",
                      "River band: the selectorized legs facing the ravine; cardio (seats by the glass, standing behind).",
                      "Upper body (PWR Play maze + machines) is on F3, the den: F2 had no room left for it."])
@@ -203,32 +203,39 @@ def plan_f3(G):
               {"id": "north-stair", "room": "", "kind": "stair", "label": "The stair down to F4 (opening)", "pts": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 11.85], [-21.45, 11.85]], "fixed": True}]
     F.zone("Walkway: the W2 + W1 stairs, the WCs, the AED, the glass lift (keep it clear)", XW, -27.2, -27.0, -9.2)
 
-    # --- the dumbbell den (south-west): the run of racks on the mirror wall, three rows of six bench stations facing the mirror
-    for y in (-32.37, -30.29, -28.21):
-        F.put("hammer-strength-three-tier-dumbbell-rack", -28.74, y, -90, "dumbbell den", "Rogue rubber hex to 75 kg (the heavy end here)")
+    # --- the dumbbell den (Roman: "staggered rows so everyone has the optimal mirror positioning ... 4 deep is retarded"): two rows
+    # facing the mirror wall, the second row in the first row's gaps so every bench sees the mirror; 2.6 m between benches in a
+    # row (the dumbbells swing clear); the racks moved off the mirror into an island behind the second row
     benches = ["rogue-adjustable-bench-3-0"] * 16 + ["rogue-manta-ray-adjustable-bench"] * 2
     k = 0
-    for x in (-25.6, -23.0, -20.4):
-        for j in range(6):
-            F.put(benches[k], x, -31.35 + 1.95 * j, 90, "dumbbell den", "a bench station: adjust, grab a pair, face the mirror"); k += 1
+    for x, y0 in ((-25.8, -31.9), (-23.4, -30.6)):
+        for j in range(9):
+            F.put(benches[k], x, y0 + 2.6 * j, 90, "dumbbell den", "facing the mirror; " + ("first row" if x < -25 else "second row: sees the mirror through the first row's gaps"))
+            k += 1
+    for y in (-26.48, -24.42):
+        F.put("hammer-strength-three-tier-dumbbell-rack", -19.86, y, 90, "dumbbell den", "Rogue rubber hex to 75 kg: faces the bench rows")
+        F.put("hammer-strength-three-tier-dumbbell-rack", -18.94, y, -90, "dumbbell den", "Rogue rubber hex 2.5-50 kg")
+    F.put("life-fitness-3-tier-accessory-rack", -19.4, -28.4, 180, "dumbbell den", "LF cast iron kettlebells 4-32 kg")
+    F.put("life-fitness-3-tier-accessory-rack", -19.4, -22.5, 0, "dumbbell den", "HS competition kettlebells 8-32 kg")
+    for y in (-26.9, -24.0):
+        F.put("rogue-adjustable-bench-3-0", -16.4, y, -90, "dumbbell den", "off the island's east side")
+    F.put("rogue-freestanding-chalk-stand", -21.2, -31.6, 0, "dumbbell den")
+    F.put("rogue-belt-and-band-hanger", XW + 0.155, -8.8, -90, "dumbbell den", "belts, straps, sleeves, wraps on loan; dip belts")
     # the grip wall on the south wall, either side of the altitude room's door
     for x in (-27.3, -20.6, -19.3, -18.0, -16.7):
         F.put("beastmaker-2000-series-hangboard", x, YS + 0.087, 0, "grip wall", "pinch blocks, cannonball grips, wrist roller hang beside")
     F.put("beastmaker-2000-series-hangboard", -24.9, YS + 0.087, 0, "grip wall")
     F.put("metolius-wood-grips-campus-rungs", -15.4, YS + 0.075, 0, "grip wall")
-    # the den's island: a dumbbell rack, the kettlebell racks at its ends, four benches
-    F.put("hammer-strength-three-tier-dumbbell-rack", -16.5, -25.0, 90, "den island", "Rogue rubber hex 2.5-50 kg")
-    F.put("life-fitness-3-tier-accessory-rack", -16.5, -27.0, 180, "den island", "LF cast iron kettlebells 4-32 kg")
-    F.put("life-fitness-3-tier-accessory-rack", -16.5, -23.0, 0, "den island", "HS competition kettlebells 8-32 kg")
-    for y in (-29.6, -20.6):
-        F.put("rogue-adjustable-bench-3-0", -17.2, y, 90, "den island")
-        F.put("rogue-adjustable-bench-3-0", -15.4, y, -90, "den island")
-    F.put("rogue-freestanding-chalk-stand", -18.6, -32.2, 0, "dumbbell den")
-    F.put("rogue-belt-and-band-hanger", XW + 0.155, -8.8, -90, "dumbbell den", "belts, straps, sleeves, wraps on loan; dip belts")
+    # posterior chain by the sled lane
+    F.put("hammer-strength-fixed-pad-glute-ham", -15.9, -29.4, 0, "functional")
+    F.put("hammer-strength-fixed-pad-glute-ham", -17.2, -29.4, 0, "functional")
+    F.put("the-abs-company-the-nordic-curl", -16.0, -20.9, 0, "functional")
 
-    # --- the rig, beside the spiral on the walkway's edge: pull-up / squat bays, rings + climbing ropes hung from it
-    rig = F.put("rogue-monster-rig-2-0", -24.75, -15.2, 90, "functional", "rings, climbing ropes, the parallel bars + a landmine on it")
-    F.put("rogue-rig-mount-parallel-bars", -24.75, -13.6, 90, "functional", "on the rig", on=rig["id"])
+    # --- the rig on the functional floor (north-west): pull-up / squat bays, rings + climbing ropes hung from it
+    rig = F.put("rogue-monster-rig-2-0", -24.8, -1.0, 0, "functional", "rings, climbing ropes, the parallel bars + a landmine on it")
+    F.put("rogue-rig-mount-parallel-bars", -23.4, -1.0, 0, "functional", "on the rig", on=rig["id"])
+    F.put("rogue-10-bar-holder", -26.2, -8.2, 0, "functional", "the rig's bars")
+    F.put("rogue-freestanding-chalk-stand", -22.9, -3.4, 0, "functional")
 
     # --- the upper-body maze (PWR Play, 2 x 3 Cores): pulldowns, rows + triceps on the outside, crossovers + dual cables down
     # the aisles, pull-up handles on every crossbar
@@ -272,7 +279,7 @@ def plan_f3(G):
     F.put("rogue-10-bar-holder", -22.6, 11.3, 180, "strongman", "log, axle, the hex bars")
     F.put("hammer-strength-plate-loaded-t-bar-row", -24.4, 5.4, 0, "strongman", "T-bar row (the landmine pulls) by the strongman bays")
     # the functional floor (west, between the lift and the strongman): wall balls + pegboard on the mirror wall, storage, open floor
-    F.zone("Open floor: classes, carries, sled turns, plyo", -27.0, -9.2, -22.6, 2.4, "zone-open")
+    F.zone("Open floor: classes, wall balls, plyo", -27.0, -9.2, -22.6, -3.2, "zone-open")
     F.put("life-fitness-escape-endura-wall-balls", XW + 0.405, -6.5, -90, "functional", "the targets above, the balls on the shelf")
     F.put("rogue-pine-maple-peg-board", XW + 0.12, -3.4, -90, "functional")
     F.put("rogue-monster-mass-storage", -28.55, 1.1, -90, "functional", "slam balls, Sandbag 2.0s, medicine balls, battle ropes, jump ropes, AbMats, vests")
@@ -282,10 +289,6 @@ def plan_f3(G):
     for x in (-23.5,):
         F.put("hammer-strength-3-in-1-soft-plyo-box", x, 2.75, 180, "functional", "soft boxes stacked")
     F.put("hammer-strength-stackable-plyo-box", -22.6, 2.7, 180, "functional")
-    F.put("hammer-strength-fixed-pad-glute-ham", -23.4, -12.0, 90, "functional")
-    F.put("hammer-strength-fixed-pad-glute-ham", -23.4, -10.6, 90, "functional")
-    F.put("rogue-10-bar-holder", -26.2, -18.4, 90, "functional", "the rig's bars")
-    F.put("rogue-freestanding-chalk-stand", -22.9, -17.9, 0, "functional")
     F.put("rogue-freestanding-chalk-stand", -21.0, 1.6, 0, "the maze")
     F.put("rogue-echo-gym-timer-2-0", XW + 0.09, -1.2, -90, "functional", "over the open floor")
     F.put("life-fitness-barbell-rack", -9.1, 5.65, -90, "upper by the river", "the Hammer Strength fixed straight barbells")
@@ -299,7 +302,6 @@ def plan_f3(G):
                   None, "hammer-strength-plate-loaded-abdominal-oblique-crunch", "body-solid-gvkr60b-vertical-knee-raise-dip",
                   "gmwd-multi-functional-seal-row-bench-sr05", "hammer-strength-back-extension"], -8.4, y + 0.4, -90, 0.7, "upper by the river")
     F.put("hammer-strength-assisted-nordic-ham", -10.1, 8.0, 180, "by the river")
-    F.put("the-abs-company-the-nordic-curl", -25.4, -12.0, 90, "functional")
 
     # --- the sled lane: the sleds parked at its ends, the harnesses on mass storage by its south end
     for y in (-33.1, -32.0):
@@ -319,15 +321,15 @@ def plan_f3(G):
     place_row(F, G, ["life-fitness-row-hx-trainer", "woodway-4front", "woodway-4front", "life-fitness-row-hx-trainer"], -20.4, -39.55, 90, 0.6, "altitude",
               "facing the altitude display")
 
-    wipes(F, G, "F3", ((-18.6, -30.6, 0), (-15.0, -18.6, 0), (-21.9, -3.3, 0), (-11.7, -10.2, -90), (-27.5, 4.6, -90)))
+    wipes(F, G, "F3", ((-21.4, -20.6, 0), (-15.0, -18.6, 0), (-21.9, -3.3, 0), (-11.7, -10.2, -90), (-27.5, 4.6, -90)))
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
     F.write("gym_f3", ws, sps, {"fixed": fixed, "overhead": G.overhead("F3")},
             summary=["F3 · the den (first proposal, 2026-10-26)",
-                     "Mirror wall: the dumbbell den (3 racks, 18 bench stations in three rows), the carry lane, wall balls + pegboard.",
+                     "Mirror wall: the dumbbell den, 18 bench stations in two staggered rows (every bench sees the mirror), the racks + kettlebells on an island behind them.",
                      "Islands: the PWR Play maze (2 x 3 Cores, 7 crossbars), the plate-loaded upper hub, the den island (dumbbells + kettlebells).",
-                     "The rig beside the spiral; strongman by the stair; the grip wall on the south wall.",
+                     "The rig on the functional floor with wall balls + pegboard; strongman + the carry lane by the stair; the grip wall on the south wall.",
                      "By the river: SkiErgs, air bikes, rowers, then the selectorized upper body facing the water.",
                      "Upper body moved here from F2 (the maze + its machines): F2 had no room for it."])
 
