@@ -82,7 +82,7 @@ def plan_f2(G):
            "life-fitness-axiom-series-leg-curl", None,
            "hammer-strength-select-hip-abduction", "hammer-strength-select-hip-adduction", "hammer-strength-select-hip-abduction",
            "hammer-strength-select-hip-adduction", "life-fitness-insignia-series-glute", None,
-           "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"]
+           "life-fitness-insignia-series-seated-leg-curl", "life-fitness-insignia-series-seated-leg-curl", "life-fitness-axiom-series-leg-curl"]
     y = -31.55
     for p_ in row:
         if p_ is None:
@@ -120,13 +120,16 @@ def plan_f2(G):
          "hammer-strength-plate-loaded-belt-squat"], -22.2, -5.7, 0)
     hub(["hammer-strength-plate-loaded-iso-lateral-leg-extension", "tree", "atlantis-incline-calf-raise-m318", "hammer-strength-plate-loaded-seated-calf-raise"], -22.2, 3.2, 180)
     hub(["life-fitness-smith-machine", "life-fitness-smith-machine", "hammer-strength-glute-ham-reverse-hyper-combo"], -22.2, 3.8, 0)
-    x = -22.2
-    for p_ in ("hammer-strength-fixed-pad-glute-ham", "hammer-strength-fixed-pad-glute-ham", "hammer-strength-back-extension", "hammer-strength-back-extension",
-               "hammer-strength-mts-kneeling-leg-curl"):
-        w, d = G.footprint(p_)
-        x += 0.35 if p_.endswith("curl") else 0
-        F.put(p_, x + w / 2, 7.4 + d / 2, 0, "posterior chain")
-        x += w + 0.5
+    # --- the leg extension island (Roman: "only 3 leg extensions? ... the core super popular ones there need to be enough of for
+    # everyone"): eight selectorized, back to back, the kneeling curl at its end; with the plate-loaded iso, nine in the gym
+    def lrow(pieces, x, yb, rot, gap=0.7):
+        for p_ in pieces:
+            w, d = G.footprint(p_)
+            F.put(p_, x + w / 2, yb + (d / 2 if rot == 0 else -d / 2), rot, "leg extension island")
+            x += w + gap
+    LF, HS, PR = "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"
+    lrow([LF, LF, PR, PR, "hammer-strength-mts-kneeling-leg-curl"], -22.2, 8.4, 0)
+    lrow([LF, HS, HS, HS], -22.2, 8.0, 180)
 
     # --- cardio on the river band: the seats by the glass, the standing machines behind (they see over them)
     y = -1.6
@@ -171,7 +174,7 @@ def plan_f2(G):
     F.write("gym_f2", ws, sps, {"fixed": fixed, "overhead": G.overhead("F2")},
             summary=["F2 · strength (first proposal, 2026-10-26)",
                      "Mirror wall: 6 power racks + 2 half racks + a deadlift platform facing the mirror; 8 olympic platforms in two staggered lines.",
-                     "Islands: the bench island (7 stations round their trees + bar holder), the dumbbell island, the leg hub.",
+                     "Islands: the bench island (7 stations round their trees + bar holder), the dumbbell island, the leg hub, the leg extension island (8).",
                      "River band: the selectorized legs facing the ravine; cardio (seats by the glass, standing behind).",
                      "Upper body (PWR Play maze + machines) is on F3, the den: F2 had no room left for it."])
 
@@ -297,6 +300,9 @@ def plan_f3(G):
     F.put("hammer-strength-fixed-pad-glute-ham", -15.9, -29.4, 0, "functional")
     F.put("hammer-strength-fixed-pad-glute-ham", -17.2, -29.4, 0, "functional")
     F.put("the-abs-company-the-nordic-curl", -16.0, -20.9, 0, "functional")
+    for p_, y in (("hammer-strength-fixed-pad-glute-ham", -11.6), ("hammer-strength-fixed-pad-glute-ham", -8.9),
+                  ("hammer-strength-back-extension", -6.3), ("hammer-strength-back-extension", -3.9)):
+        F.put(p_, -13.2, y, 0, "posterior chain", "moved down from F2 for the leg extension island")
 
     # --- the rig on the functional floor (north-west): pull-up / squat bays, rings + climbing ropes hung from it
     rig = F.put("rogue-monster-rig-2-0", -24.8, -1.0, 0, "functional", "rings, climbing ropes, the parallel bars + a landmine on it")

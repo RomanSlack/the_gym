@@ -1543,16 +1543,16 @@
    "mat": "zone"
   },
   "rig_spur": {
-   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "label": "Pull-up station (to model: from the Monster Lite Monkey Rig's parts): two 108 in uprights on floor plates, a pull-up bar between them at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
    "d": 0.08,
    "h": 2.74,
    "mat": "rack",
    "tag": "pull-up bar",
    "use": [
-    0,
-    0,
     0.9,
-    0.9
+    0.9,
+    0.15,
+    0.15
    ]
   },
   "pwr_core": {
@@ -2537,8 +2537,8 @@
   "hammer-strength-3-in-1-soft-plyo-box": 1,
   "hammer-strength-3-in-1-wood-plyo-box": 3,
   "hammer-strength-assisted-nordic-ham": 1,
-  "hammer-strength-back-extension": 1,
-  "hammer-strength-fixed-pad-glute-ham": 2,
+  "hammer-strength-back-extension": 3,
+  "hammer-strength-fixed-pad-glute-ham": 4,
   "hammer-strength-hd-air-bike": 4,
   "hammer-strength-plate-loaded-abdominal-oblique-crunch": 1,
   "hammer-strength-plate-loaded-iso-lateral-bench-press": 1,
@@ -3684,6 +3684,58 @@
    "d": 1.461,
    "rot": 0,
    "h": 0.748
+  },
+  {
+   "id": "hammer-strength-fixed-pad-glute-ham-3",
+   "room": "posterior chain",
+   "kind": "hammer-strength-fixed-pad-glute-ham",
+   "label": "Hammer Strength Fixed Pad Glute/Ham",
+   "x": -13.2,
+   "y": -11.6,
+   "w": 0.91,
+   "d": 1.856,
+   "rot": 0,
+   "h": 1.295,
+   "note": "moved down from F2 for the leg extension island"
+  },
+  {
+   "id": "hammer-strength-fixed-pad-glute-ham-4",
+   "room": "posterior chain",
+   "kind": "hammer-strength-fixed-pad-glute-ham",
+   "label": "Hammer Strength Fixed Pad Glute/Ham",
+   "x": -13.2,
+   "y": -8.9,
+   "w": 0.91,
+   "d": 1.856,
+   "rot": 0,
+   "h": 1.295,
+   "note": "moved down from F2 for the leg extension island"
+  },
+  {
+   "id": "hammer-strength-back-extension-1",
+   "room": "posterior chain",
+   "kind": "hammer-strength-back-extension",
+   "label": "Hammer Strength Back Extension",
+   "x": -13.2,
+   "y": -6.3,
+   "w": 0.92,
+   "d": 1.41,
+   "rot": 0,
+   "h": 0.807,
+   "note": "moved down from F2 for the leg extension island"
+  },
+  {
+   "id": "hammer-strength-back-extension-2",
+   "room": "posterior chain",
+   "kind": "hammer-strength-back-extension",
+   "label": "Hammer Strength Back Extension",
+   "x": -13.2,
+   "y": -3.9,
+   "w": 0.92,
+   "d": 1.41,
+   "rot": 0,
+   "h": 0.807,
+   "note": "moved down from F2 for the leg extension island"
   },
   {
    "id": "rogue-monster-rig-2-0-1",
@@ -5001,7 +5053,7 @@
    "h": 0.949
   },
   {
-   "id": "hammer-strength-back-extension-1",
+   "id": "hammer-strength-back-extension-3",
    "room": "upper by the river",
    "kind": "hammer-strength-back-extension",
    "label": "Hammer Strength Back Extension",
@@ -5231,6 +5283,18 @@
    "note": "wipes + spray + bin"
   },
   {
+   "id": "wipes-F3--12.2--6.9",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -12.2,
+   "y": -6.9,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
    "id": "wipes-F3--11.8--18.5",
    "room": "",
    "kind": "wipe_station",
@@ -5291,27 +5355,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--9.8--0.9",
+   "id": "wipes-F3--9.8-3.1",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -9.8,
-   "y": -0.9,
+   "y": 3.1,
    "w": 0.36,
    "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F3--13.0--10.1",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -13.0,
-   "y": -10.1,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 90,
+   "rot": -180,
    "note": "wipes + spray + bin"
   },
   {
@@ -5351,18 +5403,6 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--15.0-7.1",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -15.0,
-   "y": 7.1,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 90,
-   "note": "wipes + spray + bin"
-  },
-  {
    "id": "wipes-F3--22.6--19.7",
    "room": "",
    "kind": "wipe_station",
@@ -5372,6 +5412,18 @@
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F3--17.4-3.9",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -17.4,
+   "y": 3.9,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
    "note": "wipes + spray + bin"
   },
   {
