@@ -444,12 +444,12 @@ def plan_f1(G):
     mr = F.put("rogue-monster-lite-monkey-rig-2-0", -17.95, -23.6, 0, "calisthenics", "rings on the 2.47 m bars; the parallel bars on it")
     F.put("rogue-rig-mount-parallel-bars", -15.6, -23.6, 0, "calisthenics", "on the rig", on=mr["id"])
     F.put("body-solid-gvkr60b-vertical-knee-raise-dip", -20.4, -27.4, 0, "calisthenics")
-    # three pull-up bars off the rig's north side, perpendicular to it (Roman: "north of the monkey rig ... like 3 pull-up bars people
-    # can use too, some more calisthenics stuff"): spurs from its uprights, the bars at 2.47 m+, hung from both sides
-    for dx in (-2.489, 0.0, 2.489):
-        F.items.append({"id": f"rig-spur-{dx:+.1f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
-                        "x": round(-17.95 + dx, 3), "y": -21.9, "w": 1.4, "d": 0.08, "rot": 90,
-                        "note": "bolted to the Monkey Rig's north row; pull-ups, chin-ups, hanging leg raises, muscle-ups on the end"})
+    # three pull-up stations a little north of the rig, their bars parallel to it (Roman: "rotate them 90 degrees from how you have
+    # them now and put them out a little bit north of the monkey rig"): freestanding, hung from either side
+    for dx in (-2.6, 0.0, 2.6):
+        F.items.append({"id": f"pullup-{dx:+.1f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
+                        "x": round(-17.95 + dx, 3), "y": -20.3, "w": 1.5, "d": 0.08, "rot": 0,
+                        "note": "pull-ups, chin-ups, hanging leg raises, muscle-ups; hang facing the rig or the spiral"})
     for x in (-18.9, -17.9, -16.9):
         for y in (-27.4, -28.2):
             F.put("rogue-bolt-together-parallette-set", x, y, 0, "calisthenics", "L-sits, planche, push-ups")
@@ -481,7 +481,7 @@ def plan_f1(G):
     F.write("gym_f1", ws, sps, {"fixed": fixed, "overhead": G.overhead("F1")},
             summary=["F1 · the hall (first proposal, 2026-10-26)",
                      "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-                     "Calisthenics in the middle of the hall: the Monkey Rig with three pull-up bars off its north side, a skills floor + 6 parallettes south of it, wall bars on the core.",
+                     "Calisthenics in the middle of the hall: the Monkey Rig with three pull-up stations just north of it, a skills floor + 6 parallettes south of it, wall bars on the core.",
                      "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
                      "The body scanner is in the posing room on F2 (private)."])
 
