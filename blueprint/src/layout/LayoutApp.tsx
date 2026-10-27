@@ -10,12 +10,14 @@ interface Item {
   x?: number; y?: number; w?: number; d?: number; rot?: number; h?: number; n?: number;
   r_in?: number; r_out?: number; mouth?: number;
   pts?: Pt[]; width?: number; cls?: string; status?: string; need?: number;
+  fixed?: boolean; group?: string; note?: string;
 }
-interface Kind { label: string; d: number; h: number; unit?: number; clear?: number; mat: string; shape?: string }
+interface Kind { label: string; d: number; h: number; unit?: number; clear?: number; mat: string; shape?: string; tag?: string; use?: [number, number, number, number] } // use: front, back, left, right
 interface Dim { a: number; b: number; off: number; horiz: boolean; label?: string }
 interface Layout {
   note: string; rooms: string[]; view: [number, number, number, number]; kinds: Record<string, Kind>; items: Item[];
   title?: string; cut?: number; spaces?: Space[]; walls?: Wall[]; dims?: Dim[]; summary?: string[]; site?: { contours: { z: number; pts: Pt[] }[]; water: Pt[][] };
+  overhead?: { pts: Pt[]; cls: string; label?: string }[]; targets?: Record<string, number>; links?: { name: string; label: string }[];
 }
 interface Wall { id: string; type: string; kind?: string; material: string; from: Pt; to: Pt; size: [number, number]; z: [number, number]; openings?: { s: [number, number]; z: [number, number]; type: string }[] }
 interface Space { id: string; level: string; name: string; poly: Pt[] }
@@ -40,6 +42,11 @@ const MAT: Record<string, [string, string]> = { // fill, stroke
   stone: ["#c9c6be", "#5d5a52"], water: ["#9fc7d9", "#2f6683"], zone: ["rgba(120, 110, 95, 0.10)", "rgba(120, 110, 95, 0.6)"], wall: ["#555", "#333"], robot: ["#d6b98a", "#2a2a2a"], uvc: ["rgba(140, 110, 220, 0.25)", "#6b4fc4"],
   aspen: ["#c99a63", "#6b4a26"], aspen_low: ["#dcb685", "#6b4a26"], soapstone: ["#7d8580", "#2f3532"], wood: ["#a98a64", "#5a4128"],
   deck: ["#8c7a66", "#3e3428"], deck_step: ["#a8957e", "#3e3428"], tub: ["#6f5a44", "#2a2118"],
+  // the gym floors' equipment (gym_*.json, tools/gym_layout.py)
+  cardio: ["#d3e3ec", "#3b6a85"], machine: ["#dedad3", "#45423d"], plate_loaded: ["#d2c9bb", "#4a4033"], rack: ["#efc9c3", "#9a2c22"],
+  bench: ["#d8c6ab", "#5c4630"], storage: ["#cfd2d6", "#4d5157"], platform: ["#eadfc8", "#8a6a3a"], pwr: ["#c7c8d0", "#1d1e24"],
+  functional: ["#e3d7ee", "#5b3f86"], strongman: ["#e9d2b9", "#7a4a1c"], turf: ["#cfe2bf", "#4c7a35"], mat: ["#e1ead9", "#6b8a55"],
+  wallkit: ["#ece3f3", "#6b4fc4"], fixture: ["#e6e6e6", "#8a8a8a"], void: ["#f1efe9", "#9a968c"], feature: ["#c6dbe5", "#2f6683"],
 };
 
 function rectPts(it: Item, w = it.w ?? 1, d = it.d ?? 1, dy = 0): Pt[] {
@@ -72,7 +79,8 @@ export default function LayoutApp() {
   const [showFlow, setShowFlow] = useState(true);
   const undo = useRef<string[]>([]);
   const svgRef = useRef<SVGSVGElement>(null);
-  const drag = useRef<{ kind: "item" | "pan"; x: number; y: number; ox: number; oy: number; vb: typeof vb; pts?: Pt[] } | null>(null);
+  const drag = useRef<{ kind: "item" | "pan"; x: number; y: number; ox: number; oy: number; vb: typeof vb; pts?: Pt[]; group?: { start: Record<string, { x: number; y: number; pts?: Pt[] }> } } | null>(null);
+  const [grp, setGrp] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/layout?name=${NAME}`).then((r) => r.json()).then((d: Layout) => {
@@ -154,11 +162,14 @@ export default function LayoutApp() {
     const on = it.id === sel;
     const grab = (e: React.MouseEvent) => {
       e.stopPropagation(); setSel(it.id);
+      if (it.fixed) return;
       const [wx, wy] = toWorld(e.clientX, e.clientY);
       undo.current.push(JSON.stringify(data));
-      drag.current = { kind: "item", x: wx, y: wy, ox: it.x ?? 0, oy: it.y ?? 0, vb, pts: it.pts };
+      const group = it.group && !e.altKey ? { start: Object.fromEntries(data.items.filter((i) => i.group === it.group).map((i) => [i.id, { x: i.x ?? 0, y: i.y ?? 0, pts: i.pts }])) } : undefined;
+      setGrp(it.group ?? null);
+      drag.current = { kind: "item", x: wx, y: wy, ox: it.x ?? 0, oy: it.y ?? 0, vb, pts: it.pts, group };
     };
-    const cls = on ? "it on" : "it";
+    const cls = (on ? "it on" : "it") + (it.fixed ? " fixed" : "") + (it.group && grp === it.group && !on ? " grp" : "");
     if (it.kind === "route" || it.kind === "width_check") return null;
     if (it.kind === "stream" && it.pts) {
       return (
@@ -204,7 +215,10 @@ export default function LayoutApp() {
     }
     const body = rectPts(it);
     const fr = rectPts(it, it.w, 0.02, (it.d ?? 0) / 2 - 0.01); // the front edge
-    const cl = k.clear ? rectPts(it, it.w, k.clear, (it.d ?? 0) / 2 + k.clear / 2) : null;
+    const cl = k.use ? (() => { const [f, b, l, rr] = k.use!; const W = (it.w ?? 0) + l + rr, Dd = (it.d ?? 0) + f + b;
+      const c0 = rectPts({ ...it, x: 0, y: 0 }, W, Dd, (f - b) / 2).map(([x, y]) => [x, y] as Pt); const r0 = ((it.rot ?? 0) * Math.PI) / 180;
+      const sx = (rr - l) / 2; return c0.map(([x, y]) => [it.x! + x + sx * Math.cos(r0), it.y! + y + sx * Math.sin(r0)] as Pt); })()
+      : k.clear ? rectPts(it, it.w, k.clear, (it.d ?? 0) / 2 + k.clear / 2) : null;
     const n = it.n ?? 0;
     const r = ((it.rot ?? 0) * Math.PI) / 180;
     return (
@@ -218,6 +232,8 @@ export default function LayoutApp() {
         })}
         {it.kind !== "oak_block" && <path d={path(fr)} className="front" />}
         {TAG[it.kind] && <text x={it.x} y={-it.y! + 0.07} className="tag">{TAG[it.kind]}{it.kind === "lockers" ? ` ${it.n}` : ""}</text>}
+        {k.tag && <text x={it.x} y={-it.y! + 0.07} className="tag eq" transform={(() => { const W = it.w ?? 1, Dd = it.d ?? 1; const a = ((((it.rot ?? 0) % 180) + 180) % 180); const along = (a > 45 && a < 135) ? W < Dd : W >= Dd; return along ? "" : `rotate(-90 ${it.x} ${-it.y! + 0.07})`; })()}>{k.tag}</text>}
+        <title>{it.label}{it.note ? "\n" + it.note : ""}</title>
       </g>
     );
   };
@@ -226,7 +242,7 @@ export default function LayoutApp() {
     <div className="lay">
       <aside className="lay-side">
         <div className="proj"><div className="proj-name">THE GYM</div><div className="proj-sub">{data.title ?? "Layouts · F1 locker rooms · 2D"}</div></div>
-        <a className="lay-link" href="/">← drawing set</a> · <a className="lay-link" href={NAME === "sauna" ? "?name=lockers" : "?name=sauna"}>{NAME === "sauna" ? "locker rooms" : "Kulpen (sauna)"}</a>
+        <a className="lay-link" href="/">← drawing set</a>{!data.links && <> · <a className="lay-link" href={NAME === "sauna" ? "?name=lockers" : "?name=sauna"}>{NAME === "sauna" ? "locker rooms" : "Kulpen (sauna)"}</a> · <a className="lay-link" href="?name=gym_f2">gym floors</a></>}
         <div className="lay-btns">
           <button onClick={save} className={dirty ? "hot" : ""}>{dirty ? "● Save (Ctrl S)" : "Saved"}</button>
           <button onClick={() => { const u = undo.current.pop(); if (u) { setData(JSON.parse(u)); setDirty(true); } }}>Undo (Ctrl Z)</button>
@@ -236,6 +252,8 @@ export default function LayoutApp() {
         </div>
         <div className="lay-msg mono">{msg}</div>
         {data.summary && <div className="lay-sec">{data.summary.map((t) => <div key={t} className="mono" style={{ fontSize: 11.5 }}>{t}</div>)}</div>}
+        {data.links && <div className="lay-sec">{data.links.map((l) => <a key={l.name} className={"lay-link" + (l.name === NAME ? " here" : "")} href={"?name=" + l.name}>{l.label}</a>)}</div>}
+        {data.targets && <Targets data={data} />}
         {Object.keys(counts).length > 0 && <div className="lay-sec">
           <div className="lay-h">Lockers</div>
           {Object.entries(counts).map(([r, n]) => <div key={r} className="mono">{r.replace("-lockers", "")}: {n}</div>)}
@@ -243,7 +261,8 @@ export default function LayoutApp() {
         {selIt ? (
           <div className="lay-sec">
             <div className="lay-h">{selIt.label}</div>
-            <div className="lay-sub mono">{selIt.id}</div>
+            <div className="lay-sub mono">{selIt.id}{selIt.fixed ? " · fixed (building)" : ""}{selIt.group ? " · group " + selIt.group + " (drags together; Alt-drag one)" : ""}</div>
+            {selIt.note && <div className="lay-sub">{selIt.note}</div>}
             {!selIt.pts && (["x", "y", "w", "d", "rot"] as const).map((f) => (
               <label key={f} className="lay-f"><span>{f}</span>
                 <input type="number" step={f === "rot" ? 15 : 0.05} value={(selIt[f] as number | undefined) ?? 0}
@@ -267,6 +286,12 @@ export default function LayoutApp() {
             if (d.kind === "pan") { setVb([d.vb[0] - (e.clientX - d.x) / ppm, d.vb[1] - (e.clientY - d.y) / ppm, d.vb[2], d.vb[3]]); return; }
             const [wx, wy] = toWorld(e.clientX, e.clientY);
             const dx = snap(wx - d.x, snapOn), dy = snap(wy - d.y, snapOn);
+            if (d.group) {  // a group (the PWR Play maze): every member moves with the one dragged
+              const g = d.group;
+              setData((cur) => cur && ({ ...cur, items: cur.items.map((i) => { const o = g.start[i.id]; if (!o) return i;
+                return o.pts ? { ...i, pts: o.pts.map(([x, y]) => [Math.round((x + dx) * 1000) / 1000, Math.round((y + dy) * 1000) / 1000] as Pt) } : { ...i, x: Math.round((o.x + dx) * 1000) / 1000, y: Math.round((o.y + dy) * 1000) / 1000 }; }) }));
+              setDirty(true); return;
+            }
             setData((cur) => cur && ({ ...cur, items: cur.items.map((i) => (i.id === sel ? (d.pts ? { ...i, pts: d.pts.map(([x, y]) => [Math.round((x + dx) * 1000) / 1000, Math.round((y + dy) * 1000) / 1000] as Pt) }
               : { ...i, x: snap(d.ox + dx, snapOn), y: snap(d.oy + dy, snapOn) }) : i)) }));
             setDirty(true);
@@ -300,6 +325,7 @@ export default function LayoutApp() {
             const [ax, ay] = w.from, [bx, by] = w.to, L = Math.hypot(bx - ax, by - ay), ux = (bx - ax) / L, uy = (by - ay) / L;
             return <line key={w.id + "win" + k} x1={ax + ux * o.s[0]} y1={-(ay + uy * o.s[0])} x2={ax + ux * o.s[1]} y2={-(ay + uy * o.s[1])} className="win" />;
           }))}
+          {data.overhead && data.overhead.map((o, i) => <path key={"oh" + i} d={path(o.pts, false)} className={"overhead " + o.cls}><title>{o.label}</title></path>)}
           {data.items.filter((i) => i.kind === "floor_zone").map(renderItem)}
           {data.items.filter((i) => i.kind === "oak_block").map(renderItem)}
           {data.items.filter((i) => i.kind !== "oak_block" && i.kind !== "floor_zone").map(renderItem)}
@@ -310,6 +336,16 @@ export default function LayoutApp() {
       </main>
     </div>
   );
+}
+
+/** Placed vs needed, per piece (the equipment list's quantities on this floor). */
+function Targets({ data }: { data: Layout }) {
+  const n: Record<string, number> = {};
+  for (const it of data.items) n[it.kind] = (n[it.kind] ?? 0) + 1;
+  const rows = Object.entries(data.targets!);
+  const short = rows.filter(([k, t]) => (n[k] ?? 0) < t).length;
+  return <div className="lay-sec"><div className="lay-h">Equipment on this floor {short ? <span style={{ color: "#c62828" }}>· {short} short</span> : <span style={{ color: "#2e8b57" }}>· all placed</span>}</div>
+    {rows.map(([k, t]) => { const c = n[k] ?? 0; return <div key={k} className="mono tgt" style={{ color: c < t ? "#c62828" : c > t ? "#d18a00" : "#4d4a44" }}>{c}/{t} {data.kinds[k]?.tag ?? k}</div>; })}</div>;
 }
 
 const D = ({ a, b, off, horiz, label }: { a: number; b: number; off: number; horiz: boolean; label?: string }) => {

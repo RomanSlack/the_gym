@@ -52,3 +52,13 @@ html, body, #root { margin: 0; height: 100%; }
 .contour.major { stroke: rgba(120, 100, 70, 0.6); stroke-width: 0.02px; }
 .contour-t { font-size: 0.2px; fill: #8a7a5a; font-family: "IBM Plex Mono", monospace; }
 .win { stroke: #5b8aa3; stroke-width: 0.06px; }
+.it.fixed { cursor: default; opacity: 0.75; }
+.it.grp path { stroke: #d2421e88 !important; }
+.tag.eq { font-size: 0.13px; fill: #22211e; }
+.overhead { fill: none; pointer-events: stroke; }
+.overhead.beam { stroke: rgba(60, 60, 60, 0.28); stroke-width: 0.55px; }
+.overhead.light { stroke: rgba(230, 160, 20, 0.75); stroke-width: 0.05px; stroke-dasharray: 0.25 0.12; }
+.overhead.bar { stroke: #1d1e24; stroke-width: 0.06px; }
+.overhead.lane { stroke: rgba(76, 122, 53, 0.6); stroke-width: 0.03px; stroke-dasharray: 0.4 0.2; }
+.lay-link.here { font-weight: 600; color: var(--ink); }
+.tgt { font-size: 11px; }

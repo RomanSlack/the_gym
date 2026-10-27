@@ -1,0 +1,5296 @@
+{
+ "note": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman, altitude: the 2D equipment layout (tools/gym_layout.py writes the first proposal; edited in blueprint/layout.html?name=gym_f3). x, y = centre in project metres; w across the user, d along the way the user faces; rot = the way the user faces (0 = north, 90 = west, -90 = east).",
+ "title": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman, altitude",
+ "level": "F3",
+ "cut": 1.0,
+ "rooms": [],
+ "view": [
+  -30.5,
+  -41.0,
+  -5.4,
+  13.2
+ ],
+ "links": [
+  {
+   "name": "gym_f1",
+   "label": "F1 \u00b7 the hall: cardio, stretching, calisthenics"
+  },
+  {
+   "name": "gym_f2",
+   "label": "F2 \u00b7 strength: free weights, olympic, legs, cardio"
+  },
+  {
+   "name": "gym_f3",
+   "label": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman"
+  },
+  {
+   "name": "lockers",
+   "label": "F1 \u00b7 the locker rooms"
+  },
+  {
+   "name": "sauna",
+   "label": "Kulpen, the sauna"
+  }
+ ],
+ "walls": [
+  {
+   "id": "W-west-A",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    -34.1
+   ],
+   "to": [
+    -29.45,
+    12.1
+   ],
+   "size": [
+    0.5,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": [
+    {
+     "s": [
+      10.35,
+      11.35
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core WC women door"
+    },
+    {
+     "s": [
+      13.2,
+      14.2
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core WC men door"
+    },
+    {
+     "s": [
+      20.6,
+      21.8
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core W1 door (floor landing)"
+    },
+    {
+     "s": [
+      7.55,
+      8.75
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core W2 door (floor landing)"
+    },
+    {
+     "s": [
+      22.2,
+      24.4
+     ],
+     "z": [
+      0.0,
+      3.66
+     ],
+     "type": "opening",
+     "note": "core W1 glass lift"
+    }
+   ]
+  },
+  {
+   "id": "W-west-N",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    12.1
+   ],
+   "to": [
+    -6.45,
+    12.1
+   ],
+   "size": [
+    0.5,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": [
+    {
+     "s": [
+      19.8,
+      21.0
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core W3 (north exit stair, floor landing)"
+    }
+   ]
+  },
+  {
+   "id": "W-west-S",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    -34.1
+   ],
+   "to": [
+    -6.45,
+    -34.1
+   ],
+   "size": [
+    0.5,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": [
+    {
+     "s": [
+      6.0,
+      8.0
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "altitude room (airlock door)"
+    }
+   ]
+  },
+  {
+   "id": "W-west-C",
+   "type": "wall",
+   "kind": "river_wall",
+   "material": "concrete",
+   "from": [
+    -6.45,
+    -34.1
+   ],
+   "to": [
+    -6.45,
+    12.1
+   ],
+   "size": [
+    0.4,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": [
+    {
+     "s": [
+      2.0,
+      44.2
+     ],
+     "z": [
+      0.0,
+      2.6
+     ],
+     "type": "window",
+     "note": "continuous river window: water surface (-8.77) about 1.0 m above the floor, waist height"
+    }
+   ]
+  },
+  {
+   "id": "LS-men-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -4.225
+   ],
+   "to": [
+    -31.25,
+    -1.575
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-men-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -1.7
+   ],
+   "to": [
+    -29.7,
+    -1.7
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-men-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -4.1
+   ],
+   "to": [
+    -29.7,
+    -4.1
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    4.575
+   ],
+   "to": [
+    -31.25,
+    7.225
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    7.1
+   ],
+   "to": [
+    -29.7,
+    7.1
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    4.7
+   ],
+   "to": [
+    -29.7,
+    4.7
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -18.7
+   ],
+   "to": [
+    -32.05,
+    -9.4
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -9.55
+   ],
+   "to": [
+    -29.7,
+    -9.55
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -18.55
+   ],
+   "to": [
+    -29.7,
+    -18.55
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W2-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -34.25
+   ],
+   "to": [
+    -32.05,
+    -24.95
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W2-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -25.1
+   ],
+   "to": [
+    -29.7,
+    -25.1
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W2-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -34.1
+   ],
+   "to": [
+    -29.7,
+    -34.1
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -6.22,
+    16.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -17.2,
+    12.35
+   ],
+   "to": [
+    -17.2,
+    15.7
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -6.22,
+    12.37
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-E",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -8.2,
+    12.35
+   ],
+   "to": [
+    -8.2,
+    15.7
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -6.22,
+    12.37
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -17.2,
+    15.55
+   ],
+   "to": [
+    -8.2,
+    15.55
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -6.22,
+    12.37
+   ],
+   "openings": []
+  },
+  {
+   "id": "SA-S",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -40.1
+   ],
+   "to": [
+    -6.45,
+    -40.1
+   ],
+   "size": [
+    0.4,
+    14.89
+   ],
+   "z": [
+    -6.22,
+    8.67
+   ],
+   "openings": []
+  },
+  {
+   "id": "SA-W",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -40.1
+   ],
+   "to": [
+    -28.85,
+    -34.35
+   ],
+   "size": [
+    0.4,
+    14.89
+   ],
+   "z": [
+    -6.22,
+    8.67
+   ],
+   "openings": []
+  },
+  {
+   "id": "SA-E",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -6.45,
+    -40.1
+   ],
+   "to": [
+    -6.45,
+    -34.35
+   ],
+   "size": [
+    0.4,
+    14.89
+   ],
+   "z": [
+    -6.22,
+    8.67
+   ],
+   "openings": []
+  },
+  {
+   "id": "SP-SA-alt",
+   "type": "wall",
+   "kind": "spine",
+   "material": "concrete",
+   "from": [
+    -14.45,
+    -39.9
+   ],
+   "to": [
+    -14.45,
+    -34.35
+   ],
+   "size": [
+    0.2,
+    4.61
+   ],
+   "z": [
+    -0.1,
+    4.51
+   ],
+   "openings": [
+    {
+     "s": [
+      0.5,
+      1.5
+     ],
+     "z": [
+      0.0,
+      2.1
+     ],
+     "type": "door",
+     "note": "the altitude plant (staff)"
+    }
+   ]
+  },
+  {
+   "id": "WA-W",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -38.45,
+    -26.9
+   ],
+   "to": [
+    -38.45,
+    -16.75
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-NB",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -38.45,
+    -16.75
+   ],
+   "to": [
+    -32.45,
+    -16.75
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-NE",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -32.45,
+    -16.75
+   ],
+   "to": [
+    -32.45,
+    -18.9
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-N",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -32.6,
+    -18.9
+   ],
+   "to": [
+    -29.7,
+    -18.9
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-SB",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -38.45,
+    -26.9
+   ],
+   "to": [
+    -32.45,
+    -26.9
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-SE",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -32.45,
+    -26.9
+   ],
+   "to": [
+    -32.45,
+    -24.75
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "WA-S",
+   "type": "wall",
+   "kind": "retaining",
+   "material": "concrete",
+   "from": [
+    -32.6,
+    -24.75
+   ],
+   "to": [
+    -29.7,
+    -24.75
+   ],
+   "size": [
+    0.3,
+    15.74
+   ],
+   "z": [
+    -6.22,
+    9.52
+   ],
+   "openings": []
+  },
+  {
+   "id": "SP-WA-spine",
+   "type": "wall",
+   "kind": "spine",
+   "material": "concrete",
+   "from": [
+    -38.3,
+    -21.825
+   ],
+   "to": [
+    -29.7,
+    -21.825
+   ],
+   "size": [
+    0.2,
+    14.79
+   ],
+   "z": [
+    -5.62,
+    9.17
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-river-river-6",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "acrylic",
+   "from": [
+    -6.45,
+    -32.1
+   ],
+   "to": [
+    -6.45,
+    10.1
+   ],
+   "size": [
+    0.2,
+    2.6
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": []
+  }
+ ],
+ "spaces": [
+  {
+   "id": "free-weights-F3",
+   "level": "F3",
+   "name": "Free weights \u00b7 mirror wall \u00b7 the den",
+   "poly": [
+    [
+     -29.45,
+     0.55
+    ],
+    [
+     -21.45,
+     0.55
+    ],
+    [
+     -21.45,
+     -34.1
+    ],
+    [
+     -28.85,
+     -34.1
+    ],
+    [
+     -28.85,
+     -25.1
+    ],
+    [
+     -29.45,
+     -25.1
+    ],
+    [
+     -29.45,
+     -18.55
+    ],
+    [
+     -28.85,
+     -18.55
+    ],
+    [
+     -28.85,
+     -9.55
+    ],
+    [
+     -29.45,
+     -9.55
+    ],
+    [
+     -29.45,
+     -4.1
+    ],
+    [
+     -28.85,
+     -4.1
+    ],
+    [
+     -28.85,
+     -1.7
+    ],
+    [
+     -29.45,
+     -1.7
+    ]
+   ]
+  },
+  {
+   "id": "strongman",
+   "level": "F3",
+   "name": "Strongman \u00b7 yoke, atlas stones",
+   "poly": [
+    [
+     -29.45,
+     12.1
+    ],
+    [
+     -21.45,
+     12.1
+    ],
+    [
+     -21.45,
+     0.55
+    ],
+    [
+     -29.45,
+     0.55
+    ],
+    [
+     -29.45,
+     4.7
+    ],
+    [
+     -28.85,
+     4.7
+    ],
+    [
+     -28.85,
+     7.1
+    ],
+    [
+     -29.45,
+     7.1
+    ]
+   ]
+  },
+  {
+   "id": "spiral-F3",
+   "level": "F3",
+   "name": "Spiral stair (arrival)",
+   "poly": [
+    [
+     -21.45,
+     -18.7
+    ],
+    [
+     -14.45,
+     -18.7
+    ],
+    [
+     -14.45,
+     -11.0
+    ],
+    [
+     -21.45,
+     -11.0
+    ]
+   ]
+  },
+  {
+   "id": "north-stair-F3",
+   "level": "F3",
+   "name": "Stair to F4",
+   "poly": [
+    [
+     -21.45,
+     7.1
+    ],
+    [
+     -15.45,
+     7.1
+    ],
+    [
+     -15.45,
+     12.1
+    ],
+    [
+     -21.45,
+     12.1
+    ]
+   ]
+  },
+  {
+   "id": "functional",
+   "level": "F3",
+   "name": "Functional / CrossFit rig",
+   "poly": [
+    [
+     -21.45,
+     -34.1
+    ],
+    [
+     -14.45,
+     -34.1
+    ],
+    [
+     -14.45,
+     12.1
+    ],
+    [
+     -15.45,
+     12.1
+    ],
+    [
+     -15.45,
+     7.1
+    ],
+    [
+     -21.45,
+     7.1
+    ],
+    [
+     -21.45,
+     -11.0
+    ],
+    [
+     -14.45,
+     -11.0
+    ],
+    [
+     -14.45,
+     -18.7
+    ],
+    [
+     -21.45,
+     -18.7
+    ]
+   ]
+  },
+  {
+   "id": "sled-track",
+   "level": "F3",
+   "name": "Turf sprint / sled lane \u00b7 46 m",
+   "poly": [
+    [
+     -14.45,
+     -34.1
+    ],
+    [
+     -12.0,
+     -34.1
+    ],
+    [
+     -12.0,
+     12.1
+    ],
+    [
+     -14.45,
+     12.1
+    ]
+   ]
+  },
+  {
+   "id": "river-edge",
+   "level": "F3",
+   "name": "River edge \u00b7 waist-high river window + indoor stream",
+   "poly": [
+    [
+     -12.0,
+     -34.1
+    ],
+    [
+     -6.45,
+     -34.1
+    ],
+    [
+     -6.45,
+     12.1
+    ],
+    [
+     -12.0,
+     12.1
+    ]
+   ]
+  },
+  {
+   "id": "altitude",
+   "level": "F3",
+   "name": "Altitude training room \u00b7 hypoxic",
+   "poly": [
+    [
+     -28.85,
+     -40.1
+    ],
+    [
+     -14.45,
+     -40.1
+    ],
+    [
+     -14.45,
+     -34.1
+    ],
+    [
+     -28.85,
+     -34.1
+    ]
+   ]
+  }
+ ],
+ "overhead": [
+  {
+   "pts": [
+    [
+     -29.45,
+     12.1
+    ],
+    [
+     -8.25,
+     12.1
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-1-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     4.4
+    ],
+    [
+     -8.25,
+     4.4
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-2-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -3.3
+    ],
+    [
+     -8.25,
+     -3.3
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-3-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -11.0
+    ],
+    [
+     -8.25,
+     -11.0
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-4-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -18.7
+    ],
+    [
+     -8.25,
+     -18.7
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-5-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -26.4
+    ],
+    [
+     -8.25,
+     -26.4
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-6-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -34.1
+    ],
+    [
+     -8.25,
+     -34.1
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-7-F3-west: beam overhead, 0.55 x 1.1 m"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -30.25
+    ],
+    [
+     -21.6,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -30.25
+    ],
+    [
+     -14.6,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -30.25
+    ],
+    [
+     -7.0,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -22.55
+    ],
+    [
+     -21.6,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -22.55
+    ],
+    [
+     -14.6,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -22.55
+    ],
+    [
+     -7.0,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.900000000000002,
+     -14.85
+    ],
+    [
+     -22.05,
+     -14.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -13.850000000000001,
+     -14.85
+    ],
+    [
+     -7.000000000000001,
+     -14.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -7.15
+    ],
+    [
+     -21.6,
+     -7.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -7.15
+    ],
+    [
+     -14.6,
+     -7.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -7.15
+    ],
+    [
+     -7.0,
+     -7.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     0.55
+    ],
+    [
+     -21.6,
+     0.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     0.55
+    ],
+    [
+     -14.6,
+     0.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     0.55
+    ],
+    [
+     -7.0,
+     0.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     8.25
+    ],
+    [
+     -21.6,
+     8.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     8.25
+    ],
+    [
+     -14.6,
+     8.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     8.25
+    ],
+    [
+     -7.0,
+     8.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3000 K)"
+  }
+ ],
+ "dims": [],
+ "summary": [
+  "F3 \u00b7 the den (first proposal, 2026-10-26)",
+  "Mirror wall: the dumbbell den (3 racks, 18 bench stations in three rows), the carry lane, wall balls + pegboard.",
+  "Islands: the PWR Play maze (2 x 3 Cores, 7 crossbars), the plate-loaded upper hub, the den island (dumbbells + kettlebells).",
+  "The rig beside the spiral; strongman by the stair; the grip wall on the south wall.",
+  "By the river: SkiErgs, air bikes, rowers, then the selectorized upper body facing the water.",
+  "Upper body moved here from F2 (the maze + its machines): F2 had no room for it."
+ ],
+ "kinds": {
+  "void": {
+   "label": "The spiral's opening (open to the floors above / below)",
+   "d": 0,
+   "h": 0,
+   "mat": "void",
+   "tag": "spiral"
+  },
+  "keep_clear": {
+   "label": "Keep clear: a door's landing, the spiral's step-off, a lift's call space",
+   "d": 0,
+   "h": 0,
+   "mat": "zone"
+  },
+  "turf": {
+   "label": "Sled lane: 46 m of sled turf (built, tools/interior.py)",
+   "d": 0,
+   "h": 0,
+   "mat": "turf",
+   "tag": "sled lane"
+  },
+  "den_river": {
+   "label": "Bekken i hulen: the den's river (built: the rock base, the pool, the outfall slit)",
+   "d": 0,
+   "h": 0,
+   "mat": "feature",
+   "tag": "the den river"
+  },
+  "stair": {
+   "label": "Stair (opening)",
+   "d": 0,
+   "h": 0,
+   "mat": "void",
+   "tag": "stair"
+  },
+  "tap_station": {
+   "label": "Water station: chilled tap (built)",
+   "d": 0.13,
+   "h": 1.2,
+   "mat": "fixture",
+   "tag": "water"
+  },
+  "safety_point": {
+   "label": "Safety point: AED, extinguisher, first aid (built)",
+   "d": 0.15,
+   "h": 1.5,
+   "mat": "fixture",
+   "tag": "AED"
+  },
+  "wipe_station": {
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "d": 0.36,
+   "h": 1.1,
+   "mat": "fixture",
+   "tag": "wipes",
+   "use": [
+    0.5,
+    0,
+    0,
+    0
+   ]
+  },
+  "floor_zone": {
+   "label": "Floor zone",
+   "d": 1.0,
+   "h": 0.0,
+   "mat": "zone"
+  },
+  "pwr_core": {
+   "label": "Life Fitness PWR Play: a Core (four faces, a station on each)",
+   "d": 0.929,
+   "h": 2.415,
+   "mat": "pwr",
+   "tag": "core"
+  },
+  "pwr_bar": {
+   "label": "PWR Play crossbar (Long connector) with pull-up handles, over the aisle at 2.31 m",
+   "d": 0.08,
+   "h": 2.35,
+   "mat": "pwr"
+  },
+  "pwr_pulldown": {
+   "label": "PWR Play station: pulldown",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "pulldown",
+   "use": [
+    0.35,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_row": {
+   "label": "PWR Play station: row",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "row",
+   "use": [
+    0.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_triceps": {
+   "label": "PWR Play station: triceps",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "triceps",
+   "use": [
+    1.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_adjustable": {
+   "label": "PWR Play station: adj pulley",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "adj pulley",
+   "use": [
+    1.5,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_crossover": {
+   "label": "PWR Play station: crossover",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "crossover",
+   "use": [
+    1.5,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dualhigh": {
+   "label": "PWR Play station: dual high",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dual high",
+   "use": [
+    1.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_duallow": {
+   "label": "PWR Play station: dual low",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dual low",
+   "use": [
+    1.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dip": {
+   "label": "PWR Play station: dip",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dip",
+   "use": [
+    0.6,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_panel": {
+   "label": "PWR Play station: blank panel",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "",
+   "use": [
+    0.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_step": {
+   "label": "PWR Play station: step",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "step",
+   "use": [
+    0.7,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_handles": {
+   "label": "PWR Play station: handles",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "handles",
+   "use": [
+    0.6,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_stallbars": {
+   "label": "PWR Play station: stall bars",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "stall bars",
+   "use": [
+    1.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_ropepull": {
+   "label": "PWR Play station: rope pull",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "rope pull",
+   "use": [
+    0.9,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_powerpivot": {
+   "label": "PWR Play station: power pivot",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "power pivot",
+   "use": [
+    0.8,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dipchin": {
+   "label": "PWR Play station: assist dip/chin",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "assist dip/chin",
+   "use": [
+    0.4,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "beastmaker-2000-series-hangboard": {
+   "label": "Beastmaker 2000 Series Hangboard",
+   "d": 0.174,
+   "h": 2.8,
+   "mat": "wallkit",
+   "tag": "hangboard",
+   "use": [
+    1.4,
+    0,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "beastmaker-2000-series-hangboard"
+  },
+  "body-solid-gvkr60b-vertical-knee-raise-dip": {
+   "label": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+   "d": 0.955,
+   "h": 1.505,
+   "mat": "machine",
+   "tag": "VKR / dip",
+   "use": [
+    0.6,
+    0.2,
+    0.3,
+    0.3
+   ],
+   "face": "-x",
+   "piece": "body-solid-gvkr60b-vertical-knee-raise-dip"
+  },
+  "concept2-skierg": {
+   "label": "Concept2 SkiErg",
+   "d": 1.375,
+   "h": 2.16,
+   "mat": "cardio",
+   "tag": "SkiErg",
+   "use": [
+    1.1,
+    0.2,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "concept2-skierg"
+  },
+  "gmwd-multi-functional-seal-row-bench-sr05": {
+   "label": "GMWD Multi-functional Seal Row Bench SR05",
+   "d": 1.342,
+   "h": 0.949,
+   "mat": "bench",
+   "tag": "seal row",
+   "use": [
+    0.5,
+    0.5,
+    0.7,
+    0.7
+   ],
+   "face": "-x",
+   "piece": "gmwd-multi-functional-seal-row-bench-sr05"
+  },
+  "hammer-strength-3-in-1-soft-plyo-box": {
+   "label": "Hammer Strength 3-in-1 Soft Plyo Box",
+   "d": 0.762,
+   "h": 0.601,
+   "mat": "functional",
+   "tag": "plyo boxes",
+   "use": [
+    1.0,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-3-in-1-soft-plyo-box"
+  },
+  "hammer-strength-3-in-1-wood-plyo-box": {
+   "label": "Hammer Strength 3-in-1 Wood Plyo Box",
+   "d": 0.762,
+   "h": 0.601,
+   "mat": "functional",
+   "tag": "plyo boxes",
+   "use": [
+    1.0,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-3-in-1-wood-plyo-box"
+  },
+  "hammer-strength-assisted-nordic-ham": {
+   "label": "Hammer Strength Assisted Nordic Ham",
+   "d": 2.12,
+   "h": 1.522,
+   "mat": "machine",
+   "tag": "nordic ham",
+   "use": [
+    0.6,
+    1.2,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-assisted-nordic-ham"
+  },
+  "hammer-strength-back-extension": {
+   "label": "Hammer Strength Back Extension",
+   "d": 1.41,
+   "h": 0.807,
+   "mat": "machine",
+   "tag": "back ext",
+   "use": [
+    0.6,
+    0.6,
+    0.4,
+    0.4
+   ],
+   "face": "-x",
+   "piece": "hammer-strength-back-extension"
+  },
+  "hammer-strength-fixed-pad-glute-ham": {
+   "label": "Hammer Strength Fixed Pad Glute/Ham",
+   "d": 1.856,
+   "h": 1.295,
+   "mat": "machine",
+   "tag": "GHD",
+   "use": [
+    0.6,
+    0.6,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-fixed-pad-glute-ham"
+  },
+  "hammer-strength-hd-air-bike": {
+   "label": "Hammer Strength HD Air Bike",
+   "d": 1.514,
+   "h": 1.384,
+   "mat": "cardio",
+   "tag": "air bike",
+   "use": [
+    0.3,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-hd-air-bike"
+  },
+  "hammer-strength-plate-loaded-abdominal-oblique-crunch": {
+   "label": "Hammer Strength Plate Loaded Abdominal Oblique Crunch",
+   "d": 0.988,
+   "h": 1.559,
+   "mat": "plate_loaded",
+   "tag": "ab crunch",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-abdominal-oblique-crunch"
+  },
+  "hammer-strength-plate-loaded-iso-lateral-bench-press": {
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
+   "d": 1.076,
+   "h": 1.842,
+   "mat": "plate_loaded",
+   "tag": "iso chest",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-iso-lateral-bench-press"
+  },
+  "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown": {
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Front Lat Pulldown",
+   "d": 1.656,
+   "h": 2.034,
+   "mat": "plate_loaded",
+   "tag": "iso pulldown",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown"
+  },
+  "hammer-strength-plate-loaded-iso-lateral-incline-press": {
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Incline Press",
+   "d": 1.264,
+   "h": 1.91,
+   "mat": "plate_loaded",
+   "tag": "iso incline",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-iso-lateral-incline-press"
+  },
+  "hammer-strength-plate-loaded-iso-lateral-row": {
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Row",
+   "d": 1.556,
+   "h": 1.335,
+   "mat": "plate_loaded",
+   "tag": "iso row",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-iso-lateral-row"
+  },
+  "hammer-strength-plate-loaded-iso-lateral-shoulder-press": {
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+   "d": 1.336,
+   "h": 1.86,
+   "mat": "plate_loaded",
+   "tag": "iso shoulder",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-iso-lateral-shoulder-press"
+  },
+  "hammer-strength-plate-loaded-t-bar-row": {
+   "label": "Hammer Strength Plate Loaded T-Bar Row",
+   "d": 2.062,
+   "h": 0.617,
+   "mat": "plate_loaded",
+   "tag": "T-bar row",
+   "use": [
+    0.8,
+    0.5,
+    0.75,
+    0.75
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-plate-loaded-t-bar-row"
+  },
+  "hammer-strength-seated-arm-curl": {
+   "label": "Hammer Strength Seated Arm Curl",
+   "d": 1.0,
+   "h": 1.1,
+   "mat": "machine",
+   "tag": "preacher",
+   "use": [
+    0.7,
+    0.4,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-seated-arm-curl"
+  },
+  "hammer-strength-select-biceps-curl": {
+   "label": "Hammer Strength Select Biceps Curl",
+   "d": 1.196,
+   "h": 1.397,
+   "mat": "machine",
+   "tag": "biceps",
+   "use": [
+    0.7,
+    0.4,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-select-biceps-curl"
+  },
+  "hammer-strength-select-chest-press": {
+   "label": "Hammer Strength Select Chest Press",
+   "d": 1.064,
+   "h": 1.653,
+   "mat": "machine",
+   "tag": "chest press",
+   "use": [
+    0.7,
+    0.4,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-select-chest-press"
+  },
+  "hammer-strength-select-pectoral-fly-rear-deltoid": {
+   "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+   "d": 1.168,
+   "h": 1.876,
+   "mat": "machine",
+   "tag": "pec fly / rear delt",
+   "use": [
+    0.7,
+    0.4,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-select-pectoral-fly-rear-deltoid"
+  },
+  "hammer-strength-stackable-plyo-box": {
+   "label": "Hammer Strength Stackable Plyo Box",
+   "d": 0.915,
+   "h": 1.602,
+   "mat": "functional",
+   "tag": "plyo stack",
+   "use": [
+    1.0,
+    0.2,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-stackable-plyo-box"
+  },
+  "hammer-strength-three-tier-dumbbell-rack": {
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "d": 0.915,
+   "h": 0.987,
+   "mat": "storage",
+   "tag": "DB rack",
+   "use": [
+    1.3,
+    0.05,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-three-tier-dumbbell-rack"
+  },
+  "life-fitness-3-tier-accessory-rack": {
+   "label": "Life Fitness 3-Tier Accessory Rack",
+   "d": 0.675,
+   "h": 0.975,
+   "mat": "storage",
+   "tag": "KB / accessory rack",
+   "use": [
+    1.3,
+    0.05,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "life-fitness-3-tier-accessory-rack"
+  },
+  "life-fitness-acft-sled-with-strap": {
+   "label": "Life Fitness ACFT Sled with Strap",
+   "d": 2.328,
+   "h": 0.186,
+   "mat": "strongman",
+   "tag": "drag sled",
+   "use": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "face": "-y",
+   "piece": "life-fitness-acft-sled-with-strap"
+  },
+  "life-fitness-barbell-rack": {
+   "label": "Life Fitness Barbell Rack",
+   "d": 1.078,
+   "h": 1.47,
+   "mat": "storage",
+   "tag": "fixed bars",
+   "use": [
+    1.3,
+    0.05,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "life-fitness-barbell-rack"
+  },
+  "life-fitness-club-series-upright-lifecycle-bike": {
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "d": 1.064,
+   "h": 1.555,
+   "mat": "cardio",
+   "tag": "upright bike",
+   "use": [
+    0.3,
+    0.5,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "life-fitness-club-series-upright-lifecycle-bike"
+  },
+  "life-fitness-escape-endura-wall-balls": {
+   "label": "Life Fitness Escape Endura Wall Balls",
+   "d": 0.812,
+   "h": 0.356,
+   "mat": "wallkit",
+   "tag": "wall-ball targets",
+   "use": [
+    2.5,
+    0,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "life-fitness-escape-endura-wall-balls"
+  },
+  "life-fitness-ic7-indoor-cycle": {
+   "label": "Life Fitness IC7 Indoor Cycle",
+   "d": 1.42,
+   "h": 1.206,
+   "mat": "cardio",
+   "tag": "IC7",
+   "use": [
+    0.3,
+    0.5,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "life-fitness-ic7-indoor-cycle"
+  },
+  "life-fitness-olympic-weight-tree": {
+   "label": "Life Fitness Olympic Weight Tree",
+   "d": 0.712,
+   "h": 1.154,
+   "mat": "storage",
+   "tag": "plate tree",
+   "use": [
+    0.6,
+    0.6,
+    0.6,
+    0.6
+   ],
+   "face": "-y",
+   "piece": "life-fitness-olympic-weight-tree"
+  },
+  "life-fitness-push-pull-weight-sled": {
+   "label": "Life Fitness Push-Pull Weight Sled",
+   "d": 1.1,
+   "h": 1.0,
+   "mat": "strongman",
+   "tag": "push sled",
+   "use": [
+    0.0,
+    1.2,
+    0.0,
+    0.0
+   ],
+   "face": "-y",
+   "piece": "life-fitness-push-pull-weight-sled"
+  },
+  "life-fitness-row-hx-trainer": {
+   "label": "Life Fitness Row HX Trainer",
+   "d": 2.127,
+   "h": 0.704,
+   "mat": "cardio",
+   "tag": "rower",
+   "use": [
+    0.3,
+    0.4,
+    0.55,
+    0.55
+   ],
+   "face": "-y",
+   "piece": "life-fitness-row-hx-trainer"
+  },
+  "life-fitness-vertical-medicine-ball-storage": {
+   "label": "Life Fitness Vertical Medicine Ball Storage",
+   "d": 0.6,
+   "h": 1.401,
+   "mat": "storage",
+   "tag": "med ball tree",
+   "use": [
+    0.8,
+    0.1,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "life-fitness-vertical-medicine-ball-storage"
+  },
+  "metolius-wood-grips-campus-rungs": {
+   "label": "Metolius Wood Grips Campus Rungs",
+   "d": 0.151,
+   "h": 3.0,
+   "mat": "wallkit",
+   "tag": "campus board",
+   "use": [
+    1.6,
+    0,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "metolius-wood-grips-campus-rungs"
+  },
+  "rogue-10-bar-holder": {
+   "label": "Rogue 10-Bar Holder",
+   "d": 0.66,
+   "h": 0.267,
+   "mat": "storage",
+   "tag": "bar holder",
+   "use": [
+    0.9,
+    0.9,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "rogue-10-bar-holder"
+  },
+  "rogue-adjustable-bench-3-0": {
+   "label": "Rogue Adjustable Bench 3.0",
+   "d": 1.492,
+   "h": 1.017,
+   "mat": "bench",
+   "tag": "adj bench",
+   "use": [
+    0.5,
+    0.5,
+    0.8,
+    0.8
+   ],
+   "face": "-x",
+   "piece": "rogue-adjustable-bench-3-0"
+  },
+  "rogue-belt-and-band-hanger": {
+   "label": "Rogue Belt and Band Hanger",
+   "d": 0.313,
+   "h": 2.8,
+   "mat": "wallkit",
+   "tag": "belts + bands",
+   "use": [
+    0.8,
+    0,
+    0,
+    0
+   ],
+   "face": "-y",
+   "piece": "rogue-belt-and-band-hanger"
+  },
+  "rogue-echo-gym-timer-2-0": {
+   "label": "Rogue Echo Gym Timer 2.0",
+   "d": 0.165,
+   "h": 3.2,
+   "mat": "wallkit",
+   "tag": "timer",
+   "use": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "face": "-y",
+   "piece": "rogue-echo-gym-timer-2-0"
+  },
+  "rogue-farmers-walk-handles": {
+   "label": "Rogue Farmers Walk Handles",
+   "d": 1.524,
+   "h": 0.181,
+   "mat": "machine",
+   "tag": "handles",
+   "use": [
+    0.6,
+    0.4,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "rogue-farmers-walk-handles"
+  },
+  "rogue-freestanding-chalk-stand": {
+   "label": "Rogue Freestanding Chalk Stand",
+   "d": 0.54,
+   "h": 1.19,
+   "mat": "storage",
+   "tag": "chalk",
+   "use": [
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "face": "-y",
+   "piece": "rogue-freestanding-chalk-stand"
+  },
+  "rogue-manta-ray-adjustable-bench": {
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "d": 1.776,
+   "h": 0.488,
+   "mat": "bench",
+   "tag": "Manta Ray",
+   "use": [
+    0.5,
+    0.5,
+    0.8,
+    0.8
+   ],
+   "face": "-x",
+   "piece": "rogue-manta-ray-adjustable-bench"
+  },
+  "rogue-monster-mass-storage": {
+   "label": "Rogue Monster Mass Storage",
+   "d": 0.787,
+   "h": 2.553,
+   "mat": "storage",
+   "tag": "mass storage",
+   "use": [
+    1.3,
+    0.05,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "rogue-monster-mass-storage"
+  },
+  "rogue-monster-rig-2-0": {
+   "label": "Rogue Monster Rig 2.0",
+   "d": 1.771,
+   "h": 2.749,
+   "mat": "rack",
+   "tag": "rig",
+   "use": [
+    1.2,
+    1.2,
+    0.6,
+    0.6
+   ],
+   "face": "-y",
+   "piece": "rogue-monster-rig-2-0"
+  },
+  "rogue-pine-maple-peg-board": {
+   "label": "Rogue Pine Maple Peg Board",
+   "d": 0.238,
+   "h": 3.2,
+   "mat": "wallkit",
+   "tag": "pegboard",
+   "use": [
+    1.6,
+    0,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "rogue-pine-maple-peg-board"
+  },
+  "rogue-rig-mount-parallel-bars": {
+   "label": "Rogue Rig Mount Parallel Bars",
+   "d": 2.032,
+   "h": 1.832,
+   "mat": "rack",
+   "tag": "parallel bars",
+   "use": [
+    0.0,
+    0.0,
+    0.8,
+    0.8
+   ],
+   "face": "-y",
+   "piece": "rogue-rig-mount-parallel-bars"
+  },
+  "rogue-rubber-atlas-stones": {
+   "label": "Rogue Rubber Atlas Stones",
+   "d": 0.357,
+   "h": 0.334,
+   "mat": "strongman",
+   "tag": "atlas stones",
+   "use": [
+    0.6,
+    0.6,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "rogue-rubber-atlas-stones"
+  },
+  "rogue-strongman-sandbags": {
+   "label": "Rogue Strongman Sandbags",
+   "d": 0.956,
+   "h": 0.917,
+   "mat": "machine",
+   "tag": "sandbags",
+   "use": [
+    0.6,
+    0.4,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "rogue-strongman-sandbags"
+  },
+  "rogue-yoke": {
+   "label": "Rogue Yoke",
+   "d": 1.277,
+   "h": 1.829,
+   "mat": "strongman",
+   "tag": "yoke",
+   "use": [
+    1.5,
+    1.5,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "rogue-yoke"
+  },
+  "the-abs-company-the-nordic-curl": {
+   "label": "The abs Company The Nordic Curl\u2122",
+   "d": 1.461,
+   "h": 0.748,
+   "mat": "machine",
+   "tag": "nordic curl",
+   "use": [
+    1.2,
+    0.4,
+    0.4,
+    0.4
+   ],
+   "face": "-x",
+   "piece": "the-abs-company-the-nordic-curl"
+  },
+  "titan-atlas-stone-platform": {
+   "label": "Titan Atlas Stone Platform",
+   "d": 1.346,
+   "h": 1.829,
+   "mat": "strongman",
+   "tag": "stone platform",
+   "use": [
+    1.4,
+    0.3,
+    0.4,
+    0.4
+   ],
+   "face": "+y",
+   "piece": "titan-atlas-stone-platform"
+  },
+  "woodway-4front": {
+   "label": "Woodway 4Front",
+   "d": 1.755,
+   "h": 1.741,
+   "mat": "cardio",
+   "tag": "treadmill",
+   "use": [
+    0.3,
+    2.0,
+    0.45,
+    0.45
+   ],
+   "face": "+y",
+   "piece": "woodway-4front"
+  }
+ },
+ "targets": {
+  "beastmaker-2000-series-hangboard": 6,
+  "body-solid-gvkr60b-vertical-knee-raise-dip": 1,
+  "concept2-skierg": 3,
+  "gmwd-multi-functional-seal-row-bench-sr05": 1,
+  "hammer-strength-3-in-1-soft-plyo-box": 1,
+  "hammer-strength-3-in-1-wood-plyo-box": 3,
+  "hammer-strength-assisted-nordic-ham": 1,
+  "hammer-strength-back-extension": 1,
+  "hammer-strength-fixed-pad-glute-ham": 2,
+  "hammer-strength-hd-air-bike": 4,
+  "hammer-strength-plate-loaded-abdominal-oblique-crunch": 1,
+  "hammer-strength-plate-loaded-iso-lateral-bench-press": 1,
+  "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown": 1,
+  "hammer-strength-plate-loaded-iso-lateral-incline-press": 1,
+  "hammer-strength-plate-loaded-iso-lateral-row": 1,
+  "hammer-strength-plate-loaded-iso-lateral-shoulder-press": 2,
+  "hammer-strength-plate-loaded-t-bar-row": 1,
+  "hammer-strength-seated-arm-curl": 1,
+  "hammer-strength-select-biceps-curl": 1,
+  "hammer-strength-select-chest-press": 3,
+  "hammer-strength-select-pectoral-fly-rear-deltoid": 2,
+  "hammer-strength-stackable-plyo-box": 1,
+  "hammer-strength-three-tier-dumbbell-rack": 4,
+  "life-fitness-3-tier-accessory-rack": 2,
+  "life-fitness-acft-sled-with-strap": 2,
+  "life-fitness-barbell-rack": 2,
+  "life-fitness-club-series-upright-lifecycle-bike": 2,
+  "life-fitness-escape-endura-wall-balls": 1,
+  "life-fitness-ic7-indoor-cycle": 2,
+  "life-fitness-olympic-weight-tree": 2,
+  "life-fitness-push-pull-weight-sled": 3,
+  "life-fitness-row-hx-trainer": 6,
+  "life-fitness-vertical-medicine-ball-storage": 1,
+  "metolius-wood-grips-campus-rungs": 1,
+  "rogue-10-bar-holder": 2,
+  "rogue-adjustable-bench-3-0": 20,
+  "rogue-belt-and-band-hanger": 1,
+  "rogue-echo-gym-timer-2-0": 1,
+  "rogue-farmers-walk-handles": 1,
+  "rogue-freestanding-chalk-stand": 3,
+  "rogue-manta-ray-adjustable-bench": 2,
+  "rogue-monster-mass-storage": 2,
+  "rogue-monster-rig-2-0": 1,
+  "rogue-pine-maple-peg-board": 1,
+  "rogue-rig-mount-parallel-bars": 1,
+  "rogue-rubber-atlas-stones": 1,
+  "rogue-strongman-sandbags": 1,
+  "rogue-yoke": 1,
+  "the-abs-company-the-nordic-curl": 1,
+  "titan-atlas-stone-platform": 1,
+  "woodway-4front": 2
+ },
+ "items": [
+  {
+   "id": "spiral-F3",
+   "room": "",
+   "kind": "void",
+   "label": "The spiral's opening (open to the floors above / below)",
+   "pts": [
+    [
+     -14.45,
+     -14.85
+    ],
+    [
+     -14.48,
+     -14.393
+    ],
+    [
+     -14.569,
+     -13.944
+    ],
+    [
+     -14.716,
+     -13.511
+    ],
+    [
+     -14.919,
+     -13.1
+    ],
+    [
+     -15.173,
+     -12.719
+    ],
+    [
+     -15.475,
+     -12.375
+    ],
+    [
+     -15.819,
+     -12.073
+    ],
+    [
+     -16.2,
+     -11.819
+    ],
+    [
+     -16.611,
+     -11.616
+    ],
+    [
+     -17.044,
+     -11.469
+    ],
+    [
+     -17.493,
+     -11.38
+    ],
+    [
+     -17.95,
+     -11.35
+    ],
+    [
+     -18.407,
+     -11.38
+    ],
+    [
+     -18.856,
+     -11.469
+    ],
+    [
+     -19.289,
+     -11.616
+    ],
+    [
+     -19.7,
+     -11.819
+    ],
+    [
+     -20.081,
+     -12.073
+    ],
+    [
+     -20.425,
+     -12.375
+    ],
+    [
+     -20.727,
+     -12.719
+    ],
+    [
+     -20.981,
+     -13.1
+    ],
+    [
+     -21.184,
+     -13.511
+    ],
+    [
+     -21.331,
+     -13.944
+    ],
+    [
+     -21.42,
+     -14.393
+    ],
+    [
+     -21.45,
+     -14.85
+    ],
+    [
+     -21.42,
+     -15.307
+    ],
+    [
+     -21.331,
+     -15.756
+    ],
+    [
+     -21.184,
+     -16.189
+    ],
+    [
+     -20.981,
+     -16.6
+    ],
+    [
+     -20.727,
+     -16.981
+    ],
+    [
+     -20.425,
+     -17.325
+    ],
+    [
+     -20.081,
+     -17.627
+    ],
+    [
+     -19.7,
+     -17.881
+    ],
+    [
+     -19.289,
+     -18.084
+    ],
+    [
+     -18.856,
+     -18.231
+    ],
+    [
+     -18.407,
+     -18.32
+    ],
+    [
+     -17.95,
+     -18.35
+    ],
+    [
+     -17.493,
+     -18.32
+    ],
+    [
+     -17.044,
+     -18.231
+    ],
+    [
+     -16.611,
+     -18.084
+    ],
+    [
+     -16.2,
+     -17.881
+    ],
+    [
+     -15.819,
+     -17.627
+    ],
+    [
+     -15.475,
+     -17.325
+    ],
+    [
+     -15.173,
+     -16.981
+    ],
+    [
+     -14.919,
+     -16.6
+    ],
+    [
+     -14.716,
+     -16.189
+    ],
+    [
+     -14.569,
+     -15.756
+    ],
+    [
+     -14.48,
+     -15.307
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "spiral-landing-F3",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: the spiral's step-off on this floor",
+   "pts": [
+    [
+     -17.35,
+     -18.39
+    ],
+    [
+     -15.872,
+     -17.777
+    ],
+    [
+     -15.183,
+     -19.44
+    ],
+    [
+     -16.661,
+     -20.053
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-A-10.3",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core WC women door",
+   "pts": [
+    [
+     -29.2,
+     -23.9
+    ],
+    [
+     -29.2,
+     -22.6
+    ],
+    [
+     -27.7,
+     -22.6
+    ],
+    [
+     -27.7,
+     -23.9
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-A-13.2",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core WC men door",
+   "pts": [
+    [
+     -29.2,
+     -21.05
+    ],
+    [
+     -29.2,
+     -19.75
+    ],
+    [
+     -27.7,
+     -19.75
+    ],
+    [
+     -27.7,
+     -21.05
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-A-20.6",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W1 door (floor landing)",
+   "pts": [
+    [
+     -29.2,
+     -13.65
+    ],
+    [
+     -29.2,
+     -12.15
+    ],
+    [
+     -27.7,
+     -12.15
+    ],
+    [
+     -27.7,
+     -13.65
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-A-7.5",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W2 door (floor landing)",
+   "pts": [
+    [
+     -29.2,
+     -26.7
+    ],
+    [
+     -29.2,
+     -25.2
+    ],
+    [
+     -27.7,
+     -25.2
+    ],
+    [
+     -27.7,
+     -26.7
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-A-22.2",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W1 glass lift",
+   "pts": [
+    [
+     -29.2,
+     -12.05
+    ],
+    [
+     -29.2,
+     -9.55
+    ],
+    [
+     -27.7,
+     -9.55
+    ],
+    [
+     -27.7,
+     -12.05
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-N-19.8",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W3 (north exit stair, floor landing)",
+   "pts": [
+    [
+     -9.8,
+     11.85
+    ],
+    [
+     -8.3,
+     11.85
+    ],
+    [
+     -8.3,
+     10.35
+    ],
+    [
+     -9.8,
+     10.35
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-S-6.0",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: altitude room (airlock door)",
+   "pts": [
+    [
+     -23.6,
+     -33.85
+    ],
+    [
+     -21.3,
+     -33.85
+    ],
+    [
+     -21.3,
+     -32.35
+    ],
+    [
+     -23.6,
+     -32.35
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-W-west-S-6.0",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: altitude room (airlock door)",
+   "pts": [
+    [
+     -23.6,
+     -34.35
+    ],
+    [
+     -21.3,
+     -34.35
+    ],
+    [
+     -21.3,
+     -35.85
+    ],
+    [
+     -23.6,
+     -35.85
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-SP-SA-alt-0.5",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: the altitude plant (staff)",
+   "pts": [
+    [
+     -14.55,
+     -39.55
+    ],
+    [
+     -14.55,
+     -38.25
+    ],
+    [
+     -16.05,
+     -38.25
+    ],
+    [
+     -16.05,
+     -39.55
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "tap_station-F3--11.0-11.8",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -11.0,
+   "y": 11.785,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 180,
+   "fixed": true,
+   "note": "water station: chilled tap (bring your own bottle)"
+  },
+  {
+   "id": "tap_station-F3--26.0--33.8",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -26.0,
+   "y": -33.785,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 0,
+   "fixed": true,
+   "note": "water station: chilled tap (bring your own bottle)"
+  },
+  {
+   "id": "tap_station-F3--29.2--21.8",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -29.185,
+   "y": -21.825,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": -90,
+   "fixed": true,
+   "note": "water station between the WC doors: chilled tap (bring your own bottle)"
+  },
+  {
+   "id": "safety_point-F3--29.2--16.2",
+   "room": "",
+   "kind": "safety_point",
+   "label": "Safety point: AED, extinguisher, first aid (built)",
+   "x": -29.185,
+   "y": -16.2,
+   "w": 0.6,
+   "d": 0.15,
+   "rot": -90,
+   "fixed": true,
+   "note": "AED, extinguisher, first aid"
+  },
+  {
+   "id": "tap_station-F3--25.4--34.4",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -25.4,
+   "y": -34.365,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 180,
+   "fixed": true,
+   "note": "water (bring your own bottle)"
+  },
+  {
+   "id": "sled-lane",
+   "room": "",
+   "kind": "turf",
+   "label": "Sled lane: 46 m of sled turf (built, tools/interior.py)",
+   "x": -13.2,
+   "y": -11.0,
+   "w": 2.4,
+   "d": 45.95,
+   "rot": 0,
+   "fixed": true
+  },
+  {
+   "id": "den-river",
+   "room": "",
+   "kind": "den_river",
+   "label": "Bekken i hulen: the den's river (built: the rock base, the pool, the outfall slit)",
+   "pts": [
+    [
+     -8.25,
+     -33.85
+    ],
+    [
+     -6.65,
+     -33.85
+    ],
+    [
+     -6.65,
+     11.85
+    ],
+    [
+     -8.25,
+     11.85
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "north-stair",
+   "room": "",
+   "kind": "stair",
+   "label": "The stair down to F4 (opening)",
+   "pts": [
+    [
+     -21.45,
+     7.1
+    ],
+    [
+     -15.45,
+     7.1
+    ],
+    [
+     -15.45,
+     11.85
+    ],
+    [
+     -21.45,
+     11.85
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "airlock",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "The altitude room's airlock (built)",
+   "pts": [
+    [
+     -23.95,
+     -36.4
+    ],
+    [
+     -20.95,
+     -36.4
+    ],
+    [
+     -20.95,
+     -34.35
+    ],
+    [
+     -23.95,
+     -34.35
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "zone-0",
+   "room": "",
+   "kind": "floor_zone",
+   "label": "Walkway: the W2 + W1 stairs, the WCs, the AED, the glass lift (keep it clear)",
+   "x": -28.1,
+   "y": -18.2,
+   "w": 2.2,
+   "d": 18.0,
+   "rot": 0
+  },
+  {
+   "id": "hammer-strength-three-tier-dumbbell-rack-1",
+   "room": "dumbbell den",
+   "kind": "hammer-strength-three-tier-dumbbell-rack",
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "x": -28.74,
+   "y": -32.37,
+   "w": 2.064,
+   "d": 0.915,
+   "rot": -90,
+   "h": 0.987,
+   "note": "Rogue rubber hex to 75 kg (the heavy end here)"
+  },
+  {
+   "id": "hammer-strength-three-tier-dumbbell-rack-2",
+   "room": "dumbbell den",
+   "kind": "hammer-strength-three-tier-dumbbell-rack",
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "x": -28.74,
+   "y": -30.29,
+   "w": 2.064,
+   "d": 0.915,
+   "rot": -90,
+   "h": 0.987,
+   "note": "Rogue rubber hex to 75 kg (the heavy end here)"
+  },
+  {
+   "id": "hammer-strength-three-tier-dumbbell-rack-3",
+   "room": "dumbbell den",
+   "kind": "hammer-strength-three-tier-dumbbell-rack",
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "x": -28.74,
+   "y": -28.21,
+   "w": 2.064,
+   "d": 0.915,
+   "rot": -90,
+   "h": 0.987,
+   "note": "Rogue rubber hex to 75 kg (the heavy end here)"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-1",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -31.35,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-2",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -29.4,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-3",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -27.45,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-4",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -25.5,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-5",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -23.55,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-6",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -25.6,
+   "y": -21.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-7",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -31.35,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-8",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -29.4,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-9",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -27.45,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-10",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -25.5,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-11",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -23.55,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-12",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -23.0,
+   "y": -21.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-13",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -20.4,
+   "y": -31.35,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-14",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -20.4,
+   "y": -29.4,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-15",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -20.4,
+   "y": -27.45,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-16",
+   "room": "dumbbell den",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -20.4,
+   "y": -25.5,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-manta-ray-adjustable-bench-1",
+   "room": "dumbbell den",
+   "kind": "rogue-manta-ray-adjustable-bench",
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "x": -20.4,
+   "y": -23.55,
+   "w": 0.63,
+   "d": 1.776,
+   "rot": 90,
+   "h": 0.488,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "rogue-manta-ray-adjustable-bench-2",
+   "room": "dumbbell den",
+   "kind": "rogue-manta-ray-adjustable-bench",
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "x": -20.4,
+   "y": -21.6,
+   "w": 0.63,
+   "d": 1.776,
+   "rot": 90,
+   "h": 0.488,
+   "note": "a bench station: adjust, grab a pair, face the mirror"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-1",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -27.3,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8,
+   "note": "pinch blocks, cannonball grips, wrist roller hang beside"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-2",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -20.6,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8,
+   "note": "pinch blocks, cannonball grips, wrist roller hang beside"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-3",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -19.3,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8,
+   "note": "pinch blocks, cannonball grips, wrist roller hang beside"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-4",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -18.0,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8,
+   "note": "pinch blocks, cannonball grips, wrist roller hang beside"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-5",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -16.7,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8,
+   "note": "pinch blocks, cannonball grips, wrist roller hang beside"
+  },
+  {
+   "id": "beastmaker-2000-series-hangboard-6",
+   "room": "grip wall",
+   "kind": "beastmaker-2000-series-hangboard",
+   "label": "Beastmaker 2000 Series Hangboard",
+   "x": -24.9,
+   "y": -33.763,
+   "w": 1.2,
+   "d": 0.174,
+   "rot": 0,
+   "h": 2.8
+  },
+  {
+   "id": "metolius-wood-grips-campus-rungs-1",
+   "room": "grip wall",
+   "kind": "metolius-wood-grips-campus-rungs",
+   "label": "Metolius Wood Grips Campus Rungs",
+   "x": -15.4,
+   "y": -33.775,
+   "w": 1.2,
+   "d": 0.151,
+   "rot": 0,
+   "h": 3.0
+  },
+  {
+   "id": "hammer-strength-three-tier-dumbbell-rack-4",
+   "room": "den island",
+   "kind": "hammer-strength-three-tier-dumbbell-rack",
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "x": -16.5,
+   "y": -25.0,
+   "w": 2.064,
+   "d": 0.915,
+   "rot": 90,
+   "h": 0.987,
+   "note": "Rogue rubber hex 2.5-50 kg"
+  },
+  {
+   "id": "life-fitness-3-tier-accessory-rack-1",
+   "room": "den island",
+   "kind": "life-fitness-3-tier-accessory-rack",
+   "label": "Life Fitness 3-Tier Accessory Rack",
+   "x": -16.5,
+   "y": -27.0,
+   "w": 1.092,
+   "d": 0.675,
+   "rot": 180,
+   "h": 0.975,
+   "note": "LF cast iron kettlebells 4-32 kg"
+  },
+  {
+   "id": "life-fitness-3-tier-accessory-rack-2",
+   "room": "den island",
+   "kind": "life-fitness-3-tier-accessory-rack",
+   "label": "Life Fitness 3-Tier Accessory Rack",
+   "x": -16.5,
+   "y": -23.0,
+   "w": 1.092,
+   "d": 0.675,
+   "rot": 0,
+   "h": 0.975,
+   "note": "HS competition kettlebells 8-32 kg"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-17",
+   "room": "den island",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -17.2,
+   "y": -29.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-18",
+   "room": "den island",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -15.4,
+   "y": -29.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": -90,
+   "h": 1.017
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-19",
+   "room": "den island",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -17.2,
+   "y": -20.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": 90,
+   "h": 1.017
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-20",
+   "room": "den island",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -15.4,
+   "y": -20.6,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": -90,
+   "h": 1.017
+  },
+  {
+   "id": "rogue-freestanding-chalk-stand-1",
+   "room": "dumbbell den",
+   "kind": "rogue-freestanding-chalk-stand",
+   "label": "Rogue Freestanding Chalk Stand",
+   "x": -18.6,
+   "y": -32.2,
+   "w": 0.55,
+   "d": 0.54,
+   "rot": 0,
+   "h": 1.19
+  },
+  {
+   "id": "rogue-belt-and-band-hanger-1",
+   "room": "dumbbell den",
+   "kind": "rogue-belt-and-band-hanger",
+   "label": "Rogue Belt and Band Hanger",
+   "x": -29.045,
+   "y": -8.8,
+   "w": 1.2,
+   "d": 0.313,
+   "rot": -90,
+   "h": 2.8,
+   "note": "belts, straps, sleeves, wraps on loan; dip belts"
+  },
+  {
+   "id": "rogue-monster-rig-2-0-1",
+   "room": "functional",
+   "kind": "rogue-monster-rig-2-0",
+   "label": "Rogue Monster Rig 2.0",
+   "x": -24.75,
+   "y": -15.2,
+   "w": 3.598,
+   "d": 1.771,
+   "rot": 90,
+   "h": 2.749,
+   "note": "rings, climbing ropes, the parallel bars + a landmine on it"
+  },
+  {
+   "id": "rogue-rig-mount-parallel-bars-1",
+   "room": "functional",
+   "kind": "rogue-rig-mount-parallel-bars",
+   "label": "Rogue Rig Mount Parallel Bars",
+   "x": -24.75,
+   "y": -13.6,
+   "w": 1.346,
+   "d": 2.032,
+   "rot": 90,
+   "h": 1.832,
+   "note": "on the rig",
+   "on": "rogue-monster-rig-2-0-1"
+  },
+  {
+   "id": "maze-den-core-A",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core A",
+   "x": -20.0,
+   "y": -1.9,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-core-B",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core B",
+   "x": -16.727,
+   "y": -1.9,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-core-C",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core C",
+   "x": -20.0,
+   "y": 1.373,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-core-D",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core D",
+   "x": -16.727,
+   "y": 1.373,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-core-E",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core E",
+   "x": -20.0,
+   "y": 4.646,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-core-F",
+   "room": "the maze",
+   "kind": "pwr_core",
+   "label": "PWR Play Core F",
+   "x": -16.727,
+   "y": 4.646,
+   "w": 0.929,
+   "d": 0.929,
+   "rot": 0,
+   "group": "maze-den"
+  },
+  {
+   "id": "maze-den-AW-row",
+   "room": "the maze",
+   "kind": "pwr_row",
+   "label": "PWR Play row (Core A, W face)",
+   "x": -21.267,
+   "y": -1.9,
+   "w": 0.928,
+   "d": 1.605,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "A",
+   "face": "W",
+   "station": "row"
+  },
+  {
+   "id": "maze-den-CW-adjustable",
+   "room": "the maze",
+   "kind": "pwr_adjustable",
+   "label": "PWR Play adj pulley (Core C, W face)",
+   "x": -20.597,
+   "y": 1.373,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "C",
+   "face": "W",
+   "station": "adjustable"
+  },
+  {
+   "id": "maze-den-EW-dipchin",
+   "room": "the maze",
+   "kind": "pwr_dipchin",
+   "label": "PWR Play assist dip/chin (Core E, W face)",
+   "x": -20.942,
+   "y": 4.646,
+   "w": 0.928,
+   "d": 0.955,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "E",
+   "face": "W",
+   "station": "dipchin"
+  },
+  {
+   "id": "maze-den-BE-pulldown",
+   "room": "the maze",
+   "kind": "pwr_pulldown",
+   "label": "PWR Play pulldown (Core B, E face)",
+   "x": -15.966,
+   "y": -1.9,
+   "w": 1.222,
+   "d": 0.592,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "B",
+   "face": "E",
+   "station": "pulldown"
+  },
+  {
+   "id": "maze-den-DE-triceps",
+   "room": "the maze",
+   "kind": "pwr_triceps",
+   "label": "PWR Play triceps (Core D, E face)",
+   "x": -16.129,
+   "y": 1.373,
+   "w": 0.928,
+   "d": 0.266,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "D",
+   "face": "E",
+   "station": "triceps"
+  },
+  {
+   "id": "maze-den-FE-pulldown",
+   "room": "the maze",
+   "kind": "pwr_pulldown",
+   "label": "PWR Play pulldown (Core F, E face)",
+   "x": -15.966,
+   "y": 4.646,
+   "w": 1.222,
+   "d": 0.592,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "F",
+   "face": "E",
+   "station": "pulldown"
+  },
+  {
+   "id": "maze-den-AS-powerpivot",
+   "room": "the maze",
+   "kind": "pwr_powerpivot",
+   "label": "PWR Play power pivot (Core A, S face)",
+   "x": -20.0,
+   "y": -3.254,
+   "w": 0.928,
+   "d": 1.778,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "A",
+   "face": "S",
+   "station": "powerpivot"
+  },
+  {
+   "id": "maze-den-BS-pulldown",
+   "room": "the maze",
+   "kind": "pwr_pulldown",
+   "label": "PWR Play pulldown (Core B, S face)",
+   "x": -16.727,
+   "y": -2.661,
+   "w": 1.222,
+   "d": 0.592,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "B",
+   "face": "S",
+   "station": "pulldown"
+  },
+  {
+   "id": "maze-den-EN-stallbars",
+   "room": "the maze",
+   "kind": "pwr_stallbars",
+   "label": "PWR Play stall bars (Core E, N face)",
+   "x": -20.0,
+   "y": 5.307,
+   "w": 0.928,
+   "d": 0.393,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "E",
+   "face": "N",
+   "station": "stallbars"
+  },
+  {
+   "id": "maze-den-FN-dip",
+   "room": "the maze",
+   "kind": "pwr_dip",
+   "label": "PWR Play dip (Core F, N face)",
+   "x": -16.727,
+   "y": 5.374,
+   "w": 0.928,
+   "d": 0.527,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "F",
+   "face": "N",
+   "station": "dip"
+  },
+  {
+   "id": "maze-den-AE-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core A, E face)",
+   "x": -19.403,
+   "y": -1.9,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "A",
+   "face": "E",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-BW-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core B, W face)",
+   "x": -17.324,
+   "y": -1.9,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "B",
+   "face": "W",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-CE-dualhigh",
+   "room": "the maze",
+   "kind": "pwr_dualhigh",
+   "label": "PWR Play dual high (Core C, E face)",
+   "x": -19.215,
+   "y": 1.373,
+   "w": 0.928,
+   "d": 0.64,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "C",
+   "face": "E",
+   "station": "dualhigh"
+  },
+  {
+   "id": "maze-den-DW-duallow",
+   "room": "the maze",
+   "kind": "pwr_duallow",
+   "label": "PWR Play dual low (Core D, W face)",
+   "x": -17.502,
+   "y": 1.373,
+   "w": 0.928,
+   "d": 0.62,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "D",
+   "face": "W",
+   "station": "duallow"
+  },
+  {
+   "id": "maze-den-EE-ropepull",
+   "room": "the maze",
+   "kind": "pwr_ropepull",
+   "label": "PWR Play rope pull (Core E, E face)",
+   "x": -19.033,
+   "y": 4.646,
+   "w": 0.928,
+   "d": 1.006,
+   "rot": -90,
+   "group": "maze-den",
+   "core": "E",
+   "face": "E",
+   "station": "ropepull"
+  },
+  {
+   "id": "maze-den-FW-handles",
+   "room": "the maze",
+   "kind": "pwr_handles",
+   "label": "PWR Play handles (Core F, W face)",
+   "x": -17.286,
+   "y": 4.646,
+   "w": 0.928,
+   "d": 0.189,
+   "rot": 90,
+   "group": "maze-den",
+   "core": "F",
+   "face": "W",
+   "station": "handles"
+  },
+  {
+   "id": "maze-den-AN-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core A, N face)",
+   "x": -20.0,
+   "y": -1.303,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "A",
+   "face": "N",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-CS-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core C, S face)",
+   "x": -20.0,
+   "y": 0.776,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "C",
+   "face": "S",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-CN-dip",
+   "room": "the maze",
+   "kind": "pwr_dip",
+   "label": "PWR Play dip (Core C, N face)",
+   "x": -20.0,
+   "y": 2.101,
+   "w": 0.928,
+   "d": 0.527,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "C",
+   "face": "N",
+   "station": "dip"
+  },
+  {
+   "id": "maze-den-ES-step",
+   "room": "the maze",
+   "kind": "pwr_step",
+   "label": "PWR Play step (Core E, S face)",
+   "x": -20.0,
+   "y": 3.925,
+   "w": 0.928,
+   "d": 0.513,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "E",
+   "face": "S",
+   "station": "step"
+  },
+  {
+   "id": "maze-den-BN-dualhigh",
+   "room": "the maze",
+   "kind": "pwr_dualhigh",
+   "label": "PWR Play dual high (Core B, N face)",
+   "x": -16.727,
+   "y": -1.115,
+   "w": 0.928,
+   "d": 0.64,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "B",
+   "face": "N",
+   "station": "dualhigh"
+  },
+  {
+   "id": "maze-den-DS-duallow",
+   "room": "the maze",
+   "kind": "pwr_duallow",
+   "label": "PWR Play dual low (Core D, S face)",
+   "x": -16.727,
+   "y": 0.598,
+   "w": 0.928,
+   "d": 0.62,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "D",
+   "face": "S",
+   "station": "duallow"
+  },
+  {
+   "id": "maze-den-DN-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core D, N face)",
+   "x": -16.727,
+   "y": 1.97,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 0,
+   "group": "maze-den",
+   "core": "D",
+   "face": "N",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-FS-crossover",
+   "room": "the maze",
+   "kind": "pwr_crossover",
+   "label": "PWR Play crossover (Core F, S face)",
+   "x": -16.727,
+   "y": 4.049,
+   "w": 0.928,
+   "d": 0.265,
+   "rot": 180,
+   "group": "maze-den",
+   "core": "F",
+   "face": "S",
+   "station": "crossover"
+  },
+  {
+   "id": "maze-den-bar-AB",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar A-B (pull-ups)",
+   "x": -18.364,
+   "y": -1.9,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 0,
+   "group": "maze-den",
+   "bar": [
+    "A",
+    "B"
+   ]
+  },
+  {
+   "id": "maze-den-bar-CD",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar C-D (pull-ups)",
+   "x": -18.364,
+   "y": 1.373,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 0,
+   "group": "maze-den",
+   "bar": [
+    "C",
+    "D"
+   ]
+  },
+  {
+   "id": "maze-den-bar-EF",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar E-F (pull-ups)",
+   "x": -18.364,
+   "y": 4.646,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 0,
+   "group": "maze-den",
+   "bar": [
+    "E",
+    "F"
+   ]
+  },
+  {
+   "id": "maze-den-bar-AC",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar A-C (pull-ups)",
+   "x": -20.0,
+   "y": -0.263,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 90,
+   "group": "maze-den",
+   "bar": [
+    "A",
+    "C"
+   ]
+  },
+  {
+   "id": "maze-den-bar-CE",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar C-E (pull-ups)",
+   "x": -20.0,
+   "y": 3.01,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 90,
+   "group": "maze-den",
+   "bar": [
+    "C",
+    "E"
+   ]
+  },
+  {
+   "id": "maze-den-bar-BD",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar B-D (pull-ups)",
+   "x": -16.727,
+   "y": -0.263,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 90,
+   "group": "maze-den",
+   "bar": [
+    "B",
+    "D"
+   ]
+  },
+  {
+   "id": "maze-den-bar-DF",
+   "room": "the maze",
+   "kind": "pwr_bar",
+   "label": "PWR Play crossbar D-F (pull-ups)",
+   "x": -16.727,
+   "y": 3.01,
+   "w": 2.344,
+   "d": 0.08,
+   "rot": 90,
+   "group": "maze-den",
+   "bar": [
+    "D",
+    "F"
+   ]
+  },
+  {
+   "id": "maze-den-meta",
+   "room": "the maze",
+   "kind": "pwr_meta",
+   "label": "maze den",
+   "group": "maze-den",
+   "fixed": true,
+   "cores": {
+    "A": [
+     0,
+     0
+    ],
+    "B": [
+     1,
+     0
+    ],
+    "C": [
+     0,
+     1
+    ],
+    "D": [
+     1,
+     1
+    ],
+    "E": [
+     0,
+     2
+    ],
+    "F": [
+     1,
+     2
+    ]
+   },
+   "origin": [
+    -20.0,
+    -1.9
+   ],
+   "spacing": 3.273,
+   "faces": {
+    "A,W": "row",
+    "C,W": "adjustable",
+    "E,W": "dipchin",
+    "B,E": "pulldown",
+    "D,E": "triceps",
+    "F,E": "pulldown",
+    "A,S": "powerpivot",
+    "B,S": "pulldown",
+    "E,N": "stallbars",
+    "F,N": "dip",
+    "A,E": "crossover",
+    "B,W": "crossover",
+    "C,E": "dualhigh",
+    "D,W": "duallow",
+    "E,E": "ropepull",
+    "F,W": "handles",
+    "A,N": "crossover",
+    "C,S": "crossover",
+    "C,N": "dip",
+    "E,S": "step",
+    "B,N": "dualhigh",
+    "D,S": "duallow",
+    "D,N": "crossover",
+    "F,S": "crossover"
+   },
+   "bars": [
+    [
+     "A",
+     "B"
+    ],
+    [
+     "C",
+     "D"
+    ],
+    [
+     "E",
+     "F"
+    ],
+    [
+     "A",
+     "C"
+    ],
+    [
+     "C",
+     "E"
+    ],
+    [
+     "B",
+     "D"
+    ],
+    [
+     "D",
+     "F"
+    ]
+   ]
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-bench-press-1",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-bench-press",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Bench Press",
+   "x": -21.233,
+   "y": -8.038,
+   "w": 1.734,
+   "d": 1.076,
+   "rot": 180,
+   "h": 1.842
+  },
+  {
+   "id": "life-fitness-olympic-weight-tree-1",
+   "room": "upper hub",
+   "kind": "life-fitness-olympic-weight-tree",
+   "label": "Life Fitness Olympic Weight Tree",
+   "x": -19.646,
+   "y": -7.86,
+   "w": 0.845,
+   "d": 0.712,
+   "rot": 0,
+   "h": 1.154
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-incline-press-1",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-incline-press",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Incline Press",
+   "x": -18.209,
+   "y": -8.132,
+   "w": 1.434,
+   "d": 1.264,
+   "rot": 180,
+   "h": 1.91
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-shoulder-press-1",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-shoulder-press",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+   "x": -15.52,
+   "y": -8.168,
+   "w": 1.544,
+   "d": 1.336,
+   "rot": 180,
+   "h": 1.86
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-row-1",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-row",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Row",
+   "x": -21.448,
+   "y": -6.122,
+   "w": 1.304,
+   "d": 1.556,
+   "rot": 0,
+   "h": 1.335
+  },
+  {
+   "id": "life-fitness-olympic-weight-tree-2",
+   "room": "upper hub",
+   "kind": "life-fitness-olympic-weight-tree",
+   "label": "Life Fitness Olympic Weight Tree",
+   "x": -20.076,
+   "y": -6.54,
+   "w": 0.845,
+   "d": 0.712,
+   "rot": 0,
+   "h": 1.154
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown-1",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Front Lat Pulldown",
+   "x": -18.704,
+   "y": -6.072,
+   "w": 1.304,
+   "d": 1.656,
+   "rot": 0,
+   "h": 2.034
+  },
+  {
+   "id": "hammer-strength-plate-loaded-iso-lateral-shoulder-press-2",
+   "room": "upper hub",
+   "kind": "hammer-strength-plate-loaded-iso-lateral-shoulder-press",
+   "label": "Hammer Strength Plate Loaded Iso-Lateral Shoulder Press",
+   "x": -16.08,
+   "y": -6.232,
+   "w": 1.544,
+   "d": 1.336,
+   "rot": 0,
+   "h": 1.86
+  },
+  {
+   "id": "zone-carry",
+   "room": "",
+   "kind": "floor_zone",
+   "label": "Carry lane: yoke, farmers, sandbags (down the wall, 11 m)",
+   "x": -27.75,
+   "y": 5.4,
+   "w": 2.9,
+   "d": 11.2,
+   "rot": 0
+  },
+  {
+   "id": "rogue-yoke-1",
+   "room": "strongman",
+   "kind": "rogue-yoke",
+   "label": "Rogue Yoke",
+   "x": -27.75,
+   "y": 9.9,
+   "w": 1.319,
+   "d": 1.277,
+   "rot": 180,
+   "h": 1.829,
+   "note": "carried south down the lane"
+  },
+  {
+   "id": "rogue-farmers-walk-handles-1",
+   "room": "strongman",
+   "kind": "rogue-farmers-walk-handles",
+   "label": "Rogue Farmers Walk Handles",
+   "x": -25.2,
+   "y": 9.2,
+   "w": 0.668,
+   "d": 1.524,
+   "rot": 180,
+   "h": 0.181
+  },
+  {
+   "id": "titan-atlas-stone-platform-1",
+   "room": "strongman",
+   "kind": "titan-atlas-stone-platform",
+   "label": "Titan Atlas Stone Platform",
+   "x": -22.95,
+   "y": 8.2,
+   "w": 1.27,
+   "d": 1.346,
+   "rot": 90,
+   "h": 1.829,
+   "note": "loaded from the west"
+  },
+  {
+   "id": "rogue-rubber-atlas-stones-1",
+   "room": "strongman",
+   "kind": "rogue-rubber-atlas-stones",
+   "label": "Rogue Rubber Atlas Stones",
+   "x": -22.95,
+   "y": 5.9,
+   "w": 1.114,
+   "d": 0.357,
+   "rot": 90,
+   "h": 0.334
+  },
+  {
+   "id": "rogue-strongman-sandbags-1",
+   "room": "strongman",
+   "kind": "rogue-strongman-sandbags",
+   "label": "Rogue Strongman Sandbags",
+   "x": -25.2,
+   "y": 11.25,
+   "w": 1.806,
+   "d": 0.956,
+   "rot": 180,
+   "h": 0.917,
+   "note": "25-400 lb along the north wall"
+  },
+  {
+   "id": "rogue-10-bar-holder-1",
+   "room": "strongman",
+   "kind": "rogue-10-bar-holder",
+   "label": "Rogue 10-Bar Holder",
+   "x": -22.6,
+   "y": 11.3,
+   "w": 0.848,
+   "d": 0.66,
+   "rot": 180,
+   "h": 0.267,
+   "note": "log, axle, the hex bars"
+  },
+  {
+   "id": "hammer-strength-plate-loaded-t-bar-row-1",
+   "room": "strongman",
+   "kind": "hammer-strength-plate-loaded-t-bar-row",
+   "label": "Hammer Strength Plate Loaded T-Bar Row",
+   "x": -24.4,
+   "y": 5.4,
+   "w": 0.961,
+   "d": 2.062,
+   "rot": 0,
+   "h": 0.617,
+   "note": "T-bar row (the landmine pulls) by the strongman bays"
+  },
+  {
+   "id": "zone-open",
+   "room": "",
+   "kind": "floor_zone",
+   "label": "Open floor: classes, carries, sled turns, plyo",
+   "x": -24.8,
+   "y": -3.4,
+   "w": 4.4,
+   "d": 11.6,
+   "rot": 0
+  },
+  {
+   "id": "life-fitness-escape-endura-wall-balls-1",
+   "room": "functional",
+   "kind": "life-fitness-escape-endura-wall-balls",
+   "label": "Life Fitness Escape Endura Wall Balls",
+   "x": -28.795,
+   "y": -6.5,
+   "w": 1.388,
+   "d": 0.812,
+   "rot": -90,
+   "h": 0.356,
+   "note": "the targets above, the balls on the shelf"
+  },
+  {
+   "id": "rogue-pine-maple-peg-board-1",
+   "room": "functional",
+   "kind": "rogue-pine-maple-peg-board",
+   "label": "Rogue Pine Maple Peg Board",
+   "x": -29.08,
+   "y": -3.4,
+   "w": 1.0,
+   "d": 0.238,
+   "rot": -90,
+   "h": 3.2
+  },
+  {
+   "id": "rogue-monster-mass-storage-1",
+   "room": "functional",
+   "kind": "rogue-monster-mass-storage",
+   "label": "Rogue Monster Mass Storage",
+   "x": -28.55,
+   "y": 1.1,
+   "w": 1.282,
+   "d": 0.787,
+   "rot": -90,
+   "h": 2.553,
+   "note": "slam balls, Sandbag 2.0s, medicine balls, battle ropes, jump ropes, AbMats, vests"
+  },
+  {
+   "id": "life-fitness-vertical-medicine-ball-storage-1",
+   "room": "functional",
+   "kind": "life-fitness-vertical-medicine-ball-storage",
+   "label": "Life Fitness Vertical Medicine Ball Storage",
+   "x": -28.85,
+   "y": 2.6,
+   "w": 0.54,
+   "d": 0.6,
+   "rot": -90,
+   "h": 1.401
+  },
+  {
+   "id": "hammer-strength-3-in-1-wood-plyo-box-1",
+   "room": "functional",
+   "kind": "hammer-strength-3-in-1-wood-plyo-box",
+   "label": "Hammer Strength 3-in-1 Wood Plyo Box",
+   "x": -25.9,
+   "y": 2.75,
+   "w": 0.502,
+   "d": 0.762,
+   "rot": 180,
+   "h": 0.601,
+   "note": "a stack of three"
+  },
+  {
+   "id": "hammer-strength-3-in-1-wood-plyo-box-2",
+   "room": "functional",
+   "kind": "hammer-strength-3-in-1-wood-plyo-box",
+   "label": "Hammer Strength 3-in-1 Wood Plyo Box",
+   "x": -25.1,
+   "y": 2.75,
+   "w": 0.502,
+   "d": 0.762,
+   "rot": 180,
+   "h": 0.601,
+   "note": "a stack of three"
+  },
+  {
+   "id": "hammer-strength-3-in-1-wood-plyo-box-3",
+   "room": "functional",
+   "kind": "hammer-strength-3-in-1-wood-plyo-box",
+   "label": "Hammer Strength 3-in-1 Wood Plyo Box",
+   "x": -24.3,
+   "y": 2.75,
+   "w": 0.502,
+   "d": 0.762,
+   "rot": 180,
+   "h": 0.601,
+   "note": "a stack of three"
+  },
+  {
+   "id": "hammer-strength-3-in-1-soft-plyo-box-1",
+   "room": "functional",
+   "kind": "hammer-strength-3-in-1-soft-plyo-box",
+   "label": "Hammer Strength 3-in-1 Soft Plyo Box",
+   "x": -23.5,
+   "y": 2.75,
+   "w": 0.502,
+   "d": 0.762,
+   "rot": 180,
+   "h": 0.601,
+   "note": "soft boxes stacked"
+  },
+  {
+   "id": "hammer-strength-stackable-plyo-box-1",
+   "room": "functional",
+   "kind": "hammer-strength-stackable-plyo-box",
+   "label": "Hammer Strength Stackable Plyo Box",
+   "x": -22.6,
+   "y": 2.7,
+   "w": 0.768,
+   "d": 0.915,
+   "rot": 180,
+   "h": 1.602
+  },
+  {
+   "id": "hammer-strength-fixed-pad-glute-ham-1",
+   "room": "functional",
+   "kind": "hammer-strength-fixed-pad-glute-ham",
+   "label": "Hammer Strength Fixed Pad Glute/Ham",
+   "x": -23.4,
+   "y": -12.0,
+   "w": 0.91,
+   "d": 1.856,
+   "rot": 90,
+   "h": 1.295
+  },
+  {
+   "id": "hammer-strength-fixed-pad-glute-ham-2",
+   "room": "functional",
+   "kind": "hammer-strength-fixed-pad-glute-ham",
+   "label": "Hammer Strength Fixed Pad Glute/Ham",
+   "x": -23.4,
+   "y": -10.6,
+   "w": 0.91,
+   "d": 1.856,
+   "rot": 90,
+   "h": 1.295
+  },
+  {
+   "id": "rogue-10-bar-holder-2",
+   "room": "functional",
+   "kind": "rogue-10-bar-holder",
+   "label": "Rogue 10-Bar Holder",
+   "x": -26.2,
+   "y": -18.4,
+   "w": 0.848,
+   "d": 0.66,
+   "rot": 90,
+   "h": 0.267,
+   "note": "the rig's bars"
+  },
+  {
+   "id": "rogue-freestanding-chalk-stand-2",
+   "room": "functional",
+   "kind": "rogue-freestanding-chalk-stand",
+   "label": "Rogue Freestanding Chalk Stand",
+   "x": -22.9,
+   "y": -17.9,
+   "w": 0.55,
+   "d": 0.54,
+   "rot": 0,
+   "h": 1.19
+  },
+  {
+   "id": "rogue-freestanding-chalk-stand-3",
+   "room": "the maze",
+   "kind": "rogue-freestanding-chalk-stand",
+   "label": "Rogue Freestanding Chalk Stand",
+   "x": -21.0,
+   "y": 1.6,
+   "w": 0.55,
+   "d": 0.54,
+   "rot": 0,
+   "h": 1.19
+  },
+  {
+   "id": "rogue-echo-gym-timer-2-0-1",
+   "room": "functional",
+   "kind": "rogue-echo-gym-timer-2-0",
+   "label": "Rogue Echo Gym Timer 2.0",
+   "x": -29.11,
+   "y": -1.2,
+   "w": 1.2,
+   "d": 0.165,
+   "rot": -90,
+   "h": 3.2,
+   "note": "over the open floor"
+  },
+  {
+   "id": "life-fitness-barbell-rack-1",
+   "room": "upper by the river",
+   "kind": "life-fitness-barbell-rack",
+   "label": "Life Fitness Barbell Rack",
+   "x": -9.1,
+   "y": 5.65,
+   "w": 1.151,
+   "d": 1.078,
+   "rot": -90,
+   "h": 1.47,
+   "note": "the Hammer Strength fixed straight barbells"
+  },
+  {
+   "id": "life-fitness-barbell-rack-2",
+   "room": "upper by the river",
+   "kind": "life-fitness-barbell-rack",
+   "label": "Life Fitness Barbell Rack",
+   "x": -8.85,
+   "y": 8.0,
+   "w": 1.151,
+   "d": 1.078,
+   "rot": -90,
+   "h": 1.47,
+   "note": "the Life Fitness 12-sided fixed EZ bars"
+  },
+  {
+   "id": "concept2-skierg-1",
+   "room": "conditioning by the river",
+   "kind": "concept2-skierg",
+   "label": "Concept2 SkiErg",
+   "x": -9.088,
+   "y": -32.095,
+   "w": 0.61,
+   "d": 1.375,
+   "rot": -90,
+   "h": 2.16
+  },
+  {
+   "id": "concept2-skierg-2",
+   "room": "conditioning by the river",
+   "kind": "concept2-skierg",
+   "label": "Concept2 SkiErg",
+   "x": -9.088,
+   "y": -30.935,
+   "w": 0.61,
+   "d": 1.375,
+   "rot": -90,
+   "h": 2.16
+  },
+  {
+   "id": "concept2-skierg-3",
+   "room": "conditioning by the river",
+   "kind": "concept2-skierg",
+   "label": "Concept2 SkiErg",
+   "x": -9.088,
+   "y": -29.775,
+   "w": 0.61,
+   "d": 1.375,
+   "rot": -90,
+   "h": 2.16
+  },
+  {
+   "id": "hammer-strength-hd-air-bike-1",
+   "room": "conditioning by the river",
+   "kind": "hammer-strength-hd-air-bike",
+   "label": "Hammer Strength HD Air Bike",
+   "x": -9.157,
+   "y": -28.0,
+   "w": 0.64,
+   "d": 1.514,
+   "rot": -90,
+   "h": 1.384
+  },
+  {
+   "id": "hammer-strength-hd-air-bike-2",
+   "room": "conditioning by the river",
+   "kind": "hammer-strength-hd-air-bike",
+   "label": "Hammer Strength HD Air Bike",
+   "x": -9.157,
+   "y": -26.81,
+   "w": 0.64,
+   "d": 1.514,
+   "rot": -90,
+   "h": 1.384
+  },
+  {
+   "id": "hammer-strength-hd-air-bike-3",
+   "room": "conditioning by the river",
+   "kind": "hammer-strength-hd-air-bike",
+   "label": "Hammer Strength HD Air Bike",
+   "x": -9.157,
+   "y": -25.62,
+   "w": 0.64,
+   "d": 1.514,
+   "rot": -90,
+   "h": 1.384
+  },
+  {
+   "id": "hammer-strength-hd-air-bike-4",
+   "room": "conditioning by the river",
+   "kind": "hammer-strength-hd-air-bike",
+   "label": "Hammer Strength HD Air Bike",
+   "x": -9.157,
+   "y": -24.43,
+   "w": 0.64,
+   "d": 1.514,
+   "rot": -90,
+   "h": 1.384
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-1",
+   "room": "conditioning by the river",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -9.463,
+   "y": -22.674,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": -90,
+   "h": 0.704
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-2",
+   "room": "conditioning by the river",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -9.463,
+   "y": -21.552,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": -90,
+   "h": 0.704
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-3",
+   "room": "conditioning by the river",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -9.463,
+   "y": -20.43,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": -90,
+   "h": 0.704
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-4",
+   "room": "conditioning by the river",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -9.463,
+   "y": -19.308,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": -90,
+   "h": 0.704
+  },
+  {
+   "id": "hammer-strength-select-chest-press-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-chest-press",
+   "label": "Hammer Strength Select Chest Press",
+   "x": -8.932,
+   "y": -16.802,
+   "w": 1.339,
+   "d": 1.064,
+   "rot": -90,
+   "h": 1.653
+  },
+  {
+   "id": "hammer-strength-select-chest-press-2",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-chest-press",
+   "label": "Hammer Strength Select Chest Press",
+   "x": -8.932,
+   "y": -14.763,
+   "w": 1.339,
+   "d": 1.064,
+   "rot": -90,
+   "h": 1.653
+  },
+  {
+   "id": "hammer-strength-select-chest-press-3",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-chest-press",
+   "label": "Hammer Strength Select Chest Press",
+   "x": -8.932,
+   "y": -12.724,
+   "w": 1.339,
+   "d": 1.064,
+   "rot": -90,
+   "h": 1.653
+  },
+  {
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
+   "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+   "x": -8.984,
+   "y": -10.012,
+   "w": 1.486,
+   "d": 1.168,
+   "rot": -90,
+   "h": 1.876
+  },
+  {
+   "id": "hammer-strength-select-pectoral-fly-rear-deltoid-2",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-pectoral-fly-rear-deltoid",
+   "label": "Hammer Strength Select Pectoral Fly / Rear Deltoid",
+   "x": -8.984,
+   "y": -7.826,
+   "w": 1.486,
+   "d": 1.168,
+   "rot": -90,
+   "h": 1.876
+  },
+  {
+   "id": "hammer-strength-select-biceps-curl-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-select-biceps-curl",
+   "label": "Hammer Strength Select Biceps Curl",
+   "x": -8.998,
+   "y": -5.318,
+   "w": 0.929,
+   "d": 1.196,
+   "rot": -90,
+   "h": 1.397
+  },
+  {
+   "id": "hammer-strength-seated-arm-curl-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-seated-arm-curl",
+   "label": "Hammer Strength Seated Arm Curl",
+   "x": -8.9,
+   "y": -3.704,
+   "w": 0.9,
+   "d": 1.0,
+   "rot": -90,
+   "h": 1.1
+  },
+  {
+   "id": "hammer-strength-plate-loaded-abdominal-oblique-crunch-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-plate-loaded-abdominal-oblique-crunch",
+   "label": "Hammer Strength Plate Loaded Abdominal Oblique Crunch",
+   "x": -8.894,
+   "y": -1.217,
+   "w": 1.474,
+   "d": 0.988,
+   "rot": -90,
+   "h": 1.559
+  },
+  {
+   "id": "body-solid-gvkr60b-vertical-knee-raise-dip-1",
+   "room": "upper by the river",
+   "kind": "body-solid-gvkr60b-vertical-knee-raise-dip",
+   "label": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+   "x": -8.877,
+   "y": 0.578,
+   "w": 0.716,
+   "d": 0.955,
+   "rot": -90,
+   "h": 1.505
+  },
+  {
+   "id": "gmwd-multi-functional-seal-row-bench-sr05-1",
+   "room": "upper by the river",
+   "kind": "gmwd-multi-functional-seal-row-bench-sr05",
+   "label": "GMWD Multi-functional Seal Row Bench SR05",
+   "x": -9.071,
+   "y": 2.239,
+   "w": 1.206,
+   "d": 1.342,
+   "rot": -90,
+   "h": 0.949
+  },
+  {
+   "id": "hammer-strength-back-extension-1",
+   "room": "upper by the river",
+   "kind": "hammer-strength-back-extension",
+   "label": "Hammer Strength Back Extension",
+   "x": -9.105,
+   "y": 4.002,
+   "w": 0.92,
+   "d": 1.41,
+   "rot": -90,
+   "h": 0.807
+  },
+  {
+   "id": "hammer-strength-assisted-nordic-ham-1",
+   "room": "by the river",
+   "kind": "hammer-strength-assisted-nordic-ham",
+   "label": "Hammer Strength Assisted Nordic Ham",
+   "x": -10.1,
+   "y": 8.0,
+   "w": 1.401,
+   "d": 2.12,
+   "rot": 180,
+   "h": 1.522
+  },
+  {
+   "id": "the-abs-company-the-nordic-curl-1",
+   "room": "functional",
+   "kind": "the-abs-company-the-nordic-curl",
+   "label": "The abs Company The Nordic Curl\u2122",
+   "x": -25.4,
+   "y": -12.0,
+   "w": 0.59,
+   "d": 1.461,
+   "rot": 90,
+   "h": 0.748
+  },
+  {
+   "id": "life-fitness-push-pull-weight-sled-1",
+   "room": "sled lane",
+   "kind": "life-fitness-push-pull-weight-sled",
+   "label": "Life Fitness Push-Pull Weight Sled",
+   "x": -13.9,
+   "y": -32.9,
+   "w": 0.752,
+   "d": 1.1,
+   "rot": 0,
+   "h": 1.0,
+   "note": "parked at the start line"
+  },
+  {
+   "id": "life-fitness-push-pull-weight-sled-2",
+   "room": "sled lane",
+   "kind": "life-fitness-push-pull-weight-sled",
+   "label": "Life Fitness Push-Pull Weight Sled",
+   "x": -12.6,
+   "y": -32.9,
+   "w": 0.752,
+   "d": 1.1,
+   "rot": 0,
+   "h": 1.0,
+   "note": "parked at the start line"
+  },
+  {
+   "id": "life-fitness-push-pull-weight-sled-3",
+   "room": "sled lane",
+   "kind": "life-fitness-push-pull-weight-sled",
+   "label": "Life Fitness Push-Pull Weight Sled",
+   "x": -13.9,
+   "y": 10.9,
+   "w": 0.752,
+   "d": 1.1,
+   "rot": 180,
+   "h": 1.0,
+   "note": "parked at the far end"
+  },
+  {
+   "id": "life-fitness-acft-sled-with-strap-1",
+   "room": "sled lane",
+   "kind": "life-fitness-acft-sled-with-strap",
+   "label": "Life Fitness ACFT Sled with Strap",
+   "x": -12.6,
+   "y": 9.9,
+   "w": 0.791,
+   "d": 2.328,
+   "rot": 180,
+   "h": 0.186,
+   "note": "parked at the far end"
+  },
+  {
+   "id": "life-fitness-acft-sled-with-strap-2",
+   "room": "sled lane",
+   "kind": "life-fitness-acft-sled-with-strap",
+   "label": "Life Fitness ACFT Sled with Strap",
+   "x": -12.6,
+   "y": -30.6,
+   "w": 0.791,
+   "d": 2.328,
+   "rot": 0,
+   "h": 0.186,
+   "note": "parked at the start line"
+  },
+  {
+   "id": "rogue-monster-mass-storage-2",
+   "room": "sled lane",
+   "kind": "rogue-monster-mass-storage",
+   "label": "Rogue Monster Mass Storage",
+   "x": -9.4,
+   "y": -33.35,
+   "w": 1.282,
+   "d": 0.787,
+   "rot": 0,
+   "h": 2.553,
+   "note": "harnesses, cones, hurdles, the agility ladder"
+  },
+  {
+   "id": "life-fitness-ic7-indoor-cycle-1",
+   "room": "altitude",
+   "kind": "life-fitness-ic7-indoor-cycle",
+   "label": "Life Fitness IC7 Indoor Cycle",
+   "x": -25.49,
+   "y": -39.274,
+   "w": 0.551,
+   "d": 1.42,
+   "rot": 90,
+   "h": 1.206,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "life-fitness-club-series-upright-lifecycle-bike-1",
+   "room": "altitude",
+   "kind": "life-fitness-club-series-upright-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "x": -25.668,
+   "y": -38.078,
+   "w": 0.641,
+   "d": 1.064,
+   "rot": 90,
+   "h": 1.555,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "life-fitness-club-series-upright-lifecycle-bike-2",
+   "room": "altitude",
+   "kind": "life-fitness-club-series-upright-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "x": -25.668,
+   "y": -36.837,
+   "w": 0.641,
+   "d": 1.064,
+   "rot": 90,
+   "h": 1.555,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "life-fitness-ic7-indoor-cycle-2",
+   "room": "altitude",
+   "kind": "life-fitness-ic7-indoor-cycle",
+   "label": "Life Fitness IC7 Indoor Cycle",
+   "x": -25.49,
+   "y": -35.641,
+   "w": 0.551,
+   "d": 1.42,
+   "rot": 90,
+   "h": 1.206,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-5",
+   "room": "altitude",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -19.336,
+   "y": -39.264,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": 90,
+   "h": 0.704,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "woodway-4front-1",
+   "room": "altitude",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -19.522,
+   "y": -37.973,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": 90,
+   "h": 1.741,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "woodway-4front-2",
+   "room": "altitude",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -19.522,
+   "y": -36.563,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": 90,
+   "h": 1.741,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "life-fitness-row-hx-trainer-6",
+   "room": "altitude",
+   "kind": "life-fitness-row-hx-trainer",
+   "label": "Life Fitness Row HX Trainer",
+   "x": -19.336,
+   "y": -35.272,
+   "w": 0.572,
+   "d": 2.127,
+   "rot": 90,
+   "h": 0.704,
+   "note": "facing the altitude display"
+  },
+  {
+   "id": "wipes-F3--18.6--30.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -18.6,
+   "y": -30.6,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  },
+  {
+   "id": "wipes-F3--15.0--18.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -15.0,
+   "y": -18.6,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  },
+  {
+   "id": "wipes-F3--21.9--3.3",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -21.9,
+   "y": -3.3,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  },
+  {
+   "id": "wipes-F3--11.7--10.2",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -11.7,
+   "y": -10.2,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90
+  },
+  {
+   "id": "wipes-F3--27.5-4.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -27.5,
+   "y": 4.6,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90
+  }
+ ]
+}

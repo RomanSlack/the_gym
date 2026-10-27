@@ -1,0 +1,74 @@
+{
+ "core": [
+  0.929,
+  0.929
+ ],
+ "spacing": {
+  "short": 2.663,
+  "medium": 2.968,
+  "long": 3.273,
+  "xlong": 3.349
+ },
+ "stations": {
+  "pulldown": {
+   "out": 1.057,
+   "half": 0.611
+  },
+  "row": {
+   "out": 2.07,
+   "half": 0.464
+  },
+  "triceps": {
+   "out": 0.731,
+   "half": 0.464
+  },
+  "adjustable": {
+   "out": 0.73,
+   "half": 0.464
+  },
+  "crossover": {
+   "out": 0.73,
+   "half": 0.464
+  },
+  "dualhigh": {
+   "out": 1.105,
+   "half": 0.464
+  },
+  "duallow": {
+   "out": 1.085,
+   "half": 0.464
+  },
+  "dip": {
+   "out": 0.992,
+   "half": 0.464
+  },
+  "panel": {
+   "out": 0.464,
+   "half": 0.464
+  },
+  "step": {
+   "out": 0.978,
+   "half": 0.464
+  },
+  "handles": {
+   "out": 0.653,
+   "half": 0.464
+  },
+  "stallbars": {
+   "out": 0.858,
+   "half": 0.464
+  },
+  "ropepull": {
+   "out": 1.47,
+   "half": 0.464
+  },
+  "powerpivot": {
+   "out": 2.243,
+   "half": 0.464
+  },
+  "dipchin": {
+   "out": 1.42,
+   "half": 0.464
+  }
+ }
+}

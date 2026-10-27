@@ -156,6 +156,9 @@ export default function App() {
         <button className="theme-btn" onClick={() => setDark((v) => !v)}>{dark ? "☀ Light mode" : "☾ Dark mode"} <span className="mono">(D)</span></button>
         <a className="theme-btn" href="/layout.html" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · locker rooms (2D)</a>
         <a className="theme-btn" href="/layout.html?name=sauna" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · Kulpen, the sauna (2D)</a>
+        <a className="theme-btn" href="/layout.html?name=gym_f1" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · gym F1, the hall (2D)</a>
+        <a className="theme-btn" href="/layout.html?name=gym_f2" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · gym F2, strength + pods (2D)</a>
+        <a className="theme-btn" href="/layout.html?name=gym_f3" style={{ display: "block", textDecoration: "none", color: "inherit" }}>▦ Layouts · gym F3, the den + altitude (2D)</a>
         {sheets.map((s, i) => (
           <button key={s.no} className={i === idx ? "sheet on" : "sheet"} onClick={() => setIdx(i)}>
             <span className="no">{s.no}</span>

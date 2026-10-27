@@ -1,0 +1,4027 @@
+{
+ "note": "F1 \u00b7 the hall: cardio, stretching, calisthenics: the 2D equipment layout (tools/gym_layout.py writes the first proposal; edited in blueprint/layout.html?name=gym_f1). x, y = centre in project metres; w across the user, d along the way the user faces; rot = the way the user faces (0 = north, 90 = west, -90 = east).",
+ "title": "F1 \u00b7 the hall: cardio, stretching, calisthenics",
+ "level": "F1",
+ "cut": 1.0,
+ "rooms": [],
+ "view": [
+  -30.5,
+  -35.0,
+  -5.4,
+  -8.0
+ ],
+ "links": [
+  {
+   "name": "gym_f1",
+   "label": "F1 \u00b7 the hall: cardio, stretching, calisthenics"
+  },
+  {
+   "name": "gym_f2",
+   "label": "F2 \u00b7 strength: free weights, olympic, legs, cardio"
+  },
+  {
+   "name": "gym_f3",
+   "label": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman"
+  },
+  {
+   "name": "lockers",
+   "label": "F1 \u00b7 the locker rooms"
+  },
+  {
+   "name": "sauna",
+   "label": "Kulpen, the sauna"
+  }
+ ],
+ "walls": [
+  {
+   "id": "LS-men-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -4.225
+   ],
+   "to": [
+    -31.25,
+    -1.575
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-men-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -1.7
+   ],
+   "to": [
+    -29.7,
+    -1.7
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-men-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    -4.1
+   ],
+   "to": [
+    -29.7,
+    -4.1
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    4.575
+   ],
+   "to": [
+    -31.25,
+    7.225
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    7.1
+   ],
+   "to": [
+    -29.7,
+    7.1
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "LS-women-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -31.25,
+    4.7
+   ],
+   "to": [
+    -29.7,
+    4.7
+   ],
+   "size": [
+    0.25,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -18.7
+   ],
+   "to": [
+    -32.05,
+    -9.4
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -9.55
+   ],
+   "to": [
+    -29.7,
+    -9.55
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W1-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -18.55
+   ],
+   "to": [
+    -29.7,
+    -18.55
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W2-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -34.25
+   ],
+   "to": [
+    -32.05,
+    -24.95
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": [
+    {
+     "s": [
+      7.55,
+      8.75
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "exit to outside"
+    }
+   ]
+  },
+  {
+   "id": "CS-W2-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -25.1
+   ],
+   "to": [
+    -29.7,
+    -25.1
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W2-S",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -32.05,
+    -34.1
+   ],
+   "to": [
+    -29.7,
+    -34.1
+   ],
+   "size": [
+    0.3,
+    22.39
+   ],
+   "z": [
+    -15.99,
+    6.4
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-W",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -17.2,
+    12.35
+   ],
+   "to": [
+    -17.2,
+    15.7
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -15.99,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-E",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -8.2,
+    12.35
+   ],
+   "to": [
+    -8.2,
+    15.7
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -15.99,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "CS-W3-N",
+   "type": "wall",
+   "kind": "shaft",
+   "material": "concrete",
+   "from": [
+    -17.2,
+    15.55
+   ],
+   "to": [
+    -8.2,
+    15.55
+   ],
+   "size": [
+    0.3,
+    18.59
+   ],
+   "z": [
+    -15.99,
+    2.6
+   ],
+   "openings": [
+    {
+     "s": [
+      7.55,
+      8.75
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "exit to outside (north, by the sauna path)"
+    }
+   ]
+  },
+  {
+   "id": "A-annex-W",
+   "type": "wall",
+   "kind": "solid",
+   "material": "timber",
+   "from": [
+    -35.45,
+    -1.5
+   ],
+   "to": [
+    -35.45,
+    4.5
+   ],
+   "size": [
+    0.25,
+    3.0
+   ],
+   "z": [
+    0.0,
+    3.0
+   ],
+   "openings": []
+  },
+  {
+   "id": "A-annex-N",
+   "type": "wall",
+   "kind": "solid",
+   "material": "timber",
+   "from": [
+    -35.45,
+    4.5
+   ],
+   "to": [
+    -32.0,
+    4.5
+   ],
+   "size": [
+    0.25,
+    3.0
+   ],
+   "z": [
+    0.0,
+    3.0
+   ],
+   "openings": [
+    {
+     "s": [
+      1.3,
+      2.3
+     ],
+     "z": [
+      0.0,
+      2.2
+     ],
+     "type": "door",
+     "note": "the sauna lobby's door out to the sauna path"
+    }
+   ]
+  },
+  {
+   "id": "A-annex-S",
+   "type": "wall",
+   "kind": "solid",
+   "material": "timber",
+   "from": [
+    -35.45,
+    -1.5
+   ],
+   "to": [
+    -29.45,
+    -1.5
+   ],
+   "size": [
+    0.25,
+    3.0
+   ],
+   "z": [
+    0.0,
+    3.0
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-30",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    -18.55
+   ],
+   "to": [
+    -28.725,
+    -18.55
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-30b",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -18.55
+   ],
+   "to": [
+    -28.85,
+    -9.425
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      5.05,
+      6.25
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core W1 door (floor landing)"
+    },
+    {
+     "s": [
+      6.65,
+      8.85
+     ],
+     "z": [
+      0.0,
+      4.34
+     ],
+     "type": "opening",
+     "note": "core W1 glass lift"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-30c",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -9.55
+   ],
+   "to": [
+    -29.45,
+    -9.55
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-31",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -34.1
+   ],
+   "to": [
+    -28.85,
+    -24.975
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      7.55,
+      8.75
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "core W2 door (floor landing)"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-31b",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -25.1
+   ],
+   "to": [
+    -29.45,
+    -25.1
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-32",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    -4.1
+   ],
+   "to": [
+    -28.725,
+    -4.1
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-32b",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -4.1
+   ],
+   "to": [
+    -28.85,
+    -1.575
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      0.125,
+      2.275
+     ],
+     "z": [
+      0.0,
+      3.18
+     ],
+     "type": "opening",
+     "note": "men's express lift (glass)"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-32c",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    -1.7
+   ],
+   "to": [
+    -29.45,
+    -1.7
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-33",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -29.45,
+    4.7
+   ],
+   "to": [
+    -28.725,
+    4.7
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-33b",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    4.7
+   ],
+   "to": [
+    -28.85,
+    7.225
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      0.125,
+      2.275
+     ],
+     "z": [
+      0.0,
+      3.18
+     ],
+     "type": "opening",
+     "note": "women's express lift (glass)"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-33c",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -28.85,
+    7.1
+   ],
+   "to": [
+    -29.45,
+    7.1
+   ],
+   "size": [
+    0.25,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-34",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -29.45,
+    7.65
+   ],
+   "to": [
+    -19.4,
+    7.65
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      2.62,
+      4.42
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "opening",
+     "note": "Women's wash zone \u2194 Women's changing"
+    },
+    {
+     "s": [
+      6.62,
+      8.42
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "opening",
+     "note": "Women's wash zone \u2194 Women's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-35",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -19.4,
+    7.65
+   ],
+   "to": [
+    -11.6,
+    7.65
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      5.4,
+      6.4
+     ],
+     "z": [
+      0.0,
+      2.1
+     ],
+     "type": "door",
+     "note": "Women's WC room \u2194 Women's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-36",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    -0.375
+   ],
+   "to": [
+    -14.4,
+    -0.375
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-36b",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -14.4,
+    -0.375
+   ],
+   "to": [
+    -14.4,
+    1.5
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-36c",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -14.4,
+    1.5
+   ],
+   "to": [
+    -29.45,
+    1.5
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-37",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    7.65
+   ],
+   "to": [
+    -11.6,
+    -0.375
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      6.45,
+      7.95
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "baffle",
+     "note": "Women's changing \u2194 Gallery"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-38",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -29.45,
+    1.5
+   ],
+   "to": [
+    -29.45,
+    4.5
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      1.0,
+      2.0
+     ],
+     "z": [
+      0.0,
+      2.1
+     ],
+     "type": "door",
+     "note": "Sauna lobby (annex) \u2194 Women's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-39",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -19.4,
+    7.65
+   ],
+   "to": [
+    -19.4,
+    12.1
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-40",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    7.65
+   ],
+   "to": [
+    -11.6,
+    12.1
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-41",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -19.4,
+    -4.2
+   ],
+   "to": [
+    -29.45,
+    -4.2
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      5.63,
+      7.43
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "opening",
+     "note": "Men's wash zone \u2194 Men's changing"
+    },
+    {
+     "s": [
+      1.63,
+      3.43
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "opening",
+     "note": "Men's wash zone \u2194 Men's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-42",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    -4.2
+   ],
+   "to": [
+    -19.4,
+    -4.2
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      1.4,
+      2.4
+     ],
+     "z": [
+      0.0,
+      2.1
+     ],
+     "type": "door",
+     "note": "Men's WC room \u2194 Men's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-43",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    -0.375
+   ],
+   "to": [
+    -11.6,
+    -4.2
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      2.02,
+      3.52
+     ],
+     "z": [
+      0.0,
+      2.4
+     ],
+     "type": "baffle",
+     "note": "Men's changing \u2194 Gallery"
+    },
+    {
+     "s": [
+      0.175,
+      1.775
+     ],
+     "z": [
+      0.0,
+      2.5
+     ],
+     "type": "opening",
+     "note": "Kilden: the spring niche on the bridge axis"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-44",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -29.45,
+    -1.5
+   ],
+   "to": [
+    -29.45,
+    1.5
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": [
+    {
+     "s": [
+      1.0,
+      2.0
+     ],
+     "z": [
+      0.0,
+      2.1
+     ],
+     "type": "door",
+     "note": "Sauna lobby (annex) \u2194 Men's changing"
+    }
+   ]
+  },
+  {
+   "id": "P-F1-45",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -19.4,
+    -9.3
+   ],
+   "to": [
+    -19.4,
+    -4.2
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-46",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -29.45,
+    -9.3
+   ],
+   "to": [
+    -21.45,
+    -9.3
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-47",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -21.45,
+    -9.3
+   ],
+   "to": [
+    -19.4,
+    -9.3
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-48",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -11.6,
+    -9.3
+   ],
+   "to": [
+    -11.6,
+    -4.2
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-49",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -19.4,
+    -9.3
+   ],
+   "to": [
+    -14.45,
+    -9.3
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "P-F1-50",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -14.45,
+    -9.3
+   ],
+   "to": [
+    -11.6,
+    -9.3
+   ],
+   "size": [
+    0.15,
+    5.64
+   ],
+   "z": [
+    0.0,
+    5.64
+   ],
+   "openings": []
+  },
+  {
+   "id": "ST3-core-W3-S-F1",
+   "type": "wall",
+   "kind": "core",
+   "material": "concrete",
+   "from": [
+    -17.2,
+    12.35
+   ],
+   "to": [
+    -8.2,
+    12.35
+   ],
+   "size": [
+    0.25,
+    0
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": [
+    {
+     "s": [
+      7.1,
+      8.3
+     ],
+     "z": [
+      0.0,
+      2.3
+     ],
+     "type": "door",
+     "note": "discreet flush door: gallery -> core W3"
+    }
+   ]
+  },
+  {
+   "id": "EN-G-F1-A1-1",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -29.45,
+    -25.1
+   ],
+   "to": [
+    -29.45,
+    -18.6
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-A1-3",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -29.45,
+    -9.6
+   ],
+   "to": [
+    -29.45,
+    -4.2
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-A1-6-wall",
+   "type": "wall",
+   "kind": "clad",
+   "material": "timber_clad",
+   "from": [
+    -29.45,
+    -1.7
+   ],
+   "to": [
+    -29.45,
+    -1.5
+   ],
+   "size": [
+    0.4,
+    2.6
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-A2-0-wall",
+   "type": "wall",
+   "kind": "clad",
+   "material": "timber_clad",
+   "from": [
+    -29.45,
+    4.5
+   ],
+   "to": [
+    -29.45,
+    4.7
+   ],
+   "size": [
+    0.4,
+    2.6
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-A2-2-wall",
+   "type": "wall",
+   "kind": "clad",
+   "material": "timber_clad",
+   "from": [
+    -29.45,
+    7.1
+   ],
+   "to": [
+    -29.45,
+    7.7
+   ],
+   "size": [
+    0.4,
+    2.6
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-A2-3",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -29.45,
+    7.7
+   ],
+   "to": [
+    -29.45,
+    12.1
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-N-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -29.45,
+    12.1
+   ],
+   "to": [
+    -19.35,
+    12.1
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-N-1-wall",
+   "type": "wall",
+   "kind": "clad",
+   "material": "timber_clad",
+   "from": [
+    -19.35,
+    12.1
+   ],
+   "to": [
+    -17.25,
+    12.1
+   ],
+   "size": [
+    0.4,
+    2.6
+   ],
+   "z": [
+    0.0,
+    2.6
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-N-3",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -8.25,
+    12.1
+   ],
+   "to": [
+    -6.45,
+    12.1
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-S-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -29.45,
+    -34.1
+   ],
+   "to": [
+    -6.45,
+    -34.1
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-C1-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    -34.1
+   ],
+   "to": [
+    -6.45,
+    -9.5
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-F1-C2-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    6.8
+   ],
+   "to": [
+    -6.45,
+    12.1
+   ],
+   "size": [
+    0.12,
+    4.34
+   ],
+   "z": [
+    0.0,
+    4.34
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-G-link-S-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    -9.5
+   ],
+   "to": [
+    12.0,
+    -9.5
+   ],
+   "size": [
+    0.12,
+    4.0
+   ],
+   "z": [
+    0.0,
+    4.0
+   ],
+   "openings": [
+    {
+     "s": [
+      0.0,
+      18.45
+     ],
+     "z": [
+      0.0,
+      3.0
+     ],
+     "type": "door",
+     "note": "slide-and-turn glass wall: the panels run inside the posts"
+    }
+   ]
+  },
+  {
+   "id": "EN-G-link-N-0",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    6.8
+   ],
+   "to": [
+    12.0,
+    6.8
+   ],
+   "size": [
+    0.12,
+    4.0
+   ],
+   "z": [
+    0.0,
+    4.0
+   ],
+   "openings": [
+    {
+     "s": [
+      0.0,
+      18.45
+     ],
+     "z": [
+      0.0,
+      3.0
+     ],
+     "type": "door",
+     "note": "slide-and-turn glass wall: the panels run inside the posts"
+    }
+   ]
+  },
+  {
+   "id": "EN-balustrade-S",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    -12.45
+   ],
+   "to": [
+    12.0,
+    -12.45
+   ],
+   "size": [
+    0.03,
+    1.1
+   ],
+   "z": [
+    0.0,
+    1.1
+   ],
+   "openings": []
+  },
+  {
+   "id": "EN-balustrade-N",
+   "type": "wall",
+   "kind": "glazed",
+   "material": "glass",
+   "from": [
+    -6.45,
+    11.25
+   ],
+   "to": [
+    12.0,
+    11.25
+   ],
+   "size": [
+    0.03,
+    1.1
+   ],
+   "z": [
+    0.0,
+    1.1
+   ],
+   "openings": []
+  },
+  {
+   "id": "IN-F1-men-wc-partition-1",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -17.7,
+    -9.224
+   ],
+   "to": [
+    -17.7,
+    -6.3
+   ],
+   "size": [
+    0.1,
+    2.75
+   ],
+   "z": [
+    0.0,
+    2.75
+   ],
+   "openings": []
+  },
+  {
+   "id": "IN-F1-men-wc-partition-2",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -18.425,
+    -6.3
+   ],
+   "to": [
+    -17.7,
+    -6.3
+   ],
+   "size": [
+    0.1,
+    2.75
+   ],
+   "z": [
+    0.0,
+    2.75
+   ],
+   "openings": []
+  }
+ ],
+ "spaces": [
+  {
+   "id": "stretching",
+   "level": "F1",
+   "name": "Stretching & mobility",
+   "poly": [
+    [
+     -29.45,
+     -9.3
+    ],
+    [
+     -21.45,
+     -9.3
+    ],
+    [
+     -21.45,
+     -18.7
+    ],
+    [
+     -18.2,
+     -18.7
+    ],
+    [
+     -18.2,
+     -34.1
+    ],
+    [
+     -28.85,
+     -34.1
+    ],
+    [
+     -28.85,
+     -25.1
+    ],
+    [
+     -29.45,
+     -25.1
+    ],
+    [
+     -29.45,
+     -18.55
+    ],
+    [
+     -28.85,
+     -18.55
+    ],
+    [
+     -28.85,
+     -9.55
+    ],
+    [
+     -29.45,
+     -9.55
+    ]
+   ]
+  },
+  {
+   "id": "spiral-F1",
+   "level": "F1",
+   "name": "Spiral stair",
+   "poly": [
+    [
+     -21.45,
+     -18.7
+    ],
+    [
+     -14.45,
+     -18.7
+    ],
+    [
+     -14.45,
+     -9.3
+    ],
+    [
+     -21.45,
+     -9.3
+    ]
+   ]
+  },
+  {
+   "id": "calisthenics",
+   "level": "F1",
+   "name": "Calisthenics",
+   "poly": [
+    [
+     -14.45,
+     -18.7
+    ],
+    [
+     -6.45,
+     -18.7
+    ],
+    [
+     -6.45,
+     -9.3
+    ],
+    [
+     -14.45,
+     -9.3
+    ]
+   ]
+  },
+  {
+   "id": "cardio-F1",
+   "level": "F1",
+   "name": "Cardio \u00b7 river views",
+   "poly": [
+    [
+     -18.2,
+     -34.1
+    ],
+    [
+     -6.45,
+     -34.1
+    ],
+    [
+     -6.45,
+     -18.7
+    ],
+    [
+     -18.2,
+     -18.7
+    ]
+   ]
+  }
+ ],
+ "overhead": [
+  {
+   "pts": [
+    [
+     -29.45,
+     12.1
+    ],
+    [
+     -6.45,
+     12.1
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-1-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     4.4
+    ],
+    [
+     -6.45,
+     4.4
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-2-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -28.85,
+     -3.3
+    ],
+    [
+     -6.45,
+     -3.3
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-3-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -28.85,
+     -11.0
+    ],
+    [
+     -6.45,
+     -11.0
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-4-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -18.7
+    ],
+    [
+     -6.45,
+     -18.7
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-5-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -26.4
+    ],
+    [
+     -6.45,
+     -26.4
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-6-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -29.45,
+     -34.1
+    ],
+    [
+     -6.45,
+     -34.1
+    ]
+   ],
+   "cls": "beam",
+   "label": "B-7-RF-west: beam overhead, 0.3 x 1.3 m"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -32.65
+    ],
+    [
+     -21.6,
+     -32.65
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -32.65
+    ],
+    [
+     -14.6,
+     -32.65
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -32.65
+    ],
+    [
+     -7.0,
+     -32.65
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -30.25
+    ],
+    [
+     -21.6,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -30.25
+    ],
+    [
+     -14.6,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -30.25
+    ],
+    [
+     -7.0,
+     -30.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -27.85
+    ],
+    [
+     -21.6,
+     -27.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -27.85
+    ],
+    [
+     -14.6,
+     -27.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -27.85
+    ],
+    [
+     -7.0,
+     -27.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -24.95
+    ],
+    [
+     -21.6,
+     -24.95
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -24.95
+    ],
+    [
+     -14.6,
+     -24.95
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -24.95
+    ],
+    [
+     -7.0,
+     -24.95
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -22.55
+    ],
+    [
+     -21.6,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -22.55
+    ],
+    [
+     -14.6,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -22.55
+    ],
+    [
+     -7.0,
+     -22.55
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -20.15
+    ],
+    [
+     -21.6,
+     -20.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -21.3,
+     -20.15
+    ],
+    [
+     -14.6,
+     -20.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -20.15
+    ],
+    [
+     -7.0,
+     -20.15
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -17.25
+    ],
+    [
+     -21.6,
+     -17.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -17.25
+    ],
+    [
+     -7.0,
+     -17.25
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.900000000000002,
+     -14.85
+    ],
+    [
+     -22.05,
+     -14.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -13.850000000000001,
+     -14.85
+    ],
+    [
+     -7.000000000000001,
+     -14.85
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -28.9,
+     -12.45
+    ],
+    [
+     -21.6,
+     -12.45
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  },
+  {
+   "pts": [
+    [
+     -14.3,
+     -12.45
+    ],
+    [
+     -7.0,
+     -12.45
+    ]
+   ],
+   "cls": "light",
+   "label": "light line overhead (3500 K)"
+  }
+ ],
+ "dims": [],
+ "summary": [
+  "F1 \u00b7 the hall (first proposal, 2026-10-26)",
+  "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
+  "Calisthenics by the way in from the gallery: the Monkey Rig, wall bars on the core.",
+  "Stretching on the garden side: an open mat floor, the kit on the walls."
+ ],
+ "kinds": {
+  "void": {
+   "label": "The spiral's opening (open to the floors above / below)",
+   "d": 0,
+   "h": 0,
+   "mat": "void",
+   "tag": "spiral"
+  },
+  "keep_clear": {
+   "label": "Keep clear: a door's landing, the spiral's step-off, a lift's call space",
+   "d": 0,
+   "h": 0,
+   "mat": "zone"
+  },
+  "turf": {
+   "label": "Sled lane: 46 m of sled turf (built, tools/interior.py)",
+   "d": 0,
+   "h": 0,
+   "mat": "turf",
+   "tag": "sled lane"
+  },
+  "den_river": {
+   "label": "Bekken i hulen: the den's river (built: the rock base, the pool, the outfall slit)",
+   "d": 0,
+   "h": 0,
+   "mat": "feature",
+   "tag": "the den river"
+  },
+  "stair": {
+   "label": "Stair (opening)",
+   "d": 0,
+   "h": 0,
+   "mat": "void",
+   "tag": "stair"
+  },
+  "tap_station": {
+   "label": "Water station: chilled tap (built)",
+   "d": 0.13,
+   "h": 1.2,
+   "mat": "fixture",
+   "tag": "water"
+  },
+  "safety_point": {
+   "label": "Safety point: AED, extinguisher, first aid (built)",
+   "d": 0.15,
+   "h": 1.5,
+   "mat": "fixture",
+   "tag": "AED"
+  },
+  "wipe_station": {
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "d": 0.36,
+   "h": 1.1,
+   "mat": "fixture",
+   "tag": "wipes",
+   "use": [
+    0.5,
+    0,
+    0,
+    0
+   ]
+  },
+  "floor_zone": {
+   "label": "Floor zone",
+   "d": 1.0,
+   "h": 0.0,
+   "mat": "zone"
+  },
+  "pwr_core": {
+   "label": "Life Fitness PWR Play: a Core (four faces, a station on each)",
+   "d": 0.929,
+   "h": 2.415,
+   "mat": "pwr",
+   "tag": "core"
+  },
+  "pwr_bar": {
+   "label": "PWR Play crossbar (Long connector) with pull-up handles, over the aisle at 2.31 m",
+   "d": 0.08,
+   "h": 2.35,
+   "mat": "pwr"
+  },
+  "pwr_pulldown": {
+   "label": "PWR Play station: pulldown",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "pulldown",
+   "use": [
+    0.35,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_row": {
+   "label": "PWR Play station: row",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "row",
+   "use": [
+    0.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_triceps": {
+   "label": "PWR Play station: triceps",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "triceps",
+   "use": [
+    1.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_adjustable": {
+   "label": "PWR Play station: adj pulley",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "adj pulley",
+   "use": [
+    1.5,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_crossover": {
+   "label": "PWR Play station: crossover",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "crossover",
+   "use": [
+    1.5,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dualhigh": {
+   "label": "PWR Play station: dual high",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dual high",
+   "use": [
+    1.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_duallow": {
+   "label": "PWR Play station: dual low",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dual low",
+   "use": [
+    1.3,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dip": {
+   "label": "PWR Play station: dip",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "dip",
+   "use": [
+    0.6,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_panel": {
+   "label": "PWR Play station: blank panel",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "",
+   "use": [
+    0.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_step": {
+   "label": "PWR Play station: step",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "step",
+   "use": [
+    0.7,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_handles": {
+   "label": "PWR Play station: handles",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "handles",
+   "use": [
+    0.6,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_stallbars": {
+   "label": "PWR Play station: stall bars",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "stall bars",
+   "use": [
+    1.0,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_ropepull": {
+   "label": "PWR Play station: rope pull",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "rope pull",
+   "use": [
+    0.9,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_powerpivot": {
+   "label": "PWR Play station: power pivot",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "power pivot",
+   "use": [
+    0.8,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "pwr_dipchin": {
+   "label": "PWR Play station: assist dip/chin",
+   "d": 0,
+   "h": 2.3,
+   "mat": "pwr",
+   "tag": "assist dip/chin",
+   "use": [
+    0.4,
+    0,
+    0.1,
+    0.1
+   ]
+  },
+  "body-solid-gvkr60b-vertical-knee-raise-dip": {
+   "label": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+   "d": 0.955,
+   "h": 1.505,
+   "mat": "machine",
+   "tag": "VKR / dip",
+   "use": [
+    0.6,
+    0.2,
+    0.3,
+    0.3
+   ],
+   "face": "-x",
+   "piece": "body-solid-gvkr60b-vertical-knee-raise-dip"
+  },
+  "fit3d-proscanner": {
+   "label": "Fit3D ProScanner",
+   "d": 1.67,
+   "h": 1.82,
+   "mat": "machine",
+   "tag": "3D scanner",
+   "use": [
+    1.0,
+    0.4,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "fit3d-proscanner"
+  },
+  "gymleco-wooden-wall-bars-with-chins-rack": {
+   "label": "Gymleco Wooden Wall Bars with Chins Rack",
+   "d": 0.626,
+   "h": 2.8,
+   "mat": "wallkit",
+   "tag": "wall bars",
+   "use": [
+    1.4,
+    0.0,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "gymleco-wooden-wall-bars-with-chins-rack"
+  },
+  "hammer-strength-hd-tread": {
+   "label": "Hammer Strength HD Tread",
+   "d": 1.676,
+   "h": 1.692,
+   "mat": "cardio",
+   "tag": "HD tread",
+   "use": [
+    0.3,
+    2.0,
+    0.45,
+    0.45
+   ],
+   "face": "+y",
+   "piece": "hammer-strength-hd-tread"
+  },
+  "hammer-strength-stability-ball": {
+   "label": "Hammer Strength Stability Ball",
+   "d": 0.752,
+   "h": 0.721,
+   "mat": "storage",
+   "tag": "stability balls",
+   "use": [
+    0.6,
+    0.0,
+    0.1,
+    0.1
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-stability-ball"
+  },
+  "life-fitness-accessory-rack": {
+   "label": "Life Fitness Accessory Rack",
+   "d": 0.552,
+   "h": 1.75,
+   "mat": "storage",
+   "tag": "accessory rack",
+   "use": [
+    1.3,
+    0.05,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "life-fitness-accessory-rack"
+  },
+  "life-fitness-adjustable-wall-mounted-mat-rack": {
+   "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
+   "d": 0.265,
+   "h": 2.8,
+   "mat": "wallkit",
+   "tag": "mat rack",
+   "use": [
+    1.2,
+    0.0,
+    0.1,
+    0.1
+   ],
+   "face": "-y",
+   "piece": "life-fitness-adjustable-wall-mounted-mat-rack"
+  },
+  "life-fitness-club-series-elliptical-cross-trainer": {
+   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
+   "d": 2.31,
+   "h": 1.853,
+   "mat": "cardio",
+   "tag": "elliptical",
+   "use": [
+    0.3,
+    0.6,
+    0.45,
+    0.45
+   ],
+   "face": "-y",
+   "piece": "life-fitness-club-series-elliptical-cross-trainer"
+  },
+  "life-fitness-club-series-recumbent-lifecycle-bike": {
+   "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
+   "d": 1.92,
+   "h": 1.566,
+   "mat": "cardio",
+   "tag": "recumbent",
+   "use": [
+    0.3,
+    0.5,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "life-fitness-club-series-recumbent-lifecycle-bike"
+  },
+  "life-fitness-club-series-upright-lifecycle-bike": {
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "d": 1.064,
+   "h": 1.555,
+   "mat": "cardio",
+   "tag": "upright bike",
+   "use": [
+    0.3,
+    0.5,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "life-fitness-club-series-upright-lifecycle-bike"
+  },
+  "life-fitness-flexibility-trainer": {
+   "label": "Life Fitness Flexibility Trainer",
+   "d": 1.381,
+   "h": 1.509,
+   "mat": "machine",
+   "tag": "stretch trainer",
+   "use": [
+    0.4,
+    0.6,
+    0.4,
+    0.4
+   ],
+   "face": "-y",
+   "piece": "life-fitness-flexibility-trainer"
+  },
+  "life-fitness-vertical-medicine-ball-storage": {
+   "label": "Life Fitness Vertical Medicine Ball Storage",
+   "d": 0.6,
+   "h": 1.401,
+   "mat": "storage",
+   "tag": "med ball tree",
+   "use": [
+    0.8,
+    0.1,
+    0.2,
+    0.2
+   ],
+   "face": "-y",
+   "piece": "life-fitness-vertical-medicine-ball-storage"
+  },
+  "rogue-belt-and-band-hanger": {
+   "label": "Rogue Belt and Band Hanger",
+   "d": 0.313,
+   "h": 2.8,
+   "mat": "wallkit",
+   "tag": "belts + bands",
+   "use": [
+    0.8,
+    0,
+    0,
+    0
+   ],
+   "face": "-y",
+   "piece": "rogue-belt-and-band-hanger"
+  },
+  "rogue-bolt-together-parallette-set": {
+   "label": "Rogue Bolt-Together Parallette Set",
+   "d": 0.626,
+   "h": 0.375,
+   "mat": "functional",
+   "tag": "parallettes",
+   "use": [
+    0.3,
+    0.3,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "rogue-bolt-together-parallette-set"
+  },
+  "rogue-manta-ray-adjustable-bench": {
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "d": 1.776,
+   "h": 0.488,
+   "mat": "bench",
+   "tag": "Manta Ray",
+   "use": [
+    0.5,
+    0.5,
+    0.8,
+    0.8
+   ],
+   "face": "-x",
+   "piece": "rogue-manta-ray-adjustable-bench"
+  },
+  "rogue-monster-lite-monkey-rig-2-0": {
+   "label": "Rogue Monster Lite Monkey Rig 2.0",
+   "d": 2.106,
+   "h": 3.658,
+   "mat": "rack",
+   "tag": "monkey rig",
+   "use": [
+    1.4,
+    1.4,
+    0.6,
+    0.6
+   ],
+   "face": "-y",
+   "piece": "rogue-monster-lite-monkey-rig-2-0"
+  },
+  "rogue-rig-mount-parallel-bars": {
+   "label": "Rogue Rig Mount Parallel Bars",
+   "d": 2.032,
+   "h": 1.832,
+   "mat": "rack",
+   "tag": "parallel bars",
+   "use": [
+    0.0,
+    0.0,
+    0.8,
+    0.8
+   ],
+   "face": "-y",
+   "piece": "rogue-rig-mount-parallel-bars"
+  },
+  "stairmaster-8gx-stepmill": {
+   "label": "StairMaster 8GX Stepmill",
+   "d": 1.503,
+   "h": 1.982,
+   "mat": "cardio",
+   "tag": "stepmill",
+   "use": [
+    0.3,
+    0.6,
+    0.45,
+    0.45
+   ],
+   "face": "+y",
+   "piece": "stairmaster-8gx-stepmill"
+  },
+  "versaclimber-ts-magnetic": {
+   "label": "VersaClimber TS-Magnetic",
+   "d": 1.079,
+   "h": 2.389,
+   "mat": "cardio",
+   "tag": "versaclimber",
+   "use": [
+    0.2,
+    0.9,
+    0.4,
+    0.4
+   ],
+   "face": "+y",
+   "piece": "versaclimber-ts-magnetic"
+  },
+  "woodway-4front": {
+   "label": "Woodway 4Front",
+   "d": 1.755,
+   "h": 1.741,
+   "mat": "cardio",
+   "tag": "treadmill",
+   "use": [
+    0.3,
+    2.0,
+    0.45,
+    0.45
+   ],
+   "face": "+y",
+   "piece": "woodway-4front"
+  }
+ },
+ "targets": {
+  "body-solid-gvkr60b-vertical-knee-raise-dip": 1,
+  "fit3d-proscanner": 1,
+  "gymleco-wooden-wall-bars-with-chins-rack": 4,
+  "hammer-strength-hd-tread": 2,
+  "hammer-strength-stability-ball": 1,
+  "life-fitness-accessory-rack": 3,
+  "life-fitness-adjustable-wall-mounted-mat-rack": 3,
+  "life-fitness-club-series-elliptical-cross-trainer": 4,
+  "life-fitness-club-series-recumbent-lifecycle-bike": 3,
+  "life-fitness-club-series-upright-lifecycle-bike": 3,
+  "life-fitness-flexibility-trainer": 2,
+  "life-fitness-vertical-medicine-ball-storage": 1,
+  "rogue-belt-and-band-hanger": 1,
+  "rogue-bolt-together-parallette-set": 2,
+  "rogue-manta-ray-adjustable-bench": 1,
+  "rogue-monster-lite-monkey-rig-2-0": 1,
+  "rogue-rig-mount-parallel-bars": 1,
+  "stairmaster-8gx-stepmill": 3,
+  "versaclimber-ts-magnetic": 1,
+  "woodway-4front": 8
+ },
+ "items": [
+  {
+   "id": "spiral-F1",
+   "room": "",
+   "kind": "void",
+   "label": "The spiral's opening (open to the floors above / below)",
+   "pts": [
+    [
+     -14.45,
+     -14.85
+    ],
+    [
+     -14.48,
+     -14.393
+    ],
+    [
+     -14.569,
+     -13.944
+    ],
+    [
+     -14.716,
+     -13.511
+    ],
+    [
+     -14.919,
+     -13.1
+    ],
+    [
+     -15.173,
+     -12.719
+    ],
+    [
+     -15.475,
+     -12.375
+    ],
+    [
+     -15.819,
+     -12.073
+    ],
+    [
+     -16.2,
+     -11.819
+    ],
+    [
+     -16.611,
+     -11.616
+    ],
+    [
+     -17.044,
+     -11.469
+    ],
+    [
+     -17.493,
+     -11.38
+    ],
+    [
+     -17.95,
+     -11.35
+    ],
+    [
+     -18.407,
+     -11.38
+    ],
+    [
+     -18.856,
+     -11.469
+    ],
+    [
+     -19.289,
+     -11.616
+    ],
+    [
+     -19.7,
+     -11.819
+    ],
+    [
+     -20.081,
+     -12.073
+    ],
+    [
+     -20.425,
+     -12.375
+    ],
+    [
+     -20.727,
+     -12.719
+    ],
+    [
+     -20.981,
+     -13.1
+    ],
+    [
+     -21.184,
+     -13.511
+    ],
+    [
+     -21.331,
+     -13.944
+    ],
+    [
+     -21.42,
+     -14.393
+    ],
+    [
+     -21.45,
+     -14.85
+    ],
+    [
+     -21.42,
+     -15.307
+    ],
+    [
+     -21.331,
+     -15.756
+    ],
+    [
+     -21.184,
+     -16.189
+    ],
+    [
+     -20.981,
+     -16.6
+    ],
+    [
+     -20.727,
+     -16.981
+    ],
+    [
+     -20.425,
+     -17.325
+    ],
+    [
+     -20.081,
+     -17.627
+    ],
+    [
+     -19.7,
+     -17.881
+    ],
+    [
+     -19.289,
+     -18.084
+    ],
+    [
+     -18.856,
+     -18.231
+    ],
+    [
+     -18.407,
+     -18.32
+    ],
+    [
+     -17.95,
+     -18.35
+    ],
+    [
+     -17.493,
+     -18.32
+    ],
+    [
+     -17.044,
+     -18.231
+    ],
+    [
+     -16.611,
+     -18.084
+    ],
+    [
+     -16.2,
+     -17.881
+    ],
+    [
+     -15.819,
+     -17.627
+    ],
+    [
+     -15.475,
+     -17.325
+    ],
+    [
+     -15.173,
+     -16.981
+    ],
+    [
+     -14.919,
+     -16.6
+    ],
+    [
+     -14.716,
+     -16.189
+    ],
+    [
+     -14.569,
+     -15.756
+    ],
+    [
+     -14.48,
+     -15.307
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "spiral-landing-F1",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: the spiral's step-off on this floor",
+   "pts": [
+    [
+     -16.271,
+     -11.676
+    ],
+    [
+     -17.817,
+     -11.262
+    ],
+    [
+     -17.351,
+     -9.524
+    ],
+    [
+     -15.806,
+     -9.938
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-P-F1-30b-5.0",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W1 door (floor landing)",
+   "pts": [
+    [
+     -28.725,
+     -13.65
+    ],
+    [
+     -28.725,
+     -12.15
+    ],
+    [
+     -27.225,
+     -12.15
+    ],
+    [
+     -27.225,
+     -13.65
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-P-F1-30b-6.7",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W1 glass lift",
+   "pts": [
+    [
+     -28.725,
+     -12.05
+    ],
+    [
+     -28.725,
+     -9.55
+    ],
+    [
+     -27.225,
+     -9.55
+    ],
+    [
+     -27.225,
+     -12.05
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "clear-P-F1-31-7.5",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: core W2 door (floor landing)",
+   "pts": [
+    [
+     -28.725,
+     -26.7
+    ],
+    [
+     -28.725,
+     -25.2
+    ],
+    [
+     -27.225,
+     -25.2
+    ],
+    [
+     -27.225,
+     -26.7
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "tap_station-F1--32.4-4.4",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -32.4,
+   "y": 4.375,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 180,
+   "fixed": true,
+   "note": "water after the sauna"
+  },
+  {
+   "id": "tap_station-F1--16.6--4.1",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -16.6,
+   "y": -4.095,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 0,
+   "fixed": true,
+   "note": "water in the men's changing room"
+  },
+  {
+   "id": "tap_station-F1--16.6-7.5",
+   "room": "",
+   "kind": "tap_station",
+   "label": "Water station: chilled tap (built)",
+   "x": -16.6,
+   "y": 7.545,
+   "w": 0.35,
+   "d": 0.13,
+   "rot": 180,
+   "fixed": true,
+   "note": "water in the women's changing room"
+  },
+  {
+   "id": "safety_point-F1--28.7--29.6",
+   "room": "",
+   "kind": "safety_point",
+   "label": "Safety point: AED, extinguisher, first aid (built)",
+   "x": -28.71,
+   "y": -29.6,
+   "w": 0.6,
+   "d": 0.15,
+   "rot": -90,
+   "fixed": true,
+   "note": "AED, extinguisher, first aid"
+  },
+  {
+   "id": "clear-gallery",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "Keep clear: the way in from the gallery (the bridge, the lockers)",
+   "pts": [
+    [
+     -11.6,
+     -11.0
+    ],
+    [
+     -6.51,
+     -11.0
+    ],
+    [
+     -6.51,
+     -9.375
+    ],
+    [
+     -11.6,
+     -9.375
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "woodway-4front-1",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -33.145,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-2",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -31.785,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-3",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -30.425,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-4",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -29.065,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "hammer-strength-hd-tread-1",
+   "room": "cardio by the river",
+   "kind": "hammer-strength-hd-tread",
+   "label": "Hammer Strength HD Tread",
+   "x": -7.648,
+   "y": -27.654,
+   "w": 0.911,
+   "d": 1.676,
+   "rot": -90,
+   "h": 1.692
+  },
+  {
+   "id": "hammer-strength-hd-tread-2",
+   "room": "cardio by the river",
+   "kind": "hammer-strength-hd-tread",
+   "label": "Hammer Strength HD Tread",
+   "x": -7.648,
+   "y": -26.194,
+   "w": 0.911,
+   "d": 1.676,
+   "rot": -90,
+   "h": 1.692
+  },
+  {
+   "id": "woodway-4front-5",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -24.783,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-6",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -23.423,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-7",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -22.063,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "woodway-4front-8",
+   "room": "cardio by the river",
+   "kind": "woodway-4front",
+   "label": "Woodway 4Front",
+   "x": -7.688,
+   "y": -20.703,
+   "w": 0.81,
+   "d": 1.755,
+   "rot": -90,
+   "h": 1.741
+  },
+  {
+   "id": "life-fitness-club-series-elliptical-cross-trainer-1",
+   "room": "cardio by the river",
+   "kind": "life-fitness-club-series-elliptical-cross-trainer",
+   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
+   "x": -11.905,
+   "y": -33.165,
+   "w": 0.77,
+   "d": 2.31,
+   "rot": -90,
+   "h": 1.853
+  },
+  {
+   "id": "life-fitness-club-series-elliptical-cross-trainer-2",
+   "room": "cardio by the river",
+   "kind": "life-fitness-club-series-elliptical-cross-trainer",
+   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
+   "x": -11.905,
+   "y": -31.795,
+   "w": 0.77,
+   "d": 2.31,
+   "rot": -90,
+   "h": 1.853
+  },
+  {
+   "id": "life-fitness-club-series-elliptical-cross-trainer-3",
+   "room": "cardio by the river",
+   "kind": "life-fitness-club-series-elliptical-cross-trainer",
+   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
+   "x": -11.905,
+   "y": -30.425,
+   "w": 0.77,
+   "d": 2.31,
+   "rot": -90,
+   "h": 1.853
+  },
+  {
+   "id": "life-fitness-club-series-elliptical-cross-trainer-4",
+   "room": "cardio by the river",
+   "kind": "life-fitness-club-series-elliptical-cross-trainer",
+   "label": "Life Fitness Club Series+ Elliptical Cross-Trainer",
+   "x": -11.905,
+   "y": -29.055,
+   "w": 0.77,
+   "d": 2.31,
+   "rot": -90,
+   "h": 1.853
+  },
+  {
+   "id": "stairmaster-8gx-stepmill-1",
+   "room": "cardio by the river",
+   "kind": "stairmaster-8gx-stepmill",
+   "label": "StairMaster 8GX Stepmill",
+   "x": -11.502,
+   "y": -27.037,
+   "w": 0.866,
+   "d": 1.503,
+   "rot": -90,
+   "h": 1.982
+  },
+  {
+   "id": "stairmaster-8gx-stepmill-2",
+   "room": "cardio by the river",
+   "kind": "stairmaster-8gx-stepmill",
+   "label": "StairMaster 8GX Stepmill",
+   "x": -11.502,
+   "y": -25.571,
+   "w": 0.866,
+   "d": 1.503,
+   "rot": -90,
+   "h": 1.982
+  },
+  {
+   "id": "stairmaster-8gx-stepmill-3",
+   "room": "cardio by the river",
+   "kind": "stairmaster-8gx-stepmill",
+   "label": "StairMaster 8GX Stepmill",
+   "x": -11.502,
+   "y": -24.105,
+   "w": 0.866,
+   "d": 1.503,
+   "rot": -90,
+   "h": 1.982
+  },
+  {
+   "id": "versaclimber-ts-magnetic-1",
+   "room": "cardio by the river",
+   "kind": "versaclimber-ts-magnetic",
+   "label": "VersaClimber TS-Magnetic",
+   "x": -11.29,
+   "y": -22.164,
+   "w": 0.616,
+   "d": 1.079,
+   "rot": -90,
+   "h": 2.389
+  },
+  {
+   "id": "life-fitness-club-series-recumbent-lifecycle-bike-1",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
+   "x": -22.26,
+   "y": -32.78,
+   "w": 0.68,
+   "d": 1.92,
+   "rot": 180,
+   "h": 1.566,
+   "note": "facing the forest"
+  },
+  {
+   "id": "life-fitness-club-series-recumbent-lifecycle-bike-2",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
+   "x": -20.83,
+   "y": -32.78,
+   "w": 0.68,
+   "d": 1.92,
+   "rot": 180,
+   "h": 1.566,
+   "note": "facing the forest"
+  },
+  {
+   "id": "life-fitness-club-series-recumbent-lifecycle-bike-3",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
+   "x": -19.4,
+   "y": -32.78,
+   "w": 0.68,
+   "d": 1.92,
+   "rot": 180,
+   "h": 1.566,
+   "note": "facing the forest"
+  },
+  {
+   "id": "life-fitness-club-series-upright-lifecycle-bike-1",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-upright-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "x": -17.99,
+   "y": -33.208,
+   "w": 0.641,
+   "d": 1.064,
+   "rot": 180,
+   "h": 1.555,
+   "note": "facing the forest"
+  },
+  {
+   "id": "life-fitness-club-series-upright-lifecycle-bike-2",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-upright-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "x": -16.599,
+   "y": -33.208,
+   "w": 0.641,
+   "d": 1.064,
+   "rot": 180,
+   "h": 1.555,
+   "note": "facing the forest"
+  },
+  {
+   "id": "life-fitness-club-series-upright-lifecycle-bike-3",
+   "room": "bikes on the south glass",
+   "kind": "life-fitness-club-series-upright-lifecycle-bike",
+   "label": "Life Fitness Club Series+ Upright Lifecycle\u00ae Bike",
+   "x": -15.208,
+   "y": -33.208,
+   "w": 0.641,
+   "d": 1.064,
+   "rot": 180,
+   "h": 1.555,
+   "note": "facing the forest"
+  },
+  {
+   "id": "rogue-monster-lite-monkey-rig-2-0-1",
+   "room": "calisthenics",
+   "kind": "rogue-monster-lite-monkey-rig-2-0",
+   "label": "Rogue Monster Lite Monkey Rig 2.0",
+   "x": -9.5,
+   "y": -15.35,
+   "w": 7.493,
+   "d": 2.106,
+   "rot": 90,
+   "h": 3.658,
+   "note": "rings on the 2.47 m bars; the parallel bars on it"
+  },
+  {
+   "id": "rogue-rig-mount-parallel-bars-1",
+   "room": "calisthenics",
+   "kind": "rogue-rig-mount-parallel-bars",
+   "label": "Rogue Rig Mount Parallel Bars",
+   "x": -9.5,
+   "y": -17.6,
+   "w": 1.346,
+   "d": 2.032,
+   "rot": 90,
+   "h": 1.832,
+   "note": "on the rig",
+   "on": "rogue-monster-lite-monkey-rig-2-0-1"
+  },
+  {
+   "id": "body-solid-gvkr60b-vertical-knee-raise-dip-1",
+   "room": "calisthenics",
+   "kind": "body-solid-gvkr60b-vertical-knee-raise-dip",
+   "label": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
+   "x": -12.7,
+   "y": -18.55,
+   "w": 0.716,
+   "d": 0.955,
+   "rot": -90,
+   "h": 1.505
+  },
+  {
+   "id": "gymleco-wooden-wall-bars-with-chins-rack-1",
+   "room": "calisthenics",
+   "kind": "gymleco-wooden-wall-bars-with-chins-rack",
+   "label": "Gymleco Wooden Wall Bars with Chins Rack",
+   "x": -28.41,
+   "y": -18.1,
+   "w": 1.4,
+   "d": 0.626,
+   "rot": -90,
+   "h": 2.8,
+   "note": "on the core wall (the chin bar can't meet the 2.47 m rule)"
+  },
+  {
+   "id": "gymleco-wooden-wall-bars-with-chins-rack-2",
+   "room": "calisthenics",
+   "kind": "gymleco-wooden-wall-bars-with-chins-rack",
+   "label": "Gymleco Wooden Wall Bars with Chins Rack",
+   "x": -28.41,
+   "y": -16.5,
+   "w": 1.4,
+   "d": 0.626,
+   "rot": -90,
+   "h": 2.8,
+   "note": "on the core wall (the chin bar can't meet the 2.47 m rule)"
+  },
+  {
+   "id": "gymleco-wooden-wall-bars-with-chins-rack-3",
+   "room": "calisthenics",
+   "kind": "gymleco-wooden-wall-bars-with-chins-rack",
+   "label": "Gymleco Wooden Wall Bars with Chins Rack",
+   "x": -28.41,
+   "y": -14.9,
+   "w": 1.4,
+   "d": 0.626,
+   "rot": -90,
+   "h": 2.8,
+   "note": "on the core wall (the chin bar can't meet the 2.47 m rule)"
+  },
+  {
+   "id": "gymleco-wooden-wall-bars-with-chins-rack-4",
+   "room": "stretching",
+   "kind": "gymleco-wooden-wall-bars-with-chins-rack",
+   "label": "Gymleco Wooden Wall Bars with Chins Rack",
+   "x": -28.41,
+   "y": -28.0,
+   "w": 1.4,
+   "d": 0.626,
+   "rot": -90,
+   "h": 2.8,
+   "note": "on the W2 core wall"
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-1",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -12.7,
+   "y": -16.6,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": -90,
+   "h": 0.375
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-2",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -12.7,
+   "y": -15.7,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": -90,
+   "h": 0.375
+  },
+  {
+   "id": "rogue-belt-and-band-hanger-1",
+   "room": "calisthenics",
+   "kind": "rogue-belt-and-band-hanger",
+   "label": "Rogue Belt and Band Hanger",
+   "x": -13.2,
+   "y": -9.53,
+   "w": 1.2,
+   "d": 0.313,
+   "rot": 180,
+   "h": 2.8,
+   "note": "dip belts, bands"
+  },
+  {
+   "id": "zone-mats",
+   "room": "",
+   "kind": "floor_zone",
+   "label": "Open mat floor: stretching, mobility, small classes (mats from the racks)",
+   "x": -22.8,
+   "y": -26.8,
+   "w": 8.4,
+   "d": 13.2,
+   "rot": 0
+  },
+  {
+   "id": "life-fitness-adjustable-wall-mounted-mat-rack-1",
+   "room": "stretching",
+   "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
+   "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
+   "x": -28.59,
+   "y": -32.5,
+   "w": 1.4,
+   "d": 0.265,
+   "rot": -90,
+   "h": 2.8,
+   "note": "core + yoga mats"
+  },
+  {
+   "id": "life-fitness-adjustable-wall-mounted-mat-rack-2",
+   "room": "stretching",
+   "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
+   "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
+   "x": -28.59,
+   "y": -31.0,
+   "w": 1.4,
+   "d": 0.265,
+   "rot": -90,
+   "h": 2.8,
+   "note": "core + yoga mats"
+  },
+  {
+   "id": "life-fitness-accessory-rack-1",
+   "room": "stretching",
+   "kind": "life-fitness-accessory-rack",
+   "label": "Life Fitness Accessory Rack",
+   "x": -25.4,
+   "y": -9.65,
+   "w": 1.457,
+   "d": 0.552,
+   "rot": 180,
+   "h": 1.75,
+   "note": "foam rollers, bands, straps, blocks, massage balls, Theraguns"
+  },
+  {
+   "id": "life-fitness-accessory-rack-2",
+   "room": "stretching",
+   "kind": "life-fitness-accessory-rack",
+   "label": "Life Fitness Accessory Rack",
+   "x": -23.6,
+   "y": -9.65,
+   "w": 1.457,
+   "d": 0.552,
+   "rot": 180,
+   "h": 1.75,
+   "note": "foam rollers, bands, straps, blocks, massage balls, Theraguns"
+  },
+  {
+   "id": "life-fitness-accessory-rack-3",
+   "room": "stretching",
+   "kind": "life-fitness-accessory-rack",
+   "label": "Life Fitness Accessory Rack",
+   "x": -21.8,
+   "y": -9.65,
+   "w": 1.457,
+   "d": 0.552,
+   "rot": 180,
+   "h": 1.75,
+   "note": "foam rollers, bands, straps, blocks, massage balls, Theraguns"
+  },
+  {
+   "id": "life-fitness-adjustable-wall-mounted-mat-rack-3",
+   "room": "stretching",
+   "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
+   "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
+   "x": -20.3,
+   "y": -9.51,
+   "w": 1.4,
+   "d": 0.265,
+   "rot": 180,
+   "h": 2.8,
+   "note": "core + yoga mats"
+  },
+  {
+   "id": "hammer-strength-stability-ball-1",
+   "room": "stretching",
+   "kind": "hammer-strength-stability-ball",
+   "label": "Hammer Strength Stability Ball",
+   "x": -24.6,
+   "y": -18.6,
+   "w": 2.192,
+   "d": 0.752,
+   "rot": 0,
+   "h": 0.721,
+   "note": "stability balls, BOSUs, balance + slant boards beside"
+  },
+  {
+   "id": "life-fitness-vertical-medicine-ball-storage-1",
+   "room": "stretching",
+   "kind": "life-fitness-vertical-medicine-ball-storage",
+   "label": "Life Fitness Vertical Medicine Ball Storage",
+   "x": -27.2,
+   "y": -18.6,
+   "w": 0.54,
+   "d": 0.6,
+   "rot": 0,
+   "h": 1.401
+  },
+  {
+   "id": "life-fitness-flexibility-trainer-1",
+   "room": "stretching",
+   "kind": "life-fitness-flexibility-trainer",
+   "label": "Life Fitness Flexibility Trainer",
+   "x": -22.0,
+   "y": -14.0,
+   "w": 0.662,
+   "d": 1.381,
+   "rot": 0,
+   "h": 1.509
+  },
+  {
+   "id": "life-fitness-flexibility-trainer-2",
+   "room": "stretching",
+   "kind": "life-fitness-flexibility-trainer",
+   "label": "Life Fitness Flexibility Trainer",
+   "x": -23.4,
+   "y": -14.0,
+   "w": 0.662,
+   "d": 1.381,
+   "rot": 0,
+   "h": 1.509
+  },
+  {
+   "id": "rogue-manta-ray-adjustable-bench-1",
+   "room": "stretching",
+   "kind": "rogue-manta-ray-adjustable-bench",
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "x": -26.3,
+   "y": -14.0,
+   "w": 0.63,
+   "d": 1.776,
+   "rot": 0,
+   "h": 0.488,
+   "note": "ab bench"
+  },
+  {
+   "id": "fit3d-proscanner-1",
+   "room": "stretching",
+   "kind": "fit3d-proscanner",
+   "label": "Fit3D ProScanner",
+   "x": -27.3,
+   "y": -21.6,
+   "w": 0.97,
+   "d": 1.67,
+   "rot": -90,
+   "h": 1.82,
+   "note": "the body scanner: a quiet corner by the core"
+  },
+  {
+   "id": "wipes-F1--12.5--21.4",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -12.5,
+   "y": -21.4,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  },
+  {
+   "id": "wipes-F1--21.0--12.2",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -21.0,
+   "y": -12.2,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  },
+  {
+   "id": "wipes-F1--18.6--30.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -18.6,
+   "y": -30.6,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0
+  }
+ ]
+}
