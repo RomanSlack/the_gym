@@ -48,7 +48,7 @@ if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop 
     if RENDER:
         bc.gpu_or_stop()
 ONLY = next((a_.split(":", 1)[1].split(",") for a_ in args if a_.startswith("only:")), None)  # e.g. only:style_gorge,style_aerial
-EQUIP_FLOORS = ("gym_f1",)  # the gym floors whose equipment layout (model/layouts/<name>.json) is placed in 3D
+EQUIP_FLOORS = ("gym_f1", "gym_f2", "gym_f3")  # the gym floors whose equipment layout (model/layouts/<name>.json) is placed in 3D
 CAMS = {
     "site_aerial": ((150, -170, 110), (0, 0, -8), 30),
     "ravine_upstream": ((4, -95, -3.5), (-2, 25, -2), 20),
@@ -73,6 +73,26 @@ CAMS = {
     "eq1_pwr": ((-27.0, -21.0, 1.6), (-23.5, -15.2, 1.3), 22),           # the garden-side PWR Play island
     "eq1_bikes": ((-12.2, -29.6, 1.55), (-24.0, -33.4, 0.95), 22),       # along the bikes on the south glass, toward the garden
     "eq1_top": ((-17.9, -21.7, 20.0), (-17.9, -21.69, 0.0), ("ORTHO", 45.0)),   # top-down (roof clipped): the overlay check
+    # F2 (floor -4.91, eye -3.31; Roman 2026-10-27: "now do F2 and F3")
+    "eq2_racks": ((-21.0, -33.6, -3.31), (-25.5, -10.0, -3.55), 20),     # up the mirror wall: the staggered racks + flat benches
+    "eq2_olympic": ((-19.0, -7.0, -3.31), (-27.5, 6.0, -3.7), 20),       # the olympic platforms in their two staggered lines
+    "eq2_legs": ((-17.0, -9.6, -3.31), (-14.0, 6.0, -3.6), 20),          # off the spiral north into the leg hub
+    "eq2_legext": ((-23.0, 2.6, -3.31), (-13.0, 8.6, -3.7), 20),         # the leg extension island
+    "eq2_cardio": ((-15.5, -2.8, -3.31), (-8.5, 7.0, -3.5), 20),          # the cardio by the glass + the PWR Play module
+    "eq2_river": ((-10.4, -31.6, -3.31), (-8.3, -8.0, -3.6), 20),        # the selectorized legs facing the river
+    "eq2_spiral": ((-13.7, -16.6, -3.29), (-22.0, -27.5, -3.75), 20),    # off the spiral: the bench + dumbbell islands
+    "eq2_pod": ((-12.6, -35.15, -3.31), (-16.0, -38.6, -3.9), 16),        # inside private pod 2
+    "eq2_top": ((-18.0, -14.0, 15.09), (-17.99, -14.0, -4.91), ("ORTHO", 57.0)),   # top-down, the river up (roof clipped)
+    # F3 (floor -9.77, eye -8.17)
+    "eq3_den": ((-20.0, -33.6, -8.17), (-26.0, -12.0, -8.45), 20),       # the den: 18 benches in two staggered rows at the mirror
+    "eq3_spiral": ((-16.3, -19.6, -8.15), (-27.0, -24.5, -8.6), 20),     # off the spiral at the bottom, toward the den
+    "eq3_maze": ((-12.6, -5.8, -8.17), (-19.0, 3.0, -8.45), 20),          # the PWR Play maze
+    "eq3_rig": ((-27.6, -9.6, -8.17), (-23.5, 1.0, -8.0), 20),            # from the open floor: the Monster Rig
+    "eq3_strongman": ((-28.0, -3.6, -8.17), (-25.0, 9.5, -8.6), 20),     # past the rig to the strongman corner
+    "eq3_lane": ((-13.2, -12.4, -8.17), (-13.0, -33.0, -8.7), 20),        # down the sled lane
+    "eq3_river": ((-11.2, -31.6, -8.17), (-8.9, -5.0, -8.5), 20),         # the conditioning + upper machines by the river
+    "eq3_altitude": ((-15.3, -34.9, -8.17), (-26.0, -38.4, -8.6), 18),   # the altitude training room
+    "eq3_top": ((-18.0, -14.0, 10.23), (-17.99, -14.0, -9.77), ("ORTHO", 57.0)),   # top-down, the river up (roof clipped)
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),
@@ -577,7 +597,10 @@ if STAGE >= 6:  # Kulpen, the outdoor sauna: foundation, frame, envelope, inside
 
 if STAGE >= 5:  # the gym equipment from the 2D layouts (construction/equipment_place.py; Roman 2026-10-26: F1 first)
     import equipment_place  # noqa: E402
-    print("gym equipment:", equipment_place.build(model, bc.collection("5b · gym equipment"), floors=EQUIP_FLOORS), "pieces")
+    _eqf = EQUIP_FLOORS
+    if ONLY and RENDER and all(n_[:2] == "eq" and n_[3:4] == "_" for n_ in ONLY):  # eqN_ cameras: only floor N (memory)
+        _eqf = tuple(f_ for f_ in EQUIP_FLOORS if any(f_ == f"gym_f{n_[2]}" for n_ in ONLY))
+    print("gym equipment:", equipment_place.build(model, bc.collection("5b · gym equipment"), floors=_eqf), "pieces")
 _tick("furniture")
 # ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
 if STAGE >= 4:
@@ -719,9 +742,9 @@ if RENDER:
         n = n + "_night" if NIGHT else n
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        if cam_n == "eq1_top":
+        if cam_n.startswith("eq") and cam_n.endswith("_top"):
             scene.camera.data.clip_start = 15.75             # everything above 4.25 m cut away: the hall from above
-        scene.view_settings.exposure = EXPO + (2.2 if cam_n.startswith("eq1_") else 0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        scene.view_settings.exposure = EXPO + (2.2 if cam_n[:2] == "eq" and cam_n[3:4] == "_" else 0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
