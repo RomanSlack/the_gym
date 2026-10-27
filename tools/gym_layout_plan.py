@@ -204,7 +204,7 @@ def plan_f3(G):
     sps = G.spaces("F3", ids)
     room = G.room_poly("F3", ids)
     fixed = G.spiral_items("F3") + G.landings(ws, "F3", room) + [i for i in G.fixtures("F3") if i["kind"] != "wipe_station"]
-    fixed += [{"id": "sled-lane", "room": "", "kind": "turf", "label": G.KINDS_FIXED["turf"]["label"], "x": -13.2, "y": -11.0, "w": 2.4, "d": 45.95, "rot": 0, "fixed": True},
+    fixed += [{"id": "sled-lane", "room": "", "kind": "turf", "label": G.KINDS_FIXED["turf"]["label"], "x": -13.2, "y": -23.725, "w": 2.4, "d": 20.25, "rot": 0, "fixed": True},
               {"id": "den-river", "room": "", "kind": "den_river", "label": G.KINDS_FIXED["den_river"]["label"],
                "pts": [[-8.25, -33.85], [-6.65, -33.85], [-6.65, 11.85], [-8.25, 11.85]], "fixed": True},
               {"id": "north-stair", "room": "", "kind": "stair", "label": "The stair down to F4 (opening)", "pts": [[-21.45, 7.1], [-15.45, 7.1], [-15.45, 11.85], [-21.45, 11.85]], "fixed": True}]
@@ -315,8 +315,8 @@ def plan_f3(G):
         pass
     F.put("life-fitness-push-pull-weight-sled", -13.9, -32.9, 0, "sled lane", "parked at the start line")
     F.put("life-fitness-push-pull-weight-sled", -12.6, -32.9, 0, "sled lane", "parked at the start line")
-    F.put("life-fitness-push-pull-weight-sled", -13.9, 10.9, 180, "sled lane", "parked at the far end")
-    F.put("life-fitness-acft-sled-with-strap", -12.6, 9.9, 180, "sled lane", "parked at the far end")
+    F.put("life-fitness-push-pull-weight-sled", -13.9, -14.3, 180, "sled lane", "parked at the far end")
+    F.put("life-fitness-acft-sled-with-strap", -12.6, -15.0, 180, "sled lane", "parked at the far end")
     F.put("life-fitness-acft-sled-with-strap", -12.6, -30.6, 0, "sled lane", "parked at the start line")
     F.put("rogue-monster-mass-storage", -9.4, -33.35, 0, "sled lane", "harnesses, cones, hurdles, the agility ladder")
 

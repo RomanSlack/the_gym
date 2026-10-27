@@ -159,7 +159,7 @@ kind("stability balls", "storage", (0.6, 0.0, 0.1, 0.1), "hammer-strength-stabil
 KINDS_FIXED = {
     "void": {"label": "The spiral's opening (open to the floors above / below)", "d": 0, "h": 0, "mat": "void", "tag": "spiral"},
     "keep_clear": {"label": "Keep clear: a door's landing, the spiral's step-off, a lift's call space", "d": 0, "h": 0, "mat": "zone"},
-    "turf": {"label": "Sled lane: 46 m of sled turf (built, tools/interior.py)", "d": 0, "h": 0, "mat": "turf", "tag": "sled lane"},
+    "turf": {"label": "Sled lane: 20 m of sled turf from the south wall (built, tools/interior.py)", "d": 0, "h": 0, "mat": "turf", "tag": "sled lane"},
     "den_river": {"label": "Bekken i hulen: the den's river (built: the rock base, the pool, the outfall slit)", "d": 0, "h": 0, "mat": "feature", "tag": "the den river"},
     "stair": {"label": "Stair (opening)", "d": 0, "h": 0, "mat": "void", "tag": "stair"},
     "tap_station": {"label": "Water station: chilled tap (built)", "d": 0.13, "h": 1.2, "mat": "fixture", "tag": "water"},

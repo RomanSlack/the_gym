@@ -9734,7 +9734,7 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-14.4, -34.1, -12.0, -13.6], "note": "sled lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
@@ -9755,7 +9755,7 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-14.4, -34.1, -12.0, -13.6], "note": "sled lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
@@ -9775,7 +9775,7 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-14.4, -34.1, -12.0, -13.6], "note": "sled lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
@@ -9796,7 +9796,7 @@
         {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"},
         {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
-        {"rect": [-14.4, -34.1, -12.0, 12.1], "note": "sled lane (turf)"},
+        {"rect": [-14.4, -34.1, -12.0, -13.6], "note": "sled lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003},
@@ -9809,10 +9809,10 @@
       "type": "slab",
       "kind": "floor_finish",
       "material": "turf_sled",
-      "rect": [-14.4, -34.1, -12.0, 12.1],
+      "rect": [-14.4, -34.1, -12.0, -13.6],
       "z": [-9.85, -9.77],
       "holes": [],
-      "note": "the sled lane: 46 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad",
+      "note": "the sled lane: 20 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad",
       "phase": 5,
       "seq": 102
     },

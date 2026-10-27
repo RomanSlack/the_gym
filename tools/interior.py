@@ -304,7 +304,7 @@ G_CORES = [{"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect"
            {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"}, {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"}]
 SPIRAL = {"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}
 NSTAIR = {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"}
-LANE = [-14.4, -34.1, -12.0, 12.1]
+LANE = [-14.4, -34.1, -12.0, -13.6]                 # 20 m of turf from the south wall (Roman 2026-10-26: the standard length, not the floor's 46 m)
 for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
                                                              ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
     zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
@@ -319,7 +319,7 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
          "pattern": RUB, "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the F1 hall)"})
     if dark:
         add({"id": f"IN-{lvl}-sled-lane", "type": "slab", "kind": "floor_finish", "material": "turf_sled", "rect": LANE, "z": [round(zf - 0.08, 3), zf],
-             "holes": [], "note": "the sled lane: 46 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
+             "holes": [], "note": "the sled lane: 20 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
     beams = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith(beam_tag))
     cuts = [{"rect": [GH[0], round(yb - 0.29, 3), GH[2], round(yb + 0.29, 3)], "note": "PT beam"} for yb in beams]
     add({"id": f"IN-{lvl}-gym-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal" if dark else "wood_wool", "rect": GH,
