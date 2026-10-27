@@ -149,6 +149,13 @@ def plan_f2(G):
         F.put("rogue-adjustable-bench-3-0", cx - 0.6, -36.4, -90, f"pod {k + 1}")
         F.put("hammer-strength-three-tier-dumbbell-rack", xb - 0.46, -35.75, 90, f"pod {k + 1}", "Hammer Strength urethane 5-75 lb")
 
+    # --- the posing room: the body scanner in its south-west corner (private: scans are done in underwear), out of the stage's light
+    fixed += [{"id": "posing-stage", "room": "", "kind": "keep_clear", "label": "The posing stage + its rig (built)",
+               "pts": [[-26.26, -38.025], [-24.46, -38.025], [-24.46, -36.225], [-26.26, -36.225]], "fixed": True},
+              {"id": "posing-mirror", "room": "", "kind": "keep_clear", "label": "The posing room's mirror wall + the viewing space before it (built)",
+               "pts": [[-23.9, -39.9], [-22.675, -39.9], [-22.675, -34.35], [-23.9, -34.35]], "fixed": True}]
+    F.put("fit3d-proscanner", -27.8, -38.85, 0, "posing room", "the body scanner: private (scans are taken in underwear), beside the stage")
+
     # --- wipes + bins, one an island
     for x, y_, r in ((-26.9, -18.6, -90), (-7.0, -21.9, -90), (-13.4, -9.6, 0), (-13.7, -0.9, 0), (-21.5, -25.0, 0), (-22.6, 0.9, 0)):
         F.items.append({"id": f"wipes-F2-{x}-{y_}", "room": "", "kind": "wipe_station", "label": G.KINDS_FIXED["wipe_station"]["label"],
@@ -346,40 +353,49 @@ def plan_f1(G):
         F.put(p_, x + w / 2, YSF + 0.3 + d / 2, 180, "bikes on the south glass", "facing the forest")
         x += w + 0.75
 
-    # --- calisthenics (north-east, by the way in from the gallery): the Monkey Rig, its parallel bars, wall bars on the core
-    mr = F.put("rogue-monster-lite-monkey-rig-2-0", -9.5, -15.35, 90, "calisthenics", "rings on the 2.47 m bars; the parallel bars on it")
-    F.put("rogue-rig-mount-parallel-bars", -9.5, -17.6, 90, "calisthenics", "on the rig", on=mr["id"])
-    F.put("body-solid-gvkr60b-vertical-knee-raise-dip", -12.7, -18.55, -90, "calisthenics")
-    for y in (-18.1, -16.5, -14.9):
-        F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, y, -90, "calisthenics", "on the core wall (the chin bar can't meet the 2.47 m rule)")
+    # --- the walking routes (1.7 m clear; nothing stands in them): in from the gallery down the river side (behind the treadmills)
+    # and along the locker wall past the spiral to the W1 stair + lift; down the garden side to the W2 stair; along the bikes
+    F.route("r-gallery-cardio", [(-9.55, -9.4), (-9.55, -33.0)], "in from the gallery, down the river side behind the treadmills")
+    F.route("r-gallery-west", [(-10.4, -10.5), (-27.1, -10.5)], "in from the gallery along the locker wall: the spiral, the W1 stair + lift", width=1.6)
+    F.route("r-garden-side", [(-26.3, -10.5), (-26.3, -30.4), (-13.8, -30.4)], "down the garden side: the W2 stair, the mats, the bikes")
+
+    # --- calisthenics in the middle of the hall (seen from the gallery and the spiral): the Monkey Rig, its parallel bars, the
+    # VKR + parallettes beside it, wall bars on the W1 core
+    mr = F.put("rogue-monster-lite-monkey-rig-2-0", -17.95, -23.6, 0, "calisthenics", "rings on the 2.47 m bars; the parallel bars on it")
+    F.put("rogue-rig-mount-parallel-bars", -15.6, -23.6, 0, "calisthenics", "on the rig", on=mr["id"])
+    F.put("body-solid-gvkr60b-vertical-knee-raise-dip", -20.4, -27.4, 0, "calisthenics")
+    F.put("rogue-bolt-together-parallette-set", -18.9, -27.6, 0, "calisthenics")
+    F.put("rogue-bolt-together-parallette-set", -17.9, -27.6, 0, "calisthenics")
+    for y in (-17.75, -16.25, -14.75):
+        F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, y, -90, "calisthenics", "on the W1 core wall (the chin bar can't meet the 2.47 m rule)")
     F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, -28.0, -90, "stretching", "on the W2 core wall")
-    F.put("rogue-bolt-together-parallette-set", -12.7, -16.6, -90, "calisthenics")
-    F.put("rogue-bolt-together-parallette-set", -12.7, -15.7, -90, "calisthenics")
     F.put("rogue-belt-and-band-hanger", -13.2, YNF - 0.155, 180, "calisthenics", "dip belts, bands")
 
-    # --- stretching + classes (west, the garden glass): open mat floor, the kit on the core walls + the locker wall
-    F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -27.0, -33.4, -18.6, -20.2, "zone-mats")
+    # --- stretching + mobility round the rig and on the garden side: the mat floor, the kit beside it
+    F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -25.4, -29.5, -13.8, -26.2, "zone-mats")
+    F.zone("Mat floor", -25.4, -26.2, -22.4, -20.6, "zone-mats-2")
     for y in (-33.2, -31.7):
         F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.135, y + 0.7, -90, "stretching", "core + yoga mats")
-    for x in (-25.4, -23.6, -21.8):
-        F.put("life-fitness-accessory-rack", x, YNF - 0.275, 180, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
     F.put("life-fitness-adjustable-wall-mounted-mat-rack", -20.3, YNF - 0.135, 180, "stretching", "core + yoga mats")
-    F.put("hammer-strength-stability-ball", -24.6, -18.6, 0, "stretching", "stability balls, BOSUs, balance + slant boards beside")
-    F.put("life-fitness-vertical-medicine-ball-storage", -27.2, -18.6, 0, "stretching")
-    F.put("life-fitness-flexibility-trainer", -22.0, -14.0, 0, "stretching")
-    F.put("life-fitness-flexibility-trainer", -23.4, -14.0, 0, "stretching")
-    F.put("rogue-manta-ray-adjustable-bench", -26.3, -14.0, 0, "stretching", "ab bench")
-    F.put("fit3d-proscanner", -27.3, -21.6, -90, "stretching", "the body scanner: a quiet corner by the core")
+    for x in (-24.0, -22.45):
+        F.put("life-fitness-accessory-rack", x, -19.9, 180, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
+    F.put("life-fitness-accessory-rack", -15.6, -28.9, 0, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
+    F.put("hammer-strength-stability-ball", -25.0, -23.5, 90, "stretching", "stability balls, BOSUs, balance + slant boards beside")
+    F.put("life-fitness-vertical-medicine-ball-storage", -23.3, -17.6, 0, "stretching")
+    F.put("life-fitness-flexibility-trainer", -24.6, -13.6, 0, "stretching")
+    F.put("life-fitness-flexibility-trainer", -23.2, -13.6, 0, "stretching")
+    F.put("rogue-manta-ray-adjustable-bench", -24.6, -17.5, 0, "stretching", "ab bench")
 
-    wipes(F, G, "F1", ((-12.5, -21.4, 0), (-21.0, -12.2, 0), (-18.6, -30.6, 0)))
+    wipes(F, G, "F1", ((-12.5, -21.4, 0), (-21.6, -12.3, 0), (-22.0, -29.2, 0)))
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
     F.write("gym_f1", ws, sps, {"fixed": fixed, "overhead": G.overhead("F1")},
             summary=["F1 · the hall (first proposal, 2026-10-26)",
                      "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-                     "Calisthenics by the way in from the gallery: the Monkey Rig, wall bars on the core.",
-                     "Stretching on the garden side: an open mat floor, the kit on the walls."])
+                     "Calisthenics in the middle of the hall: the Monkey Rig, the mat floor round it, wall bars on the core.",
+                     "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
+                     "The body scanner is in the posing room on F2 (private)."])
 
 
 def plan_annex(G):

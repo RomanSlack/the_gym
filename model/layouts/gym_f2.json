@@ -2484,6 +2484,21 @@
    "face": "-x",
    "piece": "atlantis-olympic-incline-bench-press-with-pivot-p338"
   },
+  "fit3d-proscanner": {
+   "label": "Fit3D ProScanner",
+   "d": 1.67,
+   "h": 1.82,
+   "mat": "machine",
+   "tag": "3D scanner",
+   "use": [
+    1.0,
+    0.4,
+    0.3,
+    0.3
+   ],
+   "face": "-y",
+   "piece": "fit3d-proscanner"
+  },
   "hammer-strength-back-extension": {
    "label": "Hammer Strength Back Extension",
    "d": 1.41,
@@ -3210,6 +3225,7 @@
   "atlantis-olympic-flat-bench-press-with-pivot-p337": 1,
   "atlantis-olympic-flat-decline-bench-press-with-pivot-p339": 1,
   "atlantis-olympic-incline-bench-press-with-pivot-p338": 3,
+  "fit3d-proscanner": 1,
   "hammer-strength-back-extension": 2,
   "hammer-strength-fixed-pad-glute-ham": 2,
   "hammer-strength-glute-ham-reverse-hyper-combo": 1,
@@ -3922,6 +3938,56 @@
    "w": 2.44,
    "d": 2.44,
    "rot": 0,
+   "fixed": true
+  },
+  {
+   "id": "posing-stage",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "The posing stage + its rig (built)",
+   "pts": [
+    [
+     -26.26,
+     -38.025
+    ],
+    [
+     -24.46,
+     -38.025
+    ],
+    [
+     -24.46,
+     -36.225
+    ],
+    [
+     -26.26,
+     -36.225
+    ]
+   ],
+   "fixed": true
+  },
+  {
+   "id": "posing-mirror",
+   "room": "",
+   "kind": "keep_clear",
+   "label": "The posing room's mirror wall + the viewing space before it (built)",
+   "pts": [
+    [
+     -23.9,
+     -39.9
+    ],
+    [
+     -22.675,
+     -39.9
+    ],
+    [
+     -22.675,
+     -34.35
+    ],
+    [
+     -23.9,
+     -34.35
+    ]
+   ],
    "fixed": true
   },
   {
@@ -5598,6 +5664,19 @@
    "rot": 90,
    "h": 0.987,
    "note": "Hammer Strength urethane 5-75 lb"
+  },
+  {
+   "id": "fit3d-proscanner-1",
+   "room": "posing room",
+   "kind": "fit3d-proscanner",
+   "label": "Fit3D ProScanner",
+   "x": -27.8,
+   "y": -38.85,
+   "w": 0.97,
+   "d": 1.67,
+   "rot": 0,
+   "h": 1.82,
+   "note": "the body scanner: private (scans are taken in underwear), beside the stage"
   },
   {
    "id": "wipes-F2--26.9--18.6",

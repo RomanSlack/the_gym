@@ -376,6 +376,11 @@ class Floor:
                            "cores": {n: list(v) for n, v in cores.items()}, "origin": list(origin), "spacing": D,
                            "faces": {f"{n},{f}": st for (n, f), st in faces.items()}, "bars": [list(b_) for b_ in bars]})
 
+    def route(self, rid, pts, label, cls="main", width=1.7):
+        """A walking route (drawn as an arrow): nothing may stand in its width."""
+        self.items.append({"id": rid, "room": "", "kind": "route", "label": f"Route: {label}", "pts": [list(p_) for p_ in pts], "cls": cls,
+                           "width": width, "fixed": True})
+
     def target(self, piece, n):
         self.targets[piece] = self.targets.get(piece, 0) + n
 
@@ -402,6 +407,8 @@ def room_poly(level, ids):
 
 # ---------------------------------------------------------------------------------------------------------------- checking
 def item_poly(it, kinds, use=False):
+    if it.get("poly") is not None:
+        return it["poly"]
     if it.get("pts"):
         return Polygon(it["pts"])
     if "x" not in it:
@@ -431,6 +438,9 @@ def check(name):
     walls_u = unary_union(wallp)
     eq = [it for it in data["items"] if not it.get("fixed") and it["kind"] not in ("floor_zone", "pwr_meta", "pwr_bar")]
     keep = [it for it in data["items"] if it["kind"] in ("keep_clear", "void", "stair", "den_river")]
+    from shapely.geometry import LineString
+    for r_ in [it for it in data["items"] if it["kind"] == "route"]:
+        keep.append({"id": r_["id"], "kind": "route", "poly": LineString(r_["pts"]).buffer(r_.get("width", 1.7) / 2, cap_style=2)})
     probs = []
     bodies = {it["id"]: item_poly(it, K) for it in eq}
     uses = {it["id"]: item_poly(it, K, use=True) for it in eq}
