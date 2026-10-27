@@ -88,7 +88,7 @@ CAMS = {
     "eq3_spiral": ((-16.3, -19.6, -8.15), (-27.0, -24.5, -8.6), 20),     # off the spiral at the bottom, toward the den
     "eq3_maze": ((-12.6, -5.8, -8.17), (-19.0, 3.0, -8.45), 20),          # the PWR Play maze
     "eq3_rig": ((-27.6, -9.6, -8.17), (-23.5, 1.0, -8.0), 20),            # from the open floor: the Monster Rig
-    "eq3_strongman": ((-28.0, -3.6, -8.17), (-25.0, 9.5, -8.6), 20),     # past the rig to the strongman corner
+    "eq3_strongman": ((-27.0, 1.5, -8.17), (-24.0, 10.0, -8.6), 20),      # north of the rig: the strongman corner
     "eq3_lane": ((-12.0, -12.4, -8.17), (-12.9, -33.0, -8.7), 20),        # down the sled lane
     "eq3_river": ((-11.2, -31.6, -8.17), (-8.9, -5.0, -8.5), 20),         # the conditioning + upper machines by the river
     "eq3_altitude": ((-15.3, -34.9, -8.17), (-26.0, -38.4, -8.6), 18),   # the altitude training room
