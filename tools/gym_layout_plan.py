@@ -468,13 +468,13 @@ def plan_f1(G):
     # --- calisthenics in the middle of the hall (seen from the gallery and the spiral): the Monkey Rig, its parallel bars, the
     # VKR + parallettes beside it, wall bars on the W1 core
     mr = F.put("rogue-monster-lite-monkey-rig-2-0", -17.95, -23.6, 0, "calisthenics", "rings on the 2.47 m bars; the parallel bars on it")
-    F.put("rogue-rig-mount-parallel-bars", -15.6, -23.6, 0, "calisthenics", "on the rig", on=mr["id"])
+    F.put("rogue-rig-mount-parallel-bars", -17.95 - 3.07, -23.6, 0, "calisthenics", "on the rig, in its west 43 in bay (by the skills floor)", on=mr["id"])
     F.put("body-solid-gvkr60b-vertical-knee-raise-dip", -20.4, -27.4, 0, "calisthenics")
     # three pull-up stations a little north of the rig, their bars parallel to it (Roman: "rotate them 90 degrees from how you have
     # them now and put them out a little bit north of the monkey rig"): freestanding, hung from either side
     for dx in (-2.6, 0.0, 2.6):
         F.items.append({"id": f"pullup-{dx:+.1f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
-                        "x": round(-17.95 + dx, 3), "y": -20.3, "w": 1.5, "d": 0.08, "rot": 0,
+                        "x": round(-17.95 + dx, 3), "y": -20.3, "w": 1.6, "d": 0.18, "rot": 0,
                         "note": "pull-ups, chin-ups, hanging leg raises, muscle-ups; hang facing the rig or the spiral"})
     for x in (-18.9, -17.9, -16.9):
         for y in (-27.4, -28.2):

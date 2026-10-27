@@ -69,7 +69,8 @@ def setting(name):
 
 def build(k):
     k.look(**{r: v for r, v in LOOK.items() if r not in k.looks})
-    uprights(k)
+    if getattr(k, "display", True):                     # the display uprights (not the piece: off when it's on a real rig)
+        uprights(k)
     sp, n = setup(dict(USERS)[SHOW[0] if SHOW else "middle"])
     bars(k, sp * IN / 2, hole_z(n))
 

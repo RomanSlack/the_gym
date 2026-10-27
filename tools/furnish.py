@@ -874,10 +874,15 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
 for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -9.0, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
     y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)
     put("tap_station", x, y, rot=rot, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl], note="water station: chilled tap (bring your own bottle)")
-for lvl, x, y in (("F2", -13.4, -11.6), ("F2", -27.6, -21.0), ("F2", -8.0, -29.5), ("F2", -8.0, 4.5), ("F3", -15.2, -20.5), ("F3", -27.6, -6.0),
-                  ("F3", -20.5, 5.5), ("F1", -12.8, -30.5), ("F1", -27.6, -27.0)):
-    put("wipe_station", x, y, rot=90 if x < -25 else -90 if x > -10 else 0, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl],
-        note="wipes + bin (placeholder spot: repositioned with the equipment)")
+# the wipes stations come from the equipment layouts (model/layouts/gym_f*.json, tools/gym_layout.py: Roman 2026-10-26, three times
+# as many, every piece within 5 m of one, up against things)
+for _lf in sorted((ROOT / "model" / "layouts").glob("gym_f*.json")):
+    _ld = _json.loads(_lf.read_text())
+    for _it in _ld["items"]:
+        if _it["kind"] == "wipe_station":
+            lvl = _ld["level"]
+            put("wipe_station", _it["x"], _it["y"], rot=_it.get("rot", 0), zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl],
+                note="wipes + spray + bin (from the equipment layout)")
 
 # ---- the gym floors' doors + baseline fixtures (Roman 2026-10-14: proper doors where needed and the other fixtures, every area):
 # flush doors faced to their wall (mirror on the mirror walls, oak / smoked oak on the slat walls) with push bars on the exits,

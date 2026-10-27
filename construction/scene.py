@@ -48,6 +48,7 @@ if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop 
     if RENDER:
         bc.gpu_or_stop()
 ONLY = next((a_.split(":", 1)[1].split(",") for a_ in args if a_.startswith("only:")), None)  # e.g. only:style_gorge,style_aerial
+EQUIP_FLOORS = ("gym_f1",)  # the gym floors whose equipment layout (model/layouts/<name>.json) is placed in 3D
 CAMS = {
     "site_aerial": ((150, -170, 110), (0, 0, -8), 30),
     "ravine_upstream": ((4, -95, -3.5), (-2, 25, -2), 20),
@@ -62,6 +63,16 @@ CAMS = {
     "roof_eaves": ((-48, -52, 9), (-28, -32, 4), 24),
     "lounge_deck": ((3, -24, 1.7), (3, 2, 3.2), 18),
     "hall_f1": ((-9, -32, 1.7), (-24, 8, 3.8), 16),
+    # F1, the hall with its equipment (Roman 2026-10-26): at eye level (1.6 m) unless noted
+    "eq1_gallery": ((-9.3, -9.9, 1.6), (-15.0, -22.0, 1.2), 22),          # in from the gallery: the hall opening up
+    "eq1_spiral": ((-20.6, -10.6, 1.62), (-12.0, -25.0, 1.1), 22),       # off the spiral's top landing
+    "eq1_treadmills": ((-9.55, -33.4, 1.6), (-9.0, -16.0, 1.35), 22),    # down the river aisle behind the treadmills
+    "eq1_river": ((-14.4, -26.8, 1.65), (-6.5, -24.0, 1.2), 24),        # over the cardio to the river
+    "eq1_rig": ((-25.0, -30.0, 1.6), (-17.0, -21.5, 1.7), 22),           # from the mats: the Monkey Rig + the pull-up bars
+    "eq1_pull": ((-17.95, -18.6, 1.6), (-17.95, -24.0, 1.6), 24),         # standing at the pull-up bars, the rig behind
+    "eq1_pwr": ((-27.0, -21.0, 1.6), (-23.5, -15.2, 1.3), 22),           # the garden-side PWR Play island
+    "eq1_bikes": ((-27.6, -30.4, 1.55), (-15.0, -33.2, 0.9), 22),        # along the bikes on the south glass
+    "eq1_top": ((-17.9, -21.7, 20.0), (-17.9, -21.69, 0.0), ("ORTHO", 27.0)),   # top-down (roof clipped): the overlay check
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),
@@ -564,6 +575,9 @@ if STAGE >= 5 and model.get("furnishings"):
 if STAGE >= 6:  # Kulpen, the outdoor sauna: foundation, frame, envelope, inside, decks (construction/sauna.py)
     print("Kulpen:", sauna.build(MAT, H, bc.collection("6 · Kulpen")), "parts")
 
+if STAGE >= 5:  # the gym equipment from the 2D layouts (construction/equipment_place.py; Roman 2026-10-26: F1 first)
+    import equipment_place  # noqa: E402
+    print("gym equipment:", equipment_place.build(model, bc.collection("5b · gym equipment"), floors=EQUIP_FLOORS), "pieces")
 _tick("furniture")
 # ---------------------------------------------------------------- grass (stage 4+): sod roofs, lawns, the meadow (reduced density for now)
 if STAGE >= 4:
@@ -674,7 +688,8 @@ if STAGE >= 4:  # frames, mullions, posts, girders, stained columns: small bevel
             bv = o.modifiers.new("edge", "BEVEL"); bv.width = 0.004; bv.segments = 2; bv.limit_method = "ANGLE"; bv.harden_normals = False
 for o in bpy.data.objects:  # primitives + boolean results: flat shading for every hard-surface element
     organic = o.name.startswith(("terrain", "river", "falls", "tuft_", "shoot_", "lawn_ground")) or \
-        any(c_.name.startswith("v") and "_L" in c_.name for c_ in o.users_collection)  # library trees keep their smooth wood
+        any(c_.name.startswith("v") and "_L" in c_.name for c_ in o.users_collection) or \
+        any(c_.name.startswith("eq_") for c_ in o.users_collection)  # library trees keep their smooth wood; the equipment its own shading
     if o.type == "MESH" and not organic:
         o.data.polygons.foreach_set("use_smooth", np.zeros(len(o.data.polygons), bool))
 # Roman's rule: all foliage is hidden in the viewport in the saved file (opening it must not crash / crawl).
@@ -704,7 +719,9 @@ if RENDER:
         n = n + "_night" if NIGHT else n
         if LOD_EYE is not None:  # LOD switches by distance from this camera
             LOD_EYE.location = scene.camera.location; bpy.context.view_layer.update()
-        scene.view_settings.exposure = EXPO + (0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
+        if cam_n == "eq1_top":
+            scene.camera.data.clip_start = 15.75             # everything above 4.25 m cut away: the hall from above
+        scene.view_settings.exposure = EXPO + (2.2 if cam_n.startswith("eq1_") else 0.6 if "_cab_" in cam_n else 1.6 if cam_n in ("ku_hot", "ku_hot_view", "ku_changing") else 0.8 if n.startswith("lk_") else 1.0 if n.startswith(("gwc_", "ann_")) else 2.2 if n.startswith(("br_", "gal_", "gym_", "pool_")) else 2.8 if n.startswith(("rec_", "cafe_", "wc_", "dc_")) else 0.0)  # the bridge + gallery have glass on three sides: less  # interiors exposed for the room, like a photographer would
         scene.render.filepath = str(OUT / f"stage_{STAGE}_{n}.png")
         bpy.ops.render.render(write_still=True)
         # Roman's rule: never overwrite a render. Every render is also kept as the next version in construction/renders/.
