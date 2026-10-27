@@ -6,31 +6,9 @@
  "rooms": [],
  "view": [
   -30.5,
-  -41.0,
-  -5.4,
-  13.2
- ],
- "links": [
-  {
-   "name": "gym_f1",
-   "label": "F1 \u00b7 the hall: cardio, stretching, calisthenics"
-  },
-  {
-   "name": "gym_f2",
-   "label": "F2 \u00b7 strength: free weights, olympic, legs, cardio"
-  },
-  {
-   "name": "gym_f3",
-   "label": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman"
-  },
-  {
-   "name": "lockers",
-   "label": "F1 \u00b7 the locker rooms"
-  },
-  {
-   "name": "sauna",
-   "label": "Kulpen, the sauna"
-  }
+  -13.2,
+  25.1,
+  54.2
  ],
  "walls": [
   {
@@ -3509,7 +3487,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-A-10.3",
+   "id": "clear-W-west-A-10.35--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core WC women door",
@@ -3534,7 +3512,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-A-13.2",
+   "id": "clear-W-west-A-13.20--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core WC men door",
@@ -3559,7 +3537,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-A-20.6",
+   "id": "clear-W-west-A-20.60--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W1 door (floor landing)",
@@ -3584,7 +3562,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-A-7.5",
+   "id": "clear-W-west-A-7.55--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W2 door (floor landing)",
@@ -3609,7 +3587,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-A-22.2",
+   "id": "clear-W-west-A-22.20--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W1 glass lift",
@@ -3634,7 +3612,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-N-19.8",
+   "id": "clear-W-west-N-19.80--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W3 (north exit stair, floor landing)",
@@ -3659,7 +3637,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-2.5",
+   "id": "clear-W-west-S-2.50-1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: posing room",
@@ -3684,7 +3662,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-2.5",
+   "id": "clear-W-west-S-2.50--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: posing room",
@@ -3709,7 +3687,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-9.0",
+   "id": "clear-W-west-S-9.00-1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 1",
@@ -3734,7 +3712,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-9.0",
+   "id": "clear-W-west-S-9.00--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 1",
@@ -3759,7 +3737,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-14.4",
+   "id": "clear-W-west-S-14.40-1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 2",
@@ -3784,7 +3762,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-14.4",
+   "id": "clear-W-west-S-14.40--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 2",
@@ -3809,7 +3787,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-19.8",
+   "id": "clear-W-west-S-19.80-1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 3",
@@ -3834,7 +3812,7 @@
    "fixed": true
   },
   {
-   "id": "clear-W-west-S-19.8",
+   "id": "clear-W-west-S-19.80--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: pod 3",

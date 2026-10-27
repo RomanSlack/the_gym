@@ -6,31 +6,9 @@
  "rooms": [],
  "view": [
   -30.5,
-  -35.0,
-  -5.4,
-  -8.0
- ],
- "links": [
-  {
-   "name": "gym_f1",
-   "label": "F1 \u00b7 the hall: cardio, stretching, calisthenics"
-  },
-  {
-   "name": "gym_f2",
-   "label": "F2 \u00b7 strength: free weights, olympic, legs, cardio"
-  },
-  {
-   "name": "gym_f3",
-   "label": "F3 \u00b7 the den: upper-body maze, dumbbells, functional, strongman"
-  },
-  {
-   "name": "lockers",
-   "label": "F1 \u00b7 the locker rooms"
-  },
-  {
-   "name": "sauna",
-   "label": "Kulpen, the sauna"
-  }
+  8.0,
+  25.1,
+  27.0
  ],
  "walls": [
   {
@@ -3253,7 +3231,7 @@
    "fixed": true
   },
   {
-   "id": "clear-P-F1-30b-5.0",
+   "id": "clear-P-F1-30b-5.05--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W1 door (floor landing)",
@@ -3278,7 +3256,7 @@
    "fixed": true
   },
   {
-   "id": "clear-P-F1-30b-6.7",
+   "id": "clear-P-F1-30b-6.65--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W1 glass lift",
@@ -3303,7 +3281,7 @@
    "fixed": true
   },
   {
-   "id": "clear-P-F1-31-7.5",
+   "id": "clear-P-F1-31-7.55--1",
    "room": "",
    "kind": "keep_clear",
    "label": "Keep clear: core W2 door (floor landing)",

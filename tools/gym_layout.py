@@ -243,7 +243,7 @@ def landings(ws, level, room):
                     W, D = s1 - s0 + 0.3, 1.5
                     pts = [(mx + ux * a + nx * (w["size"][0] / 2 + b), my + uy * a + ny * (w["size"][0] / 2 + b))
                            for a, b in ((-W / 2, 0), (W / 2, 0), (W / 2, D), (-W / 2, D))]
-                    out.append({"id": f"clear-{w['id']}-{s0:.1f}", "room": "", "kind": "keep_clear", "label": f"Keep clear: {o['note'] or o['type']}",
+                    out.append({"id": f"clear-{w['id']}-{s0:.2f}-{sg}", "room": "", "kind": "keep_clear", "label": f"Keep clear: {o['note'] or o['type']}",
                                 "pts": [[round(x, 3), round(y, 3)] for x, y in pts], "fixed": True})
     return out
 
@@ -383,7 +383,8 @@ class Floor:
         pieces = {it["kind"] for it in self.items if it["kind"] in SIZES} | set(self.targets)
         data = {"note": f"{self.title}: the 2D equipment layout (tools/gym_layout.py writes the first proposal; edited in blueprint/layout.html?name={name}). "
                         "x, y = centre in project metres; w across the user, d along the way the user faces; rot = the way the user faces (0 = north, 90 = west, -90 = east).",
-                "title": self.title, "level": self.level, "cut": 1.0, "rooms": [], "view": self.view, "links": LINKS,
+                "title": self.title, "level": self.level, "cut": 1.0, "rooms": [],
+                "view": [self.view[0], -self.view[3], round(self.view[2] - self.view[0], 3), round(self.view[3] - self.view[1], 3)],   # svg x, y (= -north), w, h "links": LINKS,
                 "walls": ws, "spaces": sps, "overhead": extra.get("overhead", []), "dims": dims or [],
                 "summary": summary or [], "kinds": kinds_for(pieces), "targets": dict(sorted(self.targets.items(), key=lambda kv: kv[0])),
                 "items": extra.get("fixed", []) + self.items}

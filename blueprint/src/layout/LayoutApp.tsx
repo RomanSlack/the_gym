@@ -170,7 +170,7 @@ export default function LayoutApp() {
       drag.current = { kind: "item", x: wx, y: wy, ox: it.x ?? 0, oy: it.y ?? 0, vb, pts: it.pts, group };
     };
     const cls = (on ? "it on" : "it") + (it.fixed ? " fixed" : "") + (it.group && grp === it.group && !on ? " grp" : "");
-    if (it.kind === "route" || it.kind === "width_check") return null;
+    if (it.kind === "route" || it.kind === "width_check" || (it.x === undefined && !it.pts)) return null;
     if (it.kind === "stream" && it.pts) {
       return (
         <g key={it.id} className={cls} onMouseDown={grab}>
