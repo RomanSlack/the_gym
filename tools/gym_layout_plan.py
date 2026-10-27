@@ -444,15 +444,23 @@ def plan_f1(G):
     mr = F.put("rogue-monster-lite-monkey-rig-2-0", -17.95, -23.6, 0, "calisthenics", "rings on the 2.47 m bars; the parallel bars on it")
     F.put("rogue-rig-mount-parallel-bars", -15.6, -23.6, 0, "calisthenics", "on the rig", on=mr["id"])
     F.put("body-solid-gvkr60b-vertical-knee-raise-dip", -20.4, -27.4, 0, "calisthenics")
-    F.put("rogue-bolt-together-parallette-set", -18.9, -27.6, 0, "calisthenics")
-    F.put("rogue-bolt-together-parallette-set", -17.9, -27.6, 0, "calisthenics")
+    # three pull-up bars off the rig's north side, perpendicular to it (Roman: "north of the monkey rig ... like 3 pull-up bars people
+    # can use too, some more calisthenics stuff"): spurs from its uprights, the bars at 2.47 m+, hung from both sides
+    for dx in (-2.489, 0.0, 2.489):
+        F.items.append({"id": f"rig-spur-{dx:+.1f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
+                        "x": round(-17.95 + dx, 3), "y": -21.9, "w": 1.4, "d": 0.08, "rot": 90,
+                        "note": "bolted to the Monkey Rig's north row; pull-ups, chin-ups, hanging leg raises, muscle-ups on the end"})
+    for x in (-18.9, -17.9, -16.9):
+        for y in (-27.4, -28.2):
+            F.put("rogue-bolt-together-parallette-set", x, y, 0, "calisthenics", "L-sits, planche, push-ups")
+    F.zone("Skills floor: handstands, levers, L-sits (gymnastics mat)", -21.6, -29.5, -14.3, -26.2, "zone-skills")
     for y in (-17.75, -16.25, -14.75):
         F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, y, -90, "calisthenics", "on the W1 core wall (the chin bar can't meet the 2.47 m rule)")
     F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, -28.0, -90, "stretching", "on the W2 core wall")
     F.put("rogue-belt-and-band-hanger", -13.2, YNF - 0.155, 180, "calisthenics", "dip belts, bands")
 
     # --- stretching + mobility round the rig and on the garden side: the mat floor, the kit beside it
-    F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -25.4, -29.5, -13.8, -26.2, "zone-mats")
+    F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -25.4, -29.5, -21.6, -26.2, "zone-mats")
     F.zone("Mat floor", -25.4, -26.2, -22.4, -20.6, "zone-mats-2")
     for y in (-33.2, -31.7):
         F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.135, y + 0.7, -90, "stretching", "core + yoga mats")
@@ -473,7 +481,7 @@ def plan_f1(G):
     F.write("gym_f1", ws, sps, {"fixed": fixed, "overhead": G.overhead("F1")},
             summary=["F1 · the hall (first proposal, 2026-10-26)",
                      "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-                     "Calisthenics in the middle of the hall: the Monkey Rig, the mat floor round it, wall bars on the core.",
+                     "Calisthenics in the middle of the hall: the Monkey Rig with three pull-up bars off its north side, a skills floor + 6 parallettes south of it, wall bars on the core.",
                      "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
                      "The body scanner is in the posing room on F2 (private)."])
 

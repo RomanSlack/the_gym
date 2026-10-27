@@ -1542,6 +1542,19 @@
    "h": 0.0,
    "mat": "zone"
   },
+  "rig_spur": {
+   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "d": 0.08,
+   "h": 2.74,
+   "mat": "rack",
+   "tag": "pull-up bar",
+   "use": [
+    0,
+    0,
+    0.9,
+    0.9
+   ]
+  },
   "pwr_core": {
    "label": "Life Fitness PWR Play: a Core (four faces, a station on each)",
    "d": 0.929,

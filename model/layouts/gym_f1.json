@@ -2401,7 +2401,7 @@
  "summary": [
   "F1 \u00b7 the hall (first proposal, 2026-10-26)",
   "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-  "Calisthenics in the middle of the hall: the Monkey Rig, the mat floor round it, wall bars on the core.",
+  "Calisthenics in the middle of the hall: the Monkey Rig with three pull-up bars off its north side, a skills floor + 6 parallettes south of it, wall bars on the core.",
   "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
   "The body scanner is in the posing room on F2 (private)."
  ],
@@ -2472,6 +2472,19 @@
    "d": 1.0,
    "h": 0.0,
    "mat": "zone"
+  },
+  "rig_spur": {
+   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "d": 0.08,
+   "h": 2.74,
+   "mat": "rack",
+   "tag": "pull-up bar",
+   "use": [
+    0,
+    0,
+    0.9,
+    0.9
+   ]
   },
   "pwr_core": {
    "label": "Life Fitness PWR Play: a Core (four faces, a station on each)",
@@ -2980,7 +2993,7 @@
   "life-fitness-flexibility-trainer": 2,
   "life-fitness-vertical-medicine-ball-storage": 1,
   "rogue-belt-and-band-hanger": 1,
-  "rogue-bolt-together-parallette-set": 2,
+  "rogue-bolt-together-parallette-set": 6,
   "rogue-manta-ray-adjustable-bench": 1,
   "rogue-monster-lite-monkey-rig-2-0": 1,
   "rogue-rig-mount-parallel-bars": 1,
@@ -4205,28 +4218,129 @@
    "h": 1.505
   },
   {
+   "id": "rig-spur--2.5",
+   "room": "calisthenics",
+   "kind": "rig_spur",
+   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "x": -20.439,
+   "y": -21.9,
+   "w": 1.4,
+   "d": 0.08,
+   "rot": 90,
+   "note": "bolted to the Monkey Rig's north row; pull-ups, chin-ups, hanging leg raises, muscle-ups on the end"
+  },
+  {
+   "id": "rig-spur-+0.0",
+   "room": "calisthenics",
+   "kind": "rig_spur",
+   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "x": -17.95,
+   "y": -21.9,
+   "w": 1.4,
+   "d": 0.08,
+   "rot": 90,
+   "note": "bolted to the Monkey Rig's north row; pull-ups, chin-ups, hanging leg raises, muscle-ups on the end"
+  },
+  {
+   "id": "rig-spur-+2.5",
+   "room": "calisthenics",
+   "kind": "rig_spur",
+   "label": "Monkey Rig spur (to model: from the Monster Lite Monkey Rig's parts): a 49 in bay off a north upright, a 108 in upright at its end, a pull-up bar at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
+   "x": -15.461,
+   "y": -21.9,
+   "w": 1.4,
+   "d": 0.08,
+   "rot": 90,
+   "note": "bolted to the Monkey Rig's north row; pull-ups, chin-ups, hanging leg raises, muscle-ups on the end"
+  },
+  {
    "id": "rogue-bolt-together-parallette-set-1",
    "room": "calisthenics",
    "kind": "rogue-bolt-together-parallette-set",
    "label": "Rogue Bolt-Together Parallette Set",
    "x": -18.9,
-   "y": -27.6,
+   "y": -27.4,
    "w": 0.891,
    "d": 0.626,
    "rot": 0,
-   "h": 0.375
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
   },
   {
    "id": "rogue-bolt-together-parallette-set-2",
    "room": "calisthenics",
    "kind": "rogue-bolt-together-parallette-set",
    "label": "Rogue Bolt-Together Parallette Set",
-   "x": -17.9,
-   "y": -27.6,
+   "x": -18.9,
+   "y": -28.2,
    "w": 0.891,
    "d": 0.626,
    "rot": 0,
-   "h": 0.375
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-3",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -17.9,
+   "y": -27.4,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": 0,
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-4",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -17.9,
+   "y": -28.2,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": 0,
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-5",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -16.9,
+   "y": -27.4,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": 0,
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
+  },
+  {
+   "id": "rogue-bolt-together-parallette-set-6",
+   "room": "calisthenics",
+   "kind": "rogue-bolt-together-parallette-set",
+   "label": "Rogue Bolt-Together Parallette Set",
+   "x": -16.9,
+   "y": -28.2,
+   "w": 0.891,
+   "d": 0.626,
+   "rot": 0,
+   "h": 0.375,
+   "note": "L-sits, planche, push-ups"
+  },
+  {
+   "id": "zone-skills",
+   "room": "",
+   "kind": "floor_zone",
+   "label": "Skills floor: handstands, levers, L-sits (gymnastics mat)",
+   "x": -17.95,
+   "y": -27.85,
+   "w": 7.3,
+   "d": 3.3,
+   "rot": 0
   },
   {
    "id": "gymleco-wooden-wall-bars-with-chins-rack-1",
@@ -4298,9 +4412,9 @@
    "room": "",
    "kind": "floor_zone",
    "label": "Open mat floor: stretching, mobility, small classes (mats from the racks)",
-   "x": -19.6,
+   "x": -23.5,
    "y": -27.85,
-   "w": 11.6,
+   "w": 3.8,
    "d": 3.3,
    "rot": 0
   },
@@ -4456,15 +4570,39 @@
    "note": "ab bench"
   },
   {
-   "id": "wipes-F1--11.2--18.6",
+   "id": "wipes-F1--12.0--20.2",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -11.19,
-   "y": -18.64,
+   "x": -11.99,
+   "y": -20.24,
    "w": 0.36,
    "d": 0.36,
-   "rot": 180,
+   "rot": -180,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F1--14.4--29.0",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -14.39,
+   "y": -29.04,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F1--23.2--17.8",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -23.19,
+   "y": -17.84,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
@@ -4480,51 +4618,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F1--24.8--17.8",
+   "id": "wipes-F1--21.6--32.2",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -24.79,
-   "y": -17.84,
+   "x": -21.59,
+   "y": -32.24,
    "w": 0.36,
    "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F1--20.0--31.8",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -19.99,
-   "y": -31.84,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -180,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F1--12.4--23.0",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -12.39,
-   "y": -23.04,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F1--19.6--27.4",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -19.59,
-   "y": -27.44,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -90,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
@@ -4537,6 +4639,18 @@
    "w": 0.36,
    "d": 0.36,
    "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F1--22.0--24.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -21.99,
+   "y": -24.64,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
    "note": "wipes + spray + bin"
   }
  ]
