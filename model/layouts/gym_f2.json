@@ -2163,7 +2163,7 @@
    "mat": "zone"
   },
   "turf": {
-   "label": "Sled lane: 46 m of sled turf (built, tools/interior.py)",
+   "label": "Sled lane: 20 m of sled turf from the south wall (built, tools/interior.py)",
    "d": 0,
    "h": 0,
    "mat": "turf",
