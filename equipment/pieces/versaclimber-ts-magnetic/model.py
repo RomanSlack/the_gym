@@ -101,8 +101,8 @@ def build(k):
     # stripe and the red lettering (ref_14), the TS-M badge
     p0 = (0.0, ax(MB[1]), MB[1]); p1 = (0.0, ax(MTOP), MTOP)
     k.bar("frame", p0, p1, MW, MD, up=nrm)
-    k.box("plastic", (0.0, *face(0.27, 0.0012)), (0.045, 0.0024, 1.55), rx=-tilt, soft=0.0)            # the stripe
-    k.box("plastic", (0.0, *face(1.05, 0.0012)), (0.045, 0.0024, 1.55), rx=-tilt, soft=0.0)
+    k.box("plastic", (0.0, *face(1.05, 0.0012)), (0.045, 0.0024, 1.55), rx=-tilt, soft=0.0)            # the stripe
+    # (v005: a second stripe centred at 0.27 ran 0.47 m down through the floor; found placing it in the gym)
     for side in (-1, 1):
         k.box("steel", (side * 0.035, *face(1.05, 0.003)), (0.012, 0.006, 1.75), rx=-tilt, soft=0.0)    # the chains
         for i in range(70):
