@@ -21,6 +21,7 @@ def plan_f2(G):
     F = G.Floor("F2", "F2 · strength: free weights, olympic, legs, cardio, the pods", [-30.5, -41.0, -5.4, 13.2])
     ws = G.walls("F2")
     ids = ["free-weights", "olympic", "cardio-F2", "machines-2", "machines", "spiral-F2", "posing", "pod-1", "pod-2", "pod-3"]
+    F.room_ids, F.walls = ids, ws
     sps = G.spaces("F2", ids)
     room = G.room_poly("F2", ids)
     fixed = G.spiral_items("F2") + G.landings(ws, "F2", room) + [i for i in G.fixtures("F2") if i["kind"] != "wipe_station"]
@@ -163,10 +164,7 @@ def plan_f2(G):
                "pts": [[-23.9, -39.9], [-22.675, -39.9], [-22.675, -34.35], [-23.9, -34.35]], "fixed": True}]
     F.put("fit3d-proscanner", -27.8, -38.85, 0, "posing room", "the body scanner: private (scans are taken in underwear), beside the stage")
 
-    # --- wipes + bins, one an island
-    for x, y_, r in ((-26.9, -18.6, -90), (-7.0, -21.9, -90), (-13.4, -9.6, 0), (-13.7, -0.9, 0), (-21.5, -25.0, 0), (-22.6, 0.9, 0)):
-        F.items.append({"id": f"wipes-F2-{x}-{y_}", "room": "", "kind": "wipe_station", "label": G.KINDS_FIXED["wipe_station"]["label"],
-                        "x": x, "y": y_, "w": 0.36, "d": 0.36, "rot": r})
+    auto_wipes(F, G, fixed, 18)
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
@@ -182,6 +180,67 @@ def wipes(F, G, lvl, spots):
     for x, y_, r in spots:
         F.items.append({"id": f"wipes-{lvl}-{x}-{y_}", "room": "", "kind": "wipe_station", "label": G.KINDS_FIXED["wipe_station"]["label"],
                         "x": x, "y": y_, "w": 0.36, "d": 0.36, "rot": r})
+
+
+def _front(G, it, kinds):
+    """Where the user of a piece trains: its body grown by its front clearance only."""
+    f = kinds[it["kind"]]["use"][0]
+    return G.item_poly({**it, "kind": "_f"}, {"_f": {"use": [f, 0, 0, 0]}}, use=True)
+
+
+def auto_wipes(F, G, fixed, n, reach=5.0, spacing=3.5):
+    """n wipes stations (Roman 2026-10-26: "need like 3 times the wipe stations"), spread so every piece has one close: greedy over
+    free spots (clear of every piece and its use space, the routes, the landings, the walls), each pick covering the most pieces not
+    yet within `reach` m of a station, then the furthest-off pieces; never two closer than `spacing`."""
+    import math
+    from shapely.geometry import LineString, Point, Polygon, box
+    from shapely.ops import unary_union
+    kinds = G.kinds_for({it["kind"] for it in F.items if it["kind"] in G.SIZES})
+    room = unary_union([Polygon(s_["poly"]) for s_ in G.M["spaces"] if s_["level"] == F.level and s_["id"] in F.room_ids])
+    walls = unary_union([LineString([w["from"], w["to"]]).buffer(w["size"][0] / 2) for w in F.walls])
+    room = room.difference(walls)
+    occ, eq, bodies = [], [], []
+    for it in F.items + fixed:
+        if it["kind"] in ("floor_zone", "pwr_meta"):
+            continue
+        if it["kind"] == "route":
+            occ.append(LineString(it["pts"]).buffer(it.get("width", 1.7) / 2)); continue
+        p_ = G.item_poly(it, kinds)
+        if p_ is None:
+            continue
+        occ.append(p_)
+        u = G.item_poly(it, kinds, use=True)
+        f_ = kinds.get(it["kind"], {}).get("use")
+        if u is not None and f_ and f_[0] >= 0.5 and not it.get("fixed"):   # stay out of where the user trains (their front), not the rest
+            occ.append(_front(G, it, kinds))
+        bodies.append(p_)
+        if not it.get("fixed") and it["kind"] in kinds and kinds[it["kind"]].get("mat") not in ("storage", "wallkit", "fixture", "platform") or it["kind"].startswith("pwr_core"):
+            eq.append(p_.centroid)
+    free = room.buffer(-0.2).difference(unary_union(occ).buffer(0.19))     # up against things is fine (Roman): they blend in
+    snug = unary_union(bodies)
+    x0, y0, x1, y1 = free.bounds
+    cands = [Point(x0 + 0.4 * i, y0 + 0.4 * j) for i in range(int((x1 - x0) / 0.4) + 1) for j in range(int((y1 - y0) / 0.4) + 1)]
+    cands = [c for c in cands if free.contains(c)]
+    picks = []
+    for _ in range(n):
+        best, key = None, None
+        for c in cands:
+            if any(c.distance(p_) < spacing for p_ in picks):
+                continue
+            unc = [e for e in eq if min([e.distance(p_) for p_ in picks] or [99]) > reach]
+            k_ = (sum(1 for e in unc if e.distance(c) <= reach), -round(c.distance(snug), 1))     # then tucked against something
+            if key is None or k_ > key:
+                best, key = c, k_
+        if best is None:
+            break
+        picks.append(best)
+    for c in picks:
+        e = min(eq, key=lambda e: e.distance(c))
+        rot = round(math.degrees(math.atan2(-(e.x - c.x), e.y - c.y)) / 90) * 90
+        F.items.append({"id": f"wipes-{F.level}-{c.x:.1f}-{c.y:.1f}", "room": "", "kind": "wipe_station", "label": G.KINDS_FIXED["wipe_station"]["label"],
+                        "x": round(c.x, 2), "y": round(c.y, 2), "w": 0.36, "d": 0.36, "rot": rot, "note": "wipes + spray + bin"})
+    far = [e for e in eq if min(e.distance(p_) for p_ in picks) > reach]
+    print(f"  {F.level}: {len(picks)} wipes stations; {len(far)} pieces further than {reach} m from one")
 
 
 def place_row(F, G, pieces, x_front, y0, rot, gap, zone, note=""):
@@ -201,6 +260,7 @@ def plan_f3(G):
     F = G.Floor("F3", "F3 · the den: upper-body maze, dumbbells, functional, strongman, altitude", [-30.5, -41.0, -5.4, 13.2])
     ws = G.walls("F3")
     ids = ["free-weights-F3", "strongman", "functional", "sled-track", "river-edge", "spiral-F3", "north-stair-F3", "altitude"]
+    F.room_ids, F.walls = ids, ws
     sps = G.spaces("F3", ids)
     room = G.room_poly("F3", ids)
     fixed = G.spiral_items("F3") + G.landings(ws, "F3", room) + [i for i in G.fixtures("F3") if i["kind"] != "wipe_station"]
@@ -328,7 +388,7 @@ def plan_f3(G):
     place_row(F, G, ["life-fitness-row-hx-trainer", "woodway-4front", "woodway-4front", "life-fitness-row-hx-trainer"], -20.4, -39.55, 90, 0.6, "altitude",
               "facing the altitude display")
 
-    wipes(F, G, "F3", ((-21.4, -20.6, 0), (-15.0, -18.6, 0), (-21.9, -3.3, 0), (-11.7, -10.2, -90), (-27.5, 4.6, -90)))
+    auto_wipes(F, G, fixed, 15)
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
@@ -345,6 +405,7 @@ def plan_f1(G):
     F = G.Floor("F1", "F1 · the hall: cardio, stretching, calisthenics", [-30.5, -35.0, -5.4, -8.0])
     ws = G.walls("F1")
     ids = ["stretching", "calisthenics", "cardio-F1", "spiral-F1"]
+    F.room_ids, F.walls = ids, ws
     sps = G.spaces("F1", ids)
     room = G.room_poly("F1", ids)
     fixed = G.spiral_items("F1") + G.landings(ws, "F1", room) + [i for i in G.fixtures("F1") if i["kind"] != "wipe_station"]
@@ -405,7 +466,7 @@ def plan_f1(G):
     F.put("life-fitness-flexibility-trainer", -23.6, -24.5, 0, "stretching")
     F.put("rogue-manta-ray-adjustable-bench", -24.0, -28.3, 90, "stretching", "ab bench")
 
-    wipes(F, G, "F1", ((-21.6, -12.3, 0), (-22.0, -29.2, 0)))
+    auto_wipes(F, G, fixed, 7)
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1

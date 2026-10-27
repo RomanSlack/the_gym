@@ -308,6 +308,7 @@ class Floor:
         self.level, self.title, self.view = level, title_, view
         self.items, self.n, self.targets, self.notes = [], {}, {}, []
         self.rooms = rooms
+        self.room_ids, self.walls = [], []
 
     def put(self, piece, x, y, rot=0, zone="", note="", on=None, n=None):
         """A piece at (x, y), its user facing rot (0 N, 90 W, -90 E, 180 S)."""
@@ -385,6 +386,7 @@ class Floor:
         self.targets[piece] = self.targets.get(piece, 0) + n
 
     def write(self, name, ws, sps, extra, dims=None, summary=None):
+        """(walls + room ids are also kept on the floor for auto_wipes: set_room before placing)"""
         pieces = {it["kind"] for it in self.items if it["kind"] in SIZES} | set(self.targets)
         data = {"note": f"{self.title}: the 2D equipment layout (tools/gym_layout.py writes the first proposal; edited in blueprint/layout.html?name={name}). "
                         "x, y = centre in project metres; w across the user, d along the way the user faces; rot = the way the user faces (0 = north, 90 = west, -90 = east).",
