@@ -93,6 +93,20 @@ CAMS = {
     "eq3_river": ((-11.2, -31.6, -8.17), (-8.9, -5.0, -8.5), 20),         # the conditioning + upper machines by the river
     "eq3_altitude": ((-15.3, -34.9, -8.17), (-26.0, -38.4, -8.6), 18),   # the altitude training room
     "eq3_top": ((-18.0, -14.0, 10.23), (-17.99, -14.0, -9.77), ("ORTHO", 57.0)),   # top-down, the river up (roof clipped)
+    # the zoned floors (Roman 2026-10-28: "show me some shots first please of the new zones"): rooms behind partitions, the spines
+    "eq1_z_cal": ((-18.0, -31.0, 1.6), (-23.5, -26.5, 1.4), 20),          # the calisthenics room: the Monkey Rig on its tall wall
+    "eq1_z_pull": ((-16.5, -20.5, 1.6), (-23.0, -25.0, 1.5), 20),         # the pull-up stations off the wall's north face, the mats
+    "eq2_z_spine": ((-11.8, -32.5, -3.31), (-12.2, 0.0, -3.5), 20),       # up the spine from the pods
+    "eq2_z_racks": ((-27.5, -13.0, -3.31), (-23.5, -31.0, -3.6), 20),     # the rack room: the racks on their tall wall, the mirror
+    "eq2_z_bench": ((-12.5, -27.0, -3.31), (-22.0, -28.5, -3.7), 20),     # off the spine into the bench room
+    "eq2_z_leghub": ((-12.0, -8.0, -3.31), (-21.5, -6.0, -3.6), 20),      # off the spine into the leg hub
+    "eq2_z_legroom": ((-13.2, 0.0, -3.31), (-21.5, 6.0, -3.6), 20),       # the leg room north of its tall wall
+    "eq2_z_olympic": ((-22.0, 10.8, -3.31), (-27.0, 0.0, -3.7), 20),      # olympic from its north opening
+    "eq3_z_den": ((-22.2, -18.0, -8.17), (-24.5, -32.0, -8.5), 20),       # down the den: the racks on its wall, the benches at the mirror
+    "eq3_z_post": ((-16.0, -19.5, -8.17), (-19.0, -31.0, -8.6), 20),      # the posterior chain room off the spiral
+    "eq3_z_func": ((-27.6, -9.0, -8.17), (-23.0, -5.0, -8.2), 20),        # the functional room: the rig on its tall wall
+    "eq3_z_lane": ((-15.9, -32.5, -8.17), (-13.0, -14.0, -8.5), 20),      # the south spine beside the sled lane + its low wall
+    "eq3_z_spine": ((-13.2, -11.0, -8.17), (-13.0, 10.0, -8.4), 20),      # the north spine: the maze, the upper machines
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),
