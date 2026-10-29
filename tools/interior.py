@@ -688,6 +688,37 @@ line_rooms("altitude", "slate_courses", [F3v, round(ZA + 0.04, 3)], "alts", wall
 line_rooms("altitude", "plaster_charcoal", [F3v, round(ZA + 0.04, 3)], "alt", walls=w3, skip=("SA-S",))
 ww_ceiling("F3", "altitude", ALT, ZA, holes=[{"rect": ALT_SKY, "note": "the sky coffer"}])
 
+# ---- the gym zoning partitions (Roman 2026-10-28, after walking the floors: "the walking spaces seem way too cluttered and we need
+#   like artificial walls and such to break up the spaces and provide focus clusters ... so it isn't just a warehouse feel"; the mix:
+#   tall where racks / rigs / machines back onto them, low elsewhere so you still see across to the river). Stud cores, oak slats
+#   both faces (smoked in the den), an oak cap on top. Freestanding: they stop short of the ceiling (the beams stay whole).
+ZP_TALL, ZP_LOW, ZP_T = 3.0, 1.2, 0.12
+ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), tall?)]  axis-aligned
+    "F2": [("racks", (-22.4, -31.95), (-22.4, -13.3), True), ("pull", (-22.4, -10.8), (-22.4, -2.94), True),
+           ("olympic-s", (-27.0, -3.0), (-22.46, -3.0), True), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), False),
+           ("bench-n", (-22.34, -25.6), (-15.0, -25.6), False), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), True)],
+    "F1": [("calisthenics", (-25.3, -25.6), (-17.3, -25.6), True), ("calisthenics-e", (-17.3, -31.3), (-17.3, -25.66), False)],
+    "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), True), ("den-n", (-26.6, -13.85), (-21.8, -13.85), False),
+           ("functional", (-22.6, -9.4), (-22.6, -3.06), True), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), False),
+           ("sled", (-11.75, -29.5), (-11.75, -16.5), False)],
+}
+for lvl, zws in ZONE_WALLS.items():
+    zf = lv[lvl]; slats = "oak_slats_smoked" if lvl == "F3" else "oak_slats_wall"
+    for nm, a_, b_, tall in zws:
+        h = ZP_TALL if tall else ZP_LOW
+        wid = f"IN-{lvl}-zone-{nm}"
+        e = {"id": wid, "type": "wall", "kind": "partition", "material": "timber_stud", "from": list(a_), "to": list(b_), "size": [ZP_T, h],
+             "z": [zf, round(zf + h, 3)], "level": lvl, "openings": [],
+             "note": f"gym zoning partition, {'tall' if tall else 'low'} ({h} m): studs, oak slats both faces, oak cap"}
+        add(e); by_id[wid] = e
+        for sg in (1, -1):
+            lining(wid, slats, sg, tag=f"-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
+        o = ZP_T / 2 + 0.065
+        xs, ys = sorted((a_[0], b_[0])), sorted((a_[1], b_[1]))
+        add({"id": f"{wid}-cap", "type": "slab", "material": "oak_slat_smoked" if lvl == "F3" else "oak_slat",
+             "rect": [round(xs[0] - o, 3), ys[0], round(xs[1] + o, 3), ys[1]] if xs[0] == xs[1] else [xs[0], round(ys[0] - o, 3), xs[1], round(ys[1] + o, 3)],
+             "z": [round(zf + h, 3), round(zf + h + 0.03, 3)], "holes": [], "note": "oak cap on the partition"})
+
 m["elements"] = els + new
 modelio.save(m)
 print(f"phase-5 elements: {sum(1 for e in m['elements'] if e.get('phase') == 5)}; reception palette {m['interior']['palette']} ({P['name']})")
