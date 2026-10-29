@@ -48,6 +48,9 @@ if STAGE >= 4:  # forest + glass: Cycles on the GPU, short tiles so the desktop 
     if RENDER:
         bc.gpu_or_stop()
 ONLY = next((a_.split(":", 1)[1].split(",") for a_ in args if a_.startswith("only:")), None)  # e.g. only:style_gorge,style_aerial
+if STAGE >= 4 and ONLY and all(n_.startswith("eq") for n_ in ONLY):  # layout check shots (Roman 2026-10-28: "720p is fine not a ton of samples")
+    scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage = 1280, 720, 100
+    scene.cycles.samples = 24
 EQUIP_FLOORS = ("gym_f1", "gym_f2", "gym_f3")  # the gym floors whose equipment layout (model/layouts/<name>.json) is placed in 3D
 CAMS = {
     "site_aerial": ((150, -170, 110), (0, 0, -8), 30),
