@@ -355,7 +355,8 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
             lining(wid, "oak_slats_wall", sg, tag=f"-{lvl}", z=[zf, zt])
         lining("W-west-C", "lime_plaster", 1, tag=f"-{lvl}", z=[zf, zt])
     else:
-        L_A = 46.2; s34 = round(L_A * 0.75, 2)  # mirror on the free-weight 3/4 from the south, smoked oak on the strongman quarter
+        L_A = 46.2; s34 = round(-13.85 + 34.1, 2)  # mirror along the den (to its north wall), smoked oak on the functional room + the
+        # strongman end (2026-10-30: the wall balls, the peg board, the belt hanger and the timer hang there: wood, not glass)
         lining("W-west-A", "steel_skirting", -1, s_range=(0.0, s34), tag=f"-{lvl}-skirt", z=[zf, round(zf + MIR0, 3)])
         lining("W-west-A", "mirror", -1, s_range=(0.0, s34), tag=f"-{lvl}-mirror", z=[round(zf + MIR0, 3), zt])
         lining("W-west-A", "oak_slats_smoked", -1, s_range=(s34, L_A), tag=f"-{lvl}-slats", z=[round(zf + 0.15, 3), zt])
@@ -679,10 +680,11 @@ for k, (a_, b_) in enumerate(PODS):
     east = "SA-E" if k == 2 else f"P-F2-5{k + 2}"
     gym_floor("F2", nm, r, holes=[{"rect": pod_plat(k), "note": "the lifting platform, set flush"}])
     line_rooms(f"pod-{k + 1}", "oak_slats_smoked", [F2v, ZR2], nm, walls=[e for e in w2 if e["id"] != east])
-    rng_ = (0.2, 5.75)
+    rng_ = (0.2, 2.95)   # the mirror in front of the platform; smoked oak behind the dumbbell rack (2026-10-30: it stood against the glass)
     lining(east, "steel_skirting", 1, rng_, tag=f"-{nm}-skirt", z=[F2v, round(F2v + MIR0, 3)])
     lining(east, "mirror", 1, rng_, tag=f"-{nm}-mirror", z=[round(F2v + MIR0, 3), round(F2v + 2.6, 3)])
     lining(east, "oak_slats_smoked", 1, rng_, tag=f"-{nm}-slats", z=[round(F2v + 2.6, 3), ZR2])
+    lining(east, "oak_slats_smoked", 1, (2.95, 5.75), tag=f"-{nm}-slats-rack", z=[F2v, ZR2])
     ww_ceiling("F2", nm, r, ZR2)
 ALT = [-28.85, -40.1, -14.45, -34.1]
 ZA = round(F3v + 4.1, 3)                                              # the altitude room's suspended ceiling

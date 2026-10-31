@@ -1353,7 +1353,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1367,7 +1367,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1381,7 +1381,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1395,7 +1395,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1409,7 +1409,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1423,7 +1423,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1437,7 +1437,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1451,7 +1451,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1465,7 +1465,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1479,7 +1479,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1493,7 +1493,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1507,7 +1507,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1521,7 +1521,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1535,7 +1535,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1549,7 +1549,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1563,7 +1563,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   },
   {
    "pts": [
@@ -1577,7 +1577,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3000 K)"
+   "label": "light line overhead (2700 K)"
   }
  ],
  "dims": [],
@@ -3181,6 +3181,31 @@
    "note": "water station: chilled tap (bring your own bottle)"
   },
   {
+   "id": "access-tap_station-F3--11.0-11.8",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -10.525,
+     11.785
+    ],
+    [
+     -11.475,
+     11.785
+    ],
+    [
+     -11.475,
+     10.785
+    ],
+    [
+     -10.525,
+     10.785
+    ]
+   ]
+  },
+  {
    "id": "tap_station-F3--26.0--33.8",
    "room": "",
    "kind": "tap_station",
@@ -3192,6 +3217,31 @@
    "rot": 0,
    "fixed": true,
    "note": "water station: chilled tap (bring your own bottle)"
+  },
+  {
+   "id": "access-tap_station-F3--26.0--33.8",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -26.475,
+     -33.785
+    ],
+    [
+     -25.525,
+     -33.785
+    ],
+    [
+     -25.525,
+     -32.785
+    ],
+    [
+     -26.475,
+     -32.785
+    ]
+   ]
   },
   {
    "id": "tap_station-F3--29.2--21.8",
@@ -3207,6 +3257,31 @@
    "note": "water station between the WC doors: chilled tap (bring your own bottle)"
   },
   {
+   "id": "access-tap_station-F3--29.2--21.8",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -29.185,
+     -21.35
+    ],
+    [
+     -29.185,
+     -22.3
+    ],
+    [
+     -28.185,
+     -22.3
+    ],
+    [
+     -28.185,
+     -21.35
+    ]
+   ]
+  },
+  {
    "id": "safety_point-F3--29.2--16.2",
    "room": "",
    "kind": "safety_point",
@@ -3220,6 +3295,31 @@
    "note": "AED, extinguisher, first aid"
   },
   {
+   "id": "access-safety_point-F3--29.2--16.2",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: reaching the AED, extinguisher + first aid",
+   "pts": [
+    [
+     -29.185,
+     -15.6
+    ],
+    [
+     -29.185,
+     -16.8
+    ],
+    [
+     -27.685,
+     -16.8
+    ],
+    [
+     -27.685,
+     -15.6
+    ]
+   ]
+  },
+  {
    "id": "tap_station-F3--25.4--34.4",
    "room": "",
    "kind": "tap_station",
@@ -3231,6 +3331,31 @@
    "rot": 180,
    "fixed": true,
    "note": "water (bring your own bottle)"
+  },
+  {
+   "id": "access-tap_station-F3--25.4--34.4",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -24.925,
+     -34.365
+    ],
+    [
+     -25.875,
+     -34.365
+    ],
+    [
+     -25.875,
+     -35.365
+    ],
+    [
+     -24.925,
+     -35.365
+    ]
+   ]
   },
   {
    "id": "sled-lane",
@@ -5449,15 +5574,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--22.6--18.1",
+   "id": "wipes-F3--23.8--19.3",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.6,
-   "y": -18.1,
+   "x": -23.8,
+   "y": -19.3,
    "w": 0.36,
    "d": 0.36,
-   "rot": 90,
+   "rot": -180,
    "note": "wipes + spray + bin"
   },
   {
@@ -5557,12 +5682,12 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--28.6--26.9",
+   "id": "wipes-F3--28.6-10.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -28.6,
-   "y": -26.9,
+   "y": 10.7,
    "w": 0.36,
    "d": 0.36,
    "rot": -90,

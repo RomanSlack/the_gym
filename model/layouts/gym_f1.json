@@ -1181,78 +1181,6 @@
      ],
      "type": "opening",
      "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
-    },
-    {
-     "s": [
-      0.175,
-      1.775
-     ],
-     "z": [
-      0.0,
-      2.5
-     ],
-     "type": "opening",
-     "note": "Kilden: the spring niche on the bridge axis"
     }
    ]
   },
@@ -2144,7 +2072,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2158,7 +2086,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2172,7 +2100,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2186,7 +2114,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2200,7 +2128,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2214,7 +2142,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2228,7 +2156,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2242,7 +2170,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2256,7 +2184,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2270,7 +2198,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2284,7 +2212,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2298,7 +2226,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2312,7 +2240,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2326,7 +2254,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2340,7 +2268,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2354,7 +2282,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2368,7 +2296,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2382,7 +2310,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2396,7 +2324,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2410,7 +2338,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2424,7 +2352,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2438,7 +2366,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2452,7 +2380,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   },
   {
    "pts": [
@@ -2466,7 +2394,7 @@
     ]
    ],
    "cls": "light",
-   "label": "light line overhead (3500 K)"
+   "label": "light line overhead (3000 K)"
   }
  ],
  "dims": [],
@@ -3389,6 +3317,31 @@
    "note": "water after the sauna"
   },
   {
+   "id": "access-tap_station-F1--32.4-4.4",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -31.925,
+     4.375
+    ],
+    [
+     -32.875,
+     4.375
+    ],
+    [
+     -32.875,
+     3.375
+    ],
+    [
+     -31.925,
+     3.375
+    ]
+   ]
+  },
+  {
    "id": "tap_station-F1--16.6--4.1",
    "room": "",
    "kind": "tap_station",
@@ -3400,6 +3353,31 @@
    "rot": 0,
    "fixed": true,
    "note": "water in the men's changing room"
+  },
+  {
+   "id": "access-tap_station-F1--16.6--4.1",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -17.075,
+     -4.095
+    ],
+    [
+     -16.125,
+     -4.095
+    ],
+    [
+     -16.125,
+     -3.095
+    ],
+    [
+     -17.075,
+     -3.095
+    ]
+   ]
   },
   {
    "id": "tap_station-F1--16.6-7.5",
@@ -3415,6 +3393,31 @@
    "note": "water in the women's changing room"
   },
   {
+   "id": "access-tap_station-F1--16.6-7.5",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: the water station",
+   "pts": [
+    [
+     -16.125,
+     7.545
+    ],
+    [
+     -17.075,
+     7.545
+    ],
+    [
+     -17.075,
+     6.545
+    ],
+    [
+     -16.125,
+     6.545
+    ]
+   ]
+  },
+  {
    "id": "safety_point-F1--28.7--29.6",
    "room": "",
    "kind": "safety_point",
@@ -3426,6 +3429,31 @@
    "rot": -90,
    "fixed": true,
    "note": "AED, extinguisher, first aid"
+  },
+  {
+   "id": "access-safety_point-F1--28.7--29.6",
+   "room": "",
+   "kind": "keep_clear",
+   "fixed": true,
+   "label": "Keep clear: reaching the AED, extinguisher + first aid",
+   "pts": [
+    [
+     -28.71,
+     -29.0
+    ],
+    [
+     -28.71,
+     -30.2
+    ],
+    [
+     -27.21,
+     -30.2
+    ],
+    [
+     -27.21,
+     -29.0
+    ]
+   ]
   },
   {
    "id": "clear-gallery",
@@ -4251,7 +4279,7 @@
    "room": "calisthenics",
    "kind": "rogue-monster-lite-monkey-rig-2-0",
    "label": "Rogue Monster Lite Monkey Rig 2.0",
-   "x": -23.553,
+   "x": -23.253,
    "y": -32.687,
    "w": 7.493,
    "d": 2.106,
@@ -4264,7 +4292,7 @@
    "room": "calisthenics",
    "kind": "rogue-rig-mount-parallel-bars",
    "label": "Rogue Rig Mount Parallel Bars",
-   "x": -20.483,
+   "x": -20.183,
    "y": -32.687,
    "w": 1.346,
    "d": 2.032,
@@ -4279,12 +4307,12 @@
    "kind": "body-solid-gvkr60b-vertical-knee-raise-dip",
    "label": "Body-Solid GVKR60B Vertical Knee Raise & Dip",
    "x": -28.225,
-   "y": -29.6,
+   "y": -32.6,
    "w": 0.716,
    "d": 0.955,
    "rot": -90,
    "h": 1.505,
-   "note": "its back to the W2 core"
+   "note": "its back to the W2 core, in the corner by the rig (clear of the AED)"
   },
   {
    "id": "pullup--18.00",
@@ -4493,11 +4521,11 @@
    "room": "stretching",
    "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
    "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
-   "x": -28.636,
-   "y": -32.5,
+   "x": -23.5,
+   "y": -9.464,
    "w": 0.9,
    "d": 0.169,
-   "rot": -90,
+   "rot": 180,
    "h": 2.8,
    "note": "core + yoga mats"
   },
@@ -4506,11 +4534,11 @@
    "room": "stretching",
    "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
    "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
-   "x": -28.636,
-   "y": -31.0,
+   "x": -20.3,
+   "y": -9.464,
    "w": 0.9,
    "d": 0.169,
-   "rot": -90,
+   "rot": 180,
    "h": 2.8,
    "note": "core + yoga mats"
   },
@@ -4519,7 +4547,7 @@
    "room": "stretching",
    "kind": "life-fitness-adjustable-wall-mounted-mat-rack",
    "label": "Life Fitness Adjustable Wall Mounted Mat Rack",
-   "x": -20.3,
+   "x": -17.1,
    "y": -9.464,
    "w": 0.9,
    "d": 0.169,
@@ -4635,7 +4663,7 @@
    "y": -31.44,
    "w": 0.36,
    "d": 0.36,
-   "rot": -90,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
@@ -4663,15 +4691,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F1--28.4--29.0",
+   "id": "wipes-F1--28.4--28.6",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -28.39,
-   "y": -29.04,
+   "y": -28.64,
    "w": 0.36,
    "d": 0.36,
-   "rot": -180,
+   "rot": -90,
    "note": "wipes + spray + bin"
   },
   {

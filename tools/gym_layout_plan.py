@@ -55,7 +55,7 @@ def plan_f2(G):
         F.put("rogue-flat-utility-bench-2-0", -24.9, y, 90, "pulling corner", "lives in the rack", on=r_["id"])
     F.put("rogue-deadlift-platform", -24.9, -3.06 - 0.1 - 1.381 / 2, 0, "pulling corner", "deadlifts; the crash cushions on it; along the olympic wall, 0.9 m+ clear of the half rack (NSCA)")
     F.put("life-fitness-olympic-weight-tree", -22.9, -4.0, 90, "pulling corner", "the deadlift's plates, within 0.9 m of the bar (NSCA)")
-    F.put("rogue-belt-and-band-hanger", XW + 0.155, -7.2, -90, "pulling corner", "belts, straps, sleeves, wraps on loan; the bands")
+    F.put("rogue-belt-and-band-hanger", -22.4 - 0.06 - 0.155, -8.4, 90, "pulling corner", "belts, straps, sleeves, wraps on loan; the bands; on the slat wall (not the mirror)")
     F.put("rogue-freestanding-chalk-stand", -23.0, -10.3, 0, "pulling corner")
 
     # --- olympic: six platforms in two staggered lines facing the mirror, bumpers between them, the bars on the tall south wall, a low wall east
@@ -69,7 +69,7 @@ def plan_f2(G):
     F.put("rogue-freestanding-chalk-stand", -25.55, 8.0, 0, "olympic")
     F.put("rogue-wood-jerk-blocks", -23.91, 7.865, 90, "olympic", "set up on a platform", on="hammer-strength-impact-suppression-platform-4")
     F.put("titan-deadlift-pulling-blocks", -23.91, 4.395, 90, "olympic", "on a platform", on="hammer-strength-impact-suppression-platform-5")
-    F.put("rogue-echo-gym-timer-2-0", XW + 0.09, 4.4, -90, "olympic", "on the mirror wall over the platforms")
+    F.put("rogue-echo-gym-timer-2-0", -25.3, -3.0 + 0.06 + 0.09, 0, "olympic", "on the tall south wall, in view of every platform (not on the mirror)")
 
     # --- the bench room: three stations each side of the trees + bar holder, a low wall to its north
     yc = -28.6
@@ -221,7 +221,9 @@ def auto_wipes(F, G, fixed, n, reach=5.0, spacing=3.5):
     room = room.difference(walls)
     occ, eq, bodies = [], [], []
     for it in F.items + fixed:
-        if it["kind"] in ("floor_zone", "pwr_meta"):
+        if it["kind"] == "floor_zone" and not it.get("label", "").startswith(("Walkway", "The pod's lifting platform")):
+            continue                                   # (a wipes station may stand on a mat floor's edge, not in a walkway or on a platform)
+        if it["kind"] == "pwr_meta":
             continue
         if it["kind"] == "route":
             occ.append(LineString(it["pts"]).buffer(it.get("width", 1.7) / 2)); continue
@@ -488,10 +490,10 @@ def plan_f1(G):
     # --- calisthenics along the south glass (Roman 2026-10-30: "take up the whole back wall or most of it ... without those
     # barriers"): the Monkey Rig with its back to the forest, two pull-up stations carrying the line east, the skills floor +
     # parallettes in front, the VKR + wall bars on the W2 core at the west end. No partitions: the open mats run straight into it
-    mx = -27.3 + 7.493 / 2
+    mx = -27.0 + 7.493 / 2
     mr = F.put("rogue-monster-lite-monkey-rig-2-0", mx, YSF + 0.3 + 2.106 / 2, 180, "calisthenics", "back to the south glass: rings on the 2.47 m bars; the parallel bars on it")
     F.put("rogue-rig-mount-parallel-bars", mx + 3.07, mr["y"], 180, "calisthenics", "on the rig, in its east 43 in bay", on=mr["id"])
-    F.put("body-solid-gvkr60b-vertical-knee-raise-dip", XWF + 0.5, -29.6, -90, "calisthenics", "its back to the W2 core")
+    F.put("body-solid-gvkr60b-vertical-knee-raise-dip", XWF + 0.5, -32.6, -90, "calisthenics", "its back to the W2 core, in the corner by the rig (clear of the AED)")
     for x in (-18.0, -15.2):   # 1.2 m apart (NSCA)
         F.items.append({"id": f"pullup-{x:+.2f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
                         "x": x, "y": round(YSF + 0.3 + 1.0, 3), "w": 1.6, "d": 0.18, "rot": 0,
@@ -507,9 +509,8 @@ def plan_f1(G):
 
     # --- stretching + mobility north of the calisthenics (the garden glass beside it): the mat floor, the kit round it
     F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -25.3, -23.6, -19.0, -20.5, "zone-mats")
-    for y in (-33.2, -31.7):
-        F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.135, y + 0.7, -90, "stretching", "core + yoga mats")
-    F.put("life-fitness-adjustable-wall-mounted-mat-rack", -20.3, YNF - 0.135, 180, "stretching", "core + yoga mats")
+    for x in (-23.5, -20.3, -17.1):   # all three on the north wall by the mat floor (2026-10-30: the W2 core is calisthenics + the AED)
+        F.put("life-fitness-adjustable-wall-mounted-mat-rack", x, YNF - 0.135, 180, "stretching", "core + yoga mats")
     for x in (-24.0, -22.45):
         F.put("life-fitness-accessory-rack", x, -19.9, 180, "stretching", "foam rollers, bands, straps, blocks, massage balls, Theraguns")
     F.put("hammer-strength-stability-ball", -24.6, -21.9, 90, "stretching", "stability balls, BOSUs, balance + slant boards beside")

@@ -307,6 +307,12 @@ def fixtures(level):
         w = {"tap_station": 0.35, "safety_point": 0.6, "wipe_station": 0.36}[k]
         out.append({"id": f"{k}-{level}-{x:.1f}-{y:.1f}", "room": "", "kind": k, "label": KINDS_FIXED[k]["label"], "x": x, "y": y,
                     "w": w, "d": KINDS_FIXED[k]["d"], "rot": f.get("rot_deg", 0) or 0, "fixed": k != "wipe_station", "note": f.get("note", "")})
+        if k != "wipe_station":   # the space in front kept clear (2026-10-30: a dip station stood in front of the F1 AED)
+            r = math.radians(f.get("rot_deg", 0) or 0); fx, fy = -math.sin(r), math.cos(r); sx, sy = fy, -fx
+            hw, dd = w / 2 + 0.3, (1.5 if k == "safety_point" else 1.0)
+            out.append({"id": f"access-{k}-{level}-{x:.1f}-{y:.1f}", "room": "", "kind": "keep_clear", "fixed": True,
+                        "label": f"Keep clear: {'reaching the AED, extinguisher + first aid' if k == 'safety_point' else 'the water station'}",
+                        "pts": [[round(x + sx * a_ + fx * b_, 3), round(y + sy * a_ + fy * b_, 3)] for a_, b_ in ((-hw, 0.0), (hw, 0.0), (hw, dd), (-hw, dd))]})
     return out
 
 

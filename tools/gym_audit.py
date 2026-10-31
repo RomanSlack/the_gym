@@ -52,3 +52,34 @@ for name in sys.argv[1:]:
             if dmin > 0.9: probs.append((dmin, f"{a['id']} [{K[a['kind']]['tag']}]: nearest plate storage {dmin:.1f} m"))
     print(f"== {name}: {len(probs)}")
     for s, p in sorted(probs, reverse=True): print("  ", p)
+
+# ---- placement sense (2026-10-30, Roman: "a dip bar positioned right in front of the medical equipment ... look for other obvious
+# issues like that"): nothing hung on or parked against a mirror, wall pieces on a wall, no tall kit over a wall light, no wipes
+# station in a walkway or on a platform (the AED / water access zones are keep-clears in gym_layout.fixtures, so G.check flags those)
+from shapely.geometry import LineString, Point  # noqa: E402
+_M = json.loads((ROOT / "model" / "building.json").read_text())
+_lv = {l_["id"]: l_["elevation"] for l_ in _M["levels"]}
+for name in sys.argv[1:]:
+    d = json.loads((ROOT / "model" / "layouts" / f"{name}.json").read_text()); K = d["kinds"]; z = _lv[d["level"]]
+    mirrors = [LineString([e["from"], e["to"]]) for e in _M["elements"] if e.get("material") == "mirror" and e.get("kind") == "lining" and abs(e["z"][0] - z) < 1.0]
+    walls = [LineString([w["from"], w["to"]]).buffer(w["size"][0] / 2) for w in d["walls"]]
+    lights = [Point(f["at"]) for f in _M["furnishings"] if f["kind"] == "eclipse_sconce" and f.get("level") == d["level"]]
+    no_wipes = [G.item_poly(i, K) for i in d["items"] if i["kind"] == "floor_zone" and i["label"].startswith(("Walkway", "The pod's"))]
+    out = []
+    for it in d["items"]:
+        if "x" not in it or it.get("fixed") or it["kind"] in ("floor_zone", "route", "keep_clear"):
+            continue
+        p = G.item_poly(it, K)
+        if p is None:
+            continue
+        if any(p.distance(l_) < 0.3 for l_ in mirrors):
+            out.append(f"{it['id']}: on / against a mirror")
+        if K.get(it["kind"], {}).get("wall") and not any(p.distance(w) < 0.05 for w in walls):
+            out.append(f"{it['id']}: a wall piece off the wall")
+        if it.get("h", 0) > 1.4 and any(p.distance(s) < 0.3 for s in lights):
+            out.append(f"{it['id']}: tall kit over a wall light")
+        if it["kind"] == "wipe_station" and any(z_ is not None and z_.intersects(p) for z_ in no_wipes):
+            out.append(f"{it['id']}: wipes in a walkway / on a platform")
+    print(f"== {name} placement: {len(out)}")
+    for o in out:
+        print("  ", o)
