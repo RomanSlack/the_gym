@@ -815,7 +815,9 @@ for x, y in ((-33.5, 0.0), (-31.3, 3.0)):
 # room reads lit and deep. F2 (machines, free weights, olympic, cardio): 4000 K, ~450 lux. F1 hall (stretching, cardio,
 # calisthenics): 3500 K like the gallery, under the wood wool. F3, the den: 3000 K, a low ambient, one line a bay (Roman 2026-10-17: two a bay was too bright, not aesthetic) (the pools over the rig, racks and
 # sled lane come with the equipment).
-GYM_C = {"4000": [1.0, 0.95, 0.88], "3500": [1.0, 0.92, 0.82], "3000": [1.0, 0.85, 0.68]}
+GYM_C = {"4000": [1.0, 0.95, 0.88], "3500": [1.0, 0.92, 0.82], "3000": [1.0, 0.85, 0.68], "2700": [1.0, 0.8, 0.6]}
+# (Roman 2026-10-30: "make all the gym lights a little less surgical": each floor a step warmer, F2 4000 -> 3500, F1 3500 -> 3000,
+# the den 3000 -> 2700, and wider, softer lines: the same light from a broader, dimmer opal)
 SPX, SPY, SPR = -17.95, -14.85, 3.5 + 0.6
 def gym_runs(y):
     """x runs of a line at y (east-west, wall to wall less 0.55), split in three, minus the spiral's opening."""
@@ -845,9 +847,9 @@ def deglare(lvl, xa, xb, y):
     cand = [y + i * 0.05 for i in sorted(range(-30, 31), key=abs) if all(abs(y + i * 0.05 - yb_) > 0.6 for yb_ in BAYS)]
     ok = [yy for yy in cand if clear(yy) >= 0.5]
     return round(ok[0] if ok else max(cand, key=clear), 2)   # the nearest clear spot, else the one farthest from the benches
-for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "4000", 75, -34.1, 12.1, "gym-f2"),
-                                         ("F1", 5.58, "3500", 60, -34.1, -11.0, "gym-f1"),
-                                         ("F3", round(-5.295 - lv["F3"], 3), "3000", 30, -34.1, 12.1, "gym-f3")):
+for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "3500", 75, -34.1, 12.1, "gym-f2"),
+                                         ("F1", 5.58, "3000", 60, -34.1, -11.0, "gym-f1"),
+                                         ("F3", round(-5.295 - lv["F3"], 3), "2700", 30, -34.1, 12.1, "gym-f3")):
     zl = lv[lvl]
     runs = {}
     for ya, yb in zip(BAYS, BAYS[1:]):
@@ -861,7 +863,7 @@ for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "40
     for (xa, y), (xb, n_) in runs.items():
         L_ = round(xb - xa, 2)
         put("gym_line", (xa + xb) / 2, y, rot=0, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,
-            light={"type": "AREA", "energy": round(wpm * L_ * (1 + 0.6 * (n_ - 1))), "size": L_, "size_y": 0.06, "offset": [0, 0, zc - 0.06],
+            light={"type": "AREA", "energy": round(wpm * L_ * (1 + 0.6 * (n_ - 1))), "size": L_, "size_y": 0.14, "offset": [0, 0, zc - 0.06],
                    "aim": [(xa + xb) / 2, y, zl - 1.0], "color": GYM_C[temp]}, note=f"linear line {temp} K between the beams")
     for ya, yb in zip(BAYS, BAYS[1:]):  # wall-washers down the west wall (mirrors, free weights, the den's grip wall), one per bay
         if ya < y0 - 0.01 or yb > y1 + 0.01:
@@ -890,12 +892,12 @@ for e in [e for e in m["elements"] if e.get("kind") == "partition" and e.get("le
                     continue
                 put("eclipse_sconce", px, py, rot=round(math.degrees(math.atan2(ny, nx)) - 90, 1), zone="gym-f3", level="F3", z=zl,
                     light={"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [px + nx, py + ny, zl + 1.6],
-                           "color": GYM_C["3000"]}, note="eclipse wall light on the zone wall")
+                           "color": GYM_C["2700"]}, note="eclipse wall light on the zone wall")
         else:
             px, py = (ax + bx) / 2 + nx * (o + 0.05), (ay + by) / 2 + ny * (o + 0.05)
             put("floor_grazer", px, py, rot=round(math.degrees(math.atan2(uy, ux)), 1), zone="gym-f3", level="F3", z=zl, length=round(L_ - 0.2, 2),
                 light={"type": "AREA", "energy": round(10 * L_), "size": round(L_ - 0.2, 2), "size_y": 0.04, "offset": [0, 0, 0.01],
-                       "aim": [px - nx * 0.3, py - ny * 0.3, zl + 2.0], "color": GYM_C["3000"]}, note="floor slot washing up the low zone wall")
+                       "aim": [px - nx * 0.3, py - ny * 0.3, zl + 2.0], "color": GYM_C["2700"]}, note="floor slot washing up the low zone wall")
 
 # ---- the spiral's ring + guards, the water stations, the wipes stations (Roman 2026-10-14: clean round the ring of the stairs, add the
 # railing, the water stations, the round wipes dispenser + bin in brushed stainless; a few at scale, repositioned with the equipment)

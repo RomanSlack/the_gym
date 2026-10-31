@@ -23285,9 +23285,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -32.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-812",
@@ -23299,9 +23299,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -32.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-813",
@@ -23313,9 +23313,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -32.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -32.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-814",
@@ -23327,9 +23327,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -31.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -31.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-815",
@@ -23341,9 +23341,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -31.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -31.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-816",
@@ -23355,9 +23355,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -31.05, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -31.05, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-817",
@@ -23369,9 +23369,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -28.5, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -28.5, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-818",
@@ -23383,9 +23383,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -28.5, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -28.5, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-819",
@@ -23397,9 +23397,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -28.5, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -28.5, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-820",
@@ -23411,9 +23411,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -24.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -24.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-821",
@@ -23425,9 +23425,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -24.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -24.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-822",
@@ -23439,9 +23439,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -24.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -24.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-823",
@@ -23453,9 +23453,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -22.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -22.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-824",
@@ -23467,9 +23467,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -22.6, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -22.6, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-825",
@@ -23481,9 +23481,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -22.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -22.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-826",
@@ -23495,9 +23495,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -20.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-827",
@@ -23509,9 +23509,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -20.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-828",
@@ -23523,9 +23523,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -20.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -20.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-829",
@@ -23537,9 +23537,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -17.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -17.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-830",
@@ -23551,9 +23551,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -17.25, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -17.25, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-831",
@@ -23565,9 +23565,9 @@
       "zone": "gym-f2",
       "L": 6.85,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.474999999999998, -15.45, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.474999999999998, -15.45, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-832",
@@ -23579,9 +23579,9 @@
       "zone": "gym-f2",
       "L": 6.85,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.425, -14.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 514, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.425, -14.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-833",
@@ -23593,9 +23593,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -12.45, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-834",
@@ -23607,9 +23607,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -12.45, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -12.45, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-835",
@@ -23621,9 +23621,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -9.2, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -9.2, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-836",
@@ -23635,9 +23635,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -9.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-837",
@@ -23649,9 +23649,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -9.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -9.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-838",
@@ -23663,9 +23663,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -7.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -7.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-839",
@@ -23677,9 +23677,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -7.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-840",
@@ -23691,9 +23691,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -7.15, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -7.15, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-841",
@@ -23705,9 +23705,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -4.75, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-842",
@@ -23719,9 +23719,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -4.75, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-843",
@@ -23733,9 +23733,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -4.75, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -4.75, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-844",
@@ -23747,9 +23747,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -1.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, -1.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-845",
@@ -23761,9 +23761,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -1.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, -1.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-846",
@@ -23775,9 +23775,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -1.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, -1.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-847",
@@ -23789,9 +23789,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 0.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 0.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-848",
@@ -23803,9 +23803,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 0.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 0.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-849",
@@ -23817,9 +23817,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 0.55, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 0.55, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-850",
@@ -23831,9 +23831,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 2.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-851",
@@ -23845,9 +23845,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 2.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-852",
@@ -23859,9 +23859,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 2.95, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 2.95, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-853",
@@ -23873,9 +23873,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 5.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-854",
@@ -23887,9 +23887,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 5.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-855",
@@ -23901,9 +23901,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 5.85, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 5.85, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-856",
@@ -23915,9 +23915,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 8.25, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-857",
@@ -23929,9 +23929,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 8.25, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-858",
@@ -23943,9 +23943,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 8.25, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 8.25, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-859",
@@ -23957,9 +23957,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-25.25, 10.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-860",
@@ -23971,9 +23971,9 @@
       "zone": "gym-f2",
       "L": 6.7,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 502, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-17.95, 10.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "gym_line-861",
@@ -23985,9 +23985,9 @@
       "zone": "gym-f2",
       "L": 7.3,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 10.65, -5.91], "color": [1.0, 0.95, 0.88]},
-      "note": "linear line 4000 K between the beams"
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 548, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.465000000000001], "aim": [-10.65, 10.65, -5.91], "color": [1.0, 0.92, 0.82]},
+      "note": "linear line 3500 K between the beams"
     },
     {
       "id": "wall_washer-862",
@@ -23999,8 +23999,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -30.25, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -30.25, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24013,8 +24013,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -22.549999999999997, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -22.549999999999997, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24027,8 +24027,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -14.849999999999998, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -14.849999999999998, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24041,8 +24041,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -7.15, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, -7.15, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24055,8 +24055,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 0.5500000000000003, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 0.5500000000000003, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24069,8 +24069,8 @@
       "zone": "gym-f2",
       "L": 6.5,
       "z_ceiling": 4.525,
-      "temp": "4000",
-      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 8.25, -3.71], "color": [1.0, 0.95, 0.88]},
+      "temp": "3500",
+      "light": {"type": "AREA", "energy": 439, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.465000000000001], "aim": [-29.45, 8.25, -3.71], "color": [1.0, 0.92, 0.82]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24083,9 +24083,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -32.65, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-869",
@@ -24097,9 +24097,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -32.65, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-870",
@@ -24111,9 +24111,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -32.65, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -32.65, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-871",
@@ -24125,9 +24125,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -30.25, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-872",
@@ -24139,9 +24139,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -30.25, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-873",
@@ -24153,9 +24153,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -30.25, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -30.25, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-874",
@@ -24167,9 +24167,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -27.85, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-875",
@@ -24181,9 +24181,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -27.85, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-876",
@@ -24195,9 +24195,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -27.85, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -27.85, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-877",
@@ -24209,9 +24209,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -24.95, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -24.95, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-878",
@@ -24223,9 +24223,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -24.95, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -24.95, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-879",
@@ -24237,9 +24237,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -24.95, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -24.95, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-880",
@@ -24251,9 +24251,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -22.55, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -22.55, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-881",
@@ -24265,9 +24265,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -22.55, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -22.55, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-882",
@@ -24279,9 +24279,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -22.55, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -22.55, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-883",
@@ -24293,9 +24293,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -20.15, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-884",
@@ -24307,9 +24307,9 @@
       "zone": "gym-f1",
       "L": 6.7,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 402, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-17.95, -20.15, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-885",
@@ -24321,9 +24321,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -20.15, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -20.15, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-886",
@@ -24335,9 +24335,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -17.25, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-887",
@@ -24349,9 +24349,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -17.25, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -17.25, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-888",
@@ -24363,9 +24363,9 @@
       "zone": "gym-f1",
       "L": 6.85,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.474999999999998, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.474999999999998, -14.85, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-889",
@@ -24377,9 +24377,9 @@
       "zone": "gym-f1",
       "L": 6.85,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.425, -14.85, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 411, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.425, -14.85, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-890",
@@ -24391,9 +24391,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-25.25, -12.45, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "gym_line-891",
@@ -24405,9 +24405,9 @@
       "zone": "gym-f1",
       "L": 7.3,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -12.45, -1.0], "color": [1.0, 0.92, 0.82]},
-      "note": "linear line 3500 K between the beams"
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 438, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 5.5200000000000005], "aim": [-10.65, -12.45, -1.0], "color": [1.0, 0.85, 0.68]},
+      "note": "linear line 3000 K between the beams"
     },
     {
       "id": "wall_washer-892",
@@ -24419,8 +24419,8 @@
       "zone": "gym-f1",
       "L": 6.5,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -30.25, 1.2], "color": [1.0, 0.92, 0.82]},
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -30.25, 1.2], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24433,8 +24433,8 @@
       "zone": "gym-f1",
       "L": 6.5,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -22.549999999999997, 1.2], "color": [1.0, 0.92, 0.82]},
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -22.549999999999997, 1.2], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24447,8 +24447,8 @@
       "zone": "gym-f1",
       "L": 6.5,
       "z_ceiling": 5.58,
-      "temp": "3500",
-      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -14.849999999999998, 1.2], "color": [1.0, 0.92, 0.82]},
+      "temp": "3000",
+      "light": {"type": "AREA", "energy": 351, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 5.5200000000000005], "aim": [-29.45, -14.849999999999998, 1.2], "color": [1.0, 0.85, 0.68]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24461,9 +24461,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -29.95, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.25, -29.95, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-896",
@@ -24475,9 +24475,9 @@
       "zone": "gym-f3",
       "L": 6.7,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -30.25, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-17.95, -30.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-897",
@@ -24489,9 +24489,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -30.25, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, -30.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-898",
@@ -24503,9 +24503,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -22.15, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.25, -22.15, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-899",
@@ -24517,9 +24517,9 @@
       "zone": "gym-f3",
       "L": 6.7,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -22.55, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-17.95, -22.55, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-900",
@@ -24531,9 +24531,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -22.55, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, -22.55, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-901",
@@ -24545,9 +24545,9 @@
       "zone": "gym-f3",
       "L": 6.85,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.474999999999998, -14.85, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.474999999999998, -14.85, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-902",
@@ -24559,9 +24559,9 @@
       "zone": "gym-f3",
       "L": 6.85,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.425, -14.85, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 206, "size": 6.85, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.425, -14.85, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-903",
@@ -24573,9 +24573,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, -7.15, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.25, -7.15, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-904",
@@ -24587,9 +24587,9 @@
       "zone": "gym-f3",
       "L": 6.7,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, -7.15, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-17.95, -7.15, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-905",
@@ -24601,9 +24601,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, -7.15, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, -7.15, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-906",
@@ -24615,9 +24615,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 0.55, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.25, 0.55, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-907",
@@ -24629,9 +24629,9 @@
       "zone": "gym-f3",
       "L": 6.7,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 0.55, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-17.95, 0.55, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-908",
@@ -24643,9 +24643,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 0.55, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, 0.55, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-909",
@@ -24657,9 +24657,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-25.25, 8.25, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-25.25, 8.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-910",
@@ -24671,9 +24671,9 @@
       "zone": "gym-f3",
       "L": 6.7,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-17.95, 8.25, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 201, "size": 6.7, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-17.95, 8.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "gym_line-911",
@@ -24685,9 +24685,9 @@
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.06, "offset": [0, 0, 4.415], "aim": [-10.65, 8.25, -10.77], "color": [1.0, 0.85, 0.68]},
-      "note": "linear line 3000 K between the beams"
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, 8.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "note": "linear line 2700 K between the beams"
     },
     {
       "id": "wall_washer-912",
@@ -24699,8 +24699,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -30.25, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -30.25, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24713,8 +24713,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -22.549999999999997, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -22.549999999999997, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24727,8 +24727,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -14.849999999999998, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -14.849999999999998, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24741,8 +24741,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -7.15, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, -7.15, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24755,8 +24755,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 0.5500000000000003, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 0.5500000000000003, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24769,8 +24769,8 @@
       "zone": "gym-f3",
       "L": 6.5,
       "z_ceiling": 4.475,
-      "temp": "3000",
-      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 8.25, -8.57], "color": [1.0, 0.85, 0.68]},
+      "temp": "2700",
+      "light": {"type": "AREA", "energy": 176, "size": 0.06, "size_y": 6.5, "offset": [0, 0, 4.415], "aim": [-29.45, 8.25, -8.57], "color": [1.0, 0.8, 0.6]},
       "note": "wall-washer down the west wall"
     },
     {
@@ -24781,7 +24781,7 @@
       "z": -9.77,
       "rot_deg": 90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -30.7, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -30.7, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24792,7 +24792,7 @@
       "z": -9.77,
       "rot_deg": 90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -28.1, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -28.1, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24803,7 +24803,7 @@
       "z": -9.77,
       "rot_deg": 90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -25.5, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -25.5, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24814,7 +24814,7 @@
       "z": -9.77,
       "rot_deg": 90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -22.9, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -22.9, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24825,7 +24825,7 @@
       "z": -9.77,
       "rot_deg": 90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -20.3, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-21.725, -20.3, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24836,7 +24836,7 @@
       "z": -9.77,
       "rot_deg": -90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -30.7, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -30.7, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24847,7 +24847,7 @@
       "z": -9.77,
       "rot_deg": -90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -28.1, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -28.1, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24858,7 +24858,7 @@
       "z": -9.77,
       "rot_deg": -90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -25.5, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -25.5, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24869,7 +24869,7 @@
       "z": -9.77,
       "rot_deg": -90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -22.9, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -22.9, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24880,7 +24880,7 @@
       "z": -9.77,
       "rot_deg": -90.0,
       "zone": "gym-f3",
-      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -20.3, -8.17], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [-19.475, -20.3, -8.17], "color": [1.0, 0.8, 0.6]},
       "note": "eclipse wall light on the zone wall"
     },
     {
@@ -24892,7 +24892,7 @@
       "rot_deg": 0.0,
       "zone": "gym-f3",
       "length": 4.6,
-      "light": {"type": "AREA", "energy": 48, "size": 4.6, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.200000000000003, -13.975, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 48, "size": 4.6, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.200000000000003, -13.975, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
@@ -24904,7 +24904,7 @@
       "rot_deg": 0.0,
       "zone": "gym-f3",
       "length": 4.6,
-      "light": {"type": "AREA", "energy": 48, "size": 4.6, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.200000000000003, -13.725, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 48, "size": 4.6, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.200000000000003, -13.725, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
@@ -24916,7 +24916,7 @@
       "rot_deg": 0.0,
       "zone": "gym-f3",
       "length": 4.26,
-      "light": {"type": "AREA", "energy": 45, "size": 4.26, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.77, -3.125, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 45, "size": 4.26, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.77, -3.125, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
@@ -24928,7 +24928,7 @@
       "rot_deg": 0.0,
       "zone": "gym-f3",
       "length": 4.26,
-      "light": {"type": "AREA", "energy": 45, "size": 4.26, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.77, -2.875, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 45, "size": 4.26, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-24.77, -2.875, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
@@ -24940,7 +24940,7 @@
       "rot_deg": 90.0,
       "zone": "gym-f3",
       "length": 12.8,
-      "light": {"type": "AREA", "energy": 130, "size": 12.8, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-11.625, -23.0, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 130, "size": 12.8, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-11.625, -23.0, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
@@ -24952,7 +24952,7 @@
       "rot_deg": 90.0,
       "zone": "gym-f3",
       "length": 12.8,
-      "light": {"type": "AREA", "energy": 130, "size": 12.8, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-11.875, -23.0, -7.77], "color": [1.0, 0.85, 0.68]},
+      "light": {"type": "AREA", "energy": 130, "size": 12.8, "size_y": 0.04, "offset": [0, 0, 0.01], "aim": [-11.875, -23.0, -7.77], "color": [1.0, 0.8, 0.6]},
       "note": "floor slot washing up the low zone wall"
     },
     {
