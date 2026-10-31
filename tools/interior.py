@@ -310,12 +310,14 @@ G_CORES = [{"rect": [-29.45, -18.55, -29.2, -9.55], "note": "core W1"}, {"rect":
            {"rect": [-29.45, -4.1, -29.2, -1.7], "note": "men's express lift"}, {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"}]
 SPIRAL = {"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}
 NSTAIR = {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"}
+CARRY = [-26.2, -1.8, -23.8, 10.6]                  # the strongman carry lane, 12.4 m of the same turf (2026-10-31: the area read as empty floor)
 LANE = [-14.4, -34.1, -12.0, -19.0]                 # 15 m of turf from the south wall (Roman 2026-10-26: 20 m; 2026-10-31 it ran on beside the
                                                     # spiral's first turn, 0.8-1.3 m up: a head-down sled pusher's head height; it stops short of it now)
 for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
                                                              ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
     zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
-    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}, {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}] if dark else [])
+    holes = G_CORES + fl_holes + ([{"rect": LANE, "note": "sled lane (turf)"}, {"rect": CARRY, "note": "carry lane (turf)"},
+                                   {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}] if dark else [])
     add({"id": f"IN-{lvl}-gym-impact", "type": "slab", "material": "impact_mat", "rect": GH, "z": [round(zf - 0.10, 3), round(zf - 0.08, 3)], "holes": holes,
          "pattern": {"kind": "poured", "joint": 30.0}, "note": "20 mm impact sound mat"})
     add({"id": f"IN-{lvl}-gym-screed", "type": "slab", "kind": "floor_finish", "material": "screed", "rect": GH, "z": [round(zf - 0.08, 3), round(zf - 0.038, 3)],
@@ -327,6 +329,8 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
     if dark:
         add({"id": f"IN-{lvl}-sled-lane", "type": "slab", "kind": "floor_finish", "material": "turf_sled", "rect": LANE, "z": [round(zf - 0.08, 3), zf],
              "holes": [], "note": "the sled lane: 15 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
+        add({"id": f"IN-{lvl}-carry-lane", "type": "slab", "kind": "floor_finish", "material": "turf_sled", "rect": CARRY, "z": [round(zf - 0.08, 3), zf],
+             "holes": [], "note": "the carry lane: 12.4 m of the sled turf for the yoke, farmers + sandbag carries"})
     beams = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith(beam_tag))
     cuts = [{"rect": [GH[0], round(yb - 0.29, 3), GH[2], round(yb + 0.29, 3)], "note": "PT beam"} for yb in beams]
     add({"id": f"IN-{lvl}-gym-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal" if dark else "wood_wool", "rect": GH,

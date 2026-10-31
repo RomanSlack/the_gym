@@ -9735,6 +9735,7 @@
         {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, -19.0], "note": "sled lane (turf)"},
+        {"rect": [-26.2, -1.8, -23.8, 10.6], "note": "carry lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
@@ -9756,6 +9757,7 @@
         {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, -19.0], "note": "sled lane (turf)"},
+        {"rect": [-26.2, -1.8, -23.8, 10.6], "note": "carry lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 6.0},
@@ -9776,6 +9778,7 @@
         {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, -19.0], "note": "sled lane (turf)"},
+        {"rect": [-26.2, -1.8, -23.8, 10.6], "note": "carry lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "poured", "joint": 30.0},
@@ -9797,6 +9800,7 @@
         {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"},
         {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"},
         {"rect": [-14.4, -34.1, -12.0, -19.0], "note": "sled lane (turf)"},
+        {"rect": [-26.2, -1.8, -23.8, 10.6], "note": "carry lane (turf)"},
         {"rect": [-8.25, -33.82, -6.45, 12.1], "note": "the den river: the rock base, the pool + the outfall slit"}
       ],
       "pattern": {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003},
@@ -9813,6 +9817,18 @@
       "z": [-9.85, -9.77],
       "holes": [],
       "note": "the sled lane: 15 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad",
+      "phase": 5,
+      "seq": 102
+    },
+    {
+      "id": "IN-F3-carry-lane",
+      "type": "slab",
+      "kind": "floor_finish",
+      "material": "turf_sled",
+      "rect": [-26.2, -1.8, -23.8, 10.6],
+      "z": [-9.85, -9.77],
+      "holes": [],
+      "note": "the carry lane: 12.4 m of the sled turf for the yoke, farmers + sandbag carries",
       "phase": 5,
       "seq": 102
     },
@@ -9842,29 +9858,29 @@
       "phase": 5,
       "seq": 147
     },
-    {"id": "IN-F3-beam-paint-0-106", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -34.378, -6.45, -33.822], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-0-107", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -34.379, -6.45, -34.375], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-0-108", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -33.825, -6.45, -33.821], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-1-109", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.678, -6.45, -26.122], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-1-110", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.679, -6.45, -26.675], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-1-111", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.125, -6.45, -26.121], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-2-112", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.978, -6.45, -18.422], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-2-113", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.979, -6.45, -18.975], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-2-114", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.425, -6.45, -18.421], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-3-115", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -11.278, -6.45, -10.722], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-3-116", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -11.279, -6.45, -11.275], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-3-117", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -10.725, -6.45, -10.721], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-4-118", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.578, -6.45, -3.022], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-4-119", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.579, -6.45, -3.575], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-4-120", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.025, -6.45, -3.021], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-5-121", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.122, -6.45, 4.678], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-5-122", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.121, -6.45, 4.125], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-5-123", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.675, -6.45, 4.679], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-6-124", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.822, -6.45, 12.378], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-6-125", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.821, -6.45, 11.825], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
-    {"id": "IN-F3-beam-paint-6-126", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 12.375, -6.45, 12.379], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-0-107", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -34.378, -6.45, -33.822], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-0-108", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -34.379, -6.45, -34.375], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-0-109", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -33.825, -6.45, -33.821], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-1-110", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.678, -6.45, -26.122], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-1-111", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.679, -6.45, -26.675], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-1-112", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -26.125, -6.45, -26.121], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-2-113", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.978, -6.45, -18.422], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-2-114", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.979, -6.45, -18.975], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-2-115", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -18.425, -6.45, -18.421], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-3-116", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -11.278, -6.45, -10.722], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-3-117", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -11.279, -6.45, -11.275], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-3-118", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -10.725, -6.45, -10.721], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-4-119", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.578, -6.45, -3.022], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-4-120", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.579, -6.45, -3.575], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-4-121", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, -3.025, -6.45, -3.021], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-5-122", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.122, -6.45, 4.678], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-5-123", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.121, -6.45, 4.125], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-5-124", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.675, -6.45, 4.679], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-6-125", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.822, -6.45, 12.378], "z": [-6.114, -6.11], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-6-126", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 11.821, -6.45, 11.825], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
+    {"id": "IN-F3-beam-paint-6-127", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 12.375, -6.45, 12.379], "z": [-6.11, -5.26], "holes": [], "note": "PT beam painted charcoal (the den)", "phase": 5, "seq": 139},
     {
-      "id": "IN-F3-pilaster-paint-C-C2-F4-127",
+      "id": "IN-F3-pilaster-paint-C-C2-F4-128",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.704, 4.096, -6.7, 4.704],
@@ -9874,10 +9890,10 @@
       "phase": 5,
       "seq": 102
     },
-    {"id": "IN-F3-pilaster-paint-C-C2-F4-128", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.096, -6.45, 4.1], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
-    {"id": "IN-F3-pilaster-paint-C-C2-F4-129", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.7, -6.45, 4.704], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
+    {"id": "IN-F3-pilaster-paint-C-C2-F4-129", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.096, -6.45, 4.1], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
+    {"id": "IN-F3-pilaster-paint-C-C2-F4-130", "type": "slab", "material": "paint_charcoal", "rect": [-6.7, 4.7, -6.45, 4.704], "z": [-9.77, -5.295], "holes": [], "note": "pilaster painted charcoal (the den)", "phase": 5, "seq": 102},
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F4-130",
+      "id": "IN-F3-pilaster-paint-C-C3-F4-131",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.704, -3.604, -6.7, -2.996],
@@ -9888,7 +9904,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F4-131",
+      "id": "IN-F3-pilaster-paint-C-C3-F4-132",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -3.604, -6.45, -3.6],
@@ -9899,7 +9915,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F4-132",
+      "id": "IN-F3-pilaster-paint-C-C3-F4-133",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -3.0, -6.45, -2.996],
@@ -9910,7 +9926,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F4-133",
+      "id": "IN-F3-pilaster-paint-C-C4-F4-134",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.704, -11.304, -6.7, -10.696],
@@ -9921,7 +9937,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F4-134",
+      "id": "IN-F3-pilaster-paint-C-C4-F4-135",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -11.304, -6.45, -11.3],
@@ -9932,7 +9948,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F4-135",
+      "id": "IN-F3-pilaster-paint-C-C4-F4-136",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -10.7, -6.45, -10.696],
@@ -9943,7 +9959,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F4-136",
+      "id": "IN-F3-pilaster-paint-C-C5-F4-137",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.704, -19.004, -6.7, -18.396],
@@ -9954,7 +9970,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F4-137",
+      "id": "IN-F3-pilaster-paint-C-C5-F4-138",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -19.004, -6.45, -19.0],
@@ -9965,7 +9981,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F4-138",
+      "id": "IN-F3-pilaster-paint-C-C5-F4-139",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -18.4, -6.45, -18.396],
@@ -9976,7 +9992,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F4-139",
+      "id": "IN-F3-pilaster-paint-C-C6-F4-140",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.704, -26.704, -6.7, -26.096],
@@ -9987,7 +10003,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F4-140",
+      "id": "IN-F3-pilaster-paint-C-C6-F4-141",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -26.704, -6.45, -26.7],
@@ -9998,7 +10014,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F4-141",
+      "id": "IN-F3-pilaster-paint-C-C6-F4-142",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.7, -26.1, -6.45, -26.096],
@@ -10009,7 +10025,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C2-F1-142",
+      "id": "IN-F3-pilaster-paint-C-C2-F1-143",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.654, 4.096, -6.65, 4.704],
@@ -10020,7 +10036,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C2-F1-143",
+      "id": "IN-F3-pilaster-paint-C-C2-F1-144",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, 4.096, -6.45, 4.1],
@@ -10031,7 +10047,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C2-F1-144",
+      "id": "IN-F3-pilaster-paint-C-C2-F1-145",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, 4.7, -6.45, 4.704],
@@ -10042,7 +10058,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F1-145",
+      "id": "IN-F3-pilaster-paint-C-C3-F1-146",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.654, -3.604, -6.65, -2.996],
@@ -10053,7 +10069,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F1-146",
+      "id": "IN-F3-pilaster-paint-C-C3-F1-147",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -3.604, -6.45, -3.6],
@@ -10064,7 +10080,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C3-F1-147",
+      "id": "IN-F3-pilaster-paint-C-C3-F1-148",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -3.0, -6.45, -2.996],
@@ -10075,7 +10091,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F1-148",
+      "id": "IN-F3-pilaster-paint-C-C4-F1-149",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.654, -11.304, -6.65, -10.696],
@@ -10086,7 +10102,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F1-149",
+      "id": "IN-F3-pilaster-paint-C-C4-F1-150",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -11.304, -6.45, -11.3],
@@ -10097,7 +10113,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C4-F1-150",
+      "id": "IN-F3-pilaster-paint-C-C4-F1-151",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -10.7, -6.45, -10.696],
@@ -10108,7 +10124,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F1-151",
+      "id": "IN-F3-pilaster-paint-C-C5-F1-152",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.654, -19.004, -6.65, -18.396],
@@ -10119,7 +10135,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F1-152",
+      "id": "IN-F3-pilaster-paint-C-C5-F1-153",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -19.004, -6.45, -19.0],
@@ -10130,7 +10146,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C5-F1-153",
+      "id": "IN-F3-pilaster-paint-C-C5-F1-154",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -18.4, -6.45, -18.396],
@@ -10141,7 +10157,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F1-154",
+      "id": "IN-F3-pilaster-paint-C-C6-F1-155",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.654, -26.704, -6.65, -26.096],
@@ -10152,7 +10168,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F1-155",
+      "id": "IN-F3-pilaster-paint-C-C6-F1-156",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -26.704, -6.45, -26.7],
@@ -10163,7 +10179,7 @@
       "seq": 102
     },
     {
-      "id": "IN-F3-pilaster-paint-C-C6-F1-156",
+      "id": "IN-F3-pilaster-paint-C-C6-F1-157",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-6.65, -26.1, -6.45, -26.096],
@@ -10354,7 +10370,7 @@
       "seq": 98
     },
     {
-      "id": "IN-F4-beam-paint-0-168",
+      "id": "IN-F4-beam-paint-0-169",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -34.378, -6.45, -33.822],
@@ -10365,7 +10381,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-0-169",
+      "id": "IN-F4-beam-paint-0-170",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -34.379, -6.45, -34.375],
@@ -10376,7 +10392,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-0-170",
+      "id": "IN-F4-beam-paint-0-171",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -33.825, -6.45, -33.821],
@@ -10387,7 +10403,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-1-171",
+      "id": "IN-F4-beam-paint-1-172",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -26.678, -6.45, -26.122],
@@ -10398,7 +10414,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-1-172",
+      "id": "IN-F4-beam-paint-1-173",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -26.679, -6.45, -26.675],
@@ -10409,7 +10425,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-1-173",
+      "id": "IN-F4-beam-paint-1-174",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -26.125, -6.45, -26.121],
@@ -10420,7 +10436,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-2-174",
+      "id": "IN-F4-beam-paint-2-175",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -18.978, -6.45, -18.422],
@@ -10431,7 +10447,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-2-175",
+      "id": "IN-F4-beam-paint-2-176",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -18.979, -6.45, -18.975],
@@ -10442,7 +10458,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-2-176",
+      "id": "IN-F4-beam-paint-2-177",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -18.425, -6.45, -18.421],
@@ -10453,7 +10469,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-3-177",
+      "id": "IN-F4-beam-paint-3-178",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -11.278, -6.45, -10.722],
@@ -10464,7 +10480,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-3-178",
+      "id": "IN-F4-beam-paint-3-179",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -11.279, -6.45, -11.275],
@@ -10475,7 +10491,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-3-179",
+      "id": "IN-F4-beam-paint-3-180",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -10.725, -6.45, -10.721],
@@ -10486,7 +10502,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-4-180",
+      "id": "IN-F4-beam-paint-4-181",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -3.578, -6.45, -3.022],
@@ -10497,7 +10513,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-4-181",
+      "id": "IN-F4-beam-paint-4-182",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -3.579, -6.45, -3.575],
@@ -10508,7 +10524,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-4-182",
+      "id": "IN-F4-beam-paint-4-183",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, -3.025, -6.45, -3.021],
@@ -10518,11 +10534,11 @@
       "phase": 5,
       "seq": 90
     },
-    {"id": "IN-F4-beam-paint-5-183", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.122, -6.45, 4.678], "z": [-10.974, -10.97], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
-    {"id": "IN-F4-beam-paint-5-184", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.121, -6.45, 4.125], "z": [-10.97, -10.12], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
-    {"id": "IN-F4-beam-paint-5-185", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.675, -6.45, 4.679], "z": [-10.97, -10.12], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
+    {"id": "IN-F4-beam-paint-5-184", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.122, -6.45, 4.678], "z": [-10.974, -10.97], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
+    {"id": "IN-F4-beam-paint-5-185", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.121, -6.45, 4.125], "z": [-10.97, -10.12], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
+    {"id": "IN-F4-beam-paint-5-186", "type": "slab", "material": "paint_charcoal", "rect": [-29.45, 4.675, -6.45, 4.679], "z": [-10.97, -10.12], "holes": [], "note": "PT beam painted charcoal (the pool hall)", "phase": 5, "seq": 90},
     {
-      "id": "IN-F4-beam-paint-6-186",
+      "id": "IN-F4-beam-paint-6-187",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, 11.822, -6.45, 12.378],
@@ -10533,7 +10549,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-6-187",
+      "id": "IN-F4-beam-paint-6-188",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, 11.821, -6.45, 11.825],
@@ -10544,7 +10560,7 @@
       "seq": 90
     },
     {
-      "id": "IN-F4-beam-paint-6-188",
+      "id": "IN-F4-beam-paint-6-189",
       "type": "slab",
       "material": "paint_charcoal",
       "rect": [-29.45, 12.375, -6.45, 12.379],
