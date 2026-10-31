@@ -830,19 +830,39 @@ def gym_runs(y):
             out.append((xa, xb))
     return out
 BAYS = [-34.1, -26.4, -18.7, -11.0, -3.3, 4.4, 12.1]
+# no line over a bench (2026-10-30, the glare principle: a lifter on their back looks straight up): a run that would pass within
+# 0.5 m of a bench's body slides along y to the nearest clear spot (off the beams); two runs landing together merge, brighter
+BENCHES = {}
+for _lf in sorted((ROOT / "model" / "layouts").glob("gym_f*.json")):
+    _d = _json.loads(_lf.read_text())
+    for _it in _d["items"]:
+        if "bench" in (_d["kinds"].get(_it["kind"], {}).get("tag") or "") and "x" in _it:
+            _w, _dd = (_it["d"], _it["w"]) if _it.get("rot", 0) in (90, -90, 270) else (_it["w"], _it["d"])
+            BENCHES.setdefault(_lf.stem.split("_")[1].upper(), []).append((_it["x"] - _w / 2, _it["x"] + _w / 2, _it["y"] - _dd / 2, _it["y"] + _dd / 2))
+def deglare(lvl, xa, xb, y):
+    bs = [b for b in BENCHES.get(lvl, []) if b[0] < xb and b[1] > xa]
+    clear = lambda yy: min([max(b[2] - yy, yy - b[3]) for b in bs] or [9.0])   # the gap to the nearest bench body (< 0: over it)
+    cand = [y + i * 0.05 for i in sorted(range(-30, 31), key=abs) if all(abs(y + i * 0.05 - yb_) > 0.6 for yb_ in BAYS)]
+    ok = [yy for yy in cand if clear(yy) >= 0.5]
+    return round(ok[0] if ok else max(cand, key=clear), 2)   # the nearest clear spot, else the one farthest from the benches
 for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "4000", 75, -34.1, 12.1, "gym-f2"),
                                          ("F1", 5.58, "3500", 60, -34.1, -11.0, "gym-f1"),
                                          ("F3", round(-5.295 - lv["F3"], 3), "3000", 30, -34.1, 12.1, "gym-f3")):
     zl = lv[lvl]
+    runs = {}
     for ya, yb in zip(BAYS, BAYS[1:]):
         if ya < y0 - 0.01 or yb > y1 + 0.01:
             continue
-        for y in (((ya + yb) / 2 - 2.4, (ya + yb) / 2, (ya + yb) / 2 + 2.4) if lvl != "F3" else ((ya + yb) / 2,)):  # F3: one line a bay (Roman: half of them, more aesthetic)
-            for xa, xb in gym_runs(y):
-                L_ = round(xb - xa, 2)
-                put("gym_line", (xa + xb) / 2, y, rot=0, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,
-                    light={"type": "AREA", "energy": round(wpm * L_), "size": L_, "size_y": 0.06, "offset": [0, 0, zc - 0.06],
-                           "aim": [(xa + xb) / 2, y, zl - 1.0], "color": GYM_C[temp]}, note=f"linear line {temp} K between the beams")
+        for y0_ in (((ya + yb) / 2 - 2.4, (ya + yb) / 2, (ya + yb) / 2 + 2.4) if lvl != "F3" else ((ya + yb) / 2,)):  # F3: one line a bay (Roman: half of them, more aesthetic)
+            for xa, xb in gym_runs(y0_):
+                y = deglare(lvl, xa, xb, y0_)
+                k_ = next((k for k in runs if k[0] == xa and abs(k[1] - y) < 0.3), (xa, y))
+                runs[k_] = (xb, runs.get(k_, (xb, 0))[1] + 1)
+    for (xa, y), (xb, n_) in runs.items():
+        L_ = round(xb - xa, 2)
+        put("gym_line", (xa + xb) / 2, y, rot=0, zone=zone, level=lvl, z=zl, L=L_, z_ceiling=zc, temp=temp,
+            light={"type": "AREA", "energy": round(wpm * L_ * (1 + 0.6 * (n_ - 1))), "size": L_, "size_y": 0.06, "offset": [0, 0, zc - 0.06],
+                   "aim": [(xa + xb) / 2, y, zl - 1.0], "color": GYM_C[temp]}, note=f"linear line {temp} K between the beams")
     for ya, yb in zip(BAYS, BAYS[1:]):  # wall-washers down the west wall (mirrors, free weights, the den's grip wall), one per bay
         if ya < y0 - 0.01 or yb > y1 + 0.01:
             continue
@@ -1298,7 +1318,7 @@ for k, (a_, b_) in enumerate([(-22.6, -17.2), (-17.2, -11.8), (-11.8, -6.45)]):
     pa("pod_wall", xj, yc, rot=-90, zone=zn_, L=round(yn - ys, 3), D=0.5, H=HP, note="the joinery wall: water + towels, the screen, the kit wall")
     cx = (xa + 0.5 + xb) / 2; py = YS_A + 0.35 + 1.22
     pa("platform_inlay", cx, py, zone=zn_, s=2.44, note="the lifting platform, flush (oak centre, rubber drop zones); the rack goes on it")
-    for dx in (-1.05, 1.05):
+    for dx in (-1.8, 1.05):   # the west line clear of the bench (2026-10-30: no line over a lifter's face)
         L_ = 4.6
         pa("gym_line", cx + dx, yc, rot=90, zone=zn_, L=L_, z_ceiling=HP, temp="3500",
            light={"type": "AREA", "energy": round(20 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, HP - 0.095], "aim": [cx + dx, yc, lv["F2"] - 1.0],

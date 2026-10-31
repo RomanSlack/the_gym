@@ -1345,11 +1345,11 @@
    "pts": [
     [
      -28.9,
-     -30.25
+     -29.95
     ],
     [
      -21.6,
-     -30.25
+     -29.95
     ]
    ],
    "cls": "light",
@@ -1387,11 +1387,11 @@
    "pts": [
     [
      -28.9,
-     -22.55
+     -22.15
     ],
     [
      -21.6,
-     -22.55
+     -22.15
     ]
    ],
    "cls": "light",
@@ -5187,7 +5187,7 @@
    "room": "by the river",
    "kind": "hammer-strength-assisted-nordic-ham",
    "label": "Hammer Strength Assisted Nordic Ham",
-   "x": -10.1,
+   "x": -10.75,
    "y": 8.0,
    "w": 1.401,
    "d": 2.12,
@@ -5509,12 +5509,12 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--15.0-7.1",
+   "id": "wipes-F3--15.4-6.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -15.0,
-   "y": 7.1,
+   "x": -15.4,
+   "y": 6.7,
    "w": 0.36,
    "d": 0.36,
    "rot": 90,

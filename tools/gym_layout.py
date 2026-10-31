@@ -290,7 +290,8 @@ def overhead(level, light=True):
         for f in M["furnishings"]:
             if f["kind"] == "gym_line" and f["level"] == level:
                 x, y = f["at"][:2]; L = f.get("L", 1.0)
-                out.append({"pts": [[x - L / 2, y], [x + L / 2, y]], "cls": "light", "label": f"light line overhead ({f.get('temp', '')} K)"})
+                ax_ = (0.0, 1.0) if f.get("rot_deg", 0) in (90, -90, 270) else (1.0, 0.0)   # the pods' lines run along y
+                out.append({"pts": [[x - ax_[0] * L / 2, y - ax_[1] * L / 2], [x + ax_[0] * L / 2, y + ax_[1] * L / 2]], "cls": "light", "label": f"light line overhead ({f.get('temp', '')} K)"})
     return out
 
 

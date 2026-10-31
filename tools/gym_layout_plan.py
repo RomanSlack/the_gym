@@ -49,20 +49,21 @@ def plan_f2(G):
         F.put("rogue-flat-utility-bench-2-0", -24.3, y, 90, "rack room", "lives in the rack", on=r_["id"])
     F.put("rogue-freestanding-chalk-stand", -28.55, -32.9, 0, "rack room")
     # --- the pulling corner (behind the W1 doors, its own tall wall): the half racks + the deadlift platform
-    for y in (-9.6, -7.15):
+    for y in (-9.9, -6.85):   # 1.2 m between the racks (NSCA 0.9)
         p_ = F.put("hammer-strength-rubber-platform", -24.685, y, 90, "pulling corner", "half rack platform")
         r_ = F.put("rogue-monster-half-rack", -24.56, y, 90, "pulling corner", "on its platform", on=p_["id"])
         F.put("rogue-flat-utility-bench-2-0", -24.9, y, 90, "pulling corner", "lives in the rack", on=r_["id"])
-    F.put("rogue-deadlift-platform", -24.91, -4.62, 90, "pulling corner", "deadlifts; the crash cushions on it")
+    F.put("rogue-deadlift-platform", -24.9, -3.06 - 0.1 - 1.381 / 2, 0, "pulling corner", "deadlifts; the crash cushions on it; along the olympic wall, 0.9 m+ clear of the half rack (NSCA)")
+    F.put("life-fitness-olympic-weight-tree", -22.9, -4.0, 90, "pulling corner", "the deadlift's plates, within 0.9 m of the bar (NSCA)")
     F.put("rogue-belt-and-band-hanger", XW + 0.155, -7.2, -90, "pulling corner", "belts, straps, sleeves, wraps on loan; the bands")
     F.put("rogue-freestanding-chalk-stand", -23.0, -10.3, 0, "pulling corner")
 
-    # --- olympic: six platforms in two staggered lines facing the mirror, the storage on the tall south wall, a low wall east
+    # --- olympic: six platforms in two staggered lines facing the mirror, bumpers between them, the bars on the tall south wall, a low wall east
     for row_x, ys in ((-27.27, (9.6, 6.13, 2.66)), (-23.91, (7.865, 4.395, 0.925))):
         for y in ys:
             F.put("hammer-strength-impact-suppression-platform", row_x, y, 90, "olympic", "8 x 6 ft: the bar along y, the lifter faces the mirror")
-    for x in (-26.35, -25.1):
-        F.put("rogue-monster-bumper-rack", x, -2.57, 0, "olympic", "bumpers + the competition / change plates")
+    for x, y in ((-27.27, 7.865), (-27.27, 4.395), (-23.91, 6.13), (-23.91, 2.66)):   # (2026-10-30, NSCA: the plates beside every platform)
+        F.put("rogue-monster-bumper-rack", x, y, 0, "olympic", "bumpers + change plates, in the gap between two platforms")
     F.put("rogue-10-bar-holder", -23.6, -2.57, 0, "olympic", "the Eleiko / Strencor / technique bars")
     F.put("rogue-freestanding-chalk-stand", -25.55, 1.0, 0, "olympic")
     F.put("rogue-freestanding-chalk-stand", -25.55, 8.0, 0, "olympic")
@@ -79,7 +80,8 @@ def plan_f2(G):
         w, d = G.footprint(p_)
         F.put(p_, x, yc - 0.6 - d / 2, 180, "bench room")
     F.put("life-fitness-olympic-weight-tree", -19.3, yc, 0, "bench room")
-    F.put("rogue-10-bar-holder", -15.9, yc, 0, "bench room", "power bars, women's bars, the specialty bars")
+    F.put("life-fitness-olympic-weight-tree", -15.9, yc, 0, "bench room", "the Life Fitness flat benches have no horns: plates within 0.9 m (NSCA)")
+    F.put("rogue-10-bar-holder", -15.9, -31.3, 0, "bench room", "power bars, women's bars, the specialty bars")
 
     # --- the dumbbell bay: two racks back to back, benches off both ends
     F.put("hammer-strength-three-tier-dumbbell-rack", -17.95, -22.14, 0, "dumbbell bay", "Rogue rubber hex 2.5-25 kg")
@@ -137,7 +139,7 @@ def plan_f2(G):
                                                  "hammer-strength-plate-loaded-seated-calf-raise"], -21.6, 3.8, 180, "leg room"))
     F.notes.append("leg room 2 ends %.2f" % hub(["life-fitness-smith-machine", "life-fitness-smith-machine", "hammer-strength-glute-ham-reverse-hyper-combo"],
                                                 -21.6, 4.4, 0, "leg room"))
-    def lrow(pieces, x, yb, rot, gap=0.5):
+    def lrow(pieces, x, yb, rot, gap=0.65):
         for p_ in pieces:
             w, d = G.footprint(p_)
             F.put(p_, x + w / 2, yb + (d / 2 if rot == 0 else -d / 2), rot, "leg extension island")
@@ -145,7 +147,7 @@ def plan_f2(G):
         return x
     LF, HS, PR = "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"
     F.notes.append("leg ext 1 ends %.2f" % lrow([LF, LF, PR, "hammer-strength-mts-kneeling-leg-curl"], -21.75, 9.4, 0))
-    F.notes.append("leg ext 2 ends %.2f" % lrow([LF, HS, HS, HS, "hammer-strength-select-hip-abduction", "hammer-strength-select-hip-adduction"], -21.75, 9.0, 180))
+    F.notes.append("leg ext 2 ends %.2f" % lrow([LF, HS, HS, "hammer-strength-select-hip-abduction", "hammer-strength-select-hip-adduction"], -21.75, 9.0, 180))   # one HS cut for the 0.65 m gaps
 
     # --- cardio on the river band: the seats by the glass, the treadmills behind (they see over them), a PWR Play island north
     y = -1.6
@@ -411,7 +413,7 @@ def plan_f3(G):
                   None, "hammer-strength-plate-loaded-abdominal-oblique-crunch", "body-solid-gvkr60b-vertical-knee-raise-dip",
                   "gmwd-multi-functional-seal-row-bench-sr05"], -8.4, y + 0.4, -90, 0.7, "upper by the river")
     F.notes.append(f"river row ends {y:.2f}")
-    F.put("hammer-strength-assisted-nordic-ham", -10.1, 8.0, 180, "by the river")
+    F.put("hammer-strength-assisted-nordic-ham", -10.75, 8.0, 180, "by the river")
 
     # --- the sled lane: the sleds parked at its ends, the harnesses on mass storage by its south end
     for y in (-33.1, -32.0):
@@ -484,13 +486,13 @@ def plan_f1(G):
     F.route("r-garden-side", [(-26.3, -10.5), (-26.3, -29.0)], "down the garden side: the W2 stair, the mats, the calisthenics wall")
 
     # --- calisthenics along the south glass (Roman 2026-10-30: "take up the whole back wall or most of it ... without those
-    # barriers"): the Monkey Rig with its back to the forest, three pull-up stations carrying the line east, the skills floor +
+    # barriers"): the Monkey Rig with its back to the forest, two pull-up stations carrying the line east, the skills floor +
     # parallettes in front, the VKR + wall bars on the W2 core at the west end. No partitions: the open mats run straight into it
     mx = -27.3 + 7.493 / 2
     mr = F.put("rogue-monster-lite-monkey-rig-2-0", mx, YSF + 0.3 + 2.106 / 2, 180, "calisthenics", "back to the south glass: rings on the 2.47 m bars; the parallel bars on it")
     F.put("rogue-rig-mount-parallel-bars", mx + 3.07, mr["y"], 180, "calisthenics", "on the rig, in its east 43 in bay", on=mr["id"])
     F.put("body-solid-gvkr60b-vertical-knee-raise-dip", XWF + 0.5, -29.6, -90, "calisthenics", "its back to the W2 core")
-    for x in (-18.75, -16.85, -14.95):
+    for x in (-18.0, -15.2):   # 1.2 m apart (NSCA)
         F.items.append({"id": f"pullup-{x:+.2f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
                         "x": x, "y": round(YSF + 0.3 + 1.0, 3), "w": 1.6, "d": 0.18, "rot": 0,
                         "note": "pull-ups, chin-ups, hanging leg raises, muscle-ups: the rig's line carried east along the glass"})
@@ -521,7 +523,7 @@ def plan_f1(G):
     F.write("gym_f1", ws, sps, {"fixed": fixed, "overhead": G.overhead("F1")},
             summary=["F1 · the hall (first proposal, 2026-10-26)",
                      "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-                     "Calisthenics along the south glass (2026-10-30, no partitions): the Monkey Rig + three pull-up stations facing the room, the skills floor + parallettes, wall bars on the cores.",
+                     "Calisthenics along the south glass (2026-10-30, no partitions): the Monkey Rig + two pull-up stations facing the room, the skills floor + parallettes, wall bars on the cores.",
                      "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
                      "The body scanner is in the posing room on F2 (private)."])
 

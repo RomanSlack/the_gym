@@ -39,8 +39,13 @@ FINISH = {  # pattern + material per finish kind
     "mirror": {"kind": "skin", "depth": 0.012, "material": "mirror"},
     "steel_skirting": {"kind": "skin", "depth": 0.016, "material": "frame"},
     "plaster_charcoal": {"kind": "skin", "depth": 0.015, "material": "plaster_charcoal"},
+    "felt_backing": {"kind": "skin", "depth": 0.01, "material": "felt_black"},   # acoustic felt behind the partition slats
+    "oak_end": {"kind": "skin", "depth": 0.02, "material": "oak_slat"},
+    "oak_end_smoked": {"kind": "skin", "depth": 0.02, "material": "oak_slat_smoked"},
     "oak_slats_smoked": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z", "depth": 0.065, "material": "oak_slat_smoked"},
 }
+
+MIR0 = 0.51   # mirrors start 0.51 m up (NSCA safety checklist: a rolling plate can't reach the glass); blackened steel below
 
 m = modelio.load()
 args = sys.argv[1:]
@@ -344,16 +349,16 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
                          "z": [zf, zt], "holes": [], "note": "pilaster painted charcoal (the den)"})
     # walls: west (mirrors), north + south (slats), the river wall (plaster round its windows)
     if not dark:
-        lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + 0.15, 3)])
-        lining("W-west-A", "mirror", -1, tag=f"-{lvl}-mirror", z=[round(zf + 0.15, 3), round(zf + 2.6, 3)])
+        lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + MIR0, 3)])
+        lining("W-west-A", "mirror", -1, tag=f"-{lvl}-mirror", z=[round(zf + MIR0, 3), round(zf + 2.6, 3)])
         lining("W-west-A", "oak_slats_wall", -1, tag=f"-{lvl}-slats", z=[round(zf + 2.6, 3), zt])
         for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
             lining(wid, "oak_slats_wall", sg, tag=f"-{lvl}", z=[zf, zt])
         lining("W-west-C", "lime_plaster", 1, tag=f"-{lvl}", z=[zf, zt])
     else:
         L_A = 46.2; s34 = round(L_A * 0.75, 2)  # mirror on the free-weight 3/4 from the south, smoked oak on the strongman quarter
-        lining("W-west-A", "steel_skirting", -1, tag=f"-{lvl}-skirt", z=[zf, round(zf + 0.15, 3)])
-        lining("W-west-A", "mirror", -1, s_range=(0.0, s34), tag=f"-{lvl}-mirror", z=[round(zf + 0.15, 3), zt])
+        lining("W-west-A", "steel_skirting", -1, s_range=(0.0, s34), tag=f"-{lvl}-skirt", z=[zf, round(zf + MIR0, 3)])
+        lining("W-west-A", "mirror", -1, s_range=(0.0, s34), tag=f"-{lvl}-mirror", z=[round(zf + MIR0, 3), zt])
         lining("W-west-A", "oak_slats_smoked", -1, s_range=(s34, L_A), tag=f"-{lvl}-slats", z=[round(zf + 0.15, 3), zt])
         for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
             lining(wid, "oak_slats_smoked", sg, tag=f"-{lvl}", z=[zf, zt])
@@ -675,8 +680,8 @@ for k, (a_, b_) in enumerate(PODS):
     gym_floor("F2", nm, r, holes=[{"rect": pod_plat(k), "note": "the lifting platform, set flush"}])
     line_rooms(f"pod-{k + 1}", "oak_slats_smoked", [F2v, ZR2], nm, walls=[e for e in w2 if e["id"] != east])
     rng_ = (0.2, 5.75)
-    lining(east, "steel_skirting", 1, rng_, tag=f"-{nm}-skirt", z=[F2v, round(F2v + 0.15, 3)])
-    lining(east, "mirror", 1, rng_, tag=f"-{nm}-mirror", z=[round(F2v + 0.15, 3), round(F2v + 2.6, 3)])
+    lining(east, "steel_skirting", 1, rng_, tag=f"-{nm}-skirt", z=[F2v, round(F2v + MIR0, 3)])
+    lining(east, "mirror", 1, rng_, tag=f"-{nm}-mirror", z=[round(F2v + MIR0, 3), round(F2v + 2.6, 3)])
     lining(east, "oak_slats_smoked", 1, rng_, tag=f"-{nm}-slats", z=[round(F2v + 2.6, 3), ZR2])
     ww_ceiling("F2", nm, r, ZR2)
 ALT = [-28.85, -40.1, -14.45, -34.1]
@@ -712,8 +717,21 @@ for lvl, zws in ZONE_WALLS.items():
              "note": f"gym zoning partition, {'tall' if tall else 'low'} ({h} m): studs, oak slats both faces, oak cap"}
         add(e); by_id[wid] = e
         for sg in (1, -1):
+            lining(wid, "felt_backing", sg, tag=f"-felt-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
             lining(wid, slats, sg, tag=f"-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
         o = ZP_T / 2 + 0.065
+        import math
+        L_ = math.hypot(b_[0] - a_[0], b_[1] - a_[1]); ux, uy = (b_[0] - a_[0]) / L_, (b_[1] - a_[1]) / L_
+        for end, sg in ((a_, -1), (b_, 1)):   # an open end gets an oak board across it (not where it meets another partition)
+            if any(abs((q1[0] - q0[0]) * (end[1] - q0[1]) - (q1[1] - q0[1]) * (end[0] - q0[0])) / math.hypot(q1[0] - q0[0], q1[1] - q0[1]) < 0.15
+                   and min(q0[0], q1[0]) - 0.15 <= end[0] <= max(q0[0], q1[0]) + 0.15 and min(q0[1], q1[1]) - 0.15 <= end[1] <= max(q0[1], q1[1]) + 0.15
+                   for n2, q0, q1, _ in zws if n2 != nm):
+                continue
+            cx, cy = end[0] + ux * sg * 0.01, end[1] + uy * sg * 0.01
+            add({"id": f"{wid}-end-{'a' if sg < 0 else 'b'}", "type": "wall", "kind": "lining", "material": "oak_slat_smoked" if lvl == "F3" else "oak_slat",
+                 "from": [round(cx - uy * o, 3), round(cy + ux * o, 3)], "to": [round(cx + uy * o, 3), round(cy - ux * o, 3)], "size": [0.02, h],
+                 "z": [zf, round(zf + h, 3)], "pattern": {"kind": "skin"}, "openings": [], "face_normal": [round(ux * sg, 3), round(uy * sg, 3)],
+                 "note": "oak board over the partition's open end"})
         xs, ys = sorted((a_[0], b_[0])), sorted((a_[1], b_[1]))
         add({"id": f"{wid}-cap", "type": "slab", "material": "oak_slat_smoked" if lvl == "F3" else "oak_slat",
              "rect": [round(xs[0] - o, 3), ys[0], round(xs[1] + o, 3), ys[1]] if xs[0] == xs[1] else [xs[0], round(ys[0] - o, 3), xs[1], round(ys[1] + o, 3)],
