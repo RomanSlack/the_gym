@@ -6052,30 +6052,37 @@ PARAMS = {"gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceilin
 ARGNAME = {"length": "L", "height": "h"}
 
 
+def proto_key(f):
+    """A furnishing's builder kwargs + its prototype key (kind + parameter set)."""
+    kind = f["kind"]
+    keys = PARAMS.get(kind, ())
+    kw = {}
+    for k in keys:
+        if k in f:
+            name = k
+            if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
+                        "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
+                        "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
+                        "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer",
+                        "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate", "stone_bench",
+                        "slipper_cabinet", "robe_wall", "towel_warmer", "stone_lining") and k == "length":
+                name = "L"
+            if kind == "bar_stool" and k == "height":
+                name = "h"
+            if kind == "gate" and k == "width":
+                name = "w"
+            kw[name] = tuple(tuple(v) if isinstance(v, list) else v for v in f[k]) if isinstance(f[k], list) else f[k]
+    key = kind + "|" + "|".join(f"{k}={v}" for k, v in sorted(kw.items()))
+    return kw, key
+
+
 def build_all(model, MAT, coll):
     """Instance every furnishing in model['furnishings'] (one prototype collection per kind + parameter set)."""
     materials(MAT)
     count = 0
     for f in model.get("furnishings", []):
         kind = f["kind"]
-        keys = PARAMS.get(kind, ())
-        kw = {}
-        for k in keys:
-            if k in f:
-                name = k
-                if kind in ("sofa", "communal_table", "bench", "boot_bench", "reception_desk", "window_counter", "vanity", "changing_unit", "cubbies",
-                            "play_loft", "low_shelf", "story_wall", "kitchenette", "climbing_wall", "wall_bars", "balance_beam",
-                            "gear_rack", "log_bench", "mat_shelf", "wheel_rack", "bunting", "window_nest", "dance_mirror", "music_wall",
-                            "glass_fence", "floor_strip", "bridge_bench", "deck_sofa", "slide_wall", "linear_light", "floor_grazer",
-                            "locker_hall", "wall_waterfall", "grooming_bar", "shoe_cubbies", "towel_shelf", "uvc_plate", "stone_bench",
-                            "slipper_cabinet", "robe_wall", "towel_warmer", "stone_lining") and k == "length":
-                    name = "L"
-                if kind == "bar_stool" and k == "height":
-                    name = "h"
-                if kind == "gate" and k == "width":
-                    name = "w"
-                kw[name] = tuple(tuple(v) if isinstance(v, list) else v for v in f[k]) if isinstance(f[k], list) else f[k]
-        key = kind + "|" + "|".join(f"{k}={v}" for k, v in sorted(kw.items()))
+        kw, key = proto_key(f)
         if key not in PROTO:
             pc = bpy.data.collections.new(f"proto_{kind}_{len(PROTO)}")
             P = Part(pc.name)

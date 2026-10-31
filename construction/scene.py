@@ -747,6 +747,7 @@ for o in bpy.data.objects:  # grass on the sod roofs lives as modifiers on the r
             md_.show_viewport = False
 _tick("grass + forest + bevels")
 if not (ONLY and RENDER):  # a partial (camera-set) build never replaces the full saved scene
+    bpy.data.texts.new("model_base.json").write(json.dumps(model))   # what this scene shows: construction/patch_saved.py diffs against it
     bpy.ops.wm.save_as_mainfile(filepath=str(OUT / f"stage_{STAGE}.blend"))
     _tick("saved .blend")
 EXPO = scene.view_settings.exposure

@@ -150,15 +150,17 @@ def build_floor(name, z, coll, protos):
             L = dict(cores={c_: (i * D, j * D) for c_, (i, j) in it["cores"].items()},
                      faces={tuple(k_.split(",")): st for k_, st in it["faces"].items() if st},
                      bars=[(a_, b_, ("flat", "neutral", "angled")[q % 3]) for q, (a_, b_) in enumerate(it["bars"])])
-            cname = f"eq_{it['group']}"
-            c = bpy.data.collections.new(cname); protos.children.link(c)
-            k = kit.Kit(cname, c, pp.LOOK); k.check = lambda: None
-            pp.build_layout(k, L)
-            for o in k.finish():
-                if o.name not in c.objects:
-                    for cc in list(o.users_collection):
-                        cc.objects.unlink(o)
-                    c.objects.link(o)
+            cname, sig = f"eq_{it['group']}", json.dumps({k_: it.get(k_) for k_ in ("spacing", "cores", "faces", "bars")}, sort_keys=True)
+            c = next((c_ for c_ in bpy.data.collections if c_.name.split(".")[0] == cname and c_.get("sig") == sig), None)
+            if c is None:   # built once per layout: a saved scene's module is reused (construction/patch_saved.py)
+                c = bpy.data.collections.new(cname); protos.children.link(c); c["sig"] = sig
+                k = kit.Kit(cname, c, pp.LOOK); k.check = lambda: None
+                pp.build_layout(k, L)
+                for o in k.finish():
+                    if o.name not in c.objects:
+                        for cc in list(o.users_collection):
+                            cc.objects.unlink(o)
+                        c.objects.link(o)
             _instance(c, coll, Matrix.Translation((ox, oy, z)), it["group"]); n += 1
     return n
 

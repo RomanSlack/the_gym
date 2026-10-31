@@ -39,7 +39,6 @@ FINISH = {  # pattern + material per finish kind
     "mirror": {"kind": "skin", "depth": 0.012, "material": "mirror"},
     "steel_skirting": {"kind": "skin", "depth": 0.016, "material": "frame"},
     "plaster_charcoal": {"kind": "skin", "depth": 0.015, "material": "plaster_charcoal"},
-    "felt_backing": {"kind": "skin", "depth": 0.01, "material": "felt_black"},   # acoustic felt behind the partition slats
     "oak_end": {"kind": "skin", "depth": 0.02, "material": "oak_slat"},
     "oak_end_smoked": {"kind": "skin", "depth": 0.02, "material": "oak_slat_smoked"},
     "oak_slats_smoked": {"kind": "slats", "w": 0.045, "d": 0.02, "pitch": 0.065, "dir": "z", "depth": 0.065, "material": "oak_slat_smoked"},
@@ -406,7 +405,8 @@ for wid, sg in (("P-F4-55", -1), ("P-F4-56", -1), ("P-F4-57", -1), ("P-F4-58", 1
 # (its granite lining, water wall, trough and taps: tools/furnish.py)
 KW = next(e for e in by_id.values() if e["id"].startswith("P-F1-") and set(e.get("between", [])) == {"men-lockers", "gallery"})
 ks = lambda y: round(abs(y - KW["from"][1]), 3)
-KW["openings"].append({"s": sorted([ks(-2.15), ks(-0.55)]), "z": [F1v, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"})
+KW["openings"] = [o for o in KW["openings"] if not o.get("note", "").startswith("Kilden")] + \
+    [{"s": sorted([ks(-2.15), ks(-0.55)]), "z": [F1v, 2.5], "type": "opening", "note": "Kilden: the spring niche on the bridge axis"}]   # once (re-runs appended it again)
 # the gallery wall across from the bridge (gallery faces of the locker partitions): oak slats to the beams, plaster above
 for e in [e for e in by_id.values() if e["id"].startswith("P-F1-") and "gallery" in e.get("between", [])]:
     sg = 1 if (e["to"][1] - e["from"][1]) > 0 else -1  # the gallery is east (+x) of these walls
@@ -717,7 +717,6 @@ for lvl, zws in ZONE_WALLS.items():
              "note": f"gym zoning partition, {'tall' if tall else 'low'} ({h} m): studs, oak slats both faces, oak cap"}
         add(e); by_id[wid] = e
         for sg in (1, -1):
-            lining(wid, "felt_backing", sg, tag=f"-felt-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
             lining(wid, slats, sg, tag=f"-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
         o = ZP_T / 2 + 0.065
         import math
