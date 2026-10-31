@@ -5250,10 +5250,11 @@ def plant_pot(P, species="sansevieria", h=0.9, r=0.22):
             for m_ in range(len(ring)):
                 n_ = (m_ + 1) % len(ring); b.faces.new((vf[m_], vb[m_], vb[n_], vf[n_]))
 
-def eclipse_sconce(P, d=0.36):
+def eclipse_sconce(P, d=0.36, mount=1.6):
     """A round wall light (after Remedy Place's): a honed plaster disc standing off the wall, a smaller dark disc in front of it,
-    warm light washing out from behind both, a halo on the wall. Origin = the wall at its centre on the floor, front +y; z 1.6."""
-    z = 1.6
+    warm light washing out from behind both, a halo on the wall. Origin = the wall at its centre on the floor, front +y; z = mount
+    (1.6; 2.8 over a mirror, in the oak band above the glass)."""
+    z = mount
     b = P.bm(M["steel"]); g = bmesh.ops.create_cone(b, cap_ends=True, segments=48, radius1=0.05, radius2=0.05, depth=0.03)["verts"]
     bmesh.ops.rotate(b, verts=g, cent=(0, 0, 0), matrix=Matrix.Rotation(math.pi / 2, 3, "X")); bmesh.ops.translate(b, verts=g, vec=(0, 0.015, z))
     for mat, r, y, t in ((_led("eclipse_glow", (1.0, 0.76, 0.5), 5.0), d / 2 - 0.01, 0.034, 0.006), (M.get("plaster_venetian") or bc.interior_materials()["plaster_venetian"], d / 2, 0.045, 0.012),
@@ -6021,7 +6022,7 @@ BUILDERS = {
     "airlock": airlock, "sky_coffer": sky_coffer, "altitude_display": altitude_display, "altitude_station": altitude_station, "vent_grille": vent_grille,
     "hypoxic_plant": hypoxic_plant,
 }
-PARAMS = {"gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceiling_speaker": ("z_ceiling",), "posing_wall": ("L", "D", "H"),
+PARAMS = {"eclipse_sconce": ("mount",), "gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceiling_speaker": ("z_ceiling",), "posing_wall": ("L", "D", "H"),
           "posing_stage": ("w", "d", "h"), "stage_rig": ("w", "z_ceiling", "hang"), "light_boom": ("H",), "velvet_backdrop": ("L", "H"), "pod_wall": ("L", "D", "H"),
           "platform_inlay": ("s",), "airlock": ("w", "d", "h", "door"), "sky_coffer": ("w", "d", "depth", "z_ceiling"), "altitude_display": ("w", "h", "mount"),
           "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),

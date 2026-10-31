@@ -77,24 +77,27 @@ def _turn(face, rot):
 
 
 def pullup_station(k, span):
-    """A freestanding pull-up station from the Monkey Rig's parts: two 108 in red uprights on base plates, a black cap and
-    crossmember over them, the 2 in pull-up bar at the rig's 2.47 m on ROGUE gussets (the 6 ft 3 in dead-hang rule)."""
+    """A freestanding muscle-up bar from the Monkey Rig's parts (Roman 2026-10-31: "the pull-up bars we have restrict
+    muscle-ups"; the old station's crossmember ran 0.27 m over the bar): two red uprights on bolted base plates that stop
+    under the bar, the bar on top in black cups, nothing above it; 1.25 in bar at the rig's 2.47 m (the 6 ft 3 in
+    dead-hang rule), so the chest clears the bar and the arms lock out over it."""
     mr = _model("rogue-monster-lite-monkey-rig-2-0")
     k.look(**{r: v for r, v in mr.LOOK.items() if r not in k.looks})
-    IN, TB, Z, R = mr.IN, mr.TB, mr.Z_PU, mr.R_PU
-    H = 108 * IN
+    IN, TB, Z = mr.IN, mr.TB, mr.Z_PU
+    R = 1.25 * IN / 2
+    CUP = 0.05                                   # the cup on each upright's top: the bar sits in it, its rim 1 cm over the bar's axis
     xs = (-span / 2 - TB / 2, span / 2 + TB / 2)
+    top = Z - R - 0.012
     for x in xs:
-        k.box("frame", (x, 0, 0.0095 / 2), (7 * IN, 7 * IN, 0.0095), soft=0.0015)
-        k.bar("frame", (x, 0, 0.0095), (x, 0, H - TB - 0.002), TB, TB, r=0.004)
-        k.box("black", (x, 0, H - TB / 2), (TB, TB, TB), soft=0.003)
+        k.box("frame", (x, 0, 0.0095 / 2), (10 * IN, 10 * IN, 0.0095), soft=0.0015)
+        k.bar("frame", (x, 0, 0.0095), (x, 0, top - CUP), TB, TB, r=0.004)
+        k.box("black", (x, 0, top - CUP / 2), (TB + 0.006, TB + 0.006, CUP), soft=0.003)
+        k.box("black", (x, 0, top + 0.006), (TB + 0.006, TB + 0.006, 0.012), soft=0.002)                 # the saddle the bar sits on
+        for sy in (-1, 1):                                                                                 # the cup's lips either side of the bar
+            k.box("black", (x, sy * (R + 0.004), Z - R + 0.012), (TB + 0.006, 0.008, 0.024 + 0.012), soft=0.001)
         k.box("black", (x, -TB / 2 - 0.0015, 1.78), (TB - 0.01, 0.003, 0.40), soft=0.001)
         k.text("label", "ROGUE", (x, -TB / 2 - 0.0033, 1.78), 0.048, depth=0.0006, spin=math.pi / 2)
-    k.bar("black", (xs[0] + TB / 2, 0, H - TB / 2), (xs[1] - TB / 2, 0, H - TB / 2), TB, TB, up=(0, 1, 0), r=0.004)
-    G, PL = 0.18, mr.PL
-    for xf, sg in ((xs[0] + TB / 2, 1), (xs[1] - TB / 2, -1)):
-        k.box("black", (xf + sg * PL / 2, 0, Z - R - G / 2), (PL, TB, G + 0.02), soft=0.001)
-    k.tube("black", (xs[0] + TB / 2 + PL, 0, Z), (xs[1] - TB / 2 - PL, 0, Z), R, seg=28)
+    k.tube("black", (xs[0] - TB / 2 - 0.03, 0, Z), (xs[1] + TB / 2 + 0.03, 0, Z), R, seg=28)
 
 
 def build_floor(name, z, coll, protos):
@@ -126,11 +129,11 @@ def build_floor(name, z, coll, protos):
             wall = K[kd].get("wall", False)
             c, (cx, cy) = _proto(piece, protos, display=not wall)
             a = _turn(K[kd]["face"], it.get("rot", 0))
-            M = Matrix.Translation((it["x"], it["y"], z)) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Translation((-cx, -cy, 0))
-            _instance(c, coll, M, it["id"]); n += 1
+            M = Matrix.Translation((it["x"], it["y"], z + it.get("lift", 0.0))) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Translation((-cx, -cy, 0))
+            _instance(c, coll, M, it["id"]); n += 1   # (lift: a wall piece hung higher than its model's mount, the pegboard)
         elif kd == "rig_spur":
             span = it["w"] - 2 * 3 * 0.0254 - 0.1
-            cname = f"eq_pullup_{span:.2f}"
+            cname = f"eq_mubar_{span:.2f}"
             if cname in bpy.data.collections:
                 c = bpy.data.collections[cname]
             else:

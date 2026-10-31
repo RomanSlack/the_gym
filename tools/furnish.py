@@ -877,21 +877,23 @@ for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "35
 # round eclipse lights at 1.6 m on both faces of the tall walls (the den, the functional room), every 2.6 m, not behind tall kit;
 # a light slot in the floor along the foot of the low ones, washing up the smoked oak
 _F3K = _json.loads((ROOT / "model" / "layouts" / "gym_f3.json").read_text())["items"]
-_tall_kit = [(it["x"], it["y"], *((it["d"], it["w"]) if it.get("rot", 0) in (90, -90, 270) else (it["w"], it["d"])))
+_tall_kit = [(it["x"], it["y"], *((it["d"], it["w"]) if it.get("rot", 0) in (90, -90, 270) else (it["w"], it["d"])), it.get("h", 0))
              for it in _F3K if "x" in it and "w" in it and it.get("h", 0) > 1.3]                  # centre + footprint in plan
 for e in [e for e in m["elements"] if e.get("kind") == "partition" and e.get("level") == "F3"]:
     (ax, ay), (bx, by) = e["from"], e["to"]; L_ = math.hypot(bx - ax, by - ay); ux, uy = (bx - ax) / L_, (by - ay) / L_
     tall = e["z"][1] - e["z"][0] > 2.0; zl = lv["F3"]; o = e["size"][0] / 2 + 0.065
     for sg in (1, -1):
         nx, ny = -uy * sg, ux * sg
+        mir = any(x_["id"] == f"IN-lining-{e['id']}-{'a' if sg > 0 else 'b'}-mirror" for x_ in m["elements"])
+        zs_ = 2.8 if mir else 1.6        # (2026-10-31) a mirror face: the lights go up in the oak band over the glass, not on it
         if tall:
             n_ = int((L_ - 1.6) / 2.6) + 1; s0 = (L_ - 2.6 * (n_ - 1)) / 2
             for k in range(n_):
                 px, py = ax + ux * (s0 + 2.6 * k) + nx * o, ay + uy * (s0 + 2.6 * k) + ny * o
-                if any(abs(px - tx) < tw / 2 + 0.5 and abs(py - ty) < td / 2 + 0.5 for tx, ty, tw, td in _tall_kit):   # not behind tall kit
+                if any(abs(px - tx) < tw / 2 + 0.5 and abs(py - ty) < td / 2 + 0.5 and (not mir or th > zs_ - 0.4) for tx, ty, tw, td, th in _tall_kit):   # not behind tall kit
                     continue
                 put("eclipse_sconce", px, py, rot=round(math.degrees(math.atan2(ny, nx)) - 90, 1), zone="gym-f3", level="F3", z=zl,
-                    light={"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [px + nx, py + ny, zl + 1.6],
+                    mount=zs_, light={"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, zs_], "aim": [px + nx, py + ny, zl + zs_ - 0.6],
                            "color": GYM_C["2700"]}, note="eclipse wall light on the zone wall")
         else:
             px, py = (ax + bx) / 2 + nx * (o + 0.05), (ay + by) / 2 + ny * (o + 0.05)
@@ -919,7 +921,16 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
     ga, gb = ga % 360, (ga % 360) + (gb - ga)
     put("ring_guard", *_spe["center"], zone="gym-stair", level=lvl, z=lv[lvl], r=next(st_["diameter"] / 2 for st_ in m["stairs"] if st_["id"] == "spiral_west"), gap_a=round(ga, 1), gap_b=round(gb, 1), h=1.1, band=0.39,
         note="the opening's edge: steel fascia band, glass guard, oak cap; open where you step on/off")
-for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -9.0, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
+# (F2's south one stood in pod 3's door at -9.0 (Roman 2026-10-31: "a water fountain machine inside of a door"); now on the wall
+# between pods 1 and 2's doors; G.check flags any water / safety point in a door's landing)
+# the spiral's foot on F3 (Roman 2026-10-31: "a huge hazard to have the stairs like this ... someone could hit their head"): its first
+# turn is under 2.1 m (the steps' undersides 0.2-2 m up), so a glass guard rings it, open only at the foot where you step on
+put("ring_guard", *_spe["center"], zone="gym-stair", level="F3", z=lv["F3"], r=_R_open, gap_a=round((_sa0 - 10) % 360, 1), gap_b=round((_sa0 - 10) % 360 + _sst + 20, 1),
+    h=1.1, band=0.0, note="the spiral's foot on F3: glass guard round the low first turn (under 2.1 m headroom), open at the bottom step")
+# the stair F3 -> F4's open edges on F3 (the spine wall between its flights: tools/interior.py)
+for x, y, rot, L in ((-20.025, 8.28, 0, 2.85), (-21.5, 10.075, 90, 3.55), (-15.4, 10.075, 90, 3.55)):
+    put("glass_fence", x, y, rot=rot, zone="gym-f3", level="F3", z=lv["F3"], length=L, note="the stair to F4: glass guard on the opening's edge")
+for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -17.15, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
     y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)
     put("tap_station", x, y, rot=rot, zone=f"gym-{lvl.lower()}", level=lvl, z=lv[lvl], note="water station: chilled tap (bring your own bottle)")
 # the wipes stations come from the equipment layouts (model/layouts/gym_f*.json, tools/gym_layout.py: Roman 2026-10-26, three times
@@ -1371,7 +1382,7 @@ pa("sky_coffer", -21.55, -37.125, lvl="F3", zone="altitude", w=11.7, d=3.65, dep
 pa("altitude_display", AX0, AYC, rot=-90, lvl="F3", zone="altitude", mount=1.9, note="the altitude display: 2 800 m, O2, CO2")
 pa("altitude_station", -20.3, AYN, rot=180, lvl="F3", zone="altitude", note="control screen, O2 + CO2 sensor, fresh-air purge, pulse oximeters")
 pa("vent_grille", AX1, -36.6, rot=90, lvl="F3", zone="altitude", w=1.6, note="return air to the generators")
-pa("tap_station", -25.4, AYN, rot=180, lvl="F3", zone="altitude", note="water (bring your own bottle)")
+pa("tap_station", -27.6, AYN, rot=180, lvl="F3", zone="altitude", note="water (bring your own bottle); clear of the bikes")
 pa("exit_sign", -22.45, AYN - 2.07, rot=180, lvl="F3", zone="altitude", mount=2.5, note="nødutgang: through the airlock")
 pa("core_door", AX1, -38.9, rot=90, lvl="F3", zone="altitude", width=1.0, height=2.1, finish="steel", note="the altitude plant (staff)")
 pa("hypoxic_plant", -10.5, -37.125, lvl="F3", zone="services", note="hypoxic generators, buffer tank, control cabinet, ducts")

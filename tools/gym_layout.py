@@ -193,8 +193,8 @@ KINDS_FIXED = {
     "floor_zone": {"label": "Floor zone", "d": 1.0, "h": 0.0, "mat": "zone"},
     "select_shoulder": {"label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
                         "d": 1.3, "h": 1.6, "mat": "machine", "tag": "shoulder press", "use": [0.7, 0.4, 0.5, 0.5]},
-    "rig_spur": {"label": "Pull-up station (to model: from the Monster Lite Monkey Rig's parts): two 108 in uprights on floor plates, a pull-up bar between them at 2.47 m+ (the 6 ft 3 in dead-hang rule)",
-                 "d": 0.08, "h": 2.74, "mat": "rack", "tag": "pull-up bar", "use": [0.9, 0.9, 0.15, 0.15]},
+    "rig_spur": {"label": "Muscle-up bar (from the Monster Lite Monkey Rig's parts): two uprights on bolted plates, the bar on top of them at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above it",
+                 "d": 0.08, "h": 2.49, "mat": "rack", "tag": "muscle-up bar", "use": [1.8, 1.8, 0.3, 0.3]},
     "pwr_core": {"label": "Life Fitness PWR Play: a Core (four faces, a station on each)", "d": PWR["core"][1], "h": 2.415, "mat": "pwr", "tag": "core"},
     "pwr_bar": {"label": "PWR Play crossbar (Long connector) with pull-up handles, over the aisle at 2.31 m", "d": 0.08, "h": 2.35, "mat": "pwr"},
 }
@@ -513,6 +513,7 @@ def check(name):
             it = byid[it["on"]]
         return it["id"]
     quiet = ("storage", "fixture")                                   # trees / racks you load from sit in the use space on purpose
+    from shapely.geometry import LineString
     for i, a in enumerate(eq):
         for b in eq[i + 1:]:
             if root(a) == root(b) or (a.get("group") and a.get("group") == b.get("group")):
@@ -524,12 +525,50 @@ def check(name):
             if ov > 0.005:
                 probs.append(f"! {a['id']} x {b['id']}: overlap {ov:.2f} m²")
                 continue
+            if LineString([pa.centroid, pb.centroid]).intersects(walls_u):   # a wall between them: their spaces don't meet
+                continue
             for x_, y_ in ((a, b), (b, a)):
                 u = uses[x_["id"]]
                 if u is not None and x_.get("on") is None and y_.get("on") is None and K.get(y_["kind"], {}).get("mat") not in quiet and K.get(x_["kind"], {}).get("mat") not in quiet:
                     ov = u.intersection(bodies[y_["id"]]).area
                     if ov > 0.2:
                         probs.append(f"~ {y_['id']} in {x_['id']}'s use space ({ov:.2f} m²)")
+    # (2026-10-31, Roman walking it: "machines ... facing the wall", "too close to the water ... if you have to enter them from the
+    # front it's just kind of impossible", "wipe locations are literally blocking machines", "a water fountain ... inside of a door")
+    hard = unary_union([wallp_ for wallp_ in wallp] + [item_poly(k_, K) for k_ in keep if k_["kind"] in ("void", "stair", "den_river")])
+    for it in eq:
+        u = K.get(it["kind"], {}).get("use")
+        if not u or u[0] < 0.25 or K.get(it["kind"], {}).get("mat") in ("wallkit", "fixture") or it.get("on") or it["kind"] == "wipe_station":
+            continue
+        fr = item_poly({**it, "kind": "_f"}, {"_f": {"use": [u[0], 0, 0, 0]}}, use=True).difference(bodies[it["id"]])
+        a_ = fr.intersection(hard).area
+        if a_ > 0.05 * max(fr.area, 0.1) + 0.02:
+            probs.append(f"! {it['id']}: the space in front of it runs into a wall / the river / an opening ({a_:.2f} m²)")
+    lands = [k_ for k_ in keep if k_["kind"] == "route" or str(k_["id"]).startswith(("clear-", "spiral-landing", "access-"))]
+    for it in eq:   # a training space over a walking route or a door's landing: people walk through someone's set
+        u = uses.get(it["id"])
+        if u is None or it.get("on") or K.get(it["kind"], {}).get("mat") in ("storage", "wallkit", "fixture") or it["kind"] == "wipe_station":
+            continue
+        if K[it["kind"]].get("tag") in ("treadmill", "HD tread"):   # its run-off behind is walkable (kept clear of things above)
+            u = item_poly(it, {it["kind"]: {"use": [K[it["kind"]]["use"][0], 0.4] + K[it["kind"]]["use"][2:]}}, use=True)
+        u = u.difference(bodies[it["id"]])
+        for k_ in lands:
+            a_ = u.intersection(item_poly(k_, K)).area
+            if a_ > 0.15:
+                probs.append(f"~ {it['id']}: its training space is on {k_['id']} ({a_:.2f} m²)")
+    stations = [it for it in eq if it["kind"] == "wipe_station"] + [it for it in data["items"] if it["kind"] in ("tap_station", "safety_point")]
+    for st in stations:
+        sp = item_poly(st, K)
+        for it in eq:
+            u = uses.get(it["id"])
+            if u is None or it["kind"] == "wipe_station" or K.get(it["kind"], {}).get("mat") in ("storage", "wallkit"):
+                continue
+            a_ = sp.intersection(u.difference(bodies[it["id"]])).area
+            if a_ > 0.02:
+                probs.append(f"! {st['id']}: in {it['id']}'s training space ({a_:.2f} m²)")
+        for k_ in keep:
+            if k_["kind"] == "keep_clear" and str(k_["id"]).startswith(("clear-", "spiral-landing")) and sp.intersection(item_poly(k_, K)).area > 0.01:
+                probs.append(f"! {st['id']}: in a door's landing / the spiral's step-off ({k_['id']})")
     # wall kit must touch a wall
     for it in eq:
         if K.get(it["kind"], {}).get("mat") == "wallkit" and bodies[it["id"]].distance(walls_u) > 0.06:

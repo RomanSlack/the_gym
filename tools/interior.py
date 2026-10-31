@@ -277,7 +277,7 @@ GAL = [-11.6, -9.3, -6.45, 12.1]
 HALL = [-29.45, -34.1, -6.45, -9.3]
 _sp = next(st for st in m["stairs"] if st["id"] == "spiral_west")
 HALL_HOLES = [{"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"},
-              {"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.85, -25.1], "note": "core W2"}]
+              {"rect": [-29.45, -18.55, -28.975, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.975, -25.1], "note": "core W2"}]   # to the core walls' far face: the floor runs through their doors (a 12 cm slot there before)
 RUB = {"kind": "slabs", "w": 1.0, "L": [1.0], "gap": 0.0025, "dir": "y", "bond": "stack", "bevel": 0.003}
 for nm, r, holes in (("gallery", GAL, []), ("hall", HALL, HALL_HOLES)):
     add({"id": f"IN-F1-{nm}-impact", "type": "slab", "material": "impact_mat", "rect": r, "z": [round(F1v - 0.10, 3), round(F1v - 0.08, 3)], "holes": holes,
@@ -304,11 +304,14 @@ for nm, r in (("gallery", GAL), ("hall", [-29.45, -34.1, -6.45, -9.3])):
 #     out in charcoal; floor-to-ceiling mirror on the west wall's free-weight 3/4 (smoked oak slats on the strongman quarter), smoked
 #     oak slats north + south (the grip wall goes on the south), charcoal plaster round the river window
 GH = [-29.45, -34.1, -6.45, 12.1]
-G_CORES = [{"rect": [-29.45, -18.55, -28.85, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -28.85, -25.1], "note": "core W2"},
-           {"rect": [-29.45, -4.1, -28.85, -1.7], "note": "men's express lift"}, {"rect": [-29.45, 4.7, -28.85, 7.1], "note": "women's express lift"}]
+# (the cores' + lifts' cut-outs stop at the gym wall's face, -29.2: they ran to -28.85, a 0.35 m slot open down through the floor + the
+# ceiling along the wall at both stair cores and both express lifts; Roman 2026-10-31 walking F2: "gaps in the entire floor near the elevators")
+G_CORES = [{"rect": [-29.45, -18.55, -29.2, -9.55], "note": "core W1"}, {"rect": [-29.45, -34.1, -29.2, -25.1], "note": "core W2"},
+           {"rect": [-29.45, -4.1, -29.2, -1.7], "note": "men's express lift"}, {"rect": [-29.45, 4.7, -29.2, 7.1], "note": "women's express lift"}]
 SPIRAL = {"circle": [*_sp["center"], _sp["diameter"] / 2], "note": "spiral stair"}
 NSTAIR = {"rect": [-21.45, 7.1, -15.45, 12.1], "note": "stair F3 -> F4"}
-LANE = [-14.4, -34.1, -12.0, -13.6]                 # 20 m of turf from the south wall (Roman 2026-10-26: the standard length, not the floor's 46 m)
+LANE = [-14.4, -34.1, -12.0, -19.0]                 # 15 m of turf from the south wall (Roman 2026-10-26: 20 m; 2026-10-31 it ran on beside the
+                                                    # spiral's first turn, 0.8-1.3 m up: a head-down sled pusher's head height; it stops short of it now)
 for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west", "-F1-west", [SPIRAL], [SPIRAL], False),
                                                              ("F3", "S-F2-west", "-F2-west", [NSTAIR], [SPIRAL], True)):
     zf = lv[lvl]; zs = by_id[soffit_slab]["z"][0]
@@ -323,7 +326,7 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
          "pattern": RUB, "note": "30 mm interlocking rubber impact tiles 1.0 x 1.0 (as the F1 hall)"})
     if dark:
         add({"id": f"IN-{lvl}-sled-lane", "type": "slab", "kind": "floor_finish", "material": "turf_sled", "rect": LANE, "z": [round(zf - 0.08, 3), zf],
-             "holes": [], "note": "the sled lane: 20 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
+             "holes": [], "note": "the sled lane: 15 m of dense sled turf (charcoal-green, 20 mm pile) on a shock pad"})
     beams = sorted(e["from"][1] for e in by_id.values() if e["type"] == "beam" and e["id"].endswith(beam_tag))
     cuts = [{"rect": [GH[0], round(yb - 0.29, 3), GH[2], round(yb + 0.29, 3)], "note": "PT beam"} for yb in beams]
     add({"id": f"IN-{lvl}-gym-ceiling", "type": "slab", "kind": "ceiling", "material": "wood_wool_charcoal" if dark else "wood_wool", "rect": GH,
@@ -363,6 +366,15 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
         for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
             lining(wid, "oak_slats_smoked", sg, tag=f"-{lvl}", z=[zf, zt])
         lining("W-west-C", "plaster_charcoal", 1, tag=f"-{lvl}", z=[zf, zt])
+
+# ---- the stair F3 -> F4 (Roman 2026-10-31 on F3: "the stairs are super busted"): its flights stood in an open 6 x 5 m hole, no guard
+#   anywhere, 5.6 m down; a solid spine wall between the two flights from F4 to 1.1 m over F3 (both flights' inner sides), the F3
+#   landing run out to the opening's edges (15 cm strips were open each side); the glass guards on F3 are furnishings (tools/furnish.py)
+add({"id": "IN-N34-spine", "type": "wall", "kind": "partition", "material": "precast", "from": [-18.45, 8.3], "to": [-18.45, 10.9], "size": [0.3, round(lv["F3"] + 1.1 - lv["F4"], 3)],
+     "z": [lv["F4"], round(lv["F3"] + 1.1, 3)], "openings": [], "note": "the stair's spine wall between its two flights, up to guard height on F3"})
+for nm, r_ in (("w", [-21.45, 7.1, -21.3, 8.3]), ("e", [-15.6, 7.1, -15.45, 8.3])):
+    add({"id": f"IN-N34-landing-{nm}", "type": "slab", "material": "precast", "rect": r_, "z": [round(lv["F3"] - 0.35, 3), lv["F3"]], "holes": [],
+         "note": "the F3 landing run out to the opening's edge"})
 
 # ---- zone: F4, the pool hall (Roman, 2026-10-17: "blueish dark marble or tile, then black tile and marble, white only as accent; bright
 #   enough but a little moody"; the east wall keeps its underwater river windows; then: no marble, normal materials). The deck honed
@@ -680,11 +692,10 @@ for k, (a_, b_) in enumerate(PODS):
     east = "SA-E" if k == 2 else f"P-F2-5{k + 2}"
     gym_floor("F2", nm, r, holes=[{"rect": pod_plat(k), "note": "the lifting platform, set flush"}])
     line_rooms(f"pod-{k + 1}", "oak_slats_smoked", [F2v, ZR2], nm, walls=[e for e in w2 if e["id"] != east])
-    rng_ = (0.2, 2.95)   # the mirror in front of the platform; smoked oak behind the dumbbell rack (2026-10-30: it stood against the glass)
+    rng_ = (0.2, 5.75)   # the whole wall the lifter faces is mirror, behind the dumbbell rack too (Roman 2026-10-31)
     lining(east, "steel_skirting", 1, rng_, tag=f"-{nm}-skirt", z=[F2v, round(F2v + MIR0, 3)])
     lining(east, "mirror", 1, rng_, tag=f"-{nm}-mirror", z=[round(F2v + MIR0, 3), round(F2v + 2.6, 3)])
     lining(east, "oak_slats_smoked", 1, rng_, tag=f"-{nm}-slats", z=[round(F2v + 2.6, 3), ZR2])
-    lining(east, "oak_slats_smoked", 1, (2.95, 5.75), tag=f"-{nm}-slats-rack", z=[F2v, ZR2])
     ww_ceiling("F2", nm, r, ZR2)
 ALT = [-28.85, -40.1, -14.45, -34.1]
 ZA = round(F3v + 4.1, 3)                                              # the altitude room's suspended ceiling
@@ -699,34 +710,45 @@ ww_ceiling("F3", "altitude", ALT, ZA, holes=[{"rect": ALT_SKY, "note": "the sky 
 #   like artificial walls and such to break up the spaces and provide focus clusters ... so it isn't just a warehouse feel"; the mix:
 #   tall where racks / rigs / machines back onto them, low elsewhere so you still see across to the river). Stud cores, oak slats
 #   both faces (smoked in the den), an oak cap on top. Freestanding: they stop short of the ceiling (the beams stay whole).
-ZP_TALL, ZP_LOW, ZP_T = 3.0, 1.2, 0.12
-ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), tall?)]  axis-aligned
-    "F2": [("racks", (-22.4, -31.95), (-22.4, -13.3), True), ("pull", (-22.4, -10.8), (-22.4, -2.94), True),
-           ("olympic-s", (-27.0, -3.0), (-22.46, -3.0), True), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), False),
-           ("bench-n", (-22.34, -25.6), (-15.0, -25.6), False), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), True)],
+ZP_TALL, ZP_LOW, ZP_MID, ZP_T = 3.0, 1.2, 2.4, 0.12
+# (2026-10-31, Roman walking F2 + F3: "we're going to go a lot harder on the mirrors"): the racks wall stops a rack short (the
+# opening by the spiral was half blocked by the stair), its bench side all mirror; the low wall between the bench room and the
+# dumbbell bay raised to 2.4 m, mirror both faces; the den's wall mirror on the bench side (the benches turn to face it, their
+# backs to the doors); the functional room's tall wall mirror behind the rig
+ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), height, mirror faces ('a' = left of from->to, 'b' = right))]  axis-aligned
+    "F2": [("racks", (-22.4, -31.95), (-22.4, -16.2), ZP_TALL, "b"), ("pull", (-22.4, -10.8), (-22.4, -2.94), ZP_TALL, ""),
+           ("olympic-s", (-29.14, -3.0), (-22.46, -3.0), ZP_TALL, ""), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), ZP_LOW, ""),
+           ("bench-n", (-22.34, -25.0), (-15.0, -25.0), ZP_MID, "ab"), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), ZP_TALL, "")],
     # F1: none (Roman 2026-10-30: the calisthenics takes the south wall "without those barriers")
-    "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), True), ("den-n", (-26.6, -13.85), (-21.8, -13.85), False),
-           ("functional", (-22.6, -9.4), (-22.6, -3.06), True), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), False),
-           ("sled", (-11.75, -29.5), (-11.75, -16.5), False)],
+    "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), ZP_TALL, "a"), ("den-n", (-26.6, -13.85), (-23.0, -13.85), ZP_LOW, ""),
+           ("functional", (-22.6, -9.4), (-22.6, -3.06), ZP_TALL, "a"), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), ZP_LOW, ""),
+           ("sled", (-11.75, -29.5), (-11.75, -16.5), ZP_LOW, "")],
 }
 for lvl, zws in ZONE_WALLS.items():
     zf = lv[lvl]; slats = "oak_slats_smoked" if lvl == "F3" else "oak_slats_wall"
-    for nm, a_, b_, tall in zws:
-        h = ZP_TALL if tall else ZP_LOW
+    for nm, a_, b_, h, mir in zws:
+        tall = h > ZP_LOW
         wid = f"IN-{lvl}-zone-{nm}"
         e = {"id": wid, "type": "wall", "kind": "partition", "material": "timber_stud", "from": list(a_), "to": list(b_), "size": [ZP_T, h],
              "z": [zf, round(zf + h, 3)], "level": lvl, "openings": [],
-             "note": f"gym zoning partition, {'tall' if tall else 'low'} ({h} m): studs, oak slats both faces, oak cap"}
+             "note": f"gym zoning partition, {'tall' if h >= ZP_TALL else ('mid' if tall else 'low')} ({h} m): studs, oak slats or mirror, oak cap"}
         add(e); by_id[wid] = e
         for sg in (1, -1):
-            lining(wid, slats, sg, tag=f"-{'a' if sg > 0 else 'b'}", z=[zf, round(zf + h, 3)])
+            f_ = "a" if sg > 0 else "b"
+            if f_ in mir:   # steel skirting, the mirror to 2.6 m (or 0.1 under the cap), oak slats above
+                zm = round(zf + min(2.6, h - 0.1), 3)
+                lining(wid, "steel_skirting", sg, tag=f"-{f_}-skirt", z=[zf, round(zf + MIR0, 3)])
+                lining(wid, "mirror", sg, tag=f"-{f_}-mirror", z=[round(zf + MIR0, 3), zm])
+                lining(wid, slats, sg, tag=f"-{f_}", z=[zm, round(zf + h, 3)])
+            else:
+                lining(wid, slats, sg, tag=f"-{f_}", z=[zf, round(zf + h, 3)])
         o = ZP_T / 2 + 0.065
         import math
         L_ = math.hypot(b_[0] - a_[0], b_[1] - a_[1]); ux, uy = (b_[0] - a_[0]) / L_, (b_[1] - a_[1]) / L_
         for end, sg in ((a_, -1), (b_, 1)):   # an open end gets an oak board across it (not where it meets another partition)
             if any(abs((q1[0] - q0[0]) * (end[1] - q0[1]) - (q1[1] - q0[1]) * (end[0] - q0[0])) / math.hypot(q1[0] - q0[0], q1[1] - q0[1]) < 0.15
                    and min(q0[0], q1[0]) - 0.15 <= end[0] <= max(q0[0], q1[0]) + 0.15 and min(q0[1], q1[1]) - 0.15 <= end[1] <= max(q0[1], q1[1]) + 0.15
-                   for n2, q0, q1, _ in zws if n2 != nm):
+                   for n2, q0, q1, _, _ in zws if n2 != nm):
                 continue
             cx, cy = end[0] + ux * sg * 0.01, end[1] + uy * sg * 0.01
             add({"id": f"{wid}-end-{'a' if sg < 0 else 'b'}", "type": "wall", "kind": "lining", "material": "oak_slat_smoked" if lvl == "F3" else "oak_slat",

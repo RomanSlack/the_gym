@@ -18,7 +18,7 @@ def cat(it, K):
     if t in ("rack", "smith", "deadlift platform") or "half-rack" in k: return "barbell"
     if "bench press" in t: return "barbell"
     if "bench" in t: return "bench"
-    if t in ("pull-up bar",): return "pullup"
+    if t in ("pull-up bar", "muscle-up bar"): return "pullup"
     if "treadmill" in t or "tread" in t: return "tread"
     if any(s in t for s in ("plate tree", "bumper rack", "bar holder", "chalk", "timer", "belts", "db rack", "kb", "rack platform", "jerk", "pull blocks", "water", "wipes", "accessory", "mat rack", "med ball", "storage", "ball")): return "kit"
     return "machine"
@@ -28,8 +28,11 @@ def need(a, b):
         if (x, "*") in NEED and y not in ("kit", "platform"): return NEED[(x, "*")]
         if (x, y) in NEED: return NEED[(x, y)]
     return None
+from shapely.geometry import LineString  # noqa: E402
+from shapely.ops import unary_union  # noqa: E402
 for name in sys.argv[1:]:
     d = json.load(open(ROOT / "model" / "layouts" / f"{name}.json")); K = d["kinds"]
+    WALLS = unary_union([LineString([w["from"], w["to"]]).buffer(w["size"][0] / 2) for w in d["walls"]])
     its = [it for it in d["items"] if "x" in it and cat(it, K)]
     P = {it["id"]: G.item_poly(it, K) for it in its}
     probs = []
@@ -39,6 +42,7 @@ for name in sys.argv[1:]:
             n = need(cat(a, K), cat(b, K))
             if n is None or P[a["id"]] is None or P[b["id"]] is None: continue
             if P[a["id"]].intersects(P[b["id"]]): continue   # sits on it (rack on its platform)
+            if LineString([P[a["id"]].centroid, P[b["id"]].centroid]).intersects(WALLS): continue   # a wall between them
             g = P[a["id"]].distance(P[b["id"]])
             if g < n - 0.05: probs.append((round(n - g, 2), f"{a['id']} [{cat(a,K)}] <-> {b['id']} [{cat(b,K)}]: {g:.2f} m, want {n}"))
     kits = [it for it in its if (K.get(it["kind"], {}).get("tag") or "") in ("plate tree", "bumper rack")]
@@ -72,8 +76,9 @@ for name in sys.argv[1:]:
         p = G.item_poly(it, K)
         if p is None:
             continue
-        if any(p.distance(l_) < 0.3 for l_ in mirrors):
-            out.append(f"{it['id']}: on / against a mirror")
+        dm = min([p.distance(l_) for l_ in mirrors] or [99])   # (2026-10-31: dumbbell racks under the mirror are right; NSCA: 6 in clear of the glass)
+        if it["kind"] != "wipe_station" and not it.get("on") and (dm < 0.14 or (dm < 0.3 and K.get(it["kind"], {}).get("mat") == "wallkit")):
+            out.append(f"{it['id']}: on / against a mirror ({dm:.2f} m)")
         if K.get(it["kind"], {}).get("wall") and not any(p.distance(w) < 0.05 for w in walls):
             out.append(f"{it['id']}: a wall piece off the wall")
         if it.get("h", 0) > 1.4 and any(p.distance(s) < 0.3 for s in lights):

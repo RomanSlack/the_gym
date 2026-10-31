@@ -1,0 +1,22 @@
+== gym_f2: 134 pieces + fixtures, 15 ways in, grid 237 x 528
+   access: 86 pieces, 0 problems
+   the crowd walks through these training spaces most (crossings per 100 members):
+     atlantis-olympic-incline-bench-press-with-pivot-p338-2: 23 m walked through
+     hammer-strength-plate-loaded-linear-leg-press-1: 10 m walked through
+     maze-f2-AN-dualhigh: 4 m walked through
+     titan-series-power-rack-lifting-platform-4: 4 m walked through
+     atlantis-olympic-incline-bench-press-with-pivot-p338-3: 3 m walked through
+     atlantis-olympic-flat-bench-press-with-pivot-p337-1: 3 m walked through
+     hammer-strength-plate-loaded-hack-squat-1: 2 m walked through
+     hammer-strength-select-hip-abduction-1: 2 m walked through
+     stairmaster-8gx-stepmill-1: 2 m walked through
+     rogue-adjustable-bench-3-0-1: 2 m walked through
+     hammer-strength-plate-loaded-glute-drive-1: 2 m walked through
+     hammer-strength-plate-loaded-iso-lateral-leg-extension-1: 2 m walked through
+     life-fitness-smith-machine-2: 1 m walked through
+     atlantis-incline-calf-raise-m318-1: 1 m walked through
+     titan-series-power-rack-lifting-platform-1: 1 m walked through
+   busy pinch points (corridor < 1.1 m wide, top-10 % traffic): 2
+     (-16.8, -25.3) 0.80 m
+     (-6.9, 4.5) 0.60 m
+   wrote ../docs/traffic_sims/gym_f2_traffic_after_v001.png
