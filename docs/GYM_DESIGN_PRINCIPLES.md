@@ -36,6 +36,26 @@ Check a layout against them with `cd tools && ../terrain/.venv/bin/python gym_au
 10. **Air by effort.** 20 to 22 C, RH about 50 % (60 % max), 8 to 12 air changes an hour (2 to 4 fresh), CO2 under 1000 ppm; the
     sled lane and conditioning want more air than stretching. A brief for the HVAC design, not modelled yet.
 
+## Added 2026-10-31 (Roman walked the floors at eye level: "you literally have to phase through machines")
+
+11. **Access before fit.** Every piece is reached from the floor's ways in without crossing someone else's training space;
+    `tools/gym_walk_sim.py` checks it and simulates 400 sessions (maps in docs/traffic_sims/). Rows have their backs to a wall or to
+    another row and face into an aisle (never a wall, never the water); main walks 1.5 m+, side aisles 0.9 m+ (NSCA, ADA 36 in).
+12. **The side you get on stays open.** A plate-loaded machine keeps 0.6 m clear on its loading side; a plate tree is never in that gap.
+13. **Wipes on walls.** Against a wall or partition (a corner first), at the rooms' edges; never in a training space, an aisle, a
+    walkway or a door's landing. Every piece within 7.5 m of one (vendors: 7.6-15 m).
+14. **Fixtures out of doorways.** Water and the AED points never in a door's landing; the space in front of them kept clear.
+    `G.check` flags both.
+15. **Muscle-ups need nothing above the bar.** The bar sits on its uprights (no crossmember over it), 1.8 m swing clear front and
+    back, 1.2 m between bars.
+16. **Headroom 2.1 m or a guard.** Anywhere a stair's underside is under 2.1 m is guarded (the spiral's first turn on F3: a glass
+    ring guard); every stair opening has guards (the stair to F4: a spine wall + glass). The sled lane stops short of the spiral.
+17. **Pegboard foot at about 2.0 m**, so you start from a hang with your feet off the mat.
+18. **Mirrors where the lifting faces.** Dumbbell racks along a mirror's foot, 0.15 m off it (NSCA 6 in); benches face the mirror;
+    the pods' whole wall; both faces of the bench room's wall; behind the F3 rig. Never hung kit on glass.
+19. **Cardio upstairs.** Treadmills, bikes, rowers, ellipticals on F1 (and the altitude room); only stepmills by the F2 legs, for
+    supersets. "There's so much beautiful nature ... people should just go run outside."
+
 ## Open
 
 - **Wayfinding by floor material** (a change of floor at each zone edge) would change the locked light-floor palette: Roman's call.
