@@ -871,6 +871,32 @@ for lvl, zc, temp, wpm, y0, y1, zone in (("F2", round(-0.385 - lv["F2"], 3), "40
             light={"type": "AREA", "energy": round(wpm * 0.9 * L_), "size": 0.06, "size_y": L_, "offset": [0, 0, zc - 0.06],
                    "aim": [-29.45, (a_ + b_) / 2, zl + 1.2], "color": GYM_C[temp]}, note="wall-washer down the west wall")
 
+# ---- the F3 partitions' own light (Roman 2026-10-30: "some areas are a little too dark on f3 ... wall lights ... on those walls"):
+# round eclipse lights at 1.6 m on both faces of the tall walls (the den, the functional room), every 2.6 m, not behind tall kit;
+# a light slot in the floor along the foot of the low ones, washing up the smoked oak
+_F3K = _json.loads((ROOT / "model" / "layouts" / "gym_f3.json").read_text())["items"]
+_tall_kit = [(it["x"], it["y"], *((it["d"], it["w"]) if it.get("rot", 0) in (90, -90, 270) else (it["w"], it["d"])))
+             for it in _F3K if "x" in it and "w" in it and it.get("h", 0) > 1.3]                  # centre + footprint in plan
+for e in [e for e in m["elements"] if e.get("kind") == "partition" and e.get("level") == "F3"]:
+    (ax, ay), (bx, by) = e["from"], e["to"]; L_ = math.hypot(bx - ax, by - ay); ux, uy = (bx - ax) / L_, (by - ay) / L_
+    tall = e["z"][1] - e["z"][0] > 2.0; zl = lv["F3"]; o = e["size"][0] / 2 + 0.065
+    for sg in (1, -1):
+        nx, ny = -uy * sg, ux * sg
+        if tall:
+            n_ = int((L_ - 1.6) / 2.6) + 1; s0 = (L_ - 2.6 * (n_ - 1)) / 2
+            for k in range(n_):
+                px, py = ax + ux * (s0 + 2.6 * k) + nx * o, ay + uy * (s0 + 2.6 * k) + ny * o
+                if any(abs(px - tx) < tw / 2 + 0.5 and abs(py - ty) < td / 2 + 0.5 for tx, ty, tw, td in _tall_kit):   # not behind tall kit
+                    continue
+                put("eclipse_sconce", px, py, rot=round(math.degrees(math.atan2(ny, nx)) - 90, 1), zone="gym-f3", level="F3", z=zl,
+                    light={"type": "AREA", "energy": 14, "size": 0.3, "size_y": 0.3, "offset": [0, 0.08, 1.6], "aim": [px + nx, py + ny, zl + 1.6],
+                           "color": GYM_C["3000"]}, note="eclipse wall light on the zone wall")
+        else:
+            px, py = (ax + bx) / 2 + nx * (o + 0.05), (ay + by) / 2 + ny * (o + 0.05)
+            put("floor_grazer", px, py, rot=round(math.degrees(math.atan2(uy, ux)), 1), zone="gym-f3", level="F3", z=zl, length=round(L_ - 0.2, 2),
+                light={"type": "AREA", "energy": round(10 * L_), "size": round(L_ - 0.2, 2), "size_y": 0.04, "offset": [0, 0, 0.01],
+                       "aim": [px - nx * 0.3, py - ny * 0.3, zl + 2.0], "color": GYM_C["3000"]}, note="floor slot washing up the low zone wall")
+
 # ---- the spiral's ring + guards, the water stations, the wipes stations (Roman 2026-10-14: clean round the ring of the stairs, add the
 # railing, the water stations, the round wipes dispenser + bin in brushed stainless; a few at scale, repositioned with the equipment)
 _spe = next(e for e in m["elements"] if e["id"] == "ST3-spiral_west")

@@ -127,6 +127,15 @@ for c in [c for c in bpy.data.collections if c.name.startswith("eq_prototypes") 
     bpy.data.collections.remove(c)
 print(f"patch: equipment {n_eq} placed ({time.time() - T0:.0f} s)")
 
+# ---- cameras defined since the scene was built (scene.py CAMS)
+import ast  # noqa: E402
+src = (ROOT / "construction" / "scene.py").read_text()
+CAMS = ast.literal_eval(next(n.value for n in ast.parse(src).body if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "CAMS"))
+new_cams = [n for n in CAMS if f"cam_{n}" not in bpy.data.objects]
+for n in new_cams:
+    bc.camera(bpy.context.scene, f"cam_{n}", *CAMS[n])
+print(f"patch: cameras added {new_cams}")
+
 if "model_base.json" in bpy.data.texts:
     bpy.data.texts.remove(bpy.data.texts["model_base.json"])
 bpy.data.texts.new("model_base.json").write(json.dumps(model))

@@ -25,5 +25,8 @@ if all(n_.startswith("eq") for n_ in cams):  # layout check shots (Roman: "720p 
     scene.cycles.samples = 24
 bc.gpu_or_stop()
 EXPO = scene.view_settings.exposure
+missing = [n for n in cams if f"cam_{n}" not in bpy.data.objects]
+if missing:  # a camera added after the scene was saved: construction/patch_saved.py adds it
+    print("render_saved: no such camera in the saved scene:", missing); sys.exit(4)
 for n in cams:
     shoot.shoot(scene, n, n, EXPO, STAGE, bpy.data.objects.get("lod_eye"))
