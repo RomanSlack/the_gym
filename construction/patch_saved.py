@@ -2,14 +2,14 @@
 saved in the file so it is just putting them into position?"). The saved .blend keeps every built piece; this moves what moved:
 
   - the gym equipment: the instances re-placed from model/layouts/gym_f*.json, the built prototypes reused (a new piece builds)
-  - the building elements: the ones that changed since the scene's model are rebuilt (linings, plain walls, plain slabs)
+  - the building elements: the ones that changed since the scene's model are rebuilt (linings, plain walls, slabs + patterned floors with their holes)
   - the furnishings (lights, wipes, ...): matched by content; the ones that moved or changed are re-placed, their prototypes reused
 
     systemd-run --user --scope -p MemoryMax=12G -p MemorySwapMax=0 nice -n 19 \
         blender -b construction/out/stage_5.blend -t 12 --python construction/patch_saved.py -- 5 [base git rev]
 
 The scene's model is the "model_base.json" text the full build saves (scene.py), else model/building.json at the given git rev.
-A changed element of a kind this can't rebuild (stairs, glazing, holes, openings) exits 2: run the full build then.
+A changed element of a kind this can't rebuild (stairs, glazing, walls with openings) exits 2: run the full build then.
 """
 import json
 import math
@@ -62,7 +62,8 @@ changed = [i for i in new_e if i not in old_e or norm(new_e[i]) != norm(old_e[i]
 gone = [i for i in old_e if i not in new_e]
 plain = lambda e: (e["type"] == "wall" and e.get("kind") == "lining") or \
     (e["type"] == "wall" and not e.get("openings") and "mullions" not in e and e.get("kind") != "clad") or \
-    (e["type"] == "slab" and "rect" in e and not e.get("holes") and "pattern" not in e and not e.get("eaves"))
+    (e["type"] == "slab" and "rect" in e and "pattern" not in e) or \
+    (e["type"] == "slab" and e.get("pattern", {}).get("kind") in ("boards", "slabs", "poured"))   # (floors with holes: bc.floor_slab / rect_slab, as scene.py)
 bad = [i for i in changed if not plain(new_e[i]) or new_e[i]["material"] not in mat_of]
 if bad:
     print("patch: can't rebuild these here, run the full build:", bad[:8]); sys.exit(2)
@@ -75,8 +76,10 @@ for i in changed:
         bc.pattern_lining(e, mat, coll, prng, backing_mat=felt)
     elif e["type"] == "wall":
         bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
+    elif "pattern" in e:
+        bc.floor_slab(e, mat, coll, prng)
     else:
-        x0, y0, x1, y1 = e["rect"]; bc.box(e["id"], x0, y0, z0, x1, y1, z1, mat, coll)
+        bc.rect_slab(e, mat, coll)
 print(f"patch: elements {len(changed)} rebuilt, {len(gone)} removed ({time.time() - T0:.0f} s)")
 
 # ---- furnishings: match by content (their ids are sequence numbers, so they shift); re-place the rest

@@ -11,7 +11,7 @@ walking through someone else's training space is allowed but costs 8x (they're l
 2. Crowd: 400 members each do a session (a warm-up piece, 4-6 stations, a wipes station after each, out again), the paths summed
    into a traffic map; the pieces whose training space the crowd walks through most, and the busy pinch points (< 1.2 m clear).
 
-    cd tools && ../terrain/.venv/bin/python gym_walk_sim.py gym_f2 [--png /tmp/x.png]
+    cd tools && ../terrain/.venv/bin/python gym_walk_sim.py gym_f2 [--png /tmp/x.png] [--dir <layouts dir>]
 """
 import json
 import math
@@ -34,6 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RES = 0.1
 R_BODY, R_SQUEEZE = 0.3, 0.23
 USE_COST = 8.0
+LAYOUTS = ROOT / "model" / "layouts"           # --dir <path>: run on other copies (the before / after comparisons in docs/traffic_sims)
 QUIET = ("floor_zone", "route", "keep_clear", "pwr_meta", "pwr_bar", "turf", "void", "stair", "den_river")
 
 
@@ -61,7 +62,7 @@ def wall_polys(data, parts=False):
 class Floor:
     def __init__(self, name):
         self.name = name
-        self.d = json.loads((ROOT / "model" / "layouts" / f"{name}.json").read_text())
+        self.d = json.loads((LAYOUTS / f"{name}.json").read_text())
         d, K = self.d, self.d["kinds"]
         K = {k_: dict(v) for k_, v in K.items()}
         for v in K.values():   # a treadmill's 2 m run-off is kept clear of things, not of people: you walk behind a treadmill
@@ -294,6 +295,8 @@ def draw(F, heat, probs, pins, png, n_members=400):
 if __name__ == "__main__":
     args = sys.argv[1:]
     png = None
+    if "--dir" in args:
+        k = args.index("--dir"); LAYOUTS = Path(args[k + 1]); args = args[:k] + args[k + 2:]
     if "--png" in args:
         k = args.index("--png"); png = args[k + 1]; args = args[:k] + args[k + 2:]
     for nm in args:

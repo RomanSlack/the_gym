@@ -1,0 +1,37 @@
+== gym_f3: 156 pieces + fixtures, 10 ways in, grid 237 x 528
+   access: 125 pieces, 11 problems
+     ! maze-den-FN-row: NO WAY IN
+     ! life-fitness-barbell-rack-1: NO WAY IN
+     ! life-fitness-barbell-rack-2: NO WAY IN
+     ~ maze-den-CE-dualhigh: the way in crosses maze-den-DN-crossover (1.1 m)
+     ~ maze-den-DW-duallow: the way in crosses maze-den-DN-crossover (1.1 m)
+     ~ maze-den-EE-ropepull: the way in crosses maze-den-FS-crossover (1.1 m)
+     ~ maze-den-FW-handles: the way in crosses maze-den-FS-crossover (1.1 m)
+     ~ hammer-strength-select-biceps-curl-1: the way in crosses hammer-strength-select-chest-press-2 (2.2 m)
+     ~ hammer-strength-seated-arm-curl-1: the way in crosses hammer-strength-select-chest-press-2 (2.2 m)
+     ~ hammer-strength-plate-loaded-abdominal-oblique-crunch-1: the way in crosses hammer-strength-select-chest-press-2 (2.2 m)
+     ~ body-solid-gvkr60b-vertical-knee-raise-dip-1: the way in crosses gmwd-multi-functional-seal-row-bench-sr05-1 (2.5 m)
+   the crowd walks through these training spaces most (crossings per 100 members):
+     hammer-strength-select-chest-press-2: 142 m walked through
+     rogue-monster-rig-2-0-1: 67 m walked through
+     maze-den-BN-dualhigh: 47 m walked through
+     maze-den-AS-powerpivot: 40 m walked through
+     hammer-strength-select-pectoral-fly-rear-deltoid-2: 27 m walked through
+     maze-den-CS-crossover: 27 m walked through
+     maze-den-AN-crossover: 26 m walked through
+     maze-den-FS-crossover: 26 m walked through
+     woodway-4front-2: 23 m walked through
+     maze-den-AE-crossover: 22 m walked through
+     maze-den-CE-dualhigh: 21 m walked through
+     maze-den-DN-crossover: 16 m walked through
+     maze-den-BW-crossover: 15 m walked through
+     maze-den-EE-ropepull: 13 m walked through
+     hammer-strength-select-pectoral-fly-rear-deltoid-4: 12 m walked through
+   busy pinch points (corridor < 1.1 m wide, top-10 % traffic): 6
+     (-21.6, -13.8) 0.89 m
+     (-18.7, -30.7) 1.00 m
+     (-13.2, -14.4) 0.60 m
+     (-12.6, -32.0) 0.63 m
+     (-11.1, -7.8) 1.00 m
+     (-11.0, -9.7) 1.00 m
+   wrote ../docs/traffic_sims/gym_f3_traffic_before_v002.png

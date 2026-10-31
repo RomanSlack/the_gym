@@ -1,0 +1,45 @@
+== gym_f2: 156 pieces + fixtures, 15 ways in, grid 237 x 528
+   access: 112 pieces, 17 problems
+     ~ hammer-strength-impact-suppression-platform-1: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m)
+     ~ hammer-strength-impact-suppression-platform-2: the way in crosses hammer-strength-impact-suppression-platform-3 (3.5 m)
+     ~ hammer-strength-impact-suppression-platform-4: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m)
+     ~ hammer-strength-impact-suppression-platform-5: the way in crosses hammer-strength-impact-suppression-platform-3 (1.8 m)
+     ~ rogue-monster-bumper-rack-1: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m), hammer-strength-impact-suppression-platform-1 (0.7 m)
+     ~ rogue-monster-bumper-rack-2: the way in crosses hammer-strength-impact-suppression-platform-3 (3.5 m), hammer-strength-impact-suppression-platform-2 (0.6 m)
+     ~ rogue-monster-bumper-rack-3: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m), hammer-strength-impact-suppression-platform-4 (1.8 m)
+     ~ rogue-monster-bumper-rack-4: the way in crosses hammer-strength-impact-suppression-platform-3 (1.1 m), hammer-strength-impact-suppression-platform-6 (0.7 m)
+     ~ atlantis-olympic-incline-bench-press-with-pivot-p338-1: the way in crosses atlantis-olympic-flat-bench-press-with-pivot-p337-1 (2.7 m)
+     ~ life-fitness-smith-machine-1: the way in crosses hammer-strength-select-hip-abduction-2 (1.7 m), hammer-strength-glute-ham-reverse-hyper-combo-1 (1.5 m)
+     ~ life-fitness-smith-machine-2: the way in crosses hammer-strength-glute-ham-reverse-hyper-combo-1 (1.5 m)
+     ~ life-fitness-insignia-series-leg-extension-1: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m)
+     ~ life-fitness-insignia-series-leg-extension-2: the way in crosses precor-resolute-series-leg-extension-1 (2.0 m)
+     ~ life-fitness-insignia-series-leg-extension-3: the way in crosses precor-resolute-series-leg-extension-1 (2.3 m)
+     ~ hammer-strength-select-leg-extension-1: the way in crosses hammer-strength-select-hip-abduction-2 (1.7 m), hammer-strength-glute-ham-reverse-hyper-combo-1 (1.5 m)
+     ~ hammer-strength-select-leg-extension-2: the way in crosses precor-resolute-series-leg-extension-1 (1.9 m)
+     ~ hammer-strength-select-hip-abduction-2: the way in crosses hammer-strength-glute-ham-reverse-hyper-combo-1 (1.5 m)
+   the crowd walks through these training spaces most (crossings per 100 members):
+     atlantis-incline-calf-raise-m318-1: 108 m walked through
+     precor-resolute-series-leg-extension-1: 93 m walked through
+     hammer-strength-impact-suppression-platform-3: 58 m walked through
+     hammer-strength-plate-loaded-iso-lateral-leg-extension-1: 57 m walked through
+     hammer-strength-plate-loaded-linear-leg-press-4: 57 m walked through
+     hammer-strength-glute-ham-reverse-hyper-combo-1: 54 m walked through
+     hammer-strength-plate-loaded-linear-leg-press-3: 44 m walked through
+     hammer-strength-select-hip-abduction-2: 40 m walked through
+     life-fitness-insignia-series-leg-extension-3: 31 m walked through
+     atlantis-olympic-incline-bench-press-with-pivot-p338-3: 31 m walked through
+     atlantis-olympic-incline-bench-press-with-pivot-p338-2: 19 m walked through
+     hammer-strength-plate-loaded-seated-calf-raise-1: 18 m walked through
+     atlantis-olympic-flat-bench-press-with-pivot-p337-1: 17 m walked through
+     hammer-strength-impact-suppression-platform-6: 13 m walked through
+     hammer-strength-plate-loaded-glute-drive-2: 11 m walked through
+   busy pinch points (corridor < 1.1 m wide, top-10 % traffic): 8
+     (-23.5, -10.4) 0.60 m
+     (-22.1, -14.8) 1.00 m
+     (-19.7, 11.6) 1.00 m
+     (-17.8, 11.6) 0.80 m
+     (-18.1, 4.2) 0.82 m
+     (-17.5, 4.1) 0.60 m
+     (-15.2, -5.5) 0.80 m
+     (-14.7, 7.0) 0.89 m
+   wrote ../docs/traffic_sims/gym_f2_traffic_before_v002.png

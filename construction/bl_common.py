@@ -1109,3 +1109,37 @@ def blackened_steel(name="blackened_steel_d"):
 def brass_accent(name="brass_accent"):
     """Brushed, lightly aged brass for small accents only (pulls, call plates, inlays)."""
     return metal_material(name, (0.78, 0.58, 0.3), rough=(0.2, 0.38))
+
+
+def floor_slab(e, mat, coll, prng):
+    """A patterned floor / ceiling slab (boards, slabs, poured), its holes cut by pattern_floor; eased tile edges where asked (the
+    gym's impact tiles: the seams catch the light). Shared by scene.py and patch_saved.py."""
+    ob_ = pattern_floor(e, mat, coll, prng)
+    if e["pattern"].get("bevel"):
+        bv = ob_.modifiers.new("eased", "BEVEL"); bv.width = e["pattern"]["bevel"]; bv.segments = 2; bv.limit_method = "ANGLE"
+    return ob_
+
+
+def rect_slab(e, mat, coll):
+    """A rect slab (roof plates run past the facade by their eaves), its round + rect holes cut with booleans: the round stair
+    openings through the structural slab and the floor build-up alike, the pool basin through the F4 raft. Shared by scene.py
+    and patch_saved.py."""
+    z0, z1 = e["z"]
+    x0, y0, x1, y1 = e["rect"]
+    W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))
+    ob = box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
+    for k, h in enumerate(e.get("holes", [])):
+        if "circle" in h:
+            hx, hy, hr = h["circle"]
+            bpy.ops.mesh.primitive_cylinder_add(radius=hr, depth=(z1 - z0) + 1.0, vertices=96, location=(hx, hy, (z0 + z1) / 2))
+            cu = bpy.context.object; cu.name = f"{e['id']}_hole{k}"
+            for c_ in list(cu.users_collection):
+                c_.objects.unlink(cu)
+            coll.objects.link(cu); cu.hide_render = True; cu.hide_viewport = True
+            md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
+        if "rect" in h:
+            xs_, ys_ = ([p[0] for p in h["rect"]], [p[1] for p in h["rect"]]) if isinstance(h["rect"][0], (list, tuple)) else (h["rect"][0::2], h["rect"][1::2])
+            cu = box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
+            cu.hide_render = True; cu.hide_viewport = True
+            md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
+    return ob

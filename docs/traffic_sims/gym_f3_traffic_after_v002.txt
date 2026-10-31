@@ -1,0 +1,28 @@
+== gym_f3: 143 pieces + fixtures, 11 ways in, grid 237 x 528
+   access: 108 pieces, 2 problems
+     ~ maze-den-CE-dualhigh: the way in crosses maze-den-EE-ropepull (1.1 m)
+     ~ maze-den-DW-duallow: the way in crosses maze-den-EE-ropepull (1.1 m)
+   the crowd walks through these training spaces most (crossings per 100 members):
+     woodway-4front-2: 82 m walked through
+     woodway-4front-1: 32 m walked through
+     maze-den-BN-dualhigh: 26 m walked through
+     maze-den-AS-powerpivot: 22 m walked through
+     life-fitness-row-hx-trainer-1: 16 m walked through
+     maze-den-AE-crossover: 15 m walked through
+     titan-atlas-stone-platform-1: 13 m walked through
+     maze-den-AN-crossover: 12 m walked through
+     maze-den-DN-crossover: 10 m walked through
+     rogue-monster-rig-2-0-1: 8 m walked through
+     hammer-strength-plate-loaded-iso-lateral-row-1: 7 m walked through
+     gmwd-multi-functional-seal-row-bench-sr05-1: 5 m walked through
+     maze-den-CN-dip: 4 m walked through
+     hammer-strength-plate-loaded-abdominal-oblique-crunch-1: 4 m walked through
+     maze-den-ES-step: 3 m walked through
+   busy pinch points (corridor < 1.1 m wide, top-10 % traffic): 6
+     (-19.4, -35.8) 0.60 m
+     (-18.7, -30.7) 1.00 m
+     (-18.6, -27.7) 1.00 m
+     (-18.7, -6.2) 0.63 m
+     (-18.3, -7.5) 0.63 m
+     (-12.6, -32.0) 0.63 m
+   wrote ../docs/traffic_sims/gym_f3_traffic_after_v002.png

@@ -383,8 +383,8 @@ def plan_f3(G):
     F.put("beastmaker-2000-series-hangboard", -24.9, YS + 0.087, 0, "grip wall")
     F.put("metolius-wood-grips-campus-rungs", -15.4, YS + 0.075, 0, "grip wall")
     # --- the posterior chain room (between the den's wall and the spine): GHDs, back extensions, the nordic curl, a glute drive
-    for p_, x, y in (("hammer-strength-fixed-pad-glute-ham", -19.6, -30.5), ("hammer-strength-fixed-pad-glute-ham", -19.6, -27.4),
-                     ("hammer-strength-fixed-pad-glute-ham", -19.6, -24.3), ("the-abs-company-the-nordic-curl", -19.6, -21.4),
+    for p_, x, y in (("hammer-strength-fixed-pad-glute-ham", -19.8, -30.5), ("hammer-strength-fixed-pad-glute-ham", -19.8, -27.4),
+                     ("hammer-strength-fixed-pad-glute-ham", -19.8, -24.3), ("the-abs-company-the-nordic-curl", -19.8, -21.4),
                      ("hammer-strength-back-extension", -17.7, -30.7), ("hammer-strength-back-extension", -17.7, -27.9)):   # (the glute drive cut: it sat on the spine; F2 has two)
         F.put(p_, x, y, 0, "posterior chain")
     # --- the functional room (west, its own tall wall): the rig on the wall (rings, ropes, the parallel bars), wall balls + pegboard
@@ -432,9 +432,9 @@ def plan_f3(G):
             x += w
             prev = p_
         return x
-    F.notes.append("hub A ends %.2f" % hub(["hammer-strength-plate-loaded-iso-lateral-bench-press", "tree", "hammer-strength-plate-loaded-iso-lateral-incline-press"], -21.7, -7.2, 180))
+    F.notes.append("hub A ends %.2f" % hub(["hammer-strength-plate-loaded-iso-lateral-bench-press", "tree", "hammer-strength-plate-loaded-iso-lateral-incline-press"], -21.7, -7.125, 180))
     F.notes.append("hub B ends %.2f" % hub(["hammer-strength-plate-loaded-iso-lateral-row", "tree", "hammer-strength-plate-loaded-iso-lateral-front-lat-pulldown"],
-                                           -21.7, -6.6, 0))   # (backs 0.6 apart, NSCA)
+                                           -21.7, -6.675, 0))   # (backs 0.45 apart: their space is in front, and not a short cut)
 
     # --- strongman (north-west) round its carry lane (2026-10-31, Roman: "the area to the west of the PlayStation ... kind of an empty
     # area"; the lane was only drawn, the floor read empty): 12 m of turf through the middle of it, the yoke at its head, the stones
@@ -483,15 +483,16 @@ def plan_f3(G):
     F.put("life-fitness-push-pull-weight-sled", -13.9, -19.7, 180, "sled lane", "parked at the far end")
     F.put("life-fitness-acft-sled-with-strap", -12.6, -20.3, 180, "sled lane", "parked at the far end")
     F.put("life-fitness-acft-sled-with-strap", -12.6, -30.6, 0, "sled lane", "parked at the start line")
-    F.put("rogue-monster-mass-storage", -11.3, -33.16, -90, "sled lane", "harnesses, cones, hurdles, the agility ladder; by the lane's start, its back to the turf")
+    F.put("rogue-monster-mass-storage", -10.2, -33.16, -90, "sled lane", "harnesses, cones, hurdles, the agility ladder; by the lane's start, its back to the turf")
 
     # --- the altitude room (south annex): bikes in front, treadmills + rowers behind, all facing the display on the west wall
     fixed.append({"id": "airlock", "room": "", "kind": "keep_clear", "label": "The altitude room's airlock (built)",
                   "pts": [[-23.95, -36.4], [-20.95, -36.4], [-20.95, -34.35], [-23.95, -34.35]], "fixed": True})
     place_row(F, G, ["life-fitness-ic7-indoor-cycle", "life-fitness-club-series-upright-lifecycle-bike", "life-fitness-club-series-upright-lifecycle-bike",
                      "life-fitness-ic7-indoor-cycle"], -26.2, -39.55, 90, 0.6, "altitude", "facing the altitude display")
-    place_row(F, G, ["life-fitness-row-hx-trainer", "woodway-4front", "woodway-4front", "life-fitness-row-hx-trainer"], -20.4, -39.55, 90, 0.6, "altitude",
-              "facing the altitude display")
+    # (2026-10-31: a rower cut, a 1.2 m walk between the treadmills: the sim had everyone squeezing between them)
+    place_row(F, G, ["life-fitness-row-hx-trainer", "woodway-4front"], -20.4, -39.55, 90, 0.9, "altitude", "facing the altitude display")
+    place_row(F, G, ["woodway-4front"], -20.4, -39.55 + 0.57 + 0.9 + 0.89 + 1.2, 90, 0.9, "altitude", "facing the altitude display")
 
     auto_wipes(F, G, fixed, 20)
     for it in F.items:

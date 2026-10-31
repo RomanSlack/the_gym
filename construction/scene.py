@@ -113,6 +113,19 @@ CAMS = {
     "eq3_z_func": ((-27.6, -9.0, -8.17), (-23.0, -5.0, -8.2), 20),        # the functional room: the rig on its tall wall
     "eq3_z_lane": ((-15.9, -32.5, -8.17), (-13.0, -14.0, -8.5), 20),      # the south spine beside the sled lane + its low wall
     "eq3_z_spine": ((-13.2, -11.0, -8.17), (-13.0, 10.0, -8.4), 20),      # the north spine: the maze, the upper machines
+    # (2026-10-31, the access relayout: Roman's walk-through points, one camera each)
+    "eq1_z_mu": ((-16.1, -27.2, 1.6), (-16.1, -33.5, 2.1), 20),           # the two muscle-up bars, nothing over them
+    "eq1_z_cardio": ((-14.2, -18.6, 1.6), (-10.5, -27.5, 1.2), 20),       # the stepmills + ellipticals behind the treadmills
+    "eq2_z_fore": ((-16.6, -10.3, -3.31), (-26.5, -14.5, -3.6), 20),      # the forecourt by the spiral: the racks wall stopped short
+    "eq2_z_bay": ((-13.6, -20.0, -3.31), (-22.3, -23.0, -3.7), 20),       # the dumbbell bay: the racks on the mirror
+    "eq2_z_legs2": ((-12.0, -0.5, -3.31), (-20.5, 9.0, -3.7), 20),        # the leg room: the island, the leg extensions facing the room
+    "eq2_z_oly2": ((-23.4, -1.8, -3.31), (-26.0, 10.5, -3.8), 20),        # olympic: one line on the mirror, the aisle behind
+    "eq3_z_den2": ((-27.6, -19.5, -8.17), (-21.5, -29.5, -8.6), 20),      # the den turned: the benches facing the mirrored den wall
+    "eq3_z_foot": ((-12.6, -25.5, -8.17), (-17.0, -15.5, -8.4), 20),      # the spiral's foot from the sled lane: the guard, the lane's end
+    "eq3_z_river": ((-8.7, -9.5, -8.17), (-9.6, -30.0, -8.7), 20),        # down the walk by the river: the row faces the water
+    "eq3_z_carry": ((-21.4, -2.2, -8.17), (-25.5, 10.0, -8.8), 20),       # the carry lane turf west of the maze, the strongman
+    "eq3_z_n34": ((-18.4, 2.8, -8.17), (-18.4, 10.5, -9.6), 20),          # the stair down to F4: the spine wall + its guards
+    "eq3_z_peg": ((-25.2, -6.4, -8.37), (-29.1, -4.2, -7.3), 20),         # the pegboard at its new height
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),
@@ -477,9 +490,7 @@ for ph in range(1, STAGE + 1):
             mat = MAT["timber_clad"]
         z0, z1 = e["z"]
         if "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] in ("boards", "slabs", "poured"):
-            ob_ = bc.pattern_floor(e, mat, coll, prng)
-            if e["pattern"].get("bevel"):  # tiles with eased edges (the gym's impact tiles): the seams catch the light
-                bv = ob_.modifiers.new("eased", "BEVEL"); bv.width = e["pattern"]["bevel"]; bv.segments = 2; bv.limit_method = "ANGLE"
+            bc.floor_slab(e, mat, coll, prng)
         elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "wave":
             bc.pattern_wave_ceiling(e, mat, coll, ROOF_BEAMS_E)
         elif "pattern" in e and e["type"] == "slab" and e["pattern"]["kind"] == "slats":
@@ -487,23 +498,7 @@ for ph in range(1, STAGE + 1):
         elif e["type"] == "wall" and e.get("kind") == "lining":
             bc.pattern_lining(e, mat, coll, prng, backing_mat=MAT["felt_black"])
         elif e["type"] in ("slab", "footing", "blinding") and "rect" in e:
-            x0, y0, x1, y1 = e["rect"]
-            W_, S_, E_, N_ = e.get("eaves", (0, 0, 0, 0))  # roofs: plate runs past the facade
-            ob = bc.box(e["id"], x0 - W_, y0 - S_, z0, x1 + E_, y1 + N_, z1, mat, coll)
-            for k, h in enumerate(e.get("holes", [])):
-                if "circle" in h:  # round stair openings, through the structural slab and the floor build-up alike (Roman: the stairwell was closed)
-                    hx, hy, hr = h["circle"]
-                    bpy.ops.mesh.primitive_cylinder_add(radius=hr, depth=(z1 - z0) + 1.0, vertices=96, location=(hx, hy, (z0 + z1) / 2))
-                    cu = bpy.context.object; cu.name = f"{e['id']}_hole{k}"
-                    for c_ in list(cu.users_collection):
-                        c_.objects.unlink(cu)
-                    coll.objects.link(cu); cu.hide_render = True; cu.hide_viewport = True
-                    md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
-                if "rect" in h:  # e.g. the pool basin through the F4 raft
-                    xs_, ys_ = [p[0] for p in h["rect"]], [p[1] for p in h["rect"]]
-                    cu = bc.box(f"{e['id']}_hole{k}", min(xs_), min(ys_), z0 - 0.5, max(xs_), max(ys_), z1 + 0.5, mat, coll)
-                    cu.hide_render = True; cu.hide_viewport = True
-                    md = ob.modifiers.new(f"hole{k}", "BOOLEAN"); md.operation = "DIFFERENCE"; md.object = cu
+            bc.rect_slab(e, mat, coll)
         elif e["type"] in ("wall", "sheetpile", "membrane", "drain_layer", "strip_footing") and "mullions" not in e and e.get("kind") not in ("clad", "lining"):
             ob = bc.oriented_box(e["id"], e["from"], e["to"], e["size"][0], z0, z1, mat, coll)
             (wx0, wy0), (wx1, wy1) = e["from"], e["to"]

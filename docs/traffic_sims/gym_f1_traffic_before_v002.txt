@@ -1,0 +1,24 @@
+== gym_f1: 85 pieces + fixtures, 5 ways in, grid 237 x 254
+   access: 68 pieces, 0 problems
+   the crowd walks through these training spaces most (crossings per 100 members):
+     life-fitness-club-series-elliptical-cross-trainer-5: 140 m walked through
+     rogue-monster-lite-monkey-rig-2-0-1: 59 m walked through
+     maze-f1e-AS-step: 50 m walked through
+     versaclimber-ts-magnetic-1: 8 m walked through
+     maze-f1e-AN-crossover: 8 m walked through
+     pullup--18.00: 6 m walked through
+     maze-f1w-AN-crossover: 6 m walked through
+     woodway-4front-2: 4 m walked through
+     woodway-4front-3: 2 m walked through
+     woodway-4front-6: 2 m walked through
+     woodway-4front-7: 2 m walked through
+     stairmaster-8gx-stepmill-1: 2 m walked through
+     hammer-strength-hd-tread-1: 2 m walked through
+     life-fitness-club-series-elliptical-cross-trainer-4: 2 m walked through
+     woodway-4front-8: 2 m walked through
+   busy pinch points (corridor < 1.1 m wide, top-10 % traffic): 4
+     (-24.5, -20.5) 0.72 m
+     (-21.5, -19.9) 0.72 m
+     (-12.6, -27.4) 0.60 m
+     (-10.9, -27.4) 0.72 m
+   wrote ../docs/traffic_sims/gym_f1_traffic_before_v002.png
