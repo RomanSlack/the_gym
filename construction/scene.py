@@ -100,6 +100,8 @@ CAMS = {
     # the zoned floors (Roman 2026-10-28: "show me some shots first please of the new zones"): rooms behind partitions, the spines
     "eq1_z_cal": ((-18.0, -31.0, 1.6), (-23.5, -26.5, 1.4), 20),          # the calisthenics room: the Monkey Rig on its tall wall
     "eq1_z_pull": ((-16.5, -20.5, 1.6), (-23.0, -25.0, 1.5), 20),         # the pull-up stations off the wall's north face, the mats
+    "eq1_z_south": ((-19.0, -21.5, 1.6), (-21.5, -32.5, 1.4), 20),        # the calisthenics along the south glass (no partitions), from the mats
+    "eq1_z_rig": ((-13.6, -27.0, 1.6), (-23.5, -32.6, 1.5), 20),          # down the calisthenics line: the pull-up stations, the Monkey Rig
     "eq2_z_spine": ((-11.8, -32.5, -3.31), (-12.2, 0.0, -3.5), 20),       # up the spine from the pods
     "eq2_z_racks": ((-27.5, -13.0, -3.31), (-23.5, -31.0, -3.6), 20),     # the rack room: the racks on their tall wall, the mirror
     "eq2_z_bench": ((-12.5, -27.0, -3.31), (-22.0, -28.5, -3.7), 20),     # off the spine into the bench room

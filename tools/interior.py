@@ -697,7 +697,7 @@ ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), tall?)]  axis-aligned
     "F2": [("racks", (-22.4, -31.95), (-22.4, -13.3), True), ("pull", (-22.4, -10.8), (-22.4, -2.94), True),
            ("olympic-s", (-27.0, -3.0), (-22.46, -3.0), True), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), False),
            ("bench-n", (-22.34, -25.6), (-15.0, -25.6), False), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), True)],
-    "F1": [("calisthenics", (-25.3, -25.6), (-17.3, -25.6), True), ("calisthenics-e", (-17.3, -31.3), (-17.3, -25.66), False)],
+    # F1: none (Roman 2026-10-30: the calisthenics takes the south wall "without those barriers")
     "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), True), ("den-n", (-26.6, -13.85), (-21.8, -13.85), False),
            ("functional", (-22.6, -9.4), (-22.6, -3.06), True), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), False),
            ("sled", (-11.75, -29.5), (-11.75, -16.5), False)],

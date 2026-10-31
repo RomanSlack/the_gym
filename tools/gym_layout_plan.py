@@ -471,39 +471,39 @@ def plan_f1(G):
            {("A", "E"): "pulldown", ("B", "E"): "pulldown", ("A", "W"): "handles", ("B", "W"): "panel",
             ("A", "S"): "step", ("B", "N"): "ropepull", ("A", "N"): "crossover", ("B", "S"): "crossover"},
            [("A", "B")], origin=(-12.0, -17.3), zone="PWR Play island (river side)")
-    x = -22.6
+    y = -19.3
     for p_ in ["life-fitness-club-series-recumbent-lifecycle-bike"] * 3 + ["life-fitness-club-series-upright-lifecycle-bike"] * 3:
         w, d = G.footprint(p_)
-        F.put(p_, x + w / 2, YSF + 0.3 + d / 2, 180, "bikes on the south glass", "facing the forest")
-        x += w + 0.75
+        F.put(p_, -15.0, y - w / 2, -90, "bikes behind the stepmills", "facing the river (the south glass is the calisthenics wall now)")
+        y -= w + 0.75
 
     # --- the walking routes (1.7 m clear; nothing stands in them): in from the gallery down the river side (behind the treadmills)
     # and along the locker wall past the spiral to the W1 stair + lift; down the garden side to the W2 stair; along the bikes
     F.route("r-gallery-cardio", [(-9.55, -9.4), (-9.55, -33.0)], "in from the gallery, down the river side behind the treadmills")
     F.route("r-gallery-west", [(-10.4, -10.5), (-27.1, -10.5)], "in from the gallery along the locker wall: the spiral, the W1 stair + lift", width=1.6)
-    F.route("r-garden-side", [(-26.3, -10.5), (-26.3, -30.6)], "down the garden side: the W2 stair, the mats, the calisthenics room")
+    F.route("r-garden-side", [(-26.3, -10.5), (-26.3, -29.0)], "down the garden side: the W2 stair, the mats, the calisthenics wall")
 
-    # --- the calisthenics room (Roman 2026-10-28: "the calisthenics stuff needs to be against a wall more"): a tall slat wall across
-    # the hall's south-west (tools/interior.py ZONE_WALLS), the Monkey Rig on its south face, a low wall closing the room's east side,
-    # the skills floor + parallettes in front of the rig, the VKR on the W2 core; the three pull-up stations stand off the tall wall's
-    # north face, wall bars on the W1 core
-    mr = F.put("rogue-monster-lite-monkey-rig-2-0", -21.3, -25.6 - 0.125 - 2.11 / 2 - 0.05, 0, "calisthenics", "on the room's tall wall: rings on the 2.47 m bars; the parallel bars on it")
-    F.put("rogue-rig-mount-parallel-bars", -21.3 - 3.07, mr["y"], 0, "calisthenics", "on the rig, in its west 43 in bay", on=mr["id"])
+    # --- calisthenics along the south glass (Roman 2026-10-30: "take up the whole back wall or most of it ... without those
+    # barriers"): the Monkey Rig with its back to the forest, three pull-up stations carrying the line east, the skills floor +
+    # parallettes in front, the VKR + wall bars on the W2 core at the west end. No partitions: the open mats run straight into it
+    mx = -27.3 + 7.493 / 2
+    mr = F.put("rogue-monster-lite-monkey-rig-2-0", mx, YSF + 0.3 + 2.106 / 2, 180, "calisthenics", "back to the south glass: rings on the 2.47 m bars; the parallel bars on it")
+    F.put("rogue-rig-mount-parallel-bars", mx + 3.07, mr["y"], 180, "calisthenics", "on the rig, in its east 43 in bay", on=mr["id"])
     F.put("body-solid-gvkr60b-vertical-knee-raise-dip", XWF + 0.5, -29.6, -90, "calisthenics", "its back to the W2 core")
-    for dx in (-2.1, 0.0, 2.1):
-        F.items.append({"id": f"pullup-{dx:+.1f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
-                        "x": round(-21.3 + dx, 3), "y": round(-25.6 + 0.125 + 0.75, 3), "w": 1.6, "d": 0.18, "rot": 0,
-                        "note": "pull-ups, chin-ups, hanging leg raises, muscle-ups: 0.75 m off the tall wall, hang facing it or the room"})
-    for x in (-23.8, -22.7, -21.6, -20.5, -19.4, -18.3):
-        F.put("rogue-bolt-together-parallette-set", x, -30.75, 0, "calisthenics", "L-sits, planche, push-ups")
-    F.zone("Skills floor: handstands, levers, L-sits (gymnastics mat)", -25.3, -30.3, -17.5, -28.5, "zone-skills")
+    for x in (-18.75, -16.85, -14.95):
+        F.items.append({"id": f"pullup-{x:+.2f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
+                        "x": x, "y": round(YSF + 0.3 + 1.0, 3), "w": 1.6, "d": 0.18, "rot": 0,
+                        "note": "pull-ups, chin-ups, hanging leg raises, muscle-ups: the rig's line carried east along the glass"})
+    F.zone("Skills floor: handstands, levers, L-sits (gymnastics mat)", -25.4, -30.4, -19.9, -28.0, "zone-skills")
+    for x in (-24.9, -23.8, -22.7, -21.6, -20.5, -19.4):
+        F.put("rogue-bolt-together-parallette-set", x, -27.4, 0, "calisthenics", "L-sits, planche, push-ups")
     for y in (-17.75, -16.25, -14.75):
         F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, y, -90, "calisthenics", "on the W1 core wall (the chin bar can't meet the 2.47 m rule)")
     F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, -28.0, -90, "calisthenics", "on the W2 core wall")
     F.put("rogue-belt-and-band-hanger", -13.2, YNF - 0.155, 180, "calisthenics", "dip belts, bands")
-    F.put("life-fitness-vertical-medicine-ball-storage", -24.8, -31.4, 0, "calisthenics")
+    F.put("life-fitness-vertical-medicine-ball-storage", -20.9, -19.9, 180, "stretching", "beside the accessory racks")
 
-    # --- stretching + mobility north of the tall wall (the garden glass beside it): the mat floor, the kit round it
+    # --- stretching + mobility north of the calisthenics (the garden glass beside it): the mat floor, the kit round it
     F.zone("Open mat floor: stretching, mobility, small classes (mats from the racks)", -25.3, -23.6, -19.0, -20.5, "zone-mats")
     for y in (-33.2, -31.7):
         F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.135, y + 0.7, -90, "stretching", "core + yoga mats")
@@ -521,7 +521,7 @@ def plan_f1(G):
     F.write("gym_f1", ws, sps, {"fixed": fixed, "overhead": G.overhead("F1")},
             summary=["F1 · the hall (first proposal, 2026-10-26)",
                      "Cardio on the glass: 10 treadmills facing the river, the ellipticals, stepmills + VersaClimber behind, the bikes facing the forest.",
-                     "The calisthenics room (2026-10-28): the Monkey Rig on a tall slat wall, the pull-up stations off its other face, the skills floor + parallettes, wall bars on the cores.",
+                     "Calisthenics along the south glass (2026-10-30, no partitions): the Monkey Rig + three pull-up stations facing the room, the skills floor + parallettes, wall bars on the cores.",
                      "Walking routes kept clear: in from the gallery, along the locker wall to the spiral + W1, down the garden side.",
                      "The body scanner is in the posing room on F2 (private)."])
 
