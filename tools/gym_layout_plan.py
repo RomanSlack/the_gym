@@ -30,8 +30,10 @@ def plan_f2(G):
     - the rack room stops a rack short: the opening by the spiral (half blocked by the stair) is now a 5.4 m forecourt
     - olympic: four platforms in one line facing the mirror, the aisle behind them, bumpers between (the inner line of the old two
       could only be reached across the outer); its west gap (onto the platforms' fronts) closed, in from the leg room's walk
-    - the leg room: the leg extensions turned to face the room with their backs on the north wall, one island (smiths back to back
-      with the calf machines, 0.6 m between), a 1.5 m walk down its west side to olympic, 1.5 m aisles either side of the island
+    - the leg room: the leg extensions turned to face the room with their backs on the north wall, a 1.2 m walk down its west side
+      to olympic; (second walk: "super barren ... like stuff was thrown over there") the legs wall's north face a mirror, four rows
+      on the room's axis: the smiths facing the mirror, the leg press + belt squat behind them, the iso leg extension + calves
+      back to back with those
     - the bench room: a 1.2 m aisle between the incline + flat rows (the trees stood in a 0.6 m one), the trees between the flats
     - the dumbbell bay: the racks on the racks wall's new mirror, the benches facing it, the rest of the bay open
     - no cardio on F2 (Roman: "people should just go run outside"): two stepmills by the legs for supersets, the PWR Play to the corner
@@ -155,24 +157,41 @@ def plan_f2(G):
     F.notes.append("leg hub ends %.2f" % hub([lp, "tree", gd, gd], -21.9, -2.36, 180, "leg hub"))
     kw_, kd_ = G.footprint("hammer-strength-mts-kneeling-leg-curl")      # its back to the walk in, facing the row across 1.6 m
     F.put("hammer-strength-mts-kneeling-leg-curl", -18.0, -9.45 + 0.5 + kd_ / 2, 0, "leg hub", "its back to the walk in from W1")
-    # --- the leg room: a row on the legs wall, the leg extensions on the north wall facing the room, one island between
-    F.notes.append("leg room south row ends %.2f" % hub([lp, "tree", bs], -20.3, -2.24, 0, "leg room"))
+    # --- the leg room (Roman 2026-10-31, second walk: "looks super barren and weird and just like stuff was thrown over there"):
+    # the legs wall's north face is a mirror now; two rows face it, fronts on one line, every row centred on the room's axis
+    # (between the oly walk and the spine), a third row back to back with the second, the leg extensions on the north wall
+    def row(pieces, yl, rot, zone, ref="front"):
+        """A row centred on the room's axis; yl = the line its fronts (or backs) stand on; 0.9 m between machines, 0.6 by a tree."""
+        dims = [(0.845, 0.712) if p_ == "tree" else G.footprint(p_) for p_ in pieces]
+        gaps = [0.6 if "tree" in (p0, p1) else 0.9 for p0, p1 in zip(pieces, pieces[1:])]
+        x = XC - (sum(w for w, _ in dims) + sum(gaps)) / 2
+        sg = 1 if rot == 180 else -1                          # rot 180: facing south, the body north of its front
+        for k, (p_, (w, d)) in enumerate(zip(pieces, dims)):
+            y = yl + (sg * d / 2 if ref == "front" else -sg * d / 2)
+            if p_ == "tree":
+                F.put("life-fitness-olympic-weight-tree", x + w / 2, y, rot, zone, "0.6 m clear either side: you load + get on past it")
+            else:
+                F.put(p_, x + w / 2, y, rot, zone)
+            x += w + (gaps[k] if k < len(gaps) else 0)
+        return max(d for _, d in dims)
+    XC = (-21.0 + -12.7) / 2                                  # the oly walk's east edge, the spine's west edge
+    MIR = -2.3 + 0.06 + 0.012                                 # the mirror's face
+    sm_ = "life-fitness-smith-machine"
+    y1 = MIR + 1.0                                            # row 1: the smiths' fronts, 1 m off the mirror
+    d1 = row([sm_, "tree", sm_], y1, 180, "leg room", "front")
+    y2 = y1 + d1 + 0.4 + 1.2 + 0.8                            # row 2: their backs' 0.4, a 1.2 m aisle, the next row's 0.8 in front
+    d2 = row([lp, "tree", bs], y2, 180, "leg room", "front")
+    y3 = y2 + d2 + 0.6                                        # row 3: back to back with row 2 (0.6 between: NSCA)
+    row(["hammer-strength-plate-loaded-iso-lateral-leg-extension", "hammer-strength-plate-loaded-seated-calf-raise", "atlantis-incline-calf-raise-m318"],
+        y3, 0, "leg room", "back")
+    F.notes.append(f"leg room rows at y {y1:.2f} / {y2:.2f} / {y3:.2f}")
     LF, HS, PR = "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"
-    x = -20.5
+    x = XC - (sum(G.footprint(p_)[0] for p_ in (LF, LF, PR, HS)) + 3 * 0.65) / 2   # on the room's axis too
     for p_ in (LF, LF, PR, HS):   # (Roman: "rotate that entire row 180 degrees and then push it up against the wall")
         w, d = G.footprint(p_)
-        F.put(p_, x + w / 2, YN - 0.05 - d / 2, 180, "leg room", "its back on the north wall, facing the room")
+        F.put(p_, x + w / 2, YN - 0.05 - d / 2, 180, "leg room", "its back on the north wall, facing the room + the mirror")
         x += w + 0.65
     F.notes.append(f"leg extensions end {x:.2f}")
-    sm, sd = G.footprint("life-fitness-smith-machine")
-    ys_ = 9.54 - 1.5 - 1.0 - sd / 2                                   # the north aisle 1.5 m clear of both rows' spaces
-    x = -20.3
-    for _ in range(2):
-        F.put("life-fitness-smith-machine", x + sm / 2, ys_, 0, "leg room island", "facing north; 0.9 m to the calf machines behind (NSCA)")
-        x += sm + 0.9
-    yb = ys_ - sd / 2 - 0.9
-    F.notes.append("island south half ends %.2f" % hub(["hammer-strength-plate-loaded-iso-lateral-leg-extension", "tree", "atlantis-incline-calf-raise-m318",
-                                                      "hammer-strength-plate-loaded-seated-calf-raise"], -20.25, yb, 180, "leg room island"))
 
     # --- the PWR Play island in the north-east corner (Roman: "sub islands of the play station thing ... for super setting")
     F.maze("f2", {"A": (0, 0), "B": (0, 1)},
@@ -206,7 +225,7 @@ def plan_f2(G):
             summary=["F2 · strength, zoned; rebuilt round access 2026-10-31 (tools/gym_walk_sim.py: no piece reached through another's training space)",
                      "The spine: one clear walk from the pods to the PWR Play; every room opens off it; the forecourt by the W1 doors.",
                      "West: the rack room (5 racks), the pulling corner (2 half racks), olympic (4 platforms in a line, the aisle behind).",
-                     "Middle: the bench room (6 stations, a 1.2 m aisle) + the dumbbell bay on a mirror, the spiral, the leg hub, the leg room (1 island).",
+                     "Middle: the bench room (6 stations, a 1.2 m aisle) + the dumbbell bay on a mirror, the spiral, the leg hub, the leg room (rows facing its mirror).",
                      "River: the selectorized legs + the squat corner, two stepmills, the kneeling curl + GHD; the PWR Play in the corner. No cardio."])
 
 
@@ -243,7 +262,7 @@ def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5):
         p_ = G.item_poly(it, kinds)
         if p_ is None:
             continue
-        occ.append(p_)
+        occ.append(p_.buffer(0.3) if it["kind"] in ("stair", "void") else p_)   # (their glass guards stand on the edge)
         u = G.item_poly(it, kinds, use=True) if not it.get("fixed") else None
         if u is not None:
             occ.append(u)
@@ -560,10 +579,11 @@ def plan_f1(G):
     # swing kept clear 1.8 m in front and behind, 1.2 m between them (NSCA), on their own mat; no wipes or anything between them
     ymu = round(YSF + 1.9, 3)
     F.zone("Muscle-up bars: 1.8 m swing clear front + back, nothing over the bars (gymnastics mat)", -18.5, YSF, -13.7, round(ymu + 1.85, 3), "zone-muscle-up")
-    for x in (-17.5, -14.7):
-        F.items.append({"id": f"muscleup-{x:+.2f}", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
-                        "x": x, "y": ymu, "w": 1.6, "d": 0.18, "rot": 0,
-                        "note": "muscle-ups, pull-ups, toes-to-bar: the bar on top of its uprights, nothing above it"})
+    # (Roman, after the walk: "those muscle up capable pull up bars look too thin and weird"): one double station, 4.6 m with
+    # its raking legs, two 1.67 m bars on three uprights
+    F.items.append({"id": "muscleup-station", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
+                    "x": -16.1, "y": ymu, "w": 4.6, "d": 0.31, "rot": 0,
+                    "note": "muscle-ups, pull-ups, toes-to-bar: two bars on top of three uprights, nothing above them"})
     F.zone("Skills floor: handstands, levers, L-sits (gymnastics mat)", -25.4, -29.1, -19.9, -26.7, "zone-skills")
     for x in (-24.6, -23.5, -22.4, -21.3, -20.2, -19.1):
         F.put("rogue-bolt-together-parallette-set", x, -26.2, 0, "calisthenics", "L-sits, planche, push-ups")

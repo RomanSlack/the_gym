@@ -4319,6 +4319,35 @@ def ring_guard(P, r=3.5, gap_a=135.0, gap_b=160.0, h=1.1, band=0.39):
         P.box(st, ((r + 0.04) * math.cos(t), (r + 0.04) * math.sin(t), h / 2), (0.05, 0.05, h), rz=t)
 
 
+def spiral_spandrel(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, head=2.1):
+    """The space under the spiral's low first turn closed off (Roman 2026-10-31 on F3: "someone could hit their head"; then the
+    glass ring round it "clipping": two rails 8 cm apart at different heights crossed each other): 14 mm blackened-steel bars at
+    <= 110 mm, the balustrade's own bars carried on down, from a steel floor flat up into both stringers' undersides, wherever
+    the stringer is under `head` (TEK17 2.1 m), and a radial screen of the same bars where that ends, up to the treads. Nothing
+    stands outside the stair. Origin = the stair's centre at its foot."""
+    st = M["steel"]
+    rr = rise / risers
+    zb = lambda th: rr * (1 + th / step_deg) - 0.06 - 0.36    # the stringers' underside, th degrees round from the foot
+    th0 = (0.46 / rr - 1) * step_deg                          # where it is 0.1 m up
+    th1 = ((head + 0.42) / rr - 1) * step_deg                 # where it reaches the headroom
+    def pt(r, th, z):
+        t = math.radians(a0 + th); return (r * math.cos(t), r * math.sin(t), z)
+    for r in (ri, ro):
+        n = max(2, math.ceil(math.radians(th1 - th0) * r / 0.11))
+        for i in range(n + 1):
+            th = th0 + (th1 - th0) * i / n
+            P.rod(st, pt(r, th, 0.012), pt(r, th, zb(th) + 0.01), 0.007, seg=8)
+        P.ring(st, (0, 0), r - 0.02, r + 0.02, 0.0, 0.012, a0=a0 + th0, a1=a0 + th1, seg=180)
+    zt = rr * (math.floor(th1 / step_deg) + 1) - 0.06          # the radial screen: up to the tread over it
+    n = math.ceil((ro - ri) / 0.11)
+    for i in range(1, n):
+        r = ri + (ro - ri) * i / n
+        P.rod(st, pt(r, th1, 0.012), pt(r, th1, zt + 0.005), 0.007, seg=8)
+    t = math.radians(a0 + th1)
+    P.box(st, (*pt((ri + ro) / 2, th1, 0.006)[:2], 0.006), (ro - ri, 0.04, 0.012), rz=t)
+    P.box(st, (*pt((ri + ro) / 2, th1, 0.0)[:2], zt - 0.006), (ro - ri, 0.04, 0.012), rz=t)
+
+
 def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gaps=((26.33, 28.67),)):
     """The spiral's guards, side-mounted on the stringers (nothing stands on a tread): 14 mm blackened-steel bars at <= 110 mm
     (child-safe), each held off the stringer's face by a small steel shoe, carried at the top by a 40 x 12 steel flat rail; on the
@@ -6014,7 +6043,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_spandrel": spiral_spandrel, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
     "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
     "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "eclipse_sconce": eclipse_sconce, "towel_bin": towel_bin, "breath_mat": breath_mat,
     "gym_wc": gym_wc, "scene_keypad": scene_keypad, "ceiling_speaker": ceiling_speaker, "posing_wall": posing_wall, "posing_stage": posing_stage,
@@ -6025,7 +6054,7 @@ BUILDERS = {
 PARAMS = {"eclipse_sconce": ("mount",), "gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceiling_speaker": ("z_ceiling",), "posing_wall": ("L", "D", "H"),
           "posing_stage": ("w", "d", "h"), "stage_rig": ("w", "z_ceiling", "hang"), "light_boom": ("H",), "velvet_backdrop": ("L", "H"), "pod_wall": ("L", "D", "H"),
           "platform_inlay": ("s",), "airlock": ("w", "d", "h", "door"), "sky_coffer": ("w", "d", "depth", "z_ceiling"), "altitude_display": ("w", "h", "mount"),
-          "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+          "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_spandrel": ("ri", "ro", "rise", "risers", "step_deg", "a0", "head"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

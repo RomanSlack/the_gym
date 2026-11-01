@@ -722,7 +722,7 @@ ZP_TALL, ZP_LOW, ZP_MID, ZP_T = 3.0, 1.2, 2.4, 0.12
 ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), height, mirror faces ('a' = left of from->to, 'b' = right))]  axis-aligned
     "F2": [("racks", (-22.4, -31.95), (-22.4, -16.2), ZP_TALL, "b"), ("pull", (-22.4, -10.8), (-22.4, -2.94), ZP_TALL, ""),
            ("olympic-s", (-29.14, -3.0), (-22.46, -3.0), ZP_TALL, ""), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), ZP_LOW, ""),
-           ("bench-n", (-22.34, -25.0), (-15.0, -25.0), ZP_MID, "ab"), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), ZP_TALL, "")],
+           ("bench-n", (-22.34, -25.0), (-15.0, -25.0), ZP_MID, "ab"), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), ZP_TALL, "a")],
     # F1: none (Roman 2026-10-30: the calisthenics takes the south wall "without those barriers")
     "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), ZP_TALL, "a"), ("den-n", (-26.6, -13.85), (-23.0, -13.85), ZP_LOW, ""),
            ("functional", (-22.6, -9.4), (-22.6, -3.06), ZP_TALL, "a"), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), ZP_LOW, ""),

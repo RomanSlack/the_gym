@@ -924,11 +924,12 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
 # (F2's south one stood in pod 3's door at -9.0 (Roman 2026-10-31: "a water fountain machine inside of a door"); now on the wall
 # between pods 1 and 2's doors; G.check flags any water / safety point in a door's landing)
 # the spiral's foot on F3 (Roman 2026-10-31: "a huge hazard to have the stairs like this ... someone could hit their head"): its first
-# turn is under 2.1 m (the steps' undersides 0.2-2 m up), so a glass guard rings it, open only at the foot where you step on
-put("ring_guard", *_spe["center"], zone="gym-stair", level="F3", z=lv["F3"], r=_R_open, gap_a=round((_sa0 - 10) % 360, 1), gap_b=round((_sa0 - 10) % 360 + _sst + 20, 1),
-    h=1.1, band=0.0, note="the spiral's foot on F3: glass guard round the low first turn (under 2.1 m headroom), open at the bottom step")
+# turn is under 2.1 m, so the space under it is closed with bars down from both stringers (a glass ring round it first: "the
+# railing is clipping", two rails 8 cm apart)
+put("spiral_spandrel", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, ri=_sri, ro=_sro, rise=round(_sz1 - _sz0, 3), risers=_srs,
+    step_deg=_sst, a0=_sa0, head=2.1, note="under the spiral's low first turn: steel bars from the floor up into both stringers, a screen where it reaches 2.1 m")
 # the stair F3 -> F4's open edges on F3 (the spine wall between its flights: tools/interior.py)
-for x, y, rot, L in ((-20.025, 8.28, 0, 2.85), (-21.5, 10.075, 90, 3.55), (-15.4, 10.075, 90, 3.55)):
+for x, y, rot, L in ((-20.025, 8.28, 0, 2.85), (-21.5, 10.02, 90, 3.44), (-15.4, 10.02, 90, 3.44)):   # (to the north wall's slats, not into them)
     put("glass_fence", x, y, rot=rot, zone="gym-f3", level="F3", z=lv["F3"], length=L, note="the stair to F4: glass guard on the opening's edge")
 for lvl, x, wall in (("F2", -24.0, "N"), ("F2", -17.15, "S"), ("F3", -11.0, "N"), ("F3", -26.0, "S")):
     y, rot = (12.1 - 0.25 - 0.065, 180) if wall == "N" else (-34.1 + 0.25 + 0.065, 0)

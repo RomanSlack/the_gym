@@ -126,6 +126,9 @@ CAMS = {
     "eq3_z_carry": ((-21.4, -2.2, -8.17), (-25.5, 10.0, -8.8), 20),       # the carry lane turf west of the maze, the strongman
     "eq3_z_n34": ((-18.4, 2.8, -8.17), (-18.4, 10.5, -9.6), 20),          # the stair down to F4: the spine wall + its guards
     "eq3_z_peg": ((-25.2, -6.4, -8.37), (-29.1, -4.2, -7.3), 20),         # the pegboard at its new height
+    "eq2_z_legs3": ((-13.2, 9.6, -3.31), (-19.0, -2.2, -3.7), 20),        # the leg room from the north-east: the rows facing the mirror
+    "eq3_z_foot2": ((-12.6, -10.6, -8.17), (-17.95, -15.6, -8.9), 20),    # the spiral's low first turn from the north-east: the bars under it
+    "eq1_z_mu2": ((-11.8, -28.0, 1.55), (-16.6, -32.6, 1.75), 22),        # the double muscle-up bar, three-quarter
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),

@@ -50,3 +50,13 @@ for the record. `after_v002` was a step on the way.
   edge. Now one row facing the water with a 0.9 m walk in front.
 - Wipes stations: the placer had only kept them off the user's front. Now they stand on walls (F2: 22 of 22), never in anyone's
   training space, an aisle or a door.
+
+## Second walk (2026-10-31): the leg room, `after_v004` / `after_v005`
+
+Roman: F2's leg room "looks super barren and weird and just like stuff was thrown over there". The old room passed the sim (every
+piece reachable) but the pieces stood on four different lines with 2-3 m empty bands between them. Now the legs wall's north face
+is a mirror and the room is four rows on one axis: the smiths (a plate tree between them) facing the mirror, the leg press + belt
+squat facing it behind them, the iso leg extension + the calves back to back with those, the leg extensions on the north wall.
+Same simulator, same numbers: F2 still 0 pieces reached through anyone's set (`gym_f2_traffic_after_v005`; v004 is the step before
+the leg extensions were centred on the room's axis). F1 and F3 unchanged apart from the muscle-up station (one double bar instead
+of two lone ones): F1 0 problems, F3 the same 2 inside the PWR Play maze.

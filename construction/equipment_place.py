@@ -76,28 +76,48 @@ def _turn(face, rot):
     return math.radians(rot) + math.pi / 2 - math.atan2(fy, fx)
 
 
-def pullup_station(k, span):
-    """A freestanding muscle-up bar from the Monkey Rig's parts (Roman 2026-10-31: "the pull-up bars we have restrict
-    muscle-ups"; the old station's crossmember ran 0.27 m over the bar): two red uprights on bolted base plates that stop
-    under the bar, the bar on top in black cups, nothing above it; 1.25 in bar at the rig's 2.47 m (the 6 ft 3 in
-    dead-hang rule), so the chest clears the bar and the arms lock out over it."""
+def pullup_station(k, W):
+    """A freestanding double muscle-up bar from the Monkey Rig's parts (Roman 2026-10-31: "the pull-up bars we have restrict
+    muscle-ups"; then "those muscle up capable pull up bars look too thin and weird": two lone posts with a 1.25 in bar read
+    as two poles). Now one station, W long: three red 3x3 uprights on 12 in bolted plates, the two outer ones braced by a
+    raking 3x3 leg out along the bar's line (out of the swing, which runs front and back), knee gussets under the bars; two
+    1.5 in bare-steel bars, 1.67 m clear each, sitting in black cups on top of the uprights at the rig's 2.47 m (the 6 ft 3 in
+    dead-hang rule). Nothing above the bars, nothing in front of or behind them."""
     mr = _model("rogue-monster-lite-monkey-rig-2-0")
     k.look(**{r: v for r, v in mr.LOOK.items() if r not in k.looks})
+    k.look(steel=dict(color=(0.62, 0.63, 0.65), rough=0.28, metal=1.0, coat=0.0, bump=(1400, 0.08)))
     IN, TB, Z = mr.IN, mr.TB, mr.Z_PU
-    R = 1.25 * IN / 2
-    CUP = 0.05                                   # the cup on each upright's top: the bar sits in it, its rim 1 cm over the bar's axis
-    xs = (-span / 2 - TB / 2, span / 2 + TB / 2)
+    R = 1.5 * IN / 2
+    RAKE, KNEE = 0.55, 1.55                      # the brace's foot out from the upright; where it meets the upright
+    CUP = 0.06
+    xo = W / 2 - RAKE                            # the outer uprights' centres
+    xs = (-xo, 0.0, xo)
     top = Z - R - 0.012
+    PL = 12 * IN
     for x in xs:
-        k.box("frame", (x, 0, 0.0095 / 2), (10 * IN, 10 * IN, 0.0095), soft=0.0015)
-        k.bar("frame", (x, 0, 0.0095), (x, 0, top - CUP), TB, TB, r=0.004)
-        k.box("black", (x, 0, top - CUP / 2), (TB + 0.006, TB + 0.006, CUP), soft=0.003)
-        k.box("black", (x, 0, top + 0.006), (TB + 0.006, TB + 0.006, 0.012), soft=0.002)                 # the saddle the bar sits on
+        k.box("frame", (x, 0, 0.0127 / 2), (PL, PL, 0.0127), soft=0.0015)                                  # the base plate, 1/2 in
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                k.bolt((x + sx * 0.11, sy * 0.11, 0.0127), "+z", size=0.016)                                 # the floor anchors
+        k.bar("frame", (x, 0, 0.0127), (x, 0, top - CUP), TB, TB, r=0.004)
+        k.box("black", (x, 0, top - CUP / 2), (TB + 0.008, TB + 0.008, CUP), soft=0.003)                  # the cup's body
+        k.box("black", (x, 0, top + 0.006), (TB + 0.008, TB + 0.008, 0.012), soft=0.002)                 # the saddle the bar sits on
         for sy in (-1, 1):                                                                                 # the cup's lips either side of the bar
-            k.box("black", (x, sy * (R + 0.004), Z - R + 0.012), (TB + 0.006, 0.008, 0.024 + 0.012), soft=0.001)
+            k.box("black", (x, sy * (R + 0.005), Z - R + 0.016), (TB + 0.008, 0.008, 0.044), soft=0.001)
         k.box("black", (x, -TB / 2 - 0.0015, 1.78), (TB - 0.01, 0.003, 0.40), soft=0.001)
         k.text("label", "ROGUE", (x, -TB / 2 - 0.0033, 1.78), 0.048, depth=0.0006, spin=math.pi / 2)
-    k.tube("black", (xs[0] - TB / 2 - 0.03, 0, Z), (xs[1] + TB / 2 + 0.03, 0, Z), R, seg=28)
+        for sx in ((-1, 1) if x == 0 else ((1,) if x < 0 else (-1,))):                                     # gussets: 10 mm plates
+            x0 = x + sx * TB / 2                                                                           # under the bars, welded on
+            k.block("frame", lambda a, b, c, x0=x0, sx=sx: (x0 + (sx * 0.22 if a > 0 else 0.0), b * 0.005,
+                                                            Z - R if (a > 0 or c > 0) else top - CUP - 0.30))
+    for sx in (-1, 1):                                                                                     # the raking legs, out along the bar
+        xu, xf = sx * xo, sx * (xo + RAKE)
+        k.box("frame", (xf, 0, 0.0127 / 2), (0.22, PL, 0.0127), soft=0.0015)
+        for sy in (-1, 1):
+            k.bolt((xf + sx * 0.06, sy * 0.11, 0.0127), "+z", size=0.016)
+        k.bar("frame", (xf, 0, 0.0127 + TB / 2), (xu + sx * TB / 2, 0, KNEE), TB, TB, r=0.004)
+        k.tube("steel", (xu + sx * (TB / 2 + 0.004), 0, Z), (sx * 0.004, 0, Z), R, seg=28)                 # the bar: the outer cup to the middle
+        k.cyl("black", (xu + sx * (TB / 2 + 0.008), 0, Z), R + 0.002, 0.008, axis="x", seg=28)              # its end cap
 
 
 def build_floor(name, z, coll, protos):
@@ -132,8 +152,8 @@ def build_floor(name, z, coll, protos):
             M = Matrix.Translation((it["x"], it["y"], z + it.get("lift", 0.0))) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Translation((-cx, -cy, 0))
             _instance(c, coll, M, it["id"]); n += 1   # (lift: a wall piece hung higher than its model's mount, the pegboard)
         elif kd == "rig_spur":
-            span = it["w"] - 2 * 3 * 0.0254 - 0.1
-            cname = f"eq_mubar_{span:.2f}"
+            span = it["w"]
+            cname = f"eq_mubar2_{span:.2f}"
             if cname in bpy.data.collections:
                 c = bpy.data.collections[cname]
             else:

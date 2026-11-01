@@ -65,7 +65,7 @@ _M = json.loads((ROOT / "model" / "building.json").read_text())
 _lv = {l_["id"]: l_["elevation"] for l_ in _M["levels"]}
 for name in sys.argv[1:]:
     d = json.loads((ROOT / "model" / "layouts" / f"{name}.json").read_text()); K = d["kinds"]; z = _lv[d["level"]]
-    mirrors = [LineString([e["from"], e["to"]]) for e in _M["elements"] if e.get("material") == "mirror" and e.get("kind") == "lining" and abs(e["z"][0] - z) < 1.0]
+    mirrors = [(LineString([e["from"], e["to"]]), e.get("face_normal")) for e in _M["elements"] if e.get("material") == "mirror" and e.get("kind") == "lining" and abs(e["z"][0] - z) < 1.0]
     walls = [LineString([w["from"], w["to"]]).buffer(w["size"][0] / 2) for w in d["walls"]]
     lights = [Point(f["at"]) for f in _M["furnishings"] if f["kind"] == "eclipse_sconce" and f.get("level") == d["level"]]
     no_wipes = [G.item_poly(i, K) for i in d["items"] if i["kind"] == "floor_zone" and i["label"].startswith(("Walkway", "The pod's"))]
@@ -76,7 +76,8 @@ for name in sys.argv[1:]:
         p = G.item_poly(it, K)
         if p is None:
             continue
-        dm = min([p.distance(l_) for l_ in mirrors] or [99])   # (2026-10-31: dumbbell racks under the mirror are right; NSCA: 6 in clear of the glass)
+        dm = min([p.distance(l_) for l_, fn in mirrors   # (only on the glass's side: a partition's mirror face, not its back)
+                  if not fn or (p.centroid.x - l_.centroid.x) * fn[0] + (p.centroid.y - l_.centroid.y) * fn[1] > 0] or [99])   # (2026-10-31: dumbbell racks under the mirror are right; NSCA: 6 in clear of the glass)
         if it["kind"] != "wipe_station" and not it.get("on") and (dm < 0.14 or (dm < 0.3 and K.get(it["kind"], {}).get("mat") == "wallkit")):
             out.append(f"{it['id']}: on / against a mirror ({dm:.2f} m)")
         if K.get(it["kind"], {}).get("wall") and not any(p.distance(w) < 0.05 for w in walls):

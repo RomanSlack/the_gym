@@ -55,6 +55,14 @@ Check a layout against them with `cd tools && ../terrain/.venv/bin/python gym_au
     the pods' whole wall; both faces of the bench room's wall; behind the F3 rig. Never hung kit on glass.
 19. **Cardio upstairs.** Treadmills, bikes, rowers, ellipticals on F1 (and the altitude room); only stepmills by the F2 legs, for
     supersets. "There's so much beautiful nature ... people should just go run outside."
+20. **Passing the access check isn't enough: a room has to read as designed.** Rows share a front (or back) line and a centre
+    axis, the gaps between pieces are the same (0.9 m, 0.6 m by a tree), and the room's rows face one thing (its mirror). Pieces
+    that each pass the sim but sit on their own lines read as "stuff thrown over there" (Roman, F2's leg room, second walk).
+21. **Guards are one line, not two.** Under a stair's low turn the bars come down from the stringers (the balustrade carried on),
+    never a second rail ring beside the stair's own: two rails 8 cm apart at different heights read as clipping. Glass guards stop
+    at the wall's lining and keep wipes and bins off their line.
+22. **Kit reads at gym scale.** A bar on a post has to look like it holds a swinging 100 kg: braced uprights on bolted plates,
+    a 1.5 in bar you can see against the glass, not a 1.25 in line between two poles ("too thin and weird").
 
 ## Open
 
