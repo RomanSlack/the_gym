@@ -940,7 +940,7 @@
    ],
    "to": [
     -22.4,
-    -16.2
+    -17.4
    ],
    "size": [
     0.12,
@@ -963,7 +963,7 @@
    ],
    "to": [
     -22.4,
-    -2.94
+    -2.24
    ],
    "size": [
     0.12,
@@ -982,6 +982,29 @@
    "material": "timber_stud",
    "from": [
     -29.14,
+    -3.0
+   ],
+   "to": [
+    -26.2,
+    -3.0
+   ],
+   "size": [
+    0.12,
+    3.0
+   ],
+   "z": [
+    0.0,
+    3.0
+   ],
+   "openings": []
+  },
+  {
+   "id": "IN-F2-zone-olympic-s2",
+   "type": "wall",
+   "kind": "partition",
+   "material": "timber_stud",
+   "from": [
+    -24.6,
     -3.0
    ],
    "to": [
@@ -1567,11 +1590,11 @@
    "pts": [
     [
      -28.9,
-     -28.0
+     -27.9
     ],
     [
      -21.6,
-     -28.0
+     -27.9
     ]
    ],
    "cls": "light",
@@ -1623,11 +1646,11 @@
    "pts": [
     [
      -21.3,
-     -25.15
+     -25.0
     ],
     [
      -14.6,
-     -25.15
+     -25.0
     ]
    ],
    "cls": "light",
@@ -1651,11 +1674,11 @@
    "pts": [
     [
      -28.9,
-     -22.55
+     -22.1
     ],
     [
      -21.6,
-     -22.55
+     -22.1
     ]
    ],
    "cls": "light",
@@ -1665,11 +1688,11 @@
    "pts": [
     [
      -21.3,
-     -21.75
+     -21.85
     ],
     [
      -14.6,
-     -21.75
+     -21.85
     ]
    ],
    "cls": "light",
@@ -1707,11 +1730,11 @@
    "pts": [
     [
      -21.3,
-     -20.55
+     -20.15
     ],
     [
      -14.6,
-     -20.55
+     -20.15
     ]
    ],
    "cls": "light",
@@ -1735,11 +1758,11 @@
    "pts": [
     [
      -28.9,
-     -17.15
+     -17.25
     ],
     [
      -21.6,
-     -17.15
+     -17.25
     ]
    ],
    "cls": "light",
@@ -1819,11 +1842,11 @@
    "pts": [
     [
      -28.9,
-     -9.2
+     -9.55
     ],
     [
      -21.6,
-     -9.2
+     -9.55
     ]
    ],
    "cls": "light",
@@ -1861,11 +1884,11 @@
    "pts": [
     [
      -28.9,
-     -7.55
+     -7.15
     ],
     [
      -21.6,
-     -7.55
+     -7.15
     ]
    ],
    "cls": "light",
@@ -1903,11 +1926,11 @@
    "pts": [
     [
      -28.9,
-     -4.75
+     -4.1
     ],
     [
      -21.6,
-     -4.75
+     -4.1
     ]
    ],
    "cls": "light",
@@ -2113,11 +2136,11 @@
    "pts": [
     [
      -28.9,
-     8.25
+     9.1
     ],
     [
      -21.6,
-     8.25
+     9.1
     ]
    ],
    "cls": "light",
@@ -2820,7 +2843,7 @@
    "mat": "platform",
    "tag": "rack platform",
    "use": [
-    1.2,
+    0.9,
     0.2,
     0.2,
     0.2
@@ -3263,39 +3286,39 @@
   "hammer-strength-plate-loaded-glute-drive": 2,
   "hammer-strength-plate-loaded-hack-squat": 2,
   "hammer-strength-plate-loaded-iso-lateral-leg-extension": 1,
-  "hammer-strength-plate-loaded-linear-leg-press": 2,
+  "hammer-strength-plate-loaded-linear-leg-press": 3,
   "hammer-strength-plate-loaded-pendulum-x-squat": 1,
-  "hammer-strength-plate-loaded-seated-calf-raise": 1,
+  "hammer-strength-plate-loaded-seated-calf-raise": 2,
   "hammer-strength-plate-loaded-tibia-dorsi-flexion": 1,
-  "hammer-strength-rubber-platform": 2,
+  "hammer-strength-rubber-platform": 4,
   "hammer-strength-select-hip-abduction": 1,
   "hammer-strength-select-hip-adduction": 1,
   "hammer-strength-select-leg-extension": 1,
   "hammer-strength-select-standing-calf": 1,
   "hammer-strength-three-tier-dumbbell-rack": 5,
-  "life-fitness-axiom-series-leg-curl": 2,
+  "life-fitness-axiom-series-leg-curl": 3,
   "life-fitness-insignia-series-calf-extension": 1,
   "life-fitness-insignia-series-glute": 1,
   "life-fitness-insignia-series-leg-extension": 2,
   "life-fitness-insignia-series-seated-leg-curl": 3,
   "life-fitness-olympic-flat-bench": 2,
-  "life-fitness-olympic-weight-tree": 7,
+  "life-fitness-olympic-weight-tree": 8,
   "life-fitness-smith-machine": 2,
   "precor-resolute-series-leg-extension": 1,
-  "rep-pr-5000-rack-builder": 5,
+  "rep-pr-5000-rack-builder": 4,
   "rogue-10-bar-holder": 2,
   "rogue-adjustable-bench-3-0": 6,
   "rogue-belt-and-band-hanger": 1,
   "rogue-echo-gym-timer-2-0": 1,
-  "rogue-flat-utility-bench-2-0": 7,
-  "rogue-freestanding-chalk-stand": 4,
+  "rogue-flat-utility-bench-2-0": 11,
+  "rogue-freestanding-chalk-stand": 6,
   "rogue-monster-bumper-rack": 3,
-  "rogue-monster-half-rack": 2,
+  "rogue-monster-half-rack": 4,
   "rogue-monster-lite-half-rack": 3,
   "rogue-wood-jerk-blocks": 1,
   "stairmaster-8gx-stepmill": 2,
   "titan-deadlift-pulling-blocks": 1,
-  "titan-series-power-rack-lifting-platform": 5
+  "titan-series-power-rack-lifting-platform": 4
  },
  "items": [
   {
@@ -4204,24 +4227,24 @@
    "room": "rack room",
    "kind": "titan-series-power-rack-lifting-platform",
    "label": "Titan TITAN Series Power Rack Lifting Platform",
-   "x": -24.215,
-   "y": -30.43,
+   "x": -25.517,
+   "y": -30.427,
    "w": 3.066,
    "d": 2.765,
-   "rot": 90,
+   "rot": -90,
    "h": 0.049,
-   "note": "rack platform: the lifter faces the mirror"
+   "note": "rack platform: the lifter faces the mirror on the racks wall"
   },
   {
    "id": "rep-pr-5000-rack-builder-1",
    "room": "rack room",
    "kind": "rep-pr-5000-rack-builder",
    "label": "REP PR-5000 Rack Builder",
-   "x": -23.59,
-   "y": -30.43,
+   "x": -26.142,
+   "y": -30.427,
    "w": 1.999,
    "d": 1.521,
-   "rot": 90,
+   "rot": -90,
    "h": 2.426,
    "note": "on its platform; spotter arms, landmine, dip, band pegs on some",
    "on": "titan-series-power-rack-lifting-platform-1"
@@ -4231,11 +4254,11 @@
    "room": "rack room",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.3,
-   "y": -30.43,
+   "x": -25.432,
+   "y": -30.427,
    "w": 0.356,
    "d": 1.198,
-   "rot": 90,
+   "rot": -90,
    "h": 0.458,
    "note": "lives in the rack",
    "on": "rep-pr-5000-rack-builder-1"
@@ -4245,24 +4268,24 @@
    "room": "rack room",
    "kind": "titan-series-power-rack-lifting-platform",
    "label": "Titan TITAN Series Power Rack Lifting Platform",
-   "x": -24.215,
-   "y": -27.29,
+   "x": -25.517,
+   "y": -26.611,
    "w": 3.066,
    "d": 2.765,
-   "rot": 90,
+   "rot": -90,
    "h": 0.049,
-   "note": "rack platform: the lifter faces the mirror"
+   "note": "rack platform: the lifter faces the mirror on the racks wall"
   },
   {
    "id": "rep-pr-5000-rack-builder-2",
    "room": "rack room",
    "kind": "rep-pr-5000-rack-builder",
    "label": "REP PR-5000 Rack Builder",
-   "x": -23.59,
-   "y": -27.29,
+   "x": -26.142,
+   "y": -26.611,
    "w": 1.999,
    "d": 1.521,
-   "rot": 90,
+   "rot": -90,
    "h": 2.426,
    "note": "on its platform; spotter arms, landmine, dip, band pegs on some",
    "on": "titan-series-power-rack-lifting-platform-2"
@@ -4272,38 +4295,51 @@
    "room": "rack room",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.3,
-   "y": -27.29,
+   "x": -25.432,
+   "y": -26.611,
    "w": 0.356,
    "d": 1.198,
-   "rot": 90,
+   "rot": -90,
    "h": 0.458,
    "note": "lives in the rack",
    "on": "rep-pr-5000-rack-builder-2"
+  },
+  {
+   "id": "rogue-freestanding-chalk-stand-1",
+   "room": "rack room",
+   "kind": "rogue-freestanding-chalk-stand",
+   "label": "Rogue Freestanding Chalk Stand",
+   "x": -25.517,
+   "y": -28.519,
+   "w": 0.55,
+   "d": 0.54,
+   "rot": 0,
+   "h": 1.19,
+   "note": "between two racks"
   },
   {
    "id": "titan-series-power-rack-lifting-platform-3",
    "room": "rack room",
    "kind": "titan-series-power-rack-lifting-platform",
    "label": "Titan TITAN Series Power Rack Lifting Platform",
-   "x": -24.215,
-   "y": -24.15,
+   "x": -25.517,
+   "y": -22.795,
    "w": 3.066,
    "d": 2.765,
-   "rot": 90,
+   "rot": -90,
    "h": 0.049,
-   "note": "rack platform: the lifter faces the mirror"
+   "note": "rack platform: the lifter faces the mirror on the racks wall"
   },
   {
    "id": "rep-pr-5000-rack-builder-3",
    "room": "rack room",
    "kind": "rep-pr-5000-rack-builder",
    "label": "REP PR-5000 Rack Builder",
-   "x": -23.59,
-   "y": -24.15,
+   "x": -26.142,
+   "y": -22.795,
    "w": 1.999,
    "d": 1.521,
-   "rot": 90,
+   "rot": -90,
    "h": 2.426,
    "note": "on its platform; spotter arms, landmine, dip, band pegs on some",
    "on": "titan-series-power-rack-lifting-platform-3"
@@ -4313,38 +4349,51 @@
    "room": "rack room",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.3,
-   "y": -24.15,
+   "x": -25.432,
+   "y": -22.795,
    "w": 0.356,
    "d": 1.198,
-   "rot": 90,
+   "rot": -90,
    "h": 0.458,
    "note": "lives in the rack",
    "on": "rep-pr-5000-rack-builder-3"
+  },
+  {
+   "id": "rogue-freestanding-chalk-stand-2",
+   "room": "rack room",
+   "kind": "rogue-freestanding-chalk-stand",
+   "label": "Rogue Freestanding Chalk Stand",
+   "x": -25.517,
+   "y": -24.703,
+   "w": 0.55,
+   "d": 0.54,
+   "rot": 0,
+   "h": 1.19,
+   "note": "between two racks"
   },
   {
    "id": "titan-series-power-rack-lifting-platform-4",
    "room": "rack room",
    "kind": "titan-series-power-rack-lifting-platform",
    "label": "Titan TITAN Series Power Rack Lifting Platform",
-   "x": -24.215,
-   "y": -21.01,
+   "x": -25.517,
+   "y": -18.979,
    "w": 3.066,
    "d": 2.765,
-   "rot": 90,
+   "rot": -90,
    "h": 0.049,
-   "note": "rack platform: the lifter faces the mirror"
+   "note": "rack platform: the lifter faces the mirror on the racks wall"
   },
   {
    "id": "rep-pr-5000-rack-builder-4",
    "room": "rack room",
    "kind": "rep-pr-5000-rack-builder",
    "label": "REP PR-5000 Rack Builder",
-   "x": -23.59,
-   "y": -21.01,
+   "x": -26.142,
+   "y": -18.979,
    "w": 1.999,
    "d": 1.521,
-   "rot": 90,
+   "rot": -90,
    "h": 2.426,
    "note": "on its platform; spotter arms, landmine, dip, band pegs on some",
    "on": "titan-series-power-rack-lifting-platform-4"
@@ -4354,105 +4403,65 @@
    "room": "rack room",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.3,
-   "y": -21.01,
+   "x": -25.432,
+   "y": -18.979,
    "w": 0.356,
    "d": 1.198,
-   "rot": 90,
+   "rot": -90,
    "h": 0.458,
    "note": "lives in the rack",
    "on": "rep-pr-5000-rack-builder-4"
   },
   {
-   "id": "titan-series-power-rack-lifting-platform-5",
-   "room": "rack room",
-   "kind": "titan-series-power-rack-lifting-platform",
-   "label": "Titan TITAN Series Power Rack Lifting Platform",
-   "x": -24.215,
-   "y": -17.87,
-   "w": 3.066,
-   "d": 2.765,
-   "rot": 90,
-   "h": 0.049,
-   "note": "rack platform: the lifter faces the mirror"
-  },
-  {
-   "id": "rep-pr-5000-rack-builder-5",
-   "room": "rack room",
-   "kind": "rep-pr-5000-rack-builder",
-   "label": "REP PR-5000 Rack Builder",
-   "x": -23.59,
-   "y": -17.87,
-   "w": 1.999,
-   "d": 1.521,
-   "rot": 90,
-   "h": 2.426,
-   "note": "on its platform; spotter arms, landmine, dip, band pegs on some",
-   "on": "titan-series-power-rack-lifting-platform-5"
-  },
-  {
-   "id": "rogue-flat-utility-bench-2-0-5",
-   "room": "rack room",
-   "kind": "rogue-flat-utility-bench-2-0",
-   "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.3,
-   "y": -17.87,
-   "w": 0.356,
-   "d": 1.198,
-   "rot": 90,
-   "h": 0.458,
-   "note": "lives in the rack",
-   "on": "rep-pr-5000-rack-builder-5"
-  },
-  {
-   "id": "rogue-freestanding-chalk-stand-1",
+   "id": "rogue-freestanding-chalk-stand-3",
    "room": "rack room",
    "kind": "rogue-freestanding-chalk-stand",
    "label": "Rogue Freestanding Chalk Stand",
-   "x": -28.55,
-   "y": -32.9,
+   "x": -25.517,
+   "y": -20.887,
    "w": 0.55,
    "d": 0.54,
    "rot": 0,
-   "h": 1.19
+   "h": 1.19,
+   "note": "between two racks"
   },
   {
    "id": "hammer-strength-rubber-platform-1",
    "room": "pulling corner",
    "kind": "hammer-strength-rubber-platform",
    "label": "Hammer Strength Rubber Platform",
-   "x": -24.685,
-   "y": -9.9,
+   "x": -28.076,
+   "y": -4.778,
    "w": 2.336,
    "d": 1.828,
-   "rot": 90,
+   "rot": -90,
    "h": 0.019,
-   "note": "half rack platform"
+   "note": "half rack platform: the lifter faces the mirror"
   },
   {
    "id": "rogue-monster-half-rack-1",
    "room": "pulling corner",
    "kind": "rogue-monster-half-rack",
    "label": "Rogue Monster Half Rack",
-   "x": -24.56,
-   "y": -9.9,
+   "x": -28.201,
+   "y": -4.778,
    "w": 1.872,
    "d": 1.58,
-   "rot": 90,
+   "rot": -90,
    "h": 2.6,
-   "note": "on its platform",
+   "note": "on its platform, its uprights to the mirror",
    "on": "hammer-strength-rubber-platform-1"
   },
   {
-   "id": "rogue-flat-utility-bench-2-0-6",
+   "id": "rogue-flat-utility-bench-2-0-5",
    "room": "pulling corner",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.9,
-   "y": -9.9,
+   "x": -27.861,
+   "y": -4.778,
    "w": 0.356,
    "d": 1.198,
-   "rot": 90,
+   "rot": -90,
    "h": 0.458,
    "note": "lives in the rack",
    "on": "rogue-monster-half-rack-1"
@@ -4462,66 +4471,149 @@
    "room": "pulling corner",
    "kind": "hammer-strength-rubber-platform",
    "label": "Hammer Strength Rubber Platform",
-   "x": -24.685,
-   "y": -6.85,
+   "x": -28.076,
+   "y": -8.014,
    "w": 2.336,
    "d": 1.828,
-   "rot": 90,
+   "rot": -90,
    "h": 0.019,
-   "note": "half rack platform"
+   "note": "half rack platform: the lifter faces the mirror"
   },
   {
    "id": "rogue-monster-half-rack-2",
    "room": "pulling corner",
    "kind": "rogue-monster-half-rack",
    "label": "Rogue Monster Half Rack",
-   "x": -24.56,
-   "y": -6.85,
+   "x": -28.201,
+   "y": -8.014,
+   "w": 1.872,
+   "d": 1.58,
+   "rot": -90,
+   "h": 2.6,
+   "note": "on its platform, its uprights to the mirror",
+   "on": "hammer-strength-rubber-platform-2"
+  },
+  {
+   "id": "rogue-flat-utility-bench-2-0-6",
+   "room": "pulling corner",
+   "kind": "rogue-flat-utility-bench-2-0",
+   "label": "Rogue Flat Utility Bench 2.0",
+   "x": -27.861,
+   "y": -8.014,
+   "w": 0.356,
+   "d": 1.198,
+   "rot": -90,
+   "h": 0.458,
+   "note": "lives in the rack",
+   "on": "rogue-monster-half-rack-2"
+  },
+  {
+   "id": "hammer-strength-rubber-platform-3",
+   "room": "pulling corner",
+   "kind": "hammer-strength-rubber-platform",
+   "label": "Hammer Strength Rubber Platform",
+   "x": -23.524,
+   "y": -4.778,
+   "w": 2.336,
+   "d": 1.828,
+   "rot": 90,
+   "h": 0.019,
+   "note": "half rack platform: the lifter faces the mirror"
+  },
+  {
+   "id": "rogue-monster-half-rack-3",
+   "room": "pulling corner",
+   "kind": "rogue-monster-half-rack",
+   "label": "Rogue Monster Half Rack",
+   "x": -23.399,
+   "y": -4.778,
    "w": 1.872,
    "d": 1.58,
    "rot": 90,
    "h": 2.6,
-   "note": "on its platform",
-   "on": "hammer-strength-rubber-platform-2"
+   "note": "on its platform, its uprights to the mirror",
+   "on": "hammer-strength-rubber-platform-3"
   },
   {
    "id": "rogue-flat-utility-bench-2-0-7",
    "room": "pulling corner",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
-   "x": -24.9,
-   "y": -6.85,
+   "x": -23.739,
+   "y": -4.778,
    "w": 0.356,
    "d": 1.198,
    "rot": 90,
    "h": 0.458,
    "note": "lives in the rack",
-   "on": "rogue-monster-half-rack-2"
+   "on": "rogue-monster-half-rack-3"
+  },
+  {
+   "id": "hammer-strength-rubber-platform-4",
+   "room": "pulling corner",
+   "kind": "hammer-strength-rubber-platform",
+   "label": "Hammer Strength Rubber Platform",
+   "x": -23.524,
+   "y": -8.014,
+   "w": 2.336,
+   "d": 1.828,
+   "rot": 90,
+   "h": 0.019,
+   "note": "half rack platform: the lifter faces the mirror"
+  },
+  {
+   "id": "rogue-monster-half-rack-4",
+   "room": "pulling corner",
+   "kind": "rogue-monster-half-rack",
+   "label": "Rogue Monster Half Rack",
+   "x": -23.399,
+   "y": -8.014,
+   "w": 1.872,
+   "d": 1.58,
+   "rot": 90,
+   "h": 2.6,
+   "note": "on its platform, its uprights to the mirror",
+   "on": "hammer-strength-rubber-platform-4"
+  },
+  {
+   "id": "rogue-flat-utility-bench-2-0-8",
+   "room": "pulling corner",
+   "kind": "rogue-flat-utility-bench-2-0",
+   "label": "Rogue Flat Utility Bench 2.0",
+   "x": -23.739,
+   "y": -8.014,
+   "w": 0.356,
+   "d": 1.198,
+   "rot": 90,
+   "h": 0.458,
+   "note": "lives in the rack",
+   "on": "rogue-monster-half-rack-4"
   },
   {
    "id": "rogue-belt-and-band-hanger-1",
    "room": "pulling corner",
    "kind": "rogue-belt-and-band-hanger",
    "label": "Rogue Belt and Band Hanger",
-   "x": -22.571,
-   "y": -8.4,
+   "x": -28.4,
+   "y": -3.171,
    "w": 0.597,
    "d": 0.213,
-   "rot": 90,
+   "rot": 180,
    "h": 2.8,
-   "note": "belts, straps, sleeves, wraps on loan; the bands; on the slat wall (not the mirror)"
+   "note": "belts, straps, sleeves, wraps on loan; the bands; on the slats over the top rack (not the mirror)"
   },
   {
-   "id": "rogue-freestanding-chalk-stand-2",
+   "id": "rogue-freestanding-chalk-stand-4",
    "room": "pulling corner",
    "kind": "rogue-freestanding-chalk-stand",
    "label": "Rogue Freestanding Chalk Stand",
-   "x": -23.0,
-   "y": -4.2,
+   "x": -23.6,
+   "y": -9.8,
    "w": 0.55,
    "d": 0.54,
    "rot": 0,
-   "h": 1.19
+   "h": 1.19,
+   "note": "at the walk's mouth, below the east racks"
   },
   {
    "id": "hammer-strength-impact-suppression-platform-1",
@@ -4628,7 +4720,7 @@
    "note": "the Eleiko / Strencor / technique bars"
   },
   {
-   "id": "rogue-freestanding-chalk-stand-3",
+   "id": "rogue-freestanding-chalk-stand-5",
    "room": "olympic",
    "kind": "rogue-freestanding-chalk-stand",
    "label": "Rogue Freestanding Chalk Stand",
@@ -4640,7 +4732,7 @@
    "h": 1.19
   },
   {
-   "id": "rogue-freestanding-chalk-stand-4",
+   "id": "rogue-freestanding-chalk-stand-6",
    "room": "olympic",
    "kind": "rogue-freestanding-chalk-stand",
    "label": "Rogue Freestanding Chalk Stand",
@@ -4684,13 +4776,52 @@
    "room": "olympic",
    "kind": "rogue-echo-gym-timer-2-0",
    "label": "Rogue Echo Gym Timer 2.0",
-   "x": -25.3,
+   "x": -24.0,
    "y": -2.902,
    "w": 0.622,
    "d": 0.065,
    "rot": 0,
    "h": 3.2,
-   "note": "on the tall south wall, in view of every platform (not on the mirror)"
+   "note": "on the tall south wall, in view of every platform (not on the mirror; the opening's west of it)"
+  },
+  {
+   "id": "rogue-flat-utility-bench-2-0-9",
+   "room": "olympic",
+   "kind": "rogue-flat-utility-bench-2-0",
+   "label": "Rogue Flat Utility Bench 2.0",
+   "x": -22.888,
+   "y": 1.7,
+   "w": 0.356,
+   "d": 1.198,
+   "rot": 0,
+   "h": 0.458,
+   "note": "a seat between sets, along the low wall"
+  },
+  {
+   "id": "rogue-flat-utility-bench-2-0-10",
+   "room": "olympic",
+   "kind": "rogue-flat-utility-bench-2-0",
+   "label": "Rogue Flat Utility Bench 2.0",
+   "x": -22.888,
+   "y": 4.292,
+   "w": 0.356,
+   "d": 1.198,
+   "rot": 0,
+   "h": 0.458,
+   "note": "a seat between sets, along the low wall"
+  },
+  {
+   "id": "rogue-flat-utility-bench-2-0-11",
+   "room": "olympic",
+   "kind": "rogue-flat-utility-bench-2-0",
+   "label": "Rogue Flat Utility Bench 2.0",
+   "x": -22.888,
+   "y": 7.958,
+   "w": 0.356,
+   "d": 1.198,
+   "rot": 0,
+   "h": 0.458,
+   "note": "a seat between sets, along the low wall"
   },
   {
    "id": "atlantis-olympic-incline-bench-press-with-pivot-p338-1",
@@ -4838,12 +4969,12 @@
    "kind": "rogue-adjustable-bench-3-0",
    "label": "Rogue Adjustable Bench 3.0",
    "x": -18.75,
-   "y": -24.3,
+   "y": -24.15,
    "w": 0.629,
    "d": 1.492,
    "rot": 90,
    "h": 1.017,
-   "note": "facing the mirror, the dumbbells in front of it"
+   "note": "facing the mirror, the dumbbells in front of it; 0.9 m between"
   },
   {
    "id": "rogue-adjustable-bench-3-0-2",
@@ -4856,7 +4987,7 @@
    "d": 1.492,
    "rot": 90,
    "h": 1.017,
-   "note": "facing the mirror, the dumbbells in front of it"
+   "note": "facing the mirror, the dumbbells in front of it; 0.9 m between"
   },
   {
    "id": "rogue-adjustable-bench-3-0-3",
@@ -4864,12 +4995,12 @@
    "kind": "rogue-adjustable-bench-3-0",
    "label": "Rogue Adjustable Bench 3.0",
    "x": -18.75,
-   "y": -19.7,
+   "y": -21.05,
    "w": 0.629,
    "d": 1.492,
    "rot": 90,
    "h": 1.017,
-   "note": "facing the mirror, the dumbbells in front of it"
+   "note": "facing the mirror, the dumbbells in front of it; 0.9 m between"
   },
   {
    "id": "hammer-strength-select-standing-calf-1",
@@ -5153,17 +5284,56 @@
    "h": 1.068
   },
   {
+   "id": "hammer-strength-plate-loaded-linear-leg-press-2",
+   "room": "leg hub",
+   "kind": "hammer-strength-plate-loaded-linear-leg-press",
+   "label": "Hammer Strength Plate Loaded Linear Leg Press",
+   "x": -21.058,
+   "y": -7.908,
+   "w": 1.684,
+   "d": 2.632,
+   "rot": 0,
+   "h": 1.521,
+   "note": "facing the row on the legs wall"
+  },
+  {
+   "id": "life-fitness-olympic-weight-tree-6",
+   "room": "leg hub",
+   "kind": "life-fitness-olympic-weight-tree",
+   "label": "Life Fitness Olympic Weight Tree",
+   "x": -19.193,
+   "y": -6.952,
+   "w": 0.845,
+   "d": 0.712,
+   "rot": 0,
+   "h": 1.154,
+   "note": "between the leg presses' rows: 0.6 m clear either side"
+  },
+  {
    "id": "hammer-strength-mts-kneeling-leg-curl-1",
    "room": "leg hub",
    "kind": "hammer-strength-mts-kneeling-leg-curl",
    "label": "Hammer Strength MTS Kneeling Leg Curl",
-   "x": -18.0,
-   "y": -8.378,
+   "x": -17.352,
+   "y": -7.164,
    "w": 1.637,
    "d": 1.143,
    "rot": 0,
    "h": 1.512,
-   "note": "its back to the walk in from W1"
+   "note": "facing the row on the legs wall"
+  },
+  {
+   "id": "life-fitness-axiom-series-leg-curl-3",
+   "room": "leg hub",
+   "kind": "life-fitness-axiom-series-leg-curl",
+   "label": "Life Fitness Axiom Series Leg Curl",
+   "x": -15.088,
+   "y": -7.467,
+   "w": 1.092,
+   "d": 1.75,
+   "rot": 0,
+   "h": 1.346,
+   "note": "facing the row on the legs wall"
   },
   {
    "id": "life-fitness-smith-machine-1",
@@ -5171,22 +5341,22 @@
    "kind": "life-fitness-smith-machine",
    "label": "Life Fitness Smith Machine",
    "x": -18.978,
-   "y": -0.603,
+   "y": -1.103,
    "w": 2.21,
    "d": 1.249,
-   "rot": 180,
+   "rot": 0,
    "h": 2.369
   },
   {
-   "id": "life-fitness-olympic-weight-tree-6",
+   "id": "life-fitness-olympic-weight-tree-7",
    "room": "leg room",
    "kind": "life-fitness-olympic-weight-tree",
    "label": "Life Fitness Olympic Weight Tree",
    "x": -16.85,
-   "y": -0.872,
+   "y": -1.372,
    "w": 0.845,
    "d": 0.712,
-   "rot": 180,
+   "rot": 0,
    "h": 1.154,
    "note": "0.6 m clear either side: you load + get on past it"
   },
@@ -5196,14 +5366,14 @@
    "kind": "life-fitness-smith-machine",
    "label": "Life Fitness Smith Machine",
    "x": -14.723,
-   "y": -0.603,
+   "y": -1.103,
    "w": 2.21,
    "d": 1.249,
-   "rot": 180,
+   "rot": 0,
    "h": 2.369
   },
   {
-   "id": "hammer-strength-plate-loaded-linear-leg-press-2",
+   "id": "hammer-strength-plate-loaded-linear-leg-press-3",
    "room": "leg room",
    "kind": "hammer-strength-plate-loaded-linear-leg-press",
    "label": "Hammer Strength Plate Loaded Linear Leg Press",
@@ -5215,7 +5385,7 @@
    "h": 1.521
   },
   {
-   "id": "life-fitness-olympic-weight-tree-7",
+   "id": "life-fitness-olympic-weight-tree-8",
    "room": "leg room",
    "kind": "life-fitness-olympic-weight-tree",
    "label": "Life Fitness Olympic Weight Tree",
@@ -5280,7 +5450,7 @@
    "room": "leg room",
    "kind": "life-fitness-insignia-series-leg-extension",
    "label": "Life Fitness Insignia Series Leg Extension",
-   "x": -19.478,
+   "x": -20.308,
    "y": 11.112,
    "w": 0.994,
    "d": 1.376,
@@ -5293,7 +5463,7 @@
    "room": "leg room",
    "kind": "life-fitness-insignia-series-leg-extension",
    "label": "Life Fitness Insignia Series Leg Extension",
-   "x": -17.834,
+   "x": -18.664,
    "y": 11.112,
    "w": 0.994,
    "d": 1.376,
@@ -5306,7 +5476,7 @@
    "room": "leg room",
    "kind": "precor-resolute-series-leg-extension",
    "label": "Precor PRECOR Resolute Series Leg Extension",
-   "x": -16.052,
+   "x": -16.882,
    "y": 11.02,
    "w": 1.27,
    "d": 1.559,
@@ -5319,12 +5489,25 @@
    "room": "leg room",
    "kind": "hammer-strength-select-leg-extension",
    "label": "Hammer Strength Select Leg Extension",
-   "x": -14.246,
+   "x": -15.076,
    "y": 11.203,
    "w": 1.041,
    "d": 1.194,
    "rot": 180,
    "h": 1.626,
+   "note": "its back on the north wall, facing the room + the mirror"
+  },
+  {
+   "id": "hammer-strength-plate-loaded-seated-calf-raise-2",
+   "room": "leg room",
+   "kind": "hammer-strength-plate-loaded-seated-calf-raise",
+   "label": "Hammer Strength Plate Loaded Seated Calf Raise",
+   "x": -13.4,
+   "y": 11.178,
+   "w": 1.01,
+   "d": 1.245,
+   "rot": 180,
+   "h": 1.01,
    "note": "its back on the north wall, facing the room + the mirror"
   },
   {
@@ -5654,24 +5837,48 @@
    "note": "the body scanner: private (scans are taken in underwear), beside the stage"
   },
   {
-   "id": "wipes-F2--6.9-2.7",
+   "id": "wipes-F2--6.9-11.6",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -6.85,
-   "y": 2.7,
+   "x": -6.9,
+   "y": 11.6,
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--17.1--24.7",
+   "id": "wipes-F2--22.7--25.5",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -17.14,
-   "y": -24.74,
+   "x": -22.66,
+   "y": -25.55,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--24.6--2.7",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -24.6,
+   "y": -2.74,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--13.4--33.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -13.45,
+   "y": -33.65,
    "w": 0.36,
    "d": 0.36,
    "rot": 0,
@@ -5690,35 +5897,35 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--22.7--10.8",
+   "id": "wipes-F2--6.9-2.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.66,
-   "y": -10.8,
+   "x": -6.85,
+   "y": 2.7,
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--13.4--33.6",
+   "id": "wipes-F2--22.7-6.3",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -13.45,
-   "y": -33.65,
+   "x": -22.66,
+   "y": 6.3,
    "w": 0.36,
    "d": 0.36,
-   "rot": 0,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--12.8-11.7",
+   "id": "wipes-F2--10.8-11.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -12.85,
+   "x": -10.85,
    "y": 11.65,
    "w": 0.36,
    "d": 0.36,
@@ -5726,11 +5933,83 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--23.2--33.6",
+   "id": "wipes-F2--22.2--34.6",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -23.25,
+   "x": -22.25,
+   "y": -34.55,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -180,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--22.1--10.0",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -22.14,
+   "y": -10.0,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--22.7--21.9",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -22.66,
+   "y": -21.95,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--8.4-6.3",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -8.41,
+   "y": 6.29,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -90,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--17.1--24.7",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -17.14,
+   "y": -24.74,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": 0,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--10.0--34.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -10.05,
+   "y": -34.55,
+   "w": 0.36,
+   "d": 0.36,
+   "rot": -180,
+   "note": "wipes + spray + bin"
+  },
+  {
+   "id": "wipes-F2--18.8--33.6",
+   "room": "",
+   "kind": "wipe_station",
+   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
+   "x": -18.85,
    "y": -33.65,
    "w": 0.36,
    "d": 0.36,
@@ -5750,75 +6029,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--22.1--19.9",
+   "id": "wipes-F2--22.4-11.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.14,
-   "y": -19.95,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--8.4-6.3",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -8.41,
-   "y": 6.29,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--18.8--33.6",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -18.85,
-   "y": -33.65,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 0,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--10.0--34.6",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -10.05,
-   "y": -34.55,
+   "x": -22.45,
+   "y": 11.65,
    "w": 0.36,
    "d": 0.36,
    "rot": -180,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--22.7--7.0",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.66,
-   "y": -7.0,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--22.7-5.5",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.66,
-   "y": 5.5,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
@@ -5828,18 +6047,6 @@
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -6.85,
    "y": -32.7,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--22.7-9.1",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.66,
-   "y": 9.1,
    "w": 0.36,
    "d": 0.36,
    "rot": 90,
@@ -5870,47 +6077,35 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--25.2-11.7",
+   "id": "wipes-F2--22.7--18.3",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -25.25,
-   "y": 11.65,
+   "x": -22.66,
+   "y": -18.35,
    "w": 0.36,
    "d": 0.36,
-   "rot": -180,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--22.3--37.3",
+   "id": "wipes-F2--22.7--30.9",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.33,
-   "y": -37.3,
+   "x": -22.66,
+   "y": -30.95,
    "w": 0.36,
    "d": 0.36,
-   "rot": -90,
+   "rot": 90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F2--24.7--2.7",
+   "id": "wipes-F2--22.2--39.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -24.74,
-   "y": -2.74,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 0,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F2--11.4--39.7",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -11.45,
+   "x": -22.25,
    "y": -39.7,
    "w": 0.36,
    "d": 0.36,

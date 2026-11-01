@@ -55,21 +55,35 @@ def plan_f2(G):
     F.zone("Walkway: the W2 + W1 stairs, the WCs, the AED, the glass lift (keep it clear)", XW, -27.2, -27.0, -9.2)
     F.zone("South walk: the posing room + the three pods", -27.6, YS, -7.0, -32.05)
 
-    # --- the rack room: five racks facing the mirror, their backs to a tall wall (its other face the dumbbell bay's mirror)
+    # --- the rack room (third walk, 2026-11-01, Roman: "flip all of those 180 degrees and then make that whole divider wall a
+    # mirror ... why would they be facing the other way and then the wall is blank behind them"; "the chalk stand maybe put a few
+    # more of those directly in the middle as a nice divider"): the racks' open fronts face the racks wall, now mirror on this face
+    # too, their backs to the walkway; four racks 0.75 m apart with a chalk stand in each gap (five stood 0.07 m apart, under
+    # NSCA's 0.9), so the racks wall can stop 1.2 m shorter, clear of the spiral (Roman: "uncomfortably thin in between that wall and
+    # the stairs")
     plat = "titan-series-power-rack-lifting-platform"
-    for k in range(5):
-        y = -30.43 + 3.14 * k
-        p_ = F.put(plat, -24.215, y, 90, "rack room", "rack platform: the lifter faces the mirror")
-        r_ = F.put("rep-pr-5000-rack-builder", -23.59, y, 90, "rack room", "on its platform; spotter arms, landmine, dip, band pegs on some", on=p_["id"])
-        F.put("rogue-flat-utility-bench-2-0", -24.3, y, 90, "rack room", "lives in the rack", on=r_["id"])
-    F.put("rogue-freestanding-chalk-stand", -28.55, -32.9, 0, "rack room")
-    # --- the pulling corner (off the forecourt, its own tall walls): the two half racks facing the mirror
-    for y in (-9.9, -6.85):   # 1.2 m between the racks (NSCA 0.9)
-        p_ = F.put("hammer-strength-rubber-platform", -24.685, y, 90, "pulling corner", "half rack platform")
-        r_ = F.put("rogue-monster-half-rack", -24.56, y, 90, "pulling corner", "on its platform", on=p_["id"])
-        F.put("rogue-flat-utility-bench-2-0", -24.9, y, 90, "pulling corner", "lives in the rack", on=r_["id"])
-    F.put("rogue-belt-and-band-hanger", -22.4 - 0.06 - 0.155, -8.4, 90, "pulling corner", "belts, straps, sleeves, wraps on loan; the bands; on the slat wall (not the mirror)")
-    F.put("rogue-freestanding-chalk-stand", -23.0, -4.2, 0, "pulling corner")
+    pw_, pd_ = G.footprint(plat)
+    px_ = -26.9 + pd_ / 2                                     # the platforms' backs on the walkway's edge, 1.6 m clear to the mirror
+    for k in range(4):
+        y = -31.96 + pw_ / 2 + k * (pw_ + 0.75)
+        p_ = F.put(plat, px_, y, -90, "rack room", "rack platform: the lifter faces the mirror on the racks wall")
+        r_ = F.put("rep-pr-5000-rack-builder", px_ - 0.625, y, -90, "rack room", "on its platform; spotter arms, landmine, dip, band pegs on some", on=p_["id"])
+        F.put("rogue-flat-utility-bench-2-0", px_ + 0.085, y, -90, "rack room", "lives in the rack", on=r_["id"])
+        if k:
+            F.put("rogue-freestanding-chalk-stand", px_, y - pw_ / 2 - 0.375, 0, "rack room", "between two racks")
+    # --- the pulling corner (off the forecourt, its own tall walls; third walk: "move them more to the north ... put two more of them
+    # directly across ... facing the wall ... make both walls mirrors", and a way through to olympic: "you have to walk all the way
+    # around"): four half racks, two with their uprights to the west mirror, two to the pull wall's new mirror, the lifters facing
+    # them; a 0.9 m walk down the middle (back to back) to a 1.6 m opening into olympic's aisle
+    hw_, hd_ = G.footprint("hammer-strength-rubber-platform")
+    for rot, px in ((-90, XW + 0.06 + 0.15 + hd_ / 2), (90, -22.46 - 0.15 - hd_ / 2)):
+        sg = 1 if rot == -90 else -1                          # the lifter's side (east for the west column)
+        for y in (-3.06 - 0.55 - hw_ / 2, -3.06 - 0.55 - hw_ - 0.9 - hw_ / 2):   # (0.9 m apart: NSCA)
+            p_ = F.put("hammer-strength-rubber-platform", px, y, rot, "pulling corner", "half rack platform: the lifter faces the mirror")
+            r_ = F.put("rogue-monster-half-rack", px - sg * 0.125, y, rot, "pulling corner", "on its platform, its uprights to the mirror", on=p_["id"])
+            F.put("rogue-flat-utility-bench-2-0", px + sg * 0.215, y, rot, "pulling corner", "lives in the rack", on=r_["id"])
+    F.put("rogue-belt-and-band-hanger", -28.4, -3.0 - 0.06 - 0.12, 180, "pulling corner", "belts, straps, sleeves, wraps on loan; the bands; on the slats over the top rack (not the mirror)")
+    F.put("rogue-freestanding-chalk-stand", -23.6, -9.8, 0, "pulling corner", "at the walk's mouth, below the east racks")
 
     # --- olympic: four platforms in one line facing the mirror, bumpers between them, the aisle behind them along the low wall
     w_, d_ = G.footprint("hammer-strength-impact-suppression-platform")
@@ -84,7 +98,11 @@ def plan_f2(G):
         F.put("rogue-freestanding-chalk-stand", px + d_ / 2 + 0.6 + 0.3, (a_ + b_) / 2, 0, "olympic")
     F.put("rogue-wood-jerk-blocks", px, ys[2], 90, "olympic", "set up on a platform", on="hammer-strength-impact-suppression-platform-3")
     F.put("titan-deadlift-pulling-blocks", px, ys[1], 90, "olympic", "on a platform", on="hammer-strength-impact-suppression-platform-2")
-    F.put("rogue-echo-gym-timer-2-0", -25.3, -3.0 + 0.06 + 0.09, 0, "olympic", "on the tall south wall, in view of every platform (not on the mirror)")
+    F.put("rogue-echo-gym-timer-2-0", -24.0, -3.0 + 0.06 + 0.09, 0, "olympic", "on the tall south wall, in view of every platform (not on the mirror; the opening's west of it)")
+    # (third walk: "put just some normal like benches ... to sit on as they rest ... that kind of divider wall in the back is perfect
+    # for that ... horizontally"): flat benches along the low wall behind the aisle, end to end with it
+    for a_, b_ in zip(ys, ys[1:]):   # (the first clear of the way in at the low wall's south end)
+        F.put("rogue-flat-utility-bench-2-0", -22.4 - 0.06 - 0.25 - 0.178, max((a_ + b_) / 2, 0.5 + 1.2), 0, "olympic", "a seat between sets, along the low wall")
 
     # --- the bench room: the inclines facing the mirrored wall north, the flats facing south, a 1.2 m aisle between their backs
     for x, p_ in zip((-21.0, -17.6, -14.2), ("atlantis-olympic-incline-bench-press-with-pivot-p338",) * 3):
@@ -103,8 +121,8 @@ def plan_f2(G):
         w, d = G.footprint(p_)
         F.put(p_, -22.34 + 0.012 + 0.15 + d / 2, y + w / 2, -90, "dumbbell bay", note + "; in front of the mirror, 0.15 m off it (NSCA)")
         y += w + 0.1
-    for y in (-24.3, -22.6, -19.7):   # a walk between the pair and the third, to the racks (four closed the racks off)
-        F.put("rogue-adjustable-bench-3-0", -18.75, y, 90, "dumbbell bay", "facing the mirror, the dumbbells in front of it")
+    for y in (-24.15, -22.6, -21.05):   # (third walk: the third "sticking out" by the stair rail, "move it closer to the other two")
+        F.put("rogue-adjustable-bench-3-0", -18.75, y, 90, "dumbbell bay", "facing the mirror, the dumbbells in front of it; 0.9 m between")
 
     # --- the river legs: the selectorized legs facing the ravine, in groups (calves, hamstrings, hips)
     row = ["hammer-strength-select-standing-calf", "life-fitness-insignia-series-calf-extension", "hammer-strength-plate-loaded-tibia-dorsi-flexion", None,
@@ -155,8 +173,21 @@ def plan_f2(G):
     lp, gd, bs = "hammer-strength-plate-loaded-linear-leg-press", "hammer-strength-plate-loaded-glute-drive", "hammer-strength-plate-loaded-belt-squat"
     # --- the leg hub (between the forecourt and the legs wall): one row, backs on the wall, the floor in front open
     F.notes.append("leg hub ends %.2f" % hub([lp, "tree", gd, gd], -21.9, -2.36, 180, "leg hub"))
-    kw_, kd_ = G.footprint("hammer-strength-mts-kneeling-leg-curl")      # its back to the walk in, facing the row across 1.6 m
-    F.put("hammer-strength-mts-kneeling-leg-curl", -18.0, -9.45 + 0.5 + kd_ / 2, 0, "leg hub", "its back to the walk in from W1")
+    # (third walk: "super weird and desolate ... only four machines ... the single leg leg curl ... floating in the middle ... the leg
+    # press ... put another one directly in front of it like flipped 180 degrees", "definitely want to keep that path clear so you can
+    # walk around the stairs"): a second row facing the first, the leg presses face to face 1.6 m apart, the kneeling curl + a lying
+    # curl in line beside them, all on one front line
+    yf = -2.36 - G.footprint(lp)[1] - 1.6
+    x = -21.9
+    for k_, p_ in enumerate([lp, "tree", "hammer-strength-mts-kneeling-leg-curl", "life-fitness-axiom-series-leg-curl"]):
+        w, d = (0.845, 0.712) if p_ == "tree" else G.footprint(p_)
+        if k_:
+            x += 0.6 if "tree" in (p_, prev) else 0.9
+        if p_ == "tree":
+            F.put("life-fitness-olympic-weight-tree", x + w / 2, yf - 0.36, 0, "leg hub", "between the leg presses' rows: 0.6 m clear either side")
+        else:
+            F.put(p_, x + w / 2, yf - d / 2, 0, "leg hub", "facing the row on the legs wall")
+        x += w; prev = p_
     # --- the leg room (Roman 2026-10-31, second walk: "looks super barren and weird and just like stuff was thrown over there"):
     # the legs wall's north face is a mirror now; two rows face it, fronts on one line, every row centred on the room's axis
     # (between the oly walk and the spine), a third row back to back with the second, the leg extensions on the north wall
@@ -177,17 +208,18 @@ def plan_f2(G):
     XC = (-21.0 + -12.7) / 2                                  # the oly walk's east edge, the spine's west edge
     MIR = -2.3 + 0.06 + 0.012                                 # the mirror's face
     sm_ = "life-fitness-smith-machine"
-    y1 = MIR + 1.0                                            # row 1: the smiths' fronts, 1 m off the mirror
-    d1 = row([sm_, "tree", sm_], y1, 180, "leg room", "front")
-    y2 = y1 + d1 + 0.4 + 1.2 + 0.8                            # row 2: their backs' 0.4, a 1.2 m aisle, the next row's 0.8 in front
+    y1 = MIR + 0.5                                            # row 1: the smiths' backs 0.5 m off the mirror, facing it (third walk:
+    d1 = row([sm_, "tree", sm_], y1, 0, "leg room", "back")   # "flip the smith machines 180 degrees that they're facing that mirror")
+    y2 = y1 + d1 + 1.0 + 1.1 + 0.8                            # row 2: the smiths' 1.0 in front, a 1.1 m aisle, the next row's 0.8 in front
     d2 = row([lp, "tree", bs], y2, 180, "leg room", "front")
     y3 = y2 + d2 + 0.6                                        # row 3: back to back with row 2 (0.6 between: NSCA)
     row(["hammer-strength-plate-loaded-iso-lateral-leg-extension", "hammer-strength-plate-loaded-seated-calf-raise", "atlantis-incline-calf-raise-m318"],
         y3, 0, "leg room", "back")
     F.notes.append(f"leg room rows at y {y1:.2f} / {y2:.2f} / {y3:.2f}")
     LF, HS, PR = "life-fitness-insignia-series-leg-extension", "hammer-strength-select-leg-extension", "precor-resolute-series-leg-extension"
-    x = XC - (sum(G.footprint(p_)[0] for p_ in (LF, LF, PR, HS)) + 3 * 0.65) / 2   # on the room's axis too
-    for p_ in (LF, LF, PR, HS):   # (Roman: "rotate that entire row 180 degrees and then push it up against the wall")
+    SC = "hammer-strength-plate-loaded-seated-calf-raise"   # (third walk: "many people go directly from leg extension to calf")
+    x = XC - (sum(G.footprint(p_)[0] for p_ in (LF, LF, PR, HS, SC)) + 4 * 0.65) / 2   # on the room's axis too
+    for p_ in (LF, LF, PR, HS, SC):   # (Roman: "rotate that entire row 180 degrees and then push it up against the wall")
         w, d = G.footprint(p_)
         F.put(p_, x + w / 2, YN - 0.05 - d / 2, 180, "leg room", "its back on the north wall, facing the room + the mirror")
         x += w + 0.65
@@ -216,7 +248,7 @@ def plan_f2(G):
                "pts": [[-23.9, -39.9], [-22.675, -39.9], [-22.675, -34.35], [-23.9, -34.35]], "fixed": True}]
     F.put("fit3d-proscanner", -27.8, -38.85, 0, "posing room", "the body scanner: private (scans are taken in underwear), beside the stage")
 
-    auto_wipes(F, G, fixed, 22)   # (a cap: wall spots first, every piece within 7.5 m (the vendors: 7.6-15 m, one per ~46 m²))
+    auto_wipes(F, G, fixed, 22, pre=[(XE - 0.25, YN - 0.25)])   # (third walk: the one in the PWR Play to "the very corner"; a cap: wall spots first, every piece within 7.5 m (the vendors: 7.6-15 m, one per ~46 m²))
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
@@ -235,7 +267,7 @@ def wipes(F, G, lvl, spots):
                         "x": x, "y": y_, "w": 0.36, "d": 0.36, "rot": r})
 
 
-def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5):
+def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5, pre=()):
     """n wipes stations (Roman 2026-10-26: "need like 3 times the wipe stations"), every piece within `reach` m of one. Where
     (2026-10-31, Roman: "wipe locations are literally blocking machines ... wipes should always be closer to walls if they can"):
     against a wall or a partition, a corner first; never in anyone's training space (the whole use clearance: in front, the
@@ -301,7 +333,7 @@ def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5):
             best = min(best, tot)
         return best
     island = [c for c in cands if wall_n(c) == 0 and c.distance(snug) < 0.65 and across(c) > 1.9]   # tucked behind a piece, never in an aisle
-    picks = []
+    picks = [Point(p_) for p_ in pre]                              # set by hand (a corner Roman asked for)
     def cover(c, pool):
         return sum(1 for e in pool if e.distance(c) <= reach)
     for _ in range(n):
@@ -381,12 +413,13 @@ def plan_f3(G):
     # kettlebells along its foot, the benches face it in two staggered rows, the ends cut (14 -> 11); behind them a 1 m walk on to
     # the W stairs + WCs
     xr1, xr2 = -23.685, -25.675   # (1.2 m from the dumbbells to the first row's benches)
+    # (third walk: "remove those two super random decline benches that are just floating in the middle of the walkway ... replace two
+    # or three of the actual benches with those ones so that they can work as the decline too"): three Manta Rays in the rows
+    MR = "rogue-manta-ray-adjustable-bench"
     for y in (-31.0, -28.3, -25.6, -22.9, -20.2):
-        F.put("rogue-adjustable-bench-3-0", xr1, y, -90, "dumbbell den", "facing the den's mirror wall, the dumbbells in front of it; first row")
+        F.put(MR if y in (-28.3, -22.9) else "rogue-adjustable-bench-3-0", xr1, y, -90, "dumbbell den", "facing the den's mirror wall, the dumbbells in front of it; first row")
     for y in (-29.65, -26.95, -24.25, -21.55):
-        F.put("rogue-adjustable-bench-3-0", xr2, y, -90, "dumbbell den", "second row: sees the mirror through the first row's gaps")
-    for y in (-17.6, -15.6):
-        F.put("rogue-manta-ray-adjustable-bench", -24.5, y, 90, "dumbbell den", "north of the den wall, facing the west mirror")
+        F.put(MR if y == -26.95 else "rogue-adjustable-bench-3-0", xr2, y, -90, "dumbbell den", "second row: sees the mirror through the first row's gaps")
     y = -31.6
     for p_, note in (("life-fitness-3-tier-accessory-rack", "LF cast iron kettlebells 4-32 kg"), ("hammer-strength-three-tier-dumbbell-rack", "Rogue rubber hex 2.5-25 kg"),
                      ("hammer-strength-three-tier-dumbbell-rack", "Rogue rubber hex 27.5-50 kg"), ("hammer-strength-three-tier-dumbbell-rack", "Rogue rubber hex 52.5-75 kg"),
@@ -395,7 +428,7 @@ def plan_f3(G):
         F.put(p_, -20.6 - 0.06 - 0.012 - 0.15 - d / 2, y + w / 2, 90, "dumbbell den", note + "; along the mirror's foot, 0.15 m off it, facing the benches")
         y += w + 0.3
     F.put("rogue-freestanding-chalk-stand", -28.6, -32.8, 0, "grip wall", "by the grip wall (it stood in the den's north way out)")
-    F.put("rogue-belt-and-band-hanger", XW + 0.155, -8.8, -90, "functional", "belts, straps, sleeves, wraps on loan; dip belts")
+    F.put("rogue-belt-and-band-hanger", XW + 0.12, -4.75, -90, "functional", "dip belts + bands hung on it (third walk: \"put some of those chain belts\"), belts, straps on loan")
     # the grip wall on the south wall, either side of the altitude room's door
     for x in (-27.3, -20.6, -19.3, -18.0, -16.7):
         F.put("beastmaker-2000-series-hangboard", x, YS + 0.087, 0, "grip wall", "pinch blocks, cannonball grips, wrist roller hang beside")
@@ -403,20 +436,30 @@ def plan_f3(G):
     F.put("metolius-wood-grips-campus-rungs", -15.4, YS + 0.075, 0, "grip wall")
     # --- the posterior chain room (between the den's wall and the spine): GHDs, back extensions, the nordic curl, a glute drive
     for p_, x, y in (("hammer-strength-fixed-pad-glute-ham", -19.8, -30.5), ("hammer-strength-fixed-pad-glute-ham", -19.8, -27.4),
-                     ("hammer-strength-fixed-pad-glute-ham", -19.8, -24.3), ("the-abs-company-the-nordic-curl", -19.8, -21.4),
-                     ("hammer-strength-back-extension", -17.7, -30.7), ("hammer-strength-back-extension", -17.7, -27.9)):   # (the glute drive cut: it sat on the spine; F2 has two)
+                     ("hammer-strength-fixed-pad-glute-ham", -19.8, -24.3), ("the-abs-company-the-nordic-curl", -17.7, -25.6),
+                     ("hammer-strength-back-extension", -17.7, -30.7), ("hammer-strength-back-extension", -17.7, -27.9),
+                     ("hammer-strength-assisted-nordic-ham", -17.7, -22.4)):   # (the glute drive cut: it sat on the spine; F2 has two)
         F.put(p_, x, y, 0, "posterior chain")
+    # (third walk: "these machines ... to stretch your back ... you usually need dumbbells ... just a smaller set, on that wall"): on
+    # the den wall's back, facing the GHDs and back extensions; the assisted nordic moved in from the north-east corner ("just
+    # sitting in the corner alone")
+    w, d = G.footprint("hammer-strength-three-tier-dumbbell-rack")
+    F.put("hammer-strength-three-tier-dumbbell-rack", -20.6 + 0.075 + 0.05 + d / 2, -19.1 - 0.15 - w / 2, -90, "posterior chain", "Rogue rubber hex 2.5-25 kg: the weighted back extensions")
     # --- the functional room (west, its own tall wall): the rig on the wall (rings, ropes, the parallel bars), wall balls + pegboard
     # on the mirror wall, the plyo boxes on its low north wall
     rig = F.put("rogue-monster-rig-2-0", -22.6 - 0.06 - 0.012 - 0.15 - 1.77 / 2, -6.2, 90, "functional", "on the functional room's tall wall: rings, climbing ropes, the parallel bars")
     F.notes.append("rig at %.2f" % rig["x"])
     F.put("rogue-rig-mount-parallel-bars", rig["x"], -6.2 + 1.0, 90, "functional", "on the rig, in its 49 in squat cell", on=rig["id"])
-    F.put("rogue-10-bar-holder", XW + 0.33, -7.7, -90, "functional", "the rig's bars; on the west wall (it stood in the room's way in)")
-    F.put("rogue-freestanding-chalk-stand", -25.0, -8.9, 0, "functional")
+    F.put("rogue-10-bar-holder", -23.6, -9.0, 90, "functional", "the rig's bars; at the rig's south end (the west wall has the mirror + dumbbells now)")
+    F.put("rogue-freestanding-chalk-stand", -25.4, -8.9, 0, "functional")
+    # (third walk: "put some more mirrors on that wall too, like at least a horizontal mirror, put a few dumbbells or like a dumbbell
+    # rack"): a mirror on the west wall's south end (tools/interior.py), the rack at its foot, 0.15 m off it
+    w, d = G.footprint("hammer-strength-three-tier-dumbbell-rack")
+    F.put("hammer-strength-three-tier-dumbbell-rack", XW + 0.012 + 0.15 + d / 2, -8.1, -90, "functional", "Rogue rubber hex 2.5-25 kg; in front of the mirror, 0.15 m off it (NSCA)")
     F.zone("Open floor: classes, wall balls, plyo", -27.0, -9.2, -25.7, -3.6, "zone-open")
-    F.put("life-fitness-escape-endura-wall-balls", XW + 0.405, -6.5, -90, "functional", "the targets above, the balls on the shelf")
-    pb = F.put("rogue-pine-maple-peg-board", XW + 0.12, -4.2, -90, "functional", "hung with its foot at 2.0 m (it was 0.75): you start from a hang, feet off the mat, and climb to 4.3 m")
-    pb["lift"] = 1.25
+    F.put("life-fitness-escape-endura-wall-balls", XW + 0.405, -5.85, -90, "functional", "the targets above, the balls on the shelf")
+    pb = F.put("rogue-pine-maple-peg-board", XW + 0.12, -3.85, -90, "functional", "hung with its foot at 1.2 m, the top at 3.5 m (third walk: 2.0 was \"a little bit too high\"; no published standard: the low pegs at a standing reach)")
+    pb["lift"] = 0.45
     yb = -3.0 - 0.125
     for x in (-26.55, -25.95, -25.35):
         F.put("hammer-strength-3-in-1-wood-plyo-box", x, yb - 0.38, 180, "functional", "a stack of three")
@@ -460,12 +503,12 @@ def plan_f3(G):
     # + their platform along its east side, the farmers + the T-bar row on the walk down the west wall
     F.put("rogue-yoke", -25.0, 8.6, 180, "strongman", "at the carry lane's head: carried south down the turf")
     F.put("rogue-farmers-walk-handles", -27.9, 9.0, 180, "strongman", "beside the lane's head")
-    F.put("titan-atlas-stone-platform", -22.6, 7.6, 90, "strongman", "loaded from the turf side")
-    F.put("rogue-rubber-atlas-stones", -22.6, 5.4, 90, "strongman")
+    F.put("titan-atlas-stone-platform", -22.6, 7.6, -90, "strongman", "loaded from the turf side (third walk: it faced the stair, \"flipped the wrong way\")")
+    F.put("rogue-rubber-atlas-stones", -23.45, 5.5, -90, "strongman", "on the lifter's side, 0.9 m off the platform: picked off the floor, carried a step, loaded east")
     F.put("rogue-strongman-sandbags", -25.0, 11.25, 180, "strongman", "25-400 lb along the north wall, at the lane's head")
     F.put("rogue-10-bar-holder", -27.6, 11.3, 180, "strongman", "log, axle, the hex bars; on the north wall by the farmers")
     F.put("hammer-strength-plate-loaded-t-bar-row", -28.0, 3.6, -90, "strongman", "T-bar row (the landmine pulls), its back to the west wall")
-    F.put("rogue-freestanding-chalk-stand", -21.0, 1.6, 0, "the maze")
+    F.put("rogue-freestanding-chalk-stand", -21.9, 9.6, 0, "strongman", "by the stones + the yoke (it stood in a cable station's way in the maze)")
     F.put("rogue-echo-gym-timer-2-0", XW + 0.09, -1.2, -90, "strongman", "over the carry lane")
     # --- by the river: one row of the selectorized upper body facing the water (2026-10-31, Roman: "the machines are a little too
     # close to the water ... if you have to enter them from the front it's just kind of impossible"; the second column back to back
@@ -492,7 +535,15 @@ def plan_f3(G):
     F.notes.append(f"river row ends {y:.2f}")
     for yb_, note in ((y + 0.2, "the Hammer Strength fixed straight barbells"), (y + 1.6, "the Life Fitness 12-sided fixed EZ bars")):
         F.put("life-fitness-barbell-rack", -8.25 - 0.1 - 0.54, yb_, 90, "upper by the river", note + "; its back to the river")
-    F.put("hammer-strength-assisted-nordic-ham", -10.75, 8.0, 180, "by the river")
+    # (third walk: "you have the racks for those bars you can do curls with ... but there's nowhere to use them ... add like some
+    # benches over there ... and another dumbbell rack"): an arms corner past the curl bars, the dumbbells with their backs to the
+    # river, two flat benches facing them, the preacher curls beyond
+    w, d = G.footprint("hammer-strength-three-tier-dumbbell-rack")
+    y_db = y + 2.8 + 0.4 + w / 2
+    F.put("hammer-strength-three-tier-dumbbell-rack", -8.25 - 0.1 - d / 2, y_db, 90, "arms corner", "Rogue rubber hex 2.5-25 kg: curls, with the bars beside")
+    for y_ in (y_db - 0.65, y_db + 0.65):
+        F.put("rogue-flat-utility-bench-2-0", -10.95, y_, -90, "arms corner", "seated curls, facing the dumbbells")
+    F.notes.append(f"arms corner: dumbbells at y {y_db:.2f}")
 
     # --- the sled lane: the sleds parked at its ends, the harnesses on mass storage by its south end
     for y in (-33.1, -32.0):
@@ -555,8 +606,8 @@ def plan_f1(G):
            {("A", "E"): "pulldown", ("B", "E"): "pulldown", ("A", "W"): "handles", ("B", "W"): "panel",
             ("A", "S"): "step", ("B", "N"): "ropepull", ("A", "N"): "crossover", ("B", "S"): "crossover"},
            [("A", "B")], origin=(-12.0, -17.3), zone="PWR Play island (river side)")
-    y = -19.3
-    for p_ in ["life-fitness-club-series-recumbent-lifecycle-bike"] * 3 + ["life-fitness-club-series-upright-lifecycle-bike"] * 3:
+    y = -19.3 - 0.68 - 0.75   # (third walk: the first recumbent cut, "just blocking the natural pathway" off the spiral)
+    for p_ in ["life-fitness-club-series-recumbent-lifecycle-bike"] * 2 + ["life-fitness-club-series-upright-lifecycle-bike"] * 3:
         w, d = G.footprint(p_)
         F.put(p_, -15.0, y - w / 2, -90, "bikes behind the stepmills", "facing the river (the south glass is the calisthenics wall now)")
         y -= w + 0.75
@@ -592,6 +643,9 @@ def plan_f1(G):
     for y in (-28.05, -27.1):   # (Roman: "there's none over by the calisthenics area ... where they are right now ... is right in front of the stairs")
         F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.1, y, -90, "calisthenics", "core + yoga mats, by the skills floor + the rig")
     F.put("rogue-belt-and-band-hanger", -13.2, YNF - 0.155, 180, "calisthenics", "dip belts, bands")
+    # (third walk: "put some more bands like over in the calisthenics area because a lot of people like to use bands"): a second
+    # hanger, bands + dip belts on it, on the W2 core between the AED and the knee raise
+    F.put("rogue-belt-and-band-hanger", XWF + 0.12, -31.15, -90, "calisthenics", "bands (assisted pull-ups, muscle-up transitions) + dip belts, by the rig")
     F.put("life-fitness-vertical-medicine-ball-storage", -20.2, -19.9, 180, "stretching", "beside the accessory racks, a walk between")
 
     # --- stretching + mobility north of the calisthenics (the garden glass beside it): the mat floor, the kit round it

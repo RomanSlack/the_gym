@@ -366,7 +366,13 @@ for lvl, soffit_slab, beam_tag, fl_holes, ce_holes, dark in (("F2", "S-F1-west",
         # strongman end (2026-10-30: the wall balls, the peg board, the belt hanger and the timer hang there: wood, not glass)
         lining("W-west-A", "steel_skirting", -1, s_range=(0.0, s34), tag=f"-{lvl}-skirt", z=[zf, round(zf + MIR0, 3)])
         lining("W-west-A", "mirror", -1, s_range=(0.0, s34), tag=f"-{lvl}-mirror", z=[round(zf + MIR0, 3), zt])
-        lining("W-west-A", "oak_slats_smoked", -1, s_range=(s34, L_A), tag=f"-{lvl}-slats", z=[round(zf + 0.15, 3), zt])
+        sf0, sf1 = round(-9.17 + 34.1, 2), round(-7.03 + 34.1, 2)   # the functional room's mirror (third walk: "at least a horizontal
+        # mirror ... a dumbbell rack"), the rack at its foot
+        lining("W-west-A", "oak_slats_smoked", -1, s_range=(s34, sf0), tag=f"-{lvl}-slats", z=[round(zf + 0.15, 3), zt])
+        lining("W-west-A", "steel_skirting", -1, s_range=(sf0, sf1), tag=f"-{lvl}-fskirt", z=[zf, round(zf + MIR0, 3)])
+        lining("W-west-A", "mirror", -1, s_range=(sf0, sf1), tag=f"-{lvl}-fmirror", z=[round(zf + MIR0, 3), round(zf + 2.6, 3)])
+        lining("W-west-A", "oak_slats_smoked", -1, s_range=(sf0, sf1), tag=f"-{lvl}-fslats", z=[round(zf + 2.6, 3), zt])
+        lining("W-west-A", "oak_slats_smoked", -1, s_range=(sf1, L_A), tag=f"-{lvl}-slats2", z=[round(zf + 0.15, 3), zt])
         for wid, sg in (("W-west-N", -1), ("W-west-S", 1)):
             lining(wid, "oak_slats_smoked", sg, tag=f"-{lvl}", z=[zf, zt])
         lining("W-west-C", "plaster_charcoal", 1, tag=f"-{lvl}", z=[zf, zt])
@@ -720,13 +726,17 @@ ZP_TALL, ZP_LOW, ZP_MID, ZP_T = 3.0, 1.2, 2.4, 0.12
 # dumbbell bay raised to 2.4 m, mirror both faces; the den's wall mirror on the bench side (the benches turn to face it, their
 # backs to the doors); the functional room's tall wall mirror behind the rig
 ZONE_WALLS = {  # level: [(name, (x0, y0), (x1, y1), height, mirror faces ('a' = left of from->to, 'b' = right))]  axis-aligned
-    "F2": [("racks", (-22.4, -31.95), (-22.4, -16.2), ZP_TALL, "b"), ("pull", (-22.4, -10.8), (-22.4, -2.94), ZP_TALL, ""),
-           ("olympic-s", (-29.14, -3.0), (-22.46, -3.0), ZP_TALL, ""), ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), ZP_LOW, ""),
+    # (third walk, 2026-11-01: the racks wall mirror on its rack room face too, the racks turned to it, stopped 1.2 m shorter, clear
+    # of the spiral ("uncomfortably thin"); the pull wall up to the legs wall (a 0.64 m slot between them: "a weird hole in the wall")
+    # and mirror on its pulling corner face; a 1.6 m opening from the pulling corner into olympic ("walk all the way around"))
+    "F2": [("racks", (-22.4, -31.95), (-22.4, -17.4), ZP_TALL, "ab"), ("pull", (-22.4, -10.8), (-22.4, -2.24), ZP_TALL, "a"),
+           ("olympic-s", (-29.14, -3.0), (-26.2, -3.0), ZP_TALL, ""), ("olympic-s2", (-24.6, -3.0), (-22.46, -3.0), ZP_TALL, ""),
+           ("olympic-e", (-22.4, 0.5), (-22.4, 9.4), ZP_LOW, ""),
            ("bench-n", (-22.34, -25.0), (-15.0, -25.0), ZP_MID, "ab"), ("legs-n", (-22.34, -2.3), (-13.6, -2.3), ZP_TALL, "a")],
     # F1: none (Roman 2026-10-30: the calisthenics takes the south wall "without those barriers")
     "F3": [("den", (-20.6, -32.0), (-20.6, -19.0), ZP_TALL, "a"), ("den-n", (-26.6, -13.85), (-23.0, -13.85), ZP_LOW, ""),
            ("functional", (-22.6, -9.4), (-22.6, -3.06), ZP_TALL, "a"), ("functional-n", (-27.0, -3.0), (-22.54, -3.0), ZP_LOW, ""),
-           ("sled", (-11.75, -29.5), (-11.75, -16.5), ZP_LOW, "")],
+           ("sled", (-11.75, -29.5), (-11.75, -18.4), ZP_LOW, "")],   # (third walk: it stops at the pec flys' end, a walk past them to the river)
 }
 for lvl, zws in ZONE_WALLS.items():
     zf = lv[lvl]; slats = "oak_slats_smoked" if lvl == "F3" else "oak_slats_wall"

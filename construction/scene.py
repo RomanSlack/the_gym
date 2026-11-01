@@ -129,6 +129,16 @@ CAMS = {
     "eq2_z_legs3": ((-13.2, 9.6, -3.31), (-19.0, -2.2, -3.7), 20),        # the leg room from the north-east: the rows facing the mirror
     "eq3_z_foot2": ((-12.6, -10.6, -8.17), (-17.95, -15.6, -8.9), 20),    # the spiral's low first turn from the north-east: the bars under it
     "eq1_z_mu2": ((-11.8, -28.0, 1.55), (-16.6, -32.6, 1.75), 22),        # the double muscle-up bar, three-quarter
+    # third walk (2026-11-01)
+    "eq2_z_pull": ((-25.8, -10.4, -3.31), (-25.8, -3.0, -3.6), 20),       # the pulling corner: four half racks on two mirrors, the opening to olympic
+    "eq2_z_racks2": ((-22.9, -16.6, -3.31), (-25.2, -27.0, -3.7), 20),    # the rack room turned to the racks wall's mirror, chalk between
+    "eq2_z_hub": ((-13.4, -9.3, -3.31), (-21.0, -4.5, -3.8), 20),         # the leg hub: the leg presses face to face, the second row
+    "eq2_z_bench2": ((-15.3, -27.3, -3.4), (-21.5, -28.6, -4.0), 22),     # the bench room: bars on the hooks
+    "eq2_z_lift": ((-24.4, -11.0, -3.31), (-29.6, -10.8, -3.4), 24),      # the W1 lift: car + doors centred in the stone
+    "eq3_z_arms": ((-13.0, -4.6, -8.17), (-9.0, 3.5, -8.9), 20),          # the arms corner by the curl bars
+    "eq3_z_func2": ((-25.0, -5.2, -8.17), (-29.2, -7.0, -8.5), 20),        # the functional room's west wall: mirror + dumbbells, pegboard, belts
+    "eq3_z_post2": ((-16.0, -18.2, -8.17), (-19.6, -23.8, -8.9), 20),      # the posterior chain room: the dumbbells on the den wall's back
+    "eq1_z_bands": ((-25.2, -28.6, 1.55), (-28.7, -31.2, 1.3), 22),       # the bands + dip belts by the rig
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),

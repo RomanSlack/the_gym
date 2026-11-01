@@ -2989,11 +2989,11 @@
   "life-fitness-accessory-rack": 2,
   "life-fitness-adjustable-wall-mounted-mat-rack": 2,
   "life-fitness-club-series-elliptical-cross-trainer": 4,
-  "life-fitness-club-series-recumbent-lifecycle-bike": 3,
+  "life-fitness-club-series-recumbent-lifecycle-bike": 2,
   "life-fitness-club-series-upright-lifecycle-bike": 3,
   "life-fitness-flexibility-trainer": 2,
   "life-fitness-vertical-medicine-ball-storage": 1,
-  "rogue-belt-and-band-hanger": 1,
+  "rogue-belt-and-band-hanger": 2,
   "rogue-bolt-together-parallette-set": 6,
   "rogue-monster-lite-monkey-rig-2-0": 1,
   "rogue-rig-mount-parallel-bars": 1,
@@ -4145,19 +4145,6 @@
    "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
    "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
    "x": -15.0,
-   "y": -19.64,
-   "w": 0.68,
-   "d": 1.92,
-   "rot": -90,
-   "h": 1.566,
-   "note": "facing the river (the south glass is the calisthenics wall now)"
-  },
-  {
-   "id": "life-fitness-club-series-recumbent-lifecycle-bike-2",
-   "room": "bikes behind the stepmills",
-   "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
-   "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
-   "x": -15.0,
    "y": -21.07,
    "w": 0.68,
    "d": 1.92,
@@ -4166,7 +4153,7 @@
    "note": "facing the river (the south glass is the calisthenics wall now)"
   },
   {
-   "id": "life-fitness-club-series-recumbent-lifecycle-bike-3",
+   "id": "life-fitness-club-series-recumbent-lifecycle-bike-2",
    "room": "bikes behind the stepmills",
    "kind": "life-fitness-club-series-recumbent-lifecycle-bike",
    "label": "Life Fitness Club Series+ Recumbent Lifecycle\u00ae Bike",
@@ -4505,6 +4492,19 @@
    "note": "dip belts, bands"
   },
   {
+   "id": "rogue-belt-and-band-hanger-2",
+   "room": "calisthenics",
+   "kind": "rogue-belt-and-band-hanger",
+   "label": "Rogue Belt and Band Hanger",
+   "x": -28.614,
+   "y": -31.15,
+   "w": 0.597,
+   "d": 0.213,
+   "rot": -90,
+   "h": 2.8,
+   "note": "bands (assisted pull-ups, muscle-up transitions) + dip belts, by the rig"
+  },
+  {
    "id": "life-fitness-vertical-medicine-ball-storage-1",
    "room": "stretching",
    "kind": "life-fitness-vertical-medicine-ball-storage",
@@ -4640,15 +4640,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F1--22.4--19.2",
+   "id": "wipes-F1--28.5--13.9",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.4,
-   "y": -19.25,
+   "x": -28.53,
+   "y": -13.95,
    "w": 0.36,
    "d": 0.36,
-   "rot": 0,
+   "rot": -90,
    "note": "wipes + spray + bin"
   },
   {
@@ -4664,27 +4664,15 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F1--28.5--13.9",
+   "id": "wipes-F1--29.2--22.3",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -28.53,
-   "y": -13.95,
+   "x": -29.19,
+   "y": -22.3,
    "w": 0.36,
    "d": 0.36,
    "rot": -90,
-   "note": "wipes + spray + bin"
-  },
-  {
-   "id": "wipes-F1--28.9--24.8",
-   "room": "",
-   "kind": "wipe_station",
-   "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -28.85,
-   "y": -24.78,
-   "w": 0.36,
-   "d": 0.36,
-   "rot": 0,
    "note": "wipes + spray + bin"
   },
   {

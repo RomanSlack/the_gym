@@ -141,7 +141,7 @@ kind("smith", "plate_loaded", (1.0, 0.4, 0.4, 0.4), "life-fitness-smith-machine"
 kind("rack", "rack", (0.0, 0.0, 0.0, 0.0), "rep-pr-5000-rack-builder", "rogue-monster-half-rack", "rogue-monster-lite-half-rack")
 kind("rack platform", "platform", (1.2, 0.2, 0.0, 0.0), "titan-series-power-rack-lifting-platform")
 kind("platform", "platform", (1.2, 0.6, 0.5, 0.5), "hammer-strength-impact-suppression-platform")
-kind("rack platform", "platform", (1.2, 0.2, 0.2, 0.2), "hammer-strength-rubber-platform")
+kind("rack platform", "platform", (0.9, 0.2, 0.2, 0.2), "hammer-strength-rubber-platform")   # (NSCA 0.9: the pulling corner's two rows share a 0.9 m walk)
 kind("deadlift platform", "platform", (1.0, 0.4, 0.4, 0.4), "rogue-deadlift-platform")
 C_BST = (0.6, 0.3, 0.55, 0.55)                                   # bench stations: the feet clear, the plates at the bar's ends
 kind("flat bench press", "bench", C_BST, "atlantis-olympic-flat-bench-press-with-pivot-p337", "life-fitness-olympic-flat-bench")

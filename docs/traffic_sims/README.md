@@ -60,3 +60,13 @@ squat facing it behind them, the iso leg extension + the calves back to back wit
 Same simulator, same numbers: F2 still 0 pieces reached through anyone's set (`gym_f2_traffic_after_v005`; v004 is the step before
 the leg extensions were centred on the room's axis). F1 and F3 unchanged apart from the muscle-up station (one double bar instead
 of two lone ones): F1 0 problems, F3 the same 2 inside the PWR Play maze.
+
+## Third walk (2026-11-01): racks turned to the mirrors, a way into olympic, `gym_f1_v005` / `gym_f2_v006` / `gym_f3_v005`
+
+Roman walked all three floors again. On F2 the rack room turned to face its divider wall (now a mirror): four racks 0.75 m apart
+with chalk stands between (five stood 0.07 m apart), so the racks wall could stop 1.2 m shorter and the walk round the spiral is
+no longer "uncomfortably thin". The pulling corner has four half racks, two on each mirror, back to back across a 0.9 m walk that
+leads to a new 1.6 m opening into olympic (before, the only way in was "all the way around"). The leg hub has a second row facing
+the first, the leg presses face to face. The sim still finds every piece on F1 and F2 without crossing anyone's set; F3's two left
+are the same maze aisles. The busiest crossings on F2 are the incline benches nearest the bench room's way in and the PWR Play's
+dual cable (as before), and the rack platforms' fronts, which people pass to reach the chalk stands between them.

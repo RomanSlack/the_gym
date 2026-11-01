@@ -4319,33 +4319,69 @@ def ring_guard(P, r=3.5, gap_a=135.0, gap_b=160.0, h=1.1, band=0.39):
         P.box(st, ((r + 0.04) * math.cos(t), (r + 0.04) * math.sin(t), h / 2), (0.05, 0.05, h), rz=t)
 
 
-def spiral_spandrel(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, head=2.1):
-    """The space under the spiral's low first turn closed off (Roman 2026-10-31 on F3: "someone could hit their head"; then the
-    glass ring round it "clipping": two rails 8 cm apart at different heights crossed each other): 14 mm blackened-steel bars at
-    <= 110 mm, the balustrade's own bars carried on down, from a steel floor flat up into both stringers' undersides, wherever
-    the stringer is under `head` (TEK17 2.1 m), and a radial screen of the same bars where that ends, up to the treads. Nothing
-    stands outside the stair. Origin = the stair's centre at its foot."""
-    st = M["steel"]
+def spiral_planter(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, head=2.1):
+    """The space under the spiral's low first turn as a planted bed (Roman 2026-10-31 on F3: "someone could hit their head";
+    a glass ring round it read as clipping, then bars down from the stringers "like a jail prison cell ... think of a much
+    better solution"): a raised bed under the stair wherever its underside is under `head` (TEK17 2.1 m), its sides smoked oak
+    staves (the den's partitions) 0.45 high (ADA 307.4: a barrier's leading edge 0.685 m max where the headroom is under
+    2.03 m, so a cane finds it), a blackened-steel cap, moss with a few river stones, upright greenery growing to under
+    the treads. Nothing stands outside the stair's own footprint. Origin = the stair's centre at its foot."""
+    st, oak = M["steel"], M.setdefault("smoked_oak", bc.pbr_material("oak_slat_smoked", "oak_veneer_01", 1.83, box=True, tint=(0.55, 0.42, 0.32),
+                                                                       sat=0.7, val=0.45, piece_var=0.08, rough_add=0.1))
+    soil = M.setdefault("planter_soil", bc.material("planter_soil", (0.05, 0.035, 0.025), 0.95))
+    moss, lf = _moss(), _foliage()
+    stone = M.get("stone_nero_honed") or bc.interior_materials()["stone_nero_honed"]
     rr = rise / risers
     zb = lambda th: rr * (1 + th / step_deg) - 0.06 - 0.36    # the stringers' underside, th degrees round from the foot
-    th0 = (0.46 / rr - 1) * step_deg                          # where it is 0.1 m up
+    tha = ((0.08 + 0.42) / rr - 1) * step_deg                 # where it is 0.08 m up
     th1 = ((head + 0.42) / rr - 1) * step_deg                 # where it reaches the headroom
-    def pt(r, th, z):
+    H, T = 0.45, 0.03                                         # the bed's sides, the staves' depth
+    r0, r1 = ri - 0.1, ro + 0.1                               # just inside the eye, just outside the outer stringer
+    hw = lambda th: max(0.05, min(H, zb(th) - 0.03))
+    def pt(r, th, z=0.0):
         t = math.radians(a0 + th); return (r * math.cos(t), r * math.sin(t), z)
-    for r in (ri, ro):
-        n = max(2, math.ceil(math.radians(th1 - th0) * r / 0.11))
+    for r, sg in ((r1, 1), (r0, -1)):                         # the curved sides: staves 45 mm at 65 mm, the cap on them
+        n = math.ceil(math.radians(th1 - tha) * r / 0.065)
         for i in range(n + 1):
-            th = th0 + (th1 - th0) * i / n
-            P.rod(st, pt(r, th, 0.012), pt(r, th, zb(th) + 0.01), 0.007, seg=8)
-        P.ring(st, (0, 0), r - 0.02, r + 0.02, 0.0, 0.012, a0=a0 + th0, a1=a0 + th1, seg=180)
-    zt = rr * (math.floor(th1 / step_deg) + 1) - 0.06          # the radial screen: up to the tread over it
-    n = math.ceil((ro - ri) / 0.11)
-    for i in range(1, n):
-        r = ri + (ro - ri) * i / n
-        P.rod(st, pt(r, th1, 0.012), pt(r, th1, zt + 0.005), 0.007, seg=8)
-    t = math.radians(a0 + th1)
-    P.box(st, (*pt((ri + ro) / 2, th1, 0.006)[:2], 0.006), (ro - ri, 0.04, 0.012), rz=t)
-    P.box(st, (*pt((ri + ro) / 2, th1, 0.0)[:2], zt - 0.006), (ro - ri, 0.04, 0.012), rz=t)
+            th = tha + (th1 - tha) * i / n; h = hw(th)
+            x, y, _ = pt(r - sg * T / 2, th)
+            P.box(oak, (x, y, h / 2), (T, 0.045, h - 0.004), rz=math.radians(a0 + th))
+        k = 24
+        for j in range(k):                                    # the cap in short lengths, stepping down with the low end
+            ta, tb = tha + (th1 - tha) * j / k, tha + (th1 - tha) * (j + 1) / k
+            h = hw((ta + tb) / 2)
+            P.ring(st, (0, 0), r - T - 0.008, r + 0.008, h, h + 0.012, a0=a0 + ta, a1=a0 + tb, seg=360)
+    for th in (tha, th1):                                     # the radial ends
+        h = hw(th); n = math.ceil((r1 - r0) / 0.065)
+        for i in range(n):
+            r = r0 + (r1 - r0) * (i + 0.5) / n
+            x, y, _ = pt(r, th + math.degrees(T / 2 / r) * (1 if th == tha else -1))   # just inside the bed
+            P.box(oak, (x, y, h / 2), (0.045, T, h - 0.004), rz=math.radians(a0 + th))
+        x, y, _ = pt((r0 + r1) / 2, th)
+        P.box(st, (x, y, h + 0.006), (r1 - r0, T + 0.016, 0.012), rz=math.radians(a0 + th) + math.pi / 2)
+    k = 36
+    for j in range(k):                                        # the soil + moss, a sector at a time (the low end steps down)
+        ta, tb = tha + (th1 - tha) * j / k, tha + (th1 - tha) * (j + 1) / k
+        h = hw((ta + tb) / 2)
+        P.ring(soil, (0, 0), r0 + T, r1 - T, 0.0, h - 0.06, a0=a0 + ta, a1=a0 + tb, seg=360)
+        P.ring(moss, (0, 0), r0 + T, r1 - T, h - 0.06, h - 0.035, a0=a0 + ta, a1=a0 + tb, seg=360)
+    rng = np.random.default_rng(7)
+    for q in range(9):                                        # river stones on the moss
+        th = rng.uniform(tha + 20, th1 - 8); r = rng.uniform(r0 + 0.3, r1 - 0.3); h = hw(th)
+        s_ = rng.uniform(0.12, 0.26)
+        x, y, _ = pt(r, th)
+        _rough_block(P, stone, (x, y, h - 0.04 + s_ * 0.22), (s_, s_ * 0.8, s_ * 0.5), amp=0.02, seed=q * 1.7, cuts=3, rz=rng.uniform(0, 3.1))
+    for q in range(60):                                       # upright greenery (sansevieria-like blades) where it has room
+        th = rng.uniform(tha + 25, th1 - 5); r = rng.uniform(r0 + 0.2, r1 - 0.2); h = hw(th)
+        room = zb(th) - h - 0.18
+        if room < 0.25:
+            continue
+        x, y, _ = pt(r, th)
+        for b_ in range(int(rng.integers(5, 10))):
+            a = rng.uniform(0, 2 * math.pi); d_ = rng.uniform(0, 0.07); L = rng.uniform(0.45, 1.0) * min(room, 1.3); tilt = rng.uniform(0.02, 0.2)
+            cx, cy = x + d_ * math.cos(a), y + d_ * math.sin(a)
+            P.box(lf, (cx + math.cos(a) * tilt * L / 2, cy + math.sin(a) * tilt * L / 2, h - 0.04 + L / 2), (0.05, 0.008, L),
+                  rz=rng.uniform(0, math.pi), rx=-math.sin(a) * tilt, ry=math.cos(a) * tilt)
 
 
 def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gaps=((26.33, 28.67),)):
@@ -4681,6 +4717,9 @@ def glass_lift(P, shaft=(-1.1, 1.1, -2.24), front=(-1.1, 1.1), stops=((0.0, 3.0,
     # ---- the cab's place: the counterweight on one side, the car in the rest
     cww = 0.36
     cx0, cx1 = (x0 + cww + 0.1, x1 - 0.1) if cw < 0 else (x0 + 0.1, x1 - cww - 0.1)
+    fc = (f0 + f1) / 2                                             # the car + its doors centred in the opening (Roman 2026-11-01:
+    hc = min(fc - cx0, cx1 - fc)                                   # "the elevator is still weirdly not centered")
+    cx0, cx1 = fc - hc, fc + hc
     cw_x = x0 + 0.06 + cww / 2 if cw < 0 else x1 - 0.06 - cww / 2
     cy0, cy1 = max(yb + 0.14, -1.62), -0.035                       # car depth: back glass .. front sill
     ccx, ccy = (cx0 + cx1) / 2, (cy0 + cy1) / 2
@@ -5662,6 +5701,31 @@ def scene_keypad(P, mount=1.1):
         P.box(k, (0, 0.0085, mount + 0.045 - i * 0.026), (0.05, 0.001, 0.004))
 
 
+def booking_panel(P, room="POD 1", state="free", mount=1.4):
+    """The booking screen beside a pod's (or the posing room's) door (Roman 2026-11-01: "a little tablet that's embedded in the wall
+    that shows when they're reserved ... and then you can directly reserve them on that screen too"): a 10 in touch screen in a
+    slim oak bezel set into the wall, its face flush; a status band at the top (green FREE / amber IN USE until when), the room's
+    name, the day's slots below (booked ones dimmed amber, free ones green), a tap ring for the member card under it. Origin = the
+    wall at the panel's centre on the floor, its face +y; mount = the screen's centre (1.4: readable standing, reachable seated)."""
+    W, H, D = 0.19, 0.27, 0.014
+    P.box(M["oak"], (0, D / 2 - 0.004, mount), (W + 0.03, D, H + 0.03))                     # the bezel, 4 mm proud of the wall
+    scr = M.setdefault("screen_black", bc.material("screen_black", (0.004, 0.004, 0.005), 0.08))
+    P.box(scr, (0, D - 0.003, mount), (W, 0.002, H))
+    busy = state != "free"
+    band = _led("booking_busy" if busy else "booking_free", (1.0, 0.55, 0.12) if busy else (0.2, 0.85, 0.35), 3.0)
+    ink = _led("booking_ink", (0.95, 0.95, 0.92), 2.0)
+    zt = mount + H / 2 - 0.025
+    P.box(band, (0, D - 0.0018, zt), (W - 0.016, 0.0008, 0.036))
+    P.text(ink, ("IN USE  until 15:00" if busy else "FREE  until 16:30"), (0, D - 0.001, zt), 0.014, depth=0.0004)
+    P.text(ink, room, (0, D - 0.001, zt - 0.042), 0.02, depth=0.0004)
+    for i, booked in enumerate((True, True, False, True, False, False, True)):                # the day's slots
+        z = zt - 0.075 - i * 0.021
+        P.box(_led("booking_slot_on" if booked else "booking_slot_free", (0.9, 0.45, 0.1) if booked else (0.2, 0.7, 0.3), 0.6 if booked else 1.2),
+              (0.012, D - 0.0018, z), (W - 0.06, 0.0008, 0.013))
+        P.text(ink, f"{13 + i}:00", (-W / 2 + 0.022, D - 0.001, z), 0.009, depth=0.0003)
+    P.box(_led("booking_tap", (0.6, 0.75, 1.0), 1.5), (0, D - 0.0018, mount - H / 2 + 0.018), (0.05, 0.0008, 0.004))   # tap your card here
+
+
 def ceiling_speaker(P, z_ceiling=3.4):
     """A flush round ceiling speaker: a thin blackened-steel ring round a dark micro-perforated grille."""
     P.cyl(M["steel"], (0, 0, z_ceiling - 0.004), 0.105, 0.004, seg=40)
@@ -6043,7 +6107,7 @@ BUILDERS = {
     "locker_hall": locker_hall, "round_seat": round_seat, "wall_waterfall": wall_waterfall, "grooming_bar": grooming_bar,
     "shoe_cubbies": shoe_cubbies, "towel_shelf": towel_shelf, "uvc_plate": uvc_plate, "auto_door": auto_door,
     "shower_cell": shower_cell, "fossen": fossen, "wash_place": wash_place, "stone_bench": stone_bench, "vaskebjorn": vaskebjorn,
-    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_spandrel": spiral_spandrel, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
+    "robot_dock": robot_dock, "tap_station": tap_station, "stone_lining": stone_lining, "log_store": log_store, "duckboard": duckboard, "gym_line": gym_line, "ring_guard": ring_guard, "spiral_planter": spiral_planter, "den_stream": den_stream, "glass_lift": glass_lift, "lap_pool": lap_pool, "river_wall_f4": river_wall_f4, "river_volume": river_volume, "core_door": core_door, "stair_landing": stair_landing, "spiral_balustrade": spiral_balustrade, "wipe_station": wipe_station, "wall_washer": wall_washer, "sauna_tier": sauna_tier, "sauna_heater": sauna_heater, "sauna_bucket": sauna_bucket, "kindling_basket": kindling_basket, "firewood_stack": firewood_stack, "peg_rail": peg_rail, "sauna_gauges": sauna_gauges, "split_log_bench": split_log_bench, "porch_lantern": porch_lantern, "plank_door": plank_door, "sauna_glass_door": sauna_glass_door, "deck_door": deck_door, "badestamp": badestamp, "stamp_stove": stamp_stove, "stamp_steps": stamp_steps, "tip_bucket": tip_bucket, "slipper_cabinet": slipper_cabinet, "far_uvc": far_uvc, "booking_panel": booking_panel, "robe_wall": robe_wall, "towel_warmer": towel_warmer,
     "plunge": plunge, "sauna_cabin": sauna_cabin, "sauna_heater_el": sauna_heater_el, "steam_room": steam_room, "rinse_shower": rinse_shower,
     "pool_lounger": pool_lounger, "recovery_bay": recovery_bay, "plant_pot": plant_pot, "eclipse_sconce": eclipse_sconce, "towel_bin": towel_bin, "breath_mat": breath_mat,
     "gym_wc": gym_wc, "scene_keypad": scene_keypad, "ceiling_speaker": ceiling_speaker, "posing_wall": posing_wall, "posing_stage": posing_stage,
@@ -6054,7 +6118,7 @@ BUILDERS = {
 PARAMS = {"eclipse_sconce": ("mount",), "gym_wc": ("men", "pool", "hand"), "scene_keypad": ("mount",), "ceiling_speaker": ("z_ceiling",), "posing_wall": ("L", "D", "H"),
           "posing_stage": ("w", "d", "h"), "stage_rig": ("w", "z_ceiling", "hang"), "light_boom": ("H",), "velvet_backdrop": ("L", "H"), "pod_wall": ("L", "D", "H"),
           "platform_inlay": ("s",), "airlock": ("w", "d", "h", "door"), "sky_coffer": ("w", "d", "depth", "z_ceiling"), "altitude_display": ("w", "h", "mount"),
-          "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_spandrel": ("ri", "ro", "rise", "risers", "step_deg", "a0", "head"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
+          "vent_grille": ("w", "h", "z0"), "far_uvc": ("z_ceiling",), "booking_panel": ("room", "state", "mount"), "recovery_bay": ("w", "d", "ceiling", "end"), "plant_pot": ("species", "h", "r"), "plunge": ("w", "d", "depth", "rim", "hot"), "sauna_cabin": ("w", "d", "h", "door"), "steam_room": ("w", "d", "h", "door"), "rinse_shower": ("n", "pitch"), "breath_mat": ("colour",), "river_volume": ("lamps", "lamp_z"), "river_wall_f4": ("y0", "y1", "top", "face", "d", "windows", "pilasters"), "glass_lift": ("shaft", "front", "stops", "pit", "top", "cab", "cw", "name"), "core_door": ("width", "height", "finish", "exit_"), "stair_landing": ("r_in", "r_out", "a_from", "a_to", "h", "t"), "ring_guard": ("r", "gap_a", "gap_b", "h", "band"), "spiral_planter": ("ri", "ro", "rise", "risers", "step_deg", "a0", "head"), "spiral_balustrade": ("ri", "ro", "rise", "risers", "step_deg", "a0", "gaps"),
           "gym_line": ("L", "z_ceiling", "temp"), "wall_washer": ("L", "z_ceiling", "temp"), "duckboard": ("w", "d"), "sauna_tier": ("L", "d", "seat", "back"), "firewood_stack": ("L", "h", "d"), "peg_rail": ("L",), "split_log_bench": ("L",), "plank_door": ("width", "height"), "sauna_glass_door": ("width", "height"), "deck_door": ("width", "height"), "badestamp": ("d", "h"), "stamp_steps": ("w",), "porch_lantern": ("z",),
           "sofa": ("length",), "communal_table": ("length",), "bench": ("length",), "boot_bench": ("length",), "rug": ("size",),
           "reception_desk": ("length",), "cafe_island": ("r_out", "gap_deg"), "ring_pendant": ("r", "hang"), "pendant_opal": ("hang",),

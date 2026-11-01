@@ -109,6 +109,46 @@ def pullup_station(k, W):
         k.cyl("black", (xu + sx * (TB / 2 + 0.008), 0, Z), R + 0.002, 0.008, axis="x", seg=28)              # its end cap
 
 
+# a bar racked on every bench press (Roman 2026-11-01: "none of the benches anywhere have the actual bars on them"): the bar's
+# centre on the model's own axes (x toward the head, under the bar; z), on the hooks the bench is racked on
+BENCH_BAR = {"atlantis-olympic-flat-bench-press-with-pivot-p337": (0.26, 0.918),        # the upper J hook's cradle (0.90)
+             "atlantis-olympic-incline-bench-press-with-pivot-p338": (0.275, 1.208),    # the middle of three (1.19)
+             "atlantis-olympic-flat-decline-bench-press-with-pivot-p339": (0.26, 0.918),
+             "life-fitness-olympic-flat-bench": (0.426, 1.09)}                          # the upper urethane hook (1.08)
+BAR = "hammer-strength-olympic-weightlifting-bars"                                     # the 20 kg power bar, lying on z = 0
+
+
+def hung_kit(k):
+    """What hangs on a belt + band hanger (Roman 2026-11-01: "put some more bands ... a lot of people like to use bands", "put some
+    of those chain belts"): power bands looped over seven prongs, each a flat loop hanging from round the prong, and two dip belts
+    folded over theirs with the chain hanging below, on the hanger's own axes (its wall face y = 0, the prongs toward -y)."""
+    hg, pb, db = _model("rogue-belt-and-band-hanger"), _model("life-fitness-power-bands"), _model("rogue-dip-belt")
+    k.look(**{r: v for r, v in pb.LOOK.items() if r not in k.looks})
+    k.look(**{r: v for r, v in db.LOOK.items() if r not in k.looks})
+    pitch = (hg.L - 1 * hg.IN) / 9
+    yp, zc = -hg.DEPTH * 0.55, hg.Z - 0.0028                 # where a loop hangs along its prong, the prong's centre there
+    wid = dict(pb.SET)
+    def loop(role, x, L, w, t):
+        """A flat loop across the 1 in prong: over its top, a strand down each side of it, round at the bottom."""
+        hw, rc = 0.0127 + t / 2, 0.004
+        top = zc + 0.0015 + t / 2
+        pts = [(x - hw, yp, top - rc - (L - rc) * i / 12) for i in range(13)]
+        pts += [(x + hw * math.cos(math.pi * (1 + i / 8)), yp, top - L + hw * math.sin(math.pi * (1 + i / 8))) for i in range(1, 8)]
+        pts += [(x + hw, yp, top - L + (L - rc) * i / 12) for i in range(13)]
+        pts += [(x + hw - rc * 0.3, yp, top - rc * 0.3), (x + hw - rc, yp, top), (x - hw + rc, yp, top), (x - hw + rc * 0.3, yp, top - rc * 0.3)]
+        pts.append(pts[0])
+        k.sweep(role, pts, k.rect(t, w, t / 3), up=(0, 1, 0), soft=0.0)
+        return top - L - hw
+    for i, role in enumerate(("orange", "red", "blue", "green", "black", "red", "blue")):
+        loop(role, -hg.L / 2 + 0.5 * hg.IN + pitch * i, 0.50 - 0.015 * (i % 3), wid[role], pb.T)
+    light = (1 / 4 * hg.IN / 2, 0.85 * hg.IN, 0.95 * hg.IN)
+    for i in (7, 9):                                        # the dip belts: folded over the prong, the chain from the fold
+        x = -hg.L / 2 + 0.5 * hg.IN + pitch * i
+        z1 = loop("nylon", x, 0.30, db.W, db.T)
+        path = [(x + 0.01 * math.sin(math.pi * j / 10), yp, z1 - 0.56 * j / 10) for j in range(11)]
+        db.CH.chain(k, path, 25, *light)
+
+
 def build_floor(name, z, coll, protos):
     data = json.loads((ROOT / "model" / "layouts" / f"{name}.json").read_text())
     K = data["kinds"]
@@ -140,6 +180,22 @@ def build_floor(name, z, coll, protos):
             a = _turn(K[kd]["face"], it.get("rot", 0))
             M = Matrix.Translation((it["x"], it["y"], z + it.get("lift", 0.0))) @ Matrix.Rotation(a, 4, "Z") @ Matrix.Translation((-cx, -cy, 0))
             _instance(c, coll, M, it["id"]); n += 1   # (lift: a wall piece hung higher than its model's mount, the pegboard)
+            if piece in BENCH_BAR:                    # the bar on its hooks, across the bench (along the model's y)
+                bc_, (bcx, bcy) = _proto(BAR, protos)
+                bx, bz = BENCH_BAR[piece]
+                _instance(bc_, coll, M @ Matrix.Translation((bx, 0, bz - 0.025)) @ Matrix.Rotation(math.pi / 2, 4, "Z") @ Matrix.Translation((-bcx, -bcy, 0)), it["id"] + "-bar")
+            if piece == "rogue-belt-and-band-hanger":  # the bands + dip belts on it
+                hc = bpy.data.collections.get("eq_hung_kit")
+                if hc is None:
+                    hc = bpy.data.collections.new("eq_hung_kit"); protos.children.link(hc)
+                    k = kit.Kit("hung", hc, None); k.check = lambda: None
+                    hung_kit(k)
+                    for o in k.finish():
+                        if o.name not in hc.objects:
+                            for cc in list(o.users_collection):
+                                cc.objects.unlink(o)
+                            hc.objects.link(o)
+                _instance(hc, coll, M, it["id"] + "-kit")
         elif kd == "rig_spur":
             span = it["w"]
             cname = f"eq_mubar3_{span:.2f}"

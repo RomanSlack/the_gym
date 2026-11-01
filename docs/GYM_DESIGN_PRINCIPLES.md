@@ -50,7 +50,7 @@ Check a layout against them with `cd tools && ../terrain/.venv/bin/python gym_au
     back, 1.2 m between bars.
 16. **Headroom 2.1 m or a guard.** Anywhere a stair's underside is under 2.1 m is guarded (the spiral's first turn on F3: a glass
     ring guard); every stair opening has guards (the stair to F4: a spine wall + glass). The sled lane stops short of the spiral.
-17. **Pegboard foot at about 2.0 m**, so you start from a hang with your feet off the mat.
+17. ~~Pegboard foot at about 2.0 m~~: superseded by 27.
 18. **Mirrors where the lifting faces.** Dumbbell racks along a mirror's foot, 0.15 m off it (NSCA 6 in); benches face the mirror;
     the pods' whole wall; both faces of the bench room's wall; behind the F3 rig. Never hung kit on glass.
 19. **Cardio upstairs.** Treadmills, bikes, rowers, ellipticals on F1 (and the altitude room); only stepmills by the F2 legs, for
@@ -58,11 +58,25 @@ Check a layout against them with `cd tools && ../terrain/.venv/bin/python gym_au
 20. **Passing the access check isn't enough: a room has to read as designed.** Rows share a front (or back) line and a centre
     axis, the gaps between pieces are the same (0.9 m, 0.6 m by a tree), and the room's rows face one thing (its mirror). Pieces
     that each pass the sim but sit on their own lines read as "stuff thrown over there" (Roman, F2's leg room, second walk).
-21. **Guards are one line, not two.** Under a stair's low turn the bars come down from the stringers (the balustrade carried on),
-    never a second rail ring beside the stair's own: two rails 8 cm apart at different heights read as clipping. Glass guards stop
-    at the wall's lining and keep wipes and bins off their line.
+21. **Guards are one line, not two, and they're designed.** Under a stair's low turn, never a second rail ring beside the stair's
+    own (two rails 8 cm apart read as clipping), and never a cage of bars ("looks like a jail prison cell"): a planted bed, its
+    oak sides 0.45 m high (a cane finds it: ADA 307.4 wants a barrier's edge at 0.685 m max under 2.03 m headroom), greenery
+    growing up to under the treads. Glass guards stop at the wall's lining and keep wipes and bins off their line.
 22. **Grip bars read at gym scale.** A 1.5 in bar you can see against the glass, not a 1.25 in line ("too thin" meant the grip
     bar). Keep the frame plain: no braces or gussets added for looks ("remove side supports and weird things like those triangles").
+
+## Added 2026-11-01 (third walk)
+
+23. **The lifter faces the mirror, and the mirror is where the rack's front is.** Power racks open toward the mirror, their backs
+    to the walkway; half racks stand with their uprights to the mirror. A blank wall is never in front of a lifter.
+24. **Kit is dressed, not bare.** Every bench press has its bar on the hooks; a band hanger has bands and dip belts on it; a
+    curl bar rack has benches and dumbbells beside it (a zone for what the storage holds).
+25. **Pairs face each other.** Leg presses (and machines people superset) face to face across their loading space; leg
+    extensions sit beside the calf raises people go to next.
+26. **Walls follow the walks.** A partition stops short of a stair by a comfortable walk (1.5 m+); no slot between two
+    partitions narrower than a door (0.64 m read as "a weird hole"); a room has a way in from each neighbour it serves.
+27. **Pegboard foot at about 1.2 m** (no published standard; the low pegs within a standing reach, the top at 3.5 m). This
+    replaces 17's 2.0 m, which Roman found too high.
 
 ## Open
 
