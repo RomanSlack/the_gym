@@ -25094,14 +25094,14 @@
       "id": "gym_line-911",
       "kind": "gym_line",
       "level": "F3",
-      "at": [-10.65, 8.25],
+      "at": [-10.65, 8.85],
       "z": -9.77,
       "rot_deg": 0,
       "zone": "gym-f3",
       "L": 7.3,
       "z_ceiling": 4.475,
       "temp": "2700",
-      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, 8.25, -10.77], "color": [1.0, 0.8, 0.6]},
+      "light": {"type": "AREA", "energy": 219, "size": 7.3, "size_y": 0.14, "offset": [0, 0, 4.415], "aim": [-10.65, 8.85, -10.77], "color": [1.0, 0.8, 0.6]},
       "note": "linear line 2700 K between the beams"
     },
     {
@@ -25458,7 +25458,7 @@
       "step_deg": 15,
       "a0": 292.5,
       "head": 2.1,
-      "note": "under the spiral's low first turn: a raised bed, smoked oak staves 0.45 high, moss, stones, greenery"
+      "note": "under the spiral's low first turn: a raised bed, smoked oak staves 0.45 high, moss, stones, shrubs + grass-like clumps"
     },
     {"id": "glass_fence-939", "kind": "glass_fence", "level": "F3", "at": [-20.025, 8.28], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "length": 2.85, "note": "the stair to F4: glass guard on the opening's edge"},
     {"id": "glass_fence-940", "kind": "glass_fence", "level": "F3", "at": [-21.5, 10.02], "z": -9.77, "rot_deg": 90, "zone": "gym-f3", "length": 3.44, "note": "the stair to F4: glass guard on the opening's edge"},
@@ -25503,8 +25503,8 @@
     {"id": "wipe_station-979", "kind": "wipe_station", "level": "F3", "at": [-20.86, -19.2], "z": -9.77, "rot_deg": 90, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
     {"id": "wipe_station-980", "kind": "wipe_station", "level": "F3", "at": [-22.65, 11.65], "z": -9.77, "rot_deg": -180, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
     {"id": "wipe_station-981", "kind": "wipe_station", "level": "F3", "at": [-12.01, -18.7], "z": -9.77, "rot_deg": 90, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
-    {"id": "wipe_station-982", "kind": "wipe_station", "level": "F3", "at": [-11.65, -33.65], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
-    {"id": "wipe_station-983", "kind": "wipe_station", "level": "F3", "at": [-14.85, 11.65], "z": -9.77, "rot_deg": -180, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
+    {"id": "wipe_station-982", "kind": "wipe_station", "level": "F3", "at": [-14.85, 11.65], "z": -9.77, "rot_deg": -180, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
+    {"id": "wipe_station-983", "kind": "wipe_station", "level": "F3", "at": [-11.65, -33.65], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
     {"id": "wipe_station-984", "kind": "wipe_station", "level": "F3", "at": [-24.05, -33.65], "z": -9.77, "rot_deg": 0, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
     {"id": "wipe_station-985", "kind": "wipe_station", "level": "F3", "at": [-29.0, 7.3], "z": -9.77, "rot_deg": -90, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},
     {"id": "wipe_station-986", "kind": "wipe_station", "level": "F3", "at": [-10.25, 11.65], "z": -9.77, "rot_deg": -180, "zone": "gym-f3", "note": "wipes + spray + bin (from the equipment layout)"},

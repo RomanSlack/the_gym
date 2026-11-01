@@ -8,7 +8,7 @@ Axes: metres, floor z = 0; the seated user sits at +y facing -y, straddling the 
 face; x+ = the user's left. Reading ref_02: the frame is a square of four posts seen corner on (the nearest post is
 the user's front left); the pad's ridge runs across the user (along x), its big 45 deg face sloping down to -y toward
 the camera, its near-vertical face behind it to +y; the saddle seat sits behind the pad (+y) with its nose to the pad;
-the stepped tread plates (the dumbbell support) on the user's right (-x) under the 45 deg face; two horns out of the
+the stepped tread plates (the dumbbell support) across the front under the 45 deg face; two horns out of the
 front posts to -y, one out of the left side to +x (that is why W is 7 cm more than L).
 
 DESIGN SPEC (gate 1)
@@ -17,8 +17,8 @@ DESIGN SPEC (gate 1)
    curl turning about the elbows near the face's lower edge, the weight going down and up in front of the face (-y).
    The other side (-y, facing +y): the chest on the 45 deg face, the arms down the near-vertical face (Poliquin's
    "vertical curling surface"), standing. The elbow is the joint; the pad holds the upper arm so only the elbow turns.
-2. Moving parts. The pad post (inner tube) sliding in its sleeve, a pop pin (red knob, -x face) through both, a star
-   lock knob under it (takes the rattle out), the pin's chrome barrel on the +x face; the seat post sliding in its
+2. Moving parts. The pad post (inner tube) sliding in its sleeve, a pop pin (red knob, front face) through both, a
+   star lock knob under it (takes the rattle out), a chrome barrel on the +x face; the seat post sliding in its
    sleeve, a red pop pin; the seat lifts out of its sleeve. No pivots: the user's elbow is the pivot.
 3. Adjustments. Pad height: 9 holes 50 mm apart, the ridge 0.987 m (lowest, the maker's H) to 1.387 m. Seat height:
    6 holes 40 mm apart, top 0.48 to 0.68 m. Seat out: standing. (The maker gives no ranges: these are ours, sized
@@ -41,8 +41,8 @@ bar lying along x can't roll); 2 x 3 in rails: the two side frames (top and bott
 top and bottom rails between the front posts; the +y side open (the standing user's feet); the spine, top and bottom,
 from the front rails through the pad sleeve to the seat sleeve; the pad: an A core (charcoal ends) with the 45 deg
 cushion, the near-vertical cushion and a cushioned roll on the ridge, on its inner post; the saddle seat on its post;
-the dumbbell support: three tread plates stepping down toward the middle, on stands off the right side frame and a
-short arm from it; three chrome storage horns on bolted plates.
+the dumbbell support: three tread plates across the front stepping down toward the front left post, on stands off the
+front top rail, where the dumbbells come down at the bottom of the curl; three chrome storage horns on bolted plates.
 """
 import math
 
@@ -67,8 +67,8 @@ LOOK = {
 # the reference camera stands off the user's front left (+x, -y), high: azimuth 45
 VIEWS = {"three_quarter": (45, 24, 1.0), "front": (0, 6, 1.0), "side": (90, 4, 1.0), "back_three_quarter": (-140, 18, 1.0)}
 DETAILS = {
-    "detail_post": ((0.55, -0.70, 0.95), (0.0, -0.10, 0.60), 40),        # the pad post: sleeve, pop pin, lock knob
-    "detail_shelf": ((-0.95, -0.95, 0.95), (-0.30, -0.25, 0.38), 40),     # the dumbbell treads, a front horn, a cradle
+    "detail_post": ((-0.40, -0.80, 0.80), (0.0, -0.12, 0.46), 40),       # the pad post: its pop pin and lock knob, the collar
+    "detail_shelf": ((-0.80, -1.15, 1.00), (-0.15, -0.33, 0.40), 40),     # the dumbbell treads, a front horn, a cradle
 }
 FIT_VIEWS = ("side", "three_quarter")
 SETTING_VIEWS = ("side",)
@@ -89,10 +89,11 @@ PAD_TH = 0.07                       # cushion thickness
 PAD_LEN = 0.68                      # along x (ref_02: about 0.85 x the post spacing)
 L45, LV = 0.32, 0.26                # the two cushions' slant lengths below the roll
 A45, AV = math.radians(45), math.radians(80)
+S0 = 0.045                          # the cushions' top ends tuck under the roll
 POST_Y = -0.10                      # the pad post under the A's middle
 SLEEVE = 0.08                       # the pad sleeve (the inner post 0.064)
-SLEEVE_Z = (0.09, 0.64)
-PIN_Z = 0.60                        # the pad's pop pin on the sleeve, 4 cm under its top
+SLEEVE_Z = (0.055, 0.55)              # its top 11 cm under the pad at the lowest hole (ref_02: the knobs show)
+PIN_Z = 0.51                        # the pad's pop pin on the sleeve, 4 cm under its top
 # ---- the seat
 SEAT_Y = 0.25                       # the seat sleeve: the hips 22 cm behind the shoulders (trunk 23-30 deg)
 SEAT0, SEAT_STEP, SEAT_N = 0.48, 0.04, 6
@@ -100,10 +101,11 @@ SEAT_SLEEVE = 0.07
 SEAT_SLEEVE_Z = (0.05, 0.35)
 SEAT_PIN_Z = 0.31
 SEAT_TH = 0.075
-# ---- the dumbbell support: three treads stepping down toward the middle (ref_02), clear of the right shin (x -0.165)
-TREADS = [(-0.44, -0.32, 0.50), (-0.37, -0.25, 0.45), (-0.30, -0.18, 0.40)]   # x0, x1, tread top
-TREAD_Y = (-0.33, -0.13)
-SHELF_ARM_Y = -0.23
+# ---- the dumbbell support: three treads across the front, stepping down toward the front left post (ref_02); their
+# back edge at y -0.28, 1 cm in front of the tall seated user's shins, 5 cm under his knees (the photo's reach further
+# back, over where the seated user's shins go: ours stop short of them)
+TREADS = [(-0.356, -0.20, 0.50), (-0.27, -0.07, 0.45), (-0.12, 0.08, 0.40)]    # x0, x1, tread top
+TREAD_Y = (-0.43, -0.28)
 
 # the setting: pad hole, seat hole (None = the seat lifted out), the user fitted (None = the photo's state, no user)
 SET = dict(pad=0, seat=0, user=None)
@@ -185,12 +187,12 @@ def cradle(k, x, y, holes=False):
             k.cyl("hole", (x, y + s * 0.03, z0 + 0.0396), 0.013, 0.0008, seg=20, soft=0.0)
 
 
-def collar(k, y, z, w):
-    """The black plastic bushing on a sleeve's top: a square ring the inner post slides through."""
-    t = 0.008
+def collar(k, y, z, w, wi):
+    """The black plastic bushing on a sleeve's top (outer w): a square ring the inner post (wi) slides through."""
+    a, b = wi / 2 + 0.0005, w / 2 + 0.004       # the ring's inner and outer half widths
     for s in (1, -1):
-        k.box("plastic", (s * (w / 2 - t / 2 + 0.004), y, z + 0.006), (t, w + 0.008, 0.012), soft=0.002)
-        k.box("plastic", (0, y + s * (w / 2 - t / 2 + 0.004), z + 0.006), (w - 2 * t + 0.008, t, 0.012), soft=0.002)
+        k.box("plastic", (s * (a + b) / 2, y, z + 0.006), (b - a, 2 * b, 0.012), soft=0.002)
+        k.box("plastic", (0, y + s * (a + b) / 2, z + 0.006), (2 * a, b - a, 0.012), soft=0.002)
 
 
 def horn(k, at, d, z, mount):
@@ -231,43 +233,48 @@ def build(k):
     sy0, sy1 = SLEEVE_Z
     k.bar("frame", (0, POST_Y, sy0), (0, POST_Y, sy1), SLEEVE, SLEEVE, r=0.006)
     k.box("plastic", (0, POST_Y, sy0 - 0.004), (SLEEVE - 0.004, SLEEVE - 0.004, 0.008), soft=0.002)            # its end cap
-    collar(k, POST_Y, sy1, SLEEVE)
+    collar(k, POST_Y, sy1, SLEEVE, 0.064)
     q0, q1 = SEAT_SLEEVE_Z
     k.bar("frame", (0, SEAT_Y, q0), (0, SEAT_Y, q1), SEAT_SLEEVE, SEAT_SLEEVE, r=0.006)
     k.box("plastic", (0, SEAT_Y, q0 - 0.004), (SEAT_SLEEVE - 0.004, SEAT_SLEEVE - 0.004, 0.008), soft=0.002)
-    collar(k, SEAT_Y, q1, SEAT_SLEEVE)
+    collar(k, SEAT_Y, q1, SEAT_SLEEVE, 0.058)
     for z in (ZL, ZU):
         ya, yb = -PY + RW / 2, POST_Y - SLEEVE / 2
         k.bar("frame", (0, ya, z), (0, yb, z), RW, RH, r=0.004, cut0=((0, ya, 0), Y), cut1=((0, yb, 0), Y), weld=True)
         ya, yb = POST_Y + SLEEVE / 2, SEAT_Y - SEAT_SLEEVE / 2
         k.bar("frame", (0, ya, z), (0, yb, z), RW, RH, r=0.004, cut0=((0, ya, 0), Y), cut1=((0, yb, 0), Y), weld=True)
-    # the pad's pop pin (the user's right, -x, red knob), the star lock knob under it, the pin's barrel on +x
+    # the pad's pop pin on the sleeve's front (-y) face, the star lock knob under it (both as in ref_02, between the seated
+    # user's knees); the pin's short chrome barrel on the +x face (2.5 cm proud: clear of the left thigh)
+    ys = POST_Y - SLEEVE / 2
+    k.tube("steel", (0, POST_Y - 0.031, PIN_Z), (0, ys - 0.03, PIN_Z), 0.008, seg=16)                    # the pin
+    k.cyl("steel", (0, ys - 0.015, PIN_Z), 0.012, 0.03, axis="y", seg=20, soft=0.001)
+    k.cyl("redplastic", (0, ys - 0.04, PIN_Z), 0.019, 0.022, axis="y", seg=28, soft=0.005)
+    k.cyl("steel", (0, ys - 0.01, PIN_Z - 0.045), 0.008, 0.02, axis="y", seg=16, soft=0.001)
+    k.cyl("plastic", (0, ys - 0.032, PIN_Z - 0.045), 0.026, 0.024, axis="y", seg=10, soft=0.004)        # star knob
     xs = SLEEVE / 2
-    k.cyl("steel", (-xs - 0.015, POST_Y, PIN_Z), 0.012, 0.03, axis="x", seg=20, soft=0.001)
-    k.cyl("redplastic", (-xs - 0.04, POST_Y, PIN_Z), 0.019, 0.022, axis="x", seg=28, soft=0.005)
-    k.cyl("steel", (-xs - 0.01, POST_Y, PIN_Z - 0.045), 0.008, 0.02, axis="x", seg=16, soft=0.001)
-    k.cyl("plastic", (-xs - 0.032, POST_Y, PIN_Z - 0.045), 0.026, 0.024, axis="x", seg=10, soft=0.004)      # star knob
-    k.cyl("chrome", (xs + 0.02, POST_Y, PIN_Z), 0.012, 0.04, axis="x", seg=24, soft=0.002)
-    k.cyl("chrome", (xs + 0.045, POST_Y, PIN_Z), 0.015, 0.012, axis="x", seg=24, soft=0.003)
+    k.cyl("chrome", (xs + 0.009, 0 + POST_Y, PIN_Z), 0.012, 0.018, axis="x", seg=24, soft=0.002)
+    k.cyl("chrome", (xs + 0.021, POST_Y, PIN_Z), 0.014, 0.008, axis="x", seg=24, soft=0.003)
     # ---- the pad on its inner post, at its hole
     j = SET["pad"]
     R = ridge(j)
     C, outline, zb = core(R)
     k.slab("frame", outline, -PAD_LEN / 2 + 0.01, PAD_LEN / 2 - 0.01, 0.004, seg=3)
     ip = 0.064
-    k.bar("steel", (0, POST_Y, zb - 0.52), (0, POST_Y, zb), ip, ip, r=0.004, cut1=((0, 0, zb), Z), weld=True)
+    k.bar("steel", (0, POST_Y, zb - 0.60), (0, POST_Y, zb), ip, ip, r=0.004, cut1=((0, 0, zb), Z), weld=True)
     for i in range(PAD_N):                          # its holes: hole i at the pin when the post is at hole i
         zh = PIN_Z - PAD_STEP * i + PAD_STEP * j
         if zh > sy1 + 0.02 and zh < zb - 0.02:
             for s in (1, -1):
-                k.cyl("hole", (s * (ip / 2 + 0.0003), POST_Y, zh), 0.006, 0.0008, axis="x", seg=14, soft=0.0)
+                k.cyl("hole", (0, POST_Y + s * (ip / 2 + 0.0003), zh), 0.006, 0.0008, axis="y", seg=14, soft=0.0)
     a, t = n45(), t45()
-    c45 = (0.0, C[0] + (ROLL - PAD_TH / 2) * a[0] + L45 / 2 * t[0], C[1] + (ROLL - PAD_TH / 2) * a[1] + L45 / 2 * t[1])
-    k.shaped_pad("pad", [(-PAD_LEN / 2, -L45 / 2), (PAD_LEN / 2, -L45 / 2), (PAD_LEN / 2, L45 / 2), (-PAD_LEN / 2, L45 / 2)],
+    l45 = L45 - S0                                  # each cushion starts S0 down from the roll's line, under the roll
+    c45 = (0.0, C[0] + (ROLL - PAD_TH / 2) * a[0] + (S0 + l45 / 2) * t[0], C[1] + (ROLL - PAD_TH / 2) * a[1] + (S0 + l45 / 2) * t[1])
+    k.shaped_pad("pad", [(-PAD_LEN / 2, -l45 / 2), (PAD_LEN / 2, -l45 / 2), (PAD_LEN / 2, l45 / 2), (-PAD_LEN / 2, l45 / 2)],
                  c45, (0, a[0], a[1]), (1, 0, 0), PAD_TH, r=0.03, cushion=0.025)
     b, u = nv(), tv()
-    cv = (0.0, C[0] + (ROLL - PAD_TH / 2) * b[0] + LV / 2 * u[0], C[1] + (ROLL - PAD_TH / 2) * b[1] + LV / 2 * u[1])
-    k.shaped_pad("pad", [(-PAD_LEN / 2, -LV / 2), (PAD_LEN / 2, -LV / 2), (PAD_LEN / 2, LV / 2), (-PAD_LEN / 2, LV / 2)],
+    lv = LV - S0
+    cv = (0.0, C[0] + (ROLL - PAD_TH / 2) * b[0] + (S0 + lv / 2) * u[0], C[1] + (ROLL - PAD_TH / 2) * b[1] + (S0 + lv / 2) * u[1])
+    k.shaped_pad("pad", [(-PAD_LEN / 2, -lv / 2), (PAD_LEN / 2, -lv / 2), (PAD_LEN / 2, lv / 2), (-PAD_LEN / 2, lv / 2)],
                  cv, (0, b[0], b[1]), (1, 0, 0), PAD_TH, r=0.03, cushion=0.025)
     k.tube("pad", (-PAD_LEN / 2 + 0.012, C[0], C[1]), (PAD_LEN / 2 - 0.012, C[0], C[1]), ROLL, seg=40, soft=0.004)   # the roll
     for s in (1, -1):
@@ -284,32 +291,32 @@ def build(k):
         for i in range(SEAT_N):
             zh = SEAT_PIN_Z - SEAT_STEP * i + SEAT_STEP * SET["seat"]
             if zh > q1 + 0.02 and zh < zp - 0.05:
-                k.cyl("hole", (-(sp / 2 + 0.0003), SEAT_Y, zh), 0.005, 0.0008, axis="x", seg=14, soft=0.0)
+                k.cyl("hole", (0, SEAT_Y + (sp / 2 + 0.0003), zh), 0.005, 0.0008, axis="y", seg=14, soft=0.0)
         # the saddle: wide at the back (+y), narrowing to its nose at the pad (ref_02)
         sad = [(-0.17, 0.12), (0.17, 0.12), (0.16, 0.04), (0.06, -0.06), (0.045, -0.13), (-0.045, -0.13), (-0.06, -0.06), (-0.16, 0.04)]
         k.shaped_pad("pad", sad, (0, SEAT_Y, st - SEAT_TH / 2), (0, 0, 1), (1, 0, 0), SEAT_TH,
                      r=0.04, cushion=0.02)
     else:
         k.box("plastic", (0, SEAT_Y, q1 + 0.0135), (SEAT_SLEEVE - 0.01, SEAT_SLEEVE - 0.01, 0.003), soft=0.001)   # empty
-    k.cyl("steel", (-SEAT_SLEEVE / 2 - 0.012, SEAT_Y, SEAT_PIN_Z), 0.01, 0.024, axis="x", seg=18, soft=0.001)
-    k.cyl("redplastic", (-SEAT_SLEEVE / 2 - 0.034, SEAT_Y, SEAT_PIN_Z), 0.017, 0.02, axis="x", seg=28, soft=0.005)
-    # ---- the dumbbell support: an arm off the right side frame's top rail, a stand up to each tread's rib
-    xa0, xa1 = -PX + RW / 2, TREADS[-1][0] + 0.10        # its end 3.5 cm off the seated user's right shin
-    k.bar("frame", (xa0, SHELF_ARM_Y, ZU), (xa1, SHELF_ARM_Y, ZU), 0.05, 0.05, r=0.004, cut0=((xa0, 0, 0), X), weld=True)
-    k.box("plastic", (xa1 + 0.003, SHELF_ARM_Y, ZU), (0.006, 0.052, 0.052), soft=0.002)
+    yq = SEAT_Y + SEAT_SLEEVE / 2                   # the seat's pop pin on the sleeve's back face (the spine meets its front)
+    if SET["seat"] is not None:
+        k.tube("steel", (0, SEAT_Y + 0.028, SEAT_PIN_Z), (0, yq + 0.02, SEAT_PIN_Z), 0.007, seg=16)
+    k.cyl("steel", (0, yq + 0.012, SEAT_PIN_Z), 0.01, 0.024, axis="y", seg=18, soft=0.001)
+    k.cyl("redplastic", (0, yq + 0.034, SEAT_PIN_Z), 0.017, 0.02, axis="y", seg=28, soft=0.005)
+    # ---- the dumbbell support: a stand off the front top rail up to each tread's rib, the tray and its rubber tread
+    yc, dy = sum(TREAD_Y) / 2, TREAD_Y[1] - TREAD_Y[0]
     for i, (x0, x1, top) in enumerate(TREADS):
-        xs_ = -PX if i == 0 else x0 + 0.025
-        zb_ = ZU + RH / 2 if i == 0 else ZU + 0.025
+        xs_ = (-0.33, -0.17, -0.02)[i]                 # each stand clear of the tread above and of P1
+        zb_ = ZU + RH / 2 - 0.004
         zt = top - 0.008 - 0.006 - 0.03                # under the rib
-        k.bar("frame", (xs_, SHELF_ARM_Y, zb_), (xs_, SHELF_ARM_Y, zt), 0.04, 0.04, r=0.003, cut0=((0, 0, zb_), Z), weld=True)
-        k.box("frame", (xs_, sum(TREAD_Y) / 2, zt + 0.015), (0.008, TREAD_Y[1] - TREAD_Y[0] - 0.02, 0.03), soft=0.001)   # rib
+        k.bar("frame", (xs_, -PY, zb_), (xs_, -PY, zt), 0.04, 0.04, r=0.003, cut0=((0, 0, zb_), Z), weld=True)
+        k.box("frame", (xs_, yc, zt + 0.015), (0.008, dy - 0.01, 0.03), soft=0.001)                  # the rib
         xm = (x0 + x1) / 2
-        k.box("frame", (xm, sum(TREAD_Y) / 2, top - 0.011), (x1 - x0, TREAD_Y[1] - TREAD_Y[0], 0.006), soft=0.002)     # tray
-        k.box("tread", (xm, sum(TREAD_Y) / 2, top - 0.004), (x1 - x0 - 0.006, TREAD_Y[1] - TREAD_Y[0] - 0.006, 0.008), soft=0.003)
-        for r_ in (0, 1, 3, 4):                     # the tread's blocks, the name moulded between them
-            yy = TREAD_Y[0] + 0.03 + r_ * (TREAD_Y[1] - TREAD_Y[0] - 0.06) / 4
-            k.box("rubber", (xm, yy, top + 0.0005), (x1 - x0 - 0.03, 0.012, 0.002), soft=0.0)
-        k.text("rubber", "ATLANTIS", (xm, sum(TREAD_Y) / 2 + 0.005, top + 0.001), 0.022, rx=0.0, rz=math.pi / 2, depth=0.0015)
+        k.box("frame", (xm, yc, top - 0.011), (x1 - x0, dy, 0.006), soft=0.002)                          # the tray
+        k.box("tread", (xm, yc, top - 0.004), (x1 - x0 - 0.006, dy - 0.006, 0.008), soft=0.003)
+        for r_ in (-1, 1):                          # the tread's blocks, the name moulded between them
+            k.box("rubber", (xm, yc + r_ * (dy / 2 - 0.025), top + 0.0005), (x1 - x0 - 0.03, 0.014, 0.002), soft=0.0)
+        k.text("rubber", "ATLANTIS", (xm, yc, top + 0.001), 0.026, rx=0.0, depth=0.0015)
     # ---- the storage horns: one out of each front post to -y, one out of the left side frame to +x
     for x in (-PX, PX):
         horn(k, (x, -PY - h), (0, -1), 0.20, (0.20, 0.17, (0.135, 0.265)))
