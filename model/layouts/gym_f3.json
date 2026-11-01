@@ -1550,11 +1550,11 @@
    "pts": [
     [
      -14.3,
-     -0.2
+     0.15
     ],
     [
      -7.0,
-     -0.2
+     0.15
     ]
    ],
    "cls": "light",
@@ -2200,6 +2200,21 @@
    "face": "-y",
    "piece": "hammer-strength-select-pectoral-fly-rear-deltoid"
   },
+  "hammer-strength-stability-ball": {
+   "label": "Hammer Strength Stability Ball",
+   "d": 0.752,
+   "h": 0.721,
+   "mat": "storage",
+   "tag": "stability balls",
+   "use": [
+    0.6,
+    0.0,
+    0.1,
+    0.1
+   ],
+   "face": "-y",
+   "piece": "hammer-strength-stability-ball"
+  },
   "hammer-strength-three-tier-dumbbell-rack": {
    "label": "Hammer Strength Three Tier Dumbbell Rack",
    "d": 0.915,
@@ -2675,7 +2690,8 @@
   "hammer-strength-select-biceps-curl": 1,
   "hammer-strength-select-chest-press": 3,
   "hammer-strength-select-pectoral-fly-rear-deltoid": 3,
-  "hammer-strength-three-tier-dumbbell-rack": 7,
+  "hammer-strength-stability-ball": 1,
+  "hammer-strength-three-tier-dumbbell-rack": 8,
   "life-fitness-3-tier-accessory-rack": 2,
   "life-fitness-acft-sled-with-strap": 2,
   "life-fitness-barbell-rack": 2,
@@ -2688,13 +2704,13 @@
   "life-fitness-vertical-medicine-ball-storage": 1,
   "metolius-wood-grips-campus-rungs": 1,
   "rogue-10-bar-holder": 2,
-  "rogue-adjustable-bench-3-0": 6,
+  "rogue-adjustable-bench-3-0": 8,
   "rogue-belt-and-band-hanger": 1,
   "rogue-echo-gym-timer-2-0": 1,
   "rogue-farmers-walk-handles": 1,
-  "rogue-flat-utility-bench-2-0": 2,
+  "rogue-flat-utility-bench-2-0": 1,
   "rogue-freestanding-chalk-stand": 3,
-  "rogue-manta-ray-adjustable-bench": 3,
+  "rogue-manta-ray-adjustable-bench": 4,
   "rogue-monster-mass-storage": 2,
   "rogue-monster-rig-2-0": 1,
   "rogue-pine-maple-peg-board": 1,
@@ -5157,30 +5173,82 @@
    "note": "Rogue rubber hex 2.5-25 kg: curls, with the bars beside"
   },
   {
+   "id": "hammer-strength-three-tier-dumbbell-rack-8",
+   "room": "arms corner",
+   "kind": "hammer-strength-three-tier-dumbbell-rack",
+   "label": "Hammer Strength Three Tier Dumbbell Rack",
+   "x": -8.807,
+   "y": 3.325,
+   "w": 2.064,
+   "d": 0.915,
+   "rot": 90,
+   "h": 0.987,
+   "note": "Rogue rubber hex 27.5-50 kg: curls, with the bars beside"
+  },
+  {
    "id": "rogue-flat-utility-bench-2-0-1",
    "room": "arms corner",
    "kind": "rogue-flat-utility-bench-2-0",
    "label": "Rogue Flat Utility Bench 2.0",
    "x": -10.95,
-   "y": 0.511,
+   "y": 0.829,
    "w": 0.356,
    "d": 1.198,
    "rot": -90,
    "h": 0.458,
-   "note": "seated curls, facing the dumbbells"
+   "note": "seated + incline curls, facing the dumbbells"
   },
   {
-   "id": "rogue-flat-utility-bench-2-0-2",
+   "id": "rogue-adjustable-bench-3-0-7",
    "room": "arms corner",
-   "kind": "rogue-flat-utility-bench-2-0",
-   "label": "Rogue Flat Utility Bench 2.0",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
    "x": -10.95,
-   "y": 1.811,
-   "w": 0.356,
-   "d": 1.198,
+   "y": 2.229,
+   "w": 0.629,
+   "d": 1.492,
    "rot": -90,
-   "h": 0.458,
-   "note": "seated curls, facing the dumbbells"
+   "h": 1.017,
+   "note": "seated + incline curls, facing the dumbbells"
+  },
+  {
+   "id": "rogue-adjustable-bench-3-0-8",
+   "room": "arms corner",
+   "kind": "rogue-adjustable-bench-3-0",
+   "label": "Rogue Adjustable Bench 3.0",
+   "x": -10.95,
+   "y": 3.629,
+   "w": 0.629,
+   "d": 1.492,
+   "rot": -90,
+   "h": 1.017,
+   "note": "seated + incline curls, facing the dumbbells"
+  },
+  {
+   "id": "hammer-strength-stability-ball-1",
+   "room": "arms corner",
+   "kind": "hammer-strength-stability-ball",
+   "label": "Hammer Strength Stability Ball",
+   "x": -8.726,
+   "y": 5.457,
+   "w": 2.192,
+   "d": 0.752,
+   "rot": 90,
+   "h": 0.721,
+   "note": "stability balls, AbMats beside"
+  },
+  {
+   "id": "rogue-manta-ray-adjustable-bench-4",
+   "room": "arms corner",
+   "kind": "rogue-manta-ray-adjustable-bench",
+   "label": "Rogue Manta Ray Adjustable Bench",
+   "x": -10.95,
+   "y": 4.757,
+   "w": 0.63,
+   "d": 1.776,
+   "rot": -90,
+   "h": 0.488,
+   "note": "decline sit-ups, the core work after arms"
   },
   {
    "id": "life-fitness-push-pull-weight-sled-1",
@@ -5460,27 +5528,27 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--15.8--3.1",
+   "id": "wipes-F3--10.2-11.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -15.81,
-   "y": -3.11,
+   "x": -10.25,
+   "y": 11.65,
    "w": 0.36,
    "d": 0.36,
    "rot": -180,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--22.0-4.1",
+   "id": "wipes-F3--15.4--0.9",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -22.01,
-   "y": 4.09,
+   "x": -15.41,
+   "y": -0.91,
    "w": 0.36,
    "d": 0.36,
-   "rot": 90,
+   "rot": 0,
    "note": "wipes + spray + bin"
   },
   {
@@ -5508,27 +5576,27 @@
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--29.0--0.7",
+   "id": "wipes-F3--29.0-0.5",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
    "x": -29.0,
-   "y": -0.7,
+   "y": 0.5,
    "w": 0.36,
    "d": 0.36,
    "rot": -90,
    "note": "wipes + spray + bin"
   },
   {
-   "id": "wipes-F3--29.0-10.9",
+   "id": "wipes-F3--26.6-11.7",
    "room": "",
    "kind": "wipe_station",
    "label": "Wipes + bin, brushed stainless (built as placeholders: repositioned with the equipment)",
-   "x": -29.0,
-   "y": 10.9,
+   "x": -26.65,
+   "y": 11.65,
    "w": 0.36,
    "d": 0.36,
-   "rot": -90,
+   "rot": -180,
    "note": "wipes + spray + bin"
   },
   {

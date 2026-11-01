@@ -4324,8 +4324,8 @@ def spiral_planter(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=9
     a glass ring round it read as clipping, then bars down from the stringers "like a jail prison cell ... think of a much
     better solution"): a raised bed under the stair wherever its underside is under `head` (TEK17 2.1 m), its sides smoked oak
     staves (the den's partitions) 0.45 high (ADA 307.4: a barrier's leading edge 0.685 m max where the headroom is under
-    2.03 m, so a cane finds it), a blackened-steel cap, moss with a few river stones, upright greenery growing to under
-    the treads. Nothing stands outside the stair's own footprint. Origin = the stair's centre at its foot."""
+    2.03 m, so a cane finds it), a blackened-steel cap, moss with a few river stones, low shrubs and grass-like clumps growing
+    to under the treads (placeholders for the planting pass). Nothing stands outside the stair's own footprint. Origin = the stair's centre at its foot."""
     st, oak = M["steel"], M.setdefault("smoked_oak", bc.pbr_material("oak_slat_smoked", "oak_veneer_01", 1.83, box=True, tint=(0.55, 0.42, 0.32),
                                                                        sat=0.7, val=0.45, piece_var=0.08, rough_add=0.1))
     soil = M.setdefault("planter_soil", bc.material("planter_soil", (0.05, 0.035, 0.025), 0.95))
@@ -4371,17 +4371,25 @@ def spiral_planter(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=9
         s_ = rng.uniform(0.12, 0.26)
         x, y, _ = pt(r, th)
         _rough_block(P, stone, (x, y, h - 0.04 + s_ * 0.22), (s_, s_ * 0.8, s_ * 0.5), amp=0.02, seed=q * 1.7, cuts=3, rz=rng.uniform(0, 3.1))
-    for q in range(60):                                       # upright greenery (sansevieria-like blades) where it has room
-        th = rng.uniform(tha + 25, th1 - 5); r = rng.uniform(r0 + 0.2, r1 - 0.2); h = hw(th)
-        room = zb(th) - h - 0.18
-        if room < 0.25:
+    for q in range(70):                                       # low mounded shrubs on the moss, where the stair is low
+        th = rng.uniform(tha + 15, th1 - 4); r = rng.uniform(r0 + 0.25, r1 - 0.25); h = hw(th)
+        room = zb(th) - h - 0.08
+        if room < 0.12:
+            continue
+        x, y, _ = pt(r, th); rad = rng.uniform(0.12, 0.28)
+        P.blob(lf, (x, y, h - 0.04), (rad, rad * rng.uniform(0.7, 1.0), min(room, rad * 0.8)), seg=12, z_cut=h - 0.04)
+    for q in range(90):                                       # grass-like clumps (tapered blades, arching out) where it has room
+        th = rng.uniform(tha + 25, th1 - 4); r = rng.uniform(r0 + 0.2, r1 - 0.2); h = hw(th)
+        room = zb(th) - h - 0.15
+        if room < 0.3:
             continue
         x, y, _ = pt(r, th)
-        for b_ in range(int(rng.integers(5, 10))):
-            a = rng.uniform(0, 2 * math.pi); d_ = rng.uniform(0, 0.07); L = rng.uniform(0.45, 1.0) * min(room, 1.3); tilt = rng.uniform(0.02, 0.2)
-            cx, cy = x + d_ * math.cos(a), y + d_ * math.sin(a)
-            P.box(lf, (cx + math.cos(a) * tilt * L / 2, cy + math.sin(a) * tilt * L / 2, h - 0.04 + L / 2), (0.05, 0.008, L),
-                  rz=rng.uniform(0, math.pi), rx=-math.sin(a) * tilt, ry=math.cos(a) * tilt)
+        for b_ in range(int(rng.integers(9, 16))):
+            a = rng.uniform(0, 2 * math.pi); L = rng.uniform(0.4, 1.0) * min(room, 1.4); lean = rng.uniform(0.1, 0.45)
+            mid = (x + math.cos(a) * lean * L * 0.35, y + math.sin(a) * lean * L * 0.35, h - 0.04 + L * 0.55)
+            tip = (x + math.cos(a) * lean * L, y + math.sin(a) * lean * L, h - 0.04 + L * 0.95)
+            P.rod(lf, (x, y, h - 0.05), mid, 0.006, 0.004, seg=5)
+            P.rod(lf, mid, tip, 0.004, 0.0008, seg=5)
 
 
 def spiral_balustrade(P, ri=1.26, ro=3.4, rise=9.77, risers=56, step_deg=15.0, a0=90.0, gaps=((26.33, 28.67),)):

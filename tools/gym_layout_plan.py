@@ -15,6 +15,7 @@ moved down to the den (F3): with everything on F2 the floor came out ~100 % full
 """
 
 XW, XE, YS, YN = -29.2, -6.65, -33.85, 11.85      # the gym floors' wall faces (F2 / F3: wall A, the river wall, S, N)
+PREACHER = None                                  # the preacher curl bench, once modelled (third walk)
 
 
 def plan_f2(G):
@@ -538,14 +539,27 @@ def plan_f3(G):
     for yb_, note in ((y + 0.2, "the Hammer Strength fixed straight barbells"), (y + 1.6, "the Life Fitness 12-sided fixed EZ bars")):
         F.put("life-fitness-barbell-rack", -8.25 - 0.1 - 0.54, yb_, 90, "upper by the river", note + "; its back to the river")
     # (third walk: "you have the racks for those bars you can do curls with ... but there's nowhere to use them ... add like some
-    # benches over there ... and another dumbbell rack"): an arms corner past the curl bars, the dumbbells with their backs to the
-    # river, two flat benches facing them, the preacher curls beyond
+    # benches over there ... and another dumbbell rack"; then on the render: "still feels way too empty, so much unused room"): an
+    # arms corner the length of the strip past the curl bars. Along the river (backs to it, facing in): two dumbbell racks, the
+    # preacher curls, the stability balls; facing them across 1.3 m: three benches in front of the dumbbells (one flat, two
+    # adjustable for incline curls), a Manta Ray at the north end for decline sit-ups
     w, d = G.footprint("hammer-strength-three-tier-dumbbell-rack")
-    y_db = y + 2.8 + 0.4 + w / 2
-    F.put("hammer-strength-three-tier-dumbbell-rack", -8.25 - 0.1 - d / 2, y_db, 90, "arms corner", "Rogue rubber hex 2.5-25 kg: curls, with the bars beside")
-    for y_ in (y_db - 0.65, y_db + 0.65):
-        F.put("rogue-flat-utility-bench-2-0", -10.95, y_, -90, "arms corner", "seated curls, facing the dumbbells")
-    F.notes.append(f"arms corner: dumbbells at y {y_db:.2f}")
+    xr = lambda d_: -8.25 - 0.1 - d_ / 2
+    y_db = y + 3.2 + w / 2
+    for k_, note in enumerate(("Rogue rubber hex 2.5-25 kg", "Rogue rubber hex 27.5-50 kg")):
+        F.put("hammer-strength-three-tier-dumbbell-rack", xr(d), y_db + k_ * (w + 0.1), 90, "arms corner", note + ": curls, with the bars beside")
+    yb0 = y_db - w / 2
+    for k_, p_ in enumerate(("rogue-flat-utility-bench-2-0", "rogue-adjustable-bench-3-0", "rogue-adjustable-bench-3-0")):
+        F.put(p_, -10.95, yb0 + 0.7 + k_ * 1.4, -90, "arms corner", "seated + incline curls, facing the dumbbells")
+    yn = y_db + w * 1.5 + 0.1 + 0.6                           # past the dumbbells
+    for p_ in ([PREACHER] * 2 if PREACHER else []):
+        pw, pd = G.footprint(p_)
+        F.put(p_, xr(pd), yn + pw / 2, 90, "arms corner", "preacher curls: dumbbells or the EZ bars, seated or standing")
+        yn += pw + 0.9
+    F.put("hammer-strength-stability-ball", xr(G.footprint("hammer-strength-stability-ball")[1]), yn + 0.5, 90, "arms corner", "stability balls, AbMats beside")
+    F.put("rogue-manta-ray-adjustable-bench", -10.95, yn - 0.2, -90, "arms corner", "decline sit-ups, the core work after arms")
+    y_db_ = y_db
+    F.notes.append(f"arms corner: dumbbells at y {y_db_:.2f}, ends {yn:.2f}")
 
     # --- the sled lane: the sleds parked at its ends, the harnesses on mass storage by its south end
     for y in (-33.1, -32.0):
