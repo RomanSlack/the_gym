@@ -927,7 +927,7 @@ for lvl, k in (("F2", _kF2), ("F1", _srs - 1)):
 # turn is under 2.1 m, so the space under it is a planted bed (a glass ring round it first: "the railing is clipping"; then bars
 # down from the stringers: "looks like a jail prison cell ... think of a much better solution")
 put("spiral_planter", *_spe["center"], zone="gym-stair", level="F3", z=_sz0, ri=_sri, ro=_sro, rise=round(_sz1 - _sz0, 3), risers=_srs,
-    step_deg=_sst, a0=_sa0, head=2.1, note="under the spiral's low first turn: a raised bed, smoked oak staves 0.45 high, moss, stones, greenery")
+    step_deg=_sst, a0=_sa0, head=2.1, note="under the spiral's low first turn: a raised bed, smoked oak staves 0.45 high, moss, stones, shrubs + grass-like clumps")
 # the stair F3 -> F4's open edges on F3 (the spine wall between its flights: tools/interior.py)
 for x, y, rot, L in ((-20.025, 8.28, 0, 2.85), (-21.5, 10.02, 90, 3.44), (-15.4, 10.02, 90, 3.44)):   # (to the north wall's slats, not into them)
     put("glass_fence", x, y, rot=rot, zone="gym-f3", level="F3", z=lv["F3"], length=L, note="the stair to F4: glass guard on the opening's edge")

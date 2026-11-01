@@ -150,6 +150,7 @@ kind("decline bench press", "bench", C_BST, "atlantis-olympic-flat-decline-bench
 C_BN = (0.5, 0.5, 0.8, 0.8)                                       # a free bench: the dumbbells swing out at its sides
 kind("adj bench", "bench", C_BN, "rogue-adjustable-bench-3-0"); kind("Manta Ray", "bench", C_BN, "rogue-manta-ray-adjustable-bench")
 kind("flat bench", "bench", (0.4, 0.4, 0.7, 0.7), "rogue-flat-utility-bench-2-0")
+kind("preacher bench", "bench", (0.6, 0.5, 0.4, 0.4), "atlantis-poliquin-seated-preacher-curl-b856")
 kind("seal row", "bench", (0.5, 0.5, 0.7, 0.7), "gmwd-multi-functional-seal-row-bench-sr05")
 kind("GHD", "machine", (0.6, 0.6, 0.4, 0.4), "hammer-strength-fixed-pad-glute-ham")
 kind("back ext", "machine", (0.6, 0.6, 0.4, 0.4), "hammer-strength-back-extension")

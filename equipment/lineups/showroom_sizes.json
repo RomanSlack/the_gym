@@ -1414,5 +1414,13 @@
   "h": 1.809,
   "z0": -0.009,
   "polys": 7842
+ },
+ "atlantis-poliquin-seated-preacher-curl-b856": {
+  "cat": "Benches",
+  "w": 1.17,
+  "d": 1.15,
+  "h": 0.99,
+  "z0": 0.0,
+  "polys": 0
  }
 }

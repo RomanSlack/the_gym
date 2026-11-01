@@ -139,6 +139,8 @@ CAMS = {
     "eq3_z_func2": ((-25.0, -5.2, -8.17), (-29.2, -7.0, -8.5), 20),        # the functional room's west wall: mirror + dumbbells, pegboard, belts
     "eq3_z_post2": ((-16.0, -18.2, -8.17), (-19.6, -23.8, -8.9), 20),      # the posterior chain room: the dumbbells on the den wall's back
     "eq1_z_bands": ((-25.2, -28.6, 1.55), (-28.7, -31.2, 1.3), 22),       # the bands + dip belts by the rig
+    "eq2_z_pulltop": ((-25.83, -6.2, -1.3), (-25.83, -6.19, -4.91), ("ORTHO", 8.5)),     # the pulling corner from above (symmetry check)
+    "eq3_z_arms2": ((-14.6, 0.0, -8.17), (-9.0, 6.0, -9.0), 20),          # the arms corner's north half: the preachers, the Manta Ray
     # the gym floors as they stand (Roman 2026-10-14: what the main machine spaces look like): F2 machines along the river glass,
     # the plate-loaded + cable zone, F2 across from the free weights, F1 hall at eye height, F3 functional + the sled lane
     "gym_f2_machines": ((-8.2, -12.0, -3.25), (-17.0, -33.0, -3.7), 16),

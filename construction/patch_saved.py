@@ -6,7 +6,7 @@ saved in the file so it is just putting them into position?"). The saved .blend 
   - the furnishings (lights, wipes, ...): matched by content; the ones that moved or changed are re-placed, their prototypes reused
 
     systemd-run --user --scope -p MemoryMax=12G -p MemorySwapMax=0 nice -n 19 \
-        blender -b construction/out/stage_5.blend -t 12 --python construction/patch_saved.py -- 5 [base git rev]
+        blender -b construction/out/stage_5.blend -t 12 --python construction/patch_saved.py -- 5 [base git rev] [--rebuild=kind,kind]
 
 The scene's model is the "model_base.json" text the full build saves (scene.py), else model/building.json at the given git rev.
 A changed element of a kind this can't rebuild (stairs, glazing, walls with openings) exits 2: run the full build then.
@@ -30,11 +30,13 @@ import furniture  # noqa: E402
 T0 = time.time()
 args = sys.argv[sys.argv.index("--") + 1:]
 STAGE = int(args[0])
+REBUILD = {k for a_ in args[1:] if a_.startswith("--rebuild=") for k in a_.split("=", 1)[1].split(",")}   # kinds whose builder code
+# changed (same parameters, so they'd otherwise keep their saved prototype): dropped and built again
 model = json.loads((ROOT / "model" / "building.json").read_text())
 if "model_base.json" in bpy.data.texts:
     base = json.loads(bpy.data.texts["model_base.json"].as_string())
 else:
-    base = json.loads(subprocess.check_output(["git", "-C", str(ROOT), "show", f"{args[1]}:model/building.json"]))
+    base = json.loads(subprocess.check_output(["git", "-C", str(ROOT), "show", f"{[a_ for a_ in args[1:] if not a_.startswith('--')][0]}:model/building.json"]))
 
 
 def objs_of(id_):
@@ -88,7 +90,9 @@ old_f = [f for f in base.get("furnishings", []) if f.get("phase", 5) <= STAGE]
 new_f = [f for f in model.get("furnishings", []) if f.get("phase", 5) <= STAGE]
 pool = {}
 for f in old_f:
-    pool.setdefault(sig(f), []).append(f["id"])
+    if f["kind"] not in REBUILD:
+        pool.setdefault(sig(f), []).append(f["id"])
+stale_rb = [f["id"] for f in old_f if f["kind"] in REBUILD]
 keep, add = {}, []                                             # new id -> old id
 for f in new_f:
     s = sig(f)
@@ -96,10 +100,10 @@ for f in new_f:
         keep[f["id"]] = pool[s].pop()
     else:
         add.append(f)
-stale = [i for ids in pool.values() for i in ids]
+stale = [i for ids in pool.values() for i in ids] + stale_rb
 for f in old_f:                                                # the scene's prototypes, by the key furniture.build_all uses
     o = bpy.data.objects.get(f["id"])
-    if o and o.instance_collection:
+    if o and o.instance_collection and f["kind"] not in REBUILD:
         furniture.PROTO.setdefault(furniture.proto_key(f)[1], o.instance_collection)
 fcoll = bpy.data.collections["5b · furniture + fixtures"]
 for i in stale:

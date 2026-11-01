@@ -15,7 +15,7 @@ moved down to the den (F3): with everything on F2 the floor came out ~100 % full
 """
 
 XW, XE, YS, YN = -29.2, -6.65, -33.85, 11.85      # the gym floors' wall faces (F2 / F3: wall A, the river wall, S, N)
-PREACHER = None                                  # the preacher curl bench, once modelled (third walk)
+PREACHER = "atlantis-poliquin-seated-preacher-curl-b856"   # the preacher curl bench (third walk: "the machines where you rest your arms")
 
 
 def plan_f2(G):
@@ -541,7 +541,7 @@ def plan_f3(G):
     # (third walk: "you have the racks for those bars you can do curls with ... but there's nowhere to use them ... add like some
     # benches over there ... and another dumbbell rack"; then on the render: "still feels way too empty, so much unused room"): an
     # arms corner the length of the strip past the curl bars. Along the river (backs to it, facing in): two dumbbell racks, the
-    # preacher curls, the stability balls; facing them across 1.3 m: three benches in front of the dumbbells (one flat, two
+    # preacher curls (the stability balls didn't fit: the north door's landing); facing them across 1.3 m: three benches in front of the dumbbells (one flat, two
     # adjustable for incline curls), a Manta Ray at the north end for decline sit-ups
     w, d = G.footprint("hammer-strength-three-tier-dumbbell-rack")
     xr = lambda d_: -8.25 - 0.1 - d_ / 2
@@ -556,7 +556,6 @@ def plan_f3(G):
         pw, pd = G.footprint(p_)
         F.put(p_, xr(pd), yn + pw / 2, 90, "arms corner", "preacher curls: dumbbells or the EZ bars, seated or standing")
         yn += pw + 0.9
-    F.put("hammer-strength-stability-ball", xr(G.footprint("hammer-strength-stability-ball")[1]), yn + 0.5, 90, "arms corner", "stability balls, AbMats beside")
     F.put("rogue-manta-ray-adjustable-bench", -10.95, yn - 0.2, -90, "arms corner", "decline sit-ups, the core work after arms")
     y_db_ = y_db
     F.notes.append(f"arms corner: dumbbells at y {y_db_:.2f}, ends {yn:.2f}")
