@@ -29,3 +29,7 @@ reference/f4_recovery/
 
 # Over GitHub's 100 MB limit: kept on disk only (PWR Play mega, 386 MB each)
 equipment/pieces/life-fitness-pwr-play-mega/models/*.glb
+
+# Viewer feedback captures: the notes (*.json) are kept, the screenshots stay local
+feedback/*.png
+feedback/trash/
