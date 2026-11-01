@@ -61,8 +61,8 @@ Check a layout against them with `cd tools && ../terrain/.venv/bin/python gym_au
 21. **Guards are one line, not two.** Under a stair's low turn the bars come down from the stringers (the balustrade carried on),
     never a second rail ring beside the stair's own: two rails 8 cm apart at different heights read as clipping. Glass guards stop
     at the wall's lining and keep wipes and bins off their line.
-22. **Kit reads at gym scale.** A bar on a post has to look like it holds a swinging 100 kg: braced uprights on bolted plates,
-    a 1.5 in bar you can see against the glass, not a 1.25 in line between two poles ("too thin and weird").
+22. **Grip bars read at gym scale.** A 1.5 in bar you can see against the glass, not a 1.25 in line ("too thin" meant the grip
+    bar). Keep the frame plain: no braces or gussets added for looks ("remove side supports and weird things like those triangles").
 
 ## Open
 

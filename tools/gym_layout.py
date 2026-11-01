@@ -193,7 +193,7 @@ KINDS_FIXED = {
     "floor_zone": {"label": "Floor zone", "d": 1.0, "h": 0.0, "mat": "zone"},
     "select_shoulder": {"label": "Hammer Strength Select Shoulder Press (not picked or modelled yet: the HS Select line, to match the chest press; size estimated)",
                         "d": 1.3, "h": 1.6, "mat": "machine", "tag": "shoulder press", "use": [0.7, 0.4, 0.5, 0.5]},
-    "rig_spur": {"label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, the outer two braced along the bar, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
+    "rig_spur": {"label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
                  "d": 0.08, "h": 2.49, "mat": "rack", "tag": "muscle-up bar", "use": [1.8, 1.8, 0.3, 0.3]},
     "pwr_core": {"label": "Life Fitness PWR Play: a Core (four faces, a station on each)", "d": PWR["core"][1], "h": 2.415, "mat": "pwr", "tag": "core"},
     "pwr_bar": {"label": "PWR Play crossbar (Long connector) with pull-up handles, over the aisle at 2.31 m", "d": 0.08, "h": 2.35, "mat": "pwr"},

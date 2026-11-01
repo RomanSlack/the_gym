@@ -2487,7 +2487,7 @@
    ]
   },
   "rig_spur": {
-   "label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, the outer two braced along the bar, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
+   "label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
    "d": 0.08,
    "h": 2.49,
    "mat": "rack",
@@ -4329,10 +4329,10 @@
    "id": "muscleup-station",
    "room": "calisthenics",
    "kind": "rig_spur",
-   "label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, the outer two braced along the bar, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
+   "label": "Double muscle-up bar (from the Monster Lite Monkey Rig's parts): three uprights on bolted plates, two 1.5 in bars on top at 2.47 m+ (the 6 ft 3 in dead-hang rule), nothing above them",
    "x": -16.1,
    "y": -32.14,
-   "w": 4.6,
+   "w": 3.5,
    "d": 0.31,
    "rot": 0,
    "note": "muscle-ups, pull-ups, toes-to-bar: two bars on top of three uprights, nothing above them"

@@ -579,10 +579,10 @@ def plan_f1(G):
     # swing kept clear 1.8 m in front and behind, 1.2 m between them (NSCA), on their own mat; no wipes or anything between them
     ymu = round(YSF + 1.9, 3)
     F.zone("Muscle-up bars: 1.8 m swing clear front + back, nothing over the bars (gymnastics mat)", -18.5, YSF, -13.7, round(ymu + 1.85, 3), "zone-muscle-up")
-    # (Roman, after the walk: "those muscle up capable pull up bars look too thin and weird"): one double station, 4.6 m with
-    # its raking legs, two 1.67 m bars on three uprights
+    # (Roman, after the walk: "those muscle up capable pull up bars look too thin and weird"): one double station, two 1.67 m
+    # 1.5 in bars on three plain uprights (no braces: "remove side supports and weird things like those triangles")
     F.items.append({"id": "muscleup-station", "room": "calisthenics", "kind": "rig_spur", "label": G.KINDS_FIXED["rig_spur"]["label"],
-                    "x": -16.1, "y": ymu, "w": 4.6, "d": 0.31, "rot": 0,
+                    "x": -16.1, "y": ymu, "w": 3.5, "d": 0.31, "rot": 0,
                     "note": "muscle-ups, pull-ups, toes-to-bar: two bars on top of three uprights, nothing above them"})
     F.zone("Skills floor: handstands, levers, L-sits (gymnastics mat)", -25.4, -29.1, -19.9, -26.7, "zone-skills")
     for x in (-24.6, -23.5, -22.4, -21.3, -20.2, -19.1):
