@@ -1,0 +1,38 @@
+{
+ "id": "atlantis-poliquin-seated-preacher-curl-b856",
+ "brand": "Atlantis",
+ "model": "Poliquin seated preacher curl (B856)",
+ "title": "Poliquin seated preacher curl (B856) - Atlantis",
+ "url": "https://atlantisstrength.com/gym-equipment/b856",
+ "items": [
+  "preacher-bench"
+ ],
+ "item_names": [
+  "Preacher curl bench"
+ ],
+ "picked": "2026-11-01T12:10:00+00:00",
+ "source": "Claude's pick (Roman 2026-11-01 walk: preacher curls by the dumbbell benches)",
+ "price": {
+  "amount": 2805.0,
+  "currency": "AUD",
+  "kind": "estimate: a dealer's list price, not the maker's (Performaxx, Australia, as indexed; the page itself now says request a quote, Atlantis shows 0.00 CAD). About USD 1,850",
+  "source": "https://performaxx.com.au/product/atlantis-poliquin-seated-preacher-curl/",
+  "at": "2026-11-01T12:12:00+00:00"
+ },
+ "refs": [
+  {
+   "file": "refs/ref_01.png",
+   "url": "https://atlantisstrength.com/assets/api/photo.php?p=B856.png&w=1000&v=1776191159&o=1"
+  },
+  {
+   "file": "refs/ref_02.png",
+   "url": "https://performaxx.com.au/wp-content/uploads/2022/09/B856_2-1536x1471.png.webp"
+  }
+ ],
+ "status": "picked",
+ "notes": "Why this one: neither Hammer Strength nor Life Fitness makes a preacher bench that works seated AND standing. The Hammer Strength Seated Arm Curl (already in the library) is seated only, the Life Fitness / Signature Arm Curl Bench is standing only with no adjustments. The Atlantis B856 (Pro Series, designed with Charles Poliquin, made in Canada) has an adjustable seat and pad height, a removable seat for standing curls, a two-sided A pad (45 deg one side, near vertical the other), a dumbbell support and bar rests: the closest premium real product. Maker's size 115.1 x 122.7 x 98.7 cm (L x W x H), 95.2 kg. Only one camera angle of it exists online (the maker's render, ref_01, and the same render larger at the dealer, ref_02).",
+ "fetched": {
+  "at": "2026-11-01T12:08:00+00:00",
+  "how": "page"
+ }
+}

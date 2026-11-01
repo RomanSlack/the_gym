@@ -74,10 +74,12 @@ def plan_f2(G):
     # --- the pulling corner (off the forecourt, its own tall walls; third walk: "move them more to the north ... put two more of them
     # directly across ... facing the wall ... make both walls mirrors", and a way through to olympic: "you have to walk all the way
     # around"): four half racks, two with their uprights to the west mirror, two to the pull wall's new mirror, the lifters facing
-    # them; a 0.9 m walk down the middle (back to back) to a 1.6 m opening into olympic's aisle
+    # them; a walk down the middle between the racks' backs to a 1.6 m opening into olympic's aisle
     hw_, hd_ = G.footprint("hammer-strength-rubber-platform")
-    for rot, px in ((-90, XW + 0.06 + 0.15 + hd_ / 2), (90, -22.46 - 0.15 - hd_ / 2)):
-        sg = 1 if rot == -90 else -1                          # the lifter's side (east for the west column)
+    # (Roman on the render: "all need to independently be flipped 180 degrees ... as rn they are facing towards the walkway not the
+    # mirrors"): each lifter faces their mirror, 0.9 m clear to it; the racks' backs to the middle walk
+    for rot, px in ((90, XW + 0.012 + 0.9 + hd_ / 2), (-90, -22.46 - 0.012 - 0.9 - hd_ / 2)):
+        sg = 1 if rot == -90 else -1                          # the lifter's side (west for the west column)
         for y in (-3.06 - 0.55 - hw_ / 2, -3.06 - 0.55 - hw_ - 0.9 - hw_ / 2):   # (0.9 m apart: NSCA)
             p_ = F.put("hammer-strength-rubber-platform", px, y, rot, "pulling corner", "half rack platform: the lifter faces the mirror")
             r_ = F.put("rogue-monster-half-rack", px - sg * 0.125, y, rot, "pulling corner", "on its platform, its uprights to the mirror", on=p_["id"])
@@ -93,7 +95,7 @@ def plan_f2(G):
         F.put("hammer-strength-impact-suppression-platform", px, y, 90, "olympic", "8 x 6 ft: the bar along y, the lifter faces the mirror")
     for a_, b_ in zip(ys, ys[1:]):   # (NSCA: the plates beside every platform)
         F.put("rogue-monster-bumper-rack", px, (a_ + b_) / 2, -90, "olympic", "bumpers + change plates, between two platforms, loaded from the aisle")
-    F.put("rogue-10-bar-holder", -23.6, -2.57, 0, "olympic", "the Eleiko / Strencor / technique bars")
+    F.put("rogue-10-bar-holder", -23.2, -2.57, 0, "olympic", "the Eleiko / Strencor / technique bars")
     for a_, b_ in (ys[0:2], ys[2:4]):
         F.put("rogue-freestanding-chalk-stand", px + d_ / 2 + 0.6 + 0.3, (a_ + b_) / 2, 0, "olympic")
     F.put("rogue-wood-jerk-blocks", px, ys[2], 90, "olympic", "set up on a platform", on="hammer-strength-impact-suppression-platform-3")
