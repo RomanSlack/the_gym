@@ -21,6 +21,21 @@ for attr, val in (("taa_samples", 8), ("taa_render_samples", 32), ("use_raytraci
 for lc in bpy.context.view_layer.layer_collection.children:
     if lc.name in ("6 · forest", "6 · grass"):
         lc.exclude = True
+# viewport only (Roman 2026-11-01: "way too laggy", worst on F2): ~52 M tris drawn, 20 M of them bevel segments and
+# 11 M equipment print decals. Renders keep everything (show_render untouched, decimate is viewport only).
+sc.render.use_simplify, sc.render.simplify_subdivision = True, 1
+DECALS = ("ink", "label", "seam", "etch", "emboss", "text", "bolt")
+for ob in bpy.data.objects:
+    if ob.type != "MESH":
+        continue
+    for m in ob.modifiers:
+        if m.type == "BEVEL":
+            m.show_viewport = False
+    if any(c.name.startswith("eq_") for c in ob.users_collection) and ob.name.split(".")[0].rsplit("_", 1)[-1] in DECALS:
+        ob.hide_viewport = True
+    elif len(ob.data.polygons) > 30000:  # dense scans / pebbles / terrain
+        d = ob.modifiers.new("walk_decimate", "DECIMATE")
+        d.ratio, d.show_render = max(0.05, 30000 / len(ob.data.polygons)), False
 cam = bpy.data.objects.get("cam_eq1_gallery")
 if cam:
     sc.camera = cam
@@ -30,6 +45,7 @@ for scr in bpy.data.screens:
             for sp in area.spaces:
                 if sp.type == "VIEW_3D":
                     sp.shading.type = "SOLID"
+                    sp.shading.show_object_outline = sp.shading.show_cavity = sp.shading.show_shadows = False
                     sp.clip_start, sp.clip_end = 0.05, 500.0
                     sp.lens = 24
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "gym_walk.blend"))
