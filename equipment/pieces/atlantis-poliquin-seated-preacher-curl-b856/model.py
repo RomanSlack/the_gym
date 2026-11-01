@@ -19,7 +19,7 @@ DESIGN SPEC (gate 1)
    "vertical curling surface"), standing. The elbow is the joint; the pad holds the upper arm so only the elbow turns.
 2. Moving parts. The pad post (inner tube) sliding in its sleeve, a pop pin (red knob, front face) through both, a
    star lock knob under it (takes the rattle out), a chrome barrel on the +x face; the seat post sliding in its
-   sleeve, a red pop pin; the seat lifts out of its sleeve. No pivots: the user's elbow is the pivot.
+   sleeve, a red pop pin on the sleeve's back face; the seat lifts out of its sleeve. No pivots: the user's elbow is the pivot.
 3. Adjustments. Pad height: 9 holes 50 mm apart, the ridge 0.987 m (lowest, the maker's H) to 1.387 m. Seat height:
    6 holes 40 mm apart, top 0.48 to 0.68 m. Seat out: standing. (The maker gives no ranges: these are ours, sized
    for the fit below.)
@@ -34,8 +34,11 @@ DESIGN SPEC (gate 1)
    seat 0.52, hole 1, feet flat. The pad's A bottom clears the thighs (2 cm for the middle user, the tightest).
    Standing (seat out, feet either side of the seat sleeve, the toes under the open +y side): 1.55 m hole 2 trunk
    35 deg; 1.78 m hole 5 trunk 40 deg; 1.95 m hole 8 trunk 35 deg.
-6. Size. Ours 1.17 x 1.15 x 0.99 m (W x L x H) against 1.227 x 1.151 x 0.987: W 6 cm short (the +x horn length is a
-   guess), the rest within 1 cm.
+6. Size. Ours 1.163 x 1.161 x 0.988 m (W x L x H) against 1.227 x 1.151 x 0.987: W 6 cm short (the +x horn's
+   length is a guess from the one photo), L and H within 1 cm.
+Not from the photo (only one angle exists): the inner structure (the spine, the open +y side so a standing user's
+feet fit), the hole counts, the seat's distance from the pad, and the treads: the photo's reach back under the pad,
+where in our reading the seated user's shins go, so ours sit across the front, in front of the shins.
 Structure: four 76 mm posts on round rubber feet, a urethane bar cradle on each top (long along y, a lip at each end so a
 bar lying along x can't roll); 2 x 3 in rails: the two side frames (top and bottom rail along y) and the front (-y)
 top and bottom rails between the front posts; the +y side open (the standing user's feet); the spine, top and bottom,
