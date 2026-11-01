@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.." || exit 1
 python3 tools/viewer_manifest.py || exit 1
 MARKUP=~/tools/scenewalk/markup/markup.py
 if ! curl -s -o /dev/null --max-time 1 http://localhost:5290/api/alive; then
-    setsid nohup python3 "$MARKUP" serve --dir feedback --port 5290 > /tmp/markup_5290.log 2>&1 < /dev/null &
+    setsid nohup python3 "$MARKUP" serve --dir feedback --port 5290 --resolve "python3 $PWD/tools/feedback.py" > /tmp/markup_5290.log 2>&1 < /dev/null &
 fi
 exec ~/tools/scenewalk/target/release/scenewalk construction/out/viewer/gym.json --capture-dir feedback \
     --on-capture "python3 $MARKUP open --dir feedback --port 5290" "$@"
