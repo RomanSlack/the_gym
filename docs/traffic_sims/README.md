@@ -70,3 +70,7 @@ leads to a new 1.6 m opening into olympic (before, the only way in was "all the 
 the first, the leg presses face to face. The sim still finds every piece on F1 and F2 without crossing anyone's set; F3's two left
 are the same maze aisles. The busiest crossings on F2 are the incline benches nearest the bench room's way in and the PWR Play's
 dual cable (as before), and the rack platforms' fronts, which people pass to reach the chalk stands between them.
+
+Round two of the third walk: `gym_f2_traffic_after_v007` (the half racks each turned to face their mirror after Roman saw the
+render, so their walk-out space is on the mirror side and the middle walk runs between the racks' backs) and
+`gym_f3_traffic_after_v006` (the arms corner filled). F2 0 problems, F3 the same 2 maze aisles.

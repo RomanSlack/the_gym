@@ -65,13 +65,17 @@ def export(path, objs):
 
 model = json.loads((ROOT / "model" / "building.json").read_text())
 layout_furn = {f["id"] for f in model.get("furnishings", []) if f["kind"] in LAYOUT_FURN}
-index = {"protos": {}, "attach": {}, "furn": {}}
+index = {"protos": {}, "attach": {}, "furn": {}, "on": {}}
 
 if "eq" in DO:
     # every prototype an equipment instance uses, exported in its own (unplaced) axes
+    def unexclude(lc):
+        lc.exclude = False; lc.hide_viewport = False
+        for ch in lc.children:
+            unexclude(ch)
     for lc in vl.layer_collection.children:
         if lc.name.startswith("eq_prototypes"):
-            lc.exclude = False
+            unexclude(lc)
     inst = [o for o in bpy.data.collections["5b · gym equipment"].all_objects if o.instance_type == "COLLECTION" and o.instance_collection]
     used = {o.instance_collection for o in inst}
     for c in sorted(used, key=lambda c: c.name):
@@ -88,6 +92,15 @@ if "eq" in DO:
             rel = by[base].matrix_world.inverted() @ o.matrix_world
             index["attach"].setdefault(by[base].instance_collection.name, []).append(
                 {"proto": o.instance_collection.name, "m": [list(r) for r in rel]})
+    # pieces mounted on another (the parallel bars in a rig's bay): their matrix relative to the carrier's, the nearest rig (item ids
+    # repeat across floors, so not by name)
+    index["on"] = {}
+    rigs = [o for o in inst if "-rig-2-0" in o.instance_collection.name and "rig-mount" not in o.instance_collection.name]
+    for o in inst:
+        if "rig-mount" in o.instance_collection.name and rigs:
+            r = min(rigs, key=lambda q: (q.matrix_world.translation - o.matrix_world.translation).length)
+            rel = r.matrix_world.inverted() @ o.matrix_world
+            index["on"][o.instance_collection.name] = {"carrier": r.instance_collection.name, "m": [list(x) for x in rel]}
     # one wipes station, as the layouts place them (their furnishing ids are in building.json)
     for f in model.get("furnishings", []):
         if f["kind"] in LAYOUT_FURN and f["kind"] not in index["furn"]:
@@ -132,7 +145,7 @@ if "shell" in DO:
 idx = OUT / "index.json"
 if idx.exists() and DO != {"shell", "eq"}:                     # a partial run keeps the other half's entries
     old = json.loads(idx.read_text())
-    for k_ in ("protos", "attach", "furn"):
+    for k_ in ("protos", "attach", "furn", "on"):
         index[k_] = index[k_] or old.get(k_, {})
 idx.write_text(json.dumps(index, indent=1))
 print(f"viewer: wrote {OUT} ({time.time() - T0:.0f} s)")
