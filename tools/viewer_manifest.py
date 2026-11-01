@@ -123,7 +123,7 @@ def main():
             {"name": "F3 den", "pos": [-16.0, -19.5, F3], "yaw": 160, "pitch": -5},
             {"name": "F3 north", "pos": [-13.2, -4.0, F3], "yaw": 0, "pitch": -5},
             {"name": "F3 functional", "pos": [-24.5, -10.6, F3], "yaw": 20, "pitch": -5}],
-        "models": [{"src": f, "instances": [{"m": M} for M in ms]} for f, ms in models.items()],
+        "models": [{"src": f, "instances": [{"m": [v for r in M for v in r]} for M in ms]} for f, ms in models.items()],   # row-major
         "boxes": boxes,
     }
     (OUT / "gym.json").write_text(json.dumps(manifest, separators=(",", ":")))
