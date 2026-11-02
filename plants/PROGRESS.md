@@ -62,3 +62,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:40 `out/render_bonsai_close_v005.jpg` Dense stubby whipcords, capped twigs
 - 2026-11-02 14:40 `out/render_bonsai_hero_v011.jpg` v5 (seed 2): full pads of 3D foliage (2.6 M faces), no cards anywhere
 - 2026-11-02 14:40 `out/compare_bonsai_foliage_v002.jpg` Real vs ours after the 3D foliage
+- 2026-11-02 14:49 `out/render_bonsai_dome_v001.jpg` Dome style (Roman: "make one that is like the reference shimpaku bonsai with that same shape"): twisting trunk with shari under one dense lumpy dome of 3D foliage leaning to one side, deep rectangular pot
+- 2026-11-02 14:49 `out/render_bonsai_dome_v002.jpg` Dome style, seed 3
+- 2026-11-02 14:49 `out/compare_bonsai_dome_v001.jpg` The reference Shimpaku vs our dome style
+- 2026-11-02 14:49 `out/render_bonsai_hero_v012.jpg` Layered style in the lighter, greener colour (Roman: "just a little too dark")

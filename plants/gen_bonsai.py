@@ -277,7 +277,7 @@ def foliage_material():
 
 def foliage_3d(clusters, trunk, rng, S=6):
     """grow the scale shoots: returns V, F, UV (per vertex), shade, colours"""
-    DARK, MID, TIP, WOOD = np.array([0.055, 0.085, 0.05]), np.array([0.1, 0.145, 0.085]), np.array([0.19, 0.25, 0.15]), np.array([0.075, 0.04, 0.022])
+    DARK, MID, TIP, WOOD = np.array([0.09, 0.14, 0.07]), np.array([0.165, 0.245, 0.12]), np.array([0.32, 0.42, 0.21]), np.array([0.075, 0.04, 0.022])   # (Roman: "a little too dark")
     segs = []                                                            # p0, p1, r0, r1, colour0, colour1, cluster (c, rc)
     for cpos, rc in clusters:
         k = np.argmin(np.linalg.norm(trunk - cpos, axis=1))
@@ -319,8 +319,8 @@ def foliage_3d(clusters, trunk, rng, S=6):
                 m1 = p0 + sd * ln * 0.55
                 sd2 = _unit(sd + ax_ * 0.35 + rng.normal(0, 0.1, 3))          # curving forward, like the real whipcords
                 p2 = m1 + sd2 * ln * 0.45
-                segs.append((p0, m1, 0.0008, 0.0007, MID * (1 + tint), MID * (1 + tint), cpos, rc))      # stubby whipcords
-                segs.append((m1, p2, 0.0007, 0.00045, MID * (1 + tint), TIP * (1 + tint) * rng.uniform(0.85, 1.1), cpos, rc))
+                segs.append((p0, m1, 0.00066, 0.00058, MID * (1 + tint), MID * (1 + tint), cpos, rc))      # stubby whipcords
+                segs.append((m1, p2, 0.00058, 0.00036, MID * (1 + tint), TIP * (1 + tint) * rng.uniform(0.85, 1.1), cpos, rc))
                 if ln > 0.006 and rng.random() < 0.5:                         # a few cords fork once more
                     sd3 = _unit(sd2 + rad_dir * 0.6 + rng.normal(0, 0.2, 3))
                     segs.append((m1, m1 + sd3 * ln * 0.4, 0.00045, 0.00028, MID * (1 + tint), TIP * (1 + tint), cpos, rc))
@@ -346,7 +346,7 @@ def foliage_3d(clusters, trunk, rng, S=6):
     # shading inside the pad: the top and the outside lit, the core and the underside dark
     rel = (V - CC[:, None]) / RC[:, None, None]
     hz = np.clip(0.5 + 0.9 * rel[..., 2], 0, 1); rr = np.clip(np.linalg.norm(rel[..., :2], axis=-1), 0, 1.3)
-    shade = 0.35 + 0.65 * hz ** 1.1 * (0.55 + 0.45 * np.minimum(rr, 1))
+    shade = 0.5 + 0.5 * hz ** 1.1 * (0.6 + 0.4 * np.minimum(rr, 1))
     base = np.arange(n)[:, None] * (2 * S + 1)
     j = np.arange(S); jn = (j + 1) % S
     Q = np.stack([j, jn, S + jn, S + j], 1)[None] + base[:, :, None]                                  # n, S, 4
@@ -357,7 +357,7 @@ def foliage_3d(clusters, trunk, rng, S=6):
 
 
 # ------------------------------------------------------------------------------------------------------------ the scene
-def table_and_pot(loc, rng):
+def table_and_pot(loc, rng, rect=False):
     objs = []
     oak, oak_v = dark_oak(), dark_oak(True)
     tw, td = 0.66, 0.46
@@ -374,6 +374,10 @@ def table_and_pot(loc, rng):
     # the oval pot: a lathe on an ellipse (outer foot -> wall -> rolled lip -> inner wall -> floor)
     a, b = rng.uniform(0.22, 0.26), rng.uniform(0.16, 0.18)
     H = rng.uniform(0.065, 0.08)
+    if rect:                                                             # the reference Shimpaku's pot: a deeper rounded rectangle
+        a, b, H = 0.25, 0.18, 0.1
+    ne = 9.0 if rect else 2.0
+    sc = lambda t: (math.copysign(abs(math.cos(t)) ** (2 / ne), math.cos(t)), math.copysign(abs(math.sin(t)) ** (2 / ne), math.sin(t)))
     prof = [(0.88, 0.012), (0.93, 0.012), (0.95, 0.02), (0.985, H - 0.012), (1.0, H - 0.005), (1.0, H), (0.985, H + 0.003),
             (0.955, H + 0.002), (0.94, H - 0.004), (0.93, H - 0.015), (0.9, 0.022), (0.0, 0.022)]
     seg = 160
@@ -381,7 +385,8 @@ def table_and_pot(loc, rng):
     for i in range(seg):
         t = 2 * math.pi * i / seg
         for r, z in prof:
-            V.append((loc[0] + a * r * math.cos(t), loc[1] + b * r * math.sin(t), loc[2] + TABLE + z))
+            cx_, cy_ = sc(t)
+            V.append((loc[0] + a * r * cx_, loc[1] + b * r * cy_, loc[2] + TABLE + z))
     P = len(prof)
     for i in range(seg):
         for j in range(P - 1):
@@ -391,7 +396,8 @@ def table_and_pot(loc, rng):
     potm = clay()
     objs.append(_obj("bonsai_pot", V, F, potm)); objs[-1]["tree"] = 1          # (framed with the tree: the hero cut the pot off)
     for t in (0.6, 2.55, 3.7, 5.65):                                    # four cloud feet
-        bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=tuple(loc + [a * 0.84 * math.cos(t), b * 0.84 * math.sin(t), TABLE + 0.008]))
+        cx_, cy_ = sc(t)
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=tuple(loc + [a * 0.84 * cx_, b * 0.84 * cy_, TABLE + 0.008]))
         f_ = bpy.context.object; f_.scale = (0.03, 0.022, 0.012); f_.data.materials.append(potm); objs.append(f_)
     # the soil: the pot moss texture across the whole pot, displaced by its own height (cushions up, grit gaps down)
     zs = TABLE + H - 0.008
@@ -401,12 +407,18 @@ def table_and_pot(loc, rng):
     S_ = hmap.shape[0]
     span = 2 * a * 1.04
     nr, nt = 150, 460
+    # angles spaced evenly along the outline (a rounded rectangle's corners got few: the moss streaked there)
+    tf = np.linspace(0, 2 * math.pi, 4000, endpoint=False)
+    xy = np.array([sc(t_) for t_ in tf]) * [a, b]
+    arc = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([xy, xy[:1]]), axis=0), axis=1))])
+    ts = np.interp(np.linspace(0, arc[-1], nt, endpoint=False), arc[:-1], tf)
     V, UV, F = [], [], []
     for i in range(nr + 1):
         rr = 0.955 * i / nr
         for j in range(nt):
-            t = 2 * math.pi * j / nt
-            x, y = a * rr * math.cos(t), b * rr * math.sin(t)
+            t = ts[j]
+            cx_, cy_ = sc(t)
+            x, y = a * rr * cx_, b * rr * cy_
             u, v = 0.5 + x / span, 0.5 + y / span
             hgt = hmap[int(v * (S_ - 1)), int(u * (S_ - 1))]
             dome = 0.012 * (1 - rr ** 2)
@@ -436,7 +448,8 @@ def table_and_pot(loc, rng):
     sl.new(nz.outputs[0], bp.inputs["Height"]); sl.new(bp.outputs[0], sb.inputs["Normal"])
     for _ in range(int(rng.integers(3, 7))):                            # granite pebbles half sunk in the moss
         t = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.35, 0.8)
-        x, y = a * rr * math.cos(t), b * rr * math.sin(t)
+        cx_, cy_ = sc(t)
+        x, y = a * rr * cx_, b * rr * cy_
         bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1, location=tuple(loc + [x, y, zs + 0.012 * (1 - rr ** 2)]))
         st = bpy.context.object
         for vtx in st.data.vertices:
@@ -448,20 +461,27 @@ def table_and_pot(loc, rng):
     return objs, zs
 
 
-def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
+def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
+    """style: "layered" (pads on branches) or "dome" (the reference Shimpaku, refs/bonsaiF_01: a twisting trunk with shari
+    under one dense, lumpy dome canopy leaning to one side, in a deep rectangular pot); default $BONSAI_STYLE or layered"""
+    import os
+    style = style or os.environ.get("BONSAI_STYLE", "layered")
+    dome = style == "dome"
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
-    objs, zs = table_and_pot(loc, rng)
+    objs, zs = table_and_pot(loc, rng, rect=dome)
     zs -= loc[2]
     # ---- the wood skeleton (local coordinates; loc added at the end)
     H = rng.uniform(0.36, 0.5)
     base = np.array([rng.uniform(-0.05, 0.05), rng.uniform(-0.02, 0.02), zs - 0.03])   # the foot sunk in the soil
     lean = _unit(np.array([rng.normal(0, 0.45), rng.normal(0, 0.2), 1.0]))
+    if dome:                                                             # the reference: foot left of centre, twisting up and over
+        H = rng.uniform(0.3, 0.38); base[0] = -0.06; lean = _unit(np.array([0.35, rng.normal(0, 0.1), 1.0]))
     trunk = spine(base, lean, H, 70, rng, bends=rng.uniform(2.0, 3.2), amp=rng.uniform(1.0, 1.6))
-    R0 = rng.uniform(0.04, 0.055)
+    R0 = rng.uniform(0.04, 0.055) * (1.15 if dome else 1.0)
     tt = np.linspace(0, 1, len(trunk))
     trad = R0 * (1 - 0.8 * tt ** 0.7) * (1 + 0.18 * np.exp(-tt / 0.05))  # (a steep flare read as a stepped skirt: the roots make the base)
-    jin = rng.random() < 0.6
+    jin = rng.random() < 0.6 and not dome
     spines = [("trunk", trunk, trad, False)]
     n_rt = int(rng.integers(5, 8))
     for j in range(n_rt):                                                # nebari: buttress roots from up the trunk, spreading into the soil
@@ -475,8 +495,8 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
         spines.append(("root", rp, rr_, False))
     # main branches: level, alternating, longer low down; forks -> twigs -> foliage clusters on the tips
     twig_tubes, clusters = [], []
-    n_br = int(rng.integers(6, 10))
-    hs = np.sort(rng.uniform(0.38, 0.86, n_br))
+    n_br = int(rng.integers(6, 10)) if not dome else int(rng.integers(10, 14))
+    hs = np.sort(rng.uniform(0.38, 0.86, n_br)) if not dome else np.sort(rng.uniform(0.5, 0.94, n_br))
     az = rng.uniform(0, 2 * math.pi)
     placed_tips = np.zeros((0, 3))
     for i, h in enumerate(hs):
@@ -484,7 +504,7 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
         for attempt in range(30):
             az_i = az + i * math.radians(rng.uniform(115, 165)) + rng.normal(0, 0.2 + 0.05 * attempt)
             out = np.array([math.cos(az_i), math.sin(az_i), 0.0])
-            blen = (0.08 + 0.2 * (1 - h)) * rng.uniform(0.85, 1.15)
+            blen = (0.08 + 0.2 * (1 - h)) * rng.uniform(0.85, 1.15) * (0.6 if dome else 1.0)   # (dome: ends inside the canopy)
             dead = rng.random() < 0.12
             bp_ = spine(trunk[k], out + [0, 0, rng.uniform(-0.25, 0.05)], blen * (0.5 if dead else 1), 18, rng, amp=0.7,
                         droop=0.25, up=0.35, horiz=True)
@@ -532,6 +552,34 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
         if dtk.min() < rc_ * 0.8:                                    # (crown clusters brushed the trunk)
             continue
         clusters.append((sp3[-1], rc_))
+    if dome:
+        # the canopy: one lumpy dome over the top half, leaning with the trunk; foliage clusters fill its shell, each on a
+        # twig from the nearest wood (the branches carry it; the dome's underside closes, as on the reference)
+        clusters = []
+        top = trunk[-1]
+        c0 = top + np.array([0.05, 0.0, -0.05])
+        ax, ay, az = 0.26 * H / 0.34, 0.21 * H / 0.34, 0.15 * H / 0.34
+        wood = np.concatenate([trunk[int(0.45 * len(trunk)):]] + [sp for nm, sp, rr, dd in spines if nm == "branch"])
+        pts_ = []
+        for _ in range(4000):
+            if len(pts_) >= 170:
+                break
+            dv = _unit(rng.normal(0, 1, 3))
+            if dv[2] < -0.55:
+                continue
+            r = rng.uniform(0.78, 1.0) * (1 + 0.12 * math.sin(3 * math.atan2(dv[1], dv[0]) + seed) + 0.08 * math.sin(5 * dv[2] + seed))
+            pt = c0 + dv * [ax, ay, az] * r
+            if pts_ and np.min(np.linalg.norm(np.array(pts_) - pt, axis=1)) < 0.032:
+                continue
+            pts_.append(pt)
+        for pt in pts_:
+            k = int(np.argmin(np.linalg.norm(wood - pt, axis=1)))
+            p0 = wood[k]
+            dvec = pt - p0; L_ = np.linalg.norm(dvec)
+            if L_ > 0.01:
+                sp3 = np.array([p0 + dvec * t_ + rng.normal(0, 0.004, 3) * math.sin(math.pi * t_) for t_ in np.linspace(0, 1, 7)])
+                twig_tubes.append((sp3, np.linspace(0.0042, 0.0012, len(sp3))))
+            clusters.append((pt, rng.uniform(0.042, 0.054)))
     # ---- fuse the thick wood: tubes -> one voxel-remeshed body
     allV, allF = [], []
     off = 0

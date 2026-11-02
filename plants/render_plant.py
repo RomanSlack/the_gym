@@ -59,7 +59,7 @@ else:
         cam, tgt, lens = F[SHOT if SHOT in F else "hero"]
         d = (mathutils.Vector(cam) - mathutils.Vector(tgt)).normalized() if SHOT != "base" else mathutils.Vector((0.3, -1, 0.75)).normalized()
         size = max(hi.x - lo.x, hi.y - lo.y, hi.z - lo.z)
-        fit = {"hero": 1.25, "backlit": 1.25, "close": 0.55, "base": 0.55}[SHOT]
+        fit = {"hero": 1.4, "backlit": 1.4, "close": 0.55, "base": 0.55}[SHOT]
         if SHOT == "base":                                             # the trunk's foot and the pot's moss
             c = mathutils.Vector((c.x, c.y, lo.z + (hi.z - lo.z) * 0.08)); size = hi.z - lo.z
         dist = max(size * fit / (2 * math.tan(math.atan(18 / lens))), 0.45 if SHOT == "base" else 0.0)
