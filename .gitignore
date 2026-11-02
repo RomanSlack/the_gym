@@ -36,3 +36,5 @@ feedback/trash/
 # Materials: reference photos (third-party, not ours) and scratch work stay local; maps + out/ progress renders are committed
 materials/*/refs/
 materials/*/work/
+plants/refs/
+plants/work/

@@ -68,14 +68,14 @@ for rec in log.split("\x1e"):
                                                          "prompt": prompt.strip(), "also": [a.strip() for a in also.strip().splitlines() if a.strip()]})
 # material studies (tools/material_out.py): materials/<name>/out/<cam>_vNNN.jpg, one camera per <name>/<cam>
 log = git("log", "--reverse", "--format=%H%x1f%ad%x1f%s%x1f%(trailers:key=Prompt,valueonly)%x1f%(trailers:key=Also-Prompt,valueonly)%x1e",
-          "--date=format:%Y-%m-%d %H:%M", "--", "materials/").decode(errors="ignore")
+          "--date=format:%Y-%m-%d %H:%M", "--", "materials/", "plants/").decode(errors="ignore")
 for rec in log.split("\x1e"):
     if not rec.strip():
         continue
     h, date, subj, prompt, also = (rec.strip("\n").split("\x1f") + [""] * 5)[:5]
-    names = git("diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=AM", h, "--", "materials/").decode().split()
+    names = git("diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=AM", h, "--", "materials/", "plants/").decode().split()
     for n in sorted(names):
-        m = re.match(r"materials/([^/]+)/out/(.+)_v\d{3}\.jpg$", n)
+        m = re.match(r"(?:materials/)?([^/]+)/out/(.+)_v\d{3}\.jpg$", n)
         if not m:
             continue
         dst = OUT / h[:8] / Path(n).name
