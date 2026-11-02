@@ -219,6 +219,7 @@ def moss_material(k, patchy=False):
         hm = N.new("ShaderNodeMix"); hm.data_type = "FLOAT"
         L.new(mr.outputs[0], hm.inputs[0]); L.new(gr.outputs[0], hm.inputs[2]); L.new(h.outputs[0], hm.inputs[3])
         bp.inputs["Distance"].default_value = 0.0012
+        bp.inputs["Strength"].default_value = 0.5
         L.new(hm.outputs[0], bp.inputs["Height"])
         sh_ = N.new("ShaderNodeMath"); sh_.operation = "MULTIPLY"; sh_.inputs[1].default_value = 0.35
         L.new(mr.outputs[0], sh_.inputs[0]); L.new(sh_.outputs[0], b.inputs["Sheen Weight"])
@@ -579,7 +580,7 @@ def table_and_pot(loc, rng, rect=False):
                 n_ = sum(math.sin(x * kx + y * ky + ph) for kx, ky, ph in waves) / len(waves) ** 0.5
                 mo_ = min(max((n_ + 0.05) / 0.7, 0.0), 1.0); mo_ = mo_ * mo_ * (3 - 2 * mo_)
                 MOS.append(mo_)
-            V.append((loc[0] + x, loc[1] + y, zs + dome + ((hgt - 0.5) * 0.007 * mo_ + 0.0012 * mo_) * min(1, (0.955 - rr) / 0.06) - 0.004 * (rr > 0.94)))
+            V.append((loc[0] + x, loc[1] + y, zs + dome + ((hgt - 0.5) * 0.007 * mo_ * (0 if rect else 1) + (0.003 * mo_ ** 0.5 if rect else 0.0012 * mo_)) * min(1, (0.955 - rr) / 0.06) - 0.004 * (rr > 0.94)))
             UV.append((u, v))
     for i in range(nr):
         for j in range(nt):
