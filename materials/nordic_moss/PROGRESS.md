@@ -21,3 +21,6 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 11:46 `out/render_wall_wet_v003.jpg` Wet v3: streaks only on the stone, the moss soaked evenly
 - 2026-11-02 11:46 `out/render_boulder_wet_v001.jpg` Wet boulder: dark soaked granite, the film catching the sky, moss deeper green
 - 2026-11-02 11:46 `out/maps_sheet_v002.jpg` Two-layer set: the bare granite under the moss (Gemini's moss-free edit), the moss depth for the coverage dial
+- 2026-11-02 11:49 `out/wet_refs_v001.jpg` Wet references and what they teach: real bead drops on the moss tips, wet moss more vivid not darker, wet stone dark with a glaze
+- 2026-11-02 11:50 `out/render_close_wet_v002.jpg` Real water drops (60k beads, IOR 1.33, sat on the displaced surface): they read as drops; moss gone lime, drops too even (bubbly)
+- 2026-11-02 11:51 `out/render_close_wet_v003.jpg` Wet v3: moss vivid green (hue toward green, not lime), drops many tiny + a few big, real refraction

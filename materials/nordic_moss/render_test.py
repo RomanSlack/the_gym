@@ -165,8 +165,9 @@ def moss_material(name="nordic_moss", d=MAPS, box=False, scale=SCALE, files=None
         dark = math("MULTIPLY", math("ADD", 0.8, math("MULTIPLY", math("MAXIMUM", pool, streak), 0.2)), wet)
         wc = N.new("ShaderNodeMix"); wc.data_type = "RGBA"; L.new(dark, wc.inputs[0]); L.new(c2.outputs[2], wc.inputs[6]); L.new(hs.outputs[0], wc.inputs[7])
         L.new(wc.outputs[2], rock.inputs["Base Color"])            # the streaks darken the stone; the moss is soaked evenly
-        wm = N.new("ShaderNodeMix"); wm.data_type = "RGBA"; wm.inputs[0].default_value = 0.85 * wet
-        L.new(c2.outputs[2], wm.inputs[6]); L.new(hs.outputs[0], wm.inputs[7]); L.new(wm.outputs[2], mo.inputs["Base Color"])
+        # (the wet references: soaked moss goes MORE vivid, its leaves unfurl and glow when backlit, so saturation up, not darker)
+        hm = N.new("ShaderNodeHueSaturation"); hm.inputs["Hue"].default_value = 0.5 + 0.035 * wet; hm.inputs["Saturation"].default_value = 1.0 + 0.3 * wet; hm.inputs["Value"].default_value = 1.0 - 0.12 * wet
+        L.new(c2.outputs[2], hm.inputs["Color"]); L.new(hm.outputs[0], mo.inputs["Base Color"])
         # rock: the film
         fn = N.new("ShaderNodeNormalMap"); fn.inputs["Strength"].default_value = 0.3; L.new(nrm, fn.inputs["Color"])
         rb = N.new("ShaderNodeBump"); rb.inputs["Strength"].default_value = 0.15; rb.inputs["Distance"].default_value = 0.002
@@ -192,7 +193,7 @@ def moss_material(name="nordic_moss", d=MAPS, box=False, scale=SCALE, files=None
         L.new(db.outputs[0], mo.inputs["Coat Normal"])
         mo.inputs["Roughness"].default_value = 1.0 - 0.2 * wet
         mo.inputs["Sheen Weight"].default_value = 0.25 * (1 - wet)
-        mo.inputs["Subsurface Weight"].default_value = 0.15 + 0.1 * wet
+        mo.inputs["Subsurface Weight"].default_value = 0.15 + 0.25 * wet
     sh = N.new("ShaderNodeMixShader")
     if vis is not None:
         L.new(vis, sh.inputs[0])
@@ -201,6 +202,45 @@ def moss_material(name="nordic_moss", d=MAPS, box=False, scale=SCALE, files=None
     dp = N.new("ShaderNodeDisplacement"); dp.inputs["Midlevel"].default_value = 0.15; dp.inputs["Scale"].default_value = scale
     L.new(hgt, dp.inputs["Height"]); L.new(dp.outputs[0], out.inputs["Displacement"])
     return m
+
+
+def droplets(size, loc, n=30000, seed=7, scale=SCALE):
+    """Real water drops on a vertical panel (panel(): UV u -> world x, v -> world z, facing -y), sat on the displaced surface:
+    round beads 0.8-3 mm on the moss tips (the wet references: each a little lens), fewer, flatter, smaller ones on the stone."""
+    import numpy as np
+    rng = np.random.default_rng(seed)
+    def px(f):
+        im = bpy.data.images.load(str(MAPS / f), check_existing=True); im.colorspace_settings.name = "Non-Color"
+        a_ = np.empty(im.size[0] * im.size[1] * 4, np.float32); im.pixels.foreach_get(a_)
+        return a_.reshape(im.size[1], im.size[0], 4)[..., 0]
+    mask, h, md = px("mask_shade.png"), px("height.png"), px("moss_dist.png")
+    S = mask.shape[0]
+    u, v = rng.random(n * 3), rng.random(n * 3)
+    iu, iv = (u * (S - 1)).astype(int), (v * (S - 1)).astype(int)
+    moss = (mask[iv, iu] > 0.6) & (md[iv, iu] > 0.03)
+    keep = moss | (rng.random(n * 3) < 0.10)
+    u, v, iu, iv, moss = u[keep][:n], v[keep][:n], iu[keep][:n], iv[keep][:n], moss[keep][:n]
+    r = np.where(moss, np.clip(rng.lognormal(np.log(0.0009), 0.6, len(u)), 0.0004, 0.0038),   # many tiny, a few big
+                 np.clip(rng.lognormal(np.log(0.0008), 0.3, len(u)), 0.0004, 0.0016))
+    off = (h[iv, iu] - 0.15) * scale + np.where(moss, r * 0.5, r * 0.15)       # out of the surface (toward -y), resting on it
+    cx, cy, cz = loc[0] + (u - 0.5) * size, loc[1] - off, loc[2] + (v - 0.5) * size
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0)
+    t = bpy.context.object; tv = np.array([vv.co[:] for vv in t.data.vertices]); tf = [list(f.vertices) for f in t.data.polygons]
+    bpy.data.objects.remove(t)
+    sy = np.where(moss, 0.85, 0.45)                                            # beads on stone sit flatter (they wet it)
+    V = (tv[None] * np.stack([r, r * sy, r], 1)[:, None] + np.stack([cx, cy, cz], 1)[:, None]).reshape(-1, 3)
+    F = (np.array(tf)[None] + (np.arange(len(u)) * len(tv))[:, None, None]).reshape(-1, 3)
+    me = bpy.data.meshes.new("drops"); me.from_pydata(V.tolist(), [], F.tolist()); me.update()
+    for poly in me.polygons:
+        poly.use_smooth = True
+    o = bpy.data.objects.new("drops", me); sc.collection.objects.link(o)
+    w = bpy.data.materials.new("water"); w.use_nodes = True
+    b = w.node_tree.nodes["Principled BSDF"]
+    b.inputs["Base Color"].default_value = (1, 1, 1, 1); b.inputs["Roughness"].default_value = 0.0
+    b.inputs["Transmission Weight"].default_value = 1.0; b.inputs["IOR"].default_value = 1.33
+    o.data.materials.append(w)
+    print(f"droplets: {len(u)} ({int(moss.sum())} on moss)")
+    return o
 
 
 def panel(name, size, mat, loc=(0, 0, 0), rot=(math.radians(90), 0, 0), cuts=1024):
@@ -237,6 +277,9 @@ import mathutils  # noqa: E402
 if SHOT in ("wall", "close"):
     m = moss_material()
     panel("panel", 2.0, m, loc=(0, 0, 1.0))
+    if WET > 0:
+        droplets(2.0, (0, 0, 1.0), n=int(opt("--drops", 45000)))
+        sc.cycles.transmission_bounces = 8; sc.cycles.max_bounces = 12
     # a pale floor + side walls so the light reads like a room
     bpy.ops.mesh.primitive_plane_add(size=8, location=(0, -2, 0)); bpy.context.object.data.materials.append(bc.material("floor", (0.55, 0.53, 0.5), 0.8))
     if SHOT == "wall":
