@@ -21,6 +21,7 @@ a = sys.argv[sys.argv.index("--") + 1:]
 OUT = a[0]
 opt = lambda k, d: type(d)(a[a.index(k) + 1]) if k in a else d
 SEED, SAMPLES, YAW = opt("--seed", 3), opt("--samples", 512), opt("--yaw", 0.0)
+SHOT = opt("--shot", "full")          # full | trunk | foliage | base: the close-ups
 os.environ["BONSAI_STYLE"] = opt("--style", "dome")
 import gen_bonsai  # noqa: E402
 
@@ -93,16 +94,38 @@ lens = 70
 d = mathutils.Vector((0.12, -1.0, 0.035)).normalized()      # (near level: the garden behind, not the pond edge)
 half_w = math.atan(18 * 0.8 / lens)
 dist = max(hi.x - lo.x, hi.y - lo.y) * 0.56 / math.tan(half_w)
+wood = [o for o in objs if o.name.endswith("_wood")][0]
+focus = bpy.data.objects.new("focus", None); sc.collection.objects.link(focus)
+focus.location = wood.matrix_world @ mathutils.Vector(wood.bound_box[0]).lerp(mathutils.Vector(wood.bound_box[6]), 0.5)
+if SHOT != "full":
+    # close-ups: a 100 mm macro-ish lens a hand's length away, focused on the subject, the rest falling off
+    lens = 100
+    import numpy as np
+    V = np.array([wood.matrix_world @ v.co for v in wood.data.vertices])
+    if SHOT == "trunk":                                              # the trunk's elbow, where the shari twists
+        z0 = V[:, 2].min()
+        sel = V[(V[:, 2] > z0 + 0.07) & (V[:, 2] < z0 + 0.17) & (np.abs(V[:, 0]) < 0.15)]
+        d = mathutils.Vector((0.25, -1.0, 0.32)).normalized()
+        front = sel[np.argmax(sel @ np.array(d))]                    # the trunk's surface facing the camera
+        tgt = mathutils.Vector(sel.mean(0)); dist = 0.55
+    elif SHOT == "base":                                             # the nebari, the grit and moss
+        zz = np.percentile(V[:, 2], 4); sel = V[V[:, 2] < zz + 0.02]
+        tgt = mathutils.Vector(sel.mean(0)) + mathutils.Vector((0.0, -0.05, 0)); dist = 0.5; d = mathutils.Vector((0.25, -1.0, 1.1)).normalized()
+    else:                                                            # the foliage at a canopy edge, the sun behind it
+        fol = [o for o in objs if o.name.endswith("_foliage")][0]
+        F_ = np.array([fol.matrix_world @ mathutils.Vector(c_) for c_ in fol.bound_box])
+        lo_, hi_ = F_.min(0), F_.max(0)
+        tgt = mathutils.Vector((lo_[0] + (hi_[0] - lo_[0]) * 0.78, (lo_[1] + hi_[1]) / 2 - 0.06, lo_[2] + (hi_[2] - lo_[2]) * 0.55))
+        dist = 0.5; d = mathutils.Vector((0.15, -1.0, 0.08)).normalized()
+    c = tgt
+    focus.location = mathutils.Vector(front) if SHOT == "trunk" else tgt
 cd = bpy.data.cameras.new("cam"); cd.lens = lens
 cam = bpy.data.objects.new("cam", cd); sc.collection.objects.link(cam)
 cam.location = c + d * dist
 cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
 sc.camera = cam
-wood = [o for o in objs if o.name.endswith("_wood")][0]
-focus = bpy.data.objects.new("focus", None); sc.collection.objects.link(focus)
-focus.location = wood.matrix_world @ mathutils.Vector(wood.bound_box[0]).lerp(mathutils.Vector(wood.bound_box[6]), 0.5)
 cd.dof.use_dof = True;  # (light: the stand's front edge just soft)
-cd.dof.aperture_fstop = 5.6; cd.dof.focus_object = focus; pass
+cd.dof.aperture_fstop = 5.6 if SHOT == "full" else 11.0; cd.dof.focus_object = focus; pass
 # two passes, composited outside (a lens blur of the panorama through the denoiser banded into contours): the stand + tree
 # on a transparent film, then the garden alone, sharp and noise-free; tools: plants/post_composite.py
 sc.render.image_settings.color_depth = "16"

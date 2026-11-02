@@ -71,31 +71,41 @@ _M = {}
 
 
 def wood_material():
-    """bark on the live veins, deadwood on the shari (the 'dead' attribute), both images on the UVs that follow the twist"""
+    """v2 (Roman: "the bark ... comes across as plasticky"): 4K macro photo textures generated from the references
+    (maps/bonsai/dead4k: twisting bleached shari with cracks, knots, splinters; bark4k: stringy peeling red-brown strips),
+    made tileable, at real scale (10 cm a tile), each with a height from its own image; deep crack shadows, fully matte
+    (bleached wood has no sheen: the old 0.68-0.88 roughness + specular 0.3 read as plastic). 'dead' picks the layer."""
     if "wood" in _M:
         return _M["wood"]
     m = bpy.data.materials.new("bonsai_wood"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     N.clear()
     out = N.new("ShaderNodeOutputMaterial")
-    uv = N.new("ShaderNodeUVMap")
-    bark = N.new("ShaderNodeTexImage"); bark.image = _img(MAPS / "bark.jpg"); bark.extension = "REPEAT"   # (MIRROR made chevrons)
-    dead = N.new("ShaderNodeTexImage"); dead.image = _img(MAPS / "deadwood.jpg"); dead.extension = "REPEAT"
-    for t in (bark, dead):
-        L.new(uv.outputs[0], t.inputs["Vector"])
+    # projected from the sides in object space, 10 cm a tile (the UVs along the spines smeared into stripes at the flare)
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (10, 10, 7)
+    L.new(tc.outputs["Object"], mp.inputs["Vector"])
+
+    def img(name, color=True):
+        t = N.new("ShaderNodeTexImage"); t.image = _img(MAPS / name, color); t.extension = "REPEAT"
+        t.projection = "BOX"; t.projection_blend = 0.35
+        L.new(mp.outputs[0], t.inputs["Vector"]); return t
+    bark, dead = img("bark4k_col.jpg"), img("dead4k_col.jpg")
+    bh, dh = img("bark4k_h.png", False), img("dead4k_h.png", False)
     at = N.new("ShaderNodeAttribute"); at.attribute_name = "dead"
-    bk = N.new("ShaderNodeHueSaturation"); bk.inputs["Value"].default_value = 0.75     # live bark a touch deeper
-    L.new(bark.outputs[0], bk.inputs["Color"])
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"
-    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(bk.outputs[0], mx.inputs[6]); L.new(dead.outputs[0], mx.inputs[7])
-    g = N.new("ShaderNodeRGBToBW"); L.new(mx.outputs[2], g.inputs[0])
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.7; bp.inputs["Distance"].default_value = 0.0015
-    L.new(g.outputs[0], bp.inputs["Height"])
+    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(bark.outputs[0], mx.inputs[6]); L.new(dead.outputs[0], mx.inputs[7])
+    hm = N.new("ShaderNodeMix"); hm.data_type = "FLOAT"
+    L.new(at.outputs["Fac"], hm.inputs[0]); L.new(bh.outputs[0], hm.inputs[2]); L.new(dh.outputs[0], hm.inputs[3])
+    # crevices darker than the photo already has them (the light is ours now): colour x (0.55 + 0.45 height)
+    cv = N.new("ShaderNodeMath"); cv.operation = "MULTIPLY_ADD"; cv.inputs[1].default_value = 0.5; cv.inputs[2].default_value = 0.5
+    L.new(hm.outputs[0], cv.inputs[0])
+    dk = N.new("ShaderNodeMix"); dk.data_type = "RGBA"; dk.blend_type = "MULTIPLY"; dk.inputs[0].default_value = 1.0
+    L.new(mx.outputs[2], dk.inputs[6]); L.new(cv.outputs[0], dk.inputs[7])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 1.0; bp.inputs["Distance"].default_value = 0.0018
+    L.new(hm.outputs[0], bp.inputs["Height"])
     pb = N.new("ShaderNodeBsdfPrincipled")
-    L.new(mx.outputs[2], pb.inputs["Base Color"])
-    r = N.new("ShaderNodeMath"); r.operation = "MULTIPLY_ADD"; r.inputs[1].default_value = -0.2; r.inputs[2].default_value = 0.88
-    L.new(at.outputs["Fac"], r.inputs[0]); L.new(r.outputs[0], pb.inputs["Roughness"])
-    pb.inputs["Specular IOR Level"].default_value = 0.3
+    L.new(dk.outputs[2], pb.inputs["Base Color"])
+    pb.inputs["Roughness"].default_value = 0.93; pb.inputs["Specular IOR Level"].default_value = 0.18
     L.new(bp.outputs[0], pb.inputs["Normal"])
     L.new(pb.outputs[0], out.inputs["Surface"])
     _M["wood"] = m
@@ -184,18 +194,23 @@ def moss_material(k, patchy=False):
     L.new(a.outputs[0], hs.inputs["Color"]); L.new(hs.outputs[0], b.inputs["Base Color"])
     if patchy:
         # the reference pot: mostly dark bonsai grit (akadama + lava + grey grit, 2-4 mm), the moss only in patches
-        mk = N.new("ShaderNodeTexNoise"); mk.inputs["Scale"].default_value = 7; mk.inputs["Detail"].default_value = 6
-        mk.inputs["Roughness"].default_value = 0.65; L.new(uv.outputs[0], mk.inputs["Vector"])
-        mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.47; mr.inputs["From Max"].default_value = 0.53
-        L.new(mk.outputs[0], mr.inputs["Value"])
+        mk = N.new("ShaderNodeAttribute"); mk.attribute_name = "moss"            # the patches the geometry has (gen: MOS)
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 60; L.new(uv.outputs[0], nz.inputs["Vector"])
+        ad = N.new("ShaderNodeMath"); ad.operation = "MULTIPLY_ADD"; ad.inputs[1].default_value = 0.5
+        L.new(nz.outputs[0], ad.inputs[0]); L.new(mk.outputs["Fac"], ad.inputs[2])     # a ragged edge
+        mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.6; mr.inputs["From Max"].default_value = 0.8
+        L.new(ad.outputs[0], mr.inputs["Value"])
         vo = N.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 170; L.new(uv.outputs[0], vo.inputs["Vector"])
         sep = N.new("ShaderNodeSeparateColor"); L.new(vo.outputs["Color"], sep.inputs[0])
         cr = N.new("ShaderNodeValToRGB"); L.new(sep.outputs[0], cr.inputs[0]); cr.color_ramp.interpolation = "CONSTANT"
         cr.color_ramp.elements[0].color = (0.025, 0.02, 0.017, 1)                     # lava, dark
         cr.color_ramp.elements[1].position = 0.45; cr.color_ramp.elements[1].color = (0.11, 0.05, 0.03, 1)    # akadama
         e = cr.color_ramp.elements.new(0.8); e.color = (0.07, 0.065, 0.06, 1)          # grey grit
-        gr = N.new("ShaderNodeMath"); gr.operation = "SUBTRACT"; gr.inputs[0].default_value = 1.0
-        L.new(vo.outputs["Distance"], gr.inputs[1])
+        # rounded grains (1 - distance read as pyramids): a dome per cell, sqrt(1 - (d / 0.55)^2)
+        g1 = N.new("ShaderNodeMath"); g1.operation = "DIVIDE"; g1.inputs[1].default_value = 0.55; L.new(vo.outputs["Distance"], g1.inputs[0])
+        g2 = N.new("ShaderNodeMath"); g2.operation = "POWER"; g2.inputs[1].default_value = 2.0; L.new(g1.outputs[0], g2.inputs[0])
+        g3 = N.new("ShaderNodeMath"); g3.operation = "SUBTRACT"; g3.inputs[0].default_value = 1.0; g3.use_clamp = True; L.new(g2.outputs[0], g3.inputs[1])
+        gr = N.new("ShaderNodeMath"); gr.operation = "SQRT"; L.new(g3.outputs[0], gr.inputs[0])
         dk = N.new("ShaderNodeMix"); dk.data_type = "RGBA"; dk.blend_type = "MULTIPLY"; dk.inputs[0].default_value = 0.6
         L.new(cr.outputs[0], dk.inputs[6]); L.new(vo.outputs["Distance"], dk.inputs[7])
         mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"
@@ -203,7 +218,7 @@ def moss_material(k, patchy=False):
         L.new(mx.outputs[2], b.inputs["Base Color"])
         hm = N.new("ShaderNodeMix"); hm.data_type = "FLOAT"
         L.new(mr.outputs[0], hm.inputs[0]); L.new(gr.outputs[0], hm.inputs[2]); L.new(h.outputs[0], hm.inputs[3])
-        bp.inputs["Distance"].default_value = 0.002
+        bp.inputs["Distance"].default_value = 0.0012
         L.new(hm.outputs[0], bp.inputs["Height"])
         sh_ = N.new("ShaderNodeMath"); sh_.operation = "MULTIPLY"; sh_.inputs[1].default_value = 0.35
         L.new(mr.outputs[0], sh_.inputs[0]); L.new(sh_.outputs[0], b.inputs["Sheen Weight"])
@@ -456,13 +471,15 @@ def table_and_pot(loc, rng, rect=False):
     hmap = _pixels(MAPS / f"potmoss{k_}_h.png")[..., 0]
     S_ = hmap.shape[0]
     span = 2 * a * 1.04
-    nr, nt = 150, 460
+    nr, nt = 300, 1000                                                 # (150 x 460 faceted in the close-ups)
     # angles spaced evenly along the outline (a rounded rectangle's corners got few: the moss streaked there)
     tf = np.linspace(0, 2 * math.pi, 4000, endpoint=False)
     xy = np.array([sc(t_) for t_ in tf]) * [a, b]
     arc = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(np.vstack([xy, xy[:1]]), axis=0), axis=1))])
     ts = np.interp(np.linspace(0, arc[-1], nt, endpoint=False), arc[:-1], tf)
-    V, UV, F = [], [], []
+    V, UV, F, MOS = [], [], [], []
+    r2 = np.random.default_rng(int(a * 1e5))                             # (own stream: the seeds keep their trees)
+    waves = [(*(r2.normal(0, 1, 2) / 1.0 * 26), r2.uniform(0, 6.3)) for _ in range(14)]
     for i in range(nr + 1):
         rr = 0.955 * i / nr
         for j in range(nt):
@@ -470,14 +487,21 @@ def table_and_pot(loc, rng, rect=False):
             cx_, cy_ = sc(t)
             x, y = a * rr * cx_, b * rr * cy_
             u, v = 0.5 + x / span, 0.5 + y / span
-            hgt = hmap[int(v * (S_ - 1)), int(u * (S_ - 1))]
+            fy, fx = v * (S_ - 1), u * (S_ - 1); y0, x0 = int(fy), int(fx); ty, tx = fy - y0, fx - x0   # bilinear
+            y1, x1 = min(y0 + 1, S_ - 1), min(x0 + 1, S_ - 1)
+            hgt = (hmap[y0, x0] * (1 - tx) + hmap[y0, x1] * tx) * (1 - ty) + (hmap[y1, x0] * (1 - tx) + hmap[y1, x1] * tx) * ty
             dome = 0.012 * (1 - rr ** 2)
-            V.append((loc[0] + x, loc[1] + y, zs + dome + (hgt - 0.5) * 0.007 * min(1, (0.955 - rr) / 0.06) - 0.004 * (rr > 0.94)))
+            mo_ = 1.0
+            if rect:                                                     # moss in patches (the grit between kept flat: it read spiky)
+                n_ = sum(math.sin(x * kx + y * ky + ph) for kx, ky, ph in waves) / len(waves) ** 0.5
+                mo_ = min(max((n_ + 0.05) / 0.7, 0.0), 1.0); mo_ = mo_ * mo_ * (3 - 2 * mo_)
+                MOS.append(mo_)
+            V.append((loc[0] + x, loc[1] + y, zs + dome + ((hgt - 0.5) * 0.007 * mo_ + 0.0012 * mo_) * min(1, (0.955 - rr) / 0.06) - 0.004 * (rr > 0.94)))
             UV.append((u, v))
     for i in range(nr):
         for j in range(nt):
             F.append([i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j])
-    objs.append(_obj("bonsai_moss", V, F, moss_material(k_, patchy=rect), UV))
+    objs.append(_obj("bonsai_moss", V, F, moss_material(k_, patchy=rect), UV, {"moss": MOS} if rect else None))
     stone = bpy.data.materials.new("pebble"); stone.use_nodes = True     # speckled granite (v1 was smooth grey clay)
     sn, sl = stone.node_tree.nodes, stone.node_tree.links
     sb = sn["Principled BSDF"]; sb.inputs["Roughness"].default_value = 0.62
@@ -744,16 +768,16 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     ridges = np.sin(nr_ * ang + twist * s * 0.9 + 0.8 * wavenoise(P, rng, 40)) * 0.5 + 0.5
     grain = np.sin(2 * nr_ * ang + twist * s + 1.5 * wavenoise(P, rng, 60))
     knots = wavenoise(P, rng, 28)
-    disp = r * (0.13 * ridges + 0.1 * knots - 0.26 * dead + 0.07 * grain * dead + 0.16 * lip)      # (0.07/0.06/0.16 read smooth)
+    disp = r * (0.05 * ridges + 0.1 * knots - 0.22 * dead + 0.13 * lip)      # (v3: the fine fibre now in the texture; geometric ridges terraced)
     if dome:                                                             # weathered deadwood: deep fissures + hollows, twisting
         hollow = np.clip(wavenoise(P, rng, 45) - 0.35, 0, None)
-        disp += r * dead * (0.12 * grain - 0.35 * hollow)
+        disp += r * dead * (-0.35 * hollow)
     disp *= np.where(is_trunk, 1.0, np.where(is_root, 0.8, 0.3))       # (branches at 0.55 read corrugated)
     disp, dead = lap(disp, 6), lap(dead, 3)                            # (where neighbours took different spines it stepped)
     P2 = P + Nn * disp[:, None]
     me.vertices.foreach_set("co", P2.astype(np.float32).ravel())
     # UVs: round the nearest spine, twisted with the ridges (the bark strips follow the fibres)
-    uscale, vscale = 0.13, 0.3                                       # the bark image's strips are long: one tile ~22 cm along (6 cm read as bricks)
+    uscale, vscale = 0.1, 0.1   # (the 4K textures are 10 cm patches)                                     # the bark image's strips are long: one tile ~22 cm along (6 cm read as bricks)
     U = ((ang + twist * s * 0.9) % (2 * math.pi)) * np.maximum(r, 0.004) / uscale
     Vv = ln / vscale
     if is_root.any():                                                 # the roots: strips running out along them (not stretched round)
