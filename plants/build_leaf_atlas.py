@@ -28,7 +28,7 @@ HPX = 2048
 
 OUT.mkdir(parents=True, exist_ok=True)
 atlas = {}
-for f in sorted(SRC.glob("*_0.webp")):
+for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bonsai" else ("*_0.webp",)) for g in SRC.glob(pat)]):   # (bonsai: the bark images aren't leaves)
     name = f.stem.replace("_0", "")
     img = cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
     hsv = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2HSV).astype(np.float32) / 255
@@ -44,7 +44,7 @@ for f in sorted(SRC.glob("*_0.webp")):
     inv = 1 - m                                                          # specular glints read as background: fill the tiny ones
     n, lab, st, _ = cv2.connectedComponentsWithStats(inv)
     for i in range(1, n):
-        if st[i, cv2.CC_STAT_AREA] < 600:
+        if st[i, cv2.CC_STAT_AREA] < (40 if f.stem.startswith("tip") else 600):   # (lacy tips keep their gaps)
             m[lab == i] = 1
     H, W = m.shape
     ys, xs = np.nonzero(m)

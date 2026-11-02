@@ -35,3 +35,9 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 13:16 `out/render_snake_hero_v001.jpg` Snake v1: squat, agave-like (leaves too wide, too much lean), too many dry tips, 20 of 27 touching
 - 2026-11-02 13:16 `out/render_snake_hero_v002.jpg` Snake v4 (seed 1): slender upright swords, darker like the refs, one dry tip per plant at most; leaves kept apart (5 near-touch within 1.6 cm where 5 rosettes crowd one pot)
 - 2026-11-02 13:16 `out/render_snake_trio_v001.jpg` Three seeds: a dense green one, two Laurentii with golden margins; each different
+- 2026-11-02 13:26 `out/refs_bonsai_v001.jpg` Juniper bonsai references (Commons): informal upright trunks, reddish fibrous live veins spiralling round bleached deadwood (shari, jin), flat layered foliage pads, shallow brown trays
+- 2026-11-02 13:26 `out/bonsai_images_v001.jpg` Generated from the refs: bark, deadwood (the first try drew a pot, redone), 4 sprig clusters (pad filling), 4 open lacy branchlet tips (the pad surface)
+- 2026-11-02 13:26 `out/render_bonsai_hero_v001.jpg` Bonsai v1: the form works; pads like lettuce (big cluster cards), tray white (an empty material slot)
+- 2026-11-02 13:26 `out/render_bonsai_hero_v002.jpg` v4: flat layered pads, fluted trunk; still oak-leaf flakes up close
+- 2026-11-02 13:26 `out/render_bonsai_hero_v003.jpg` v6: pads from open lacy branchlet tips (feathery juniper), irregular pad outlines, clay tray, jins tapering to points
+- 2026-11-02 13:26 `out/render_bonsai_trio_v001.jpg` Three seeds: different trunks, pad layouts, a blue-green variety on the right

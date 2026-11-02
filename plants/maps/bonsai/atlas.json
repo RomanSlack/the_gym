@@ -1,0 +1,50 @@
+{
+ "sprig1": {
+  "maturity": 0.7,
+  "aspect": 1.1169,
+  "joint_v": 0.1121,
+  "midrib_u": 0.5132
+ },
+ "sprig2": {
+  "maturity": 0.7,
+  "aspect": 1.0827,
+  "joint_v": 0.0452,
+  "midrib_u": 0.5014
+ },
+ "sprig3": {
+  "maturity": 0.7,
+  "aspect": 1.1803,
+  "joint_v": 0.1363,
+  "midrib_u": 0.4927
+ },
+ "sprig4": {
+  "maturity": 0.7,
+  "aspect": 1.1762,
+  "joint_v": 0.1661,
+  "midrib_u": 0.5011
+ },
+ "tip1": {
+  "maturity": 0.7,
+  "aspect": 0.8616,
+  "joint_v": 0.1728,
+  "midrib_u": 0.5603
+ },
+ "tip2": {
+  "maturity": 0.7,
+  "aspect": 1.089,
+  "joint_v": 0.1697,
+  "midrib_u": 0.5248
+ },
+ "tip3": {
+  "maturity": 0.7,
+  "aspect": 1.2795,
+  "joint_v": 0.2201,
+  "midrib_u": 0.5125
+ },
+ "tip4": {
+  "maturity": 0.7,
+  "aspect": 1.231,
+  "joint_v": 0.1222,
+  "midrib_u": 0.5029
+ }
+}
