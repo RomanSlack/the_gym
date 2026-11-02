@@ -75,3 +75,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:58 `out/compare_bonsai_dome_v003.jpg` The reference vs v3
 - 2026-11-02 15:03 `out/render_bonsai_pot_v003.jpg` Dome style base: weathered fissured deadwood with hollows into the roots, dark bonsai grit (akadama, lava, grey grit) with moss in patches, like the reference pot
 - 2026-11-02 15:03 `out/render_bonsai_dome_v008.jpg` v3b (seed 3): near-all deadwood trunk with a thin live vein, grit soil with moss patches
+- 2026-11-02 15:06 `out/render_bonsai_dome_v009.jpg` Branches as smooth curves (Roman: "the branches look at some strange almost 90 degree angles"): every branch leaves its parent along the parent's direction and bends onto its target (a Bezier), joints only where the clump lies ahead, twigs fan on from the secondary instead of a starburst

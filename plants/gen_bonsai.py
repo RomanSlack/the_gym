@@ -229,6 +229,21 @@ def spine(p0, d0, length, n, rng, bends=2.0, amp=0.25, droop=0.0, up=0.0, horiz=
     return np.array(pts)
 
 
+def grow(p0, t0, p1, n, rng, sag=0.0, wob=0.0):
+    """a smooth branch from p0 to p1 that leaves along t0 (its parent's direction, blended toward the target: no right-angle
+    joints, Roman: "the branches look at some strange almost 90 degree angles") and curves gradually onto its target"""
+    d = p1 - p0; L = np.linalg.norm(d) + 1e-9
+    t0 = _unit(_unit(t0) * 0.55 + d / L * 0.45)
+    c1 = p0 + t0 * L * 0.4
+    c2 = p1 - _unit(p1 - c1) * L * 0.3 + np.array([0, 0, -sag * L])
+    t = np.linspace(0, 1, n)[:, None]
+    pts = (1 - t) ** 3 * p0 + 3 * (1 - t) ** 2 * t * c1 + 3 * (1 - t) * t ** 2 * c2 + t ** 3 * p1
+    if wob:
+        side = _unit(np.cross(d, [0, 0, 1.0]) if abs(d[2]) < 0.95 * L else np.cross(d, [1.0, 0, 0]))
+        pts = pts + side * (wob * L * np.sin(np.pi * t) * math.sin(rng.uniform(0, 6.3)))
+    return pts
+
+
 def frames(pts):
     """parallel-transported frames along a curve: tangent, a1, a2"""
     n = len(pts)
@@ -628,7 +643,8 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
             p0 = ups[k]
             tgt = cc + np.array([math.cos(a_) * AX * 0.75, math.sin(a_) * AY * 0.75, -0.02])
             L_ = np.linalg.norm(tgt - p0)
-            sp_ = spine(p0, tgt - p0, L_, 18, rng, amp=1.0, bends=2.5, up=0.1)
+            tk_ = _unit(ups[min(k + 1, len(ups) - 1)] - ups[max(k - 1, 0)])
+            sp_ = grow(p0, tk_ + _unit(tgt - p0), tgt, 18, rng, sag=0.08, wob=0.08)
             prims.append(sp_)
             spines.append(("branch", sp_, np.linspace(trad[int(0.62 * len(trunk)) + k] * 0.45, 0.004, len(sp_)), False))
         for _ in range(int(rng.integers(3, 6))):                           # jins: jagged dead stubs off the elbow + trunk
@@ -637,12 +653,17 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
             sp_ = spine(trunk[k], [math.cos(a_), math.sin(a_), rng.uniform(-0.1, 0.6)], rng.uniform(0.03, 0.07), 8, rng, amp=1.2)
             spines.append(("dead", sp_, np.linspace(trad[k] * 0.35, 0.0008, len(sp_)), True))
         net = np.concatenate(prims)
-        for c_, r_ in clumps:                                             # a secondary into every clump, twisting
-            k = int(np.argmin(np.linalg.norm(net - c_, axis=1)))
+        ntan = np.concatenate([np.gradient(sp_, axis=0) for sp_ in prims])
+        for c_, r_ in clumps:                                             # a secondary into every clump, leaving along its parent
+            dd_ = np.linalg.norm(net - c_, axis=1)
+            # the joint: a point on the network the clump lies ahead of (no doubling back), the nearest such
+            ahead = ((c_ - net) * ntan).sum(1) > 0
+            k = int(np.argmin(np.where(ahead, dd_, dd_ + 1.0)))
             p0 = net[k]; L_ = np.linalg.norm(c_ - p0)
+            end_t = _unit(c_ - p0)
             if L_ > 0.015:
-                sp2 = spine(p0, c_ - p0, L_, 10, rng, amp=1.2, bends=2, up=0.15)
-                sp2[-1] = c_
+                sp2 = grow(p0, ntan[k], c_, 12, rng, sag=0.05, wob=0.06)
+                end_t = _unit(sp2[-1] - sp2[-3])
                 twig_tubes.append((sp2, np.linspace(0.0055, 0.0025, len(sp2))))
             # its foliage: clusters over the clump's top and sides (flat underneath: the dark gap below each clump)
             for _ in range(int(8 + 3500 * r_ * r_)):
@@ -650,7 +671,7 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
                 if dv[2] < -0.2:
                     dv[2] = -0.2 + 0.1 * dv[2]
                 pt = c_ + dv * [r_, r_, r_ * 0.6] * rng.uniform(0.6, 1.0)
-                sp3 = np.array([c_ + (pt - c_) * t_ for t_ in np.linspace(0, 1, 4)])
+                sp3 = grow(c_ - end_t * 0.01, end_t, pt, 6, rng, sag=0.03)          # fanning on from the secondary, not a starburst
                 twig_tubes.append((sp3, np.linspace(0.0022, 0.001, len(sp3))))
                 clusters.append((pt, rng.uniform(0.028, 0.036)))
     # ---- fuse the thick wood: tubes -> one voxel-remeshed body
