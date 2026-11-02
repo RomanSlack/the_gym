@@ -47,3 +47,9 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:13 `out/render_bonsai_close_v002.jpg` Fields smoothed over the surface (the nearest-sample steps made zig-zags), bark repeating along the fibres, ridges no finer than 1.4 cm: fibrous twisting bark, silver deadwood band, branch collars
 - 2026-11-02 14:13 `out/render_bonsai_hero_v006.jpg` v2 (seed 1)
 - 2026-11-02 14:13 `out/render_bonsai_trio_v002.jpg` Three seeds: three different trees (shari + jin, slender S-trunk, upright)
+- 2026-11-02 14:24 `out/render_bonsai_hero_v007.jpg` Bonsai v3 round (Roman: "keep going with the bonsai to get perfect"): auto-framing on the tree; pads still stacked flat sheets
+- 2026-11-02 14:24 `out/render_bonsai_hero_v008.jpg` Sprays at all angles, smaller and 2x as many: 3D foliage masses; base terraces + corrugated branches left
+- 2026-11-02 14:24 `out/render_bonsai_base_v001.jpg` The foot: sunk in the soil, nebari roots half buried in the moss (was a floating stump with a stepped skirt)
+- 2026-11-02 14:24 `out/render_bonsai_close_v003.jpg` A pad up close: open branchlet tips at every angle, fresh yellow-green only on top, dark inside
+- 2026-11-02 14:24 `out/render_bonsai_hero_v009.jpg` v3 (seed 2): the leaning juniper with the shari spiral, nebari, granite pebbles in the moss, pot + tree framed
+- 2026-11-02 14:24 `out/render_bonsai_trio_v003.jpg` Seeds 5-7: three different trees (informal upright, semi-cascade spread, tall S-trunk)

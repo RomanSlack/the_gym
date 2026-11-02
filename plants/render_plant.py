@@ -7,6 +7,7 @@ one shot per Blender process (render politeness).
 SHOT: hero, trio (three seeds), close (FRAME["close"]), backlit.
 """
 import importlib
+import math
 import sys
 from pathlib import Path
 
@@ -49,11 +50,26 @@ if SHOT == "trio":
     room(mathutils.Vector((-2.2, -2.4, 2.8)), 260)
     look(*F["trio"])
 else:
-    plant(SEED, 0.0)
+    objs = plant(SEED, 0.0)
+    if F.get("auto") and SHOT in ("hero", "close", "backlit", "base"):
+        # frame the tree itself (they lean and spread differently): its bounding box, the camera along FRAME's direction
+        pts = [o.matrix_world @ mathutils.Vector(c) for o in objs if o.get("tree") for c in o.bound_box]
+        lo = mathutils.Vector([min(p_[i] for p_ in pts) for i in range(3)]); hi = mathutils.Vector([max(p_[i] for p_ in pts) for i in range(3)])
+        c = (lo + hi) / 2
+        cam, tgt, lens = F[SHOT if SHOT in F else "hero"]
+        d = (mathutils.Vector(cam) - mathutils.Vector(tgt)).normalized() if SHOT != "base" else mathutils.Vector((0.35, -1, 0.55)).normalized()
+        size = max(hi.x - lo.x, hi.y - lo.y, hi.z - lo.z)
+        fit = {"hero": 1.25, "backlit": 1.25, "close": 0.55, "base": 0.3}[SHOT]
+        if SHOT == "base":                                             # the trunk's foot
+            c = mathutils.Vector((c.x, c.y, lo.z + (hi.z - lo.z) * 0.12)); size = hi.z - lo.z
+        dist = max(size * fit / (2 * math.tan(math.atan(18 / lens))), 0.4 if SHOT == "base" else 0.0)
+        if SHOT == "close":
+            c = c + mathutils.Vector((0, 0, -(hi.z - lo.z) * 0.2))
+        F[SHOT] = (tuple(c + d * dist), tuple(c), lens)
     if SHOT == "backlit":
         room(mathutils.Vector((0.3, 1.25, 1.6)), 700, rim=False)
         sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.5
-        look(*F["hero"])
+        look(*F.get("backlit", F["hero"]))
     else:
         room(mathutils.Vector((-2.0, -2.2, 2.6)), 200)
         look(*F.get(SHOT, F["hero"]))
