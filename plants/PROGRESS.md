@@ -53,3 +53,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:24 `out/render_bonsai_close_v003.jpg` A pad up close: open branchlet tips at every angle, fresh yellow-green only on top, dark inside
 - 2026-11-02 14:24 `out/render_bonsai_hero_v009.jpg` v3 (seed 2): the leaning juniper with the shari spiral, nebari, granite pebbles in the moss, pot + tree framed
 - 2026-11-02 14:24 `out/render_bonsai_trio_v003.jpg` Seeds 5-7: three different trees (informal upright, semi-cascade spread, tall S-trunk)
+- 2026-11-02 14:31 `out/bonsai_pot_moss_v001.jpg` Roman: "the base texture sucks ... like the grass in the pot": the Nordic study's 2 m moss spread over the pot read as a blurry lawn. Two 4K top-down pot-moss photos generated from the moss scan + bonsai refs (cushion clumps, akadama grit), one across the whole pot
+- 2026-11-02 14:31 `out/render_bonsai_pot_v001.jpg` The new pot moss, displaced by its own height: clumps, moss tips, grit gaps; pebbles still clay blobs
+- 2026-11-02 14:31 `out/render_bonsai_pot_v002.jpg` Speckled granite pebbles
+- 2026-11-02 14:31 `out/render_bonsai_hero_v010.jpg` v4 (seed 2): the new pot moss in the full view

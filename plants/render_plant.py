@@ -57,15 +57,21 @@ else:
         lo = mathutils.Vector([min(p_[i] for p_ in pts) for i in range(3)]); hi = mathutils.Vector([max(p_[i] for p_ in pts) for i in range(3)])
         c = (lo + hi) / 2
         cam, tgt, lens = F[SHOT if SHOT in F else "hero"]
-        d = (mathutils.Vector(cam) - mathutils.Vector(tgt)).normalized() if SHOT != "base" else mathutils.Vector((0.35, -1, 0.55)).normalized()
+        d = (mathutils.Vector(cam) - mathutils.Vector(tgt)).normalized() if SHOT != "base" else mathutils.Vector((0.3, -1, 0.75)).normalized()
         size = max(hi.x - lo.x, hi.y - lo.y, hi.z - lo.z)
-        fit = {"hero": 1.25, "backlit": 1.25, "close": 0.55, "base": 0.3}[SHOT]
-        if SHOT == "base":                                             # the trunk's foot
-            c = mathutils.Vector((c.x, c.y, lo.z + (hi.z - lo.z) * 0.12)); size = hi.z - lo.z
-        dist = max(size * fit / (2 * math.tan(math.atan(18 / lens))), 0.4 if SHOT == "base" else 0.0)
+        fit = {"hero": 1.25, "backlit": 1.25, "close": 0.55, "base": 0.55}[SHOT]
+        if SHOT == "base":                                             # the trunk's foot and the pot's moss
+            c = mathutils.Vector((c.x, c.y, lo.z + (hi.z - lo.z) * 0.08)); size = hi.z - lo.z
+        dist = max(size * fit / (2 * math.tan(math.atan(18 / lens))), 0.45 if SHOT == "base" else 0.0)
         if SHOT == "close":
             c = c + mathutils.Vector((0, 0, -(hi.z - lo.z) * 0.2))
         F[SHOT] = (tuple(c + d * dist), tuple(c), lens)
+    if SHOT == "pot":                                                  # the moss in the pot, from in front and above
+        pot_o = [o for o in objs if o.name.startswith("bonsai_pot")][0]
+        pts = [pot_o.matrix_world @ mathutils.Vector(c_) for c_ in pot_o.bound_box]
+        lo = mathutils.Vector([min(p_[i] for p_ in pts) for i in range(3)]); hi = mathutils.Vector([max(p_[i] for p_ in pts) for i in range(3)])
+        tgt = mathutils.Vector(((lo.x + hi.x) / 2, lo.y + (hi.y - lo.y) * 0.28, hi.z))
+        F["pot"] = (tuple(tgt + mathutils.Vector((0.12, -0.32, 0.26))), tuple(tgt), 45)
     if SHOT == "backlit":
         room(mathutils.Vector((0.3, 1.25, 1.6)), 700, rim=False)
         sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.5

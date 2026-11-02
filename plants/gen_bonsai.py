@@ -162,20 +162,23 @@ def dark_oak(vertical=False):
     return m
 
 
-def moss_material():
-    """the Nordic cushion moss study's set (materials/nordic_moss) at real scale: its albedo + normal, matte with a soft sheen"""
-    m = bpy.data.materials.new("bonsai_moss"); m.use_nodes = True
+def moss_material(k):
+    """bonsai pot moss (v2, Roman: "the base texture sucks ... like the grass in the pot": the Nordic study's 2 m patch spread
+    over 0.5 m read as a blurry lawn): a 4K top-down photo texture of tight cushion moss with akadama grit, generated from the
+    moss scan + the references (work/potmoss), one image across the whole pot (0.12 mm a pixel); relief from its height"""
+    m = bpy.data.materials.new(f"bonsai_moss{k}"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     b = N["Principled BSDF"]
     uv = N.new("ShaderNodeUVMap")
-    a = N.new("ShaderNodeTexImage"); a.image = _img(MOSSMAPS / "albedo.png"); L.new(uv.outputs[0], a.inputs["Vector"])
-    n = N.new("ShaderNodeTexImage"); n.image = _img(MOSSMAPS / "normal.png", False); L.new(uv.outputs[0], n.inputs["Vector"])
-    nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = 1.2
-    L.new(n.outputs[0], nm.inputs["Color"]); L.new(nm.outputs[0], b.inputs["Normal"])
-    hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 0.85
+    a = N.new("ShaderNodeTexImage"); a.image = _img(MAPS / f"potmoss{k}_col.jpg"); L.new(uv.outputs[0], a.inputs["Vector"])
+    h = N.new("ShaderNodeTexImage"); h.image = _img(MAPS / f"potmoss{k}_h.png", False); L.new(uv.outputs[0], h.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.8; bp.inputs["Distance"].default_value = 0.003
+    L.new(h.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 0.82
     L.new(a.outputs[0], hs.inputs["Color"]); L.new(hs.outputs[0], b.inputs["Base Color"])
-    b.inputs["Roughness"].default_value = 0.95; b.inputs["Sheen Weight"].default_value = 0.2
-    b.inputs["Sheen Tint"].default_value = (0.4, 0.55, 0.2, 1)
+    b.inputs["Roughness"].default_value = 0.92; b.inputs["Sheen Weight"].default_value = 0.35
+    b.inputs["Sheen Tint"].default_value = (0.45, 0.6, 0.2, 1)
+    b.inputs["Subsurface Weight"].default_value = 0.08
     return m
 
 
@@ -284,38 +287,47 @@ def table_and_pot(loc, rng):
     for t in (0.6, 2.55, 3.7, 5.65):                                    # four cloud feet
         bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=tuple(loc + [a * 0.84 * math.cos(t), b * 0.84 * math.sin(t), TABLE + 0.008]))
         f_ = bpy.context.object; f_.scale = (0.03, 0.022, 0.012); f_.data.materials.append(potm); objs.append(f_)
-    # the soil: the cushion moss at real scale (the study's 2 m patch), displaced by its height
+    # the soil: the pot moss texture across the whole pot, displaced by its own height (cushions up, grit gaps down)
     zs = TABLE + H - 0.008
-    hmap = _pixels(MOSSMAPS / "height.png")[..., 0]
-    nr, nt = 70, 200
-    mask = _pixels(MOSSMAPS / "mask_shade.png")[..., 0]                   # the mossiest part of the study's patch (it is half granite)
-    best = max((tuple(rng.uniform(0.05, 0.75, 2)) for _ in range(60)),
-               key=lambda o: mask[int(o[1] * 2047):int((o[1] + b) * 2047), int(o[0] * 2047):int((o[0] + a) * 2047)].mean())
-    off = np.array(best) + [a / 2, b / 2]
+    burn = rng.uniform(0.05, 0.75, 120)                                  # (the draws the old moss placement used: seeds keep their trees)
+    k_ = int(burn[0] * 100) % 2
+    hmap = _pixels(MAPS / f"potmoss{k_}_h.png")[..., 0]
+    S_ = hmap.shape[0]
+    span = 2 * a * 1.04
+    nr, nt = 150, 460
     V, UV, F = [], [], []
     for i in range(nr + 1):
         rr = 0.955 * i / nr
         for j in range(nt):
             t = 2 * math.pi * j / nt
             x, y = a * rr * math.cos(t), b * rr * math.sin(t)
-            u, v = off[0] + x / 2.0, off[1] + y / 2.0
-            hgt = hmap[int(v * 2047) % 2048, int(u * 2047) % 2048]
+            u, v = 0.5 + x / span, 0.5 + y / span
+            hgt = hmap[int(v * (S_ - 1)), int(u * (S_ - 1))]
             dome = 0.012 * (1 - rr ** 2)
-            V.append((loc[0] + x, loc[1] + y, zs + dome + (hgt - 0.3) * 0.012 * min(1, (0.955 - rr) / 0.08) - 0.004 * (rr > 0.94)))
+            V.append((loc[0] + x, loc[1] + y, zs + dome + (hgt - 0.5) * 0.007 * min(1, (0.955 - rr) / 0.06) - 0.004 * (rr > 0.94)))
             UV.append((u, v))
     for i in range(nr):
         for j in range(nt):
-            q = [i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j]
-            F.append(q)
-    objs.append(_obj("bonsai_moss", V, F, moss_material(), UV))
-    stone = bpy.data.materials.new("pebble"); stone.use_nodes = True
-    sn = stone.node_tree.nodes; sb = sn["Principled BSDF"]; sb.inputs["Roughness"].default_value = 0.7
-    nz = sn.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 260; nz.inputs["Detail"].default_value = 8
-    cr = sn.new("ShaderNodeValToRGB"); stone.node_tree.links.new(nz.outputs[0], cr.inputs[0])
-    cr.color_ramp.elements[0].color = (0.035, 0.034, 0.032, 1); cr.color_ramp.elements[1].color = (0.15, 0.145, 0.135, 1)   # (v1 read as snow)
-    stone.node_tree.links.new(cr.outputs[0], sb.inputs["Base Color"])
-    bp = sn.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.4; bp.inputs["Distance"].default_value = 0.0005
-    stone.node_tree.links.new(nz.outputs[0], bp.inputs["Height"]); stone.node_tree.links.new(bp.outputs[0], sb.inputs["Normal"])
+            F.append([i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j])
+    objs.append(_obj("bonsai_moss", V, F, moss_material(k_), UV))
+    stone = bpy.data.materials.new("pebble"); stone.use_nodes = True     # speckled granite (v1 was smooth grey clay)
+    sn, sl = stone.node_tree.nodes, stone.node_tree.links
+    sb = sn["Principled BSDF"]; sb.inputs["Roughness"].default_value = 0.62
+    tc_ = sn.new("ShaderNodeTexCoord")
+    vo = sn.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 14; sl.new(tc_.outputs["Object"], vo.inputs["Vector"])
+    sep = sn.new("ShaderNodeSeparateColor"); sl.new(vo.outputs["Color"], sep.inputs[0])
+    cr = sn.new("ShaderNodeValToRGB"); sl.new(sep.outputs[0], cr.inputs[0])
+    cr.color_ramp.interpolation = "CONSTANT"
+    cr.color_ramp.elements[0].color = (0.02, 0.02, 0.02, 1)                       # mica / hornblende
+    cr.color_ramp.elements[1].position = 0.25; cr.color_ramp.elements[1].color = (0.2, 0.19, 0.18, 1)   # quartz-grey
+    e = cr.color_ramp.elements.new(0.75); e.color = (0.34, 0.3, 0.27, 1)          # feldspar
+    mo = sn.new("ShaderNodeTexNoise"); mo.inputs["Scale"].default_value = 1.5; sl.new(tc_.outputs["Object"], mo.inputs["Vector"])
+    mx = sn.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 0.5
+    sl.new(cr.outputs[0], mx.inputs[6]); sl.new(mo.outputs[0], mx.inputs[7]); sl.new(mx.outputs[2], sb.inputs["Base Color"])
+    nz = sn.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 6; nz.inputs["Detail"].default_value = 10
+    sl.new(tc_.outputs["Object"], nz.inputs["Vector"])
+    bp = sn.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.5; bp.inputs["Distance"].default_value = 0.0004
+    sl.new(nz.outputs[0], bp.inputs["Height"]); sl.new(bp.outputs[0], sb.inputs["Normal"])
     for _ in range(int(rng.integers(3, 7))):                            # granite pebbles half sunk in the moss
         t = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.35, 0.8)
         x, y = a * rr * math.cos(t), b * rr * math.sin(t)
@@ -323,7 +335,7 @@ def table_and_pot(loc, rng):
         st = bpy.context.object
         for vtx in st.data.vertices:
             vtx.co *= rng.uniform(0.85, 1.12)
-        sz = rng.uniform(0.008, 0.022)
+        sz = rng.uniform(0.007, 0.016)
         st.scale = (sz * rng.uniform(1, 1.6), sz, sz * rng.uniform(0.5, 0.8)); st.rotation_euler = (0, 0, rng.uniform(0, 6.3))
         bpy.ops.object.shade_smooth()
         st.data.materials.append(stone); objs.append(st)
