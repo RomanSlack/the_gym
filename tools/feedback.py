@@ -6,7 +6,7 @@ the eye pose); the markup app (~/tools/scenewalk/markup, http://localhost:5290) 
     python3 tools/feedback.py --status all       # everything (draft | queued | working | done | accepted | all)
     python3 tools/feedback.py take [ID ...]      # tell Roman's app these are being worked on (default: every queued one)
     python3 tools/feedback.py shot ID            # the view now, from the capture's exact pose (after a layout change)
-    python3 tools/feedback.py done ID "reply"    # shoot the after image from the same pose, attach it, mark done
+    python3 tools/feedback.py done ID "reply"    # shoot the after image from the same pose, attach it, mark done (+ the replay copies)
     python3 tools/feedback.py resolve CAP.json MARKUP.json   # (the markup app) JSON: what each mark points at
     python3 tools/feedback.py pick CAP.json X Y              # (the markup app) JSON: the piece under one pixel
 
@@ -313,8 +313,29 @@ def main():
     if a[0] == "done" and len(a) == 3:
         out = shoot(a[1], Path("/tmp") / f"feedback_{a[1]}_after.png")
         subprocess.run([sys.executable, str(MARKUP), "done", "--dir", str(FB), a[1], a[2], "--after", str(out)], check=True)
+        keep_for_replay(a[1])
+        return
+    if a[0] == "replay":                         # (backfill) every capture's marked + after images into feedback/replay/
+        for p_ in sorted(FB.glob("*.markup.json")):
+            keep_for_replay(p_.name.split(".")[0])
         return
     sys.exit(__doc__)
+
+
+def keep_for_replay(i):
+    """Small JPEG copies the replay picks up (the PNGs stay local): feedback/replay/<id>_0marked.jpg, <id>_after_vNNN.jpg
+    (Roman: "this system is also being captured in the replay right?"); committed with the fix."""
+    from PIL import Image
+    out = FB / "replay"
+    out.mkdir(exist_ok=True)
+    src = [(FB / f"{i}.marked.png", f"{i}_0marked.jpg")] + [(p_, f"{i}_after_{p_.name.split('_')[-1][:4]}.jpg") for p_ in sorted(FB.glob(f"{i}.after_v*.png"))]
+    if not src[0][0].exists():
+        src[0] = (FB / f"{i}.png", src[0][1])
+    for p_, name in src:
+        if p_.exists() and not (out / name).exists():
+            im = Image.open(p_).convert("RGB")
+            im.thumbnail((1280, 1280))
+            im.save(out / name, quality=82)
 
 
 if __name__ == "__main__":

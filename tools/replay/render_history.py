@@ -43,6 +43,28 @@ for cam, fs in frames.items():
             keep.append(f)
         last = b
     frames[cam] = keep
+# the viewer feedback rounds (tools/feedback.py): per capture, Roman's marked view then each after image, with his notes
+log = git("log", "--reverse", "--format=%H%x1f%ad%x1f%s%x1f%(trailers:key=Prompt,valueonly)%x1f%(trailers:key=Also-Prompt,valueonly)%x1e",
+          "--date=format:%Y-%m-%d %H:%M", "--", "feedback/replay/").decode(errors="ignore")
+for rec in log.split("\x1e"):
+    if not rec.strip():
+        continue
+    h, date, subj, prompt, also = (rec.strip("\n").split("\x1f") + [""] * 5)[:5]
+    names = git("diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=AM", h, "--", "feedback/replay/").decode().split()
+    for n in sorted(names):
+        if not n.endswith(".jpg"):
+            continue
+        cid = Path(n).stem.split("_")[0]
+        dst = OUT / h[:8] / Path(n).name
+        if not dst.exists():
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes(git("show", f"{h}:{n}"))
+        mk = ROOT / "feedback" / f"{cid}.markup.json"
+        notes = json.loads(mk.read_text()).get("notes", "").strip() if mk.exists() else ""
+        marked = "_0marked" in n
+        frames.setdefault(f"feedback {cid}", []).append({"src": str(dst.relative_to(OUT)), "commit": h[:8], "date": date,
+                                                         "subject": ("Roman's mark-up: " + notes) if marked else subj,
+                                                         "prompt": prompt.strip(), "also": [a.strip() for a in also.strip().splitlines() if a.strip()]})
 data = json.dumps(dict(sorted(frames.items())))
 (OUT / "replay.html").write_text(f"""<!doctype html><meta charset=utf-8><title>The Gym · render replay</title>
 <style>body{{margin:0;background:#111;color:#ddd;font:14px system-ui}}header{{display:flex;gap:12px;align-items:center;padding:10px 14px;background:#1b1b1b}}
