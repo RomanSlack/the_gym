@@ -34,9 +34,12 @@ def _unit(v):
     return v / (np.linalg.norm(v, axis=-1, keepdims=True) + 1e-12)
 
 
-def _obj(name, V, F, mat, uv=None, attrs=None, smooth=True):
+def _obj(name, V, F, mat, uv=None, attrs=None, smooth=True, colors=None):
     me = bpy.data.meshes.new(name)
     me.from_pydata(np.asarray(V).tolist(), [], F)
+    if colors is not None:
+        ca = me.color_attributes.new("col", "FLOAT_COLOR", "POINT")
+        ca.data.foreach_set("color", np.concatenate([colors, np.ones((len(colors), 1))], 1).astype(np.float32).ravel())
     if uv is not None:
         ul = me.uv_layers.new(name="UVMap")
         ul.data.foreach_set("uv", np.array([uv[i] for f in F for i in f], np.float32).ravel())
@@ -224,8 +227,8 @@ def tube(pts, radii, sides=16, uscale=0.06, cap=True):
     for k in range(n - 1):
         for j in range(sides):
             F.append([k * R + j, k * R + j + 1, (k + 1) * R + j + 1, (k + 1) * R + j])
-    if cap:
-        F.append([(n - 1) * R + j for j in range(sides)])
+    if cap:                                                           # both ends closed (open starts read as hollow pipes)
+        F.append([(n - 1) * R + j for j in range(sides)]); F.append([j for j in range(sides)][::-1])
     return np.array(V), F, UV
 
 
@@ -248,6 +251,109 @@ def wavenoise(P, rng, freq, n=20):
     k = _unit(rng.normal(0, 1, (n, 3))) * freq * rng.uniform(0.6, 1.4, (n, 1))
     ph = rng.uniform(0, 2 * math.pi, n)
     return (np.sin(P @ k.T + ph) * rng.uniform(0.5, 1.0, n)).sum(1) / math.sqrt(n)
+
+
+def foliage_material():
+    """the scale shoots: the per-vertex colour (sage cords, paler tips, brown stems, shaded inside the pads), tiny overlapping
+    scales as a bump (Voronoi on the cord's mm-scaled UVs), satin, a little light through"""
+    if "fol" in _M:
+        return _M["fol"]
+    m = bpy.data.materials.new("juniper_foliage"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]
+    ca = N.new("ShaderNodeVertexColor"); ca.layer_name = "col"
+    L.new(ca.outputs["Color"], b.inputs["Base Color"])
+    uv = N.new("ShaderNodeUVMap"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1.3, 0.9, 1)
+    L.new(uv.outputs[0], mp.inputs["Vector"])
+    vo = N.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 1.0; vo.feature = "F1"
+    L.new(mp.outputs[0], vo.inputs["Vector"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.55; bp.inputs["Distance"].default_value = 0.00025
+    L.new(vo.outputs["Distance"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    b.inputs["Roughness"].default_value = 0.5; b.inputs["Specular IOR Level"].default_value = 0.35
+    b.inputs["Subsurface Weight"].default_value = 0.12; b.inputs["Subsurface Radius"].default_value = (0.002, 0.004, 0.001)
+    _M["fol"] = m
+    return m
+
+
+def foliage_3d(clusters, trunk, rng, S=6):
+    """grow the scale shoots: returns V, F, UV (per vertex), shade, colours"""
+    DARK, MID, TIP, WOOD = np.array([0.055, 0.085, 0.05]), np.array([0.1, 0.145, 0.085]), np.array([0.19, 0.25, 0.15]), np.array([0.075, 0.04, 0.022])
+    segs = []                                                            # p0, p1, r0, r1, colour0, colour1, cluster (c, rc)
+    for cpos, rc in clusters:
+        k = np.argmin(np.linalg.norm(trunk - cpos, axis=1))
+        out = cpos - trunk[k]; out[2] = 0
+        out = _unit(out) if np.linalg.norm(out) > 1e-4 else _unit(rng.normal(0, 1, 3) * [1, 1, 0])
+        az0 = math.atan2(out[1], out[0])
+        tint = rng.normal(0, 0.06, 3) * [0.6, 1, 1.2]
+        for _ in range(int(10 + 26000 * rc * rc)):                         # (11000: airy next to the real dense pads)
+            az = az0 + rng.normal(0, 1.1)
+            el = rng.uniform(-0.3, 0.7)
+            d = np.array([math.cos(az) * math.cos(el), math.sin(az) * math.cos(el), math.sin(el)])
+            base = cpos + rng.normal(0, rc * 0.18, 3) * [1, 1, 0.5]
+            Ls = rng.uniform(0.016, 0.034) * (rc / 0.034) ** 0.6
+            # the shoot's axis: 5 segments curving up a little
+            pts = [base]; dd = d.copy()
+            for i in range(5):
+                dd = _unit(dd + np.array([0, 0, 0.12]) + rng.normal(0, 0.12, 3))
+                pts.append(pts[-1] + dd * Ls / 5)
+            rads = np.linspace(0.0011, 0.0005, 6)
+            for i in range(5):
+                t0, t1 = i / 5, (i + 1) / 5
+                c0 = WOOD if t0 < 0.35 else MID * (1 + tint); c1 = WOOD if t1 < 0.45 else (MID if t1 < 0.95 else TIP) * (1 + tint)
+                segs.append((pts[i], pts[i + 1], rads[i], rads[i + 1], c0, c1, cpos, rc))
+            # side cords all round the axis (137.5 deg), from 30 % up, shorter toward the tip
+            phi = rng.uniform(0, 2 * math.pi)
+            n_side = int(Ls / 0.0017)
+            for j in range(n_side):
+                tt = 0.3 + 0.68 * j / max(n_side - 1, 1)
+                i = min(int(tt * 5), 4); f = tt * 5 - i
+                p0 = pts[i] + (pts[i + 1] - pts[i]) * f
+                ax_ = _unit(pts[i + 1] - pts[i])
+                a1 = _unit(np.cross(ax_, [0, 0, 1.0]) if abs(ax_[2]) < 0.95 else np.cross(ax_, [1.0, 0, 0])); a2 = np.cross(ax_, a1)
+                phi += math.radians(137.5)
+                rad_dir = a1 * math.cos(phi) + a2 * math.sin(phi)
+                rad_dir = _unit(rad_dir + np.array([0, 0, 0.35]))             # (the cords lean up into the light)
+                off = math.radians(rng.uniform(32, 55))
+                sd = _unit(ax_ * math.cos(off) + rad_dir * math.sin(off))
+                ln = rng.uniform(0.004, 0.008) * (1.15 - 0.55 * tt)
+                m1 = p0 + sd * ln * 0.55
+                sd2 = _unit(sd + ax_ * 0.35 + rng.normal(0, 0.1, 3))          # curving forward, like the real whipcords
+                p2 = m1 + sd2 * ln * 0.45
+                segs.append((p0, m1, 0.0008, 0.0007, MID * (1 + tint), MID * (1 + tint), cpos, rc))      # stubby whipcords
+                segs.append((m1, p2, 0.0007, 0.00045, MID * (1 + tint), TIP * (1 + tint) * rng.uniform(0.85, 1.1), cpos, rc))
+                if ln > 0.006 and rng.random() < 0.5:                         # a few cords fork once more
+                    sd3 = _unit(sd2 + rad_dir * 0.6 + rng.normal(0, 0.2, 3))
+                    segs.append((m1, m1 + sd3 * ln * 0.4, 0.00045, 0.00028, MID * (1 + tint), TIP * (1 + tint), cpos, rc))
+            segs.append((pts[-1], pts[-1] + dd * 0.004, 0.0005, 0.0003, MID * (1 + tint), TIP * (1 + tint), cpos, rc))
+    P0 = np.array([s_[0] for s_ in segs]); P1 = np.array([s_[1] for s_ in segs])
+    R0 = np.array([s_[2] for s_ in segs]); R1 = np.array([s_[3] for s_ in segs])
+    C0 = np.array([s_[4] for s_ in segs]); C1 = np.array([s_[5] for s_ in segs])
+    CC = np.array([s_[6] for s_ in segs]); RC = np.array([s_[7] for s_ in segs])
+    n = len(segs)
+    D = _unit(P1 - P0)
+    ref = np.where(np.abs(D[:, 2:3]) < 0.95, np.array([[0, 0, 1.0]]), np.array([[1.0, 0, 0]]))
+    A1 = _unit(np.cross(D, ref)); A2 = np.cross(D, A1)
+    th = 2 * math.pi * np.arange(S) / S
+    ring = np.cos(th)[None, :, None] * A1[:, None] + np.sin(th)[None, :, None] * A2[:, None]       # n, S, 3
+    V0 = P0[:, None] + ring * R0[:, None, None]; V1 = P1[:, None] + ring * R1[:, None, None]
+    apex = P1 + D * R1[:, None] * 0.9
+    V = np.concatenate([V0, V1, apex[:, None]], 1)                                                    # n, 2S+1, 3
+    seglen = np.linalg.norm(P1 - P0, axis=1)
+    UVu = np.tile(th / (2 * math.pi), (n, 1)) * (2 * math.pi * np.maximum(R0, 0.0003) / 0.0004)[:, None]
+    UV = np.concatenate([np.stack([UVu, np.zeros((n, S))], 2), np.stack([UVu, np.repeat((seglen / 0.0004)[:, None], S, 1)], 2),
+                         np.stack([UVu[:, :1], (seglen / 0.0004 + 1)[:, None]], 2)], 1)
+    col = np.concatenate([np.repeat(C0[:, None], S, 1), np.repeat(C1[:, None], S, 1), C1[:, None]], 1)
+    # shading inside the pad: the top and the outside lit, the core and the underside dark
+    rel = (V - CC[:, None]) / RC[:, None, None]
+    hz = np.clip(0.5 + 0.9 * rel[..., 2], 0, 1); rr = np.clip(np.linalg.norm(rel[..., :2], axis=-1), 0, 1.3)
+    shade = 0.35 + 0.65 * hz ** 1.1 * (0.55 + 0.45 * np.minimum(rr, 1))
+    base = np.arange(n)[:, None] * (2 * S + 1)
+    j = np.arange(S); jn = (j + 1) % S
+    Q = np.stack([j, jn, S + jn, S + j], 1)[None] + base[:, :, None]                                  # n, S, 4
+    T = np.stack([S + j, S + jn, np.full(S, 2 * S)], 1)[None] + base[:, :, None]                     # n, S, 3
+    F = [list(f) for f in Q.reshape(-1, 4)] + [list(f) for f in T.reshape(-1, 3)]
+    return (V.reshape(-1, 3), F, [tuple(u) for u in UV.reshape(-1, 2)], shade.reshape(-1),
+            (col * shade[..., None]).reshape(-1, 3))
 
 
 # ------------------------------------------------------------------------------------------------------------ the scene
@@ -414,14 +520,14 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
             continue
         twig_tubes += tw_
         placed_tips = np.concatenate([placed_tips, tips])
-        clusters += [(t_, rng.uniform(0.026, 0.04)) for t_ in tips]
+        clusters += [(t_, rng.uniform(0.036, 0.052)) for t_ in tips]           # (0.026-0.04 left the pads gappy with real shoots)
     # the crown: the trunk's top splits into short twigs (a jin carries on above them on some trees)
     top_k = int((0.88 if jin else 0.97) * (len(trunk) - 1))
     for _ in range(int(rng.integers(7, 12))):
         a3 = rng.uniform(0, 2 * math.pi)
         sp3 = spine(trunk[top_k], [math.cos(a3), math.sin(a3), rng.uniform(0.2, 0.9)], rng.uniform(0.03, 0.07), 6, rng, amp=0.5, up=0.3)
         twig_tubes.append((sp3, np.linspace(0.004, 0.001, len(sp3))))
-        rc_ = rng.uniform(0.03, 0.042)
+        rc_ = rng.uniform(0.04, 0.054)
         dtk = np.linalg.norm(trunk[:top_k] - sp3[-1], axis=1) - trad[:top_k]
         if dtk.min() < rc_ * 0.8:                                    # (crown clusters brushed the trunk)
             continue
@@ -523,41 +629,18 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
         tv.append(V_); tf += [[i + off for i in f] for f in F_]; tu += UV_; off += len(V_)
     if tv:
         objs.append(_obj(f"bonsai_{seed}_twigs", np.concatenate(tv) + loc, tf, wood_material(), tu, {"dead": np.zeros(off)}))
-    # ---- foliage: a cluster on every tip, near-horizontal sprays, lit on top, shadowed beneath
-    atlas = json.loads((MAPS / "atlas.json").read_text())
-    blue = rng.random() < 0.25
-    tips = ["tip2", "tip2", "tip4"] if blue else ["tip1", "tip4", "tip4", "tip2"]          # (tip3, the yellow new growth: top only)
-    fill = [n for n in atlas if n.startswith("sprig") and (n != "sprig2" or blue)]
-    by = {n: ([], [], [], [], []) for n in set(tips + fill + ["tip3"])}
-    hue0 = rng.uniform(-0.008, 0.008)
-    for cpos, rc in clusters:
-        hue = 0.5 + hue0 + rng.normal(0, 0.006)
-        cc = cpos + np.array([0, 0, rc * 0.25])
-        for _ in range(int(120 + 150000 * rc * rc)):
-            th_ = rng.uniform(0, 2 * math.pi); r_ = math.sqrt(rng.uniform(0, 1))
-            zc = rng.uniform(-0.75, 1.0) * math.sqrt(max(1 - r_ * r_, 0)) ** 0.6
-            p = cc + np.array([r_ * rc * math.cos(th_), r_ * rc * math.sin(th_), zc * rc * 0.5])
-            outw = np.array([math.cos(th_), math.sin(th_), 0.0])
-            facing = _unit(np.array([0, 0, 0.75]) + outw * 0.45 * r_ + rng.normal(0, 0.55, 3))    # a 3D mass (v3: near-flat sheets stacked)
-            inner = r_ < 0.5 and abs(zc) < 0.35 and rng.random() < 0.5            # the dense filler only deep inside
-            fresh = zc > 0.45 and rng.random() < 0.5                        # the light new growth only on the top
-            name = fill[int(rng.integers(len(fill)))] if inner else ("tip3" if fresh and "tip3" in atlas and not blue else
-                                                                     tips[int(rng.integers(len(tips)))])
-            sz = rng.uniform(0.018, 0.028) if inner else rng.uniform(0.011, 0.022)
-            asp = atlas[name]["aspect"]
-            ay = _unit(outw + rng.normal(0, 0.5, 3)); ay = _unit(ay - facing * (ay @ facing)); ax = np.cross(ay, facing)
-            hw, hh = sz * asp / 2, sz / 2
-            q = [p - ax * hw - ay * hh * 0.3, p + ax * hw - ay * hh * 0.3, p + ax * hw + ay * hh * 1.7, p - ax * hw + ay * hh * 1.7]
-            V_, F_, UV_, S_, Hh = by[name]
-            o_ = len(V_); V_ += q; F_.append([o_, o_ + 1, o_ + 2, o_ + 3]); UV_ += [(0, 0), (1, 0), (1, 1), (0, 1)]
-            S_ += [0.3 + 0.55 * ((zc + 0.75) / 1.75) ** 1.4] * 4; Hh += [hue] * 4   # (deeper overall; the underside dark)
-    n_cards = 0
-    for name, (V_, F_, UV_, S_, Hh) in by.items():
-        if F_:
-            n_cards += len(F_)
-            objs.append(_obj(f"bonsai_{seed}_{name}", np.array(V_) + loc, F_, sprig_material(name), UV_, {"shade": S_, "hue": Hh}, smooth=False))
-    for o in objs[-(len([1 for v in by.values() if v[1]]) + 2):]:
-        o["tree"] = 1
+    # ---- foliage, v4 (Roman: "the leaves look like a classic particle scatter", "way too just 2D cards"): real 3D geometry
+    # grown like the plant, from the real close-up (out/compare_bonsai_foliage): every twig tip sends out shoots fanning outward;
+    # each shoot is a brown stem whose upper part is clothed in round, cord-like scale shoots branching off it all round
+    # (phyllotaxis 137.5 deg: a 3D tuft, not a flat spray), each cord tapering to a rounded paler tip. Colours measured on the
+    # generated Shimpaku shoot photos (work/bonsai_gen/shoot*): sage / grey-blue green, paler fresh tips.
+    fol = foliage_3d(clusters, trunk, rng)
+    objs.append(_obj(f"bonsai_{seed}_foliage", fol[0] + loc, fol[1], foliage_material(), fol[2], {"shade": fol[3]}, colors=fol[4]))
+    objs[-1]["tree"] = 1
+    for o in objs:
+        if o.name.startswith((f"bonsai_{seed}_wood", f"bonsai_{seed}_twigs")):
+            o["tree"] = 1
+    n_cards = len(fol[1])
     print(f"bonsai {seed}: trunk {H:.2f} m (base r {R0 * 100:.1f} cm), {len(spines)} wood spines fused into {len(me.polygons)} faces, "
-          f"{len(twig_tubes)} twigs, {len(clusters)} foliage clusters, {n_cards} cards, jin {jin}")
+          f"{len(twig_tubes)} twigs, {len(clusters)} foliage clusters, {n_cards} foliage faces, jin {jin}")
     return objs

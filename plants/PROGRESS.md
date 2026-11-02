@@ -57,3 +57,8 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:31 `out/render_bonsai_pot_v001.jpg` The new pot moss, displaced by its own height: clumps, moss tips, grit gaps; pebbles still clay blobs
 - 2026-11-02 14:31 `out/render_bonsai_pot_v002.jpg` Speckled granite pebbles
 - 2026-11-02 14:31 `out/render_bonsai_hero_v010.jpg` v4 (seed 2): the new pot moss in the full view
+- 2026-11-02 14:33 `out/compare_bonsai_foliage_v001.jpg` Real Shimpaku up close vs ours: real sprays grow from visible twiglets, all pointing outward along the shoot, in tight layered fans; ours are cards scattered at random angles (Roman: "looks like a classic particle scatter")
+- 2026-11-02 14:40 `out/render_bonsai_close_v004.jpg` Foliage v4 (Roman: "way too just 2D cards"): real 3D geometry, round scale-covered whipcord shoots branching all round brown stems, colour measured on photos of real-looking Shimpaku shoots; too sparse, hollow twig ends
+- 2026-11-02 14:40 `out/render_bonsai_close_v005.jpg` Dense stubby whipcords, capped twigs
+- 2026-11-02 14:40 `out/render_bonsai_hero_v011.jpg` v5 (seed 2): full pads of 3D foliage (2.6 M faces), no cards anywhere
+- 2026-11-02 14:40 `out/compare_bonsai_foliage_v002.jpg` Real vs ours after the 3D foliage
