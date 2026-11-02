@@ -131,21 +131,24 @@ def sprig_material(name):
 
 
 def clay():
-    """unglazed bonsai clay: dark red-brown, mottled, matte, sandy grain"""
+    """the pot (v2, Roman: "pot looks bad": the flat noise-brown read as plastic): a 4K photo texture of aged unglazed
+    Tokoname clay generated from the reference pot (maps/bonsai/potclay.jpg: purplish red-brown, sandy grain, chalky water
+    bloom, pits), box-projected, one image across each face; matte with a faint waxy sheen; relief from the image's grain"""
     m = bpy.data.materials.new("pot_clay"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
-    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.86; b.inputs["Specular IOR Level"].default_value = 0.25
-    tc = N.new("ShaderNodeTexCoord")
-    mo = N.new("ShaderNodeTexNoise"); mo.inputs["Scale"].default_value = 14; mo.inputs["Detail"].default_value = 6
-    L.new(tc.outputs["Object"], mo.inputs["Vector"])
-    cr = N.new("ShaderNodeValToRGB"); L.new(mo.outputs[0], cr.inputs[0])
-    cr.color_ramp.elements[0].position = 0.3; cr.color_ramp.elements[0].color = (0.075, 0.04, 0.03, 1)
-    cr.color_ramp.elements[1].position = 0.72; cr.color_ramp.elements[1].color = (0.13, 0.07, 0.048, 1)
-    L.new(cr.outputs[0], b.inputs["Base Color"])
-    gr = N.new("ShaderNodeTexNoise"); gr.inputs["Scale"].default_value = 1200; gr.inputs["Detail"].default_value = 2
-    L.new(tc.outputs["Object"], gr.inputs["Vector"])
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.3; bp.inputs["Distance"].default_value = 0.0003
-    L.new(gr.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.68; b.inputs["Specular IOR Level"].default_value = 0.35
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1.8, 1.8, 1.8)
+    mp.inputs["Location"].default_value = (0.5, 0.5, 0.0)            # one image across each face: no seam (the mirror joined across the front)
+    L.new(tc.outputs["Object"], mp.inputs["Vector"])
+    t = N.new("ShaderNodeTexImage"); t.image = _img(MAPS / "potclay.jpg"); t.projection = "BOX"; t.projection_blend = 0.3
+    t.extension = "REPEAT"; L.new(mp.outputs[0], t.inputs["Vector"])
+    hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 0.55; hs.inputs["Saturation"].default_value = 1.15
+    L.new(t.outputs[0], hs.inputs["Color"]); L.new(hs.outputs[0], b.inputs["Base Color"])   # (read pink + chalky in the sun: deeper)
+    g = N.new("ShaderNodeRGBToBW"); L.new(t.outputs[0], g.inputs[0])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.35; bp.inputs["Distance"].default_value = 0.0004
+    L.new(g.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    rr = N.new("ShaderNodeMapRange"); rr.inputs["To Min"].default_value = 0.78; rr.inputs["To Max"].default_value = 0.55
+    L.new(g.outputs[0], rr.inputs["Value"]); L.new(rr.outputs[0], b.inputs["Roughness"])   # the chalky bloom matte, the clay waxier
     return m
 
 
@@ -424,6 +427,9 @@ def table_and_pot(loc, rng, rect=False):
     sc = lambda t: (math.copysign(abs(math.cos(t)) ** (2 / ne), math.cos(t)), math.copysign(abs(math.sin(t)) ** (2 / ne), math.sin(t)))
     prof = [(0.88, 0.012), (0.93, 0.012), (0.95, 0.02), (0.985, H - 0.012), (1.0, H - 0.005), (1.0, H), (0.985, H + 0.003),
             (0.955, H + 0.002), (0.94, H - 0.004), (0.93, H - 0.015), (0.9, 0.022), (0.0, 0.022)]
+    if rect:   # (the reference pot: near-straight walls flaring slightly, a sharp rim band ~1 cm with a step under it)
+        prof = [(0.9, 0.0), (0.935, 0.0), (0.94, 0.004), (0.955, 0.012), (0.975, H - 0.016), (0.975, H - 0.013), (0.993, H - 0.011),
+                (1.0, H - 0.006), (1.0, H - 0.001), (0.996, H), (0.965, H), (0.958, H - 0.004), (0.94, H - 0.02), (0.915, 0.02), (0.0, 0.02)]
     seg = 160
     V, F = [], []
     for i in range(seg):
