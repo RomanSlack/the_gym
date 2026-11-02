@@ -113,7 +113,8 @@ if SHOT != "full":
         tgt = mathutils.Vector(sel.mean(0)); dist = 0.55
     elif SHOT == "base":                                             # the nebari, the grit and moss
         zz = np.percentile(V[:, 2], 4); sel = V[V[:, 2] < zz + 0.02]
-        tgt = mathutils.Vector(sel.mean(0)) + mathutils.Vector((0.0, -0.05, 0)); dist = 0.5; d = mathutils.Vector((0.25, -1.0, 1.1)).normalized()
+        tgt = mathutils.Vector(sel.mean(0)) + mathutils.Vector((0.03, -0.07, 0.004)); dist = 0.42; d = mathutils.Vector((0.3, -1.0, 0.85)).normalized()
+        lens = 70
     else:                                                            # the foliage at a canopy edge, the sun behind it
         fol = [o for o in objs if "_foliage" in o.name][0]
         F_ = np.array([fol.matrix_world @ mathutils.Vector(c_) for c_ in fol.bound_box])
@@ -128,7 +129,7 @@ cam.location = c + d * dist
 cam.rotation_euler = (c - cam.location).to_track_quat("-Z", "Y").to_euler()
 sc.camera = cam
 cd.dof.use_dof = True;  # (light: the stand's front edge just soft)
-cd.dof.aperture_fstop = 5.6 if SHOT == "full" else 11.0; cd.dof.focus_object = focus; pass
+cd.dof.aperture_fstop = 5.6 if SHOT == "full" else (16.0 if SHOT == "base" else 11.0); cd.dof.focus_object = focus; pass
 # two passes, composited outside (a lens blur of the panorama through the denoiser banded into contours): the stand + tree
 # on a transparent film, then the garden alone, sharp and noise-free; tools: plants/post_composite.py
 sc.render.image_settings.color_depth = "16"

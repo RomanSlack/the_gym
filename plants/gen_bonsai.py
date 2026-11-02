@@ -284,13 +284,13 @@ def soil_detail(moss_o, V, F, MOS, k, seed):
             vg.add(idx, float(lo_ + 0.05), "REPLACE")
     ps = moss_o.modifiers.new("moss_hair", "PARTICLE_SYSTEM").particle_system
     st = ps.settings
-    st.type = "HAIR"; st.count = 45000; st.hair_length = 0.0042; st.use_advanced_hair = True
+    st.type = "HAIR"; st.count = 70000; st.hair_length = 0.0065; st.use_advanced_hair = True
     st.emit_from = "FACE"; st.use_emit_random = True; st.use_even_distribution = True
-    st.child_type = "INTERPOLATED"; st.child_percent = 2; st.rendered_child_count = 9
+    st.child_type = "INTERPOLATED"; st.child_percent = 2; st.rendered_child_count = 14
     st.child_length = 1.0; st.child_length_threshold = 0.4
-    st.clump_factor = 0.55; st.clump_shape = 0.2                               # cushions
+    st.clump_factor = 0.75; st.clump_shape = -0.3; st.child_radius = 0.004                               # cushions
     st.roughness_1 = 0.0012; st.roughness_1_size = 0.4; st.roughness_endpoint = 0.0006
-    st.radius_scale = 0.00045; st.root_radius = 1.0; st.tip_radius = 0.15; st.use_close_tip = True
+    st.radius_scale = 0.0006; st.root_radius = 1.0; st.tip_radius = 0.15; st.use_close_tip = True
     st.display_step = 2; st.render_step = 3
     ps.vertex_group_density = "moss"; ps.vertex_group_length = "moss"
     hm = bpy.data.materials.new("moss_strands"); hm.use_nodes = True
