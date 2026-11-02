@@ -41,3 +41,9 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 13:26 `out/render_bonsai_hero_v002.jpg` v4: flat layered pads, fluted trunk; still oak-leaf flakes up close
 - 2026-11-02 13:26 `out/render_bonsai_hero_v003.jpg` v6: pads from open lacy branchlet tips (feathery juniper), irregular pad outlines, clay tray, jins tapering to points
 - 2026-11-02 13:26 `out/render_bonsai_trio_v001.jpg` Three seeds: different trunks, pad layouts, a blue-green variety on the right
+- 2026-11-02 14:13 `out/render_bonsai_hero_v004.jpg` Bonsai v2 rebuild (Roman: "looks weird af", "make good"), first try: the fused wood came out hollow (an open seam on the tubes), branches floating
+- 2026-11-02 14:13 `out/render_bonsai_hero_v005.jpg` Watertight tubes: trunk, roots and branches fused into one body, branches visible under the pads, oval pot, the Nordic cushion moss
+- 2026-11-02 14:13 `out/render_bonsai_close_v001.jpg` Close: bark tiled like bricks, a stepped skirt at the base
+- 2026-11-02 14:13 `out/render_bonsai_close_v002.jpg` Fields smoothed over the surface (the nearest-sample steps made zig-zags), bark repeating along the fibres, ridges no finer than 1.4 cm: fibrous twisting bark, silver deadwood band, branch collars
+- 2026-11-02 14:13 `out/render_bonsai_hero_v006.jpg` v2 (seed 1)
+- 2026-11-02 14:13 `out/render_bonsai_trio_v002.jpg` Three seeds: three different trees (shari + jin, slender S-trunk, upright)

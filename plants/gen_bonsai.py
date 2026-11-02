@@ -1,12 +1,17 @@
-"""Juniper bonsai (Juniperus chinensis 'Shimpaku') generator: one seed = one tree (plants/GOAL.md; Roman: "we can do mini trees
-almost like bonsais too"). From the references (out/refs_bonsai_v001.jpg):
-- an informal upright trunk 0.35-0.55 m, two or three S-bends, a flared base (nebari) with surface roots, tapering hard
-- live veins of reddish fibrous bark spiralling round bleached silver deadwood (shari) that twists up the trunk; a dead
-  apex (jin) on some trees, a few dead branch stubs
-- 5-9 branches, roughly level, alternating, each ending in a dense rounded foliage pad (a cloud), plus the apex pad
-- foliage: cards of real-looking sprig images (maps/bonsai, build_leaf_atlas.py bonsai), 60-140 per pad on the pad's dome;
-  pads never overlap each other or the trunk
-- a shallow unglazed brown tray, the soil covered in cushion moss (the ambientCG moss scan), on an oak display plinth
+"""Juniper bonsai (Juniperus chinensis 'Shimpaku') generator, v2: one seed = one tree (plants/GOAL.md).
+
+v1 (a bent pipe with a bark image, flat pad discs on sticks, box tray, box plinth) was rejected: "nah looks weird af",
+"make good". A bonsai's character is its wood, so v2 sculpts it (references: out/refs_bonsai_v001.jpg):
+- trunk, surface roots and main branches as one fused body: overlapping tubes voxel-remeshed together, so every join grows
+  out of the next (no pipe joints), then carved per vertex: long twisting fibre ridges, knots and lumps, the shari (the
+  deadwood band spiralling up) sunk into a hollow with raised live-vein lips at its edges, its own tighter grain; a jin
+  (dead apex) and dead branch stubs tapering to points
+- ramification: each main branch forks twice into thin twigs (separate fine tubes); a foliage cluster sits on every twig tip
+  (open branchlet-tip cards + dense sprigs inside, near-horizontal, the top lit, the underside shadowed), so the pads
+  form from the clusters and the branches show beneath them; clusters of different branches kept apart
+- an oval unglazed clay pot with a rolled lip and feet; the soil under the Nordic cushion moss (materials/nordic_moss,
+  real scale, displaced); a dark oak display table
+Bark and deadwood: the generated images (maps/bonsai), mapped round each nearest spine and twisted with the ridges.
 
     import gen_bonsai; objs = gen_bonsai.build(seed, (x, y, z_floor))
 """
@@ -19,14 +24,14 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 MAPS = HERE / "maps" / "bonsai"
-MOSS = Path.home() / ".cache" / "the_gym" / "textures" / "ambientcg" / "Moss004"
-PLINTH = 0.62
-FRAME = {"pot_scale": 0, "hero": ((0.45, -1.25, 1.05), (0, 0, 0.9), 45), "close": ((0.25, -0.75, 1.05), (0.0, 0, 0.95), 45),
-         "trio": ((0, -4.2, 1.25), (0, 0, 0.9), 36), "spacing": 1.15}
+MOSSMAPS = HERE.parent / "materials" / "nordic_moss" / "maps"
+TABLE = 0.62
+FRAME = {"pot_scale": 0, "hero": ((0.5, -1.55, 1.12), (0, 0, 0.96), 42), "close": ((0.2, -0.55, 0.98), (0.0, 0, 0.86), 45),
+         "trio": ((0, -4.3, 1.3), (0, 0, 0.92), 36), "spacing": 1.2}
 
 
 def _unit(v):
-    return v / (np.linalg.norm(v) + 1e-12)
+    return v / (np.linalg.norm(v, axis=-1, keepdims=True) + 1e-12)
 
 
 def _obj(name, V, F, mat, uv=None, attrs=None, smooth=True):
@@ -44,10 +49,6 @@ def _obj(name, V, F, mat, uv=None, attrs=None, smooth=True):
     return o
 
 
-# ------------------------------------------------------------------------------------------------------------ materials
-_M = {}
-
-
 def _img(path, color=True):
     im = bpy.data.images.load(str(path), check_existing=True)
     if not color:
@@ -55,9 +56,19 @@ def _img(path, color=True):
     return im
 
 
+def _pixels(path):
+    im = _img(path, False)
+    w, h = im.size
+    a = np.empty(w * h * 4, np.float32); im.pixels.foreach_get(a)
+    return a.reshape(h, w, 4)
+
+
+# ------------------------------------------------------------------------------------------------------------ materials
+_M = {}
+
+
 def wood_material():
-    """bark (live vein) and deadwood mixed by the 'dead' attribute; both from the generated images, box-free UVs on the
-    tubes (u around, v along); the deadwood smoother and paler, the bark fibrous (relief from the image)"""
+    """bark on the live veins, deadwood on the shari (the 'dead' attribute), both images on the UVs that follow the twist"""
     if "wood" in _M:
         return _M["wood"]
     m = bpy.data.materials.new("bonsai_wood"); m.use_nodes = True
@@ -65,19 +76,21 @@ def wood_material():
     N.clear()
     out = N.new("ShaderNodeOutputMaterial")
     uv = N.new("ShaderNodeUVMap")
-    bark = N.new("ShaderNodeTexImage"); bark.image = _img(MAPS / "bark.jpg"); bark.extension = "MIRROR"
-    dead = N.new("ShaderNodeTexImage"); dead.image = _img(MAPS / "deadwood.jpg"); dead.extension = "MIRROR"
+    bark = N.new("ShaderNodeTexImage"); bark.image = _img(MAPS / "bark.jpg"); bark.extension = "REPEAT"   # (MIRROR made chevrons)
+    dead = N.new("ShaderNodeTexImage"); dead.image = _img(MAPS / "deadwood.jpg"); dead.extension = "REPEAT"
     for t in (bark, dead):
         L.new(uv.outputs[0], t.inputs["Vector"])
     at = N.new("ShaderNodeAttribute"); at.attribute_name = "dead"
+    bk = N.new("ShaderNodeHueSaturation"); bk.inputs["Value"].default_value = 0.75     # live bark a touch deeper
+    L.new(bark.outputs[0], bk.inputs["Color"])
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"
-    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(bark.outputs[0], mx.inputs[6]); L.new(dead.outputs[0], mx.inputs[7])
+    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(bk.outputs[0], mx.inputs[6]); L.new(dead.outputs[0], mx.inputs[7])
     g = N.new("ShaderNodeRGBToBW"); L.new(mx.outputs[2], g.inputs[0])
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.9; bp.inputs["Distance"].default_value = 0.0025
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.7; bp.inputs["Distance"].default_value = 0.0015
     L.new(g.outputs[0], bp.inputs["Height"])
     pb = N.new("ShaderNodeBsdfPrincipled")
     L.new(mx.outputs[2], pb.inputs["Base Color"])
-    r = N.new("ShaderNodeMath"); r.operation = "MULTIPLY_ADD"; r.inputs[1].default_value = -0.15; r.inputs[2].default_value = 0.85
+    r = N.new("ShaderNodeMath"); r.operation = "MULTIPLY_ADD"; r.inputs[1].default_value = -0.2; r.inputs[2].default_value = 0.88
     L.new(at.outputs["Fac"], r.inputs[0]); L.new(r.outputs[0], pb.inputs["Roughness"])
     pb.inputs["Specular IOR Level"].default_value = 0.3
     L.new(bp.outputs[0], pb.inputs["Normal"])
@@ -87,7 +100,6 @@ def wood_material():
 
 
 def sprig_material(name):
-    """a sprig card: the image, cut out; matte-satin scales, light through them, a little colour drift per pad"""
     if name in _M:
         return _M[name]
     m = bpy.data.materials.new(name); m.use_nodes = True
@@ -97,16 +109,16 @@ def sprig_material(name):
     col = N.new("ShaderNodeTexImage"); col.image = _img(MAPS / f"{name}_col.png")
     at = N.new("ShaderNodeAttribute"); at.attribute_name = "shade"
     hs = N.new("ShaderNodeHueSaturation"); L.new(col.outputs["Color"], hs.inputs["Color"])
-    L.new(at.outputs["Fac"], hs.inputs["Value"])                     # inner cards darker (self-shadowed pad)
+    L.new(at.outputs["Fac"], hs.inputs["Value"])
     at2 = N.new("ShaderNodeAttribute"); at2.attribute_name = "hue"
     L.new(at2.outputs["Fac"], hs.inputs["Hue"])
     pb = N.new("ShaderNodeBsdfPrincipled")
     L.new(hs.outputs[0], pb.inputs["Base Color"])
     pb.inputs["Roughness"].default_value = 0.55; pb.inputs["Specular IOR Level"].default_value = 0.3
     tr = N.new("ShaderNodeBsdfTranslucent")
-    tc = N.new("ShaderNodeHueSaturation"); tc.inputs["Value"].default_value = 1.4
+    tc = N.new("ShaderNodeHueSaturation"); tc.inputs["Value"].default_value = 1.3
     L.new(hs.outputs[0], tc.inputs["Color"]); L.new(tc.outputs[0], tr.inputs["Color"])
-    sm = N.new("ShaderNodeMixShader"); sm.inputs[0].default_value = 0.2
+    sm = N.new("ShaderNodeMixShader"); sm.inputs[0].default_value = 0.18
     L.new(pb.outputs[0], sm.inputs[1]); L.new(tr.outputs[0], sm.inputs[2])
     cut = N.new("ShaderNodeMixShader"); tp = N.new("ShaderNodeBsdfTransparent")
     L.new(col.outputs["Alpha"], cut.inputs[0]); L.new(tp.outputs[0], cut.inputs[1]); L.new(sm.outputs[0], cut.inputs[2])
@@ -115,81 +127,60 @@ def sprig_material(name):
     return m
 
 
-def simple(name, rgb, rough, tex=None, scale=1.0, bump=0.0, val=1.0):
-    m = bpy.data.materials.new(name); m.use_nodes = True
-    N, L = m.node_tree.nodes, m.node_tree.links
-    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = rough
-    if tex:
-        tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (scale,) * 3
-        L.new(tc.outputs["Object"], mp.inputs["Vector"])
-        t = N.new("ShaderNodeTexImage"); t.image = _img(tex["diff"]); L.new(mp.outputs[0], t.inputs["Vector"])
-        hv = N.new("ShaderNodeHueSaturation"); hv.inputs["Value"].default_value = val
-        L.new(t.outputs[0], hv.inputs["Color"]); L.new(hv.outputs[0], b.inputs["Base Color"])
-        if "nor" in tex:
-            n_ = N.new("ShaderNodeTexImage"); n_.image = _img(tex["nor"], False); L.new(mp.outputs[0], n_.inputs["Vector"])
-            nm = N.new("ShaderNodeNormalMap"); L.new(n_.outputs[0], nm.inputs["Color"]); L.new(nm.outputs[0], b.inputs["Normal"])
-    else:
-        b.inputs["Base Color"].default_value = (*rgb, 1)
-        if bump:
-            nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 160; nz.inputs["Detail"].default_value = 8
-            bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = bump; bp.inputs["Distance"].default_value = 0.0008
-            L.new(nz.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
-    return m
-
-
 def clay():
-    """unglazed bonsai tray clay: dark red-brown, mottled, matte, a fine sandy grain"""
-    m = bpy.data.materials.new("tray_clay"); m.use_nodes = True
+    """unglazed bonsai clay: dark red-brown, mottled, matte, sandy grain"""
+    m = bpy.data.materials.new("pot_clay"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
-    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.88; b.inputs["Specular IOR Level"].default_value = 0.25
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.86; b.inputs["Specular IOR Level"].default_value = 0.25
     tc = N.new("ShaderNodeTexCoord")
-    mo = N.new("ShaderNodeTexNoise"); mo.inputs["Scale"].default_value = 18; mo.inputs["Detail"].default_value = 6
+    mo = N.new("ShaderNodeTexNoise"); mo.inputs["Scale"].default_value = 14; mo.inputs["Detail"].default_value = 6
     L.new(tc.outputs["Object"], mo.inputs["Vector"])
     cr = N.new("ShaderNodeValToRGB"); L.new(mo.outputs[0], cr.inputs[0])
-    cr.color_ramp.elements[0].position = 0.35; cr.color_ramp.elements[0].color = (0.09, 0.045, 0.032, 1)
-    cr.color_ramp.elements[1].position = 0.7; cr.color_ramp.elements[1].color = (0.16, 0.085, 0.055, 1)
+    cr.color_ramp.elements[0].position = 0.3; cr.color_ramp.elements[0].color = (0.075, 0.04, 0.03, 1)
+    cr.color_ramp.elements[1].position = 0.72; cr.color_ramp.elements[1].color = (0.13, 0.07, 0.048, 1)
     L.new(cr.outputs[0], b.inputs["Base Color"])
-    gr = N.new("ShaderNodeTexNoise"); gr.inputs["Scale"].default_value = 900; gr.inputs["Detail"].default_value = 2
+    gr = N.new("ShaderNodeTexNoise"); gr.inputs["Scale"].default_value = 1200; gr.inputs["Detail"].default_value = 2
     L.new(tc.outputs["Object"], gr.inputs["Vector"])
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.25; bp.inputs["Distance"].default_value = 0.0004
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.3; bp.inputs["Distance"].default_value = 0.0003
     L.new(gr.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
     return m
 
 
+def dark_oak():
+    """the display table: dark oiled oak, grain along x"""
+    m = bpy.data.materials.new("table_oak"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.42
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (3, 60, 60)
+    L.new(tc.outputs["Object"], mp.inputs["Vector"])
+    w = N.new("ShaderNodeTexWave"); w.wave_type = "BANDS"; w.bands_direction = "Y"; w.inputs["Distortion"].default_value = 6
+    w.inputs["Detail"].default_value = 4; w.inputs["Scale"].default_value = 0.4
+    L.new(mp.outputs[0], w.inputs["Vector"])
+    cr = N.new("ShaderNodeValToRGB"); L.new(w.outputs[1], cr.inputs[0])
+    cr.color_ramp.elements[0].color = (0.035, 0.022, 0.014, 1); cr.color_ramp.elements[1].color = (0.075, 0.048, 0.03, 1)
+    L.new(cr.outputs[0], b.inputs["Base Color"])
+    return m
+
+
+def moss_material():
+    """the Nordic cushion moss study's set (materials/nordic_moss) at real scale: its albedo + normal, matte with a soft sheen"""
+    m = bpy.data.materials.new("bonsai_moss"); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]
+    uv = N.new("ShaderNodeUVMap")
+    a = N.new("ShaderNodeTexImage"); a.image = _img(MOSSMAPS / "albedo.png"); L.new(uv.outputs[0], a.inputs["Vector"])
+    n = N.new("ShaderNodeTexImage"); n.image = _img(MOSSMAPS / "normal.png", False); L.new(uv.outputs[0], n.inputs["Vector"])
+    nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = 1.2
+    L.new(n.outputs[0], nm.inputs["Color"]); L.new(nm.outputs[0], b.inputs["Normal"])
+    hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 0.85
+    L.new(a.outputs[0], hs.inputs["Color"]); L.new(hs.outputs[0], b.inputs["Base Color"])
+    b.inputs["Roughness"].default_value = 0.95; b.inputs["Sheen Weight"].default_value = 0.2
+    b.inputs["Sheen Tint"].default_value = (0.4, 0.55, 0.2, 1)
+    return m
+
+
 # ------------------------------------------------------------------------------------------------------------ geometry
-def tube(pts, radii, dead=None, sides=18, twist0=0.0, uscale=0.07, fl=0.0):
-    """a wood tube: u around (scaled to ~real texture size), v along; per-vertex 'dead' from dead(t, angle)"""
-    V, F, UV, D = [], [], [], []
-    n = len(pts)
-    ref = np.array([0, 0, 1.0])
-    a1 = None
-    vlen = 0.0
-    for k in range(n):
-        d = _unit(pts[min(k + 1, n - 1)] - pts[max(k - 1, 0)])
-        if a1 is None:
-            a1 = _unit(np.cross(d, [1.0, 0.3, 0]))
-        a1 = _unit(a1 - d * (a1 @ d))                                    # parallel transport: no flips
-        a2 = np.cross(d, a1)
-        if k:
-            vlen += np.linalg.norm(pts[k] - pts[k - 1])
-        for j in range(sides + 1):
-            t = 2 * math.pi * j / sides
-            dd = dead(k / (n - 1), t) if dead else 0.0
-            flute = 1 + fl * (0.6 * math.sin(7 * t + 9 * k / n) + 0.4 * math.sin(13 * t - 5 * k / n + 1.3))
-            r = radii[k] * (1 - 0.07 * dd) * flute                       # deadwood sunk below the live vein; fibrous ridges
-            V.append(pts[k] + (a1 * math.cos(t) + a2 * math.sin(t)) * r)
-            UV.append((j / sides * 2 * math.pi * max(radii[k], 0.004) / uscale, vlen / uscale))
-            D.append(dd)
-    R = sides + 1
-    for k in range(n - 1):
-        for j in range(sides):
-            F.append([k * R + j, k * R + j + 1, (k + 1) * R + j + 1, (k + 1) * R + j])
-    F.append([(n - 1) * R + j for j in range(sides)])
-    return np.array(V), F, UV, D
-
-
-def spine(p0, d0, length, n, rng, bends=2.0, amp=0.25, droop=0.0, up=0.0):
-    """a gently S-bending curve"""
+def spine(p0, d0, length, n, rng, bends=2.0, amp=0.25, droop=0.0, up=0.0, horiz=False):
     pts = [np.array(p0, float)]
     d = _unit(np.array(d0, float))
     ph = rng.uniform(0, 2 * math.pi, 2)
@@ -198,164 +189,330 @@ def spine(p0, d0, length, n, rng, bends=2.0, amp=0.25, droop=0.0, up=0.0):
     for k in range(n):
         t = (k + 1) / n
         bend = amp * (side * math.sin(ph[0] + bends * math.pi * t) + 0.6 * other * math.cos(ph[1] + bends * math.pi * t))
+        if horiz:
+            bend = bend * [1, 1, 0.25]
         d = _unit(d + bend * (2.0 / n) + np.array([0, 0, -droop + up * t]) * (1.0 / n))
         pts.append(pts[-1] + d * length / n)
     return np.array(pts)
 
 
+def frames(pts):
+    """parallel-transported frames along a curve: tangent, a1, a2"""
+    n = len(pts)
+    T = _unit(np.gradient(pts, axis=0))
+    a1 = np.zeros_like(pts); a1[0] = _unit(np.cross(T[0], [0.3, 1.0, 0.1]))
+    for k in range(1, n):
+        v = a1[k - 1] - T[k] * (a1[k - 1] @ T[k])
+        a1[k] = v / (np.linalg.norm(v) + 1e-12)
+    return T, a1, np.cross(T, a1)
+
+
+def tube(pts, radii, sides=16, uscale=0.06, cap=True):
+    V, F, UV = [], [], []
+    n = len(pts)
+    T, A1, A2 = frames(pts)
+    vlen = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(pts, axis=0), axis=1))])
+    for k in range(n):
+        for j in range(sides + 1):
+            t = 2 * math.pi * j / sides
+            V.append(pts[k] + (A1[k] * math.cos(t) + A2[k] * math.sin(t)) * radii[k])
+            UV.append((j / sides * 2 * math.pi * max(radii[k], 0.003) / uscale, vlen[k] / uscale))
+    R = sides + 1
+    for k in range(n - 1):
+        for j in range(sides):
+            F.append([k * R + j, k * R + j + 1, (k + 1) * R + j + 1, (k + 1) * R + j])
+    if cap:
+        F.append([(n - 1) * R + j for j in range(sides)])
+    return np.array(V), F, UV
+
+
+def closed_tube(pts, radii, sides=20):
+    """a watertight tube (no seam duplicates, both ends capped): what the voxel fuse needs (v2's first try had an open seam
+    and the remesh hollowed the trunk away)"""
+    n = len(pts)
+    T, A1, A2 = frames(pts)
+    t = np.linspace(0, 2 * math.pi, sides, endpoint=False)
+    ring = np.cos(t)[None, :, None] * A1[:, None] + np.sin(t)[None, :, None] * A2[:, None]
+    V = (pts[:, None] + ring * np.asarray(radii)[:, None, None]).reshape(-1, 3)
+    F = [[k * sides + j, k * sides + (j + 1) % sides, (k + 1) * sides + (j + 1) % sides, (k + 1) * sides + j]
+         for k in range(n - 1) for j in range(sides)]
+    F.append(list(range(sides))[::-1]); F.append([(n - 1) * sides + j for j in range(sides)])
+    return V, F
+
+
+def wavenoise(P, rng, freq, n=20):
+    """smooth 3D noise: a sum of random plane waves (numpy, no scipy in Blender)"""
+    k = _unit(rng.normal(0, 1, (n, 3))) * freq * rng.uniform(0.6, 1.4, (n, 1))
+    ph = rng.uniform(0, 2 * math.pi, n)
+    return (np.sin(P @ k.T + ph) * rng.uniform(0.5, 1.0, n)).sum(1) / math.sqrt(n)
+
+
+# ------------------------------------------------------------------------------------------------------------ the scene
+def table_and_pot(loc, rng):
+    objs = []
+    oak = dark_oak()
+    tw, td = 0.66, 0.46
+    for (sx, sy, sz, x, y, z) in [(tw, td, 0.035, 0, 0, TABLE - 0.0175)] + \
+            [(0.045, 0.045, TABLE - 0.035, sx_ * (tw / 2 - 0.05), sy_ * (td / 2 - 0.05), (TABLE - 0.035) / 2)
+             for sx_ in (-1, 1) for sy_ in (-1, 1)] + \
+            [(tw - 0.1, 0.02, 0.05, 0, sy_ * (td / 2 - 0.05), TABLE - 0.06) for sy_ in (-1, 1)] + \
+            [(0.02, td - 0.1, 0.05, sx_ * (tw / 2 - 0.05), 0, TABLE - 0.06) for sx_ in (-1, 1)]:
+        bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(loc + [x, y, z]))
+        o = bpy.context.object; o.scale = (sx, sy, sz)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        bv = o.modifiers.new("bv", "BEVEL"); bv.width = 0.003; bv.segments = 2
+        o.data.materials.append(oak); objs.append(o)
+    # the oval pot: a lathe on an ellipse (outer foot -> wall -> rolled lip -> inner wall -> floor)
+    a, b = rng.uniform(0.22, 0.26), rng.uniform(0.16, 0.18)
+    H = rng.uniform(0.065, 0.08)
+    prof = [(0.88, 0.012), (0.93, 0.012), (0.95, 0.02), (0.985, H - 0.012), (1.0, H - 0.005), (1.0, H), (0.985, H + 0.003),
+            (0.955, H + 0.002), (0.94, H - 0.004), (0.93, H - 0.015), (0.9, 0.022), (0.0, 0.022)]
+    seg = 160
+    V, F = [], []
+    for i in range(seg):
+        t = 2 * math.pi * i / seg
+        for r, z in prof:
+            V.append((loc[0] + a * r * math.cos(t), loc[1] + b * r * math.sin(t), loc[2] + TABLE + z))
+    P = len(prof)
+    for i in range(seg):
+        for j in range(P - 1):
+            a_, b_ = i * P + j, ((i + 1) % seg) * P + j
+            F.append((a_, b_, b_ + 1, a_ + 1))
+    F.append(tuple(i * P for i in range(seg))[::-1])
+    potm = clay()
+    objs.append(_obj("bonsai_pot", V, F, potm))
+    for t in (0.6, 2.55, 3.7, 5.65):                                    # four cloud feet
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=tuple(loc + [a * 0.84 * math.cos(t), b * 0.84 * math.sin(t), TABLE + 0.008]))
+        f_ = bpy.context.object; f_.scale = (0.03, 0.022, 0.012); f_.data.materials.append(potm); objs.append(f_)
+    # the soil: the cushion moss at real scale (the study's 2 m patch), displaced by its height
+    zs = TABLE + H - 0.008
+    hmap = _pixels(MOSSMAPS / "height.png")[..., 0]
+    nr, nt = 70, 200
+    mask = _pixels(MOSSMAPS / "mask_shade.png")[..., 0]                   # the mossiest part of the study's patch (it is half granite)
+    best = max((tuple(rng.uniform(0.05, 0.75, 2)) for _ in range(60)),
+               key=lambda o: mask[int(o[1] * 2047):int((o[1] + b) * 2047), int(o[0] * 2047):int((o[0] + a) * 2047)].mean())
+    off = np.array(best) + [a / 2, b / 2]
+    V, UV, F = [], [], []
+    for i in range(nr + 1):
+        rr = 0.93 * i / nr
+        for j in range(nt):
+            t = 2 * math.pi * j / nt
+            x, y = a * rr * math.cos(t), b * rr * math.sin(t)
+            u, v = off[0] + x / 2.0, off[1] + y / 2.0
+            hgt = hmap[int(v * 2047) % 2048, int(u * 2047) % 2048]
+            dome = 0.012 * (1 - rr ** 2)
+            V.append((loc[0] + x, loc[1] + y, zs + dome + (hgt - 0.3) * 0.012 * min(1, (0.93 - rr) / 0.08)))
+            UV.append((u, v))
+    for i in range(nr):
+        for j in range(nt):
+            q = [i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j]
+            F.append(q)
+    objs.append(_obj("bonsai_moss", V, F, moss_material(), UV))
+    return objs, zs
+
+
 def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None):
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
-    objs = []
-    # --- the plinth, the tray, the moss
-    bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(loc + [0, 0, PLINTH / 2]))
-    pl = bpy.context.object; pl.scale = (0.62, 0.46, PLINTH)
-    bv = pl.modifiers.new("bv", "BEVEL"); bv.width = 0.004; bv.segments = 2
-    pl.data.materials.append(simple("oak_plinth", (0.30, 0.20, 0.12), 0.5, bump=0.05)); objs.append(pl)
-    tw, td, th = rng.uniform(0.42, 0.5), rng.uniform(0.3, 0.34), rng.uniform(0.065, 0.085)
-    z0 = loc[2] + PLINTH
-    bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(loc + [0, 0, PLINTH + 0.008 + th / 2]))
-    tray = bpy.context.object; tray.scale = (tw, td, th)
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)   # (scaled object coords stretched the clay into wood grain)
-    bv = tray.modifiers.new("bv", "BEVEL"); bv.width = 0.012; bv.segments = 4
-    sol = bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(loc + [0, 0, PLINTH + 0.008 + th - 0.006]))
-    inner = bpy.context.object; inner.scale = (tw - 0.024, td - 0.024, 0.04)
-    bo = tray.modifiers.new("hollow", "BOOLEAN"); bo.object = inner; bo.operation = "DIFFERENCE"
-    bpy.context.view_layer.objects.active = tray
-    for md in list(tray.modifiers):
-        bpy.ops.object.modifier_apply(modifier=md.name)
-    bpy.data.objects.remove(inner)
-    tray.data.materials.clear()                                          # (the boolean left an empty slot: it rendered white)
-    tray.data.materials.append(clay()); objs.append(tray)
-    for sx in (-1, 1):                                                   # the feet
-        for sy in (-1, 1):
-            bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(loc + [sx * (tw / 2 - 0.04), sy * (td / 2 - 0.035), PLINTH + 0.004]))
-            f_ = bpy.context.object; f_.scale = (0.045, 0.03, 0.008); f_.data.materials.append(tray.data.materials[0]); objs.append(f_)
-    zs = PLINTH + 0.008 + th - 0.012                                     # the soil surface
-    moss = simple("moss_soil", None, 1.0, tex={"diff": MOSS / "diff.png", "nor": MOSS / "nor_gl.png"}, scale=8.0, val=0.8)
-    g = np.linspace(-1, 1, 70)
-    gx, gy = np.meshgrid(g, g)
-    hx, hy = gx * (tw / 2 - 0.016), gy * (td / 2 - 0.016)
-    cush = sum(rng.uniform(0.004, 0.009) * np.exp(-((hx - cx_) ** 2 + (hy - cy_) ** 2) / rng.uniform(0.02, 0.05) ** 2)
-               for cx_, cy_ in rng.uniform([-tw / 2, -td / 2], [tw / 2, td / 2], (40, 2)))               # moss cushions
-    edge = np.clip(np.minimum(1 - np.abs(gx), 1 - np.abs(gy)) / 0.15, 0, 1)            # down to the rim at the walls
-    mound = (0.018 * np.exp(-(hx ** 2 / (tw * 0.3) ** 2 + hy ** 2 / (td * 0.35) ** 2)) + cush) * edge
-    MV = np.stack([hx.ravel(), hy.ravel(), (zs + mound).ravel()], 1) + [loc[0], loc[1], loc[2]]
-    MF = [[j * 70 + i, j * 70 + i + 1, (j + 1) * 70 + i + 1, (j + 1) * 70 + i] for j in range(69) for i in range(69)]
-    objs.append(_obj("moss_bed", MV, MF, moss))
-    for _ in range(int(rng.integers(2, 5))):                              # a few small stones in the moss
-        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1,
-                                              location=tuple(loc + [rng.uniform(-tw / 3, tw / 3), rng.uniform(-td / 3, td / 3), zs + 0.008]))
-        st = bpy.context.object; st.scale = (rng.uniform(0.012, 0.03), rng.uniform(0.01, 0.022), rng.uniform(0.006, 0.012))
-        st.data.materials.append(simple("stone", (0.32, 0.31, 0.3), 0.7, bump=0.3)); objs.append(st)
-    # --- the trunk: informal upright, S-bends, nebari, shari spiralling up
-    H = rng.uniform(0.32, 0.5)
-    base = np.array([rng.uniform(-0.04, 0.04), rng.uniform(-0.03, 0.03), zs - 0.01])
-    lean = _unit(np.array([rng.normal(0, 0.35), rng.normal(0, 0.2), 1.0]))
-    tr = spine(base, lean, H, 60, rng, bends=rng.uniform(1.5, 3.0), amp=rng.uniform(0.6, 1.2))
-    R0 = rng.uniform(0.032, 0.045)
-    t = np.linspace(0, 1, len(tr))
-    rad = R0 * (1 - 0.72 * t ** 0.8) * (1 + 0.6 * np.exp(-t / 0.04))     # hard taper; the flare at the base
-    sh_w = rng.uniform(0.25, 0.45); sh_turn = rng.uniform(0.6, 1.4) * rng.choice([-1, 1]); sh0 = rng.uniform(0, 2 * math.pi)
-    jin = rng.random() < 0.55
-
-    def trunk_dead(tt, ang):
-        c = sh0 + sh_turn * 2 * math.pi * tt
-        dd = (math.cos(ang - c) + 1) / 2
-        w = sh_w * (0.7 + 0.6 * tt)
-        v = 1 / (1 + math.exp(-(dd - (1 - w)) * 40))
-        if jin and tt > 0.88:
-            v = 1.0
-        return v * (tt > 0.04)
-    V, F, UV, D = tube(tr, rad, trunk_dead, sides=48, fl=0.07)
-    wood = wood_material()
-    parts = [(V, F, UV, D)]
-    for _ in range(int(rng.integers(3, 6))):                              # surface roots
+    objs, zs = table_and_pot(loc, rng)
+    zs -= loc[2]
+    # ---- the wood skeleton (local coordinates; loc added at the end)
+    H = rng.uniform(0.36, 0.5)
+    base = np.array([rng.uniform(-0.05, 0.05), rng.uniform(-0.02, 0.02), zs - 0.012])
+    lean = _unit(np.array([rng.normal(0, 0.45), rng.normal(0, 0.2), 1.0]))
+    trunk = spine(base, lean, H, 70, rng, bends=rng.uniform(2.0, 3.2), amp=rng.uniform(1.0, 1.6))
+    R0 = rng.uniform(0.04, 0.055)
+    tt = np.linspace(0, 1, len(trunk))
+    trad = R0 * (1 - 0.8 * tt ** 0.7) * (1 + 0.5 * np.exp(-tt / 0.06))
+    jin = rng.random() < 0.6
+    spines = [("trunk", trunk, trad, False)]
+    for _ in range(int(rng.integers(4, 7))):                             # surface roots, merged into the flare by the remesh
         az = rng.uniform(0, 2 * math.pi)
-        rp = spine(base + [0, 0, 0.012], [math.cos(az), math.sin(az), -0.15], rng.uniform(0.06, 0.12), 14, rng, amp=0.4, droop=0.3)
-        rp[:, 2] = np.maximum(rp[:, 2], zs - 0.004)
-        parts.append(tube(rp, np.linspace(R0 * 0.55, R0 * 0.12, len(rp)), None, sides=10))
-    # --- branches + pads (pads kept apart: spheres of their half-width, retries)
-    pads = []
-    trunk_pts = tr
-    n_br = int(rng.integers(7, 12))
-    hs = np.sort(rng.uniform(0.35, 0.9, n_br))
+        rp = spine(base + [0, 0, 0.02], [math.cos(az), math.sin(az), -0.45], rng.uniform(0.07, 0.13), 16, rng, amp=0.5, droop=0.5)
+        rp[:, 2] = np.maximum(rp[:, 2], zs - 0.012)
+        spines.append(("root", rp, np.linspace(R0 * 0.75, R0 * 0.08, len(rp)), False))
+    # main branches: level, alternating, longer low down; forks -> twigs -> foliage clusters on the tips
+    twig_tubes, clusters = [], []
+    n_br = int(rng.integers(6, 10))
+    hs = np.sort(rng.uniform(0.38, 0.86, n_br))
     az = rng.uniform(0, 2 * math.pi)
+    placed_tips = np.zeros((0, 3))
     for i, h in enumerate(hs):
-        k = int(h * (len(tr) - 1))
-        for attempt in range(25):
-            az_i = az + i * math.radians(rng.uniform(110, 160)) + rng.normal(0, 0.25 + 0.06 * attempt)
+        k = int(h * (len(trunk) - 1))
+        for attempt in range(30):
+            az_i = az + i * math.radians(rng.uniform(115, 165)) + rng.normal(0, 0.2 + 0.05 * attempt)
             out = np.array([math.cos(az_i), math.sin(az_i), 0.0])
-            blen = (0.09 + 0.17 * (1 - h)) * rng.uniform(0.8, 1.2)
-            bp_ = spine(tr[k], out + [0, 0, rng.uniform(-0.15, 0.15)], blen, 16, rng, amp=0.5, droop=0.15, up=0.4)
-            c = bp_[-1] + np.array([0, 0, 0.012])
-            pw = (0.065 + 0.09 * (1 - h)) * rng.uniform(0.85, 1.15)
-            ok = all(np.linalg.norm((c - q[0]) * [1, 1, 3.0]) > (pw + q[1]) * 0.62 for q in pads)
-            ok &= np.min(np.linalg.norm((trunk_pts - c)[:, :2], axis=1) + 10 * (np.abs(trunk_pts[:, 2] - c[2]) > pw * 0.4)) > pw * 0.55
-            if ok:
+            blen = (0.08 + 0.2 * (1 - h)) * rng.uniform(0.85, 1.15)
+            dead = rng.random() < 0.12
+            bp_ = spine(trunk[k], out + [0, 0, rng.uniform(-0.25, 0.05)], blen * (0.5 if dead else 1), 18, rng, amp=0.7,
+                        droop=0.25, up=0.35, horiz=True)
+            if dead:
                 break
-        if not ok:
+            # ramification: secondaries off the outer 55 %, tertiaries off those; the tips fan out in the horizontal plane
+            tips, tw_ = [], []
+            for s_ in np.linspace(0.45, 1.0, int(rng.integers(3, 5))):
+                p0 = bp_[int(s_ * (len(bp_) - 1))]
+                d0 = _unit(bp_[-1] - bp_[0])
+                for _ in range(int(rng.integers(1, 3))):
+                    ang = rng.uniform(-1.0, 1.0)
+                    d2 = _unit(np.array([d0[0] * math.cos(ang) - d0[1] * math.sin(ang), d0[0] * math.sin(ang) + d0[1] * math.cos(ang), 0.05]))
+                    sp2 = spine(p0, d2, rng.uniform(0.03, 0.06), 6, rng, amp=0.6, up=0.4, horiz=True)
+                    tw_.append((sp2, np.linspace(0.0035, 0.0018, len(sp2))))
+                    for _ in range(int(rng.integers(2, 4))):
+                        ang3 = ang + rng.uniform(-0.9, 0.9)
+                        d3 = _unit(np.array([d0[0] * math.cos(ang3) - d0[1] * math.sin(ang3), d0[0] * math.sin(ang3) + d0[1] * math.cos(ang3), 0.15]))
+                        sp3 = spine(sp2[-1], d3, rng.uniform(0.02, 0.04), 5, rng, amp=0.6, up=0.5, horiz=True)
+                        tw_.append((sp3, np.linspace(0.0018, 0.0009, len(sp3))))
+                        tips.append(sp3[-1])
+            tips = np.array(tips)
+            # apart from other branches' foliage (pads don't merge into a blob) and off the trunk
+            dd = np.linalg.norm((tips[:, None] - placed_tips[None]) * [1, 1, 2.6], axis=2).min() if len(placed_tips) else 1
+            dt = np.linalg.norm((tips[:, None] - trunk[None])[..., :2], axis=2)
+            near = np.abs(tips[:, None, 2] - trunk[None, :, 2]) < 0.05
+            dtr = np.where(near, dt, 1).min() if near.any() else 1
+            if dd > 0.06 and dtr > 0.03:
+                break
+        rb = np.linspace(trad[k] * 0.5, 0.0045 if not dead else 0.0008, len(bp_))
+        spines.append(("dead" if dead else "branch", bp_, rb, dead))
+        if dead:
             continue
-        rb = np.linspace(rad[k] * 0.45, 0.003, len(bp_))
-        dead_br = rng.random() < 0.1
-        if dead_br:                                                     # a jin: short, bleached, reaching up a little
-            bp_ = bp_[: len(bp_) // 2] + np.linspace(0, 1, len(bp_) // 2)[:, None] * [0, 0, 0.03]
-            rb = np.linspace(rad[k] * 0.4, 0.0006, len(bp_)) ** 1.0           # tapering to a point, not a pipe
-        parts.append(tube(bp_, rb, (lambda tt, a, dd=dead_br: 1.0 if dd else 0.0), sides=10))
-        if dead_br:                                                      # a jin: a dead stub, no pad
-            continue
-        pads.append((c, pw))
-    apex = tr[-1] if not jin else tr[int(0.9 * (len(tr) - 1))]
-    pads.append((apex + np.array([0, 0, 0.02]), 0.09 * rng.uniform(0.9, 1.2)))
-    allV, allF, allUV, allD = [], [], [], []
+        twig_tubes += tw_
+        placed_tips = np.concatenate([placed_tips, tips])
+        clusters += [(t_, rng.uniform(0.026, 0.04)) for t_ in tips]
+    # the crown: the trunk's top splits into short twigs (a jin carries on above them on some trees)
+    top_k = int((0.88 if jin else 0.97) * (len(trunk) - 1))
+    for _ in range(int(rng.integers(5, 9))):
+        a3 = rng.uniform(0, 2 * math.pi)
+        sp3 = spine(trunk[top_k], [math.cos(a3), math.sin(a3), rng.uniform(0.2, 0.9)], rng.uniform(0.03, 0.07), 6, rng, amp=0.5, up=0.3)
+        twig_tubes.append((sp3, np.linspace(0.004, 0.001, len(sp3))))
+        clusters.append((sp3[-1], rng.uniform(0.03, 0.042)))
+    # ---- fuse the thick wood: tubes -> one voxel-remeshed body
+    allV, allF = [], []
     off = 0
-    for V_, F_, UV_, D_ in parts:
-        allV.append(V_); allF += [[i + off for i in f] for f in F_]; allUV += UV_; allD += list(D_) if len(D_) else [0.0] * len(V_)
-        off += len(V_)
-    objs.append(_obj(f"bonsai_{seed}_wood", np.concatenate(allV) + [loc[0], loc[1], loc[2]], allF, wood, allUV, {"dead": allD}))
-    # --- the foliage pads: sprig cards on a flattened dome, facing out + up
+    for name, sp, rr, dead in spines:
+        V_, F_ = closed_tube(sp, np.maximum(rr, 0.0022), sides=20)
+        allV.append(V_); allF += [[i + off for i in f] for f in F_]; off += len(V_)
+    raw = _obj("wood_raw", np.concatenate(allV), allF, None)
+    rm = raw.modifiers.new("fuse", "REMESH"); rm.mode = "VOXEL"; rm.voxel_size = 0.0016; rm.adaptivity = 0.0
+    sm = raw.modifiers.new("sm", "SMOOTH"); sm.factor = 0.5; sm.iterations = 2
+    dg = bpy.context.evaluated_depsgraph_get()
+    me = bpy.data.meshes.new_from_object(raw.evaluated_get(dg))
+    bpy.data.objects.remove(raw)
+    # ---- carve: per vertex, its nearest spine sample -> the angle round it, the height along it
+    nV = len(me.vertices)
+    P = np.empty(nV * 3, np.float32); me.vertices.foreach_get("co", P); P = P.reshape(-1, 3).astype(np.float64)
+    Nn = np.empty(nV * 3, np.float32); me.vertices.foreach_get("normal", Nn); Nn = Nn.reshape(-1, 3).astype(np.float64)
+    SP, SA1, SA2, SR, SS, SI, SD, SL = [], [], [], [], [], [], [], []
+    for si, (name, sp, rr, dead) in enumerate(spines):
+        T_, A1_, A2_ = frames(sp)
+        ln = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(sp, axis=0), axis=1))])
+        SP.append(sp); SA1.append(A1_); SA2.append(A2_); SR.append(rr); SS.append(np.linspace(0, 1, len(sp)))
+        SI.append(np.full(len(sp), si)); SD.append(np.full(len(sp), 1.0 if dead else 0.0)); SL.append(ln)
+    SP, SA1, SA2, SR, SS, SI, SD, SL = map(np.concatenate, (SP, SA1, SA2, SR, SS, SI, SD, SL))
+    near = np.empty(nV, int)
+    for c0 in range(0, nV, 20000):
+        d = np.linalg.norm(P[c0:c0 + 20000, None] - SP[None], axis=2) / (SR[None] + 0.004)
+        near[c0:c0 + 20000] = d.argmin(1)
+    # the roots take their frame from the trunk's base (one continuous bark mapping: a ring seam where they met)
+    is_root = np.isin(SI[near], [i for i, sp_ in enumerate(spines) if sp_[0] == "root"])
+    nt_ = len(spines[0][1])
+    if is_root.any():
+        dtr = np.linalg.norm(P[is_root, None] - SP[None, :nt_], axis=2)
+        near[is_root] = dtr.argmin(1)
+    rel = P - SP[near]
+    ang = np.arctan2((rel * SA2[near]).sum(1), (rel * SA1[near]).sum(1))
+    s = SS[near]; r = SR[near]; idx = SI[near]; ln = SL[near]
+    # the nearest spine *sample* steps along a branch (zig-zag bands in the bark): smooth the fields over the surface first
+    E = np.empty(len(me.edges) * 2, int); me.edges.foreach_get("vertices", E); E = E.reshape(-1, 2)
+    deg = np.bincount(E.ravel(), minlength=nV).astype(float) + 1e-9
+
+    def lap(x, it):
+        for _ in range(it):
+            acc = np.zeros(nV); np.add.at(acc, E[:, 0], x[E[:, 1]]); np.add.at(acc, E[:, 1], x[E[:, 0]])
+            x = 0.5 * x + 0.5 * acc / deg
+        return x
+    s, ln, r = lap(s, 12), lap(ln, 12), lap(r, 6)
+    ang = np.arctan2(lap(np.sin(ang), 4), lap(np.cos(ang), 4))
+    is_trunk = idx == 0
+    sh_w = rng.uniform(0.36, 0.5); sh_turn = rng.uniform(0.7, 1.5) * rng.choice([-1, 1]); sh0 = rng.uniform(0, 2 * math.pi)
+    twist = sh_turn * 2 * math.pi
+    c = sh0 + twist * s
+    band = (np.cos(ang - c) + 1) / 2
+    w = sh_w * (0.75 + 0.5 * s)
+    dead = np.where(is_trunk, 1 / (1 + np.exp(-(band - (1 - w)) * 30)) * (s > 0.03), 0.0)
+    if jin:
+        dead = np.where(is_trunk & (s > 0.88), np.maximum(dead, np.clip((s - 0.88) / 0.03, 0, 1)), dead)
+    dead = np.maximum(dead, SD[near])
+    lip = np.exp(-((band - (1 - w)) / 0.05) ** 2) * is_trunk * (s > 0.03)   # the live vein's swollen edge along the shari
+    nr_ = np.clip(np.round(2 * math.pi * r / 0.014), 3, 11)
+    ridges = np.sin(nr_ * ang + twist * s * 0.9 + 0.8 * wavenoise(P, rng, 40)) * 0.5 + 0.5
+    grain = np.sin(2 * nr_ * ang + twist * s + 1.5 * wavenoise(P, rng, 60))
+    knots = wavenoise(P, rng, 28)
+    disp = r * (0.13 * ridges + 0.1 * knots - 0.26 * dead + 0.07 * grain * dead + 0.16 * lip)      # (0.07/0.06/0.16 read smooth)
+    disp *= np.where(is_trunk, 1.0, 0.55)
+    disp, dead = lap(disp, 6), lap(dead, 3)                            # (where neighbours took different spines it stepped)
+    P2 = P + Nn * disp[:, None]
+    me.vertices.foreach_set("co", P2.astype(np.float32).ravel())
+    # UVs: round the nearest spine, twisted with the ridges (the bark strips follow the fibres)
+    uscale, vscale = 0.13, 0.3                                       # the bark image's strips are long: one tile ~22 cm along (6 cm read as bricks)
+    U = ((ang + twist * s * 0.9) % (2 * math.pi)) * np.maximum(r, 0.004) / uscale
+    Vv = ln / vscale
+    if is_root.any():                                                 # the roots: strips running out along them (not stretched round)
+        hd = np.linalg.norm(rel[is_root][:, :2], axis=1)
+        Vv[is_root] = -np.maximum(hd - trad[0] * 0.9, 0) / vscale * 1.5      # 0 where the root leaves the flare: no ring
+    Vv = lap(Vv, 6)
+    me.uv_layers.new(name="UVMap")
+    lv = np.empty(len(me.loops), int); me.loops.foreach_get("vertex_index", lv)
+    lu, lvv = U[lv].copy(), Vv[lv]
+    period = (2 * math.pi) * np.maximum(r, 0.004)[lv] / uscale
+    starts = np.empty(len(me.polygons), int); me.polygons.foreach_get("loop_start", starts)
+    first = np.repeat(lu[starts], np.diff(np.append(starts, len(lu))))           # each loop's face's first corner
+    lu = np.where(lu - first > period / 2, lu - period, np.where(first - lu > period / 2, lu + period, lu))   # no seam smear
+    me.uv_layers[0].data.foreach_set("uv", np.stack([lu, lvv], 1).astype(np.float32).ravel())
+    at = me.attributes.new("dead", "FLOAT", "POINT"); at.data.foreach_set("value", dead.astype(np.float32))
+    me.polygons.foreach_set("use_smooth", [True] * len(me.polygons)); me.update()
+    wood = bpy.data.objects.new(f"bonsai_{seed}_wood", me); bpy.context.scene.collection.objects.link(wood)
+    wood.data.materials.append(wood_material()); wood.location = loc
+    objs.append(wood)
+    # ---- the fine twigs (too thin for the voxels)
+    tv, tf, tu = [], [], []
+    off = 0
+    for sp, rr in twig_tubes:
+        V_, F_, UV_ = tube(sp, rr, sides=6, uscale=0.03)
+        tv.append(V_); tf += [[i + off for i in f] for f in F_]; tu += UV_; off += len(V_)
+    if tv:
+        objs.append(_obj(f"bonsai_{seed}_twigs", np.concatenate(tv) + loc, tf, wood_material(), tu, {"dead": np.zeros(off)}))
+    # ---- foliage: a cluster on every tip, near-horizontal sprays, lit on top, shadowed beneath
     atlas = json.loads((MAPS / "atlas.json").read_text())
-    tips = [n for n in atlas if n.startswith("tip") and n != "tip2"] if rng.random() < 0.7 else ["tip2", "tip2", "tip4"]
-    fill = [n for n in atlas if n.startswith("sprig") and n != "sprig2"]
-    names = tips + fill
-    by = {n: ([], [], [], [], []) for n in names}
-    hue0 = rng.uniform(-0.01, 0.01)
-    for c, pw in pads:
-        # a pad: a wide flat cloud (refs: flat-topped, layered, feathery edges): sprays lying near-horizontal in 4-6 layers
-        # inside a flattened ellipsoid, fanning outward; the lower layers darker (self-shadowed)
-        ph_ = pw * rng.uniform(0.28, 0.4)
-        sq = rng.uniform(0.75, 1.0)
-        hue = 0.5 + hue0 + rng.normal(0, 0.008)
-        n_cards = int(600 + 46000 * pw * pw)
-        # (v5 pads were perfect discs, "flying saucers"): each pad 2-4 overlapping sub-clouds, a wobbly outline
-        subs = [(np.zeros(3), 1.0)] + [(np.array([*(rng.normal(0, 0.42, 2) * pw), rng.normal(0, 0.15) * ph_]), rng.uniform(0.5, 0.78))
-                                     for _ in range(int(rng.integers(1, 4)))]
-        wob = rng.uniform(0, 2 * math.pi, 3)
-        for _ in range(n_cards):
-            so, sr = subs[int(rng.integers(len(subs)))]
-            r_ = math.sqrt(rng.uniform(0, 1)) ** 0.8
-            th_ = rng.uniform(0, 2 * math.pi)
-            r_ *= 1 + 0.18 * math.sin(2 * th_ + wob[0]) + 0.1 * math.sin(3 * th_ + wob[1]) + 0.06 * math.sin(5 * th_ + wob[2])
-            zc = rng.uniform(-1, 1)
-            zmax = math.sqrt(max(1 - min(r_, 1) ** 2, 0.0)) ** 0.7       # the dome: flat top, rounded edge
-            p = c + so + np.array([r_ * pw * sr * math.cos(th_), r_ * pw * sr * sq * math.sin(th_), zc * zmax * ph_ * (0.7 + 0.3 * sr)])
+    blue = rng.random() < 0.25
+    tips = ["tip2", "tip2", "tip4"] if blue else [n for n in atlas if n.startswith("tip") and n != "tip2"]
+    fill = [n for n in atlas if n.startswith("sprig") and (n != "sprig2" or blue)]
+    by = {n: ([], [], [], [], []) for n in set(tips + fill)}
+    hue0 = rng.uniform(-0.008, 0.008)
+    for cpos, rc in clusters:
+        hue = 0.5 + hue0 + rng.normal(0, 0.006)
+        cc = cpos + np.array([0, 0, rc * 0.25])
+        for _ in range(int(55 + 60000 * rc * rc)):
+            th_ = rng.uniform(0, 2 * math.pi); r_ = math.sqrt(rng.uniform(0, 1))
+            zc = rng.uniform(-0.6, 1.0) * math.sqrt(max(1 - r_ * r_, 0)) ** 0.6
+            p = cc + np.array([r_ * rc * math.cos(th_), r_ * rc * math.sin(th_), zc * rc * 0.5])
             outw = np.array([math.cos(th_), math.sin(th_), 0.0])
-            tilt = rng.normal(0, 0.18) + 0.35 * r_ * (zc < 0)              # near-horizontal; edge sprays droop a little
-            facing = _unit(np.array([0, 0, 1.0]) + outw * (0.25 * r_ - tilt) + rng.normal(0, 0.12, 3))
-            inner = r_ < 0.75 and abs(zc) < 0.6 and rng.random() < 0.35      # dense clusters deep inside: no see-through pad
+            facing = _unit(np.array([0, 0, 1.0]) + outw * 0.3 * r_ + rng.normal(0, 0.2, 3))
+            inner = r_ < 0.6 and rng.random() < 0.3
             name = fill[int(rng.integers(len(fill)))] if inner else tips[int(rng.integers(len(tips)))]
-            sz = rng.uniform(0.03, 0.05) if inner else rng.uniform(0.022, 0.04)
+            sz = rng.uniform(0.022, 0.034) if inner else rng.uniform(0.016, 0.03)
             asp = atlas[name]["aspect"]
-            ay = _unit(outw + rng.normal(0, 0.45, 3)); ay = _unit(ay - facing * (ay @ facing))   # the spray points outward
-            ax = np.cross(ay, facing)
+            ay = _unit(outw + rng.normal(0, 0.5, 3)); ay = _unit(ay - facing * (ay @ facing)); ax = np.cross(ay, facing)
             hw, hh = sz * asp / 2, sz / 2
-            q = [p - ax * hw - ay * hh * 0.2, p + ax * hw - ay * hh * 0.2, p + ax * hw + ay * hh * 1.8, p - ax * hw + ay * hh * 1.8]
+            q = [p - ax * hw - ay * hh * 0.3, p + ax * hw - ay * hh * 0.3, p + ax * hw + ay * hh * 1.7, p - ax * hw + ay * hh * 1.7]
             V_, F_, UV_, S_, Hh = by[name]
             o_ = len(V_); V_ += q; F_.append([o_, o_ + 1, o_ + 2, o_ + 3]); UV_ += [(0, 0), (1, 0), (1, 1), (0, 1)]
-            sh = 0.45 + 0.55 * ((zc * zmax + 1) / 2) ** 1.3 * (0.75 + 0.25 * r_)   # top + outside bright, under + inside dark
-            S_ += [sh] * 4; Hh += [hue] * 4
+            S_ += [0.42 + 0.58 * ((zc + 0.6) / 1.6) ** 1.2] * 4; Hh += [hue] * 4
+    n_cards = 0
     for name, (V_, F_, UV_, S_, Hh) in by.items():
         if F_:
+            n_cards += len(F_)
             objs.append(_obj(f"bonsai_{seed}_{name}", np.array(V_) + loc, F_, sprig_material(name), UV_, {"shade": S_, "hue": Hh}, smooth=False))
-    print(f"bonsai {seed}: trunk {H:.2f} m, {len(pads)} pads, {sum(len(v[1]) for v in by.values())} sprig cards, jin {jin}")
+    print(f"bonsai {seed}: trunk {H:.2f} m (base r {R0 * 100:.1f} cm), {len(spines)} wood spines fused into {len(me.polygons)} faces, "
+          f"{len(twig_tubes)} twigs, {len(clusters)} foliage clusters, {n_cards} cards, jin {jin}")
     return objs
