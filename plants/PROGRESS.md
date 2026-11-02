@@ -73,3 +73,5 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:58 `out/render_bonsai_dome_v006.jpg` v3 (Roman: "you are missing the sauce"): what the reference really is: a short thick contorted trunk with an elbow and jins, a wide low asymmetric umbrella of separate cloud clumps on visible twisting branches, bright yellow-green; canopy too thin
 - 2026-11-02 14:58 `out/render_bonsai_dome_v007.jpg` v3 (seed 3): the canopy heaped into a mound of ~34 clumps, sagging over the rim on the lean side
 - 2026-11-02 14:58 `out/compare_bonsai_dome_v003.jpg` The reference vs v3
+- 2026-11-02 15:03 `out/render_bonsai_pot_v003.jpg` Dome style base: weathered fissured deadwood with hollows into the roots, dark bonsai grit (akadama, lava, grey grit) with moss in patches, like the reference pot
+- 2026-11-02 15:03 `out/render_bonsai_dome_v008.jpg` v3b (seed 3): near-all deadwood trunk with a thin live vein, grit soil with moss patches

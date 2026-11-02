@@ -165,7 +165,7 @@ def dark_oak(vertical=False):
     return m
 
 
-def moss_material(k):
+def moss_material(k, patchy=False):
     """bonsai pot moss (v2, Roman: "the base texture sucks ... like the grass in the pot": the Nordic study's 2 m patch spread
     over 0.5 m read as a blurry lawn): a 4K top-down photo texture of tight cushion moss with akadama grit, generated from the
     moss scan + the references (work/potmoss), one image across the whole pot (0.12 mm a pixel); relief from its height"""
@@ -179,7 +179,34 @@ def moss_material(k):
     L.new(h.outputs[0], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
     hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 0.82
     L.new(a.outputs[0], hs.inputs["Color"]); L.new(hs.outputs[0], b.inputs["Base Color"])
-    b.inputs["Roughness"].default_value = 0.92; b.inputs["Sheen Weight"].default_value = 0.35
+    if patchy:
+        # the reference pot: mostly dark bonsai grit (akadama + lava + grey grit, 2-4 mm), the moss only in patches
+        mk = N.new("ShaderNodeTexNoise"); mk.inputs["Scale"].default_value = 7; mk.inputs["Detail"].default_value = 6
+        mk.inputs["Roughness"].default_value = 0.65; L.new(uv.outputs[0], mk.inputs["Vector"])
+        mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.47; mr.inputs["From Max"].default_value = 0.53
+        L.new(mk.outputs[0], mr.inputs["Value"])
+        vo = N.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 170; L.new(uv.outputs[0], vo.inputs["Vector"])
+        sep = N.new("ShaderNodeSeparateColor"); L.new(vo.outputs["Color"], sep.inputs[0])
+        cr = N.new("ShaderNodeValToRGB"); L.new(sep.outputs[0], cr.inputs[0]); cr.color_ramp.interpolation = "CONSTANT"
+        cr.color_ramp.elements[0].color = (0.025, 0.02, 0.017, 1)                     # lava, dark
+        cr.color_ramp.elements[1].position = 0.45; cr.color_ramp.elements[1].color = (0.11, 0.05, 0.03, 1)    # akadama
+        e = cr.color_ramp.elements.new(0.8); e.color = (0.07, 0.065, 0.06, 1)          # grey grit
+        gr = N.new("ShaderNodeMath"); gr.operation = "SUBTRACT"; gr.inputs[0].default_value = 1.0
+        L.new(vo.outputs["Distance"], gr.inputs[1])
+        dk = N.new("ShaderNodeMix"); dk.data_type = "RGBA"; dk.blend_type = "MULTIPLY"; dk.inputs[0].default_value = 0.6
+        L.new(cr.outputs[0], dk.inputs[6]); L.new(vo.outputs["Distance"], dk.inputs[7])
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"
+        L.new(mr.outputs[0], mx.inputs[0]); L.new(dk.outputs[2], mx.inputs[6]); L.new(hs.outputs[0], mx.inputs[7])
+        L.new(mx.outputs[2], b.inputs["Base Color"])
+        hm = N.new("ShaderNodeMix"); hm.data_type = "FLOAT"
+        L.new(mr.outputs[0], hm.inputs[0]); L.new(gr.outputs[0], hm.inputs[2]); L.new(h.outputs[0], hm.inputs[3])
+        bp.inputs["Distance"].default_value = 0.002
+        L.new(hm.outputs[0], bp.inputs["Height"])
+        sh_ = N.new("ShaderNodeMath"); sh_.operation = "MULTIPLY"; sh_.inputs[1].default_value = 0.35
+        L.new(mr.outputs[0], sh_.inputs[0]); L.new(sh_.outputs[0], b.inputs["Sheen Weight"])
+    b.inputs["Roughness"].default_value = 0.92
+    if not patchy:
+        b.inputs["Sheen Weight"].default_value = 0.35
     b.inputs["Sheen Tint"].default_value = (0.45, 0.6, 0.2, 1)
     b.inputs["Subsurface Weight"].default_value = 0.08
     return m
@@ -429,7 +456,7 @@ def table_and_pot(loc, rng, rect=False):
     for i in range(nr):
         for j in range(nt):
             F.append([i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j])
-    objs.append(_obj("bonsai_moss", V, F, moss_material(k_), UV))
+    objs.append(_obj("bonsai_moss", V, F, moss_material(k_, patchy=rect), UV))
     stone = bpy.data.materials.new("pebble"); stone.use_nodes = True     # speckled granite (v1 was smooth grey clay)
     sn, sl = stone.node_tree.nodes, stone.node_tree.links
     sb = sn["Principled BSDF"]; sb.inputs["Roughness"].default_value = 0.62
@@ -674,13 +701,13 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     s, ln, r = lap(s, 12), lap(ln, 12), lap(r, 6)
     ang = np.arctan2(lap(np.sin(ang), 4), lap(np.cos(ang), 4))
     is_trunk = idx == 0
-    sh_w = rng.uniform(0.36, 0.5) if not dome else rng.uniform(0.55, 0.68)   # (the reference trunk is mostly deadwood)
+    sh_w = rng.uniform(0.36, 0.5) if not dome else rng.uniform(0.76, 0.84)   # (the reference trunk: nearly all deadwood, a thin live vein)
     sh_turn = rng.uniform(0.7, 1.5) * rng.choice([-1, 1]); sh0 = rng.uniform(0, 2 * math.pi)
     twist = sh_turn * 2 * math.pi
     c = sh0 + twist * s
     band = (np.cos(ang - c) + 1) / 2
     w = sh_w * (0.75 + 0.5 * s)
-    dead = np.where(is_trunk, 1 / (1 + np.exp(-(band - (1 - w)) * 30)) * (s > 0.03), 0.0)
+    dead = np.where(is_trunk | (is_root & dome), 1 / (1 + np.exp(-(band - (1 - w)) * 30)) * ((s > 0.03) | is_root), 0.0)
     if jin:
         dead = np.where(is_trunk & (s > 0.88), np.maximum(dead, np.clip((s - 0.88) / 0.03, 0, 1)), dead)
     dead = np.maximum(dead, SD[near])
@@ -691,6 +718,9 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     grain = np.sin(2 * nr_ * ang + twist * s + 1.5 * wavenoise(P, rng, 60))
     knots = wavenoise(P, rng, 28)
     disp = r * (0.13 * ridges + 0.1 * knots - 0.26 * dead + 0.07 * grain * dead + 0.16 * lip)      # (0.07/0.06/0.16 read smooth)
+    if dome:                                                             # weathered deadwood: deep fissures + hollows, twisting
+        hollow = np.clip(wavenoise(P, rng, 45) - 0.35, 0, None)
+        disp += r * dead * (0.12 * grain - 0.35 * hollow)
     disp *= np.where(is_trunk, 1.0, np.where(is_root, 0.8, 0.3))       # (branches at 0.55 read corrugated)
     disp, dead = lap(disp, 6), lap(dead, 3)                            # (where neighbours took different spines it stepped)
     P2 = P + Nn * disp[:, None]
