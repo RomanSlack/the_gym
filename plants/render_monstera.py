@@ -109,14 +109,15 @@ def root_material():
 
 def plant(seed, x):
     zs = pot((x, 0, 0), seed, scale=1.3)
-    return gen_monstera.build(seed, (x, 0, zs), 0.2, leaf_mat=leaf_material, stem_mat=stem_material(), root_mat=root_material())
+    return gen_monstera.build(seed, (x, 0, zs), 0.174 * 1.3, leaf_mat=leaf_material, stem_mat=stem_material(), root_mat=root_material(),
+                              pot_h=zs)                         # (the pot: 0.174 m rim radius x 1.3, the soil zs above the floor)
 
 
 if SHOT == "trio":
-    for i, x in enumerate((-1.3, 0.0, 1.3)):
+    for i, x in enumerate((-1.7, 0.0, 1.7)):                       # (1.3 m apart their leaves crossed: each spreads ~1.4 m)
         plant(SEED + i, x)
     room(mathutils.Vector((-2.2, -2.4, 2.8)), 260)
-    look((0, -5.2, 1.7), (0, 0, 0.8), 36)
+    look((0, -6.2, 1.8), (0, 0, 0.8), 36)
 else:
     objs = plant(SEED, 0.0)
     if SHOT == "hero":

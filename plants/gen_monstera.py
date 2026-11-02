@@ -276,7 +276,7 @@ def leaf_mesh(lf, xs, ys, P, D, N, rng):
     return V, F, UV
 
 
-def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_mat=None, use_atlas=True):
+def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_mat=None, use_atlas=True, pot_h=0.35):
     """returns the objects (stem + petioles + roots in one, each leaf its own); leaves from the atlas (maps/monstera) when it
     exists, else drawn (Leaf)"""
     import json
@@ -297,44 +297,88 @@ def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_ma
     leaves = []
     golden = math.radians(137.5)
     az0 = rng.uniform(0, 2 * math.pi)
+    # no leaf through another (Roman: "some of the leaves are clipping through each other"): every leaf tries up to 30
+    # placements and keeps the first clear of everything placed before it by ~1.5 cm (or the least crowded); the petioles'
+    # upper parts count too. Occupancy: 1.5 cm voxels, each placed point marking its 27 neighbours.
+    VOX, K = 0.015, 1 << 12
+    occ = np.array([], np.int64)
+
+    def keys(P_):
+        q = np.floor(np.asarray(P_) / VOX).astype(np.int64) + K // 2
+        return q[:, 0] + q[:, 1] * K + q[:, 2] * K * K
+
+    def mark(P_):
+        nonlocal occ
+        q = np.floor(np.asarray(P_) / VOX).astype(np.int64) + K // 2
+        ks = [((q[:, 0] + dx) + (q[:, 1] + dy) * K + (q[:, 2] + dz) * K * K)
+              for dx in (-1, 0, 1) for dy in (-1, 0, 1) for dz in (-1, 0, 1)]
+        occ = np.union1d(occ, np.unique(np.concatenate(ks)))
+
+    # the pot's wall + rim and the floor are solid too (a hanging leaf mustn't pass through the rim or dip into the floor)
+    th = np.linspace(0, 2 * math.pi, 120)
+    solid = [np.stack([(pot_r + 0.03) * np.cos(t_), (pot_r + 0.03) * np.sin(t_), np.full_like(t_, z_)], 1)
+             for t_ in (th,) for z_ in np.arange(-pot_h, 0.07, 0.012)]
+    g_ = np.linspace(-1.2, 1.2, 160)
+    gx_, gy_ = np.meshgrid(g_, g_)
+    solid.append(np.stack([gx_.ravel(), gy_.ravel(), np.full(gx_.size, -pot_h)], 1))
+    mark(np.concatenate(solid))
     for i in range(n_leaf):
         age = i / max(n_leaf - 1, 1)                                 # 0 oldest (low, outside) -> 1 newest
         maturity = np.clip(1 - age * 0.9 + rng.normal(0, 0.12), 0, 1)
         node = stem_pts[min(int(age * 11), 11)] + rng.normal(0, 0.004, 3)
-        az = az0 + i * golden + rng.normal(0, 0.25)
-        out = np.array([math.cos(az), math.sin(az), 0.0])
-        tilt = math.radians(np.interp(age, [0, 1], [30, 6]) + rng.normal(0, 6))
-        plen = np.interp(maturity, [0, 1], [0.42, 0.88]) * rng.uniform(0.85, 1.15)   # a 1-1.3 m plant (v3 squat)
-        # the petiole: a gentle arc out and up
-        d0 = _unit(out * math.sin(tilt) + np.array([0, 0, 1.0]) * math.cos(tilt))
-        bend = rng.uniform(0.3, 0.7)                                  # arching out (v1: straight spokes)
-        pts = []
-        p = node.copy(); d = d0.copy()
-        for k in range(40):
-            p = p + d * plen / 40
-            d = _unit(d + out * bend / 40 * 1.2 - np.array([0, 0, 1.0]) * bend / 40 * 0.4)
-            pts.append(p.copy())
-        pts = np.array([node] + pts)
-        r = np.interp(np.linspace(0, 1, len(pts)), [0, 0.18, 0.3, 0.9, 1], [0.02, 0.016, 0.0095, 0.0082, 0.0105]) * (0.65 + 0.35 * maturity)   # (v4: thin sticks)
-        v, f = tube(pts, r, 12); add(v, f)                            # sheath at the base, the swollen geniculum at the top
+        az_base = az0 + i * golden
         L = np.interp(maturity, [0, 1], [0.2, 0.56]) * rng.uniform(0.88, 1.12)
         if atlas:
             name = min(atlas, key=lambda k: abs(atlas[k]["maturity"] - maturity) + rng.uniform(0, 0.25))
             lf = AtlasLeaf(name, atlas[name], L, rng)
         else:
             lf = Leaf(L, maturity, rng)
-        # the blade hangs from the geniculum: midrib out and down, the blade facing out and up (v1 held them flat: lily pads)
-        pitch = math.radians(np.interp(maturity, [0, 1], [-5, -42]) + rng.normal(0, 10))
-        D = _unit(out * math.cos(pitch) + np.array([0, 0, 1.0]) * math.sin(pitch))
-        D = _unit(D + rng.normal(0, 0.12, 3))
-        N = _unit(np.array([0, 0, 1.0]) - D * D[2])
-        N = _unit(N + out * rng.uniform(0.1, 0.5))
-        N = _unit(N - D * (N @ D))
         path = ATLAS / lf.name if atlas else WORK / f"{seed}_{i}"
         xs, ys = lf.images(path)
-        LV, LF, LUV = leaf_mesh(lf, xs, ys, pts[-1] + D * 0.006, D, N, rng)
+        best = None
+        for attempt in range(30):
+            spread = 0.25 + 0.06 * attempt                            # wider tries as it struggles
+            az = az_base + rng.normal(0, spread)
+            out = np.array([math.cos(az), math.sin(az), 0.0])
+            tilt = math.radians(np.interp(age, [0, 1], [30, 6]) + rng.normal(0, 6 + attempt))
+            plen = np.interp(maturity, [0, 1], [0.42, 0.88]) * rng.uniform(0.85, 1.15)   # a 1-1.3 m plant (v3 squat)
+            # the petiole: a gentle arc out and up
+            d0 = _unit(out * math.sin(tilt) + np.array([0, 0, 1.0]) * math.cos(tilt))
+            bend = rng.uniform(0.3, 0.7)                              # arching out (v1: straight spokes)
+            pts = []
+            p = node.copy(); d = d0.copy()
+            for k in range(40):
+                p = p + d * plen / 40
+                d = _unit(d + out * bend / 40 * 1.2 - np.array([0, 0, 1.0]) * bend / 40 * 0.4)
+                pts.append(p.copy())
+            pts = np.array([node] + pts)
+            # the blade hangs from the geniculum: midrib out and down, facing out and up (v1 held them flat: lily pads)
+            pitch = math.radians(np.interp(maturity, [0, 1], [-5, -42]) + rng.normal(0, 10))
+            D = _unit(out * math.cos(pitch) + np.array([0, 0, 1.0]) * math.sin(pitch))
+            D = _unit(D + rng.normal(0, 0.12, 3))
+            N = _unit(np.array([0, 0, 1.0]) - D * D[2])
+            N = _unit(N + out * rng.uniform(0.1, 0.5))
+            N = _unit(N - D * (N @ D))
+            LV, LF, LUV = leaf_mesh(lf, xs, ys, pts[-1] + D * 0.006, D, N, rng)
+            LV = np.array(LV)
+            A = lf.alpha; S_ = A.shape[0]
+            uu = np.array([1 - u if getattr(lf, "mirror", False) else u for u, _ in LUV]); vv = np.array([v for _, v in LUV])
+            inside = A[np.clip((vv * (S_ - 1)).astype(int), 0, S_ - 1), np.clip((uu * (S_ - 1)).astype(int), 0, S_ - 1)] > 0.5
+            body = np.concatenate([LV[inside], pts[int(len(pts) * 0.3):]])
+            # the blade against everything, the petiole only where it leaves the bundle (the stems rise together from the
+            # crown, side by side, like the real plant's)
+            hits = int(np.isin(keys(LV[inside]), occ).sum() + np.isin(keys(pts[int(len(pts) * 0.5):]), occ).sum()) if len(occ) else 0
+            if best is None or hits < best[0]:
+                best = (hits, pts, LV, LF, LUV, body, maturity)
+            if hits == 0:
+                break
+        hits, pts, LV, LF, LUV, body, maturity = best
+        mark(body)
+        r = np.interp(np.linspace(0, 1, len(pts)), [0, 0.18, 0.3, 0.9, 1], [0.02, 0.016, 0.0095, 0.0082, 0.0105]) * (0.65 + 0.35 * maturity)   # (v4: thin sticks)
+        v, f = tube(pts, r, 12); add(v, f)                            # sheath at the base, the swollen geniculum at the top
         mat = leaf_mat(path) if leaf_mat else None
-        o = mesh_obj(f"monstera_{seed}_leaf{i}", np.array(LV) + loc, LF, mat, LUV)
+        o = mesh_obj(f"monstera_{seed}_leaf{i}", LV + loc, LF, mat, LUV)
+        o["clash"] = hits
         leaves.append(o)
     RV, RF = [], []
     for _ in range(int(rng.integers(2, 5))):                           # aerial roots: from the stem nodes down into the soil
@@ -355,5 +399,6 @@ def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_ma
     objs = [stem] + leaves
     if RV:
         objs.append(mesh_obj(f"monstera_{seed}_roots", np.concatenate(RV) + loc, RF, root_mat))
-    print(f"monstera {seed}: {n_leaf} leaves, stems {len(stem.data.polygons)} faces, leaves {sum(len(o.data.polygons) for o in leaves)} faces")
+    print(f"monstera {seed}: {n_leaf} leaves, stems {len(stem.data.polygons)} faces, leaves {sum(len(o.data.polygons) for o in leaves)} faces; "
+          f"leaves still touching another / the pot / the floor: {sum(1 for o in leaves if o['clash'])} ({[o['clash'] for o in leaves]} points)")
     return objs
