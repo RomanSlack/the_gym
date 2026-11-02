@@ -1,0 +1,50 @@
+{
+ "leafm1": {
+  "maturity": 1.0,
+  "aspect": 0.9411,
+  "joint_v": 0.1506,
+  "midrib_u": 0.5006
+ },
+ "leafm2": {
+  "maturity": 0.95,
+  "aspect": 0.9574,
+  "joint_v": 0.1453,
+  "midrib_u": 0.4934
+ },
+ "leafm3": {
+  "maturity": 0.85,
+  "aspect": 0.8644,
+  "joint_v": 0.1131,
+  "midrib_u": 0.4961
+ },
+ "leafm4": {
+  "maturity": 0.9,
+  "aspect": 0.9208,
+  "joint_v": 0.1762,
+  "midrib_u": 0.4938
+ },
+ "leafs1": {
+  "maturity": 0.6,
+  "aspect": 0.8947,
+  "joint_v": 0.1517,
+  "midrib_u": 0.4994
+ },
+ "leafs2": {
+  "maturity": 0.5,
+  "aspect": 0.9078,
+  "joint_v": 0.1336,
+  "midrib_u": 0.4872
+ },
+ "leafy1": {
+  "maturity": 0.15,
+  "aspect": 0.8327,
+  "joint_v": 0.0532,
+  "midrib_u": 0.5018
+ },
+ "leafy2": {
+  "maturity": 0.25,
+  "aspect": 0.8252,
+  "joint_v": 0.0981,
+  "midrib_u": 0.5004
+ }
+}

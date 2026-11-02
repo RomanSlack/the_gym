@@ -135,6 +135,46 @@ class Leaf:
         return xs, ys
 
 
+ATLAS = Path(__file__).resolve().parent / "maps" / "monstera"
+
+
+class AtlasLeaf:
+    """a leaf from the atlas (build_monstera_atlas.py: real-looking leaf images, v2 after Roman: "this one doesn't look very
+    photoreal"): the same interface leaf_mesh uses as the drawn Leaf; mirrored at random"""
+
+    def __init__(self, name, info, L, rng):
+        import json  # noqa: F401
+        self.L, self.m, self.rng = L, info["maturity"], rng
+        self.name, self.mirror = name, bool(rng.random() < 0.5)
+        H = L / (1 - info["joint_v"])
+        Wf = H * info["aspect"]
+        mu = info["midrib_u"] if not self.mirror else 1 - info["midrib_u"]
+        self.xs = np.linspace(-mu * Wf, (1 - mu) * Wf, 2)
+        self.ys = np.linspace(-info["joint_v"] * H, (1 - info["joint_v"]) * H, 2)
+        self.W = Wf / 2
+        self.veins = {-1: np.array([]), 1: np.array([])}            # (no drawn veins: the image has them; no pleat)
+        self.a = math.radians(55)
+        im = bpy.data.images.load(str(ATLAS / f"{name}_col.png"), check_existing=True)
+        S = im.size[0]
+        px = np.empty(S * S * 4, np.float32); im.pixels.foreach_get(px)
+        A = px.reshape(S, S, 4)[..., 3]                               # Blender rows: 0 = the bottom = the leaf base
+        if self.mirror:
+            A = A[:, ::-1]
+        self.alpha = A
+        xg = np.linspace(self.xs[0], self.xs[-1], S)
+        self._hw = np.array([np.abs(xg[r > 0.5]).max() if (r > 0.5).any() else 0.0 for r in A])
+        self._yg = np.linspace(self.ys[0], self.ys[-1], S)
+
+    def halfwidth(self, y):
+        return np.interp(y, self._yg, self._hw)
+
+    def phi(self, ax, y):
+        return y
+
+    def images(self, path):
+        return self.xs, self.ys
+
+
 def _save(p, rgba):
     S = rgba.shape[0]
     im = bpy.data.images.new(p.stem, S, S, alpha=True)
@@ -216,7 +256,8 @@ def leaf_mesh(lf, xs, ys, P, D, N, rng):
                 z += pleat * (1 - math.cos(2 * math.pi * f_)) / 2 * min(ax / (0.12 * lf.W), 1)   # smooth valleys (a crease zippered)
             z += wave * math.sin(gy[j] / lf.L * 9 + (1.3 if x >= 0 else 0)) * (ax / lf.W) ** 2
             V.append(pos[j] + dirs[j] * x + ups[j] * z)
-            UV.append(((x - xs[0]) / (xs[-1] - xs[0]), (gy[j] - ys[0]) / (ys[-1] - ys[0])))
+            u_ = (x - xs[0]) / (xs[-1] - xs[0])
+            UV.append((1 - u_ if getattr(lf, "mirror", False) else u_, (gy[j] - ys[0]) / (ys[-1] - ys[0])))
     # keep only quads that touch the leaf (the alpha cut does the exact outline)
     A = lf.alpha
     S_ = A.shape[0]
@@ -235,8 +276,11 @@ def leaf_mesh(lf, xs, ys, P, D, N, rng):
     return V, F, UV
 
 
-def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_mat=None):
-    """returns the objects (stem + petioles + roots in one, each leaf its own with its own images)"""
+def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_mat=None, use_atlas=True):
+    """returns the objects (stem + petioles + roots in one, each leaf its own); leaves from the atlas (maps/monstera) when it
+    exists, else drawn (Leaf)"""
+    import json
+    atlas = json.loads((ATLAS / "atlas.json").read_text()) if use_atlas and (ATLAS / "atlas.json").exists() else None
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
     n_leaf = int(rng.integers(7, 15))
@@ -274,7 +318,11 @@ def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_ma
         r = np.interp(np.linspace(0, 1, len(pts)), [0, 0.18, 0.3, 0.9, 1], [0.02, 0.016, 0.0095, 0.0082, 0.0105]) * (0.65 + 0.35 * maturity)   # (v4: thin sticks)
         v, f = tube(pts, r, 12); add(v, f)                            # sheath at the base, the swollen geniculum at the top
         L = np.interp(maturity, [0, 1], [0.2, 0.56]) * rng.uniform(0.88, 1.12)
-        lf = Leaf(L, maturity, rng)
+        if atlas:
+            name = min(atlas, key=lambda k: abs(atlas[k]["maturity"] - maturity) + rng.uniform(0, 0.25))
+            lf = AtlasLeaf(name, atlas[name], L, rng)
+        else:
+            lf = Leaf(L, maturity, rng)
         # the blade hangs from the geniculum: midrib out and down, the blade facing out and up (v1 held them flat: lily pads)
         pitch = math.radians(np.interp(maturity, [0, 1], [-5, -42]) + rng.normal(0, 10))
         D = _unit(out * math.cos(pitch) + np.array([0, 0, 1.0]) * math.sin(pitch))
@@ -282,7 +330,7 @@ def build(seed, loc=(0, 0, 0), pot_r=0.22, leaf_mat=None, stem_mat=None, root_ma
         N = _unit(np.array([0, 0, 1.0]) - D * D[2])
         N = _unit(N + out * rng.uniform(0.1, 0.5))
         N = _unit(N - D * (N @ D))
-        path = WORK / f"{seed}_{i}"
+        path = ATLAS / lf.name if atlas else WORK / f"{seed}_{i}"
         xs, ys = lf.images(path)
         LV, LF, LUV = leaf_mesh(lf, xs, ys, pts[-1] + D * 0.006, D, N, rng)
         mat = leaf_mat(path) if leaf_mat else None

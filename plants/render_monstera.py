@@ -33,44 +33,59 @@ sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Base Con
 from stage import look, pot, room  # noqa: E402
 
 
+_MATS = {}
+
+
 def leaf_material(path):
-    """one leaf: its own colour + cut-out and relief images; the glossy waxy upper side (a thin clear coat), the paler,
-    matte underside, a little light through it, cut where the alpha is 0"""
+    """a monstera leaf from its image: satin wax, not a plastic film (Roman: "the sheen is weird and plasticky"): no clear
+    coat; the roughness from the leaf's own relief (duller along the veins, smoother on the panels), a soft specular, the
+    image's veins and puffs in the normal; paler, matte underside; a little light through it; a small random colour shift
+    per leaf (one image is used on several leaves); cut where the alpha is 0. One material per image."""
+    if path.name in _MATS:
+        return _MATS[path.name]
     m = bpy.data.materials.new(path.name); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     N.clear()
     out = N.new("ShaderNodeOutputMaterial")
-    col = N.new("ShaderNodeTexImage"); col.image = bpy.data.images.load(str(path.with_name(path.name + "_col.png")))
+    col = N.new("ShaderNodeTexImage"); col.image = bpy.data.images.load(str(path.with_name(path.name + "_col.png")), check_existing=True)
     col.interpolation = "Cubic"
-    bmp = N.new("ShaderNodeTexImage"); bmp.image = bpy.data.images.load(str(path.with_name(path.name + "_bump.png")))
+    bmp = N.new("ShaderNodeTexImage"); bmp.image = bpy.data.images.load(str(path.with_name(path.name + "_bump.png")), check_existing=True)
     bmp.image.colorspace_settings.name = "Non-Color"
-    geo = N.new("ShaderNodeNewGeometry")
-    bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.25; bump.inputs["Distance"].default_value = 0.002
-    mic = N.new("ShaderNodeTexNoise"); mic.inputs["Scale"].default_value = 900; mic.inputs["Detail"].default_value = 3
-    hb = N.new("ShaderNodeMath"); hb.operation = "MULTIPLY_ADD"; hb.inputs[1].default_value = 0.04
-    L.new(mic.outputs[0], hb.inputs[0]); L.new(bmp.outputs["Color"], hb.inputs[2])          # micro-texture breaks the sheen
-    L.new(hb.outputs[0], bump.inputs["Height"])
-    under = N.new("ShaderNodeHueSaturation"); under.inputs["Saturation"].default_value = 0.8; under.inputs["Value"].default_value = 1.2
-    L.new(col.outputs["Color"], under.inputs["Color"])
+    geo = N.new("ShaderNodeNewGeometry"); oi = N.new("ShaderNodeObjectInfo")
+    var = N.new("ShaderNodeHueSaturation")                                      # per leaf: hue +-0.015, value / saturation +-8 %
+    def mad(x, mul, add):
+        n = N.new("ShaderNodeMath"); n.operation = "MULTIPLY_ADD"; n.inputs[1].default_value = mul; n.inputs[2].default_value = add
+        L.new(x, n.inputs[0]); return n.outputs[0]
+    L.new(col.outputs["Color"], var.inputs["Color"])
+    L.new(mad(oi.outputs["Random"], 0.03, 0.485), var.inputs["Hue"])
+    L.new(mad(oi.outputs["Random"], -0.16, 1.08), var.inputs["Value"])
+    L.new(mad(oi.outputs["Random"], 0.16, 0.92), var.inputs["Saturation"])
+    under = N.new("ShaderNodeHueSaturation"); under.inputs["Saturation"].default_value = 0.7; under.inputs["Value"].default_value = 1.3
+    L.new(var.outputs[0], under.inputs["Color"])
     base = N.new("ShaderNodeMix"); base.data_type = "RGBA"
-    L.new(geo.outputs["Backfacing"], base.inputs[0]); L.new(col.outputs["Color"], base.inputs[6]); L.new(under.outputs[0], base.inputs[7])
+    L.new(geo.outputs["Backfacing"], base.inputs[0]); L.new(var.outputs[0], base.inputs[6]); L.new(under.outputs[0], base.inputs[7])
+    mic = N.new("ShaderNodeTexNoise"); mic.inputs["Scale"].default_value = 1400; mic.inputs["Detail"].default_value = 2
+    h = mad(mic.outputs[0], 0.03, 0.0)
+    hh = N.new("ShaderNodeMath"); hh.operation = "ADD"; L.new(bmp.outputs["Color"], hh.inputs[0]); L.new(h, hh.inputs[1])
+    bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = 0.45; bump.inputs["Distance"].default_value = 0.0015
+    L.new(hh.outputs[0], bump.inputs["Height"])
     pb = N.new("ShaderNodeBsdfPrincipled")
     L.new(base.outputs[2], pb.inputs["Base Color"])
-    rmix = N.new("ShaderNodeMath"); rmix.operation = "MULTIPLY_ADD"; rmix.inputs[1].default_value = 0.25; rmix.inputs[2].default_value = 0.3
-    L.new(geo.outputs["Backfacing"], rmix.inputs[0]); L.new(rmix.outputs[0], pb.inputs["Roughness"])
-    pb.inputs["Specular IOR Level"].default_value = 0.5
-    cw = N.new("ShaderNodeMath"); cw.operation = "MULTIPLY_ADD"; cw.inputs[1].default_value = -0.2; cw.inputs[2].default_value = 0.2
-    L.new(geo.outputs["Backfacing"], cw.inputs[0]); L.new(cw.outputs[0], pb.inputs["Coat Weight"])     # the cuticle, on top only
-    pb.inputs["Coat Roughness"].default_value = 0.2
-    L.new(bump.outputs[0], pb.inputs["Normal"]); L.new(bump.outputs[0], pb.inputs["Coat Normal"])
+    r_top = mad(bmp.outputs["Color"], -0.2, 0.56)                             # grooves (dark relief) duller, panels smoother
+    rr = N.new("ShaderNodeMix"); rr.data_type = "FLOAT"; L.new(geo.outputs["Backfacing"], rr.inputs[0])
+    L.new(r_top, rr.inputs[2]); rr.inputs[3].default_value = 0.62
+    L.new(rr.outputs[0], pb.inputs["Roughness"])
+    pb.inputs["Specular IOR Level"].default_value = 0.35
+    L.new(bump.outputs[0], pb.inputs["Normal"])
     tr = N.new("ShaderNodeBsdfTranslucent")
-    tc = N.new("ShaderNodeHueSaturation"); tc.inputs["Hue"].default_value = 0.47; tc.inputs["Value"].default_value = 1.8
-    L.new(col.outputs["Color"], tc.inputs["Color"]); L.new(tc.outputs[0], tr.inputs["Color"])
-    mx = N.new("ShaderNodeMixShader"); mx.inputs[0].default_value = 0.12
+    tc = N.new("ShaderNodeHueSaturation"); tc.inputs["Hue"].default_value = 0.47; tc.inputs["Value"].default_value = 1.7
+    L.new(var.outputs[0], tc.inputs["Color"]); L.new(tc.outputs[0], tr.inputs["Color"])
+    mx = N.new("ShaderNodeMixShader"); mx.inputs[0].default_value = 0.14
     L.new(pb.outputs[0], mx.inputs[1]); L.new(tr.outputs[0], mx.inputs[2])
     cut = N.new("ShaderNodeMixShader"); tp = N.new("ShaderNodeBsdfTransparent")
     L.new(col.outputs["Alpha"], cut.inputs[0]); L.new(tp.outputs[0], cut.inputs[1]); L.new(mx.outputs[0], cut.inputs[2])
     L.new(cut.outputs[0], out.inputs["Surface"])
+    _MATS[path.name] = m
     return m
 
 
@@ -124,6 +139,8 @@ else:
         room(mathutils.Vector((0.3, 1.25, 1.6)), 700, rim=False)
         sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.5
         look((0.3, -2.3, 1.15), (0, 0, 0.65), 40)
+if SHOT != "backlit":
+    bc.hdri_world(sc, strength=0.35)                                  # the real sky over the open room: something to reflect
 sc.render.filepath = OUT
 bpy.ops.render.render(write_still=True)
 print("wrote", OUT)

@@ -25,3 +25,6 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 12:35 `out/render_monstera_close_v002.jpg` Capped petioles, smooth vein valleys, micro-texture in the sheen; a faint ridge artefact left on one leaf
 - 2026-11-02 12:35 `out/render_monstera_hero_v006.jpg` v6 (seed 5): recognisable monstera; still a little CG (even colour, every leaf hangs alike)
 - 2026-11-02 12:35 `out/render_monstera_backlit_v001.jpg` Backlit (seed 3): the light through the leaves, the holes dappling it; the most convincing so far
+- 2026-11-02 12:51 `out/monstera_leaf_atlas_v001.jpg` Roman: "this one doesn't look very photoreal". The leaves drawn in code read as CG, so real-looking ones instead (as with the moss): 8 flat-lay leaves generated from the reference photos (young to mature), cut out (colour mask, the white fringe repainted, the stubs removed), relief from each image
+- 2026-11-02 12:51 `out/render_monstera_close_v003.jpg` Atlas leaves + satin wax (Roman: "the sheen is weird and plasticky": no clear coat, roughness from the leaf's own relief, soft specular): reads as a real leaf
+- 2026-11-02 12:51 `out/render_monstera_hero_v007.jpg` v7 (seed 5): atlas leaves, mirrored + tinted per leaf, the real sky to reflect; dappled shadows through the holes
