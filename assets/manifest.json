@@ -231,6 +231,34 @@
    "res": "2k",
    "license": "CC0",
    "used_for": "F4 recovery lounge: smoked oak"
+  },
+  {
+   "source": "ambientcg",
+   "id": "Moss002",
+   "res": "2K",
+   "license": "CC0",
+   "used_for": "fluffy cushion moss (nordic_moss study base)"
+  },
+  {
+   "source": "ambientcg",
+   "id": "Moss004",
+   "res": "2K",
+   "license": "CC0",
+   "used_for": "dark cushion moss (nordic_moss study)"
+  },
+  {
+   "source": "ambientcg",
+   "id": "Rock046S",
+   "res": "2K",
+   "license": "CC0",
+   "used_for": "grey granite with lichen (nordic_moss study rock)"
+  },
+  {
+   "source": "ambientcg",
+   "id": "Moss001",
+   "res": "2K",
+   "license": "CC0",
+   "used_for": "forest-floor moss (nordic_moss study ground)"
   }
  ],
  "hdris": [

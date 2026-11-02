@@ -1,0 +1,3 @@
+moss cover 48 %
+height1 aligned: median shift 5.53 -> 3.00 px; moss overlap (IoU) 0.48 -> 0.57
+rough2 as generated: moss overlap (IoU) 0.90

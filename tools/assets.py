@@ -66,6 +66,22 @@ def derive_gridless(src, dst, box):
         out.resize((2048, 2048), Image.LANCZOS).save(d_ / f"{name}.jpg", quality=95)
 
 
+def ambientcg(tid, res):
+    """ambientCG's zip (PNG maps) -> the same map names as Poly Haven's (diff, nor_gl, rough, disp, ao)."""
+    import io, zipfile
+    out = CACHE / "textures" / "ambientcg" / tid
+    names = {"Color": "diff", "NormalGL": "nor_gl", "Roughness": "rough", "Displacement": "disp", "AmbientOcclusion": "ao"}
+    if all(any(out.glob(f"{n}.*")) for n in ("diff", "nor_gl", "rough", "disp")):
+        return sorted(p_.stem for p_ in out.iterdir())
+    z = zipfile.ZipFile(io.BytesIO(get(f"https://ambientcg.com/get?file={tid}_{res}-PNG.zip")))
+    out.mkdir(parents=True, exist_ok=True)
+    for f in z.namelist():
+        for key, name in names.items():
+            if f.endswith(f"_{key}.png"):
+                (out / f"{name}.png").write_bytes(z.read(f))
+    return sorted(p_.stem for p_ in out.iterdir())
+
+
 def texture_dir(tid, source="polyhaven"):
     return CACHE / "textures" / source / tid
 
@@ -75,6 +91,8 @@ if __name__ == "__main__":
     for t in man["textures"]:
         if t["source"] == "polyhaven":
             print(t["id"], polyhaven(t["id"], t["res"]))
+        elif t["source"] == "ambientcg":
+            print(t["id"], ambientcg(t["id"], t["res"]))
     derive_gridless("granite_tile_03", "granite_flamed_gridless", (24, 24, 660, 1000))   # the F4 deck: one clean slab of it
     for h in man.get("hdris", []):
         if h["source"] == "polyhaven":
