@@ -70,3 +70,6 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:54 `out/render_bonsai_dome_v004.jpg` Seed 3: a leaning silver trunk tapering fast, one dense layered canopy, brighter green; framing fixed (vertical angle)
 - 2026-11-02 14:54 `out/render_bonsai_dome_v005.jpg` Seed 1
 - 2026-11-02 14:54 `out/compare_bonsai_dome_v002.jpg` The reference vs ours, after the shape pass
+- 2026-11-02 14:58 `out/render_bonsai_dome_v006.jpg` v3 (Roman: "you are missing the sauce"): what the reference really is: a short thick contorted trunk with an elbow and jins, a wide low asymmetric umbrella of separate cloud clumps on visible twisting branches, bright yellow-green; canopy too thin
+- 2026-11-02 14:58 `out/render_bonsai_dome_v007.jpg` v3 (seed 3): the canopy heaped into a mound of ~34 clumps, sagging over the rim on the lean side
+- 2026-11-02 14:58 `out/compare_bonsai_dome_v003.jpg` The reference vs v3

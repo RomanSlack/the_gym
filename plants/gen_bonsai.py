@@ -275,9 +275,11 @@ def foliage_material():
     return m
 
 
-def foliage_3d(clusters, trunk, rng, S=6):
+def foliage_3d(clusters, trunk, rng, S=6, fresh=False):
     """grow the scale shoots: returns V, F, UV (per vertex), shade, colours"""
     DARK, MID, TIP, WOOD = np.array([0.11, 0.17, 0.07]), np.array([0.2, 0.3, 0.12]), np.array([0.36, 0.48, 0.2]), np.array([0.075, 0.04, 0.022])   # (Roman: "a little too dark")
+    if fresh:                                                            # the reference Shimpaku's bright yellow-green
+        DARK, MID, TIP = np.array([0.1, 0.17, 0.035]), np.array([0.2, 0.34, 0.06]), np.array([0.4, 0.55, 0.12])
     segs = []                                                            # p0, p1, r0, r1, colour0, colour1, cluster (c, rc)
     for cpos, rc in clusters:
         k = np.argmin(np.linalg.norm(trunk - cpos, axis=1))
@@ -480,18 +482,22 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
         # the reference (refs/bonsaiF_01): the foot left of centre, the trunk leaning hard right low down and curving back up
         # over it, ~45 % of the height bare wood, mostly bleached shari (v1, a short trunk under a big round canopy, was a
         # mushroom: "nah shape is weird")
-        H = rng.uniform(0.44, 0.52); base[0] = -0.07
-        sd = rng.choice([-1, 1]); pts_t = [base.copy()]
+        # v3 (Roman: "you are missing the sauce"): short, thick and contorted: it leans hard out low, kinks at an elbow and
+        # turns back up over the pot; the canopy carries the height, not the trunk
+        H = rng.uniform(0.26, 0.3); base[0] = -0.09 * 0 + rng.uniform(-0.12, -0.08) * 1.0
+        sd = rng.choice([-1, 1]); base[0] = -sd * abs(base[0]); pts_t = [base.copy()]
         for i in range(70):
             t_ = (i + 1) / 70
-            d_ = _unit(np.array([sd * (1.05 - 1.5 * t_ ** 1.1) + 0.12 * math.sin(9 * t_ + seed), 0.18 * math.sin(5 * t_ + seed * 1.7), 1.0]))
+            k_ = np.clip((t_ - 0.5) / 0.22, 0, 1); k_ = k_ * k_ * (3 - 2 * k_)          # the elbow
+            d_ = _unit(np.array([sd * (0.95 * (1 - k_) - 0.55 * k_) + 0.1 * math.sin(11 * t_ + seed),
+                                 0.25 * math.sin(4 * t_ + seed * 1.7), 0.7 + 0.25 * k_]))
             pts_t.append(pts_t[-1] + d_ * H / 70)
         trunk = np.array(pts_t)
-    R0 = rng.uniform(0.04, 0.055) * (1.05 if dome else 1.0)
+    R0 = rng.uniform(0.04, 0.055) * (1.35 if dome else 1.0)
     tt = np.linspace(0, 1, len(trunk))
     trad = R0 * (1 - 0.8 * tt ** 0.7) * (1 + 0.18 * np.exp(-tt / 0.05))
     if dome:
-        trad = R0 * (1 - 0.82 * tt ** 0.55) * (1 + 0.25 * np.exp(-tt / 0.05))   # (v4 a stout cone: the reference tapers fast)  # (a steep flare read as a stepped skirt: the roots make the base)
+        trad = R0 * (1 - 0.7 * tt ** 0.8) * (1 + 0.25 * np.exp(-tt / 0.05))   # (thick all the way to the canopy, like the reference)  # (a steep flare read as a stepped skirt: the roots make the base)
     jin = rng.random() < 0.6 and not dome
     spines = [("trunk", trunk, trad, False)]
     n_rt = int(rng.integers(5, 8))
@@ -564,49 +570,62 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
             continue
         clusters.append((sp3[-1], rc_))
     if dome:
-        # the canopy, like the reference: not one dome but 5-7 overlapping lobes (layered pads grown together), the biggest on
-        # the apex, the rest lower and out to alternating sides, flat-bottomed, wider than tall; a branch grows into every
-        # lobe; foliage clusters fill the outside of the union, each twigged to the nearest wood
+        # the canopy, v3, like the reference: a wide low asymmetric umbrella (much wider than the pot), sagging toward the lean
+        # side over the rim; built of ~20 separate cloud clumps with dark gaps, on a visible web of twisting branches: primaries
+        # from the trunk's upper part fanning out, a secondary into every clump, the foliage clusters on each clump's top
         clusters = []
         top = trunk[-1]
-        sc_ = H / 0.48
-        lobes = [(top + np.array([0, 0, 0.02]), np.array([0.13, 0.11, 0.07]) * sc_)]
-        nl = int(rng.integers(5, 8))
-        for i in range(nl):
-            h_ = rng.uniform(0.55, 0.85)
-            k = int(h_ * (len(trunk) - 1))
-            ang = rng.uniform(0, 2 * math.pi) if i == 0 else ang + math.radians(rng.uniform(100, 160))
-            out = np.array([math.cos(ang), math.sin(ang) * 0.8, 0])
-            cen = trunk[k] + out * rng.uniform(0.06, 0.12) * sc_ + np.array([0, 0, rng.uniform(0.0, 0.03)])   # (overlapping: one mass)
-            lobes.append((cen, np.array([rng.uniform(0.08, 0.12), rng.uniform(0.07, 0.1), rng.uniform(0.045, 0.06)]) * sc_))
-            bp_ = np.array([trunk[k] + (cen - trunk[k]) * t_ + np.array([0, 0, 0.02 * math.sin(math.pi * t_)]) for t_ in np.linspace(0, 0.8, 16)])
-            spines.append(("branch", bp_, np.linspace(trad[k] * 0.5, 0.005, len(bp_)), False))
-        wood = np.concatenate([trunk[int(0.5 * len(trunk)):]] + [sp for nm, sp, rr, dd in spines if nm == "branch"])
-
-        def inside(pt, skip):
-            return any(np.sum(((pt - c_) / r_) ** 2) < 0.8 for j_, (c_, r_) in enumerate(lobes) if j_ != skip)
-        pts_ = []
-        for _ in range(9000):
-            if len(pts_) >= 210:
+        cc = top + np.array([sd * 0.05, 0, -0.01])
+        AX, AY, AZ = rng.uniform(0.29, 0.34), rng.uniform(0.19, 0.23), rng.uniform(0.2, 0.24)      # (v3a: a thin layer; the reference is a heaped mound)
+        clumps = []
+        for _ in range(3000):
+            if len(clumps) >= 34:
                 break
-            j_ = int(rng.integers(len(lobes))); c_, r_ = lobes[j_]
-            dv = _unit(rng.normal(0, 1, 3))
-            if dv[2] < -0.45:
+            x_, y_ = rng.uniform(-1, 1), rng.uniform(-1, 1)
+            if x_ * x_ + y_ * y_ > 1:
                 continue
-            if dv[2] < 0:
-                dv[2] *= 0.5                                             # flat-bottomed pads
-            pt = c_ + dv * r_ * rng.uniform(0.82, 1.0)
-            if inside(pt, j_) or (pts_ and np.min(np.linalg.norm(np.array(pts_) - pt, axis=1)) < 0.03):
+            zt = AZ * math.sqrt(max(1 - x_ * x_ - y_ * y_, 0)) ** 0.8
+            z_ = rng.uniform(0.15, 1.0) * zt - 0.12 * max(0.0, sd * x_) ** 1.5      # thinner layer toward the edge; sagging on the lean side
+            c_ = cc + np.array([x_ * AX, y_ * AY, z_ - 0.03])
+            r_ = rng.uniform(0.055, 0.075) * (1 - 0.25 * math.hypot(x_, y_))
+            if clumps and min(np.linalg.norm((c_ - q[0]) * [1, 1, 1.6]) - q[1] - r_ for q in clumps) < -0.012:
                 continue
-            pts_.append(pt)
-        for pt in pts_:
-            k = int(np.argmin(np.linalg.norm(wood - pt, axis=1)))
-            p0 = wood[k]
-            dvec = pt - p0
-            if np.linalg.norm(dvec) > 0.01:
-                sp3 = np.array([p0 + dvec * t_ + rng.normal(0, 0.004, 3) * math.sin(math.pi * t_) for t_ in np.linspace(0, 1, 7)])
-                twig_tubes.append((sp3, np.linspace(0.0042, 0.0012, len(sp3))))
-            clusters.append((pt, rng.uniform(0.04, 0.05)))
+            clumps.append((c_, r_))
+        # primaries: from the trunk's top third out toward the clump groups
+        ups = trunk[int(0.62 * len(trunk)):]
+        n_pr = int(rng.integers(5, 8))
+        angs = np.sort(rng.uniform(0, 2 * math.pi, n_pr))
+        prims = []
+        for j, a_ in enumerate(angs):
+            k = int(rng.integers(len(ups)))
+            p0 = ups[k]
+            tgt = cc + np.array([math.cos(a_) * AX * 0.75, math.sin(a_) * AY * 0.75, -0.02])
+            L_ = np.linalg.norm(tgt - p0)
+            sp_ = spine(p0, tgt - p0, L_, 18, rng, amp=1.0, bends=2.5, up=0.1)
+            prims.append(sp_)
+            spines.append(("branch", sp_, np.linspace(trad[int(0.62 * len(trunk)) + k] * 0.45, 0.004, len(sp_)), False))
+        for _ in range(int(rng.integers(3, 6))):                           # jins: jagged dead stubs off the elbow + trunk
+            k = int(rng.uniform(0.3, 0.85) * (len(trunk) - 1))
+            a_ = rng.uniform(0, 2 * math.pi)
+            sp_ = spine(trunk[k], [math.cos(a_), math.sin(a_), rng.uniform(-0.1, 0.6)], rng.uniform(0.03, 0.07), 8, rng, amp=1.2)
+            spines.append(("dead", sp_, np.linspace(trad[k] * 0.35, 0.0008, len(sp_)), True))
+        net = np.concatenate(prims)
+        for c_, r_ in clumps:                                             # a secondary into every clump, twisting
+            k = int(np.argmin(np.linalg.norm(net - c_, axis=1)))
+            p0 = net[k]; L_ = np.linalg.norm(c_ - p0)
+            if L_ > 0.015:
+                sp2 = spine(p0, c_ - p0, L_, 10, rng, amp=1.2, bends=2, up=0.15)
+                sp2[-1] = c_
+                twig_tubes.append((sp2, np.linspace(0.0055, 0.0025, len(sp2))))
+            # its foliage: clusters over the clump's top and sides (flat underneath: the dark gap below each clump)
+            for _ in range(int(8 + 3500 * r_ * r_)):
+                dv = _unit(rng.normal(0, 1, 3))
+                if dv[2] < -0.2:
+                    dv[2] = -0.2 + 0.1 * dv[2]
+                pt = c_ + dv * [r_, r_, r_ * 0.6] * rng.uniform(0.6, 1.0)
+                sp3 = np.array([c_ + (pt - c_) * t_ for t_ in np.linspace(0, 1, 4)])
+                twig_tubes.append((sp3, np.linspace(0.0022, 0.001, len(sp3))))
+                clusters.append((pt, rng.uniform(0.028, 0.036)))
     # ---- fuse the thick wood: tubes -> one voxel-remeshed body
     allV, allF = [], []
     off = 0
@@ -710,7 +729,7 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     # each shoot is a brown stem whose upper part is clothed in round, cord-like scale shoots branching off it all round
     # (phyllotaxis 137.5 deg: a 3D tuft, not a flat spray), each cord tapering to a rounded paler tip. Colours measured on the
     # generated Shimpaku shoot photos (work/bonsai_gen/shoot*): sage / grey-blue green, paler fresh tips.
-    fol = foliage_3d(clusters, trunk, rng)
+    fol = foliage_3d(clusters, trunk, rng, fresh=dome)
     objs.append(_obj(f"bonsai_{seed}_foliage", fol[0] + loc, fol[1], foliage_material(), fol[2], {"shade": fol[3]}, colors=fol[4]))
     objs[-1]["tree"] = 1
     for o in objs:
