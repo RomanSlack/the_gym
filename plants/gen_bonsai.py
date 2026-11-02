@@ -276,42 +276,83 @@ def soil_detail(moss_o, V, F, MOS, k, seed):
     bp = Nn.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.6; bp.inputs["Distance"].default_value = 0.0002
     Ll.new(vo.outputs["Distance"], bp.inputs["Height"]); Ll.new(bp.outputs[0], b.inputs["Normal"])          # pitted, porous
     go = _obj("soil_grit", np.concatenate(GV), GF, gm, colors=np.concatenate(GC))
-    # --- moss hair
-    vg = moss_o.vertex_groups.new(name="moss")
-    w = np.clip(mos, 0, 1)
-    for lo_ in np.linspace(0.05, 0.95, 10):
-        idx = np.nonzero((w >= lo_) & (w < lo_ + 0.1))[0].tolist()
-        if idx:
-            vg.add(idx, float(lo_ + 0.05), "REPLACE")
-    ps = moss_o.modifiers.new("moss_hair", "PARTICLE_SYSTEM").particle_system
-    st = ps.settings
-    st.type = "HAIR"; st.count = 70000; st.hair_length = 0.0065; st.use_advanced_hair = True
-    st.emit_from = "FACE"; st.use_emit_random = True; st.use_even_distribution = True
-    st.child_type = "INTERPOLATED"; st.child_percent = 2; st.rendered_child_count = 14
-    st.child_length = 1.0; st.child_length_threshold = 0.4
-    st.clump_factor = 0.75; st.clump_shape = -0.3; st.child_radius = 0.004                               # cushions
-    st.roughness_1 = 0.0012; st.roughness_1_size = 0.4; st.roughness_endpoint = 0.0006
-    st.radius_scale = 0.0006; st.root_radius = 1.0; st.tip_radius = 0.15; st.use_close_tip = True
-    st.display_step = 2; st.render_step = 3
-    ps.vertex_group_density = "moss"; ps.vertex_group_length = "moss"
-    hm = bpy.data.materials.new("moss_strands"); hm.use_nodes = True
-    Nn, Ll = hm.node_tree.nodes, hm.node_tree.links
+    if MOS is None:
+        print(f"soil: {n_g} grit granules"); return go
+    # --- the moss as real 3D shoots (Roman: "no detail at all on the mossy part ... specialize it for a close-up"): every
+    # shoot a thin stem 3-8 mm tall with 10-16 lance-shaped leaves spiralling round it (137.5 deg), angled up and out, dark
+    # olive at the base, bright yellow-green at the tips; ~40 shoots a cm2, taller in the middle of each cushion (clumps);
+    # the base under them darkened (deep shadow between the shoots)
+    fm2 = mos[Fa].mean(1)
+    area = np.linalg.norm(np.cross(V[Fa[:, 1]] - V[Fa[:, 0]], V[Fa[:, 3]] - V[Fa[:, 0]]), axis=1)
+    wgt = area * np.clip((fm2 - 0.45) / 0.3, 0, 1)
+    n_s = int(min(wgt.sum() * 1e4 * 40, 90000))
+    fi = rng.choice(len(Fa), n_s, p=wgt / wgt.sum())
+    u_ = rng.random((n_s, 2))
+    P = V[Fa[fi, 0]] + (V[Fa[fi, 1]] - V[Fa[fi, 0]]) * u_[:, :1] + (V[Fa[fi, 3]] - V[Fa[fi, 0]]) * u_[:, 1:]
+    cl = sum(np.sin(P[:, 0] * kx + P[:, 1] * ky + ph) for kx, ky, ph in rng.normal(0, 260, (6, 3)) * [1, 1, 0.01]) / 6 ** 0.5
+    Ls = np.clip(0.0045 + 0.0018 * cl + rng.normal(0, 0.0007, n_s), 0.002, 0.009) * np.clip(fm2[fi] * 1.3, 0.4, 1)
+    n_leaf, segs = 12, 4
+    D = _unit(np.array([0, 0, 1.0]) + rng.normal(0, 0.28, (n_s, 3)))
+    # stems: triangular prisms of 4 segments, curving a little
+    t = np.linspace(0, 1, segs + 1)
+    bend = _unit(rng.normal(0, 1, (n_s, 3)) * [1, 1, 0]) * 0.15
+    C = P[:, None] + (D[:, None] * t[None, :, None] + bend[:, None] * t[None, :, None] ** 2) * Ls[:, None, None]   # n, 5, 3
+    ang = np.array([0, 2.094, 4.189])
+    a1 = _unit(np.cross(D, [0, 0.3, 1.0] * np.ones_like(D) + [1, 0, 0])); a2 = np.cross(D, a1)
+    ring = (np.cos(ang)[None, :, None] * a1[:, None] + np.sin(ang)[None, :, None] * a2[:, None]) * 0.00022
+    SV = (C[:, :, None] + ring[:, None]).reshape(n_s, -1, 3)                     # n, 15, 3
+    base_i = np.arange(n_s)[:, None, None] * 15
+    q = []
+    for k in range(segs):
+        for j in range(3):
+            q.append([k * 3 + j, k * 3 + (j + 1) % 3, (k + 1) * 3 + (j + 1) % 3, (k + 1) * 3 + j])
+    SF = (np.array(q)[None] + base_i).reshape(-1, 4)
+    sh_t = np.repeat(t, 3)[None].repeat(n_s, 0)
+    # leaves: two triangles each (a lance: base on the stem, a tip out + up)
+    lt = np.linspace(0.18, 1.0, n_leaf)                                          # position along the stem
+    phi = rng.uniform(0, 6.3, n_s)[:, None] + np.arange(n_leaf)[None] * 2.4
+    out = np.cos(phi)[..., None] * a1[:, None] + np.sin(phi)[..., None] * a2[:, None]   # n, L, 3
+    at = (P[:, None] + (D[:, None] * lt[None, :, None] + bend[:, None] * lt[None, :, None] ** 2) * Ls[:, None, None])
+    ll = (0.0011 + 0.0011 * (1 - lt) ** 0.5)[None, :, None] * (0.8 + 0.4 * rng.random((n_s, n_leaf, 1)))
+    tipd = _unit(out * 0.75 + D[:, None] * (0.55 + 0.4 * lt[None, :, None]))
+    side = _unit(np.cross(tipd, D[:, None] * np.ones_like(tipd))) * 0.00028
+    LVv = np.stack([at - side, at + tipd * ll * 0.45 + side * 1.4, at + tipd * ll, at + tipd * ll * 0.45 - side * 1.4], 2)   # n, L, 4, 3
+    LF = (np.array([[0, 1, 2, 3]])[None] + (np.arange(n_s * n_leaf) * 4)[:, None, None]).reshape(-1, 4)
+    lfac = np.repeat(lt[None, :, None], 4, 2).repeat(n_s, 0)
+    lfac[..., 2] = np.minimum(lfac[..., 2] + 0.25, 1)                            # the leaf tips brightest
+    nS = n_s * 15
+    MV = np.concatenate([SV.reshape(-1, 3), LVv.reshape(-1, 3)])
+    MF = np.concatenate([SF, LF + nS])
+    up = np.concatenate([sh_t.ravel() * 0.6, lfac.ravel()])
+    clump = np.concatenate([np.repeat(cl, 15), np.repeat(cl, n_leaf * 4)])
+    DARK, MID, TIP = np.array([0.025, 0.04, 0.008]), np.array([0.09, 0.17, 0.02]), np.array([0.3, 0.42, 0.06])
+    tint = np.concatenate([np.repeat(rng.normal(0, 0.12, n_s), 15), np.repeat(rng.normal(0, 0.12, n_s), n_leaf * 4)])[:, None]
+    col = np.where(up[:, None] < 0.5, DARK + (MID - DARK) * (up[:, None] / 0.5), MID + (TIP - MID) * ((up[:, None] - 0.5) / 0.5))
+    col = col * (1 + tint) * (0.85 + 0.25 * np.clip(clump, -1, 1))[:, None]
+    mm = bpy.data.materials.new("moss_shoots"); mm.use_nodes = True
+    Nn, Ll = mm.node_tree.nodes, mm.node_tree.links
     b = Nn["Principled BSDF"]
-    uv = Nn.new("ShaderNodeUVMap")
-    t = Nn.new("ShaderNodeTexImage"); t.image = _img(MAPS / f"potmoss{k}_col.jpg"); Ll.new(uv.outputs[0], t.inputs["Vector"])
-    hi = Nn.new("ShaderNodeHairInfo")
-    cr = Nn.new("ShaderNodeValToRGB"); Ll.new(hi.outputs["Intercept"], cr.inputs[0])
-    cr.color_ramp.elements[0].color = (0.25, 0.25, 0.2, 1); cr.color_ramp.elements[1].position = 0.7
-    cr.color_ramp.elements[1].color = (1.15, 1.2, 0.95, 1)
-    mx = Nn.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 1.0
-    Ll.new(t.outputs[0], mx.inputs[6]); Ll.new(cr.outputs[0], mx.inputs[7])
-    hs = Nn.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = 1.15; hs.inputs["Value"].default_value = 0.95
-    Ll.new(mx.outputs[2], hs.inputs["Color"]); Ll.new(hs.outputs[0], b.inputs["Base Color"])
-    b.inputs["Roughness"].default_value = 0.6; b.inputs["Subsurface Weight"].default_value = 0.2
-    b.inputs["Subsurface Radius"].default_value = (0.002, 0.004, 0.001)
-    moss_o.data.materials.append(hm); st.material_slot = hm.name
-    print(f"soil: {n_g} grit granules, {st.count * st.rendered_child_count} moss strands")
+    ca = Nn.new("ShaderNodeVertexColor"); ca.layer_name = "col"; Ll.new(ca.outputs["Color"], b.inputs["Base Color"])
+    b.inputs["Roughness"].default_value = 0.55; b.inputs["Specular IOR Level"].default_value = 0.3
+    tr = Nn.new("ShaderNodeBsdfTranslucent"); hs = Nn.new("ShaderNodeHueSaturation"); hs.inputs["Value"].default_value = 1.5
+    Ll.new(ca.outputs["Color"], hs.inputs["Color"]); Ll.new(hs.outputs[0], tr.inputs["Color"])
+    mx = Nn.new("ShaderNodeMixShader"); mx.inputs[0].default_value = 0.3
+    Ll.new(b.outputs[0], mx.inputs[1]); Ll.new(tr.outputs[0], mx.inputs[2]); Ll.new(mx.outputs[0], Nn["Material Output"].inputs["Surface"])
+    mo = _obj("soil_moss_shoots", MV, MF.tolist(), mm, colors=col, smooth=False)
+    # the base under the shoots: dark (the shadow between them), so no flat photo shows through
+    for slot in moss_o.data.materials:
+        nt = slot.node_tree
+        bb = nt.nodes.get("Principled BSDF")
+        if bb and bb.inputs["Base Color"].links:
+            dk = nt.nodes.new("ShaderNodeMix"); dk.data_type = "RGBA"
+            att = nt.nodes.new("ShaderNodeAttribute"); att.attribute_name = "moss"
+            src = bb.inputs["Base Color"].links[0].from_socket
+            nt.links.new(att.outputs["Fac"], dk.inputs[0]); nt.links.new(src, dk.inputs[6]); dk.inputs[7].default_value = (0.02, 0.03, 0.008, 1)
+            nt.links.new(dk.outputs[2], bb.inputs["Base Color"])
+    print(f"soil: {n_g} grit granules, {n_s} moss shoots ({len(MF)} faces)")
     return go
+
+
 
 
 # ------------------------------------------------------------------------------------------------------------ geometry
