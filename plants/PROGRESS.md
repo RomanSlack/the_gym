@@ -30,3 +30,8 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 12:51 `out/render_monstera_hero_v007.jpg` v7 (seed 5): atlas leaves, mirrored + tinted per leaf, the real sky to reflect; dappled shadows through the holes
 - 2026-11-02 13:02 `out/render_monstera_hero_v008.jpg` No clipping (Roman: "some of the leaves are clipping through each other, fix that first"): every leaf tries up to 30 placements and keeps one clear of every leaf, petiole, the pot and the floor by >= 1.5 cm; seed 5: 0 contacts
 - 2026-11-02 13:02 `out/render_monstera_trio_v002.jpg` Seeds 2-4: 0 contacts each; the plants 1.7 m apart (at 1.3 m neighbours' leaves crossed)
+- 2026-11-02 13:16 `out/refs_snake_v001.jpg` Snake plant references (Commons): stiff upright swords from rosettes, dark green with wavy grey-green tiger bands; 'Laurentii' with golden margins; old leaves with dry tips
+- 2026-11-02 13:16 `out/snake_leaf_atlas_v001.jpg` 6 generated flat-lay snake leaves, cut out by the shared tool (build_leaf_atlas.py, solid leaves: pale bands kept)
+- 2026-11-02 13:16 `out/render_snake_hero_v001.jpg` Snake v1: squat, agave-like (leaves too wide, too much lean), too many dry tips, 20 of 27 touching
+- 2026-11-02 13:16 `out/render_snake_hero_v002.jpg` Snake v4 (seed 1): slender upright swords, darker like the refs, one dry tip per plant at most; leaves kept apart (5 near-touch within 1.6 cm where 5 rosettes crowd one pot)
+- 2026-11-02 13:16 `out/render_snake_trio_v001.jpg` Three seeds: a dense green one, two Laurentii with golden margins; each different

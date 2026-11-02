@@ -139,7 +139,7 @@ ATLAS = Path(__file__).resolve().parent / "maps" / "monstera"
 
 
 class AtlasLeaf:
-    """a leaf from the atlas (build_monstera_atlas.py: real-looking leaf images, v2 after Roman: "this one doesn't look very
+    """a leaf from the atlas (build_leaf_atlas.py: real-looking leaf images, v2 after Roman: "this one doesn't look very
     photoreal"): the same interface leaf_mesh uses as the drawn Leaf; mirrored at random"""
 
     def __init__(self, name, info, L, rng):

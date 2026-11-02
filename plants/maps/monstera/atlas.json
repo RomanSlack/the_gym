@@ -8,7 +8,7 @@
  "leafm2": {
   "maturity": 0.95,
   "aspect": 0.9574,
-  "joint_v": 0.1453,
+  "joint_v": 0.1431,
   "midrib_u": 0.4934
  },
  "leafm3": {
@@ -32,7 +32,7 @@
  "leafs2": {
   "maturity": 0.5,
   "aspect": 0.9078,
-  "joint_v": 0.1336,
+  "joint_v": 0.1331,
   "midrib_u": 0.4872
  },
  "leafy1": {
@@ -43,7 +43,7 @@
  },
  "leafy2": {
   "maturity": 0.25,
-  "aspect": 0.8252,
+  "aspect": 0.8247,
   "joint_v": 0.0981,
   "midrib_u": 0.5004
  }
