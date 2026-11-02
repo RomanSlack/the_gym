@@ -83,3 +83,5 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 15:51 `out/closeup_bonsai_foliage_v001.jpg` Close-up (foliage), 100 mm f/11: bark v2 (4K stringy peeling bark + bleached shari, real scale, box-projected, matte), grit as rounded grains, moss in patches
 - 2026-11-02 16:08 `out/closeup_bonsai_base_v002.jpg` Soil v3 (Roman: "the moss ground and dirt ruins it ... 10x better"): real geometry: 16k 3D grit granules (akadama, lava, pumice, grey grit) + ~1M clumped moss strands where the moss is
 - 2026-11-02 16:08 `out/render_maple_v001.jpg` Red Japanese maple, first pass: atlas of 5 generated red leaves, blue nami glaze pot, smooth grey bark; leaders join the trunk with a visible collar seam, the dome too even, a few bare branch ends poke out right
+- 2026-11-02 16:23 `out/closeup_bonsai_base_v003.jpg` Soil: the dark smear right of the moss gone (grit now covers the band between grit and moss), 24k granules
+- 2026-11-02 16:23 `out/post_bonsai_blue_v001.jpg` A second juniper (seed 5) in the blue nami-glaze pot (Roman: "make a different procedural bonsai like the original one ... in that blue pot")

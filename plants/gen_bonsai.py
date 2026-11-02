@@ -196,9 +196,9 @@ def moss_material(k, patchy=False):
         # the reference pot: mostly dark bonsai grit (akadama + lava + grey grit, 2-4 mm), the moss only in patches
         mk = N.new("ShaderNodeAttribute"); mk.attribute_name = "moss"            # the patches the geometry has (gen: MOS)
         nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 60; L.new(uv.outputs[0], nz.inputs["Vector"])
-        ad = N.new("ShaderNodeMath"); ad.operation = "MULTIPLY_ADD"; ad.inputs[1].default_value = 0.5
+        ad = N.new("ShaderNodeMath"); ad.operation = "MULTIPLY_ADD"; ad.inputs[1].default_value = 0.12   # (0.5 left bare dark mesh between grit and moss: a smear)
         L.new(nz.outputs[0], ad.inputs[0]); L.new(mk.outputs["Fac"], ad.inputs[2])     # a ragged edge
-        mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.6; mr.inputs["From Max"].default_value = 0.8
+        mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0.52; mr.inputs["From Max"].default_value = 0.64
         L.new(ad.outputs[0], mr.inputs["Value"])
         vo = N.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 170; L.new(uv.outputs[0], vo.inputs["Vector"])
         sep = N.new("ShaderNodeSeparateColor"); L.new(vo.outputs["Color"], sep.inputs[0])
@@ -242,8 +242,8 @@ def soil_detail(moss_o, V, F, MOS, k, seed):
     # --- grit
     Fa = np.array(F)
     cen = V[Fa].mean(1); fm = mos[Fa].mean(1)
-    bare = np.where(fm < 0.55)[0] if MOS is not None else rng.choice(len(Fa), len(Fa) // 12, replace=False)
-    n_g = min(int(len(bare) * (0.55 if MOS is not None else 0.12)), 16000)
+    bare = np.where(fm < 0.66)[0] if MOS is not None else rng.choice(len(Fa), len(Fa) // 12, replace=False)
+    n_g = min(int(len(bare) * (0.55 if MOS is not None else 0.12)), 24000)
     pick = rng.choice(bare, n_g)
     u_ = rng.random((n_g, 2)); swap = u_.sum(1) > 1; u_[swap] = 1 - u_[swap]
     P = V[Fa[pick, 0]] + (V[Fa[pick, 1]] - V[Fa[pick, 0]]) * u_[:, :1] + (V[Fa[pick, 3]] - V[Fa[pick, 0]]) * u_[:, 1:]
@@ -628,6 +628,12 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
     objs, zs = table_and_pot(loc, rng, rect=dome)
+    if os.environ.get("BONSAI_POT") == "blue":                          # (Roman: "put it in that blue pot")
+        import gen_maple
+        gl = gen_maple.glaze_material()
+        for o in objs:
+            if o.data.materials and o.data.materials[0].name.startswith("pot_clay"):
+                o.data.materials.clear(); o.data.materials.append(gl)
     zs -= loc[2]
     # ---- the wood skeleton (local coordinates; loc added at the end)
     H = rng.uniform(0.36, 0.5)

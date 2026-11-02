@@ -23,6 +23,7 @@ opt = lambda k, d: type(d)(a[a.index(k) + 1]) if k in a else d
 SEED, SAMPLES, YAW = opt("--seed", 3), opt("--samples", 512), opt("--yaw", 0.0)
 SHOT = opt("--shot", "full")          # full | trunk | foliage | base: the close-ups
 os.environ["BONSAI_STYLE"] = opt("--style", "dome")
+os.environ["BONSAI_POT"] = opt("--pot", "clay")
 import gen_bonsai  # noqa: E402
 import gen_maple  # noqa: E402
 TREE = opt("--tree", "juniper")
