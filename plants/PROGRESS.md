@@ -66,3 +66,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 14:49 `out/render_bonsai_dome_v002.jpg` Dome style, seed 3
 - 2026-11-02 14:49 `out/compare_bonsai_dome_v001.jpg` The reference Shimpaku vs our dome style
 - 2026-11-02 14:49 `out/render_bonsai_hero_v012.jpg` Layered style in the lighter, greener colour (Roman: "just a little too dark")
+- 2026-11-02 14:54 `out/render_bonsai_dome_v003.jpg` Reference shape pass (Roman: "nah shape is weird"): tall leaning trunk, mostly shari, canopy of lobes; stout, gappy, cropped
+- 2026-11-02 14:54 `out/render_bonsai_dome_v004.jpg` Seed 3: a leaning silver trunk tapering fast, one dense layered canopy, brighter green; framing fixed (vertical angle)
+- 2026-11-02 14:54 `out/render_bonsai_dome_v005.jpg` Seed 1
+- 2026-11-02 14:54 `out/compare_bonsai_dome_v002.jpg` The reference vs ours, after the shape pass

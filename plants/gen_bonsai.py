@@ -277,7 +277,7 @@ def foliage_material():
 
 def foliage_3d(clusters, trunk, rng, S=6):
     """grow the scale shoots: returns V, F, UV (per vertex), shade, colours"""
-    DARK, MID, TIP, WOOD = np.array([0.09, 0.14, 0.07]), np.array([0.165, 0.245, 0.12]), np.array([0.32, 0.42, 0.21]), np.array([0.075, 0.04, 0.022])   # (Roman: "a little too dark")
+    DARK, MID, TIP, WOOD = np.array([0.11, 0.17, 0.07]), np.array([0.2, 0.3, 0.12]), np.array([0.36, 0.48, 0.2]), np.array([0.075, 0.04, 0.022])   # (Roman: "a little too dark")
     segs = []                                                            # p0, p1, r0, r1, colour0, colour1, cluster (c, rc)
     for cpos, rc in clusters:
         k = np.argmin(np.linalg.norm(trunk - cpos, axis=1))
@@ -475,12 +475,23 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     H = rng.uniform(0.36, 0.5)
     base = np.array([rng.uniform(-0.05, 0.05), rng.uniform(-0.02, 0.02), zs - 0.03])   # the foot sunk in the soil
     lean = _unit(np.array([rng.normal(0, 0.45), rng.normal(0, 0.2), 1.0]))
-    if dome:                                                             # the reference: foot left of centre, twisting up and over
-        H = rng.uniform(0.3, 0.38); base[0] = -0.06; lean = _unit(np.array([0.35, rng.normal(0, 0.1), 1.0]))
     trunk = spine(base, lean, H, 70, rng, bends=rng.uniform(2.0, 3.2), amp=rng.uniform(1.0, 1.6))
-    R0 = rng.uniform(0.04, 0.055) * (1.15 if dome else 1.0)
+    if dome:
+        # the reference (refs/bonsaiF_01): the foot left of centre, the trunk leaning hard right low down and curving back up
+        # over it, ~45 % of the height bare wood, mostly bleached shari (v1, a short trunk under a big round canopy, was a
+        # mushroom: "nah shape is weird")
+        H = rng.uniform(0.44, 0.52); base[0] = -0.07
+        sd = rng.choice([-1, 1]); pts_t = [base.copy()]
+        for i in range(70):
+            t_ = (i + 1) / 70
+            d_ = _unit(np.array([sd * (1.05 - 1.5 * t_ ** 1.1) + 0.12 * math.sin(9 * t_ + seed), 0.18 * math.sin(5 * t_ + seed * 1.7), 1.0]))
+            pts_t.append(pts_t[-1] + d_ * H / 70)
+        trunk = np.array(pts_t)
+    R0 = rng.uniform(0.04, 0.055) * (1.05 if dome else 1.0)
     tt = np.linspace(0, 1, len(trunk))
-    trad = R0 * (1 - 0.8 * tt ** 0.7) * (1 + 0.18 * np.exp(-tt / 0.05))  # (a steep flare read as a stepped skirt: the roots make the base)
+    trad = R0 * (1 - 0.8 * tt ** 0.7) * (1 + 0.18 * np.exp(-tt / 0.05))
+    if dome:
+        trad = R0 * (1 - 0.82 * tt ** 0.55) * (1 + 0.25 * np.exp(-tt / 0.05))   # (v4 a stout cone: the reference tapers fast)  # (a steep flare read as a stepped skirt: the roots make the base)
     jin = rng.random() < 0.6 and not dome
     spines = [("trunk", trunk, trad, False)]
     n_rt = int(rng.integers(5, 8))
@@ -495,7 +506,7 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
         spines.append(("root", rp, rr_, False))
     # main branches: level, alternating, longer low down; forks -> twigs -> foliage clusters on the tips
     twig_tubes, clusters = [], []
-    n_br = int(rng.integers(6, 10)) if not dome else int(rng.integers(10, 14))
+    n_br = int(rng.integers(6, 10)) if not dome else 0          # (dome: branches grow into the canopy's lobes, below)
     hs = np.sort(rng.uniform(0.38, 0.86, n_br)) if not dome else np.sort(rng.uniform(0.5, 0.94, n_br))
     az = rng.uniform(0, 2 * math.pi)
     placed_tips = np.zeros((0, 3))
@@ -553,33 +564,49 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
             continue
         clusters.append((sp3[-1], rc_))
     if dome:
-        # the canopy: one lumpy dome over the top half, leaning with the trunk; foliage clusters fill its shell, each on a
-        # twig from the nearest wood (the branches carry it; the dome's underside closes, as on the reference)
+        # the canopy, like the reference: not one dome but 5-7 overlapping lobes (layered pads grown together), the biggest on
+        # the apex, the rest lower and out to alternating sides, flat-bottomed, wider than tall; a branch grows into every
+        # lobe; foliage clusters fill the outside of the union, each twigged to the nearest wood
         clusters = []
         top = trunk[-1]
-        c0 = top + np.array([0.05, 0.0, -0.05])
-        ax, ay, az = 0.26 * H / 0.34, 0.21 * H / 0.34, 0.15 * H / 0.34
-        wood = np.concatenate([trunk[int(0.45 * len(trunk)):]] + [sp for nm, sp, rr, dd in spines if nm == "branch"])
+        sc_ = H / 0.48
+        lobes = [(top + np.array([0, 0, 0.02]), np.array([0.13, 0.11, 0.07]) * sc_)]
+        nl = int(rng.integers(5, 8))
+        for i in range(nl):
+            h_ = rng.uniform(0.55, 0.85)
+            k = int(h_ * (len(trunk) - 1))
+            ang = rng.uniform(0, 2 * math.pi) if i == 0 else ang + math.radians(rng.uniform(100, 160))
+            out = np.array([math.cos(ang), math.sin(ang) * 0.8, 0])
+            cen = trunk[k] + out * rng.uniform(0.06, 0.12) * sc_ + np.array([0, 0, rng.uniform(0.0, 0.03)])   # (overlapping: one mass)
+            lobes.append((cen, np.array([rng.uniform(0.08, 0.12), rng.uniform(0.07, 0.1), rng.uniform(0.045, 0.06)]) * sc_))
+            bp_ = np.array([trunk[k] + (cen - trunk[k]) * t_ + np.array([0, 0, 0.02 * math.sin(math.pi * t_)]) for t_ in np.linspace(0, 0.8, 16)])
+            spines.append(("branch", bp_, np.linspace(trad[k] * 0.5, 0.005, len(bp_)), False))
+        wood = np.concatenate([trunk[int(0.5 * len(trunk)):]] + [sp for nm, sp, rr, dd in spines if nm == "branch"])
+
+        def inside(pt, skip):
+            return any(np.sum(((pt - c_) / r_) ** 2) < 0.8 for j_, (c_, r_) in enumerate(lobes) if j_ != skip)
         pts_ = []
-        for _ in range(4000):
-            if len(pts_) >= 170:
+        for _ in range(9000):
+            if len(pts_) >= 210:
                 break
+            j_ = int(rng.integers(len(lobes))); c_, r_ = lobes[j_]
             dv = _unit(rng.normal(0, 1, 3))
-            if dv[2] < -0.55:
+            if dv[2] < -0.45:
                 continue
-            r = rng.uniform(0.78, 1.0) * (1 + 0.12 * math.sin(3 * math.atan2(dv[1], dv[0]) + seed) + 0.08 * math.sin(5 * dv[2] + seed))
-            pt = c0 + dv * [ax, ay, az] * r
-            if pts_ and np.min(np.linalg.norm(np.array(pts_) - pt, axis=1)) < 0.032:
+            if dv[2] < 0:
+                dv[2] *= 0.5                                             # flat-bottomed pads
+            pt = c_ + dv * r_ * rng.uniform(0.82, 1.0)
+            if inside(pt, j_) or (pts_ and np.min(np.linalg.norm(np.array(pts_) - pt, axis=1)) < 0.03):
                 continue
             pts_.append(pt)
         for pt in pts_:
             k = int(np.argmin(np.linalg.norm(wood - pt, axis=1)))
             p0 = wood[k]
-            dvec = pt - p0; L_ = np.linalg.norm(dvec)
-            if L_ > 0.01:
+            dvec = pt - p0
+            if np.linalg.norm(dvec) > 0.01:
                 sp3 = np.array([p0 + dvec * t_ + rng.normal(0, 0.004, 3) * math.sin(math.pi * t_) for t_ in np.linspace(0, 1, 7)])
                 twig_tubes.append((sp3, np.linspace(0.0042, 0.0012, len(sp3))))
-            clusters.append((pt, rng.uniform(0.042, 0.054)))
+            clusters.append((pt, rng.uniform(0.04, 0.05)))
     # ---- fuse the thick wood: tubes -> one voxel-remeshed body
     allV, allF = [], []
     off = 0
@@ -628,7 +655,8 @@ def build(seed, loc=(0, 0, 0), pot_r=None, pot_h=None, style=None):
     s, ln, r = lap(s, 12), lap(ln, 12), lap(r, 6)
     ang = np.arctan2(lap(np.sin(ang), 4), lap(np.cos(ang), 4))
     is_trunk = idx == 0
-    sh_w = rng.uniform(0.36, 0.5); sh_turn = rng.uniform(0.7, 1.5) * rng.choice([-1, 1]); sh0 = rng.uniform(0, 2 * math.pi)
+    sh_w = rng.uniform(0.36, 0.5) if not dome else rng.uniform(0.55, 0.68)   # (the reference trunk is mostly deadwood)
+    sh_turn = rng.uniform(0.7, 1.5) * rng.choice([-1, 1]); sh0 = rng.uniform(0, 2 * math.pi)
     twist = sh_turn * 2 * math.pi
     c = sh0 + twist * s
     band = (np.cos(ang - c) + 1) / 2
