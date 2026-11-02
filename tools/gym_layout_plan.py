@@ -270,7 +270,7 @@ def wipes(F, G, lvl, spots):
                         "x": x, "y": y_, "w": 0.36, "d": 0.36, "rot": r})
 
 
-def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5, pre=()):
+def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5, pre=(), avoid=()):
     """n wipes stations (Roman 2026-10-26: "need like 3 times the wipe stations"), every piece within `reach` m of one. Where
     (2026-10-31, Roman: "wipe locations are literally blocking machines ... wipes should always be closer to walls if they can"):
     against a wall or a partition, a corner first; never in anyone's training space (the whole use clearance: in front, the
@@ -359,6 +359,7 @@ def auto_wipes(F, G, fixed, n, reach=7.5, spacing=3.5, pre=()):
         if best is None:
             break
         picks.append(best)
+    picks = [c for c in picks if all(c.distance(Point(a_)) > 0.5 for a_ in avoid)]   # bins Roman took out (feedback 2026-11-01), not replaced
     for c in picks:
         wp = nearest_points(c, walls)[1]
         if c.distance(walls) < 0.3:                                  # its front away from the wall
@@ -657,7 +658,11 @@ def plan_f1(G):
         F.put("gymleco-wooden-wall-bars-with-chins-rack", XWF + 0.315, y, -90, "calisthenics", "on the W1 core wall (the chin bar can't meet the 2.47 m rule)")
     for y in (-28.05, -27.1):   # (Roman: "there's none over by the calisthenics area ... where they are right now ... is right in front of the stairs")
         F.put("life-fitness-adjustable-wall-mounted-mat-rack", XWF + 0.1, y, -90, "calisthenics", "core + yoga mats, by the skills floor + the rig")
-    F.put("rogue-belt-and-band-hanger", -13.2, YNF - 0.155, 180, "calisthenics", "dip belts, bands")
+    # (feedback 2026-11-01: "add 2 mat hangers here and move the bands that are further down the wall down to this corner"): the
+    # locker wall's west corner, beside the W1 door's landing, the bands + two mat racks for the mat floor + the garden side
+    F.put("rogue-belt-and-band-hanger", -26.55, YNF - 0.155, 180, "stretching", "dip belts, bands")
+    for x in (-25.35, -24.3):
+        F.put("life-fitness-adjustable-wall-mounted-mat-rack", x, YNF - 0.1, 180, "stretching", "core + yoga mats, for the mat floor")
     # (third walk: "put some more bands like over in the calisthenics area because a lot of people like to use bands"): a second
     # hanger, bands + dip belts on it, on the W2 core between the AED and the knee raise
     F.put("rogue-belt-and-band-hanger", XWF + 0.12, -31.15, -90, "calisthenics", "bands (assisted pull-ups, muscle-up transitions) + dip belts, by the rig")
@@ -671,7 +676,7 @@ def plan_f1(G):
     F.put("life-fitness-flexibility-trainer", -18.2, -21.0, 90, "stretching")
     F.put("life-fitness-flexibility-trainer", -18.2, -23.0, 90, "stretching")
 
-    auto_wipes(F, G, fixed, 10)
+    auto_wipes(F, G, fixed, 10, avoid=[(-29.19, -22.3), (-27.45, -33.84), (-6.71, -12.9)])   # (feedback 2026-11-01: "remove this")
     for it in F.items:
         if it["kind"] in G.SIZES:
             F.targets[it["kind"]] = F.targets.get(it["kind"], 0) + 1
