@@ -66,6 +66,24 @@ for rec in log.split("\x1e"):
         frames.setdefault(f"feedback {cid}", []).append({"src": str(dst.relative_to(OUT)), "commit": h[:8], "date": date,
                                                          "subject": ("Roman's mark-up: " + m_.get("notes", "").strip()) if marked else "Claude: " + reply,
                                                          "prompt": prompt.strip(), "also": [a.strip() for a in also.strip().splitlines() if a.strip()]})
+# material studies (tools/material_out.py): materials/<name>/out/<cam>_vNNN.jpg, one camera per <name>/<cam>
+log = git("log", "--reverse", "--format=%H%x1f%ad%x1f%s%x1f%(trailers:key=Prompt,valueonly)%x1f%(trailers:key=Also-Prompt,valueonly)%x1e",
+          "--date=format:%Y-%m-%d %H:%M", "--", "materials/").decode(errors="ignore")
+for rec in log.split("\x1e"):
+    if not rec.strip():
+        continue
+    h, date, subj, prompt, also = (rec.strip("\n").split("\x1f") + [""] * 5)[:5]
+    names = git("diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=AM", h, "--", "materials/").decode().split()
+    for n in sorted(names):
+        m = re.match(r"materials/([^/]+)/out/(.+)_v\d{3}\.jpg$", n)
+        if not m:
+            continue
+        dst = OUT / h[:8] / Path(n).name
+        if not dst.exists():
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes(git("show", f"{h}:{n}"))
+        frames.setdefault(f"material {m.group(1)}/{m.group(2)}", []).append({"src": str(dst.relative_to(OUT)), "commit": h[:8], "date": date, "subject": subj,
+                                                                            "prompt": prompt.strip(), "also": [a.strip() for a in also.strip().splitlines() if a.strip()]})
 data = json.dumps(dict(sorted(frames.items())))
 (OUT / "replay.html").write_text(f"""<!doctype html><meta charset=utf-8><title>The Gym · render replay</title>
 <style>body{{margin:0;background:#111;color:#ddd;font:14px system-ui}}header{{display:flex;gap:12px;align-items:center;padding:10px 14px;background:#1b1b1b}}

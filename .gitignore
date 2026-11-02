@@ -33,3 +33,6 @@ equipment/pieces/life-fitness-pwr-play-mega/models/*.glb
 # Viewer feedback captures: the notes (*.json) are kept, the screenshots stay local
 feedback/*.png
 feedback/trash/
+# Materials: reference photos (third-party, not ours) and scratch work stay local; maps + out/ progress renders are committed
+materials/*/refs/
+materials/*/work/
