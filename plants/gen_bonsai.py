@@ -230,6 +230,89 @@ def moss_material(k, patchy=False):
     return m
 
 
+def soil_detail(moss_o, V, F, MOS, k, seed):
+    """the soil up close (Roman: "the moss ground and dirt ruins it ... needs to be 10x better to match the quality of the
+    bark"): real geometry instead of a textured bump: (1) thousands of 3D grit granules, rounded red-brown akadama, dark porous
+    lava, pale pumice, grey grit, 1-3 mm, scattered and piled on the bare soil; (2) the moss as hair: hundreds of short
+    tapered strands a square cm, coloured from the moss photo beneath, dark at the base, pale at the tips, clumped
+    into cushions, only where the moss is (the 'moss' weight)"""
+    rng = np.random.default_rng(seed)
+    nV = len(V)
+    mos = MOS if MOS is not None else np.ones(nV)
+    # --- grit
+    Fa = np.array(F)
+    cen = V[Fa].mean(1); fm = mos[Fa].mean(1)
+    bare = np.where(fm < 0.55)[0] if MOS is not None else rng.choice(len(Fa), len(Fa) // 12, replace=False)
+    n_g = min(int(len(bare) * (0.55 if MOS is not None else 0.12)), 16000)
+    pick = rng.choice(bare, n_g)
+    u_ = rng.random((n_g, 2)); swap = u_.sum(1) > 1; u_[swap] = 1 - u_[swap]
+    P = V[Fa[pick, 0]] + (V[Fa[pick, 1]] - V[Fa[pick, 0]]) * u_[:, :1] + (V[Fa[pick, 3]] - V[Fa[pick, 0]]) * u_[:, 1:]
+    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0)
+    ico = bpy.context.object; IV = np.array([v.co[:] for v in ico.data.vertices]); IF = [list(f.vertices) for f in ico.data.polygons]
+    bpy.data.objects.remove(ico)
+    kind = rng.choice(4, n_g, p=[0.5, 0.25, 0.12, 0.13])                 # akadama, lava, pumice, grey grit
+    rad = np.where(kind == 3, rng.uniform(0.0008, 0.0016, n_g), rng.uniform(0.0011, 0.0026, n_g))
+    jit = np.where(kind == 1, 0.35, np.where(kind == 3, 0.3, 0.12))       # lava craggy, grit angular, akadama round
+    COL = np.array([[0.2, 0.075, 0.035], [0.025, 0.022, 0.021], [0.42, 0.38, 0.3], [0.12, 0.115, 0.11]])
+    GV, GF, GC = [], [], []
+    for i in range(n_g):
+        q = IV * (1 + rng.normal(0, jit[i], (len(IV), 1)) * 0.5)
+        q = q * rng.uniform([0.8, 0.8, 0.55], [1.2, 1.2, 0.9])
+        a1, a2 = rng.uniform(0, 2 * math.pi, 2)
+        Rz = np.array([[math.cos(a1), -math.sin(a1), 0], [math.sin(a1), math.cos(a1), 0], [0, 0, 1]])
+        Rx = np.array([[1, 0, 0], [0, math.cos(a2 * 0.3), -math.sin(a2 * 0.3)], [0, math.sin(a2 * 0.3), math.cos(a2 * 0.3)]])
+        q = q @ (Rz @ Rx).T * rad[i] + P[i] + [0, 0, rad[i] * rng.uniform(0.0, 0.6)]
+        GF += [[j + len(IV) * i for j in f] for f in IF]; GV.append(q)
+        c = COL[kind[i]] * rng.uniform(0.75, 1.25); GC.append(np.repeat(c[None], len(IV), 0))
+    gm = bpy.data.materials.new("grit"); gm.use_nodes = True
+    Nn, Ll = gm.node_tree.nodes, gm.node_tree.links
+    b = Nn["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.85
+    ca = Nn.new("ShaderNodeVertexColor"); ca.layer_name = "col"
+    nz = Nn.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 2500; nz.inputs["Detail"].default_value = 6
+    mx = Nn.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 0.4
+    Ll.new(ca.outputs["Color"], mx.inputs[6]); Ll.new(nz.outputs[0], mx.inputs[7]); Ll.new(mx.outputs[2], b.inputs["Base Color"])
+    vo = Nn.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 4000
+    bp = Nn.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.6; bp.inputs["Distance"].default_value = 0.0002
+    Ll.new(vo.outputs["Distance"], bp.inputs["Height"]); Ll.new(bp.outputs[0], b.inputs["Normal"])          # pitted, porous
+    go = _obj("soil_grit", np.concatenate(GV), GF, gm, colors=np.concatenate(GC))
+    # --- moss hair
+    vg = moss_o.vertex_groups.new(name="moss")
+    w = np.clip(mos, 0, 1)
+    for lo_ in np.linspace(0.05, 0.95, 10):
+        idx = np.nonzero((w >= lo_) & (w < lo_ + 0.1))[0].tolist()
+        if idx:
+            vg.add(idx, float(lo_ + 0.05), "REPLACE")
+    ps = moss_o.modifiers.new("moss_hair", "PARTICLE_SYSTEM").particle_system
+    st = ps.settings
+    st.type = "HAIR"; st.count = 45000; st.hair_length = 0.0042; st.use_advanced_hair = True
+    st.emit_from = "FACE"; st.use_emit_random = True; st.use_even_distribution = True
+    st.child_type = "INTERPOLATED"; st.child_percent = 2; st.rendered_child_count = 9
+    st.child_length = 1.0; st.child_length_threshold = 0.4
+    st.clump_factor = 0.55; st.clump_shape = 0.2                               # cushions
+    st.roughness_1 = 0.0012; st.roughness_1_size = 0.4; st.roughness_endpoint = 0.0006
+    st.radius_scale = 0.00045; st.root_radius = 1.0; st.tip_radius = 0.15; st.use_close_tip = True
+    st.display_step = 2; st.render_step = 3
+    ps.vertex_group_density = "moss"; ps.vertex_group_length = "moss"
+    hm = bpy.data.materials.new("moss_strands"); hm.use_nodes = True
+    Nn, Ll = hm.node_tree.nodes, hm.node_tree.links
+    b = Nn["Principled BSDF"]
+    uv = Nn.new("ShaderNodeUVMap")
+    t = Nn.new("ShaderNodeTexImage"); t.image = _img(MAPS / f"potmoss{k}_col.jpg"); Ll.new(uv.outputs[0], t.inputs["Vector"])
+    hi = Nn.new("ShaderNodeHairInfo")
+    cr = Nn.new("ShaderNodeValToRGB"); Ll.new(hi.outputs["Intercept"], cr.inputs[0])
+    cr.color_ramp.elements[0].color = (0.25, 0.25, 0.2, 1); cr.color_ramp.elements[1].position = 0.7
+    cr.color_ramp.elements[1].color = (1.15, 1.2, 0.95, 1)
+    mx = Nn.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 1.0
+    Ll.new(t.outputs[0], mx.inputs[6]); Ll.new(cr.outputs[0], mx.inputs[7])
+    hs = Nn.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = 1.15; hs.inputs["Value"].default_value = 0.95
+    Ll.new(mx.outputs[2], hs.inputs["Color"]); Ll.new(hs.outputs[0], b.inputs["Base Color"])
+    b.inputs["Roughness"].default_value = 0.6; b.inputs["Subsurface Weight"].default_value = 0.2
+    b.inputs["Subsurface Radius"].default_value = (0.002, 0.004, 0.001)
+    moss_o.data.materials.append(hm); st.material_slot = hm.name
+    print(f"soil: {n_g} grit granules, {st.count * st.rendered_child_count} moss strands")
+    return go
+
+
 # ------------------------------------------------------------------------------------------------------------ geometry
 def spine(p0, d0, length, n, rng, bends=2.0, amp=0.25, droop=0.0, up=0.0, horiz=False):
     pts = [np.array(p0, float)]
@@ -502,6 +585,7 @@ def table_and_pot(loc, rng, rect=False):
         for j in range(nt):
             F.append([i * nt + j, i * nt + (j + 1) % nt, (i + 1) * nt + (j + 1) % nt, (i + 1) * nt + j])
     objs.append(_obj("bonsai_moss", V, F, moss_material(k_, patchy=rect), UV, {"moss": MOS} if rect else None))
+    soil_detail(objs[-1], np.array(V), F, np.array(MOS) if rect else None, k_, int(a * 1e5) + 7)
     stone = bpy.data.materials.new("pebble"); stone.use_nodes = True     # speckled granite (v1 was smooth grey clay)
     sn, sl = stone.node_tree.nodes, stone.node_tree.links
     sb = sn["Principled BSDF"]; sb.inputs["Roughness"].default_value = 0.62

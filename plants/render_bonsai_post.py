@@ -24,6 +24,8 @@ SEED, SAMPLES, YAW = opt("--seed", 3), opt("--samples", 512), opt("--yaw", 0.0)
 SHOT = opt("--shot", "full")          # full | trunk | foliage | base: the close-ups
 os.environ["BONSAI_STYLE"] = opt("--style", "dome")
 import gen_bonsai  # noqa: E402
+import gen_maple  # noqa: E402
+TREE = opt("--tree", "juniper")
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -31,12 +33,13 @@ sc.render.engine = "CYCLES"
 bc.gpu_or_stop()
 sc.cycles.device = "GPU"; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True; sc.cycles.tile_size = 256
 sc.cycles.transparent_max_bounces = 16
-sc.render.resolution_x, sc.render.resolution_y = 1600, 2000
+RES = opt("--res", "x")                 # x: 2160 x 2700 (4:5, X's portrait feed at 2x) | draft: 1600 x 2000
+sc.render.resolution_x, sc.render.resolution_y = (2160, 2700) if RES == "x" else (1600, 2000)
 sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Medium High Contrast"
 sc.view_settings.exposure = -0.3
 sc.render.film_transparent = False
 
-objs = gen_bonsai.build(SEED, (0, 0, 0))
+objs = (gen_maple if TREE == "maple" else gen_bonsai).build(SEED, (0, 0, 0))
 names = {o.name for o in objs if o.name.startswith("Cube")}
 for o in list(sc.objects):                                           # the studio table out: a weathered plank stand instead
     if o.name in names:
@@ -112,7 +115,7 @@ if SHOT != "full":
         zz = np.percentile(V[:, 2], 4); sel = V[V[:, 2] < zz + 0.02]
         tgt = mathutils.Vector(sel.mean(0)) + mathutils.Vector((0.0, -0.05, 0)); dist = 0.5; d = mathutils.Vector((0.25, -1.0, 1.1)).normalized()
     else:                                                            # the foliage at a canopy edge, the sun behind it
-        fol = [o for o in objs if o.name.endswith("_foliage")][0]
+        fol = [o for o in objs if "_foliage" in o.name][0]
         F_ = np.array([fol.matrix_world @ mathutils.Vector(c_) for c_ in fol.bound_box])
         lo_, hi_ = F_.min(0), F_.max(0)
         tgt = mathutils.Vector((lo_[0] + (hi_[0] - lo_[0]) * 0.78, (lo_[1] + hi_[1]) / 2 - 0.06, lo_[2] + (hi_[2] - lo_[2]) * 0.55))
