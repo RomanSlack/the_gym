@@ -60,10 +60,11 @@ for rec in log.split("\x1e"):
             dst.parent.mkdir(parents=True, exist_ok=True)
             dst.write_bytes(git("show", f"{h}:{n}"))
         mk = ROOT / "feedback" / f"{cid}.markup.json"
-        notes = json.loads(mk.read_text()).get("notes", "").strip() if mk.exists() else ""
+        m_ = json.loads(mk.read_text()) if mk.exists() else {}
         marked = "_0marked" in n
+        reply = next((r_["text"] for r_ in m_.get("replies", []) if r_.get("after", "").endswith(n[-8:-4] + ".png")), subj)
         frames.setdefault(f"feedback {cid}", []).append({"src": str(dst.relative_to(OUT)), "commit": h[:8], "date": date,
-                                                         "subject": ("Roman's mark-up: " + notes) if marked else subj,
+                                                         "subject": ("Roman's mark-up: " + m_.get("notes", "").strip()) if marked else "Claude: " + reply,
                                                          "prompt": prompt.strip(), "also": [a.strip() for a in also.strip().splitlines() if a.strip()]})
 data = json.dumps(dict(sorted(frames.items())))
 (OUT / "replay.html").write_text(f"""<!doctype html><meta charset=utf-8><title>The Gym · render replay</title>
