@@ -1,0 +1,10 @@
+{
+  "prompt": "Top-down orthographic photograph of a Norwegian boreal heath forest floor, looking straight down from 1.5 m, filling the whole frame evenly: dense lingonberry (small glossy dark green oval leaves), heather (Calluna, fine grey-green needle leaves with a few dusty mauve flower spikes), crowberry, patches of pale grey-green reindeer lichen (Cladonia) and green moss, a few fallen pine needles and small twigs. Soft overcast daylight, no shadows of trees, no sky, no horizon, uniform density, no single focal point, sharp detail, natural colours, photoreal texture reference.",
+  "model": "gemini-3.1-flash-image",
+  "provider": "gemini",
+  "size": "4K",
+  "aspect_ratio": "1:1",
+  "refs": [],
+  "filename": "top-down_orthographic_photograph_of_a_norwegian_boreal_heath_0.webp",
+  "generated_at": "2026-11-03T10:34:12"
+}
