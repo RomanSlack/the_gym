@@ -36,37 +36,51 @@ sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Medium H
 KIND = opt("--kind", "green")
 if KIND == "green":
     W, H, Z0 = 3.2, 3.12, 0.0
-    MIX = tuple(float(v) for v in opt("--mix", "0.5,0.46,0.04").split(","))
+    MIX = tuple(float(v) for v in opt("--mix", "0.3,0.3,0.02,0.12,0.14,0.12").split(","))
     objs = gen_greenwall.build(SEED, (0, 0, Z0), width=W, height=H, mix=MIX, vine=opt("--vine", 1.3), spacing=opt("--spacing", 0.22))
 else:
     W, H, Z0 = 2.4, 1.6, 0.55
     objs = gen_mosswall.build(SEED, (0, 0, Z0), width=W, height=H)
-# the room: the wall behind (pale lime plaster), the oak floor, a side wall
-def box(name, loc, scale, rgb, rough=0.85):
+# the room in the gym's own materials (interior palette: white-oiled oak floor, warm lime plaster, oak slats)
+M = bc.interior_materials()
+steel = bc.material("blackened_steel", (0.035, 0.034, 0.033), 0.45, metal=0.85)
+def box(name, loc, scale, mat):
     bpy.ops.mesh.primitive_cube_add(size=1, location=loc); o = bpy.context.object; o.scale = scale
-    o.data.materials.append(bc.material(name, rgb, rough)); return o
-box("wall", (0, 0.06, 1.6), (8, 0.1, 3.4), (0.62, 0.6, 0.56))
-box("floor", (0, -2, -0.05), (8, 8, 0.1), (0.36, 0.26, 0.17), 0.5)
-box("side", (-3.2, -2, 1.6), (0.1, 8, 3.4), (0.6, 0.58, 0.54))
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)       # (object-space textures at real scale)
+    o.data.materials.append(mat if isinstance(mat, bpy.types.Material) else bc.material(name, mat, 0.85)); return o
+box("wall", (0, 0.06, 1.6), (8, 0.1, 3.4), M["lime_plaster"])
+box("floor", (0, -2, -0.05), (8, 8, 0.1), M["oak_floor"])
+box("side", (-3.2, -2, 1.6), (0.1, 8, 3.4), M["oak_slat"] if KIND == "green" else M["lime_plaster"])
 box("ceil", (0, -2, 3.3 if KIND != "green" else 3.15), (8, 8, 0.1), (0.7, 0.69, 0.66))
-# the grazing light: a narrow area strip just in front of the wall's top, pointing down it
+if KIND == "green":
+    # a blackened-steel reveal round the planting and a drip trough at its foot (metal palette: blackened waxed steel)
+    for (x, z, sx, sz) in ((-W / 2 - 0.02, H / 2, 0.04, H), (W / 2 + 0.02, H / 2, 0.04, H)):
+        box("trim", (x, -0.02, z), (sx, 0.08, sz), steel)
+    box("trough", (0, -0.1, 0.07), (W + 0.08, 0.2, 0.14), steel)
+    box("pebbles", (0, -0.1, 0.13), (W, 0.18, 0.02), M["pebbles"])
+# the wall wash: a linear slot in the ceiling set 0.5 m out, washing down the planting (not grazing the top leaves)
 ld = bpy.data.lights.new("graze", "AREA"); ld.shape = "RECTANGLE"; ld.size = W; ld.size_y = 0.04; ld.energy = 110
 ld.color = (1.0, 0.93, 0.82)
 g = bpy.data.objects.new("graze", ld); sc.collection.objects.link(g); g.location = (0, -0.3, min(Z0 + H + 0.12, 3.08))
-if KIND == "green":
-    ld.energy = 70; ld.size_y = 0.08                                    # (260 burnt the top leaves white)
 g.rotation_euler = (math.radians(-8), 0, 0)
+if KIND == "green":
+    ld.energy = 140; ld.size_y = 0.25; ld.spread = math.radians(80)
+    g.location = (0, -1.0, 3.09); g.rotation_euler = (math.radians(30), 0, 0)   # (tilted toward the wall: +x rotation turns -z toward +y)
 wd = bpy.data.lights.new("window", "AREA"); wd.size = 3.0; wd.energy = 90; wd.color = (0.92, 0.96, 1.0)
 w = bpy.data.objects.new("window", wd); sc.collection.objects.link(w); w.location = (3.0, -3.5, 1.8)
 w.rotation_euler = (mathutils.Vector((0, 0, 1.2)) - w.location).to_track_quat("-Z", "Y").to_euler()
+if KIND == "green":
+    wd.energy = 160; wd.size = 4.0; w.location = (1.5, -5.2, 2.9)       # a big soft fill from behind the camera
+    w.rotation_euler = (mathutils.Vector((0, 0, 1.4)) - w.location).to_track_quat("-Z", "Y").to_euler()
+    sc.view_settings.exposure = 0.0                                                   # (90 blew the white-oiled oak floor out)
 sc.world = bpy.data.worlds.new("w"); sc.world.use_nodes = True
 sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.75, 0.78, 0.82, 1)
 sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.15
 if SHOT == "room":
     # a bench in front: oak slab on blackened steel
-    box("bench", (0.2, -0.55, 0.43), (1.6, 0.4, 0.05), (0.4, 0.27, 0.15), 0.45)
+    box("bench", (0.2, -0.6, 0.43), (1.6, 0.4, 0.05), M["oak_slat"])
     for x in (-0.45, 0.85):
-        box("leg", (x, -0.55, 0.2), (0.05, 0.36, 0.4), (0.03, 0.03, 0.03), 0.4)
+        box("leg", (x, -0.6, 0.2), (0.05, 0.36, 0.4), steel if KIND == "green" else (0.03, 0.03, 0.03))
     cam_loc, tgt, lens = ((2.2, -5.2, 1.5), (0.0, 0, 1.45), 28) if KIND == "green" else ((1.7, -4.1, 1.45), (0.0, 0, 1.25), 32)
 elif SHOT == "mid":
     cam_loc, tgt, lens = (0.15, -4.6 if KIND == "green" else -3.2, Z0 + H / 2), (0, 0, Z0 + H / 2), 35 if KIND == "green" else 40
