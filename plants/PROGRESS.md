@@ -90,3 +90,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 17:34 `out/pothos_leaf_atlas_v001.jpg` Golden pothos: 6 generated flat-lay leaves from the Commons refs, cut out
 - 2026-11-02 20:10 `out/topiary_set_v001.jpg` Clipped boxwood (Roman: "bushes sort of tailored"): ball, cone, cloud-pruned mound and a clipped block in blackened steel planters; ~40k real leaves each from a generated photo atlas, decussate sprigs grown out to a lumpy clipping line, lime new growth, dark core
 - 2026-11-02 20:10 `out/topiary_close_v001.jpg` Boxwood close-up: glossy leaves with the photo's baked studio highlight taken out (it read as a pale band on every leaf)
+- 2026-11-02 20:27 `out/pine_full_v001.jpg` Cloud-pruned Scots pine (niwaki), 2.3 m in a blackened steel planter: sculpted trunk, 7 branches curving onto domed needle pads, ~6,700 shoots of real needle pairs, grey plated bark turning to orange flakes up the trunk (generated 4K textures)
+- 2026-11-02 20:27 `out/pine_bark_v001.jpg` Pine bark close-up: plated grey-brown bark low, Scots-pine orange on the branches
+- 2026-11-02 20:27 `out/birch_full_v001.jpg` Multi-stem silver birch, 3 m: 3 white stems, arching branches with weeping twigs, ~24k leaves from a generated birch leaf atlas
+- 2026-11-02 20:27 `out/birch_bark_v001.jpg` Birch bark close-up: chalk-white bark with lenticels, black eyebrows under the branch joints, dark fissured foot
