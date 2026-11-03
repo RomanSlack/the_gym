@@ -118,3 +118,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 12:06 `out/entrance_corner_v002.jpg` Entrance study B: corner (new stones, flat forecourt, graded paths)
 - 2026-11-03 12:08 `out/entrance_heath_v001.jpg` Heath v2: photo-leaf lingonberry + blueberry, wiry heather with scale leaves (no more grass-blade heather)
 - 2026-11-03 12:08 `out/entrance_swale_v001.jpg` Swale v2: stony bed, sedges, lingonberry at the rim
+- 2026-11-03 12:13 `out/entrance_door_v002.jpg` Entrance study B: door (heath v2, new stones)
+- 2026-11-03 12:15 `out/entrance_aerial_v001.jpg` Entrance study B: aerial (heath v2, new stones)
+- 2026-11-03 12:17 `out/entrance_arrive_v004.jpg` Entrance study B: arrive (heath v2, new stones)
+- 2026-11-03 12:19 `out/entrance_corner_v003.jpg` Entrance study B: corner (heath v2, new stones)
