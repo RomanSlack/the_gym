@@ -82,7 +82,7 @@ def _arc(p0, d0, L, n, rng, droop, wob=0.15):
     return np.array(pts)
 
 
-def build(seed, loc=(0, 0, 0), height=2.8, name="birch", leaf_scale=1.0):
+def build(seed, loc=(0, 0, 0), height=2.8, name="birch", leaf_scale=1.0, leaf_grid=3):
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
     spines, joints, twigs = [], [], []
@@ -183,14 +183,15 @@ def build(seed, loc=(0, 0, 0), height=2.8, name="birch", leaf_scale=1.0):
             nrm = _unit(facing - fan * (facing @ fan))
             wv = np.cross(fan, nrm); w = Ls * info["aspect"]
             V, F, U, A = banks[nm]; o_ = len(V)
-            for jv in range(3):
-                for ju in range(3):
-                    u_, v_ = ju / 2, jv / 2
+            G = leaf_grid                                                    # 3: cupped (close-ups); 2: one flat card (big trees seen from metres away)
+            for jv in range(G):
+                for ju in range(G):
+                    u_, v_ = ju / (G - 1), jv / (G - 1)
                     x = (u_ - info["midrib_u"]) * w; y = (v_ - info["joint_v"]) * Ls
                     z = -0.08 * (x / w * 2) ** 2 * w - 0.05 * v_ * v_ * Ls
                     V.append(j0 + fan * y + wv * x + nrm * z); U.append((u_, v_))
-            F += [[o_ + jv * 3 + ju, o_ + jv * 3 + ju + 1, o_ + (jv + 1) * 3 + ju + 1, o_ + (jv + 1) * 3 + ju] for jv in range(2) for ju in range(2)]
-            A += [rng.uniform(-0.8, 0.8)] * 9
+            F += [[o_ + jv * G + ju, o_ + jv * G + ju + 1, o_ + (jv + 1) * G + ju + 1, o_ + (jv + 1) * G + ju] for jv in range(G - 1) for ju in range(G - 1)]
+            A += [rng.uniform(-0.8, 0.8)] * (G * G)
             s += rng.uniform(0.011, 0.02) * leaf_scale ** 1.4; side = -side          # (bigger leaves, spaced to match: same cover, fewer faces)
     objs.append(_obj(f"{name}_twigs", np.concatenate(tv) + loc, tf, twig_material()))
     n_l = 0

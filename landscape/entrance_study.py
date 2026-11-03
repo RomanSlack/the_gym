@@ -462,7 +462,8 @@ heath_protos = [proto(f"heather_{i}", "heather", i) for i in range(3)] + [proto(
                [proto(f"blueb_{i}", "blueberry", 20 + i) for i in range(2)]
 swale_protos = [ground.grass_proto("tuft_meadow_e", "meadow", coll)] + heath_protos[3:8]     # sedge + lingonberry + blueberry (the dry hair grass read as straw)
 bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.5, sat=0.7))
-for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale, heath_protos, 60), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
+core = ((cxs < 52.0) & (cys > -10.0) & (cys < 25.0))
+for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale & core, heath_protos, 60), ("heath_outer", cell_free & ~in_swale & ~core, heath_protos, 28), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
                               ("swale_plants", cell_free & in_swale, swale_protos, 75)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
@@ -575,7 +576,7 @@ tick("heath + rocks")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "stones":
-    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v4.blend"     # grown once, then appended (3 minutes of birch growing per shot)
+    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v5.blend"     # grown once, then appended (3 minutes of birch growing per shot)
     if GROVE_LIB.exists():
         with bpy.data.libraries.load(str(GROVE_LIB), link=False) as (src, dst):
             dst.objects = [n for n in src.objects if n.startswith("grove_birch_")]
@@ -587,7 +588,7 @@ if SHOT != "stones":
         for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8),
                                         (34.6, -6.0, 6.6), (37.4, -7.4, 7.6), (35.8, -8.6, 5.8))):   # north grove + south group
             zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) + 0.4 * float(bump(x, y, *GROVE_S))
-            objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}", leaf_scale=1.5)   # (real leaves on a 7 m birch: 4-6 cm)
+            objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}", leaf_scale=1.5, leaf_grid=2)   # (real leaves on a 7 m birch: 4-6 cm)
             for o in objs:
                 for c in o.users_collection:
                     c.objects.unlink(o)
@@ -626,7 +627,7 @@ YOUNG = []                                                                      
 VH = {6: 14, 7: 13, 8: 15, 9: 12, 10: 3.0, 11: 2.2, 12: 3.8}                    # tools/forest_scatter.py VAR heights
 for k, (x, y, v, h) in enumerate(PINES + YOUNG):
     near_ = math.hypot(x - loc[0], y - loc[1]) < 18 if SHOT != "stones" else True
-    cname = f"v{v:02d}_L{0 if near_ else 1}"                       # full needles only near the camera (the GPU ran out with 7 at L0)
+    cname = f"v{v:02d}_L1"                                           # (L1 always: full needles on 7 pines ran the 12 GB card out)                       # full needles only near the camera (the GPU ran out with 7 at L0)
     if cname not in bpy.data.collections:
         with bpy.data.libraries.load(str(ROOT / "construction" / "out" / "tree_lib.blend"), link=False) as (src, dst):
             dst.collections = [cname]
