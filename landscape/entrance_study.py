@@ -118,9 +118,19 @@ print("terrain over the forecourt: min %.3f  mean %.3f  max %.3f" % (TER[(ys[:, 
       TER[(ys[:, None] > 4) & (ys[:, None] < 18.5) & (xs[None] > 31) & (xs[None] < 52)].mean(), TER[(ys[:, None] > 4) & (ys[:, None] < 18.5) & (xs[None] > 31) & (xs[None] < 52)].max()))
 
 
+TER = np.clip(TER, -0.3, None)                       # (a few rays fell through a hole onto the parking roof)
+
+
 def fall(x, y=11.3):
-    """paving top: the floor level at the glass, falling 1:60 away from the building; never under the ground it is laid on"""
-    return np.maximum(0.125 - np.clip(np.asarray(x) - 30.9, 0, None) / 60.0, terrain(x, y) + 0.015)
+    """the carpet's top: one plane, the floor level at the glass falling 1:60 away from the building"""
+    return 0.125 - np.clip(np.asarray(x) - 30.9, 0, None) / 60.0 + 0 * np.asarray(y)
+
+
+def path_top(pts):
+    """a path's top along its length s: from the carpet's edge level down (or up) to the ground at its far end"""
+    P = np.array(pts, float); L = np.hypot(*np.diff(P, axis=0).T).sum()
+    z0 = float(fall(P[0][0])); z1 = float(terrain(*P[-1])) + 0.015
+    return lambda sv: z0 + (z1 - z0) * np.clip(sv / L, 0, 1)
 
 
 # ---------------------------------------------------------------- the stone carpet
@@ -161,12 +171,14 @@ PATHS = {  # name: (polyline, width)
     "to_bays": ([(39.6, 18.5), (43.5, 19.4), (47.0, 20.6), (49.8, 22.2)], 1.8),
     "to_bikes": ([(36.4, 4.0), (37.2, 1.6), (38.6, -0.6)], 1.8),
 }
+PATH_Z = {}
 for name, (pts, w) in PATHS.items():
-    for c, t in resample(pts, 0.6):
+    zf = PATH_Z[name] = path_top(pts)
+    for k_, (c, t) in enumerate(resample(pts, 0.6)):
         n = np.array([-t[1], t[0]]); sp = rng.uniform(0.35, 0.65) * w
         for a, b in ((-w / 2, -w / 2 + sp), (-w / 2 + sp, w / 2)):
             cc = c + n * (a + b) / 2
-            S.add(cc, t, 0.6 - J, b - a - J, float(fall(cc[0], cc[1])) - 0.005 + rng.normal(0, 0.001), 0.25)
+            S.add(cc, t, 0.6 - J, b - a - J, float(zf(0.3 + 0.6 * k_)) + rng.normal(0, 0.001), 0.25)
 S.obj("granite_forecourt", granite)
 
 # slot drains: along the glass both sides of the vestibule, and across its threshold
@@ -205,11 +217,41 @@ def paved(x, y):
     return inside
 
 
+def paved_top(x, y):
+    """the paving's top under (x, y): the carpet plane, or the nearest path's graded level"""
+    z = np.where((x < CX1 + 0.6), fall(x), np.nan)
+    best = np.full(np.shape(x), 1e9)
+    for name, (pts, w) in PATHS.items():
+        P = np.array(pts); sacc = 0.0
+        for a, b in zip(P[:-1], P[1:]):
+            d = b - a; Ld = np.hypot(*d); t = np.clip(((x - a[0]) * d[0] + (y - a[1]) * d[1]) / (d @ d), 0, 1)
+            dist = np.hypot(x - a[0] - t * d[0], y - a[1] - t * d[1])
+            better = (dist < best) & (dist < w / 2 + 1.0) & ((x >= CX1) | (name == "to_bikes") | (name == "to_bays"))
+            z = np.where(better, PATH_Z[name](sacc + t * Ld), z); best = np.where(better, dist, best); sacc += Ld
+    return z
+
+
+tb = bpy.data.objects.get("terrain_building")       # its base mesh: pushed down under the paving (+0.8 m round it)
+if tb:
+    co = np.array([v.co for v in tb.data.vertices]); wco = np.array([tb.matrix_world @ v.co for v in tb.data.vertices])
+    near = np.zeros(len(co), bool)
+    for dx in (-0.8, 0, 0.8):
+        for dy in (-0.8, 0, 0.8):
+            near |= paved(wco[:, 0] + dx, wco[:, 1] + dy)
+    pt = paved_top(wco[:, 0], wco[:, 1])
+    lower = near & ~np.isnan(pt) & (wco[:, 2] > pt - 0.06)
+    co[lower, 2] -= (wco[lower, 2] - (pt[lower] - 0.06))
+    tb.data.vertices.foreach_set("co", co.ravel().astype(np.float32)); tb.data.update()
+    print("terrain_building: lowered", int(lower.sum()), "vertices under the paving")
+
 HX0, HX1, HY0, HY1, HS = 30.6, 60.0, -9.6, 24.4, 0.25
 gx, gy = np.meshgrid(np.arange(HX0, HX1 + 1e-6, HS), np.arange(HY0, HY1 + 1e-6, HS))
 gz = terrain(gx, gy) + 0.02 + 0.45 * bump(gx, gy, *GROVE) - 0.38 * bump(gx, gy, *SWALE) + 0.03 * np.sin(gx * 1.3) * np.cos(gy * 1.7)
 pv = paved(gx, gy)
-gz = np.where(pv, np.minimum(gz, fall(gx, gy) - 0.03), gz)              # tucked under the paving
+ptop = paved_top(gx, gy)
+gz = np.where(pv, np.minimum(gz, np.nan_to_num(ptop, nan=9) - 0.03), gz)              # tucked under the paving
+edge = ~pv & ~np.isnan(ptop)                                                         # the heath meets the paving's level at its edge
+gz = np.where(edge, np.minimum(gz, ptop + 0.04 + 0.25 * np.clip(gz - ptop - 0.04, 0, None)), gz)
 ny, nx = gx.shape
 V = np.stack([gx.ravel(), gy.ravel(), gz.ravel()], 1)
 idx = np.arange(nx * ny).reshape(ny, nx)
@@ -252,7 +294,7 @@ def proto(name, kind, seed):
             for k in range(4):
                 o = len(V); w0, w1 = sprig_w * (1 - 0.2 * k), sprig_w * (1 - 0.2 * (k + 1))
                 V += [pts[k] - side * w0, pts[k] + side * w0, pts[k + 1] + side * w1, pts[k + 1] - side * w1]; F.append([o, o + 1, o + 2, o + 3])
-                c = col if k < 2 else col * 0.6 + np.array([0.32, 0.17, 0.27]) * 0.4 * r.uniform(0.6, 1.2)
+                c = col if (k < 3 or r.random() > 0.35) else col * 0.75 + np.array([0.3, 0.17, 0.26]) * 0.25 * r.uniform(0.6, 1.2)
                 C += [c] * 4
             continue
         for k in range(4):                                             # the stem

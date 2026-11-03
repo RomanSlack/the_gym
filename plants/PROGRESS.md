@@ -109,3 +109,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 10:16 `out/entrance_today_v001.jpg` The entrance today: grass meadow + 25 m of stepping stones over the underground parking roof
 - 2026-11-03 10:21 `out/entrance_refs_v001.jpg` Entrance landscape references: 14 Nordic/Japanese precedents (sources in reference/landscape_entrance/SOURCES.md)
 - 2026-11-03 10:48 `out/entrance_arrive_v001.jpg` Entrance study B (stone carpet + heath + birch grove): arriving from the drop-off
+- 2026-11-03 10:59 `out/entrance_arrive_v002.jpg` Entrance study B: arrive (granite carpet on the real ground, fuller heath)
