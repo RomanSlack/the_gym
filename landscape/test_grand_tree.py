@@ -14,6 +14,6 @@ bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; bc.wor
 sc.render.engine = "CYCLES"; sc.cycles.device = "GPU"; bc.gpu_or_stop(); sc.cycles.samples = 48; sc.cycles.use_denoising = True
 sc.render.resolution_x, sc.render.resolution_y = 1200, 1500
 bpy.ops.mesh.primitive_plane_add(size=60); bpy.context.object.data.materials.append(bc.material("g", (0.12, 0.14, 0.08), 0.9))
-gen_pine.build(SEED, (0, 0, 0), height=H, density=2600, name="grand", lod=float(a[2]) if len(a) > 2 else 3.0, crown_from=0.45, n_branches=9)
-bc.camera(sc, "cam", (0, -H * 2.0, 1.7), (0, 0, H * 0.45), 26); sc.camera = bpy.data.objects["cam"]
-sc.render.filepath = str(ROOT / "landscape" / "work" / f"grand_pine_{SEED}.png"); bpy.ops.render.render(write_still=True)
+gen_pine.build_natural(SEED, (0, 0, 0), height=H, density=2600, lod=float(a[2]) if len(a) > 2 else 3.0, name="grand")
+bc.camera(sc, "cam", (0, -H * 1.45, 1.7), (0, 0, H * 0.5), 22); sc.camera = bpy.data.objects["cam"]
+sc.render.filepath = str(ROOT / "landscape" / "work" / f"gammelfuru_{SEED}.png"); bpy.ops.render.render(write_still=True)

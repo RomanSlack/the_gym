@@ -141,3 +141,8 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 14:25 `out/entrance_overview_v002.jpg` Entrance final pass: overview
 - 2026-11-03 14:28 `out/grand_pine_v001.jpg` Grand tree for the drop-off island: an 11 m old pine, thick trunk, layered cloud crowns (gen_pine with LOD 3: 5 M needle faces)
 - 2026-11-03 14:50 `out/entrance_approach_v003.jpg` Entrance: approach
+- 2026-11-03 14:51 `out/entrance_approach_v004.jpg` Entrance: approach
+- 2026-11-03 14:53 `out/entrance_loop_v002.jpg` Entrance: loop
+- 2026-11-03 14:54 `out/entrance_arrive_v007.jpg` Entrance: arrive
+- 2026-11-03 15:02 `out/gammelfuru_v001.jpg` Natural old Scots pine (gen_pine.build_natural) beside its reference: seeds 71 / 72, 13 m, dark plated trunk, level limbs, shaggy tufts
+- 2026-11-03 15:04 `out/entrance_approach_v005.jpg` Entrance: approach

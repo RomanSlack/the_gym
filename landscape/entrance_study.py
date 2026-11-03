@@ -744,7 +744,7 @@ for side in (-1, 1):
     for t in np.arange(0, cum[-1], 0.5):
         i = min(np.searchsorted(cum, t, side="right") - 1, len(seg) - 1); c = P[i] + seg[i] * (t - cum[i]) / Lr[i]
         tg = seg[i] / Lr[i]; n = np.array([-tg[1], tg[0]]) * side
-        rows.append([(c + n * o_) for o_ in offs]); rz.append(zroad(c[0], c[1], t, tg) + 0.02)
+        rows.append([(c + n * o_) for o_ in offs]); rz.append(zroad(c[0], c[1], t, tg) + 0.008)   # (just under the shoulder: no seam)
     rows = np.array(rows); o0 = len(VB_)
     for r_, zc_ in zip(rows, rz):
         for q, o_ in zip(r_, offs):
@@ -788,7 +788,7 @@ if fo:
         ix_ = np.zeros(n_, np.int32); me_.attributes["idx"].data.foreach_get("value", ix_); ix_[k_i] = 6
         me_.attributes["idx"].data.foreach_set("value", ix_); me_.update()
         print("island pine: replaced")
-GRAND_LIB = ROOT / "landscape" / "out" / "grand_pine_v1.blend"
+GRAND_LIB = ROOT / "landscape" / "out" / "grand_pine_v3.blend"
 import gen_pine  # noqa: E402
 if GRAND_LIB.exists():
     with bpy.data.libraries.load(str(GRAND_LIB), link=False) as (src, dst):
@@ -797,7 +797,7 @@ if GRAND_LIB.exists():
         coll.objects.link(o)
 else:
     gb = set(bpy.data.objects)
-    gen_pine.build(64, (62.0, 13.0, ISLAND_BASE + 0.32), height=11.0, density=2600, name="grand", lod=3.0, crown_from=0.45, n_branches=9)
+    gen_pine.build_natural(72, (62.0, 13.0, ISLAND_BASE + 0.3), height=13.0, density=2600, lod=3.6, name="grand")   # (Roman: "a big thick natural pine, not some bonsai")
     grand = [o for o in set(bpy.data.objects) - gb]
     for o in grand:
         for c in o.users_collection:
