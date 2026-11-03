@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def study(name):
     """materials/<name>/, or a top-level study folder (plants/)"""
-    return ROOT / name if name in ("plants",) else ROOT / "materials" / name
+    return ROOT / name if name in ("plants", "walls") else ROOT / "materials" / name
 
 
 def page(name):
