@@ -130,3 +130,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 13:51 `out/entrance_door_v003.jpg` Entrance: door (trees, loop, bike shelter, heath to the forest)
 - 2026-11-03 13:52 `out/entrance_aerial_v004.jpg` Entrance: aerial (trees, loop, bike shelter, heath to the forest)
 - 2026-11-03 13:57 `out/entrance_overview_v001.jpg` Overview: forest floor now Elverum lichen/heath (was orange sand), road as real asphalt, ramp cut in dark granite (was white concrete)
+- 2026-11-03 14:14 `out/entrance_approach_v001.jpg` Draft: driving in: asphalt road between heath banks, pines, the island pine now a real old pine (was a 21 m pole)

@@ -1,0 +1,10 @@
+{
+  "prompt": "Top-down orthographic photograph of a fairly new dark asphalt road surface in Norway, filling the whole frame evenly: near-black bitumen with fine grey granite aggregate chips, slightly worn, a few tiny lighter stones, faint tyre polish, no road markings, no cracks, no leaves. Soft overcast daylight, flat even lighting, no shadows, no horizon, sharp photoreal texture reference.",
+  "model": "gemini-3.1-flash-image",
+  "provider": "gemini",
+  "size": "2K",
+  "aspect_ratio": "1:1",
+  "refs": [],
+  "filename": "top-down_orthographic_photograph_of_a_fairly_new_dark_asphal_0.webp",
+  "generated_at": "2026-11-03T14:08:26"
+}
