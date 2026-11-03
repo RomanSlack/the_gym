@@ -150,3 +150,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 15:08 `out/entrance_loop_v003.jpg` Entrance: loop
 - 2026-11-03 15:09 `out/entrance_arrive_v008.jpg` Entrance: arrive
 - 2026-11-03 15:23 `out/gammelfuru_v002.jpg` Grand tree dialled on its own: natural old Scots pine (gen_pine.build_natural, seed 72, 14 m) | reference, full tree, crown close-up
+- 2026-11-03 15:36 `out/gammelfuru_v003.jpg` Grand pine v3: crooked elbowed limbs that kink, wander, fork and turn up at the tips; fine papery orange bark; trunk runs up as the leader | reference, seed 72 (prev), seed 77, crown
