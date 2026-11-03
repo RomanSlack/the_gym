@@ -111,3 +111,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 10:48 `out/entrance_arrive_v001.jpg` Entrance study B (stone carpet + heath + birch grove): arriving from the drop-off
 - 2026-11-03 10:59 `out/entrance_arrive_v002.jpg` Entrance study B: arrive (granite carpet on the real ground, fuller heath)
 - 2026-11-03 11:12 `out/entrance_corner_v001.jpg` Entrance study B: corner (granite carpet on the real ground, fuller heath)
+- 2026-11-03 11:27 `out/entrance_door_v001.jpg` Entrance study B: door (granite carpet on the real ground, fuller heath)

@@ -31,6 +31,10 @@ import ground  # noqa: E402
 import shoot  # noqa: E402
 
 SHOT = sys.argv[sys.argv.index("--") + 1:][0]
+import time as _t
+_T0 = _t.time()
+def tick(what):
+    print(f"[time] {what}: {_t.time() - _T0:.0f} s", flush=True)
 scene = bpy.context.scene
 bc.gpu_or_stop()
 EXPO = scene.view_settings.exposure
@@ -54,6 +58,7 @@ def terrain(x, y):
     return (TER[i0, j0] * (1 - fj) * (1 - fi) + TER[i0, j0 + 1] * fj * (1 - fi) + TER[i0 + 1, j0] * (1 - fj) * fi + TER[i0 + 1, j0 + 1] * fj * fi)
 
 
+tick("ground sampled")
 # the lawn's grass goes from the whole parking roof (the heath replaces it)
 lg = bpy.data.objects.get("lawn_ground")
 if lg:
@@ -337,19 +342,20 @@ for k in range(70):
 
 
 def rock(name, x, y, r, sq, mat, sink=0.3, seed=0):
-    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=4, radius=1, location=(0, 0, 0)); o = bpy.context.object; o.name = name
-    rr = np.random.default_rng(seed); vs = np.array([v.co for v in o.data.vertices])
+    """a displaced icosphere built straight into a mesh (bpy.ops re-evaluated the whole building on every rock: minutes)"""
+    bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=4, radius=1.0)
+    rr = np.random.default_rng(seed); vs = np.array([v.co for v in bm.verts])
     k = rr.normal(0, 1, (6, 3))
     disp = sum(np.sin(vs @ k[i] * (1.2 + i) + rr.uniform(0, 6)) * 0.08 / (1 + i * 0.6) for i in range(6))
     vs = vs * (1 + disp)[:, None] * np.array([r, r * rr.uniform(0.7, 0.95), r * sq])
-    o.data.vertices.foreach_set("co", vs.ravel().astype(np.float32))
+    for v, c in zip(bm.verts, vs):
+        v.co = c
+    for f in bm.faces:
+        f.smooth = True
+    me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
+    o = bpy.data.objects.new(name, me); coll.objects.link(o); me.materials.append(mat)
     zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) - 0.38 * float(bump(x, y, *SWALE))
     o.location = (x, y, zb + r * sq * (1 - 2 * sink)); o.rotation_euler[2] = rr.uniform(0, 6.3)
-    o.data.materials.append(mat); bpy.ops.object.shade_smooth()
-    for c in o.users_collection:
-        c.objects.unlink(o)
-    coll.objects.link(o)
-    o["prand"] = rr.random()
     return o
 
 
@@ -359,6 +365,7 @@ for i, (x, y, r, sq) in enumerate(((44.8, 16.4, 0.95, 0.55), (47.4, 18.3, 0.6, 0
                                    (34.6, 1.6, 0.85, 0.5), (33.4, 21.9, 0.6, 0.55), (51.2, 8.8, 0.45, 0.6))):
     rock(f"boulder_{i}", x, y, r, sq, boulder_m, sink=0.3, seed=i)
 
+tick("heath + rocks")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "aerial_fast":
@@ -370,6 +377,7 @@ if SHOT != "aerial_fast":
                 c.objects.unlink(o)
             coll.objects.link(o)
 
+tick("birches")
 # ---------------------------------------------------------------- the shots
 CAMS = {
     "arrive": ((52.6, 13.4), 1.65, (31.0, 11.3, 2.2), 24),
