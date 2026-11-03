@@ -35,8 +35,11 @@ SHOT = sys.argv[sys.argv.index("--") + 1:][0]
 DRAFT = "draft" in sys.argv[sys.argv.index("--") + 1:]                   # quick look: 32 samples, 60 % size
 import time as _t
 _T0 = _t.time()
+import resource as _res
+
+
 def tick(what):
-    print(f"[time] {what}: {_t.time() - _T0:.0f} s", flush=True)
+    print(f"[time] {what}: {_t.time() - _T0:.0f} s, peak RAM {_res.getrusage(_res.RUSAGE_SELF).ru_maxrss / 1e6:.1f} GB", flush=True)
 scene = bpy.context.scene
 if SHOT in ("stones", "build_only"):
     bpy.ops.wm.read_factory_settings(use_empty=True); scene = bpy.context.scene; bc.world_and_render(scene)
@@ -558,7 +561,7 @@ near_cam = dcam < NEAR_R
 cell_free &= near_cam
 if SHOT == "aerial":
     core &= False                                     # (from the air: one lighter density everywhere)
-for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale & core, heath_protos, 60), ("heath_outer", cell_free & ~in_swale & ~core, heath_protos, 28), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
+for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale & core, heath_protos, 34), ("heath_outer", cell_free & ~in_swale & ~core, heath_protos, 16), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
                               ("swale_plants", cell_free & in_swale, swale_protos, 75)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
@@ -668,6 +671,7 @@ for i in range(420):
     me = stone_mesh(f"cobble_{i}", r, (1.0, rng.uniform(0.55, 0.85), rng.uniform(0.3, 0.5)), 500 + i, cuts=int(rng.integers(1, 5)), smooth_it=3, noise=0.04, sub=3)
     place_stone(f"cobble_{i}", me, x, y, rng.uniform(0.25, 0.4), cobble_m, rng.uniform(0, 6.3))
 tick("heath + rocks")
+tick("before road")
 # ---------------------------------------------------------------- the arrival road (VISION: a narrow Nordic forest road, clean black
 # asphalt, no lines): from the loop east, 4.5 m + 0.75 gravel shoulders, on the ground (it was only a gravel texture on the terrain)
 import json as _json  # noqa: E402
@@ -702,6 +706,7 @@ def zroad(x, y, t, tg):
 gravel_m = bc.pbr_material("road_shoulder", "gravel_ground_01", 2.0, piece_var=0.0, val=0.5, sat=0.6)
 ribbon("road_shoulders", RD, 5.6, gravel_m, 0.02, zroad)
 ribbon("road_asphalt", RD, 4.5, asph_m, 0.045, zroad)
+tick("road ribbons")
 td = bpy.data.objects.get("terrain_detail")
 if td:                                   # the ground under the road + shoulders pushed 8 cm below them
     n_ = len(td.data.vertices); co = np.zeros(n_ * 3, np.float32); td.data.vertices.foreach_get("co", co); co = co.reshape(-1, 3)
@@ -718,6 +723,7 @@ if td:                                   # the ground under the road + shoulders
     inv = np.linalg.inv(mw); co = (wz - mw[:3, 3]) @ inv[:3, :3].T
     td.data.vertices.foreach_set("co", co.ravel().astype(np.float32)); td.data.update()
     print("terrain_detail: lowered", lowered, "vertices under the road")
+tick("road ground lowered")
 # the garage ramp's open cut: dry-laid granite walls (as the building's plinth), not white concrete; an asphalt floor
 gp = bpy.data.materials.get("granite_plinth")
 for o in bpy.data.objects:
@@ -733,16 +739,17 @@ for n_ in ("FDN-ramp-wall-2L", "FDN-ramp-wall-2R", "FDN-ramp-tunnel-roof"):
 VB_, FB_ = [], []
 for side in (-1, 1):
     P = RD; seg = np.diff(P, axis=0); Lr = np.hypot(*seg.T); cum = np.r_[0, np.cumsum(Lr)]
-    offs = np.arange(3.1, 15.0, 0.5)
+    offs = np.arange(2.7, 15.0, 0.5); rz = []                                  # (from the shoulder's edge: a dark gap showed)
     rows = []
     for t in np.arange(0, cum[-1], 0.5):
         i = min(np.searchsorted(cum, t, side="right") - 1, len(seg) - 1); c = P[i] + seg[i] * (t - cum[i]) / Lr[i]
         tg = seg[i] / Lr[i]; n = np.array([-tg[1], tg[0]]) * side
-        rows.append([(c + n * o_) for o_ in offs])
+        rows.append([(c + n * o_) for o_ in offs]); rz.append(zroad(c[0], c[1], t, tg) + 0.02)
     rows = np.array(rows); o0 = len(VB_)
-    for r_ in rows:
-        for q in r_:
-            VB_.append((q[0], q[1], ground_far(q[0], q[1]) + 0.012))
+    for r_, zc_ in zip(rows, rz):
+        for q, o_ in zip(r_, offs):
+            g_ = ground_far(q[0], q[1]) + 0.012
+            VB_.append((q[0], q[1], max(g_, zc_) if o_ < 3.6 else g_))   # (the bank starts level with the shoulder: a shadowed step showed)
     nr, no = rows.shape[0], rows.shape[1]
     for a_ in range(nr - 1):
         for b_ in range(no - 1):
@@ -754,7 +761,7 @@ d_ = np.hypot(VB_[:, 0] - CAM_XY[0], VB_[:, 1] - CAM_XY[1])
 near_f = [f for f in keep_ if d_[f[0]] < max(NEAR_R, 0) and NEAR_R > 0]
 if near_f:
     bp = mesh_obj("road_banks_plants", VB_ - np.array([0, 0, 0.001]), near_f, heath.data.materials[0])
-    md = bp.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_banks", heath_protos + [ground.grass_proto("tuft_dry_b", "dry", coll)], 45, seed=7, up_only=False)   # (steep banks too)
+    md = bp.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_banks", heath_protos + [ground.grass_proto("tuft_dry_b", "dry", coll)], 22, seed=7, up_only=False)   # (steep banks too)
 for i in range(16):                                                    # boulders along the banks, as the cut would have turned up
     t = rng.uniform(0.1, 0.95); seg_i = min(int(t * (len(RD) - 1)), len(RD) - 2)
     c = RD[seg_i] + (RD[seg_i + 1] - RD[seg_i]) * rng.uniform(0, 1); tg = (RD[seg_i + 1] - RD[seg_i]); tg = tg / np.linalg.norm(tg)
@@ -768,6 +775,7 @@ for i in range(16):                                                    # boulder
     ob.location = (q[0], q[1], ground_far(q[0], q[1])); ob.rotation_euler[2] = rng.uniform(0, 6.3)
 print("road + ramp: done")
 
+tick("road banks")
 # the island's old pine (a forest point, 21 m, crown out of every frame: read as a telephone pole) -> 13 m, a fuller variant
 fo = bpy.data.objects.get("forest")
 if fo:
@@ -803,6 +811,7 @@ for i, (a_, r_) in enumerate(((0.6, 0.75), (2.4, 0.5), (4.1, 0.6))):
     me = stone_mesh(f"island_boulder_{i}", r_, (1.0, 0.8, 0.6), 950 + i, cuts=11, smooth_it=1, noise=0.045)
     place_stone(f"island_boulder_{i}", me, q[0], q[1], 0.35, boulder_m, a_ * 2)
 
+tick("grand pine")
 # ---------------------------------------------------------------- the covered bike shelter (VISION: ~30 bikes, e-bike charging, sod roof)
 # open to the forecourt (north); a tarred board wall at the back (south) and half walls at the ends against the wind; posts and
 # beams like the building (tarred timber, glulam), a CLT roof with a blackened-steel fascia and the same sod + meadow grass;
@@ -921,10 +930,11 @@ for k, hx in enumerate(hx_all):
 print("bikes parked:", nb)
 print("bike shelter: floor at %.2f, %d hoops" % (FZ, len(np.arange(x0_ + 1.3, x1_ - 1.0, 0.9))))
 
+tick("bike shelter")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "stones":
-    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v6.blend"     # grown once, then appended (3 minutes of birch growing per shot)
+    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v7.blend"     # grown once, then appended (3 minutes of birch growing per shot)
     if GROVE_LIB.exists():
         with bpy.data.libraries.load(str(GROVE_LIB), link=False) as (src, dst):
             dst.objects = [n for n in src.objects if n.startswith("grove_birch_")]
@@ -957,6 +967,7 @@ if SHOT == "stones":
 loc = (cx, cy, (float(terrain(cx, cy)) if cx < X1 - 1 else ground_far(cx, cy)) + h)
 if DRAFT:
     scene.cycles.samples = 32; scene.render.resolution_percentage = 60
+tick("grove")
 # ---------------------------------------------------------------- pines (the forest's own trees from construction/out/tree_lib.blend)
 # Scots pines close the forecourt to the south and north, off the parking roof (x 30.5-60, y -9.5..24: 1.2 m of soil);
 # young pines stand in the heath on low mounds, the way pines seed into a heath at a forest edge.
@@ -987,6 +998,7 @@ if os.environ.get("ENT_PROBE"):
         print("PROBE", px, py, o_.name if o_ else None, round(l_.z, 3) if h_ else None, "ground_far", round(ground_far(px, py), 3))
     ra = bpy.data.objects.get("road_asphalt"); print("PROBE road verts", len(ra.data.vertices) if ra else None, ra and [tuple(round(c, 2) for c in ra.data.vertices[i].co) for i in (0, 1, len(ra.data.vertices) // 2)])
     raise SystemExit
+tick("pines + forest settings")
 name = f"ent_{SHOT}"
 bc.camera(scene, f"cam_{name}", loc, tgt, lens)
 # the gym floors' equipment (west wing, F2-F4) is not visible from the entrance: out of these renders (the GPU ran out)
@@ -997,10 +1009,12 @@ ngf = bpy.data.node_groups.get("GN_forest")      # full needles within 15 m of t
 if ngf:
     for n_ in ngf.nodes:
         if n_.bl_idname == "ShaderNodeMath" and n_.operation == "GREATER_THAN" and abs(n_.inputs[1].default_value - 30.0) < 1e-3:
-            n_.inputs[1].default_value = 15.0
+            n_.inputs[1].default_value = 9.0                     # (Roman: "it doesn't have to be full LOD")
         if n_.bl_idname == "ShaderNodeMath" and n_.operation == "GREATER_THAN" and abs(n_.inputs[1].default_value - 90.0) < 1e-3:
-            n_.inputs[1].default_value = 250.0
+            n_.inputs[1].default_value = 90.0                    # (250 m of L1 trees took the render past 20 GB of RAM)
 lod = bpy.data.objects.get("lod_eye")
 if SHOT in ("aerial", "overview") and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
     lod.location = (loc[0], loc[1], loc[2] + 60); bpy.context.view_layer.update(); lod = None
+tick("before render")
 shoot.shoot(scene, name, name, EXPO, 5, lod)
+tick("rendered")

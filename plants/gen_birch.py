@@ -134,7 +134,7 @@ def build(seed, loc=(0, 0, 0), height=2.8, name="birch", leaf_scale=1.0, leaf_gr
         V_, F_ = closed_tube(sp, np.maximum(rr, 0.004), sides=18)
         allV.append(V_); allF += [[i + off for i in f] for f in F_]; off += len(V_)
     raw = _obj(f"{name}_wood_raw", np.concatenate(allV), allF, None)
-    rm = raw.modifiers.new("fuse", "REMESH"); rm.mode = "VOXEL"; rm.voxel_size = 0.0028; rm.adaptivity = 0.0
+    rm = raw.modifiers.new("fuse", "REMESH"); rm.mode = "VOXEL"; rm.voxel_size = 0.0028 * max(1.0, height / 2.8) ** 1.6; rm.adaptivity = 0.0   # (fixed 2.8 mm: 25 M vertices for a 7 m grove, it ran RAM + GPU out)
     sm = raw.modifiers.new("sm", "SMOOTH"); sm.factor = 0.5; sm.iterations = 2
     dg = bpy.context.evaluated_depsgraph_get()
     me = bpy.data.meshes.new_from_object(raw.evaluated_get(dg))
