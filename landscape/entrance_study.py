@@ -53,7 +53,15 @@ xs, ys = np.arange(X0, X1 + 1e-6, STEP), np.arange(Y0, Y1 + 1e-6, STEP)
 TER = np.full((len(ys), len(xs)), 0.12)
 # rays against the ground meshes only (scene.ray_cast through the whole building took 3+ minutes)
 from mathutils.bvhtree import BVHTree  # noqa: E402
-_trees = [BVHTree.FromObject(bpy.data.objects[n], dg) for n in ("terrain_building", "lawn_ground") if n in bpy.data.objects]
+def _bvh(o):
+    try:
+        return BVHTree.FromObject(o, dg)
+    except ValueError:                                   # (lawn_ground carries the grass GN: use its base mesh)
+        mw = o.matrix_world
+        return BVHTree.FromPolygons([mw @ v.co for v in o.data.vertices], [tuple(p_.vertices) for p_ in o.data.polygons])
+
+
+_trees = [_bvh(bpy.data.objects[n]) for n in ("terrain_building", "lawn_ground") if n in bpy.data.objects]
 for i, y in enumerate(ys):
     for j, x in enumerate(xs):
         best = None
@@ -315,8 +323,8 @@ def proto(name, kind, seed):
     dark leaves; blueberry: taller, bright green; fern: a few arching fronds (the swale)"""
     r = np.random.default_rng(seed)
     V, F, C, LF, UVmap = [], [], [], [], {}
-    leaf_img = f"leaf{1 + seed % 2}"
-    spec = {"heather": (44, (0.14, 0.32), 0.005, 0, (0.12, 0.14, 0.07)), "lingonberry": (24, (0.06, 0.16), 0.0, 9, (0.025, 0.07, 0.018)),
+    leaf_img = "leaf1" if kind == "blueberry" else f"leaf{1 + seed % 2}"      # (the second blueberry leaf read yellow)
+    spec = {"heather": (16, (0.12, 0.26), 0.005, 0, (0.07, 0.09, 0.04)), "lingonberry": (26, (0.06, 0.15), 0.0, 12, (0.025, 0.07, 0.018)),
             "blueberry": (16, (0.2, 0.36), 0.0, 11, (0.07, 0.15, 0.03)), "fern": (8, (0.35, 0.6), 0.0, 14, (0.06, 0.14, 0.03))}[kind]
     n, (h0, h1), sprig_w, leaves, col = spec
     col = np.array(col)
@@ -324,12 +332,30 @@ def proto(name, kind, seed):
         az = r.uniform(0, 2 * math.pi); lean = r.uniform(0.1, 0.5) if kind != "fern" else r.uniform(0.6, 1.1); h = r.uniform(h0, h1)
         base = np.array([r.normal(0, 0.03), r.normal(0, 0.03), 0]); d = np.array([math.cos(az), math.sin(az), 0]); side = np.array([-d[1], d[0], 0])
         pts = [base + d * lean * h * t * t + np.array([0, 0, h * (t - (0.5 if kind == "fern" else 0.2) * lean * t * t)]) for t in np.linspace(0, 1, 5)]
-        if kind == "heather":                                          # a fine sprig, green-grey, the top third flowering
-            for k in range(4):
-                o = len(V); w0, w1 = sprig_w * (1 - 0.2 * k), sprig_w * (1 - 0.2 * (k + 1))
-                V += [pts[k] - side * w0, pts[k] + side * w0, pts[k + 1] + side * w1, pts[k + 1] - side * w1]; F.append([o, o + 1, o + 2, o + 3])
-                c = col if (k < 3 or r.random() > 0.35) else col * 0.75 + np.array([0.3, 0.17, 0.26]) * 0.25 * r.uniform(0.6, 1.2)
-                C += [c] * 4
+        if kind == "heather":                                          # Calluna: a wiry twig + side shoots, clothed in tiny scale leaves
+            twigs = [pts]
+            for _ in range(int(r.integers(2, 4))):                     # side shoots from the lower half
+                k0 = int(r.integers(1, 3)); a2 = az + r.normal(0, 0.9); d2 = np.array([math.cos(a2), math.sin(a2), 0]); h2 = h * r.uniform(0.4, 0.7)
+                b0 = pts[k0]
+                twigs.append([b0 + d2 * 0.35 * h2 * t * t + np.array([0, 0, h2 * t * 0.9]) for t in np.linspace(0, 1, 4)])
+            flower = r.random() < 0.3
+            for tw in twigs:
+                tw = np.array(tw)
+                for k in range(len(tw) - 1):                           # the wood
+                    o = len(V); w = 0.0012
+                    V += [tw[k] - side * w, tw[k] + side * w, tw[k + 1] + side * w, tw[k + 1] - side * w]; F.append([o, o + 1, o + 2, o + 3])
+                    C += [np.array([0.07, 0.05, 0.035])] * 4
+                for q in range(int(26 * len(tw) / 5)):                 # the scale leaves, thick along the upper 75 %
+                    t = r.uniform(0.25, 1.0); seg_ = min(int(t * (len(tw) - 1)), len(tw) - 2); f_ = t * (len(tw) - 1) - seg_
+                    pp = tw[seg_] + (tw[seg_ + 1] - tw[seg_]) * f_
+                    a3 = r.uniform(0, 2 * math.pi); ld = np.array([math.cos(a3), math.sin(a3), 1.4]); ld /= np.linalg.norm(ld)
+                    nr = np.cross(ld, np.array([0, 0, 1.0])); nr /= (np.linalg.norm(nr) + 1e-9)
+                    ll_ = 0.006; lw_ = 0.0016
+                    o = len(V); V += [pp, pp + ld * ll_ * 0.5 + nr * lw_, pp + ld * ll_, pp + ld * ll_ * 0.5 - nr * lw_]; F.append([o, o + 1, o + 2, o + 3])
+                    c = col * r.uniform(0.75, 1.2)
+                    if flower and t > 0.7:
+                        c = np.array([0.36, 0.2, 0.32]) * r.uniform(0.7, 1.1)
+                    C += [c] * 4
             continue
         for k in range(4):                                             # the stem
             o = len(V); w = 0.0025 if kind != "fern" else 0.002
@@ -341,7 +367,7 @@ def proto(name, kind, seed):
                 info = ATLAS[kind][leaf_img]
                 a_ = r.uniform(0, 2 * math.pi)
                 ld = np.array([math.cos(a_), math.sin(a_), r.uniform(0.35, 0.9)]); ld /= np.linalg.norm(ld)
-                ll = {"lingonberry": r.uniform(0.012, 0.02), "blueberry": r.uniform(0.018, 0.03)}[kind]; lw = ll * info["aspect"]
+                ll = {"lingonberry": r.uniform(0.016, 0.026), "blueberry": r.uniform(0.02, 0.032)}[kind]; lw = ll * info["aspect"]
                 bb = np.cross(ld, np.array([0, 0, 1.0])); bb /= (np.linalg.norm(bb) + 1e-9)
                 nn = np.cross(bb, ld)
                 o = len(V); G = 3
@@ -379,17 +405,17 @@ def proto(name, kind, seed):
             UVa[vi] = uvp
         uvl.data.foreach_set("uv", UVa[lv].ravel())
         va = me.attributes.new("var", "FLOAT", "POINT"); va.data.foreach_set("value", r.uniform(-0.8, 0.8, len(V)).astype(np.float32))
-        me.materials.append(pothos_material(leaf_img, ROOT / "plants" / "maps" / ATLAS_DIR[kind], rough=0.3 if kind == "lingonberry" else 0.45, val=0.9, bump=0.0004))
+        me.materials.append(pothos_material(leaf_img, ROOT / "plants" / "maps" / ATLAS_DIR[kind], rough=0.3 if kind == "lingonberry" else 0.45, val=0.85 if kind == "lingonberry" else 0.7, bump=0.0004))
         mi = np.zeros(len(me.polygons), np.int32); mi[nF:] = 1; me.polygons.foreach_set("material_index", mi)
     return o
 
 
 heath_protos = [proto(f"heather_{i}", "heather", i) for i in range(3)] + [proto(f"lingon_{i}", "lingonberry", 10 + i) for i in range(3)] + \
                [proto(f"blueb_{i}", "blueberry", 20 + i) for i in range(2)]
-swale_protos = [proto(f"fern_{i}", "fern", 30 + i) for i in range(3)] + [ground.grass_proto("tuft_meadow_e", "meadow", coll), ground.grass_proto("tuft_dry_e2", "dry", coll)]
+swale_protos = [ground.grass_proto("tuft_meadow_e", "meadow", coll), ground.grass_proto("tuft_dry_e2", "dry", coll)] + heath_protos[3:6]
 bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.85))
 for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale, heath_protos, 60), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
-                              ("swale_plants", cell_free & in_swale, swale_protos, 22)):
+                              ("swale_plants", cell_free & in_swale, swale_protos, 40)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
 

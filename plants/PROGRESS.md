@@ -115,3 +115,6 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 11:48 `out/entrance_stones_v001.jpg` Stones v2: faceted glacial granite boulders, generated lichen-granite texture, half buried in clusters
 - 2026-11-03 11:48 `out/entrance_streambed_v001.jpg` Stones v2: the swale's dry stream bed, river stones packed on gravel
 - 2026-11-03 11:57 `out/entrance_arrive_v003.jpg` Entrance study B: arrive (new stones, flat forecourt, graded paths)
+- 2026-11-03 12:06 `out/entrance_corner_v002.jpg` Entrance study B: corner (new stones, flat forecourt, graded paths)
+- 2026-11-03 12:08 `out/entrance_heath_v001.jpg` Heath v2: photo-leaf lingonberry + blueberry, wiry heather with scale leaves (no more grass-blade heather)
+- 2026-11-03 12:08 `out/entrance_swale_v001.jpg` Swale v2: stony bed, sedges, lingonberry at the rim
