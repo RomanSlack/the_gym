@@ -87,7 +87,7 @@ CAMS = {
     "door": ((33.7, 16.6), 1.62, (48.0, 8.5, 0.9), 20),
     "aerial": ((63.5, -5.0), 21.0, (46.0, 11.0, 0.0), 22),
     "loop": ((66.5, 2.8), 1.65, (36.0, 13.5, 1.8), 22),
-    "bikes": ((44.5, 6.2), 1.65, (41.5, -3.6, 1.3), 22),
+    "bikes": ((45.6, 7.8), 1.7, (41.0, -3.4, 1.0), 24),
 }
 CAM_XY = np.array(CAMS[SHOT][0]) if SHOT in CAMS else np.array([44.6, 16.6])
 NEAR_R = 1e9 if SHOT == "aerial" else 32.0          # 3D heath only within this of the camera (all of it ran the GPU out)
@@ -657,6 +657,63 @@ LD = Boxes()
 for cxp in (x0_ + 0.6, x1_ - 0.6):
     LD.add((cxp, hy + 0.052), (1, 0), 0.03, 0.004, FZ + 1.05, 0.03)
 LD.obj("charge_leds", led)
+# parked bikes: city / gravel / e-bikes, a few colours, leaning on the hoops both sides, some hoops empty
+from gen_bonsai import tube  # noqa: E402
+
+
+def bike(name, base, yaw, frame_col, rr):
+    """a bicycle along +x (front wheel +x), standing on base: 700c wheels (tyre + rim + hub + spokes), diamond frame,
+    fork, bars, saddle, crank; in world space"""
+    parts = {"tyre": ([], []), "frame": ([], []), "metal": ([], []), "saddle": ([], [])}
+
+    def add(kind, pts, r, sides=8):
+        V_, F_, _ = tube(np.array(pts, float), np.full(len(pts), r), sides=sides)
+        Vl, Fl = parts[kind]; o = len(Vl); Vl.extend(V_); Fl.extend([[i + o for i in f] for f in F_])
+    R_ = 0.34; wb = 1.04; e_ = rr.random() < 0.4                          # wheel radius, wheelbase, e-bike?
+    rw, fw = np.array([0, 0, R_]), np.array([wb, 0, R_])
+    for c in (rw, fw):
+        ring = [c + np.array([math.cos(t) * R_, 0, math.sin(t) * R_]) for t in np.linspace(0, 2 * math.pi, 33)]
+        add("tyre", ring, 0.018, 8)
+        rim = [c + np.array([math.cos(t) * (R_ - 0.03), 0, math.sin(t) * (R_ - 0.03)]) for t in np.linspace(0, 2 * math.pi, 33)]
+        add("metal", rim, 0.008, 6)
+        for k in range(16):
+            t = 2 * math.pi * k / 16; add("metal", [c + np.array([0, 0.02 * (1 if k % 2 else -1), 0]), c + np.array([math.cos(t) * (R_ - 0.03), 0, math.sin(t) * (R_ - 0.03)])], 0.0012, 3)
+    bb = np.array([0.42, 0, 0.29]); st = np.array([0.32, 0, 0.86]); ht = np.array([0.93, 0, 0.84]); hb = np.array([0.96, 0, 0.7])
+    for a_, b_, r_ in ((bb, st, 0.016), (st, ht, 0.015), (bb, hb, 0.02 if e_ else 0.018), (bb, rw, 0.011), (st, rw, 0.01), (ht, hb, 0.02)):
+        add("frame", [a_, b_], r_)
+    add("frame", [hb, fw], 0.012)                                                       # fork
+    add("metal", [st, st + np.array([-0.04, 0, 0.12])], 0.012)                          # seatpost
+    add("saddle", [st + np.array([-0.1, 0, 0.135]), st + np.array([0.08, 0, 0.13])], 0.035, 8)
+    stem = ht + np.array([0.02, 0, 0.14]); add("metal", [ht, stem], 0.014)
+    add("metal", [stem + np.array([0, -0.3, 0]), stem + np.array([0, 0.3, 0])], 0.011)    # bars
+    for sgn in (-1, 1):
+        add("saddle", [stem + np.array([0, sgn * 0.25, 0]), stem + np.array([0, sgn * 0.31, 0])], 0.017)   # grips
+    add("metal", [bb + np.array([-0.08, 0.05, 0.1]), bb + np.array([0.08, 0.05, -0.1])], 0.007)            # crank
+    if e_:
+        add("saddle", [bb + np.array([-0.02, 0, 0.12]), bb + np.array([0.33, 0, 0.42])], 0.04, 10)        # down-tube battery
+    rot = np.array([[math.cos(yaw), -math.sin(yaw), 0], [math.sin(yaw), math.cos(yaw), 0], [0, 0, 1]])
+    lean = math.radians(rr.uniform(-4, 4)); rl = np.array([[1, 0, 0], [0, math.cos(lean), -math.sin(lean)], [0, math.sin(lean), math.cos(lean)]])
+    mats = {"tyre": bc.material("bike_tyre", (0.02, 0.02, 0.02), 0.75), "metal": bc.material("bike_alu", (0.55, 0.56, 0.58), 0.35, metal=0.9),
+            "saddle": bc.material("bike_black", (0.03, 0.028, 0.026), 0.55), "frame": frame_col}
+    for kind, (Vl, Fl) in parts.items():
+        if Fl:
+            Vw = (np.array(Vl) @ rl.T) @ rot.T + base
+            mesh_obj(f"{name}_{kind}", Vw, Fl, mats[kind], smooth=True)
+
+
+FRAME = [bc.material(f"bike_paint_{i}", c, 0.35) for i, c in enumerate(((0.05, 0.06, 0.055), (0.32, 0.36, 0.3), (0.7, 0.68, 0.62), (0.28, 0.08, 0.05), (0.05, 0.1, 0.2), (0.45, 0.32, 0.12)))]
+hx_all = list(np.arange(x0_ + 1.3, x1_ - 1.0, 0.9))
+nb = 0
+for k, hx in enumerate(hx_all):
+    for side in (-1, 1):
+        if rng.random() < 0.45:                                       # about half the places taken (a weekday morning)
+            continue
+        base = np.array([hx + side * 0.0 - 0.52, hy + side * 0.42, FZ])
+        yaw = 0.0 if rng.random() < 0.5 else math.pi
+        if yaw:
+            base[0] += 1.04
+        bike(f"bike_{k}_{side}", base, yaw, FRAME[int(rng.integers(len(FRAME)))], rng); nb += 1
+print("bikes parked:", nb)
 print("bike shelter: floor at %.2f, %d hoops" % (FZ, len(np.arange(x0_ + 1.3, x1_ - 1.0, 0.9))))
 
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
@@ -718,6 +775,10 @@ print("pines:", len(PINES), "+", len(YOUNG), "young")
 
 name = f"ent_{SHOT}"
 bc.camera(scene, f"cam_{name}", loc, tgt, lens)
+# the gym floors' equipment (west wing, F2-F4) is not visible from the entrance: out of these renders (the GPU ran out)
+for c_ in bpy.data.collections:
+    if c_.name == "5b · gym equipment" or c_.name.startswith("eq_"):
+        c_.hide_render = True
 lod = bpy.data.objects.get("lod_eye")
 if SHOT == "aerial" and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
     lod.location = (loc[0], loc[1], loc[2] + 60); bpy.context.view_layer.update(); lod = None
