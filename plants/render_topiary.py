@@ -16,6 +16,7 @@ import mathutils
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent / "construction"))
 import bl_common as bc  # noqa: E402
+import gen_grass  # noqa: E402
 import gen_topiary  # noqa: E402
 
 a = sys.argv[sys.argv.index("--") + 1:]
@@ -61,7 +62,14 @@ box("floor", (0, -2, -0.05), (9, 9, 0.1), M["oak_floor"])
 box("side", (-2.6, -2, 1.6), (0.1, 9, 3.4), M["oak_slat"])
 box("ceil", (0, -2, 3.2), (9, 9, 0.1), bc.material("ceil", (0.7, 0.69, 0.66), 0.85))
 
-if SHOT.startswith("solo"):
+if SHOT == "grasses":
+    # a long low trough of grasses: fountain grass, feather grass, miscanthus behind, fountain grass again
+    box("trough", (0, 0.1, 0.2), (2.8, 0.55, 0.4), steel)
+    box("trough_soil", (0, 0.1, 0.37), (2.776, 0.526, 0.02), M["pebbles"])
+    for i, (x, kind, sz) in enumerate(((-1.0, "pennisetum", 0.95), (-0.25, "stipa", 1.0), (0.45, "miscanthus", 1.0), (1.1, "pennisetum", 0.8))):
+        gen_grass.build(SEED + i, (x, 0.1 + (0.08 if kind == "miscanthus" else 0), 0.375), kind=kind, size=sz)
+    cam, tgt, lens = (0.6, -3.6, 1.1), (0, 0, 0.75), 35
+elif SHOT.startswith("solo"):
     shape = SHOT.split(":")[1]
     size = {"ball": (0.62, 0.62, 0.58), "cone": (0.5, 0.5, 1.3), "cloud": (1.1, 0.8, 0.6), "block": (1.2, 0.45, 0.5)}[shape]
     z = planter(0, 0, max(size[0], size[1]) * 0.85, 0.5, round_=shape in ("ball", "cloud"))

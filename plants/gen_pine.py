@@ -90,18 +90,18 @@ def _needles(shoots, rng):
     returns V, F, colours"""
     V, F, C = [], [], []
     off = 0
-    GLAU, OLD, BUD, STEM = np.array([0.07, 0.14, 0.075]), np.array([0.09, 0.12, 0.05]), np.array([0.16, 0.085, 0.04]), np.array([0.09, 0.07, 0.035])
+    GLAU, OLD, BUD, STEM = np.array([0.07, 0.14, 0.075]), np.array([0.09, 0.12, 0.05]), np.array([0.13, 0.075, 0.04]), np.array([0.06, 0.08, 0.04])
     for base, d, Ls, tint, shade in shoots:
         a1 = _unit(np.cross(d, [0.3, 0.1, 1.0])); a2 = np.cross(d, a1)
         n_f = int(Ls / 0.0028)                                           # a fascicle every ~3 mm of stem
-        t = np.linspace(0.12, 0.96, n_f)
+        t = np.linspace(0.03, 0.96, n_f)                                 # (from 0.12: bare stems hung below the pads)
         phi = np.arange(n_f) * math.radians(137.5) + rng.uniform(0, 6.3)
         P0 = base + d * (Ls * t)[:, None]                                 # fascicle points
         out = np.cos(phi)[:, None] * a1 + np.sin(phi)[:, None] * a2
         # the pair: two needles diverging a little from one sheath, both angled forward 35-60 deg off the stem
         ND = []
         for sg in (-1, 1):
-            ang = np.radians(rng.uniform(35, 60, n_f)) * (1 - 0.35 * t)   # tighter toward the tip (the candle)
+            ang = np.radians(rng.uniform(40, 62, n_f) + 30 * (1 - t) ** 2) * (1 - 0.35 * t)   # flaring at the base (it clothes the stem: bare stubs showed below the pads), tighter at the tip
             spread = sg * np.radians(rng.uniform(6, 14, n_f))
             o2 = _unit(out * np.cos(spread)[:, None] + np.cross(d, out) * np.sin(spread)[:, None])
             ND.append(_unit(d * np.cos(ang)[:, None] + o2 * np.sin(ang)[:, None] + rng.normal(0, 0.06, (n_f, 3))))
@@ -134,7 +134,7 @@ def _needles(shoots, rng):
         # the stem + the bud
         Vt, Ft, _ = tube(np.array([base, base + d * Ls * 0.5, base + d * Ls]), np.array([0.0022, 0.0018, 0.0014]), sides=5, cap=False)
         V.append(Vt); F += [[i + off for i in f] for f in Ft]; C.append(np.repeat((STEM * shade)[None], len(Vt), 0)); off += len(Vt)
-        Vb, Fb, _ = tube(np.array([base + d * Ls, base + d * (Ls + 0.008), base + d * (Ls + 0.013)]), np.array([0.0026, 0.0024, 0.0004]), sides=6)
+        Vb, Fb, _ = tube(np.array([base + d * Ls, base + d * (Ls + 0.006), base + d * (Ls + 0.009)]), np.array([0.0019, 0.0017, 0.0003]), sides=6)
         V.append(Vb); F += [[i + off for i in f] for f in Fb]; C.append(np.repeat((BUD * shade)[None], len(Vb), 0)); off += len(Vb)
     return np.concatenate(V), F, np.concatenate(C)
 
