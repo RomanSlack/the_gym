@@ -106,3 +106,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 09:42 `out/reception_arrive_v001.jpg` Arriving: the two cloud pines either side of the porch
 - 2026-11-03 09:46 `out/reception_cafe_side_v002.jpg` Reception cafe_side again, with the bonsai fixed (sits on the ledge now)
 - 2026-11-03 09:50 `out/reception_entry_v002.jpg` Reception entry again, with the bonsai fixed (sits on the ledge now)
+- 2026-11-03 10:16 `out/entrance_today_v001.jpg` The entrance today: grass meadow + 25 m of stepping stones over the underground parking roof
