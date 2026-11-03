@@ -36,7 +36,8 @@ sc.view_settings.view_transform = "AgX"; sc.view_settings.look = "AgX - Medium H
 KIND = opt("--kind", "green")
 if KIND == "green":
     W, H, Z0 = 3.2, 3.12, 0.0
-    objs = gen_greenwall.build(SEED, (0, 0, Z0), width=W, height=H)
+    MIX = tuple(float(v) for v in opt("--mix", "0.5,0.46,0.04").split(","))
+    objs = gen_greenwall.build(SEED, (0, 0, Z0), width=W, height=H, mix=MIX, vine=opt("--vine", 1.3), spacing=opt("--spacing", 0.22))
 else:
     W, H, Z0 = 2.4, 1.6, 0.55
     objs = gen_mosswall.build(SEED, (0, 0, Z0), width=W, height=H)

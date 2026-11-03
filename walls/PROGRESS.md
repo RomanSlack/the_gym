@@ -7,3 +7,8 @@
 - 2026-11-02 17:22 `out/render_room_v001.jpg` In a gym-like room with a bench
 - 2026-11-02 17:34 `out/render_green_room_v001.jpg` Living green wall (Roman: "not a painting ... living green wall"): 3.2 x 3.1 m floor to ceiling, 127 Boston ferns (5 generated variants, instanced) + 234 golden pothos vines (new leaf atlas) in drifts, moss backing
 - 2026-11-02 17:34 `out/render_green_close_v001.jpg` Close-up at 1.2 m: variegated pothos leaves + fern fronds
+- 2026-11-02 17:44 `out/variant_fern_heavy_v001.jpg` Variation: fern-heavy (78% ferns), seed 7
+- 2026-11-02 17:46 `out/variant_pothos_curtain_v001.jpg` Variation: pothos curtain (long vines to 2.2 m), seed 11
+- 2026-11-02 17:48 `out/variant_open_moss_v001.jpg` Variation: open, more moss showing (wider spacing, 25% moss-only), seed 23
+- 2026-11-02 17:50 `out/variant_dense_v001.jpg` Variation: dense balanced (17 cm spacing), seed 42
+- 2026-11-02 17:50 `out/variants_sheet_v001.jpg` The four variations side by side
