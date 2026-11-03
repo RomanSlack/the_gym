@@ -1,0 +1,11 @@
+{
+  "prompt": "{\"prompt\": \"Orthographic close-up photograph of the surface of a smooth rounded river stone (Norwegian granite and gneiss cobble), filling the whole frame evenly: water-worn, fine-grained mottled grey with faint pale bands and darker speckles, matte dry surface, no lichen. Soft overcast daylight, flat even lighting, no shadows, no edges of the stone visible, sharp photoreal texture reference.\", \"provider\": \"gemini\", \"size\": \"2K\", \"aspect\": \"1:1\", \"name\": \"cobble_src\"}",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1024x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "prompt_orthographic_close-up_photograph_of_the_surface_of_a__0.png",
+  "generated_at": "2026-11-03T11:44:17"
+}

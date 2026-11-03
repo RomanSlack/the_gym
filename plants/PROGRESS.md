@@ -112,3 +112,5 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 10:59 `out/entrance_arrive_v002.jpg` Entrance study B: arrive (granite carpet on the real ground, fuller heath)
 - 2026-11-03 11:12 `out/entrance_corner_v001.jpg` Entrance study B: corner (granite carpet on the real ground, fuller heath)
 - 2026-11-03 11:27 `out/entrance_door_v001.jpg` Entrance study B: door (granite carpet on the real ground, fuller heath)
+- 2026-11-03 11:48 `out/entrance_stones_v001.jpg` Stones v2: faceted glacial granite boulders, generated lichen-granite texture, half buried in clusters
+- 2026-11-03 11:48 `out/entrance_streambed_v001.jpg` Stones v2: the swale's dry stream bed, river stones packed on gravel

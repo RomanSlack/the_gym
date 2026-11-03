@@ -1,0 +1,11 @@
+{
+  "prompt": "{\"prompt\": \"Orthographic close-up photograph of the weathered surface of a Norwegian glacial granite boulder, filling the whole frame evenly: light-to-mid grey coarse granite with feldspar and quartz grains, rough and slightly pitted, covered in patches of crustose lichen (pale grey-green Rhizocarpon map lichen, white and pale sage rings, a few small dark spots), a little green moss in the hollows. Soft overcast daylight, flat even lighting, no shadows, no horizon, no single focal point, sharp photoreal texture reference.\", \"provider\": \"gemini\", \"size\": \"4K\", \"aspect\": \"1:1\", \"name\": \"boulder_src\"}",
+  "model": "gpt-image-2",
+  "provider": "openai",
+  "size": "1024x1024",
+  "quality": "high",
+  "transparent": false,
+  "refs": [],
+  "filename": "prompt_orthographic_close-up_photograph_of_the_weathered_sur_0.png",
+  "generated_at": "2026-11-03T11:44:31"
+}

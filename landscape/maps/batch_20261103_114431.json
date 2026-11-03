@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-11-03T11:44:31",
+  "count": 2,
+  "succeeded": 2,
+  "failed": 0,
+  "total_cost_usd": 0.422,
+  "results": [
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "{\"prompt\": \"Orthographic close-up photograph of the weathered surface of a Norwegian glacial granite boulder, filling the whole frame evenly: light-to-mid grey coarse granite with feldspar and quartz grains, rough and slightly pitted, covered in patches of crustose lichen (pale grey-green Rhizocarpon map lichen, white and pale sage rings, a few small dark spots), a little green moss in the hollows. Soft overcast daylight, flat even lighting, no shadows, no horizon, no single focal point, sharp photoreal texture reference.\", \"provider\": \"gemini\", \"size\": \"4K\", \"aspect\": \"1:1\", \"name\": \"boulder_src\"}",
+      "images": [
+        "/home/roman/the_gym/landscape/maps/prompt_orthographic_close-up_photograph_of_the_weathered_sur_0.png"
+      ],
+      "cost_usd": 0.211,
+      "error": null
+    },
+    {
+      "ok": true,
+      "provider": "openai",
+      "model": "gpt-image-2",
+      "prompt": "{\"prompt\": \"Orthographic close-up photograph of the surface of a smooth rounded river stone (Norwegian granite and gneiss cobble), filling the whole frame evenly: water-worn, fine-grained mottled grey with faint pale bands and darker speckles, matte dry surface, no lichen. Soft overcast daylight, flat even lighting, no shadows, no edges of the stone visible, sharp photoreal texture reference.\", \"provider\": \"gemini\", \"size\": \"2K\", \"aspect\": \"1:1\", \"name\": \"cobble_src\"}",
+      "images": [
+        "/home/roman/the_gym/landscape/maps/prompt_orthographic_close-up_photograph_of_the_surface_of_a__0.png"
+      ],
+      "cost_usd": 0.211,
+      "error": null
+    }
+  ]
+}

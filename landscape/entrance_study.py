@@ -36,6 +36,10 @@ _T0 = _t.time()
 def tick(what):
     print(f"[time] {what}: {_t.time() - _T0:.0f} s", flush=True)
 scene = bpy.context.scene
+if SHOT == "stones":
+    bpy.ops.wm.read_factory_settings(use_empty=True); scene = bpy.context.scene; bc.world_and_render(scene)
+    scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.samples = 64; scene.cycles.use_denoising = True
+    scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage = 1600, 900, 100
 bc.gpu_or_stop()
 EXPO = scene.view_settings.exposure
 rng = np.random.default_rng(11)
@@ -71,8 +75,6 @@ granite = bc.pbr_material("granite_iddefjord_flamed", "granite_flamed_gridless",
                           rough_mul=0.9, rough_add=0.25, piece_var=0.07)
 steel = bpy.data.materials.get("blackened_steel_d") or bc.material("blackened_steel", (0.03, 0.029, 0.028), 0.62, metal=0.7)
 slot = bc.material("drain_slot", (0.004, 0.004, 0.004), 0.5)
-boulder_m = bc.pbr_material("boulder_lichen", "lichen_rock", 1.6, box=True, piece_var=0.12)
-cobble_m = bc.pbr_material("river_cobble", "granite_tile_03", 0.5, box=True, tint=(0.85, 0.85, 0.85), sat=0.5, val=0.9, rough_mul=0.8, rough_add=0.2, piece_var=0.2)
 
 
 def heath_material():
@@ -264,6 +266,17 @@ F = np.stack([idx[:-1, :-1].ravel(), idx[:-1, 1:].ravel(), idx[1:, 1:].ravel(), 
 heath = mesh_obj("heath_ground", V, F, heath_material(), smooth=True)
 # the planting lives on the faces clear of the paving (a copy 1 mm down carries the scatter)
 cell_free = ~(pv[:-1, :-1] | pv[:-1, 1:] | pv[1:, 1:] | pv[1:, :-1]).ravel()
+
+
+def bed_y(x):
+    t = (np.asarray(x) - SWALE[0]) / (SWALE[2] * 0.82)
+    return SWALE[1] + 0.35 * np.sin(t * 2.4), np.abs(t) < 1
+
+
+cxs, cys = (gx[:-1, :-1] + HS / 2).ravel(), (gy[:-1, :-1] + HS / 2).ravel()
+by, bin_ = bed_y(cxs)
+in_bed = bin_ & (np.abs(cys - by) < 0.5 + 0.15 * np.cos(cxs * 1.7))
+cell_free &= ~in_bed
 in_swale = (bump(gx, gy, *SWALE)[:-1, :-1] > 0.05).ravel()
 V2 = V.copy(); V2[:, 2] -= 0.001
 
@@ -328,47 +341,118 @@ def proto(name, kind, seed):
 heath_protos = [proto(f"heather_{i}", "heather", i) for i in range(3)] + [proto(f"lingon_{i}", "lingonberry", 10 + i) for i in range(3)] + \
                [proto(f"blueb_{i}", "blueberry", 20 + i) for i in range(2)]
 swale_protos = [proto(f"fern_{i}", "fern", 30 + i) for i in range(3)] + [ground.grass_proto("tuft_meadow_e", "meadow", coll), ground.grass_proto("tuft_dry_e2", "dry", coll)]
+bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.85))
 for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale, heath_protos, 60), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
                               ("swale_plants", cell_free & in_swale, swale_protos, 22)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
 
-# river stones down the swale's bed
-CB = []
-for k in range(70):
-    a = rng.uniform(0, 2 * math.pi); rr = math.sqrt(rng.uniform(0, 1)) * 0.6
-    x = SWALE[0] + math.cos(a) * rr * SWALE[2] * 0.85; y = SWALE[1] + math.sin(a) * rr * SWALE[3] * 0.35
-    CB.append((x, y, rng.uniform(0.07, 0.2)))
+# ---------------------------------------------------------------- stones (Roman: "the stones look way too weird and bad": they were smooth eggs)
+def stone_material(name, mapname, tile, tone=(0.85, 1.15), moss=0.0):
+    """a generated close-up photo (landscape/maps/<mapname>_col/_h), box-projected at its real size; every stone its own tone;
+    a darker, earthier band where it goes into the ground; moss on the up-facing tops if moss > 0"""
+    m = bpy.data.materials.new(name); m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = 0.88
+    tc = N.new("ShaderNodeTexCoord"); oi = N.new("ShaderNodeObjectInfo")
+    off = N.new("ShaderNodeVectorMath"); off.operation = "SCALE"; L.new(oi.outputs["Random"], off.inputs["Scale"]); off.inputs[0].default_value = (13.7, 7.3, 5.1)
+    ad = N.new("ShaderNodeVectorMath"); ad.operation = "ADD"; L.new(tc.outputs["Object"], ad.inputs[0]); L.new(off.outputs[0], ad.inputs[1])
+    mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1 / tile,) * 3; L.new(ad.outputs[0], mp.inputs["Vector"])
+    ci = N.new("ShaderNodeTexImage"); ci.image = bpy.data.images.load(str(ROOT / "landscape" / "maps" / f"{mapname}_col.jpg")); ci.projection = "BOX"; ci.projection_blend = 0.3
+    hi = N.new("ShaderNodeTexImage"); hi.image = bpy.data.images.load(str(ROOT / "landscape" / "maps" / f"{mapname}_h.png")); hi.projection = "BOX"; hi.projection_blend = 0.3
+    hi.image.colorspace_settings.name = "Non-Color"
+    for t in (ci, hi):
+        L.new(mp.outputs[0], t.inputs["Vector"])
+    tn = N.new("ShaderNodeMapRange"); tn.inputs[3].default_value, tn.inputs[4].default_value = tone; L.new(oi.outputs["Random"], tn.inputs[0])
+    bc_ = N.new("ShaderNodeBrightContrast"); bc_.inputs["Contrast"].default_value = 0.35; L.new(ci.outputs["Color"], bc_.inputs["Color"])
+    hs = N.new("ShaderNodeHueSaturation"); L.new(tn.outputs[0], hs.inputs["Value"]); L.new(bc_.outputs[0], hs.inputs["Color"])
+    hu = N.new("ShaderNodeMapRange"); hu.inputs[3].default_value = 0.47; hu.inputs[4].default_value = 0.53; L.new(oi.outputs["Random"], hu.inputs[0]); L.new(hu.outputs[0], hs.inputs["Hue"])
+    # weathering: big soft darker patches and streaks down the sides
+    wn = N.new("ShaderNodeTexNoise"); wn.inputs["Scale"].default_value = 1.6; wn.inputs["Detail"].default_value = 6; wn.inputs["Roughness"].default_value = 0.6
+    L.new(ad.outputs[0], wn.inputs["Vector"])
+    wr = N.new("ShaderNodeMapRange"); wr.inputs[1].default_value = 0.35; wr.inputs[2].default_value = 0.65; wr.inputs[3].default_value = 0.55; wr.inputs[4].default_value = 1.0
+    L.new(wn.outputs["Fac"], wr.inputs[0])
+    wm = N.new("ShaderNodeMix"); wm.data_type = "RGBA"; wm.blend_type = "MULTIPLY"; wm.inputs["Factor"].default_value = 1.0
+    L.new(hs.outputs[0], wm.inputs["A"]); L.new(wr.outputs[0], wm.inputs["B"])
+    # the foot: earthier and darker over the bottom 12 cm above the ground line (object z: 0 = ground)
+    sep = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sep.inputs[0])
+    ft = N.new("ShaderNodeMapRange"); ft.inputs[1].default_value = -0.02; ft.inputs[2].default_value = 0.12; ft.inputs[3].default_value = 1; ft.inputs[4].default_value = 0
+    L.new(sep.outputs["Z"], ft.inputs[0])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; L.new(ft.outputs[0], mx.inputs["Factor"])
+    L.new(wm.outputs["Result"], mx.inputs["A"]); mx.inputs["B"].default_value = (0.45, 0.38, 0.3, 1)
+    col = mx.outputs["Result"]
+    if moss:
+        gm = N.new("ShaderNodeNewGeometry"); sn = N.new("ShaderNodeSeparateXYZ"); L.new(gm.outputs["Normal"], sn.inputs[0])
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 3.0; nz.inputs["Detail"].default_value = 8; L.new(tc.outputs["Object"], nz.inputs["Vector"])
+        up = N.new("ShaderNodeMath"); up.operation = "MULTIPLY"; L.new(sn.outputs["Z"], up.inputs[0]); L.new(nz.outputs["Fac"], up.inputs[1])
+        mf = N.new("ShaderNodeMapRange"); mf.inputs[1].default_value = 0.42; mf.inputs[2].default_value = 0.52; mf.inputs[4].default_value = moss
+        L.new(up.outputs[0], mf.inputs[0])
+        mm = N.new("ShaderNodeMix"); mm.data_type = "RGBA"; L.new(mf.outputs[0], mm.inputs["Factor"]); L.new(col, mm.inputs["A"])
+        mm.inputs["B"].default_value = (0.07, 0.11, 0.03, 1); col = mm.outputs["Result"]
+    L.new(col, b.inputs["Base Color"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.5; bp.inputs["Distance"].default_value = 0.01
+    L.new(hi.outputs["Color"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
+    return m
 
 
-def rock(name, x, y, r, sq, mat, sink=0.3, seed=0):
-    """a displaced icosphere built straight into a mesh (bpy.ops re-evaluated the whole building on every rock: minutes)"""
-    bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=4, radius=1.0)
-    rr = np.random.default_rng(seed); vs = np.array([v.co for v in bm.verts])
-    k = rr.normal(0, 1, (6, 3))
-    disp = sum(np.sin(vs @ k[i] * (1.2 + i) + rr.uniform(0, 6)) * 0.08 / (1 + i * 0.6) for i in range(6))
-    vs = vs * (1 + disp)[:, None] * np.array([r, r * rr.uniform(0.7, 0.95), r * sq])
+boulder_m = stone_material("boulder_granite", "boulder", 1.1, (0.42, 0.66), moss=0.7)
+cobble_m = stone_material("river_cobble", "cobble", 0.35, (0.38, 0.9))
+
+
+def stone_mesh(name, r, aspect, seed, cuts, smooth_it=3, noise=0.035, sub=5):
+    """a glacial stone: an ellipsoid sheared by random planes (the flat, chipped faces of split granite), the edges worn round,
+    a little lumpy; origin at the ground line"""
+    rr = np.random.default_rng(seed)
+    bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=sub, radius=1.0)
+    vs = np.array([v.co for v in bm.verts]) * np.array(aspect)
+    for _ in range(cuts):
+        n = rr.normal(0, 1, 3); n[2] = abs(n[2]) * 0.6 if rr.random() < 0.7 else n[2]; n /= np.linalg.norm(n)
+        sup = (vs @ n).max(); d = sup * rr.uniform(0.5, 0.8)
+        over = np.clip(vs @ n - d, 0, None)
+        vs -= np.outer(over * rr.uniform(0.92, 1.0), n)
     for v, c in zip(bm.verts, vs):
+        v.co = c
+    for _ in range(smooth_it):                                         # worn edges, not rounded lumps
+        bmesh.ops.smooth_vert(bm, verts=bm.verts, factor=0.35, use_axis_x=True, use_axis_y=True, use_axis_z=True)
+    k = rr.normal(0, 1, (4, 3)); P = np.array([v.co for v in bm.verts])
+    P = P * (1 + sum(np.sin(P @ k[i] * (2.5 + 1.5 * i) + i) * noise / (1 + i) for i in range(4)))[:, None]
+    for v, c in zip(bm.verts, P):
         v.co = c
     for f in bm.faces:
         f.smooth = True
     me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
+    me.transform(__import__("mathutils").Matrix.Diagonal((r, r, r, 1)))
+    return me
+
+
+def place_stone(name, me, x, y, sink, mat, yaw):
+    zs = me.vertices; zmin = min(v.co.z for v in zs); zmax = max(v.co.z for v in zs)
+    zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) - 0.38 * float(bump(x, y, *SWALE)) + 0.02
+    me.transform(__import__("mathutils").Matrix.Translation((0, 0, -(zmin + (zmax - zmin) * sink))))
     o = bpy.data.objects.new(name, me); coll.objects.link(o); me.materials.append(mat)
-    zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) - 0.38 * float(bump(x, y, *SWALE))
-    o.location = (x, y, zb + r * sq * (1 - 2 * sink)); o.rotation_euler[2] = rr.uniform(0, 6.3)
+    o.location = (x, y, zb); o.rotation_euler[2] = yaw
     return o
 
 
-for i, (x, y, r) in enumerate(CB):
-    rock(f"cobble_{i}", x, y, r, 0.45, cobble_m, sink=0.35, seed=100 + i)
-for i, (x, y, r, sq) in enumerate(((44.8, 16.4, 0.95, 0.55), (47.4, 18.3, 0.6, 0.6), (42.4, 7.9, 0.7, 0.5), (50.2, 4.6, 0.55, 0.6),
-                                   (34.6, 1.6, 0.85, 0.5), (33.4, 21.9, 0.6, 0.55), (51.2, 8.8, 0.45, 0.6))):
-    rock(f"boulder_{i}", x, y, r, sq, boulder_m, sink=0.3, seed=i)
-
+# boulders: glacial erratics in small clusters (one big one with smaller ones leaning on it), half buried in the heath
+CLUSTERS = [((44.9, 16.4), 1.15, 3), ((42.3, 7.6), 0.8, 2), ((34.8, 1.4), 0.95, 2), ((50.4, 4.7), 0.55, 1), ((33.6, 22.0), 0.6, 1), ((51.4, 9.2), 0.45, 1)]
+k_ = 0
+for (cx, cy), R, n in CLUSTERS:
+    for j in range(n):
+        r = R if j == 0 else R * rng.uniform(0.3, 0.5)
+        a = rng.uniform(0, 2 * math.pi); dd = 0 if j == 0 else R * rng.uniform(0.95, 1.3)
+        me = stone_mesh(f"boulder_{k_}", r, (1.0, rng.uniform(0.7, 0.9), rng.uniform(0.5, 0.68)), 200 + k_, cuts=int(rng.integers(9, 14)), smooth_it=1, noise=0.045)
+        place_stone(f"boulder_{k_}", me, cx + math.cos(a) * dd, cy + math.sin(a) * dd, rng.uniform(0.3, 0.42), boulder_m, rng.uniform(0, 6.3)); k_ += 1
+# river stones: a dry stream bed down the middle of the swale, packed, bigger ones at the bends, smaller ones in between
+for i in range(300):
+    t = rng.uniform(-1, 1); x = SWALE[0] + t * SWALE[2] * 0.82; y = SWALE[1] + 0.35 * math.sin(t * 2.4) + float(np.clip(rng.normal(0, 0.2), -0.45, 0.45))
+    r = float(rng.choice([rng.uniform(0.03, 0.08), rng.uniform(0.08, 0.16), rng.uniform(0.16, 0.3)], p=[0.6, 0.3, 0.1]))
+    me = stone_mesh(f"cobble_{i}", r, (1.0, rng.uniform(0.55, 0.85), rng.uniform(0.3, 0.5)), 500 + i, cuts=int(rng.integers(1, 5)), smooth_it=3, noise=0.04, sub=3)
+    place_stone(f"cobble_{i}", me, x, y, rng.uniform(0.25, 0.4), cobble_m, rng.uniform(0, 6.3))
 tick("heath + rocks")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
-if SHOT != "aerial_fast":
+if SHOT != "stones":
     for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8))):
         zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE))
         objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}")
@@ -385,6 +469,12 @@ CAMS = {
     "door": ((33.7, 16.6), 1.62, (48.0, 8.5, 0.9), 20),
     "aerial": ((63.0, -7.0), 17.0, (39.0, 11.0, 0.0), 26),
 }
+if SHOT == "stones":
+    out = ROOT / "landscape" / "work"; out.mkdir(exist_ok=True)
+    for i_, (c_, t_, l_) in enumerate((((47.6, 13.6, 1.3), (44.6, 16.6, 0.3), 30), ((47.0, 3.4, 1.4), (44.8, 6.6, 0.0), 30))):
+        bc.camera(scene, f"cam_st{i_}", c_, t_, l_); scene.camera = bpy.data.objects[f"cam_st{i_}"]
+        scene.render.filepath = str(out / f"stones_{i_}.png"); bpy.ops.render.render(write_still=True); print("wrote", scene.render.filepath)
+    raise SystemExit
 (cx, cy), h, tgt, lens = CAMS[SHOT]
 loc = (cx, cy, float(terrain(cx, cy)) + h)
 name = f"ent_{SHOT}"
