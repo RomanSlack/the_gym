@@ -125,3 +125,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 13:11 `out/entrance_aerial_v002.jpg` Draft aerial: drop-off loop (ring asphalt, granite kerbs), heath to the forest edge, birch grove north + group south, framing pines
 - 2026-11-03 13:19 `out/entrance_aerial_v003.jpg` Entrance: aerial (trees, drop-off loop, heath to the forest)
 - 2026-11-03 13:45 `out/entrance_bikes_v001.jpg` Bike shelter: tarred posts, glulam beams, sod roof, slatted back wall, granite floor, Sheffield hoops + charging posts, 12 bikes parked
+- 2026-11-03 13:47 `out/entrance_arrive_v005.jpg` Entrance: arrive (trees, loop, bike shelter, heath to the forest)
