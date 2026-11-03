@@ -17,6 +17,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent / "construction"))
 import bl_common as bc  # noqa: E402
 import gen_birch  # noqa: E402
+import gen_ficus  # noqa: E402
 import gen_pine  # noqa: E402
 
 a = sys.argv[sys.argv.index("--") + 1:]
@@ -48,7 +49,13 @@ box("floor", (0, -2, -0.05), (9, 9, 0.1), M["oak_floor"])
 box("side", (-2.4, -2, 1.8), (0.1, 9, 3.8), M["oak_slat"])
 box("ceil", (0, -2, 3.6), (9, 9, 0.1), bc.material("ceil", (0.7, 0.69, 0.66), 0.85))
 PH = 0.4
-if TREE == "birch":                                                   # a round planter, the stems from one root plate
+if TREE == "ficus":                                                   # a tall round planter
+    bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.26, depth=0.55, location=(0, 0, 0.275))
+    bpy.context.object.data.materials.append(steel); bpy.ops.object.shade_smooth()
+    bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.248, depth=0.02, location=(0, 0, 0.52))
+    bpy.context.object.data.materials.append(soil)
+    objs = gen_ficus.build(SEED, (0, 0, 0.52), height=1.75)
+elif TREE == "birch":                                                   # a round planter, the stems from one root plate
     bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.48, depth=PH, location=(0, 0, PH / 2))
     bpy.context.object.data.materials.append(steel); bpy.ops.object.shade_smooth()
     bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.465, depth=0.02, location=(0, 0, PH - 0.03))
@@ -70,7 +77,7 @@ sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.75, 0.
 sc.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.2
 
 if SHOT == "full":
-    cam, tgt, lens = ((0.9, -4.4, 1.55), (0, 0, 1.4), 35) if TREE == "pine" else ((0.9, -5.0, 1.6), (0, 0, 1.65), 30)
+    cam, tgt, lens = {"pine": ((0.9, -4.4, 1.55), (0, 0, 1.4), 35), "birch": ((0.9, -5.0, 1.6), (0, 0, 1.65), 30), "ficus": ((0.7, -3.4, 1.45), (0, 0, 1.25), 38)}[TREE]
 elif SHOT == "bark":
     # aim at the front-most bark at ~1 m (the stems lean every which way)
     vs = [wood.matrix_world @ v.co for v in wood.data.vertices if abs(v.co.z + wood.location.z - 1.0) < 0.03]

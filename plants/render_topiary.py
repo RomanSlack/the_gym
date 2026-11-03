@@ -65,9 +65,10 @@ box("ceil", (0, -2, 3.2), (9, 9, 0.1), bc.material("ceil", (0.7, 0.69, 0.66), 0.
 if SHOT == "grasses":
     # a long low trough of grasses: fountain grass, feather grass, miscanthus behind, fountain grass again
     box("trough", (0, 0.1, 0.2), (2.8, 0.55, 0.4), steel)
-    box("trough_soil", (0, 0.1, 0.37), (2.776, 0.526, 0.02), M["pebbles"])
-    for i, (x, kind, sz) in enumerate(((-1.0, "pennisetum", 0.95), (-0.25, "stipa", 1.0), (0.45, "miscanthus", 1.0), (1.1, "pennisetum", 0.8))):
-        gen_grass.build(SEED + i, (x, 0.1 + (0.08 if kind == "miscanthus" else 0), 0.375), kind=kind, size=sz)
+    box("trough_soil", (0, 0.1, 0.402), (2.776, 0.526, 0.006), M["pebbles"])    # (filled to the brim: the grass sat in a solid box)
+    for i, (x, y, kind, sz) in enumerate(((-1.1, 0.05, "pennisetum", 1.25), (-0.55, 0.18, "stipa", 1.3), (-0.15, -0.02, "stipa", 1.1),
+                                          (0.35, 0.22, "miscanthus", 1.0), (0.75, 0.0, "pennisetum", 1.2), (1.18, 0.2, "stipa", 1.1))):
+        gen_grass.build(SEED + i, (x, 0.1 + y - 0.1, 0.4), kind=kind, size=sz)
     cam, tgt, lens = (0.6, -3.6, 1.1), (0, 0, 0.75), 35
 elif SHOT.startswith("solo"):
     shape = SHOT.split(":")[1]

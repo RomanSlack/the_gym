@@ -23,7 +23,7 @@ from gen_bonsai import _obj  # noqa: E402
 KINDS = {
     #             blades, length (m),  width (m),     lift, droop, colours (base, mid, tip),                          plumes
     "pennisetum": (520, (0.35, 0.65), (0.003, 0.005), 0.75, 1.25, ((0.06, 0.12, 0.03), (0.12, 0.22, 0.06), (0.32, 0.3, 0.14)), "brush"),
-    "miscanthus": (260, (0.8, 1.35), (0.007, 0.011), 1.6, 0.85, ((0.05, 0.11, 0.03), (0.1, 0.2, 0.06), (0.28, 0.3, 0.14)), "feather"),
+    "miscanthus": (300, (0.8, 1.35), (0.007, 0.011), 1.3, 1.5, ((0.05, 0.11, 0.03), (0.1, 0.2, 0.06), (0.28, 0.3, 0.14)), "feather"),
     "stipa":      (900, (0.3, 0.55), (0.0009, 0.0014), 1.0, 0.9, ((0.12, 0.2, 0.05), (0.32, 0.36, 0.14), (0.62, 0.52, 0.3)), "none"),
 }
 
@@ -122,16 +122,16 @@ def build(seed, loc=(0, 0, 0), kind="pennisetum", size=1.0, name=None):
         # the head: the top 25 % (brush) / 30 % (feather) of the culm carries bristles / silky branches
         k0 = int(len(pts) * (0.75 if plume == "brush" else 0.68))
         head = pts[k0:]
-        hc = np.array([0.42, 0.34, 0.27]) if plume == "brush" else np.array([0.6, 0.56, 0.52])
-        for _ in range(140 if plume == "brush" else 60):
+        hc = np.array([0.52, 0.42, 0.34]) if plume == "brush" else np.array([0.62, 0.57, 0.52])
+        for _ in range(520 if plume == "brush" else 70):
             j = int(rng.integers(len(head) - 1)); f = rng.uniform(0, 1)
             p0 = head[j] + (head[j + 1] - head[j]) * f
             ax = _unit(head[j + 1] - head[j])
             out = _unit(np.cross(ax, rng.normal(0, 1, 3)))
             if plume == "brush":                                            # bristles: short, stiff, angled forward
-                bl = rng.uniform(0.012, 0.022) * size
+                bl = rng.uniform(0.018, 0.03) * size
                 q = np.array([p0, p0 + _unit(out + ax * 0.6) * bl * 0.5, p0 + _unit(out + ax * 0.9) * bl])
-                _ribbon(V, F, C, q, 0.0006, np.tile(hc * rng.uniform(0.85, 1.15), (3, 1)), rng)
+                _ribbon(V, F, C, q, 0.0008, np.tile(hc * rng.uniform(0.85, 1.15), (3, 1)), rng)
             else:                                                           # feather: silky branches arching up + out
                 bl = rng.uniform(0.06, 0.13) * size
                 q = np.array([p0 + (_unit(out * 0.45 + ax) * bl * t + np.array([0, 0, -0.02 * t * t])) for t in np.linspace(0, 1, 5)])
