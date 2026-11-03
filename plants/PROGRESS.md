@@ -104,3 +104,5 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 09:42 `out/reception_nook_v001.jpg` Waiting nook: Boston fern below the window line, a cloud pine outside the glass
 - 2026-11-03 09:42 `out/reception_bonsai_v001.jpg` Bonsai on the south end of the desk's high ledge (fixed: the tree sat 0.55 m low)
 - 2026-11-03 09:42 `out/reception_arrive_v001.jpg` Arriving: the two cloud pines either side of the porch
+- 2026-11-03 09:46 `out/reception_cafe_side_v002.jpg` Reception cafe_side again, with the bonsai fixed (sits on the ledge now)
+- 2026-11-03 09:50 `out/reception_entry_v002.jpg` Reception entry again, with the bonsai fixed (sits on the ledge now)
