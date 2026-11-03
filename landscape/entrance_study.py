@@ -74,6 +74,14 @@ for i, y in enumerate(ys):
             TER[i, j] = best
 
 
+_far = BVHTree.FromObject(bpy.data.objects["terrain_detail"], dg) if "terrain_detail" in bpy.data.objects else None
+
+
+def ground_far(x, y):
+    hit = _far.ray_cast(Vector((float(x), float(y), 80.0)), Vector((0, 0, -1)))[0] if _far else None
+    return hit.z if hit else 0.0
+
+
 def terrain(x, y):
     j = np.clip((np.asarray(x) - X0) / STEP, 0, len(xs) - 1.001); i = np.clip((np.asarray(y) - Y0) / STEP, 0, len(ys) - 1.001)
     j0, i0 = np.floor(j).astype(int), np.floor(i).astype(int); fj, fi = j - j0, i - i0
@@ -88,9 +96,11 @@ CAMS = {
     "aerial": ((63.5, -5.0), 21.0, (46.0, 11.0, 0.0), 22),
     "loop": ((66.5, 2.8), 1.65, (36.0, 13.5, 1.8), 22),
     "bikes": ((45.6, 7.8), 1.7, (41.0, -3.4, 1.0), 24),
+    "overview": ((92.0, -34.0), 46.0, (52.0, 8.0, 0.0), 24),
+    "approach": ((104.0, 12.4), 1.55, (60.0, 12.0, 2.4), 30),
 }
 CAM_XY = np.array(CAMS[SHOT][0]) if SHOT in CAMS else np.array([44.6, 16.6])
-NEAR_R = 1e9 if SHOT == "aerial" else 32.0          # 3D heath only within this of the camera (all of it ran the GPU out)
+NEAR_R = 1e9 if SHOT == "aerial" else 0.0 if SHOT == "overview" else 32.0          # 3D heath only within this of the camera (all of it ran the GPU out)
 
 # the lawn's grass goes from the whole parking roof (the heath replaces it)
 lg = bpy.data.objects.get("lawn_ground")
@@ -98,6 +108,25 @@ if lg:
     bm = bmesh.new(); bm.from_mesh(lg.data)
     bmesh.ops.delete(bm, geom=[f for f in bm.faces if 30.4 < f.calc_center_median().x < 77.0 and -15.0 < f.calc_center_median().y < 31.0], context="FACES")
     bm.to_mesh(lg.data); bm.free()
+
+# ---------------------------------------------------------------- the forest floor all round (Roman: "busted ... the weird terrain ...
+# out further beyond"): the ground material's pine-stand and clearing layers read as orange sand; Elverum's pine floor is lichen,
+# crowberry, lingonberry and needles, the clearings heath. Swapped for two generated photos (landscape/maps/pinefloor, heath).
+tmat = bpy.data.materials.get("terrain_finished")
+if tmat:
+    SWAP = {"forest_leaves_04": "pinefloor", "withered_grass": "heath", "forest_floor": "pinefloor"}
+    for n_ in tmat.node_tree.nodes:
+        if n_.bl_idname == "ShaderNodeTexImage" and n_.image:
+            for old, new in SWAP.items():
+                if f"/{old}/" in n_.image.filepath:
+                    if n_.image.filepath.endswith("diff.jpg"):
+                        n_.image = bpy.data.images.load(str(ROOT / "landscape" / "maps" / f"{new}_col.jpg"), check_existing=True)
+                    # (roughness + normal of the old layer kept: they are generic ground)
+        if n_.bl_idname == "ShaderNodeMix" and n_.blend_type == "MULTIPLY" and n_.data_type == "RGBA":
+            b_ = tuple(n_.inputs["B"].default_value)[:3]
+            if (abs(b_[0] - 0.45) < 1e-3 and abs(b_[1] - 0.55) < 1e-3) or b_ in ((0.75, 0.72, 0.55), (0.7, 0.68, 0.5)) or (abs(b_[0] - 0.75) < 1e-3 and abs(b_[1] - 0.72) < 1e-3) or (abs(b_[0] - 0.7) < 1e-3 and abs(b_[1] - 0.68) < 1e-3):
+                n_.inputs["B"].default_value = (0.92, 0.95, 0.9, 1)     # the old browning tints off
+    print("terrain: forest floor swapped to lichen/heath")
 
 # ---------------------------------------------------------------- materials
 granite = bc.pbr_material("granite_iddefjord_flamed", "granite_flamed_gridless", 1.2, box=True, tint=(1.0, 0.99, 0.97), sat=0.3, val=1.2,
@@ -598,6 +627,44 @@ for i in range(420):
     me = stone_mesh(f"cobble_{i}", r, (1.0, rng.uniform(0.55, 0.85), rng.uniform(0.3, 0.5)), 500 + i, cuts=int(rng.integers(1, 5)), smooth_it=3, noise=0.04, sub=3)
     place_stone(f"cobble_{i}", me, x, y, rng.uniform(0.25, 0.4), cobble_m, rng.uniform(0, 6.3))
 tick("heath + rocks")
+# ---------------------------------------------------------------- the arrival road (VISION: a narrow Nordic forest road, clean black
+# asphalt, no lines): from the loop east, 4.5 m + 0.75 gravel shoulders, on the ground (it was only a gravel texture on the terrain)
+import json as _json  # noqa: E402
+_site = _json.loads((ROOT / "model" / "building.json").read_text())["site"]["features"]
+RD = np.array([p_[:2] for p_ in _site["road"]["points"] if p_[0] < 240])[::-1]           # from the loop outwards
+RD = np.array([pp for pp in RD])
+
+
+def ribbon(name, pts, w, mat, lift, zfun, step=0.8):
+    P = np.array(pts, float); seg = np.diff(P, axis=0); L = np.hypot(*seg.T); cum = np.r_[0, np.cumsum(L)]
+    ss = np.arange(0, cum[-1] + 1e-6, step); V_, F_ = [], []
+    for k, t in enumerate(ss):
+        i = min(np.searchsorted(cum, t, side="right") - 1, len(seg) - 1); f = (t - cum[i]) / L[i]
+        c = P[i] + seg[i] * f; tg = seg[i] / L[i]; n = np.array([-tg[1], tg[0]])
+        for sgn in (-1, 1):
+            q = c + n * sgn * w / 2; V_.append((q[0], q[1], zfun(q[0], q[1], t) + lift))
+        if k:
+            o = 2 * k; F_.append([o - 2, o - 1, o + 1, o])
+    return mesh_obj(name, V_, F_, mat, smooth=True)
+
+
+def zroad(x, y, t):
+    return np.mean([ground_far(x + dx, y + dy) for dx, dy in ((0, 0), (1.2, 0), (-1.2, 0), (0, 1.2), (0, -1.2))])
+
+
+gravel_m = bc.pbr_material("road_shoulder", "gravel_ground_01", 2.0, piece_var=0.0, val=0.8, sat=0.7)
+ribbon("road_shoulders", RD, 6.0, gravel_m, 0.025, zroad)
+ribbon("road_asphalt", RD, 4.5, asph_m, 0.045, zroad)
+# the garage ramp's open cut: dry-laid granite walls (as the building's plinth), not white concrete; an asphalt floor
+gp = bpy.data.materials.get("granite_plinth")
+for o in bpy.data.objects:
+    if o.name.startswith("FDN-ramp-wall") and gp:
+        o.data.materials.clear(); o.data.materials.append(gp)
+RP = _site["garage_ramp"]
+ribbon("ramp_asphalt", [(128.0, 8.0), (100.0, 3.0), (78.5, -0.9)], RP["width"] - 0.3, asph_m, 0.03,   # the open cut only (from x 78 it is a tunnel)
+       lambda x, y, t: ground_far(x, y))
+print("road + ramp: done")
+
 # ---------------------------------------------------------------- the covered bike shelter (VISION: ~30 bikes, e-bike charging, sod roof)
 # open to the forecourt (north); a tarred board wall at the back (south) and half walls at the ends against the wind; posts and
 # beams like the building (tarred timber, glulam), a CLT roof with a blackened-steel fascia and the same sod + meadow grass;
@@ -780,6 +847,6 @@ for c_ in bpy.data.collections:
     if c_.name == "5b · gym equipment" or c_.name.startswith("eq_"):
         c_.hide_render = True
 lod = bpy.data.objects.get("lod_eye")
-if SHOT == "aerial" and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
+if SHOT in ("aerial", "overview") and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
     lod.location = (loc[0], loc[1], loc[2] + 60); bpy.context.view_layer.update(); lod = None
 shoot.shoot(scene, name, name, EXPO, 5, lod)

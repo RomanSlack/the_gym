@@ -126,3 +126,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 13:19 `out/entrance_aerial_v003.jpg` Entrance: aerial (trees, drop-off loop, heath to the forest)
 - 2026-11-03 13:45 `out/entrance_bikes_v001.jpg` Bike shelter: tarred posts, glulam beams, sod roof, slatted back wall, granite floor, Sheffield hoops + charging posts, 12 bikes parked
 - 2026-11-03 13:47 `out/entrance_arrive_v005.jpg` Entrance: arrive (trees, loop, bike shelter, heath to the forest)
+- 2026-11-03 13:50 `out/entrance_corner_v004.jpg` Entrance: corner (trees, loop, bike shelter, heath to the forest)
+- 2026-11-03 13:51 `out/entrance_door_v003.jpg` Entrance: door (trees, loop, bike shelter, heath to the forest)
+- 2026-11-03 13:52 `out/entrance_aerial_v004.jpg` Entrance: aerial (trees, loop, bike shelter, heath to the forest)
+- 2026-11-03 13:57 `out/entrance_overview_v001.jpg` Overview: forest floor now Elverum lichen/heath (was orange sand), road as real asphalt, ramp cut in dark granite (was white concrete)

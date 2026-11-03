@@ -1,0 +1,10 @@
+{
+  "prompt": "Top-down orthographic photograph of the forest floor in a dry Scots pine forest in Elverum, eastern Norway, looking straight down from 1.5 m, filling the whole frame evenly: a carpet of pale grey-green reindeer lichen (Cladonia) in soft cushions, patches of crowberry and lingonberry, a little heather, scattered brown pine needles and a few small pine cones and twigs, some green feather moss. Soft overcast daylight, no shadows of trees, no sky, no horizon, uniform density, no single focal point, sharp detail, natural muted colours, photoreal texture reference.",
+  "model": "gemini-3.1-flash-image",
+  "provider": "gemini",
+  "size": "4K",
+  "aspect_ratio": "1:1",
+  "refs": [],
+  "filename": "top-down_orthographic_photograph_of_the_forest_floor_in_a_dr_0.webp",
+  "generated_at": "2026-11-03T13:53:34"
+}
