@@ -98,3 +98,9 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 20:33 `out/pine_pad_v001.jpg` Pine pad close-up, v2: needles flaring at the shoot base so no bare stems hang below, smaller buds
 - 2026-11-02 20:33 `out/pine_full_v002.jpg` Cloud-pruned pine with the clothed shoots
 - 2026-11-02 20:36 `out/ficus_full_v001.jpg` Fiddle-leaf fig standard, 2 m: bare trunk to 1 m, 6 branches, ~50 violin leaves from a generated photo atlas, facing out, none clipping
+- 2026-11-03 09:42 `out/reception_spots_v001.jpg` Reception plan: where the greenery goes (1 pines outside, 2 fig by the glass, 3 nook fern, 4 desk bonsai)
+- 2026-11-03 09:42 `out/reception_cafe_side_v001.jpg` Reception from the cafe edge: fig in the SE corner, fern in the nook, pines through the glass (bonsai here was the height bug)
+- 2026-11-03 09:42 `out/reception_entry_v001.jpg` Reception looking south across the entry: fig by the east glass, fern edge left
+- 2026-11-03 09:42 `out/reception_nook_v001.jpg` Waiting nook: Boston fern below the window line, a cloud pine outside the glass
+- 2026-11-03 09:42 `out/reception_bonsai_v001.jpg` Bonsai on the south end of the desk's high ledge (fixed: the tree sat 0.55 m low)
+- 2026-11-03 09:42 `out/reception_arrive_v001.jpg` Arriving: the two cloud pines either side of the porch

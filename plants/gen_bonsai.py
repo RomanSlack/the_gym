@@ -590,7 +590,7 @@ def table_and_pot(loc, rng, rect=False):
         bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=tuple(loc + [a * 0.84 * cx_, b * 0.84 * cy_, TABLE + 0.008]))
         f_ = bpy.context.object; f_.scale = (0.03, 0.022, 0.012); f_.data.materials.append(potm); objs.append(f_)
     # the soil: the pot moss texture across the whole pot, displaced by its own height (cushions up, grit gaps down)
-    zs = TABLE + H - 0.008
+    zs = loc[2] + TABLE + H - 0.008                                  # (world height: build() takes loc[2] back off)
     burn = rng.uniform(0.05, 0.75, 120)                                  # (the draws the old moss placement used: seeds keep their trees)
     k_ = int(burn[0] * 100) % 2
     hmap = _pixels(MAPS / f"potmoss{k_}_h.png")[..., 0]
@@ -650,7 +650,7 @@ def table_and_pot(loc, rng, rect=False):
         t = rng.uniform(0, 2 * math.pi); rr = rng.uniform(0.35, 0.8)
         cx_, cy_ = sc(t)
         x, y = a * rr * cx_, b * rr * cy_
-        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1, location=tuple(loc + [x, y, zs + 0.012 * (1 - rr ** 2)]))
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=3, radius=1, location=(loc[0] + x, loc[1] + y, zs + 0.012 * (1 - rr ** 2)))
         st = bpy.context.object
         for vtx in st.data.vertices:
             vtx.co *= rng.uniform(0.85, 1.12)
