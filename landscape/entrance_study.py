@@ -36,8 +36,9 @@ _T0 = _t.time()
 def tick(what):
     print(f"[time] {what}: {_t.time() - _T0:.0f} s", flush=True)
 scene = bpy.context.scene
-if SHOT == "stones":
+if SHOT in ("stones", "build_only"):
     bpy.ops.wm.read_factory_settings(use_empty=True); scene = bpy.context.scene; bc.world_and_render(scene)
+    if SHOT == "build_only": bc.gpu_or_stop = lambda: None
     scene.render.engine = "CYCLES"; scene.cycles.device = "GPU"; scene.cycles.samples = 64; scene.cycles.use_denoising = True
     scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage = 1600, 900, 100
 bc.gpu_or_stop()
@@ -49,11 +50,19 @@ coll = bpy.data.collections.new("7 · entrance landscape"); scene.collection.chi
 X0, X1, Y0, Y1, STEP = 28.0, 66.0, -12.0, 30.0, 0.25
 dg = bpy.context.evaluated_depsgraph_get()
 xs, ys = np.arange(X0, X1 + 1e-6, STEP), np.arange(Y0, Y1 + 1e-6, STEP)
-TER = np.zeros((len(ys), len(xs)))
+TER = np.full((len(ys), len(xs)), 0.12)
+# rays against the ground meshes only (scene.ray_cast through the whole building took 3+ minutes)
+from mathutils.bvhtree import BVHTree  # noqa: E402
+_trees = [BVHTree.FromObject(bpy.data.objects[n], dg) for n in ("terrain_building", "lawn_ground") if n in bpy.data.objects]
 for i, y in enumerate(ys):
     for j, x in enumerate(xs):
-        hit, loc, *_ = scene.ray_cast(dg, Vector((x, y, 2.9)), Vector((0, 0, -1)))
-        TER[i, j] = loc.z if hit else 0.12
+        best = None
+        for t_ in _trees:
+            loc, *_ = t_.ray_cast(Vector((x, y, 2.9)), Vector((0, 0, -1)))
+            if loc is not None and (best is None or loc.z > best):
+                best = loc.z
+        if best is not None:
+            TER[i, j] = best
 
 
 def terrain(x, y):
@@ -295,11 +304,18 @@ def proto_mat(name, rough, trans=0.25):
     return m
 
 
+import json  # noqa: E402
+from gen_greenwall import pothos_material  # noqa: E402
+ATLAS_DIR = {"lingonberry": "lingon", "blueberry": "blueberry"}
+ATLAS = {k: json.loads((ROOT / "plants" / "maps" / d / "atlas.json").read_text()) for k, d in ATLAS_DIR.items()}
+
+
 def proto(name, kind, seed):
     """a dwarf-shrub clump along +Z: stems with leaves. heather: dense fine sprigs, mauve tips; lingonberry: low, small glossy
     dark leaves; blueberry: taller, bright green; fern: a few arching fronds (the swale)"""
     r = np.random.default_rng(seed)
-    V, F, C = [], [], []
+    V, F, C, LF, UVmap = [], [], [], [], {}
+    leaf_img = f"leaf{1 + seed % 2}"
     spec = {"heather": (44, (0.14, 0.32), 0.005, 0, (0.12, 0.14, 0.07)), "lingonberry": (24, (0.06, 0.16), 0.0, 9, (0.025, 0.07, 0.018)),
             "blueberry": (16, (0.2, 0.36), 0.0, 11, (0.07, 0.15, 0.03)), "fern": (8, (0.35, 0.6), 0.0, 14, (0.06, 0.14, 0.03))}[kind]
     n, (h0, h1), sprig_w, leaves, col = spec
@@ -321,6 +337,25 @@ def proto(name, kind, seed):
         for k in range(leaves):                                        # the leaves (fern: pinnae both sides)
             t = (k + 1) / (leaves + 1) if kind == "fern" else r.uniform(0.25, 1)
             p = pts[0] + (pts[-1] - pts[0]) * t if kind != "fern" else pts[min(3, int(t * 4))] + (pts[min(4, int(t * 4) + 1)] - pts[min(3, int(t * 4))]) * (t * 4 % 1)
+            if kind in ATLAS:                                          # a photo leaf card (plants/maps/lingon|blueberry), cupped
+                info = ATLAS[kind][leaf_img]
+                a_ = r.uniform(0, 2 * math.pi)
+                ld = np.array([math.cos(a_), math.sin(a_), r.uniform(0.35, 0.9)]); ld /= np.linalg.norm(ld)
+                ll = {"lingonberry": r.uniform(0.012, 0.02), "blueberry": r.uniform(0.018, 0.03)}[kind]; lw = ll * info["aspect"]
+                bb = np.cross(ld, np.array([0, 0, 1.0])); bb /= (np.linalg.norm(bb) + 1e-9)
+                nn = np.cross(bb, ld)
+                o = len(V); G = 3
+                for jv in range(G):
+                    for ju in range(G):
+                        u_, v_ = ju / (G - 1), jv / (G - 1)
+                        x_ = (u_ - info["midrib_u"]) * lw; y_ = v_ * ll
+                        UVmap[len(V)] = (u_, v_)
+                        V.append(p + ld * y_ + bb * x_ + nn * (0.18 * (2 * x_ / lw) ** 2 * lw - 0.1 * v_ * v_ * ll))
+                        C.append(col)
+                for jv in range(G - 1):
+                    for ju in range(G - 1):
+                        LF.append([o + jv * G + ju, o + jv * G + ju + 1, o + (jv + 1) * G + ju + 1, o + (jv + 1) * G + ju])
+                continue
             for sgn in ((-1, 1) if kind == "fern" else (1,)):
                 ld = side * sgn if kind == "fern" else np.array([math.cos(r.uniform(0, 6.3)), math.sin(r.uniform(0, 6.3)), r.uniform(-0.1, 0.5)])
                 ld = ld / np.linalg.norm(ld)
@@ -329,12 +364,23 @@ def proto(name, kind, seed):
                 o = len(V)
                 V += [p, p + ld * ll * 0.5 + nrm * lw, p + ld * ll, p + ld * ll * 0.5 - nrm * lw]; F.append([o, o + 1, o + 2, o + 3])
                 C += [col * r.uniform(0.8, 1.25)] * 4
-    me = bpy.data.meshes.new(name); me.from_pydata([tuple(v) for v in V], [], F)
+    nF = len(F)
+    me = bpy.data.meshes.new(name); me.from_pydata([tuple(v) for v in V], [], F + LF)
     ca = me.color_attributes.new("col", "FLOAT_COLOR", "POINT")
     for i, c in enumerate(C):
         ca.data[i].color = (*np.clip(c, 0, 1), 1)
     o = bpy.data.objects.new(name, me); coll.objects.link(o); o.location = (0, 0, -2000)
     me.materials.append(proto_mat(name + "_m", {"heather": 0.7, "lingonberry": 0.32, "blueberry": 0.5, "fern": 0.55}[kind]))
+    if LF:
+        uvl = me.uv_layers.new(name="UVMap"); uvv = np.zeros((len(me.loops), 2), np.float32)
+        lv = np.array([l.vertex_index for l in me.loops])
+        UVa = np.zeros((len(V), 2), np.float32)
+        for vi, uvp in UVmap.items():
+            UVa[vi] = uvp
+        uvl.data.foreach_set("uv", UVa[lv].ravel())
+        va = me.attributes.new("var", "FLOAT", "POINT"); va.data.foreach_set("value", r.uniform(-0.8, 0.8, len(V)).astype(np.float32))
+        me.materials.append(pothos_material(leaf_img, ROOT / "plants" / "maps" / ATLAS_DIR[kind], rough=0.3 if kind == "lingonberry" else 0.45, val=0.9, bump=0.0004))
+        mi = np.zeros(len(me.polygons), np.int32); mi[nF:] = 1; me.polygons.foreach_set("material_index", mi)
     return o
 
 
@@ -347,6 +393,8 @@ for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale, heath_prot
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
 
+if SHOT == "build_only":
+    print("protos", [(o.name, len(o.data.polygons), len(o.data.materials)) for o in heath_protos]); raise SystemExit
 # ---------------------------------------------------------------- stones (Roman: "the stones look way too weird and bad": they were smooth eggs)
 def stone_material(name, mapname, tile, tone=(0.85, 1.15), moss=0.0):
     """a generated close-up photo (landscape/maps/<mapname>_col/_h), box-projected at its real size; every stone its own tone;
@@ -453,15 +501,27 @@ tick("heath + rocks")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "stones":
-    for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8))):
-        zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE))
-        objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}")
-        for o in objs:
-            for c in o.users_collection:
-                c.objects.unlink(o)
+    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v1.blend"     # grown once, then appended (3 minutes of birch growing per shot)
+    if GROVE_LIB.exists():
+        with bpy.data.libraries.load(str(GROVE_LIB), link=False) as (src, dst):
+            dst.objects = [n for n in src.objects if n.startswith("grove_birch_")]
+        for o in dst.objects:
             coll.objects.link(o)
+        print("grove: appended", len(dst.objects), "objects")
+    else:
+        grove = []
+        for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8))):
+            zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE))
+            objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}")
+            for o in objs:
+                for c in o.users_collection:
+                    c.objects.unlink(o)
+                coll.objects.link(o); grove.append(o)
+        if SHOT not in ("stones", "build_only"):                   # (the cache must sit on the real ground)
+            GROVE_LIB.parent.mkdir(exist_ok=True)
+            bpy.data.libraries.write(str(GROVE_LIB), set(grove), compress=True)
+            print("grove: cached to", GROVE_LIB)
 
-tick("birches")
 # ---------------------------------------------------------------- the shots
 CAMS = {
     "arrive": ((52.6, 13.4), 1.65, (31.0, 11.3, 2.2), 24),

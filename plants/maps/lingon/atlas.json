@@ -1,0 +1,14 @@
+{
+ "leaf1": {
+  "maturity": 0.7,
+  "aspect": 0.6181,
+  "joint_v": 0.0161,
+  "midrib_u": 0.4991
+ },
+ "leaf2": {
+  "maturity": 0.7,
+  "aspect": 0.6194,
+  "joint_v": 0.0142,
+  "midrib_u": 0.4967
+ }
+}
