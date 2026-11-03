@@ -23,13 +23,15 @@ OUT = HERE / "maps" / PLANT
 MATURITY = {"leafm1": 1.0, "leafm2": 0.95, "leafm3": 0.85, "leafm4": 0.9, "leafs1": 0.6, "leafs2": 0.5, "leafy1": 0.15, "leafy2": 0.25,
             "snaket1": 1.0, "snaket2": 0.95, "snaket3": 0.55, "snaket4": 0.9, "snakel1": 0.95, "snakel2": 0.8}
 SQUARE = PLANT == "monstera"
-SOLID = ("snake", "maple", "pothos", "nest", "spider")
+SOLID = ("snake", "maple", "pothos", "nest", "spider", "boxwood")
 KEEP_STEM = ("maple",)                           # the maple's petiole is part of the leaf (it attaches the card to its twig)                               # no holes in these leaves: pale bands must not read as background                    # (the monstera's maps were made square; the rest keep their proportions)
 HPX = 2048
+DELIGHT = ("boxwood",)                           # small glossy leaves: the studio highlight baked into the photo repeats on every
+                                                 # leaf as a pale band (a clipped box read milky); the renderer adds the gloss
 
 OUT.mkdir(parents=True, exist_ok=True)
 atlas = {}
-for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bonsai" else ("leaf*_0.webp",) if PLANT in ("maple", "pothos", "nest", "spider") else ("*_0.webp",)) for g in SRC.glob(pat)]):   # (bonsai: the bark images aren't leaves)
+for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bonsai" else ("leaf*_0.webp",) if PLANT in ("maple", "pothos", "nest", "spider", "boxwood") else ("*_0.webp",)) for g in SRC.glob(pat)]):   # (bonsai: the bark images aren't leaves)
     name = f.stem.replace("_0", "")
     img = cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
     hsv = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2HSV).astype(np.float32) / 255
@@ -81,6 +83,15 @@ for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bon
         rgba = cv2.resize(rgba, (1536, 1536), interpolation=cv2.INTER_AREA)
     else:
         rgba = cv2.resize(rgba, (max(int(round(HPX * w / h)), 64), HPX), interpolation=cv2.INTER_AREA)
+    if PLANT in DELIGHT:
+        # take the broad lighting out (a wide blur of the luminance inside the leaf), keep the fine detail + the midrib
+        a_ = rgba[..., 3]; inside = (a_ > 0.5).astype(np.float32)
+        L = rgba[..., :3].mean(-1)
+        sig = rgba.shape[1] * 0.12
+        Lb = cv2.GaussianBlur(L * inside, (0, 0), sig) / (cv2.GaussianBlur(inside, (0, 0), sig) + 1e-6)
+        tgt = np.percentile(L[inside > 0], 30)                        # toward the leaf's darker, unlit body colour
+        gain = np.clip(tgt / (Lb + 1e-4), 0.3, 1.6) ** 0.9
+        rgba[..., :3] = np.clip(rgba[..., :3] * gain[..., None], 0, 1)
     # relief: veins (lighter, thin) in grooves; panels puff; from the luminance's high-pass
     lum = cv2.cvtColor((rgba[..., :3] * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY).astype(np.float32) / 255
     hp = lum - cv2.GaussianBlur(lum, (0, 0), 6)

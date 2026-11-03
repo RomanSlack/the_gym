@@ -45,7 +45,7 @@ def _img(p, color=True):
     return im
 
 
-def pothos_material(name, folder=POTHOS, rough=0.38, val=0.92):
+def pothos_material(name, folder=POTHOS, rough=0.38, val=0.92, bump=0.001):
     m = bpy.data.materials.new(f"{folder.name}_{name}"); m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     N.clear()
@@ -57,7 +57,7 @@ def pothos_material(name, folder=POTHOS, rough=0.38, val=0.92):
     hs = N.new("ShaderNodeHueSaturation"); L.new(c.outputs["Color"], hs.inputs["Color"])
     mv = N.new("ShaderNodeMath"); mv.operation = "MULTIPLY_ADD"; mv.inputs[1].default_value = 0.12; mv.inputs[2].default_value = val
     L.new(at.outputs["Fac"], mv.inputs[0]); L.new(mv.outputs[0], hs.inputs["Value"])
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.3; bp.inputs["Distance"].default_value = 0.001
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.3; bp.inputs["Distance"].default_value = bump
     L.new(bh.outputs["Color"], bp.inputs["Height"])
     pb = N.new("ShaderNodeBsdfPrincipled")
     L.new(hs.outputs[0], pb.inputs["Base Color"]); L.new(bp.outputs[0], pb.inputs["Normal"])
