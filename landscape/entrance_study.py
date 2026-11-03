@@ -81,6 +81,17 @@ def terrain(x, y):
 
 
 tick("ground sampled")
+CAMS = {
+    "arrive": ((52.6, 13.4), 1.65, (31.0, 11.3, 2.2), 24),
+    "corner": ((45.2, 22.6), 1.7, (33.0, 9.8, 1.0), 22),
+    "door": ((33.7, 16.6), 1.62, (48.0, 8.5, 0.9), 20),
+    "aerial": ((63.5, -5.0), 21.0, (46.0, 11.0, 0.0), 22),
+    "loop": ((66.5, 2.8), 1.65, (36.0, 13.5, 1.8), 22),
+    "bikes": ((44.5, 6.2), 1.65, (41.5, -3.6, 1.3), 22),
+}
+CAM_XY = np.array(CAMS[SHOT][0]) if SHOT in CAMS else np.array([44.6, 16.6])
+NEAR_R = 1e9 if SHOT == "aerial" else 32.0          # 3D heath only within this of the camera (all of it ran the GPU out)
+
 # the lawn's grass goes from the whole parking roof (the heath replaces it)
 lg = bpy.data.objects.get("lawn_ground")
 if lg:
@@ -151,10 +162,17 @@ def fall(x, y=11.3):
     return 0.125 - np.clip(np.asarray(x) - 30.9, 0, None) / 60.0 + 0 * np.asarray(y)
 
 
+SHELTER = (36.0, -6.0, 49.0, -1.0)             # the covered bike shelter (model site.bike_shelter): open to the forecourt (north)
+_sx, _sy = np.meshgrid(np.linspace(SHELTER[0], SHELTER[2], 27), np.linspace(SHELTER[1], SHELTER[3], 11))
+SHELTER_Z = float(np.percentile(terrain(_sx, _sy), 70)) + 0.02                   # its floor: on the ground there, level
+
+
 def path_top(pts):
     """a path's top along its length s: from the carpet's edge level down (or up) to the ground at its far end"""
     P = np.array(pts, float); L = np.hypot(*np.diff(P, axis=0).T).sum()
     z0 = float(fall(P[0][0])); z1 = float(terrain(*P[-1])) + 0.015
+    if SHELTER[0] - 0.5 < P[-1][0] < SHELTER[2] + 0.5 and SHELTER[1] - 0.5 < P[-1][1] < SHELTER[3] + 0.5:
+        z1 = SHELTER_Z                                                    # (the bike path lands on the shelter's floor)
     return lambda sv: z0 + (z1 - z0) * np.clip(sv / L, 0, 1)
 
 
@@ -229,7 +247,7 @@ def bump(x, y, cx, cy, rx, ry):
 
 
 GROVE = (37.6, 21.6, 5.0, 3.0)                 # mound centre + radii
-GROVE_S = (35.6, -6.6, 4.2, 2.8)               # the smaller south group (Roman 2026-11-03: "the trees")
+GROVE_S = (52.4, -5.8, 3.4, 2.6)               # the smaller south group, east of the bike shelter (Roman 2026-11-03: "the trees")
 LOOP = (62.0, 13.0, 4.5, 10.5)                 # the drop-off loop: centre, island radius, outer radius (model site.surfaces)
 BAYS = (49.5, 21.5, 57.5, 27.0)
 
@@ -243,6 +261,7 @@ SWALE = (46.2, 6.4, 4.6, 2.3)
 def paved(x, y):
     """inside the carpet or a path (+ a hair), as a boolean array"""
     inside = (x > CX0 - 0.5) & (x < CX1 + 0.02) & (y > CY0 - 0.02) & (y < CY1 + 0.02)
+    inside |= (x > SHELTER[0] - 0.02) & (x < SHELTER[2] + 0.02) & (y > SHELTER[1] - 0.02) & (y < SHELTER[3] + 0.02)
     for pts, w in PATHS.values():
         P = np.array(pts)
         for a, b in zip(P[:-1], P[1:]):
@@ -254,6 +273,7 @@ def paved(x, y):
 def paved_top(x, y):
     """the paving's top under (x, y): the carpet plane, or the nearest path's graded level"""
     z = np.where((x > CX0 - 0.6) & (x < CX1 + 1.0) & (y > CY0 - 1.0) & (y < CY1 + 1.0), fall(x), np.nan)   # the carpet + 1 m round it only
+    z = np.where((x > SHELTER[0] - 1.0) & (x < SHELTER[2] + 1.0) & (y > SHELTER[1] - 1.0) & (y < SHELTER[3] + 1.0), SHELTER_Z, z)
     best = np.full(np.shape(x), 1e9)
     for name, (pts, w) in PATHS.items():
         P = np.array(pts); sacc = 0.0
@@ -463,6 +483,11 @@ heath_protos = [proto(f"heather_{i}", "heather", i) for i in range(3)] + [proto(
 swale_protos = [ground.grass_proto("tuft_meadow_e", "meadow", coll)] + heath_protos[3:8]     # sedge + lingonberry + blueberry (the dry hair grass read as straw)
 bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.5, sat=0.7))
 core = ((cxs < 52.0) & (cys > -10.0) & (cys < 25.0))
+dcam = np.hypot(cxs - CAM_XY[0], cys - CAM_XY[1])
+near_cam = dcam < NEAR_R
+cell_free &= near_cam
+if SHOT == "aerial":
+    core &= False                                     # (from the air: one lighter density everywhere)
 for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale & core, heath_protos, 60), ("heath_outer", cell_free & ~in_swale & ~core, heath_protos, 28), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
                               ("swale_plants", cell_free & in_swale, swale_protos, 75)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
@@ -573,10 +598,71 @@ for i in range(420):
     me = stone_mesh(f"cobble_{i}", r, (1.0, rng.uniform(0.55, 0.85), rng.uniform(0.3, 0.5)), 500 + i, cuts=int(rng.integers(1, 5)), smooth_it=3, noise=0.04, sub=3)
     place_stone(f"cobble_{i}", me, x, y, rng.uniform(0.25, 0.4), cobble_m, rng.uniform(0, 6.3))
 tick("heath + rocks")
+# ---------------------------------------------------------------- the covered bike shelter (VISION: ~30 bikes, e-bike charging, sod roof)
+# open to the forecourt (north); a tarred board wall at the back (south) and half walls at the ends against the wind; posts and
+# beams like the building (tarred timber, glulam), a CLT roof with a blackened-steel fascia and the same sod + meadow grass;
+# the floor the forecourt's granite (no mud, plowable); Sheffield hoops in blackened steel, two bikes each; charging posts
+x0_, y0_, x1_, y1_ = SHELTER; FZ = SHELTER_Z
+tar = bpy.data.materials.get("tarred_timber") or bc.material("tar", (0.02, 0.018, 0.016), 0.7)
+glu = bpy.data.materials.get("glulam_spruce") or bc.material("glulam", (0.6, 0.45, 0.3), 0.6)
+cltm = bpy.data.materials.get("clt_natural") or glu
+sodm = bpy.data.materials.get("sod") or bc.material("sod", (0.05, 0.08, 0.02), 0.9)
+BF = Boxes()                                              # the floor: granite, 1200 x 600 running bond, level
+for r in range(int(round((y1_ - y0_) / 0.6))):
+    yc = y0_ + 0.3 + r * 0.6
+    edges = np.arange(x0_ - (0.6 if r % 2 else 0.0), x1_ + 1.2, 1.2)
+    for a, b in zip(edges[:-1], edges[1:]):
+        a, b = max(a, x0_), min(b, x1_)
+        if b - a > 0.05:
+            BF.add(((a + b) / 2, yc), (1, 0), b - a - J, 0.6 - J, FZ + rng.normal(0, 0.0008), 0.25)
+BF.obj("bike_floor", granite)
+CLEAR, BEAM = 2.6, 0.36
+TW, GL, RF, FA, ST = Boxes(), Boxes(), Boxes(), Boxes(), Boxes()
+px_ = np.linspace(x0_ + 0.15, x1_ - 0.15, 5)
+for px in px_:
+    for py in (y0_ + 0.15, y1_ - 0.15):
+        TW.add((px, py), (1, 0), 0.14, 0.14, FZ + CLEAR, CLEAR + 0.3)                       # posts (into the footing)
+for py in (y0_ + 0.15, y1_ - 0.15):
+    GL.add(((x0_ + x1_) / 2, py), (1, 0), x1_ - x0_ + 0.4, 0.115, FZ + CLEAR + BEAM, BEAM)    # beams
+for rx in np.arange(x0_ + 0.2, x1_, 0.6):
+    GL.add((rx, (y0_ + y1_) / 2), (0, 1), y1_ - y0_ + 1.2, 0.07, FZ + CLEAR + BEAM + 0.2, 0.2)  # rafters
+RF.add(((x0_ + x1_) / 2, (y0_ + y1_) / 2), (1, 0), x1_ - x0_ + 1.2, y1_ - y0_ + 1.2, FZ + CLEAR + BEAM + 0.32, 0.12)   # CLT
+for (cx_, cy_, u_, L_) in (((x0_ + x1_) / 2, y0_ - 0.6, (1, 0), x1_ - x0_ + 1.24), ((x0_ + x1_) / 2, y1_ + 0.6, (1, 0), x1_ - x0_ + 1.24),
+                           (x0_ - 0.6, (y0_ + y1_) / 2, (0, 1), y1_ - y0_ + 1.24), (x1_ + 0.6, (y0_ + y1_) / 2, (0, 1), y1_ - y0_ + 1.24)):
+    FA.add((cx_, cy_), u_, L_, 0.012, FZ + CLEAR + BEAM + 0.58, 0.3)                          # steel fascia round the sod
+# the back wall (tarred vertical boards, 120 wide, gaps for air) + half end walls
+for bx in np.arange(x0_ + 0.06, x1_, 0.135):
+    TW.add((bx, y0_ + 0.04), (1, 0), 0.12, 0.025, FZ + CLEAR, CLEAR - 0.12)
+for ex in (x0_ + 0.04, x1_ - 0.04):
+    for by in np.arange(y0_ + 0.06, y0_ + 2.6, 0.135):
+        TW.add((ex, by), (0, 1), 0.12, 0.025, FZ + CLEAR, CLEAR - 0.12)
+# Sheffield hoops (48 mm, 750 high, 700 long) along the middle, a bike either side; two charging posts at the ends
+hy = (y0_ + y1_) / 2 + 0.3
+for hx in np.arange(x0_ + 1.3, x1_ - 1.0, 0.9):
+    for dy in (-0.35, 0.35):
+        ST.add((hx, hy + dy), (1, 0), 0.048, 0.048, FZ + 0.75, 0.95)
+    ST.add((hx, hy), (0, 1), 0.748, 0.048, FZ + 0.75, 0.048)
+for cxp in (x0_ + 0.6, x1_ - 0.6):
+    ST.add((cxp, hy), (1, 0), 0.14, 0.1, FZ + 1.15, 1.35)
+TW.obj("bike_shelter_tarred", tar); GL.obj("bike_shelter_glulam", glu); RF.obj("bike_shelter_roof", cltm)
+FA.obj("bike_shelter_fascia", steel); ST.obj("bike_stands", steel)
+sod_ = Boxes(); sod_.add(((x0_ + x1_) / 2, (y0_ + y1_) / 2), (1, 0), x1_ - x0_ + 1.18, y1_ - y0_ + 1.18, FZ + CLEAR + BEAM + 0.5, 0.18)
+so = sod_.obj("bike_shelter_sod", sodm)
+ng_roof = bpy.data.node_groups.get("GN_grass_roof")
+if ng_roof:
+    md_ = so.modifiers.new("grass", "NODES"); md_.node_group = ng_roof
+led = bc.material("charge_led", (0.1, 0.9, 0.4), 0.4); led.node_tree.nodes["Principled BSDF"].inputs["Emission Color"].default_value = (0.2, 1.0, 0.5, 1)
+led.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value = 4.0
+LD = Boxes()
+for cxp in (x0_ + 0.6, x1_ - 0.6):
+    LD.add((cxp, hy + 0.052), (1, 0), 0.03, 0.004, FZ + 1.05, 0.03)
+LD.obj("charge_leds", led)
+print("bike shelter: floor at %.2f, %d hoops" % (FZ, len(np.arange(x0_ + 1.3, x1_ - 1.0, 0.9))))
+
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "stones":
-    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v5.blend"     # grown once, then appended (3 minutes of birch growing per shot)
+    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v6.blend"     # grown once, then appended (3 minutes of birch growing per shot)
     if GROVE_LIB.exists():
         with bpy.data.libraries.load(str(GROVE_LIB), link=False) as (src, dst):
             dst.objects = [n for n in src.objects if n.startswith("grove_birch_")]
@@ -586,7 +672,7 @@ if SHOT != "stones":
     else:
         grove = []
         for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8),
-                                        (34.6, -6.0, 6.6), (37.4, -7.4, 7.6), (35.8, -8.6, 5.8))):   # north grove + south group
+                                        (51.2, -4.9, 6.6), (53.7, -6.3, 7.6), (51.9, -7.6, 5.8))):   # north grove + south group
             zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) + 0.4 * float(bump(x, y, *GROVE_S))
             objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}", leaf_scale=1.5, leaf_grid=2)   # (real leaves on a 7 m birch: 4-6 cm)
             for o in objs:
@@ -599,13 +685,6 @@ if SHOT != "stones":
             print("grove: cached to", GROVE_LIB)
 
 # ---------------------------------------------------------------- the shots
-CAMS = {
-    "arrive": ((52.6, 13.4), 1.65, (31.0, 11.3, 2.2), 24),
-    "corner": ((45.2, 22.6), 1.7, (33.0, 9.8, 1.0), 22),
-    "door": ((33.7, 16.6), 1.62, (48.0, 8.5, 0.9), 20),
-    "aerial": ((63.5, -5.0), 21.0, (46.0, 11.0, 0.0), 22),
-    "loop": ((66.5, 2.8), 1.65, (36.0, 13.5, 1.8), 22),
-}
 if SHOT == "stones":
     out = ROOT / "landscape" / "work"; out.mkdir(exist_ok=True)
     for i_, (c_, t_, l_) in enumerate((((47.6, 13.6, 1.3), (44.6, 16.6, 0.3), 30), ((47.0, 3.4, 1.4), (44.8, 6.6, 0.0), 30))):
