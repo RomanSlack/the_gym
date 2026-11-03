@@ -35,7 +35,7 @@ def bark():
     N, L = m.node_tree.nodes, m.node_tree.links
     b = N["Principled BSDF"]
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 180; nz.inputs["Detail"].default_value = 6
-    cr = N.new("ShaderNodeValToRGB"); cr.color_ramp.elements[0].color = (0.11, 0.1, 0.085, 1); cr.color_ramp.elements[1].color = (0.24, 0.22, 0.19, 1)
+    cr = N.new("ShaderNodeValToRGB"); cr.color_ramp.elements[0].color = (0.05, 0.042, 0.032, 1); cr.color_ramp.elements[1].color = (0.13, 0.11, 0.085, 1)   # (lighter read as aluminium)
     L.new(nz.outputs["Fac"], cr.inputs["Fac"]); L.new(cr.outputs["Color"], b.inputs["Base Color"])
     bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = 0.3; L.new(nz.outputs["Fac"], bp.inputs["Height"]); L.new(bp.outputs[0], b.inputs["Normal"])
     b.inputs["Roughness"].default_value = 0.75
@@ -60,19 +60,19 @@ def build(seed, loc=(0, 0, 0), height=1.9, name="ficus"):
     big = ["leaf1", "leaf2", "leaf4", "leaf5"]
     banks = {k: ([], [], [], []) for k in atlas}
     placed = []                                                          # (centre, radius)
-    n_br = int(rng.integers(3, 6)); a0 = rng.uniform(0, 2 * math.pi)
+    n_br = int(rng.integers(5, 8)); a0 = rng.uniform(0, 2 * math.pi)
     n_leaf = 0
     for b in range(n_br):
         a = a0 + 2 * math.pi * b / n_br + rng.normal(0, 0.25)
-        k = int(rng.uniform(0.8, 1.0) * (len(trunk) - 1))
+        k = int(rng.uniform(0.75, 1.0) * (len(trunk) - 1))
         Lb = (height - Ht) * rng.uniform(0.75, 1.0)
-        br = _curve(trunk[k], [math.cos(a) * 0.55, math.sin(a) * 0.55, 1], Lb, 16, rng, up=0.4, wob=0.03)
+        br = _curve(trunk[k], [math.cos(a) * 0.8, math.sin(a) * 0.8, 1], Lb * rng.uniform(0.7, 1.0), 16, rng, up=0.5, wob=0.03)
         wood.append((br, np.linspace(0.017, 0.007, len(br))))
         # leaves: spiralling up the outer 70 %, biggest low, a young one at the tip
-        nl = int(rng.integers(9, 15))
+        nl = int(rng.integers(14, 21))
         phi = rng.uniform(0, 6.3)
         for i in range(nl):
-            t = 0.3 + 0.7 * i / (nl - 1)
+            t = 0.15 + 0.85 * i / (nl - 1)
             j = min(int(t * (len(br) - 1)), len(br) - 2)
             p = br[j]; tang = _unit(br[j + 1] - br[j])
             young = i == nl - 1
@@ -80,24 +80,25 @@ def build(seed, loc=(0, 0, 0), height=1.9, name="ficus"):
             info = atlas[nm]
             Ls = (0.14 if young else rng.uniform(0.24, 0.36) * (1.1 - 0.35 * t))
             best = None
-            for att in range(25):
+            for att in range(40):
                 ph = phi + math.radians(137.5) * i + rng.normal(0, 0.35 + 0.05 * att)
                 out = _unit(np.cross(tang, [0, 0, 1.0]) * math.cos(ph) + np.cross(tang, np.cross(tang, [0, 0, 1.0])) * math.sin(ph) * -1)
                 out = _unit(out + np.array([0, 0, 0.1]))
                 pet = rng.uniform(0.03, 0.05)
                 j0 = p + _unit(out + tang * 0.4) * pet
                 # the blade: out and up from the petiole, nodding (tip a little below level), facing up-and-out
-                el = math.radians(rng.uniform(15, 45) if not young else 60)
+                el = math.radians(rng.uniform(35, 70) if not young else 75)
                 fan = _unit(out * math.cos(el) + np.array([0, 0, 1.0]) * math.sin(el) + rng.normal(0, 0.08, 3))
                 c = j0 + fan * Ls * 0.5
-                r = Ls * 0.45
-                if all(np.linalg.norm(c - q) > r + rq for q, rq in placed) and np.linalg.norm((c - trunk[-1])[:2]) > 0.06:
+                r = Ls * 0.4
+                if all(np.linalg.norm(c - q) > 0.72 * (r + rq) for q, rq in placed) and np.linalg.norm((c - trunk[-1])[:2]) > 0.06:
                     best = (j0, fan, c, r); break
             if best is None:
                 continue
             j0, fan, c, r = best
             placed.append((c, r))
-            nrm = _unit(np.array([0, 0, 1.0]) - fan * fan[2]); nrm = _unit(nrm + out * 0.3)
+            hor = _unit(np.array([c[0], c[1], 0.0]) + out * 0.5)                   # facing out of the head (edge-on read as sticks)
+            nrm = _unit(hor - fan * (hor @ fan)); nrm = _unit(nrm + np.array([0, 0, 0.25]) - fan * 0.25)
             wv = _unit(np.cross(fan, nrm)); w = Ls * info["aspect"]
             V, F, U, A = banks[nm]; o_ = len(V); G = 6
             wph = rng.uniform(0, 6.3)

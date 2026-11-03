@@ -54,7 +54,7 @@ if TREE == "ficus":                                                   # a tall r
     bpy.context.object.data.materials.append(steel); bpy.ops.object.shade_smooth()
     bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.248, depth=0.02, location=(0, 0, 0.52))
     bpy.context.object.data.materials.append(soil)
-    objs = gen_ficus.build(SEED, (0, 0, 0.52), height=1.75)
+    objs = gen_ficus.build(SEED, (0, 0, 0.52), height=1.95)
 elif TREE == "birch":                                                   # a round planter, the stems from one root plate
     bpy.ops.mesh.primitive_cylinder_add(vertices=96, radius=0.48, depth=PH, location=(0, 0, PH / 2))
     bpy.context.object.data.materials.append(steel); bpy.ops.object.shade_smooth()
