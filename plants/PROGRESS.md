@@ -94,3 +94,6 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 20:27 `out/pine_bark_v001.jpg` Pine bark close-up: plated grey-brown bark low, Scots-pine orange on the branches
 - 2026-11-02 20:27 `out/birch_full_v001.jpg` Multi-stem silver birch, 3 m: 3 white stems, arching branches with weeping twigs, ~24k leaves from a generated birch leaf atlas
 - 2026-11-02 20:27 `out/birch_bark_v001.jpg` Birch bark close-up: chalk-white bark with lenticels, black eyebrows under the branch joints, dark fissured foot
+- 2026-11-02 20:33 `out/grasses_v001.jpg` Ornamental grasses in a blackened steel trough on pebbles: fountain grass with bottlebrush plumes, blonde feather grass, tall miscanthus with silver plumes; every blade and bristle real geometry
+- 2026-11-02 20:33 `out/pine_pad_v001.jpg` Pine pad close-up, v2: needles flaring at the shoot base so no bare stems hang below, smaller buds
+- 2026-11-02 20:33 `out/pine_full_v002.jpg` Cloud-pruned pine with the clothed shoots
