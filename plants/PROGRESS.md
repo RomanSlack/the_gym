@@ -122,3 +122,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 12:15 `out/entrance_aerial_v001.jpg` Entrance study B: aerial (heath v2, new stones)
 - 2026-11-03 12:17 `out/entrance_arrive_v004.jpg` Entrance study B: arrive (heath v2, new stones)
 - 2026-11-03 12:19 `out/entrance_corner_v003.jpg` Entrance study B: corner (heath v2, new stones)
+- 2026-11-03 13:11 `out/entrance_aerial_v002.jpg` Draft aerial: drop-off loop (ring asphalt, granite kerbs), heath to the forest edge, birch grove north + group south, framing pines

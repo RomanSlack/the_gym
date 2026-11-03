@@ -82,7 +82,7 @@ def _arc(p0, d0, L, n, rng, droop, wob=0.15):
     return np.array(pts)
 
 
-def build(seed, loc=(0, 0, 0), height=2.8, name="birch"):
+def build(seed, loc=(0, 0, 0), height=2.8, name="birch", leaf_scale=1.0):
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
     spines, joints, twigs = [], [], []
@@ -177,7 +177,7 @@ def build(seed, loc=(0, 0, 0), height=2.8, name="birch"):
             pet = _unit(sv + np.array([0, 0, -0.3]) + rng.normal(0, 0.2, 3))
             j0 = tw[j] + pet * rng.uniform(0.008, 0.016)
             nm = names[int(rng.choice(len(names), p=pw))]; info = atlas[nm]
-            Ls = rng.uniform(0.022, 0.038) * (0.75 if nm == "leaf4" else 1.0)   # (3-5.5 cm read oversized at 3 m)
+            Ls = rng.uniform(0.022, 0.038) * (0.75 if nm == "leaf4" else 1.0) * leaf_scale   # (3-5.5 cm read oversized at 3 m; a 7 m tree: x1.5)
             fan = _unit(np.array([0, 0, -0.75]) + pet * 0.7 + rng.normal(0, 0.25, 3))        # hanging off the petiole
             facing = _unit(np.array([*_unit(j0[:2] - 0 * j0[:2] + 1e-6)[:2], 0.4]) + rng.normal(0, 0.4, 3))
             nrm = _unit(facing - fan * (facing @ fan))
@@ -191,7 +191,7 @@ def build(seed, loc=(0, 0, 0), height=2.8, name="birch"):
                     V.append(j0 + fan * y + wv * x + nrm * z); U.append((u_, v_))
             F += [[o_ + jv * 3 + ju, o_ + jv * 3 + ju + 1, o_ + (jv + 1) * 3 + ju + 1, o_ + (jv + 1) * 3 + ju] for jv in range(2) for ju in range(2)]
             A += [rng.uniform(-0.8, 0.8)] * 9
-            s += rng.uniform(0.011, 0.02); side = -side
+            s += rng.uniform(0.011, 0.02) * leaf_scale ** 1.4; side = -side          # (bigger leaves, spaced to match: same cover, fewer faces)
     objs.append(_obj(f"{name}_twigs", np.concatenate(tv) + loc, tf, twig_material()))
     n_l = 0
     for nm, (V, F, U, A) in banks.items():

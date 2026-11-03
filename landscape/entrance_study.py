@@ -31,6 +31,7 @@ import ground  # noqa: E402
 import shoot  # noqa: E402
 
 SHOT = sys.argv[sys.argv.index("--") + 1:][0]
+DRAFT = "draft" in sys.argv[sys.argv.index("--") + 1:]                   # quick look: 32 samples, 60 % size
 import time as _t
 _T0 = _t.time()
 def tick(what):
@@ -47,7 +48,7 @@ rng = np.random.default_rng(11)
 coll = bpy.data.collections.new("7 · entrance landscape"); scene.collection.children.link(coll)
 
 # ---------------------------------------------------------------- the ground as it is (before anything is added)
-X0, X1, Y0, Y1, STEP = 28.0, 66.0, -12.0, 30.0, 0.25
+X0, X1, Y0, Y1, STEP = 28.0, 78.0, -16.0, 32.0, 0.25
 dg = bpy.context.evaluated_depsgraph_get()
 xs, ys = np.arange(X0, X1 + 1e-6, STEP), np.arange(Y0, Y1 + 1e-6, STEP)
 TER = np.full((len(ys), len(xs)), 0.12)
@@ -84,7 +85,7 @@ tick("ground sampled")
 lg = bpy.data.objects.get("lawn_ground")
 if lg:
     bm = bmesh.new(); bm.from_mesh(lg.data)
-    bmesh.ops.delete(bm, geom=[f for f in bm.faces if 30.4 < f.calc_center_median().x < 60.5 and -9.8 < f.calc_center_median().y < 24.5], context="FACES")
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if 30.4 < f.calc_center_median().x < 77.0 and -15.0 < f.calc_center_median().y < 31.0], context="FACES")
     bm.to_mesh(lg.data); bm.free()
 
 # ---------------------------------------------------------------- materials
@@ -124,12 +125,12 @@ class Boxes:
     def __init__(self):
         self.V, self.F, self.P = [], [], []
 
-    def add(self, c, u, along, across, top, depth, pr=None):
+    def add(self, c, u, along, across, top, depth, pr=None, slope=0.0):
         u = np.array([u[0], u[1], 0.0]); u /= np.linalg.norm(u); v = np.array([-u[1], u[0], 0.0])
         o = len(self.V)
         for dz in (top - depth, top):
             for a, b in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
-                self.V.append(np.array([c[0], c[1], dz]) + u * a * along / 2 + v * b * across / 2)
+                self.V.append(np.array([c[0], c[1], dz + slope * a * along / 2]) + u * a * along / 2 + v * b * across / 2)
         for f in ((0, 3, 2, 1), (4, 5, 6, 7), (0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7)):
             self.F.append([o + k for k in f])
         self.P += [rng.random() if pr is None else pr] * 6
@@ -202,7 +203,8 @@ for name, (pts, w) in PATHS.items():
         n = np.array([-t[1], t[0]]); sp = rng.uniform(0.35, 0.65) * w
         for a, b in ((-w / 2, -w / 2 + sp), (-w / 2 + sp, w / 2)):
             cc = c + n * (a + b) / 2
-            S.add(cc, t, 0.6 - J, b - a - J, float(zf(0.3 + 0.6 * k_)) + rng.normal(0, 0.001), 0.25)
+            s_ = 0.3 + 0.6 * k_
+            S.add(cc, t, 0.6 - J, b - a - J, float(zf(s_)) + rng.normal(0, 0.001), 0.25, slope=float(zf(s_ + 0.3) - zf(s_ - 0.3)) / 0.6)
 S.obj("granite_forecourt", granite)
 
 # slot drains: along the glass both sides of the vestibule, and across its threshold
@@ -227,6 +229,14 @@ def bump(x, y, cx, cy, rx, ry):
 
 
 GROVE = (37.6, 21.6, 5.0, 3.0)                 # mound centre + radii
+GROVE_S = (35.6, -6.6, 4.2, 2.8)               # the smaller south group (Roman 2026-11-03: "the trees")
+LOOP = (62.0, 13.0, 4.5, 10.5)                 # the drop-off loop: centre, island radius, outer radius (model site.surfaces)
+BAYS = (49.5, 21.5, 57.5, 27.0)
+
+
+def asphalt(x, y):
+    r = np.hypot(x - LOOP[0], y - LOOP[1])
+    return ((r > LOOP[2] - 0.06) & (r < LOOP[3] + 0.06)) | ((x > BAYS[0] - 0.05) & (x < BAYS[2] + 0.05) & (y > BAYS[1] - 0.05) & (y < BAYS[3] + 0.05))
 SWALE = (46.2, 6.4, 4.6, 2.3)
 
 
@@ -243,7 +253,7 @@ def paved(x, y):
 
 def paved_top(x, y):
     """the paving's top under (x, y): the carpet plane, or the nearest path's graded level"""
-    z = np.where((x < CX1 + 0.6), fall(x), np.nan)
+    z = np.where((x > CX0 - 0.6) & (x < CX1 + 1.0) & (y > CY0 - 1.0) & (y < CY1 + 1.0), fall(x), np.nan)   # the carpet + 1 m round it only
     best = np.full(np.shape(x), 1e9)
     for name, (pts, w) in PATHS.items():
         P = np.array(pts); sacc = 0.0
@@ -259,21 +269,25 @@ tb = bpy.data.objects.get("terrain_building")       # its base mesh: pushed down
 if tb:
     co = np.array([v.co for v in tb.data.vertices]); wco = np.array([tb.matrix_world @ v.co for v in tb.data.vertices])
     near = np.zeros(len(co), bool)
-    for dx in (-0.8, 0, 0.8):
-        for dy in (-0.8, 0, 0.8):
-            near |= paved(wco[:, 0] + dx, wco[:, 1] + dy)
+    for dx in (-1.1, -0.55, 0, 0.55, 1.1):
+        for dy in (-1.1, -0.55, 0, 0.55, 1.1):
+            near |= paved(wco[:, 0] + dx, wco[:, 1] + dy) | asphalt(wco[:, 0] + dx, wco[:, 1] + dy)
     pt = paved_top(wco[:, 0], wco[:, 1])
+    ga = np.mean([terrain(wco[:, 0] + dx, wco[:, 1] + dy) for dx in (-0.8, 0, 0.8) for dy in (-0.8, 0, 0.8)], axis=0)
+    pt = np.where(np.isnan(pt) & asphalt(wco[:, 0], wco[:, 1]) | (np.isnan(pt) & near), ga, pt)
     lower = near & ~np.isnan(pt) & (wco[:, 2] > pt - 0.06)
     co[lower, 2] -= (wco[lower, 2] - (pt[lower] - 0.06))
     tb.data.vertices.foreach_set("co", co.ravel().astype(np.float32)); tb.data.update()
     print("terrain_building: lowered", int(lower.sum()), "vertices under the paving")
 
-HX0, HX1, HY0, HY1, HS = 30.6, 60.0, -9.6, 24.4, 0.25
+HX0, HX1, HY0, HY1, HS = 30.6, 76.0, -14.0, 30.0, 0.25
 gx, gy = np.meshgrid(np.arange(HX0, HX1 + 1e-6, HS), np.arange(HY0, HY1 + 1e-6, HS))
-gz = terrain(gx, gy) + 0.02 + 0.45 * bump(gx, gy, *GROVE) - 0.38 * bump(gx, gy, *SWALE) + 0.03 * np.sin(gx * 1.3) * np.cos(gy * 1.7)
+gz = terrain(gx, gy) + 0.02 + 0.45 * bump(gx, gy, *GROVE) + 0.4 * bump(gx, gy, *GROVE_S) - 0.38 * bump(gx, gy, *SWALE) + 0.03 * np.sin(gx * 1.3) * np.cos(gy * 1.7)
 pv = paved(gx, gy)
 ptop = paved_top(gx, gy)
 gz = np.where(pv, np.minimum(gz, np.nan_to_num(ptop, nan=9) - 0.03), gz)              # tucked under the paving
+am = asphalt(gx, gy)
+gz = np.where(am, np.minimum(gz, np.mean([terrain(gx + dx, gy + dy) for dx in (-0.8, 0, 0.8) for dy in (-0.8, 0, 0.8)], axis=0) + 0.0), gz)   # and just under the asphalt
 edge = ~pv & ~np.isnan(ptop)                                                         # the heath meets the paving's level at its edge
 gz = np.where(edge, np.minimum(gz, ptop + 0.04 + 0.25 * np.clip(gz - ptop - 0.04, 0, None)), gz)
 ny, nx = gx.shape
@@ -281,6 +295,39 @@ V = np.stack([gx.ravel(), gy.ravel(), gz.ravel()], 1)
 idx = np.arange(nx * ny).reshape(ny, nx)
 F = np.stack([idx[:-1, :-1].ravel(), idx[:-1, 1:].ravel(), idx[1:, 1:].ravel(), idx[1:, :-1].ravel()], 1)
 heath = mesh_obj("heath_ground", V, F, heath_material(), smooth=True)
+# the asphalt: the loop + the bays, on the ground's own grade (smoothed), clean black, no markings
+def ground_smooth(x, y):
+    """the ground averaged over ~1.6 m: asphalt lies on the grade, not on every bump"""
+    return np.mean([terrain(x + dx, y + dy) for dx in (-0.8, 0, 0.8) for dy in (-0.8, 0, 0.8)], axis=0)
+
+
+RA, RB = [], []
+NS, NR = 160, 8
+for i in range(NS):
+    a_ = 2 * math.pi * i / NS
+    for j in range(NR + 1):
+        r_ = LOOP[2] + (LOOP[3] - LOOP[2]) * j / NR
+        RA.append((LOOP[0] + math.cos(a_) * r_, LOOP[1] + math.sin(a_) * r_))
+RA = np.array(RA); VA = np.c_[RA, ground_smooth(RA[:, 0], RA[:, 1]) + 0.03]
+FA = [[i * (NR + 1) + j, ((i + 1) % NS) * (NR + 1) + j, ((i + 1) % NS) * (NR + 1) + j + 1, i * (NR + 1) + j + 1] for i in range(NS) for j in range(NR)]
+bx, by_ = np.meshgrid(np.linspace(BAYS[0], BAYS[2], 17), np.linspace(BAYS[1], BAYS[3], 12))
+VB = np.c_[bx.ravel(), by_.ravel(), ground_smooth(bx.ravel(), by_.ravel()) + 0.03]
+ib = np.arange(bx.size).reshape(bx.shape)
+FB = np.stack([ib[:-1, :-1].ravel(), ib[:-1, 1:].ravel(), ib[1:, 1:].ravel(), ib[1:, :-1].ravel()], 1) + len(VA)
+asph_m = bc.material("asphalt_black", (0.035, 0.035, 0.037), 0.82)
+mesh_obj("dropoff_asphalt", np.vstack([VA, VB]), FA + FB.tolist(), asph_m, smooth=True)
+# granite kerbs: round the island (a 12 cm upstand) and the loop's outer edge (flush)
+K = Boxes()
+for rad, up in ((LOOP[2], 0.12), (LOOP[3], 0.01)):
+    n_ = int(2 * math.pi * rad / 1.0)
+    for i in range(n_):
+        a0 = 2 * math.pi * i / n_; a1 = 2 * math.pi * (i + 1) / n_; am_ = (a0 + a1) / 2
+        c_ = np.array([LOOP[0] + math.cos(am_) * rad, LOOP[1] + math.sin(am_) * rad])
+        if rad == LOOP[3] and np.hypot(c_[0] - 52.0, c_[1] - 13.1) < 1.4:
+            continue                                                       # (the path meets the loop here: no kerb)
+        top = float(ground_smooth(c_[0], c_[1])) + 0.03 + up
+        K.add(c_, (-math.sin(am_), math.cos(am_)), 2 * math.pi * rad / n_ - 0.006, 0.15, top, 0.3)
+K.obj("kerbs", granite)
 # the planting lives on the faces clear of the paving (a copy 1 mm down carries the scatter)
 cell_free = ~(pv[:-1, :-1] | pv[:-1, 1:] | pv[1:, 1:] | pv[1:, :-1]).ravel()
 
@@ -292,8 +339,9 @@ def bed_y(x):
 
 cxs, cys = (gx[:-1, :-1] + HS / 2).ravel(), (gy[:-1, :-1] + HS / 2).ravel()
 by, bin_ = bed_y(cxs)
-in_bed = bin_ & (np.abs(cys - by) < 0.5 + 0.15 * np.cos(cxs * 1.7))
+in_bed = bin_ & (np.abs(cys - by) < 0.38 + 0.12 * np.cos(cxs * 1.7))
 cell_free &= ~in_bed
+cell_free &= ~(am[:-1, :-1] | am[:-1, 1:] | am[1:, 1:] | am[1:, :-1]).ravel()
 in_swale = (bump(gx, gy, *SWALE)[:-1, :-1] > 0.05).ravel()
 V2 = V.copy(); V2[:, 2] -= 0.001
 
@@ -412,10 +460,10 @@ def proto(name, kind, seed):
 
 heath_protos = [proto(f"heather_{i}", "heather", i) for i in range(3)] + [proto(f"lingon_{i}", "lingonberry", 10 + i) for i in range(3)] + \
                [proto(f"blueb_{i}", "blueberry", 20 + i) for i in range(2)]
-swale_protos = [ground.grass_proto("tuft_meadow_e", "meadow", coll), ground.grass_proto("tuft_dry_e2", "dry", coll)] + heath_protos[3:6]
-bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.85))
+swale_protos = [ground.grass_proto("tuft_meadow_e", "meadow", coll)] + heath_protos[3:8]     # sedge + lingonberry + blueberry (the dry hair grass read as straw)
+bedg = mesh_obj("stream_bed", V + np.array([0, 0, 0.004]), F[in_bed], bc.pbr_material("river_gravel", "river_small_rocks", 1.0, piece_var=0.0, val=0.5, sat=0.7))
 for nm, sel, protos, dens in (("heath_plants", cell_free & ~in_swale, heath_protos, 60), ("heath_grass", cell_free & ~in_swale, [ground.grass_proto("tuft_dry_e", "dry", coll)], 3),
-                              ("swale_plants", cell_free & in_swale, swale_protos, 40)):
+                              ("swale_plants", cell_free & in_swale, swale_protos, 75)):
     o = mesh_obj(nm, V2, F[sel], heath.data.materials[0])
     md = o.modifiers.new("plants", "NODES"); md.node_group = ground.grass_nodes("GN_" + nm, protos, dens, seed=len(nm))
 
@@ -501,7 +549,7 @@ def stone_mesh(name, r, aspect, seed, cuts, smooth_it=3, noise=0.035, sub=5):
 
 def place_stone(name, me, x, y, sink, mat, yaw):
     zs = me.vertices; zmin = min(v.co.z for v in zs); zmax = max(v.co.z for v in zs)
-    zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) - 0.38 * float(bump(x, y, *SWALE)) + 0.02
+    zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) + 0.4 * float(bump(x, y, *GROVE_S)) - 0.38 * float(bump(x, y, *SWALE)) + 0.02
     me.transform(__import__("mathutils").Matrix.Translation((0, 0, -(zmin + (zmax - zmin) * sink))))
     o = bpy.data.objects.new(name, me); coll.objects.link(o); me.materials.append(mat)
     o.location = (x, y, zb); o.rotation_euler[2] = yaw
@@ -518,8 +566,8 @@ for (cx, cy), R, n in CLUSTERS:
         me = stone_mesh(f"boulder_{k_}", r, (1.0, rng.uniform(0.7, 0.9), rng.uniform(0.5, 0.68)), 200 + k_, cuts=int(rng.integers(9, 14)), smooth_it=1, noise=0.045)
         place_stone(f"boulder_{k_}", me, cx + math.cos(a) * dd, cy + math.sin(a) * dd, rng.uniform(0.3, 0.42), boulder_m, rng.uniform(0, 6.3)); k_ += 1
 # river stones: a dry stream bed down the middle of the swale, packed, bigger ones at the bends, smaller ones in between
-for i in range(300):
-    t = rng.uniform(-1, 1); x = SWALE[0] + t * SWALE[2] * 0.82; y = SWALE[1] + 0.35 * math.sin(t * 2.4) + float(np.clip(rng.normal(0, 0.2), -0.45, 0.45))
+for i in range(420):
+    t = rng.uniform(-1, 1); x = SWALE[0] + t * SWALE[2] * 0.82; y = SWALE[1] + 0.35 * math.sin(t * 2.4) + float(np.clip(rng.normal(0, 0.17), -0.36, 0.36))
     r = float(rng.choice([rng.uniform(0.03, 0.08), rng.uniform(0.08, 0.16), rng.uniform(0.16, 0.3)], p=[0.6, 0.3, 0.1]))
     me = stone_mesh(f"cobble_{i}", r, (1.0, rng.uniform(0.55, 0.85), rng.uniform(0.3, 0.5)), 500 + i, cuts=int(rng.integers(1, 5)), smooth_it=3, noise=0.04, sub=3)
     place_stone(f"cobble_{i}", me, x, y, rng.uniform(0.25, 0.4), cobble_m, rng.uniform(0, 6.3))
@@ -527,7 +575,7 @@ tick("heath + rocks")
 # ---------------------------------------------------------------- the birch grove (multi-stem silver birch on the mound)
 import gen_birch  # noqa: E402
 if SHOT != "stones":
-    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v1.blend"     # grown once, then appended (3 minutes of birch growing per shot)
+    GROVE_LIB = ROOT / "landscape" / "out" / "grove_v4.blend"     # grown once, then appended (3 minutes of birch growing per shot)
     if GROVE_LIB.exists():
         with bpy.data.libraries.load(str(GROVE_LIB), link=False) as (src, dst):
             dst.objects = [n for n in src.objects if n.startswith("grove_birch_")]
@@ -536,9 +584,10 @@ if SHOT != "stones":
         print("grove: appended", len(dst.objects), "objects")
     else:
         grove = []
-        for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8))):
-            zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE))
-            objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}")
+        for k, (x, y, h) in enumerate(((36.0, 21.2, 7.2), (38.8, 22.7, 8.0), (40.2, 20.6, 6.4), (35.4, 23.4, 6.8),
+                                        (34.6, -6.0, 6.6), (37.4, -7.4, 7.6), (35.8, -8.6, 5.8))):   # north grove + south group
+            zb = float(terrain(x, y)) + 0.45 * float(bump(x, y, *GROVE)) + 0.4 * float(bump(x, y, *GROVE_S))
+            objs = gen_birch.build(40 + k, (x, y, zb - 0.05), height=h, name=f"grove_birch_{k}", leaf_scale=1.5)   # (real leaves on a 7 m birch: 4-6 cm)
             for o in objs:
                 for c in o.users_collection:
                     c.objects.unlink(o)
@@ -553,7 +602,8 @@ CAMS = {
     "arrive": ((52.6, 13.4), 1.65, (31.0, 11.3, 2.2), 24),
     "corner": ((45.2, 22.6), 1.7, (33.0, 9.8, 1.0), 22),
     "door": ((33.7, 16.6), 1.62, (48.0, 8.5, 0.9), 20),
-    "aerial": ((63.0, -7.0), 17.0, (39.0, 11.0, 0.0), 26),
+    "aerial": ((63.5, -5.0), 21.0, (46.0, 11.0, 0.0), 22),
+    "loop": ((66.5, 2.8), 1.65, (36.0, 13.5, 1.8), 22),
 }
 if SHOT == "stones":
     out = ROOT / "landscape" / "work"; out.mkdir(exist_ok=True)
@@ -563,7 +613,32 @@ if SHOT == "stones":
     raise SystemExit
 (cx, cy), h, tgt, lens = CAMS[SHOT]
 loc = (cx, cy, float(terrain(cx, cy)) + h)
+if DRAFT:
+    scene.cycles.samples = 32; scene.render.resolution_percentage = 60
+# ---------------------------------------------------------------- pines (the forest's own trees from construction/out/tree_lib.blend)
+# Scots pines close the forecourt to the south and north, off the parking roof (x 30.5-60, y -9.5..24: 1.2 m of soil);
+# young pines stand in the heath on low mounds, the way pines seed into a heath at a forest edge.
+PINES = [  # (x, y, library variant, height m)
+    (52.6, -11.6, 6, 15.5), (58.8, -10.4, 8, 13.0), (46.0, -12.2, 7, 12.0),        # south: the bike shelter side
+    (45.4, 26.8, 9, 13.5), (56.8, 27.6, 6, 16.0), (34.2, 27.0, 8, 12.5),          # north: behind the grove + the bays
+    (67.4, -6.0, 7, 14.0)]                                                          # south-east of the loop
+YOUNG = []                                                                       # (the library's young trees are spruces: wrong in an open heath)
+VH = {6: 14, 7: 13, 8: 15, 9: 12, 10: 3.0, 11: 2.2, 12: 3.8}                    # tools/forest_scatter.py VAR heights
+for k, (x, y, v, h) in enumerate(PINES + YOUNG):
+    near_ = math.hypot(x - loc[0], y - loc[1]) < 18 if SHOT != "stones" else True
+    cname = f"v{v:02d}_L{0 if near_ else 1}"                       # full needles only near the camera (the GPU ran out with 7 at L0)
+    if cname not in bpy.data.collections:
+        with bpy.data.libraries.load(str(ROOT / "construction" / "out" / "tree_lib.blend"), link=False) as (src, dst):
+            dst.collections = [cname]
+    e = bpy.data.objects.new(f"pine_{k}", None); e.instance_type = "COLLECTION"; e.instance_collection = bpy.data.collections[cname]
+    zb = float(terrain(x, y)) - 0.15 + (0.25 * float(bump(x, y, x, y, 1.6, 1.6)) if v >= 10 else 0)
+    e.location = (x, y, zb); s_ = h / VH[v]; e.scale = (s_, s_, s_); e.rotation_euler[2] = rng.uniform(0, 6.3)
+    coll.objects.link(e)
+print("pines:", len(PINES), "+", len(YOUNG), "young")
+
 name = f"ent_{SHOT}"
 bc.camera(scene, f"cam_{name}", loc, tgt, lens)
 lod = bpy.data.objects.get("lod_eye")
+if SHOT == "aerial" and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
+    lod.location = (loc[0], loc[1], loc[2] + 60); bpy.context.view_layer.update(); lod = None
 shoot.shoot(scene, name, name, EXPO, 5, lod)
