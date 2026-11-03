@@ -146,3 +146,7 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 14:54 `out/entrance_arrive_v007.jpg` Entrance: arrive
 - 2026-11-03 15:02 `out/gammelfuru_v001.jpg` Natural old Scots pine (gen_pine.build_natural) beside its reference: seeds 71 / 72, 13 m, dark plated trunk, level limbs, shaggy tufts
 - 2026-11-03 15:04 `out/entrance_approach_v005.jpg` Entrance: approach
+- 2026-11-03 15:07 `out/entrance_approach_v006.jpg` Entrance: approach
+- 2026-11-03 15:08 `out/entrance_loop_v003.jpg` Entrance: loop
+- 2026-11-03 15:09 `out/entrance_arrive_v008.jpg` Entrance: arrive
+- 2026-11-03 15:23 `out/gammelfuru_v002.jpg` Grand tree dialled on its own: natural old Scots pine (gen_pine.build_natural, seed 72, 14 m) | reference, full tree, crown close-up

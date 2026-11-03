@@ -53,11 +53,15 @@ def bark_material(big=False):
     # the plate bark a touch warmer + greyer (the generated one leaned lilac), the flake bark a little less saturated
     pt = N.new("ShaderNodeHueSaturation"); pt.inputs["Hue"].default_value = 0.53; pt.inputs["Saturation"].default_value = 0.8
     pt.inputs["Value"].default_value = 0.42 if big else 0.8; L.new(pc.outputs[0], pt.inputs["Color"])
-    ft = N.new("ShaderNodeHueSaturation"); ft.inputs["Saturation"].default_value = 0.82; ft.inputs["Value"].default_value = 0.85
+    ft = N.new("ShaderNodeHueSaturation"); ft.inputs["Saturation"].default_value = 1.05 if big else 0.82; ft.inputs["Value"].default_value = 0.85
     L.new(fc.outputs[0], ft.inputs["Color"])
+    if big:                                                          # the old pine's upper bark: vivid orange, not pink
+        ot = N.new("ShaderNodeMix"); ot.data_type = "RGBA"; ot.blend_type = "MULTIPLY"; ot.inputs[0].default_value = 1.0
+        L.new(ft.outputs[0], ot.inputs[6]); ot.inputs[7].default_value = (1.0, 0.7, 0.45, 1)
+        ft = ot
     at = N.new("ShaderNodeAttribute"); at.attribute_name = "flake"
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"
-    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(pt.outputs[0], mx.inputs[6]); L.new(ft.outputs[0], mx.inputs[7])
+    L.new(at.outputs["Fac"], mx.inputs[0]); L.new(pt.outputs[0], mx.inputs[6]); L.new(ft.outputs[2] if big else ft.outputs[0], mx.inputs[7])
     hm = N.new("ShaderNodeMix"); hm.data_type = "FLOAT"
     L.new(at.outputs["Fac"], hm.inputs[0]); L.new(ph.outputs[0], hm.inputs[2]); L.new(fh.outputs[0], hm.inputs[3])
     cv = N.new("ShaderNodeMath"); cv.operation = "MULTIPLY_ADD"; cv.inputs[1].default_value = 0.55; cv.inputs[2].default_value = 0.45
@@ -262,7 +266,7 @@ def build_natural(seed, loc=(0, 0, 0), height=13.0, density=2600, lod=3.0, name=
         d = _unit(np.array([0, 0, 1.0]) + lean * 0.06 * math.sin(math.pi * t) + np.cross([0, 0, 1.0], lean) * 0.05 * math.sin(3.1 * t + seed))
         pts.append(pts[-1] + d * H * 0.9 / 50)
     trunk = np.array(pts); tt = np.linspace(0, 1, len(trunk))
-    R0 = 0.032 * H
+    R0 = 0.038 * H
     trad = R0 * (1 - 0.8 * tt) * (1 + 0.45 * np.exp(-tt / 0.03)) + 0.03
     spines = [(trunk, trad)]
     twigs, shoots, dead = [], [], []
@@ -276,49 +280,63 @@ def build_natural(seed, loc=(0, 0, 0), height=13.0, density=2600, lod=3.0, name=
             P.append(P[-1] + d * length / n)
         return np.array(P)
 
-    def tufts_along(br, r_br, frac0):
-        """shaggy needle tufts along the outer part of a branch: flat-ish clusters of shoots, candles pointing up"""
+    def brush(tw):
+        """needles as a pine carries them: shoots along the outer half of a fine twig, candles turned up and out, a
+        terminal shoot on the tip (sprays layered on twigs, not balls)"""
+        L = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(tw, axis=0), axis=1))])
+        s = L[-1] * rng.uniform(0.2, 0.35); step = 0.04 * lod ** 0.5
+        while s <= L[-1]:
+            j = min(int(np.searchsorted(L, s)), len(tw) - 2); f = (s - L[j]) / max(L[j + 1] - L[j], 1e-6)
+            p = tw[j] + (tw[j + 1] - tw[j]) * f; tg = _unit(tw[j + 1] - tw[j])
+            for q_ in range(4):
+                a_ = 2 * math.pi * q_ / 4 + rng.uniform(0, 1.5)
+                b1 = _unit(np.cross(tg, [0, 0, 1.0]) + 1e-6); b2 = np.cross(tg, b1)
+                rad = b1 * math.cos(a_) + b2 * math.sin(a_)
+                d = _unit(tg * 0.55 + rad * 0.45 + np.array([0, 0, 0.75]) + rng.normal(0, 0.15, 3))
+                Ls = rng.uniform(0.07, 0.12) * lod
+                shade = float(np.clip(0.55 + 0.45 * d[2] + rng.normal(0, 0.06), 0.4, 1.0))
+                shoots.append((p, d, Ls, rng.normal(0, 0.06, 3) * [0.8, 1, 1.2], shade))
+            s += step * rng.uniform(0.8, 1.2)
+        d = _unit(_unit(tw[-1] - tw[-2]) + np.array([0, 0, 0.5]))
+        shoots.append((tw[-1], d, 0.13 * lod, np.zeros(3), 1.0))
+
+    def twigs_on(br, frac0, every, length):
+        """fine twigs off a branch's outer part, fanning sideways + up, each with its needle brush"""
         L = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(br, axis=0), axis=1))])
-        s = L[-1] * frac0
-        while s < L[-1]:
-            j = min(int(np.searchsorted(L, s)), len(br) - 1)
-            c = br[j] + np.array([0, 0, rng.uniform(0.02, 0.12)])
-            r = rng.uniform(0.45, 0.8) * (1.15 if s > L[-1] * 0.85 else 1.0)
-            R3 = np.array([r, r, r * 0.38])
-            n_s = int(math.pi * r * r * density / lod ** 2 * 0.32)
-            for _ in range(n_s):
-                u = _unit(rng.normal(0, 1, 3)) * rng.uniform(0.35, 1.05)        # through the volume: a shaggy tuft, not a shell
-                p = c + u * R3
-                d = _unit(np.array([0, 0, 1.4]) + _unit(p - c) * 0.8 + rng.normal(0, 0.3, 3))
-                Ls = rng.uniform(0.07, 0.13) * lod
-                shade = float(np.clip(0.45 + 0.55 * (0.5 + 0.5 * u[2]), 0.35, 1.0))
-                shoots.append((p - d * Ls * 0.6, d, Ls, rng.normal(0, 0.07, 3) * [0.8, 1, 1.2], shade))
-            s += rng.uniform(0.5, 0.8)
+        s = L[-1] * frac0; side = 1
+        while s < L[-1] - 0.05:
+            j = min(int(np.searchsorted(L, s)), len(br) - 2); tg = _unit(br[j + 1] - br[j])
+            sd = _unit(np.cross([0, 0, 1.0], tg)) * side
+            tw = curve(br[j], tg * 0.6 + sd * 0.7 + np.array([0, 0, 0.3]), length * rng.uniform(0.7, 1.3), rise=0.3, droop=0.1, n=6, wob=0.45)
+            twigs.append((tw, np.linspace(0.014, 0.004, len(tw)))); brush(tw)
+            s += every * rng.uniform(0.7, 1.3); side = -side
+        tip = curve(br[-1], _unit(br[-1] - br[-2]) + np.array([0, 0, 0.4]), length * 0.8, rise=0.3, droop=0.0, n=5, wob=0.2)
+        twigs.append((tip, np.linspace(0.012, 0.004, len(tip)))); brush(tip)
 
     # ---- the limbs: from 38 % up, golden-angle round the trunk; long at mid crown, short at the top
     n_l = int(rng.integers(14, 18))
-    hs = np.sort(rng.uniform(0.34, 0.93, n_l))
+    hs = np.sort(rng.uniform(0.28, 0.94, n_l))
     for i, h in enumerate(hs):
         k = int(h * (len(trunk) - 1)); a = az + i * math.radians(137.5) + rng.normal(0, 0.2)
         out = np.array([math.cos(a), math.sin(a), 0.0])
         reach = H * 0.44 * math.sin(math.pi * np.clip((h - 0.26) / 0.76, 0, 1)) ** 0.6 * rng.uniform(0.8, 1.15) + 0.5
-        limb = curve(trunk[k], out + np.array([0, 0, 0.42 - 0.3 * h]), reach, rise=0.05, droop=0.32, n=16, wob=0.14)   # out at ~25-40 deg, levelling wide
-        rl = max(trad[k] * 0.42, 0.04)
+        limb = curve(trunk[k], out + np.array([0, 0, 0.22 + 0.7 * (h - 0.28)]), reach * (1.15 - 0.3 * h), rise=0.1, droop=0.28 * (1.2 - h), n=16, wob=0.4)   # long level limbs low, climbing shorter ones high: a broad dome   # low limbs level, high ones climb (a dome)   # out at ~25-40 deg, levelling wide
+        rl = max(trad[k] * 0.5, 0.05)
         spines.append((limb, np.linspace(rl, 0.03, len(limb))))
         # side branches off the outer half
         for _ in range(int(rng.integers(4, 8))):
             j = int(rng.integers(len(limb) // 3, len(limb) - 2))
             sd = _unit(np.cross([0, 0, 1.0], limb[j + 1] - limb[j]) * rng.choice([-1, 1]) + (limb[j + 1] - limb[j]) * 2)
-            sb = curve(limb[j], sd + np.array([0, 0, 0.25]), reach * rng.uniform(0.25, 0.5), rise=0.2, droop=0.25, n=8, wob=0.18)
-            twigs.append((sb, np.linspace(0.028, 0.008, len(sb))))
-            tufts_along(sb, 0.02, 0.3)
-        tufts_along(limb, rl, 0.45)
+            sb = curve(limb[j], sd + np.array([0, 0, 0.25]), reach * rng.uniform(0.25, 0.5), rise=0.25, droop=0.2, n=8, wob=0.45)
+            twigs.append((sb, np.linspace(0.03, 0.01, len(sb))))
+            twigs_on(sb, 0.15, 0.16, 0.8)
+        twigs_on(limb, 0.22, 0.2, 0.85)
         if rng.random() < 0.25:                                          # a dead grey twig low on the limb
             j = int(rng.integers(1, len(limb) // 3))
             dd = curve(limb[j], _unit(rng.normal(0, 1, 3) + np.array([0, 0, -0.2])), rng.uniform(0.4, 0.9), 0, 0.2, 5, 0.3)
             dead.append((dd, np.linspace(0.018, 0.004, len(dd))))
     # the leader: a last tuft group on top
-    tufts_along(trunk[int(0.85 * len(trunk)):], 0.05, 0.0)
+    twigs_on(trunk[int(0.82 * len(trunk)):], 0.0, 0.25, 0.6)
     # ---- the wood: trunk + limbs fused (voxel size with the tree), bark plate low -> orange flake from 30-50 % up
     allV, allF, off = [], [], 0
     for sp, rr in spines:
@@ -351,6 +369,7 @@ def build_natural(seed, loc=(0, 0, 0), height=13.0, density=2600, lod=3.0, name=
         dm.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.85
         objs.append(_obj(f"{name}_dead", np.concatenate(dv) + loc, df, dm))
     V, F, C = _needles(shoots, rng, lod)
+    C = C * np.array([1.3, 1.22, 1.38])                                  # the reference's lighter, greyer blue-green (it read dark teal)
     objs.append(_obj(f"{name}_needles", V + loc, F, needle_material(), colors=C))
     for o in objs:
         o["tree"] = True
