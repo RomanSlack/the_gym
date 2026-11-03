@@ -1,0 +1,38 @@
+{
+ "leaf1": {
+  "maturity": 0.7,
+  "aspect": 0.7393,
+  "joint_v": 0.0249,
+  "midrib_u": 0.5028
+ },
+ "leaf2": {
+  "maturity": 0.7,
+  "aspect": 0.7941,
+  "joint_v": 0.0338,
+  "midrib_u": 0.4986
+ },
+ "leaf3": {
+  "maturity": 0.7,
+  "aspect": 0.8096,
+  "joint_v": 0.0687,
+  "midrib_u": 0.5057
+ },
+ "leaf4": {
+  "maturity": 0.7,
+  "aspect": 0.7216,
+  "joint_v": 0.0199,
+  "midrib_u": 0.498
+ },
+ "leaf5": {
+  "maturity": 0.7,
+  "aspect": 0.7638,
+  "joint_v": 0.0243,
+  "midrib_u": 0.5052
+ },
+ "leaf6": {
+  "maturity": 0.7,
+  "aspect": 0.7094,
+  "joint_v": 0.0392,
+  "midrib_u": 0.5025
+ }
+}

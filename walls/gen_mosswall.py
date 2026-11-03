@@ -196,6 +196,9 @@ def build(seed, loc=(0, 0, 0), width=2.4, height=1.6, mix=(0.34, 0.36, 0.28, 0.0
             v.co = c
         s_.scale = (r_ * rng.uniform(1, 1.5), r_ * 0.55, r_ * rng.uniform(0.7, 1.0)); s_.rotation_euler = (0, rng.uniform(0, 6.3), 0)
         bpy.ops.object.shade_smooth(); s_.data.materials.append(sm); objs.append(s_)
+    if frame <= 0:                                                       # (a living wall: no frame)
+        print(f"moss base {seed}: {width} x {height} m, {len(F)} faces")
+        return objs
     # the oak frame, flush: its face 1 cm proud of the moss's deepest point
     oak = oak_material()
     fd = relief + 0.03

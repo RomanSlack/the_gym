@@ -23,13 +23,13 @@ OUT = HERE / "maps" / PLANT
 MATURITY = {"leafm1": 1.0, "leafm2": 0.95, "leafm3": 0.85, "leafm4": 0.9, "leafs1": 0.6, "leafs2": 0.5, "leafy1": 0.15, "leafy2": 0.25,
             "snaket1": 1.0, "snaket2": 0.95, "snaket3": 0.55, "snaket4": 0.9, "snakel1": 0.95, "snakel2": 0.8}
 SQUARE = PLANT == "monstera"
-SOLID = ("snake", "maple")
+SOLID = ("snake", "maple", "pothos")
 KEEP_STEM = ("maple",)                           # the maple's petiole is part of the leaf (it attaches the card to its twig)                               # no holes in these leaves: pale bands must not read as background                    # (the monstera's maps were made square; the rest keep their proportions)
 HPX = 2048
 
 OUT.mkdir(parents=True, exist_ok=True)
 atlas = {}
-for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bonsai" else ("leaf*_0.webp",) if PLANT == "maple" else ("*_0.webp",)) for g in SRC.glob(pat)]):   # (bonsai: the bark images aren't leaves)
+for f in sorted([g for pat in (("sprig*_0.webp", "tip*_0.webp") if PLANT == "bonsai" else ("leaf*_0.webp",) if PLANT in ("maple", "pothos") else ("*_0.webp",)) for g in SRC.glob(pat)]):   # (bonsai: the bark images aren't leaves)
     name = f.stem.replace("_0", "")
     img = cv2.cvtColor(cv2.imread(str(f)), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
     hsv = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2HSV).astype(np.float32) / 255

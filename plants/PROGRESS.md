@@ -87,3 +87,4 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-02 16:23 `out/post_bonsai_blue_v001.jpg` A second juniper (seed 5) in the blue nami-glaze pot (Roman: "make a different procedural bonsai like the original one ... in that blue pot")
 - 2026-11-02 16:32 `out/closeup_bonsai_base_v004.jpg` Moss streaks fixed (Roman: "the texture is stretching all weird"): the moss photo was displaced by its own height and smeared on the slopes; now smooth cushions, relief in the bump only. (Tried the Nordic moss study texture: read as felt at this scale, reverted)
 - 2026-11-02 16:39 `out/closeup_bonsai_base_v005.jpg` Moss as real 3D shoots (Roman: "no detail at all on the mossy part ... specialize it for a close-up"): ~20k shoots, each a stem with 12 spiralling leaves, dark base to bright tips, clumped into cushions, the base under them dark
+- 2026-11-02 17:34 `out/pothos_leaf_atlas_v001.jpg` Golden pothos: 6 generated flat-lay leaves from the Commons refs, cut out
