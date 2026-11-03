@@ -132,3 +132,11 @@ Goal and done criteria: GOAL.md. Images: out/index.html.
 - 2026-11-03 13:57 `out/entrance_overview_v001.jpg` Overview: forest floor now Elverum lichen/heath (was orange sand), road as real asphalt, ramp cut in dark granite (was white concrete)
 - 2026-11-03 14:14 `out/entrance_approach_v001.jpg` Draft: driving in: asphalt road between heath banks, pines, the island pine now a real old pine (was a 21 m pole)
 - 2026-11-03 14:16 `out/entrance_approach_v002.jpg` Entrance final pass: approach
+- 2026-11-03 14:17 `out/entrance_loop_v001.jpg` Entrance final pass: loop
+- 2026-11-03 14:19 `out/entrance_arrive_v006.jpg` Entrance final pass: arrive
+- 2026-11-03 14:20 `out/entrance_corner_v005.jpg` Entrance final pass: corner
+- 2026-11-03 14:21 `out/entrance_door_v004.jpg` Entrance final pass: door
+- 2026-11-03 14:23 `out/entrance_bikes_v002.jpg` Entrance final pass: bikes
+- 2026-11-03 14:24 `out/entrance_aerial_v005.jpg` Entrance final pass: aerial
+- 2026-11-03 14:25 `out/entrance_overview_v002.jpg` Entrance final pass: overview
+- 2026-11-03 14:28 `out/grand_pine_v001.jpg` Grand tree for the drop-off island: an 11 m old pine, thick trunk, layered cloud crowns (gen_pine with LOD 3: 5 M needle faces)

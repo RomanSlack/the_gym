@@ -85,15 +85,15 @@ def needle_material():
     return m
 
 
-def _needles(shoots, rng):
+def _needles(shoots, rng, lod=1.0):
     """shoots: (base, dir, length, tint, shade) -> ribbon needles in pairs spiralling round each stem, a bud at the tip;
-    returns V, F, colours"""
+    returns V, F, colours. lod > 1: everything lod x bigger and lod^2 fewer (a big tree seen from 15 m+: Roman "we can have lod")"""
     V, F, C = [], [], []
     off = 0
     GLAU, OLD, BUD, STEM = np.array([0.07, 0.14, 0.075]), np.array([0.09, 0.12, 0.05]), np.array([0.13, 0.075, 0.04]), np.array([0.06, 0.08, 0.04])
     for base, d, Ls, tint, shade in shoots:
         a1 = _unit(np.cross(d, [0.3, 0.1, 1.0])); a2 = np.cross(d, a1)
-        n_f = int(Ls / 0.0028)                                           # a fascicle every ~3 mm of stem
+        n_f = int(Ls / (0.0028 * lod))                                           # a fascicle every ~3 mm of stem
         t = np.linspace(0.03, 0.96, n_f)                                 # (from 0.12: bare stems hung below the pads)
         phi = np.arange(n_f) * math.radians(137.5) + rng.uniform(0, 6.3)
         P0 = base + d * (Ls * t)[:, None]                                 # fascicle points
@@ -107,14 +107,14 @@ def _needles(shoots, rng):
             ND.append(_unit(d * np.cos(ang)[:, None] + o2 * np.sin(ang)[:, None] + rng.normal(0, 0.06, (n_f, 3))))
         ND = np.concatenate(ND); P = np.concatenate([P0, P0]); tt = np.concatenate([t, t])
         nn = len(ND)
-        ln = rng.uniform(0.04, 0.06, nn) * (1 - 0.35 * tt ** 2)
+        ln = rng.uniform(0.04, 0.06, nn) * (1 - 0.35 * tt ** 2) * lod
         side = _unit(np.cross(ND, d[None]) + 1e-6)
         # 4 points along, curving gently toward the stem's direction (the needles sweep forward)
         seg = []
         for k in range(4):
             s = k / 3
             pk = P + ND * (ln * s)[:, None] + d[None] * (ln * 0.12 * s * s)[:, None]
-            w = 0.0007 * (1 - 0.85 * s)                                   # 1.4 mm wide, to a point
+            w = 0.0007 * lod * (1 - 0.85 * s)                                   # 1.4 mm wide, to a point
             seg.append((pk - side * w, pk + side * w))
         for k in range(4):
             V.append(seg[k][0]); V.append(seg[k][1])
@@ -132,14 +132,14 @@ def _needles(shoots, rng):
             C.append(cc); C.append(cc)
         off += 8 * nn
         # the stem + the bud
-        Vt, Ft, _ = tube(np.array([base, base + d * Ls * 0.5, base + d * Ls]), np.array([0.0022, 0.0018, 0.0014]), sides=5, cap=False)
+        Vt, Ft, _ = tube(np.array([base, base + d * Ls * 0.5, base + d * Ls]), np.array([0.0022, 0.0018, 0.0014]) * lod, sides=5, cap=False)
         V.append(Vt); F += [[i + off for i in f] for f in Ft]; C.append(np.repeat((STEM * shade)[None], len(Vt), 0)); off += len(Vt)
-        Vb, Fb, _ = tube(np.array([base + d * Ls, base + d * (Ls + 0.006), base + d * (Ls + 0.009)]), np.array([0.0019, 0.0017, 0.0003]), sides=6)
+        Vb, Fb, _ = tube(np.array([base + d * Ls, base + d * (Ls + 0.006 * lod), base + d * (Ls + 0.009 * lod)]), np.array([0.0019, 0.0017, 0.0003]) * lod, sides=6)
         V.append(Vb); F += [[i + off for i in f] for f in Fb]; C.append(np.repeat((BUD * shade)[None], len(Vb), 0)); off += len(Vb)
     return np.concatenate(V), F, np.concatenate(C)
 
 
-def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine"):
+def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine", lod=1.0, crown_from=0.32, n_branches=None):
     rng = np.random.default_rng(seed)
     loc = np.array(loc, float)
     H = height * rng.uniform(0.62, 0.7)                                  # the wood's height; the crown pad tops it
@@ -158,8 +158,8 @@ def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine"):
     trad = R0 * (1 - 0.62 * tt) * (1 + 0.35 * np.exp(-tt / 0.04))
     spines = [(trunk, trad)]
     # ---- the branches + pads: alternating round the trunk, longer low down, each ends in a pad
-    n_br = int(rng.integers(5, 8))
-    hs = np.sort(rng.uniform(0.32, 0.88, n_br))
+    n_br = n_branches or int(rng.integers(5, 8))
+    hs = np.sort(rng.uniform(crown_from, 0.88, n_br))
     pads = []
     a0 = rng.uniform(0, 2 * math.pi)
     for i, h in enumerate(hs):
@@ -209,7 +209,7 @@ def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine"):
         rx, ry, rz = rp, rp * rng.uniform(0.8, 1.0), rp * rng.uniform(0.5, 0.62)   # (0.4 read as flat plates)
         R3 = np.array([rx, ry, rz])
         area = 2 * math.pi * rx * ry * 0.75
-        n_s = int(area * density)
+        n_s = int(area * density / lod ** 2)
         root = c - np.array([0, 0, rz * 0.5]) - din * rx * 0.3
         hubs = [c + np.array([*rng.normal(0, 0.45, 2) * [rx, ry], rng.uniform(-0.2, 0.3) * rz]) for _ in range(int(rng.integers(6, 11)))]
         for hb in hubs:
@@ -221,7 +221,7 @@ def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine"):
             nrm = _unit(u / R3)                                          # the ellipsoid's normal there
             surf = c + u * R3
             d = _unit(nrm + np.array([0, 0, 1.3]) + rng.normal(0, 0.25, 3))   # shoots (candles) point up: radial ones read as a hedgehog
-            Ls = rng.uniform(0.07, 0.13)
+            Ls = rng.uniform(0.07, 0.13) * lod
             base = surf - d * Ls * rng.uniform(0.5, 1.1)                 # tips scattered round the clip line: depth, not a shell
             shade = float(np.clip(0.42 + 0.6 * (0.5 + 0.5 * u[2]), 0.35, 1.0))   # undersides + insides darker
             shoots.append((base, d, Ls, rng.normal(0, 0.07, 3) * [0.8, 1, 1.2], shade))
@@ -234,7 +234,7 @@ def build(seed, loc=(0, 0, 0), height=2.0, density=2600, name="pine"):
         tv.append(V_); tf += [[i + off for i in f] for f in F_]; off += len(V_)
     tw = _obj(f"{name}_twigs", np.concatenate(tv) + loc, tf, bark_material(), attrs={"flake": np.ones(off)})
     objs.append(tw)
-    V, F, C = _needles(shoots, rng)
+    V, F, C = _needles(shoots, rng, lod)
     objs.append(_obj(f"{name}_needles", V + loc, F, needle_material(), colors=C))
     for o in objs:
         o["tree"] = True

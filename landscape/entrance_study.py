@@ -83,10 +83,11 @@ def ground_far(x, y):
     return hit.z if hit else 0.0
 
 
-def terrain(x, y):
+def terrain(x, y, raw=False):
     j = np.clip((np.asarray(x) - X0) / STEP, 0, len(xs) - 1.001); i = np.clip((np.asarray(y) - Y0) / STEP, 0, len(ys) - 1.001)
     j0, i0 = np.floor(j).astype(int), np.floor(i).astype(int); fj, fi = j - j0, i - i0
-    return (TER[i0, j0] * (1 - fj) * (1 - fi) + TER[i0, j0 + 1] * fj * (1 - fi) + TER[i0 + 1, j0] * (1 - fj) * fi + TER[i0 + 1, j0 + 1] * fj * fi)
+    T_ = TER_RAW if raw else TER
+    return (T_[i0, j0] * (1 - fj) * (1 - fi) + T_[i0, j0 + 1] * fj * (1 - fi) + T_[i0 + 1, j0] * (1 - fj) * fi + T_[i0 + 1, j0 + 1] * fj * fi)
 
 
 tick("ground sampled")
@@ -185,6 +186,11 @@ print("terrain over the forecourt: min %.3f  mean %.3f  max %.3f" % (TER[(ys[:, 
 
 
 TER = np.clip(TER, -0.3, None)                       # (a few rays fell through a hole onto the parking roof)
+TER_RAW = TER.copy()                                  # (the loop's asphalt + kerbs read the ground without the island)
+_GX, _GY = np.meshgrid(xs, ys); _RI = np.hypot(_GX - 62.0, _GY - 13.0)
+ISLAND_BASE = float(np.median(TER[(_RI > 5.0) & (_RI < 6.0)]))            # the loop's level round the island
+ISLAND_TOP = lambda r: ISLAND_BASE + 0.12 + 0.3 * np.clip(1 - (r / 4.5) ** 2, 0, 1)   # kerb 12 cm, then a 30 cm crown
+TER = np.where(_RI < 4.6, ISLAND_TOP(_RI), TER)
 
 
 def fall(x, y=11.3):
@@ -282,9 +288,23 @@ LOOP = (62.0, 13.0, 4.5, 10.5)                 # the drop-off loop: centre, isla
 BAYS = (49.5, 21.5, 57.5, 27.0)
 
 
+import json as _json0  # noqa: E402
+_RD0 = np.array([p_[:2] for p_ in _json0.loads((ROOT / "model" / "building.json").read_text())["site"]["features"]["road"]["points"] if p_[0] < 240])[::-1]
+
+
+def near_road(x, y, half):
+    """within half (m) of the road's centre line"""
+    out = np.zeros(np.shape(x), bool)
+    for a, b in zip(_RD0[:-1], _RD0[1:]):
+        d = b - a; t = np.clip(((x - a[0]) * d[0] + (y - a[1]) * d[1]) / (d @ d), 0, 1)
+        out |= np.hypot(x - a[0] - t * d[0], y - a[1] - t * d[1]) < half
+    return out
+
+
 def asphalt(x, y):
     r = np.hypot(x - LOOP[0], y - LOOP[1])
-    return ((r > LOOP[2] - 0.06) & (r < LOOP[3] + 0.06)) | ((x > BAYS[0] - 0.05) & (x < BAYS[2] + 0.05) & (y > BAYS[1] - 0.05) & (y < BAYS[3] + 0.05))
+    return ((r > LOOP[2] - 0.06) & (r < LOOP[3] + 0.06)) | ((x > BAYS[0] - 0.05) & (x < BAYS[2] + 0.05) & (y > BAYS[1] - 0.05) & (y < BAYS[3] + 0.05)) | \
+        (near_road(x, y, 3.0) & (x > LOOP[0] + 5.0))                     # (heath grew across the road: Roman "grass is leaking")
 SWALE = (46.2, 6.4, 4.6, 2.3)
 
 
@@ -327,6 +347,8 @@ if tb:
     pt = np.where(np.isnan(pt) & asphalt(wco[:, 0], wco[:, 1]) | (np.isnan(pt) & near), ga, pt)
     lower = near & ~np.isnan(pt) & (wco[:, 2] > pt - 0.06)
     co[lower, 2] -= (wco[lower, 2] - (pt[lower] - 0.06))
+    ri_ = np.hypot(wco[:, 0] - 62.0, wco[:, 1] - 13.0); isl = ri_ < 4.9
+    co[isl, 2] -= np.clip(wco[isl, 2] - (ISLAND_TOP(ri_[isl]) - 0.05), 0, None)
     tb.data.vertices.foreach_set("co", co.ravel().astype(np.float32)); tb.data.update()
     print("terrain_building: lowered", int(lower.sum()), "vertices under the paving")
 
@@ -348,7 +370,7 @@ heath = mesh_obj("heath_ground", V, F, heath_material(), smooth=True)
 # the asphalt: the loop + the bays, on the ground's own grade (smoothed), clean black, no markings
 def ground_smooth(x, y):
     """the ground averaged over ~1.6 m: asphalt lies on the grade, not on every bump"""
-    return np.mean([terrain(x + dx, y + dy) for dx in (-0.8, 0, 0.8) for dy in (-0.8, 0, 0.8)], axis=0)
+    return np.mean([terrain(x + dx, y + dy, raw=True) for dx in (-0.8, 0, 0.8) for dy in (-0.8, 0, 0.8)], axis=0)
 
 
 RA, RB = [], []
@@ -665,16 +687,37 @@ def ribbon(name, pts, w, mat, lift, zfun, step=0.8):
             q = c + n * sgn * w / 2; V_.append((q[0], q[1], zc + lift))
         if k:
             o = 2 * k; F_.append([o - 2, o - 1, o + 1, o])
-    return mesh_obj(name, V_, F_, mat, smooth=True)
+    o_ = mesh_obj(name, V_, F_, mat, smooth=True); o_["centre"] = 1
+    RIB[name] = np.array(V_)
+    return o_
+
+
+RIB = {}
 
 
 def zroad(x, y, t, tg):
     return float(np.mean([ground_far(x + tg[0] * d, y + tg[1] * d) for d in (-1.6, -0.8, 0, 0.8, 1.6)]))   # along the road only
 
 
-gravel_m = bc.pbr_material("road_shoulder", "gravel_ground_01", 2.0, piece_var=0.0, val=0.8, sat=0.7)
-ribbon("road_shoulders", RD, 6.0, gravel_m, 0.02, zroad)
+gravel_m = bc.pbr_material("road_shoulder", "gravel_ground_01", 2.0, piece_var=0.0, val=0.5, sat=0.6)
+ribbon("road_shoulders", RD, 5.6, gravel_m, 0.02, zroad)
 ribbon("road_asphalt", RD, 4.5, asph_m, 0.045, zroad)
+td = bpy.data.objects.get("terrain_detail")
+if td:                                   # the ground under the road + shoulders pushed 8 cm below them
+    n_ = len(td.data.vertices); co = np.zeros(n_ * 3, np.float32); td.data.vertices.foreach_get("co", co); co = co.reshape(-1, 3)
+    mw = np.array(td.matrix_world); wz = co @ mw[:3, :3].T + mw[:3, 3]
+    sel = np.nonzero((wz[:, 0] > 68) & (wz[:, 0] < 245) & (wz[:, 1] > -30) & (wz[:, 1] < 40))[0]
+    R_ = RIB["road_shoulders"]; Cn = (R_[0::2] + R_[1::2]) / 2                                   # centre points + their level
+    lowered = 0
+    for i0 in range(0, len(sel), 20000):
+        ii = sel[i0:i0 + 20000]; P_ = wz[ii]
+        d2 = (P_[:, None, 0] - Cn[None, :, 0]) ** 2 + (P_[:, None, 1] - Cn[None, :, 1]) ** 2
+        j = np.argmin(d2, 1); dd = np.sqrt(d2[np.arange(len(ii)), j])
+        m_ = (dd < 3.4) & (P_[:, 2] > Cn[j, 2] - 0.06)
+        wz[ii[m_], 2] = Cn[j[m_], 2] - 0.06; lowered += int(m_.sum())
+    inv = np.linalg.inv(mw); co = (wz - mw[:3, 3]) @ inv[:3, :3].T
+    td.data.vertices.foreach_set("co", co.ravel().astype(np.float32)); td.data.update()
+    print("terrain_detail: lowered", lowered, "vertices under the road")
 # the garage ramp's open cut: dry-laid granite walls (as the building's plinth), not white concrete; an asphalt floor
 gp = bpy.data.materials.get("granite_plinth")
 for o in bpy.data.objects:
@@ -732,11 +775,28 @@ if fo:
     co_ = np.zeros(n_ * 3); me_.vertices.foreach_get("co", co_); co_ = co_.reshape(-1, 3)
     k_i = int(np.argmin((co_[:, 0] - LOOP[0]) ** 2 + (co_[:, 1] - LOOP[1]) ** 2))
     if np.hypot(co_[k_i, 0] - LOOP[0], co_[k_i, 1] - LOOP[1]) < 1.0:
-        sc_ = np.zeros(n_); me_.attributes["scl"].data.foreach_get("value", sc_); sc_[k_i] = 0.92
+        sc_ = np.zeros(n_); me_.attributes["scl"].data.foreach_get("value", sc_); sc_[k_i] = 0.0001                      # (the grand pine below replaces it)
         me_.attributes["scl"].data.foreach_set("value", sc_.astype(np.float32))
         ix_ = np.zeros(n_, np.int32); me_.attributes["idx"].data.foreach_get("value", ix_); ix_[k_i] = 6
         me_.attributes["idx"].data.foreach_set("value", ix_); me_.update()
-        print("island pine: rescaled")
+        print("island pine: replaced")
+GRAND_LIB = ROOT / "landscape" / "out" / "grand_pine_v1.blend"
+import gen_pine  # noqa: E402
+if GRAND_LIB.exists():
+    with bpy.data.libraries.load(str(GRAND_LIB), link=False) as (src, dst):
+        dst.objects = [n for n in src.objects if n.startswith("grand_")]
+    for o in dst.objects:
+        coll.objects.link(o)
+else:
+    gb = set(bpy.data.objects)
+    gen_pine.build(64, (62.0, 13.0, ISLAND_BASE + 0.32), height=11.0, density=2600, name="grand", lod=3.0, crown_from=0.45, n_branches=9)
+    grand = [o for o in set(bpy.data.objects) - gb]
+    for o in grand:
+        for c in o.users_collection:
+            c.objects.unlink(o)
+        coll.objects.link(o)
+    if SHOT not in ("stones", "build_only"):
+        bpy.data.libraries.write(str(GRAND_LIB), set(grand), compress=True)
 # boulders on the island round the pine
 for i, (a_, r_) in enumerate(((0.6, 0.75), (2.4, 0.5), (4.1, 0.6))):
     q = (LOOP[0] + math.cos(a_) * 2.3, LOOP[1] + math.sin(a_) * 2.3)
@@ -938,6 +998,8 @@ if ngf:
     for n_ in ngf.nodes:
         if n_.bl_idname == "ShaderNodeMath" and n_.operation == "GREATER_THAN" and abs(n_.inputs[1].default_value - 30.0) < 1e-3:
             n_.inputs[1].default_value = 15.0
+        if n_.bl_idname == "ShaderNodeMath" and n_.operation == "GREATER_THAN" and abs(n_.inputs[1].default_value - 90.0) < 1e-3:
+            n_.inputs[1].default_value = 250.0
 lod = bpy.data.objects.get("lod_eye")
 if SHOT in ("aerial", "overview") and lod:      # from the air the forest needs no needles: its LOD eye 60 m up (the GPU ran out with 7 birches)
     lod.location = (loc[0], loc[1], loc[2] + 60); bpy.context.view_layer.update(); lod = None
